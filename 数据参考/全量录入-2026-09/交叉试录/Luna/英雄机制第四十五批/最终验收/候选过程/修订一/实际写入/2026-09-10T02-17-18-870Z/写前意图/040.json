@@ -1,0 +1,30 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_q/parameters",
+    "detailRoute": "/skills/shaco_q/parameters/stealth_duration_ms",
+    "skillKey": "shaco_q",
+    "kind": "parameters",
+    "stableKey": "stealth_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stealth_duration_ms",
+      "name": "隐形持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2500,
+        "2": 2750,
+        "3": 3000,
+        "4": 3250,
+        "5": 3500
+      },
+      "description": "StealthDuration索引1至5为2.5/2.75/3/3.25/3.5秒；转换为整数毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_w/parameters",
+    "detailRoute": "/skills/teemo_w/parameters/passive_no_hero_damage_window_ms",
+    "skillKey": "teemo_w",
+    "kind": "parameters",
+    "stableKey": "passive_no_hero_damage_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_no_hero_damage_window_ms",
+      "name": "被动未受伤窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "正文当前@PassiveCooldownOnDamageTaken@为5秒；英雄或防御塔伤害资格由事件层接线，塔伤害专用分支不录。",
+      "sortOrder": 20
+    }
+  }
+}

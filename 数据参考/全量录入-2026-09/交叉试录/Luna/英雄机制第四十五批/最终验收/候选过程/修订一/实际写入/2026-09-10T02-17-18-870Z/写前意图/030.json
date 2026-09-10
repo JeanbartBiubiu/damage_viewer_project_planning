@@ -1,0 +1,78 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_e/formulas",
+    "detailRoute": "/skills/teemo_e/formulas/total_poison_magic_damage",
+    "skillKey": "teemo_e",
+    "kind": "formulas",
+    "stableKey": "total_poison_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_poison_magic_damage",
+      "name": "毒性射击全程魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "tick_base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "tick_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "tick_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "poison_tick_count"
+          }
+        ]
+      },
+      "description": "当前消费TotalDotDamage=TickCalculatedDamage×PoisonDuration；按4秒每秒一跳表达为每秒整段×4，重命中不凭空叠加。",
+      "sortOrder": 30
+    }
+  }
+}

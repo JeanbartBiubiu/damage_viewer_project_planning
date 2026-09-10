@@ -1,0 +1,24 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_e/parameters",
+    "detailRoute": "/skills/teemo_e/parameters/impact_bonus_ad_ratio",
+    "skillKey": "teemo_e",
+    "kind": "parameters",
+    "stableKey": "impact_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "impact_bonus_ad_ratio",
+      "name": "命中额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.050000001,
+      "levelValues": null,
+      "description": "ImpactCalculatedDamage的mStat=2、mStatFormula=2对应额外攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

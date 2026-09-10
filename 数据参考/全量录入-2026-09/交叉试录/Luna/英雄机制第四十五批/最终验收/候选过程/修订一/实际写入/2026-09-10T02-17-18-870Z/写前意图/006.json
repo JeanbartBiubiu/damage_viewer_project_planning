@@ -1,0 +1,24 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_q/parameters",
+    "detailRoute": "/skills/teemo_q/parameters/ap_ratio",
+    "skillKey": "teemo_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.699999988,
+      "levelValues": null,
+      "description": "来自CalculatedDamage第二个分支APRatio。",
+      "sortOrder": 20
+    }
+  }
+}

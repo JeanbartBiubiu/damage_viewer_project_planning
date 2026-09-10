@@ -1,0 +1,30 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_e/parameters",
+    "detailRoute": "/skills/teemo_e/parameters/impact_base_damage",
+    "skillKey": "teemo_e",
+    "kind": "parameters",
+    "stableKey": "impact_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "impact_base_damage",
+      "name": "命中附加基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 9,
+        "2": 23,
+        "3": 37,
+        "4": 51,
+        "5": 65
+      },
+      "description": "ImpactBaseDamage索引1至5为9/23/37/51/65；索引0为-5。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_q/formulas",
+    "detailRoute": "/skills/shaco_q/formulas/backstab_critical_full_attack_physical_damage",
+    "skillKey": "shaco_q",
+    "kind": "formulas",
+    "stableKey": "backstab_critical_full_attack_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "backstab_critical_full_attack_physical_damage",
+      "name": "欺诈魔术背刺暴击整段物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_baseline"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "backstab_crit_coefficient"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_critical_damage_multiplier"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_minus_one"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "enhanced_attack_base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "enhanced_attack_bonus_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "背后首次攻击会暴击；本公式包含本次基础普攻总攻击力一次和Q强化附加伤害，Q公式不自动包含P背刺或其他附伤；接线时避免再次叠加总攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

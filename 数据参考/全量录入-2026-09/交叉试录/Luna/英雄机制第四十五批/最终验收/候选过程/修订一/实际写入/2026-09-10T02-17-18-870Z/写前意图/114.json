@@ -1,0 +1,28 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zyra_r/parameters",
+    "detailRoute": "/skills/zyra_r/parameters/base_damage",
+    "skillKey": "zyra_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "密林本体基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "description": "TotalDamage当前消费BaseDamage索引1至3为200/300/400；索引0亦为200但不作未学R默认。",
+      "sortOrder": 10
+    }
+  }
+}

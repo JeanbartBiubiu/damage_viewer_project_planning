@@ -1,0 +1,30 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_w/parameters",
+    "detailRoute": "/skills/heimerdinger_w/parameters/following_base_damage",
+    "skillKey": "heimerdinger_w",
+    "kind": "parameters",
+    "stableKey": "following_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "following_base_damage",
+      "name": "同一目标后续每颗基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "description": "ExtraHitDamage的ExtraHitBaseDamage索引1至5为10/15/20/25/30；同一目标连续命中。",
+      "sortOrder": 30
+    }
+  }
+}

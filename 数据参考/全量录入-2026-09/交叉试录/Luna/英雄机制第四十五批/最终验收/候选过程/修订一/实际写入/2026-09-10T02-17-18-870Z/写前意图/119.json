@@ -1,0 +1,46 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zyra_r/formulas",
+    "detailRoute": "/skills/zyra_r/formulas/magic_damage",
+    "skillKey": "zyra_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "绞杀之藤本体魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前正文消费tooltipOnly的TotalDamage=基础值+0.7×法强。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_p/formulas",
+    "detailRoute": "/skills/shaco_p/formulas/backstab_basic_attack_physical_damage",
+    "skillKey": "shaco_p",
+    "kind": "formulas",
+    "stableKey": "backstab_basic_attack_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "backstab_basic_attack_physical_damage",
+      "name": "背刺普攻附加物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "backstab_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "backstab_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "BasicAttackDamage=角色等级插值基础值+0.2×额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

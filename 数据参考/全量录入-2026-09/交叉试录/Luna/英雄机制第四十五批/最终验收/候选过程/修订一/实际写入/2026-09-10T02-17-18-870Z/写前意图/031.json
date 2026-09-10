@@ -1,0 +1,24 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_p/parameters",
+    "detailRoute": "/skills/shaco_p/parameters/backstab_base_damage",
+    "skillKey": "shaco_p",
+    "kind": "parameters",
+    "stableKey": "backstab_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "backstab_base_damage",
+      "name": "背刺普攻基础伤害（实际角色等级输入）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BasicAttackDamage的20至35角色等级插值曲线未证，运行层必须提供实际值，不设默认。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zyra_e/formulas",
+    "detailRoute": "/skills/zyra_e/formulas/magic_damage",
+    "skillKey": "zyra_e",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "缠绕之根本体魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前正文消费TotalDamage=基础值+0.6×法强。",
+      "sortOrder": 10
+    }
+  }
+}

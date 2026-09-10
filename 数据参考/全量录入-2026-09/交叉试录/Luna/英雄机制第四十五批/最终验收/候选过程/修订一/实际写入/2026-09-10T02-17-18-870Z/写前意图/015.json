@@ -1,0 +1,24 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_w/parameters",
+    "detailRoute": "/skills/teemo_w/parameters/cast_time_seconds",
+    "skillKey": "teemo_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_seconds",
+      "name": "施法时间（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.528699994,
+      "levelValues": null,
+      "description": "源spellCastTime=0.5286999940872192秒，毫秒值不是整数，保留原始秒值。",
+      "sortOrder": 50
+    }
+  }
+}

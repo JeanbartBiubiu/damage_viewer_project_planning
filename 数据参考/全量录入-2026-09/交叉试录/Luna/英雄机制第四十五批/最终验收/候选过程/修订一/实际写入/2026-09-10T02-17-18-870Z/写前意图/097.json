@@ -1,0 +1,24 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/parameters",
+    "detailRoute": "/skills/heimerdinger_r/parameters/re_same_target_discharge_count",
+    "skillKey": "heimerdinger_r",
+    "kind": "parameters",
+    "stableKey": "re_same_target_discharge_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "re_same_target_discharge_count",
+      "name": "强化E同一目标放电命中次数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "正文虽写放电3次，但同一目标实际可命中次数未证；运行层必须提供实际次数，不默认3。",
+      "sortOrder": 90
+    }
+  }
+}

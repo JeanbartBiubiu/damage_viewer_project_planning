@@ -1,0 +1,24 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_q/parameters",
+    "detailRoute": "/skills/shaco_q/parameters/actual_critical_damage_multiplier",
+    "skillKey": "shaco_q",
+    "kind": "parameters",
+    "stableKey": "actual_critical_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_critical_damage_multiplier",
+      "name": "实际总暴击倍率（mStat9）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "QCritDamageMod的mStat9未扩展为属性枚举；运行层提供实际总暴击倍率，不设默认。",
+      "sortOrder": 70
+    }
+  }
+}

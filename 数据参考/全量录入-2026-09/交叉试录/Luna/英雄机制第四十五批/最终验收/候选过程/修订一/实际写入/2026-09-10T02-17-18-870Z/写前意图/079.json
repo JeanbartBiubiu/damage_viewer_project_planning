@@ -1,0 +1,46 @@
+{
+  "i": 78,
+  "intent": {
+    "sequence": 79,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_w/formulas",
+    "detailRoute": "/skills/heimerdinger_w/formulas/all_five_magic_damage",
+    "skillKey": "heimerdinger_w",
+    "kind": "formulas",
+    "stableKey": "all_five_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "all_five_magic_damage",
+      "name": "微型导弹五颗全部命中魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "all_five_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "all_five_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=五颗全部命中基础值+1.03×法强；首颗与后续命中资格由事件层接线。",
+      "sortOrder": 30
+    }
+  }
+}

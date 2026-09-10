@@ -1,0 +1,136 @@
+{
+  "at": "2026-09-10T02:54:35.556Z",
+  "batch": "英雄机制第四十五批",
+  "status": "本轮来源明确组成已保存，独立回读、实际源值数学与四个代表页面通过；条件互斥、曲线和事件接线单列",
+  "heroes": [
+    "Teemo",
+    "Shaco",
+    "Heimerdinger",
+    "Zyra"
+  ],
+  "skills": [
+    "teemo_p",
+    "teemo_q",
+    "teemo_w",
+    "teemo_e",
+    "teemo_r",
+    "shaco_p",
+    "shaco_q",
+    "shaco_w",
+    "shaco_e",
+    "shaco_r",
+    "heimerdinger_p",
+    "heimerdinger_q",
+    "heimerdinger_w",
+    "heimerdinger_e",
+    "heimerdinger_r",
+    "zyra_p",
+    "zyra_q",
+    "zyra_w",
+    "zyra_e",
+    "zyra_r"
+  ],
+  "newCounts": {
+    "parameters": 82,
+    "formulas": 23,
+    "effects": 15
+  },
+  "counts": {
+    "parameters": 104,
+    "formulas": 23,
+    "effects": 15
+  },
+  "created": 120,
+  "businessWrites": 120,
+  "reusedParameters": 22,
+  "currentTotalComponents": 142,
+  "candidateFile": "最终验收/候选过程/修订一/完整候选.json",
+  "candidateFileSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
+  "writePlan": "最终验收/候选过程/修订一/写前请求计划.json",
+  "writePlanSha256": "e416d8b6bedadf3bfccaf51a3c68052e4361fe88f8be64661f1dc989dfdf1b05",
+  "save": {
+    "GETs": 912,
+    "POSTs": 120,
+    "confirmed": 120,
+    "file": "最终验收/候选过程/修订一/实际写入/2026-09-10T02-17-18-870Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 336,
+    "protectedPaths": 194,
+    "details": 142,
+    "reused": 22,
+    "new": 120,
+    "file": "最终验收/独立回读证据/GET复核报告.json",
+    "snapshot": "最终验收/独立回读证据/GET复核快照.json",
+    "snapshotSha256": "d07b5f2821ad08d57639b2b74c6b56035a3bca7561bc6763dbdbb2070ce296cb"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 23,
+    "cases": 46,
+    "effectValueChecks": 15,
+    "missingInputCases": 6,
+    "typedReferences": 180,
+    "finiteChecks": 344,
+    "binaryNodes": 66,
+    "completeParameterArrays": 22,
+    "completeArrayValues": 115,
+    "skillLevelArrays": 21,
+    "characterLevelArrays": 1,
+    "fixedFiniteParameters": 56,
+    "newIntegerParameters": 44,
+    "integerValues": 105,
+    "integerParameters": 66,
+    "millisecondsParameters": 35,
+    "file": "最终验收/实际数学证据/独立数学报告.json",
+    "sha256": "2bc390cf189737ab5f893f916f2c5d0d41141175f048d0566edcd8787716830b",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订一/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 3453,
+    "uniqueTools": 65,
+    "inputs": 24,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "主负责人初版20槽源值核对完成，修订一除5个范围外删除和说明外结构、数值与公式完全未变",
+    "最终23公式46场景、82参数、15效果与6缺值拒绝通过；提莫W五级替代状态检查通过",
+    "提莫W主动被动不同时叠加；黑默丁格P是近合资格目标时自身移速，离开立即移除",
+    "萨科Q已包含本次基础普攻，不能重复总攻击力或自动包含P背刺/其他附伤",
+    "实际Cursor65只读工具24输入Git零变化"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "同技能多个属性效果容易重复叠加",
+      "detail": "提莫W分别保存条件状态定义，主动替代被动的移除与恢复还需事件层接线，不能只靠效果名称理解。"
+    },
+    {
+      "issue": "完整普攻公式与额外伤害公式必须区分",
+      "detail": "萨科Q全段已经包含一次总攻击力，仍需与P背刺及其他附伤分开。"
+    },
+    {
+      "issue": "排除召唤不能漏掉本体条件收益",
+      "detail": "黑默丁格P近合资格目标时的自身20%移速保留；婕拉R直接伤害与独立植物伤害分开。"
+    },
+    {
+      "issue": "已排除技能不应遗留新增专用消耗",
+      "detail": "保存前移除萨科W法力及效果、黑默丁格Q炮台套件和法力及效果五项。"
+    }
+  ],
+  "pending": [
+    "提莫W主动/被动互斥移除与恢复需要事件层接线",
+    "黑默丁格近炮台/塔状态和重置移除条件待接，不自动创建召唤单位",
+    "未知角色等级曲线、毒伤刷新与同目标命中次数继续保留无默认资格"
+  ],
+  "runtimeValidation": "未执行"
+}

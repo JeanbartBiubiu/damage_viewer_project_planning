@@ -1,0 +1,6962 @@
+{
+  "generatedAt": "2026-09-10T02:43:37.450Z",
+  "batch": "英雄机制第四十五批提莫萨科黑默丁格婕拉",
+  "revision": "hero45-source-v1-luna-candidate-revision-1",
+  "status": "独立源值数学核算已执行；只读取已保存的336条GET快照，未发起额外业务接口请求、未调用浏览器或Git",
+  "sourceBasis": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+    "sourceBindingSha256": "c3a084eaa66df5c6cc9477423d6ac6a4ae4e47214ce1c2440b15ebd66c4122ab",
+    "frozenCandidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
+    "overlayCandidateSha256": "487e2981ee142dc608848025d71cf9393637fad7e036fecf6c87074a95579d5e",
+    "getSnapshotSha256": "d07b5f2821ad08d57639b2b74c6b56035a3bca7561bc6763dbdbb2070ce296cb",
+    "actualWriteSha256": "6e47851f9cb2e8e1fffc0400d555eb9051a2b7d339c5323cfe08c118b7b82ab5",
+    "getDetailCount": 142,
+    "getReplacementCount": 120,
+    "expectedSide": "直接读取冻结输入原始DataValues、计算树和当前文本按源值重算，不从候选参数倒推期望值。",
+    "actualSide": "使用最终详情GET快照覆盖全部120个新建项后读取候选表达式，显式提供属性、技能等级、角色等级和无默认运行输入。"
+  },
+  "getVerification": {
+    "protectedBaselineGETs": 194,
+    "finalDetailGETs": 142,
+    "totalGETs": 336,
+    "expectedTotalGETs": 336,
+    "finalGETStatusPass": true,
+    "extraMathGETs": 0
+  },
+  "formulaResults": [
+    {
+      "skillKey": "teemo_q",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 163.99999856,
+      "expected": 163.999998569,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 553.99999496,
+      "expected": 553.999994993,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "formulaKey": "impact_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 49.00000152,
+      "expected": 49.00000149,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "formulaKey": "impact_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 200.00000522,
+      "expected": 200.000005141,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "formulaKey": "poison_tick_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 20.00000012,
+      "expected": 20.000000209,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "formulaKey": "poison_tick_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 76.50000042,
+      "expected": 76.500000693,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "formulaKey": "total_poison_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 80.00000048,
+      "expected": 80.000000834,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "formulaKey": "total_poison_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 306.00000168,
+      "expected": 306.000002772,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_basic_attack_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 36.00000024,
+      "expected": 36.000000238,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_basic_attack_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 71.00000054,
+      "expected": 71.000000536,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_shiv_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 27.00000012,
+      "expected": 27.000000179,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_shiv_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 92.00000042,
+      "expected": 92.000000626,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_shiv_execute_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 40.50000018,
+      "expected": 40.500000268,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_shiv_execute_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 138.00000063,
+      "expected": 138.000000939,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "formulaKey": "enhanced_attack_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 73.00000192,
+      "expected": 73.000001907,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "formulaKey": "enhanced_attack_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 173.00000432,
+      "expected": 173.000004292,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "formulaKey": "backstab_critical_multiplier",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 1,
+      "expected": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "formulaKey": "backstab_critical_multiplier",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 1.300000012,
+      "expected": 1.300000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "formulaKey": "backstab_critical_full_attack_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 253.00000192,
+      "expected": 253.000001907,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "formulaKey": "backstab_critical_full_attack_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 640.900011532,
+      "expected": 640.900011456,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 206.00000384,
+      "expected": 206.000003815,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 566.00001224,
+      "expected": 566.000012159,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "formulaKey": "execute_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 309.00000576,
+      "expected": 309.000005722,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "formulaKey": "execute_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 849.00001836,
+      "expected": 849.000018239,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "formulaKey": "initial_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 116.00000144,
+      "expected": 116.000001431,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "formulaKey": "initial_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 381.00000504,
+      "expected": 381.000005007,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "formulaKey": "following_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 24.39999964,
+      "expected": 24.399999678,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "formulaKey": "following_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 80.39999874,
+      "expected": 80.399998873,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "formulaKey": "all_five_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 213.59999652,
+      "expected": 213.599996567,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "formulaKey": "all_five_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 702.59998782,
+      "expected": 702.599987984,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 132.00000288,
+      "expected": 132.000002861,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 472.00001008,
+      "expected": 472.000010014,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "rw_initial_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 188.99999856,
+      "expected": 188.999998569,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "rw_initial_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 413.99999496,
+      "expected": 413.999994993,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "rw_total_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 722.60000516,
+      "expected": 722.60000515,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "rw_total_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 1660.60001806,
+      "expected": 1660.600018024,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "re_single_discharge_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 172.00000288,
+      "expected": 172.000002861,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "re_single_discharge_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 552.00001008,
+      "expected": 552.000010014,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "re_same_target_total_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 172.00000288,
+      "expected": 172.000002861,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "re_same_target_total_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 1656.00003024,
+      "expected": 1656.000030041,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 137.99999712,
+      "expected": 137.999997139,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 492.99998992,
+      "expected": 492.999989986,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 132.00000288,
+      "expected": 132.000002861,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 452.00001008,
+      "expected": 452.000010014,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "formulaKey": "magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "runtime": {
+          "backstab_base_damage": 20,
+          "shivs_base_damage": 15,
+          "actual_critical_damage_multiplier": 1,
+          "re_same_target_discharge_count": 1
+        }
+      },
+      "actual": 283.99999856,
+      "expected": 283.999998569,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "formulaKey": "magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "runtime": {
+          "backstab_base_damage": 35,
+          "shivs_base_damage": 50,
+          "actual_critical_damage_multiplier": 1.5,
+          "re_same_target_discharge_count": 3
+        }
+      },
+      "actual": 693.99999496,
+      "expected": 693.999994993,
+      "pass": true
+    }
+  ],
+  "formulaCount": 46,
+  "formulaScenarioCount": 46,
+  "formulaPassCount": 46,
+  "formulaFailCount": 0,
+  "formulaAtLeastTwoScenes": true,
+  "missingInputCases": [
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_basic_attack_physical_damage",
+      "missingParameterKey": "backstab_base_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_shiv_magic_damage",
+      "missingParameterKey": "shivs_base_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "formulaKey": "backstab_shiv_execute_magic_damage",
+      "missingParameterKey": "shivs_base_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "formulaKey": "backstab_critical_multiplier",
+      "missingParameterKey": "actual_critical_damage_multiplier",
+      "rejected": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "formulaKey": "backstab_critical_full_attack_physical_damage",
+      "missingParameterKey": "actual_critical_damage_multiplier",
+      "rejected": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "formulaKey": "re_same_target_total_magic_damage",
+      "missingParameterKey": "re_same_target_discharge_count",
+      "rejected": true
+    }
+  ],
+  "missingInputCaseCount": 6,
+  "missingInputAllRejected": true,
+  "referencedRuntimeInputs": [
+    "shaco_p/backstab_base_damage",
+    "shaco_p/shivs_base_damage",
+    "shaco_q/actual_critical_damage_multiplier",
+    "heimerdinger_r/re_same_target_discharge_count"
+  ],
+  "parameterChecks": [
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "stealth_stationary_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1500,
+      "expected": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "attack_speed_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 5000,
+      "expected": 5000,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "attack_speed_ratio",
+      "valueMode": "CHARACTER_LEVEL",
+      "expectedMode": "CHARACTER_LEVEL",
+      "actual": {
+        "1": 0.200000003,
+        "2": 0.200000003,
+        "3": 0.200000003,
+        "4": 0.200000003,
+        "5": 0.400000006,
+        "6": 0.400000006,
+        "7": 0.400000006,
+        "8": 0.400000006,
+        "9": 0.400000006,
+        "10": 0.600000009,
+        "11": 0.600000009,
+        "12": 0.600000009,
+        "13": 0.600000009,
+        "14": 0.600000009,
+        "15": 0.800000012,
+        "16": 0.800000012,
+        "17": 0.800000012,
+        "18": 0.800000012
+      },
+      "expected": {
+        "1": 0.200000003,
+        "2": 0.200000003,
+        "3": 0.200000003,
+        "4": 0.200000003,
+        "5": 0.400000006,
+        "6": 0.400000006,
+        "7": 0.400000006,
+        "8": 0.400000006,
+        "9": 0.400000006,
+        "10": 0.600000009,
+        "11": 0.600000009,
+        "12": 0.600000009,
+        "13": 0.600000009,
+        "14": 0.600000009,
+        "15": 0.800000012,
+        "16": 0.800000012,
+        "17": 0.800000012,
+        "18": 0.800000012
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "expected": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.699999988,
+      "expected": 0.699999988,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "blind_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 2000,
+        "2": 2250,
+        "3": 2500,
+        "4": 2750,
+        "5": 3000
+      },
+      "expected": {
+        "1": 2000,
+        "2": 2250,
+        "3": 2500,
+        "4": 2750,
+        "5": 3000
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "passive_move_speed_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 0.119999997,
+        "2": 0.159999996,
+        "3": 0.200000003,
+        "4": 0.239999995,
+        "5": 0.280000001
+      },
+      "expected": {
+        "1": 0.119999997,
+        "2": 0.159999996,
+        "3": 0.200000003,
+        "4": 0.239999995,
+        "5": 0.280000001
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "passive_no_hero_damage_window_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 5000,
+      "expected": 5000,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "active_move_speed_ratio",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 0.239999995,
+        "2": 0.319999993,
+        "3": 0.400000006,
+        "4": 0.479999989,
+        "5": 0.560000002
+      },
+      "expected": {
+        "1": 0.239999995,
+        "2": 0.319999993,
+        "3": 0.400000006,
+        "4": 0.479999989,
+        "5": 0.560000002
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "active_move_speed_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 3000,
+      "expected": 3000,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "cast_time_seconds",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.528699994,
+      "expected": 0.528699994,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 9,
+        "2": 23,
+        "3": 37,
+        "4": 51,
+        "5": 65
+      },
+      "expected": {
+        "1": 9,
+        "2": 23,
+        "3": 37,
+        "4": 51,
+        "5": 65
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.300000012,
+      "expected": 0.300000012,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.050000001,
+      "expected": 0.050000001,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 6,
+        "2": 12,
+        "3": 18,
+        "4": 24,
+        "5": 30
+      },
+      "expected": {
+        "1": 6,
+        "2": 12,
+        "3": 18,
+        "4": 24,
+        "5": 30
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.100000001,
+      "expected": 0.100000001,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.025,
+      "expected": 0.025,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "poison_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 4000,
+      "expected": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_interval_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1000,
+      "expected": 1000,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "poison_tick_count",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 4,
+      "expected": 4,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "backstab_base_damage",
+      "valueMode": "RUNTIME_INPUT",
+      "expectedMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "backstab_bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.200000003,
+      "expected": 0.200000003,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_base_damage",
+      "valueMode": "RUNTIME_INPUT",
+      "expectedMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.100000001,
+      "expected": 0.100000001,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_execute_multiplier",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1.5,
+      "expected": 1.5,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "execute_health_threshold_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.3,
+      "expected": 0.3,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "stealth_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 2500,
+        "2": 2750,
+        "3": 3000,
+        "4": 3250,
+        "5": 3500
+      },
+      "expected": {
+        "1": 2500,
+        "2": 2750,
+        "3": 3000,
+        "4": 3250,
+        "5": 3500
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "enhanced_attack_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 25,
+        "2": 35,
+        "3": 45,
+        "4": 55,
+        "5": 65
+      },
+      "expected": {
+        "1": 25,
+        "2": 35,
+        "3": 45,
+        "4": 55,
+        "5": 65
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "enhanced_attack_bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.600000024,
+      "expected": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "backstab_crit_coefficient",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.600000024,
+      "expected": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "crit_baseline",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1,
+      "expected": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "crit_minus_one",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": -1,
+      "expected": -1,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "actual_critical_damage_multiplier",
+      "valueMode": "RUNTIME_INPUT",
+      "expectedMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 70,
+        "2": 95,
+        "3": 120,
+        "4": 145,
+        "5": 170
+      },
+      "expected": {
+        "1": 70,
+        "2": 95,
+        "3": 120,
+        "4": 145,
+        "5": 170
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "bonus_ad_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.800000012,
+      "expected": 0.800000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.600000024,
+      "expected": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "execute_health_threshold_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.300000012,
+      "expected": 0.300000012,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "execute_multiplier",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1.5,
+      "expected": 1.5,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "slow_percent_points",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 20.000000298,
+        "2": 22.499999404,
+        "3": 25,
+        "4": 27.500000596,
+        "5": 30.000001192
+      },
+      "expected": {
+        "1": 20.000000298,
+        "2": 22.499999404,
+        "3": 25,
+        "4": 27.500000596,
+        "5": 30.000001192
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "passive_slow_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 2000,
+      "expected": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "active_slow_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 3000,
+      "expected": 3000,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_r",
+      "parameterKey": "teleport_range",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 150,
+      "expected": 150,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_r",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_p",
+      "parameterKey": "near_turret_move_speed_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.200000003,
+      "expected": 0.200000003,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "initial_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "expected": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "initial_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.550000012,
+      "expected": 0.550000012,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "following_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "expected": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "following_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.119999997,
+      "expected": 0.119999997,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "all_five_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 90,
+        "2": 135,
+        "3": 180,
+        "4": 225,
+        "5": 270
+      },
+      "expected": {
+        "1": 90,
+        "2": 135,
+        "3": 180,
+        "4": 225,
+        "5": 270
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "all_five_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1.029999971,
+      "expected": 1.029999971,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "missile_count",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 5,
+      "expected": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "expected": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.600000024,
+      "expected": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "slow_percent_points",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 34.999999404,
+      "expected": 34.999999404,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "slow_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 2000,
+      "expected": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "stun_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1500,
+      "expected": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "cast_time_seconds",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.381249994,
+      "expected": 0.381249994,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_initial_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 135,
+        "2": 180,
+        "3": 225
+      },
+      "expected": {
+        "1": 135,
+        "2": 180,
+        "3": 225
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_initial_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.449999988,
+      "expected": 0.449999988,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_total_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 503,
+        "2": 697.5,
+        "3": 892
+      },
+      "expected": {
+        "1": 503,
+        "2": 697.5,
+        "3": 892
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_total_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1.830000043,
+      "expected": 1.830000043,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_wave_count",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 4,
+      "expected": 4,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_discharge_base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 100,
+        "2": 200,
+        "3": 300
+      },
+      "expected": {
+        "1": 100,
+        "2": 200,
+        "3": 300
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.600000024,
+      "expected": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_same_target_discharge_count",
+      "valueMode": "RUNTIME_INPUT",
+      "expectedMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "expected": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.649999976,
+      "expected": 0.649999976,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 60,
+        "2": 95,
+        "3": 130,
+        "4": 165,
+        "5": 200
+      },
+      "expected": {
+        "1": 60,
+        "2": 95,
+        "3": 130,
+        "4": 165,
+        "5": 200
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.600000024,
+      "expected": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "root_duration_ms",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 1000,
+        "2": 1250,
+        "3": 1500,
+        "4": 1750,
+        "5": 2000
+      },
+      "expected": {
+        "1": 1000,
+        "2": 1250,
+        "3": 1500,
+        "4": 1750,
+        "5": 2000
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "base_damage",
+      "valueMode": "SKILL_LEVEL",
+      "expectedMode": "SKILL_LEVEL",
+      "actual": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "expected": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "ap_ratio",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 0.699999988,
+      "expected": 0.699999988,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "knockup_delay_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 2000,
+      "expected": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "knockup_duration_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 1000,
+      "expected": 1000,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "cast_time_ms",
+      "valueMode": "FIXED",
+      "expectedMode": "FIXED",
+      "actual": 250,
+      "expected": 250,
+      "pass": true
+    }
+  ],
+  "parameterCheckCount": 82,
+  "parameterCheckPassCount": 82,
+  "parameterCheckFailCount": 0,
+  "levelChecks": [
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "blind_duration_ms",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "passive_move_speed_ratio",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "active_move_speed_ratio",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "stealth_duration_ms",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "enhanced_attack_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "slow_percent_points",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "initial_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "following_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "all_five_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_initial_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_total_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_discharge_base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "root_duration_ms",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "base_damage",
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3"
+      ],
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3"
+      ],
+      "pass": true
+    }
+  ],
+  "levelCheckAllPass": true,
+  "characterChecks": [
+    {
+      "parameterKey": "teemo_p/attack_speed_ratio",
+      "actualLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18"
+      ],
+      "expectedLevelKeys": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18"
+      ],
+      "values": [
+        0.200000003,
+        0.200000003,
+        0.200000003,
+        0.200000003,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.600000009,
+        0.600000009,
+        0.600000009,
+        0.600000009,
+        0.600000009,
+        0.800000012,
+        0.800000012,
+        0.800000012,
+        0.800000012
+      ],
+      "expectedValues": [
+        0.200000003,
+        0.200000003,
+        0.200000003,
+        0.200000003,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.600000009,
+        0.600000009,
+        0.600000009,
+        0.600000009,
+        0.600000009,
+        0.800000012,
+        0.800000012,
+        0.800000012,
+        0.800000012
+      ],
+      "pass": true
+    }
+  ],
+  "characterLevelAllPass": true,
+  "indexChecks": [
+    {
+      "label": "Teemo Q BaseDamage索引0不作1级",
+      "pass": true
+    },
+    {
+      "label": "Zyra Q BaseDamage索引1至5",
+      "pass": true
+    },
+    {
+      "label": "Zyra R BaseDamage索引1至3",
+      "pass": true
+    },
+    {
+      "label": "Heimer R EUltBaseDamage索引1至3",
+      "pass": true
+    },
+    {
+      "label": "Heimer R RW索引1至3",
+      "pass": true
+    }
+  ],
+  "sourceArrayIndexAllPass": true,
+  "integerChecks": [
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "stealth_stationary_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "attack_speed_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "attack_speed_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "blind_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "passive_move_speed_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "passive_no_hero_damage_window_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "active_move_speed_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "active_move_speed_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "cast_time_seconds",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "poison_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_interval_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "poison_tick_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "backstab_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "backstab_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_execute_multiplier",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "execute_health_threshold_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "stealth_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "enhanced_attack_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "enhanced_attack_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "backstab_crit_coefficient",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "crit_baseline",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "crit_minus_one",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "actual_critical_damage_multiplier",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "execute_health_threshold_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "execute_multiplier",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "slow_percent_points",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "passive_slow_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "active_slow_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_r",
+      "parameterKey": "teleport_range",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_r",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_p",
+      "parameterKey": "near_turret_move_speed_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "initial_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "initial_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "following_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "following_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "all_five_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "all_five_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "missile_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "slow_percent_points",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "slow_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "stun_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "cast_time_seconds",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_initial_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_initial_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_total_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_total_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_wave_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_discharge_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_same_target_discharge_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "root_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "knockup_delay_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "knockup_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    }
+  ],
+  "integerParameterCount": 44,
+  "integerParameters": 44,
+  "integerValueCount": 105,
+  "integerValues": 105,
+  "integerAndModeAllPass": true,
+  "structureIssues": [],
+  "allFormulaOperationsBinary": true,
+  "typedReferenceChecks": [
+    {
+      "label": "teemo_p.write.effects[0].lifecycle.applicationStacksValue",
+      "kind": "FIXED",
+      "value": 1,
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_p.write.effects[0].lifecycle.durationValue",
+      "kind": "PARAMETER",
+      "reference": "attack_speed_duration_ms",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_p.write.effects[0].lifecycle.maxStacksValue",
+      "kind": "FIXED",
+      "value": 1,
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_p.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "attack_speed_ratio",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_q.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_q.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_q.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_q.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_q.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_q.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_w.write.effects[0].lifecycle.applicationStacksValue",
+      "kind": "FIXED",
+      "value": 1,
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_w.write.effects[0].lifecycle.maxStacksValue",
+      "kind": "FIXED",
+      "value": 1,
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_w.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "passive_move_speed_ratio",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_w.write.effects[1].lifecycle.applicationStacksValue",
+      "kind": "FIXED",
+      "value": 1,
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_w.write.effects[1].lifecycle.durationValue",
+      "kind": "PARAMETER",
+      "reference": "active_move_speed_duration_ms",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_w.write.effects[1].lifecycle.maxStacksValue",
+      "kind": "FIXED",
+      "value": 1,
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_w.write.effects[1].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "active_move_speed_ratio",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_w.write.effects[2].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression.operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression.operands[0].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression.operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression.operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression.operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression.operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression.operands[0].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression.operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression.operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression.operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[1].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0].operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0].operands[0].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0].operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0].operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0].operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "teemo_e.write.formulas[2].expression.operands[1]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[1].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[1].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[1].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[1].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[1].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[2].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[2].expression.operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[2].expression.operands[0].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[2].expression.operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[2].expression.operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[2].expression.operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_p.write.formulas[2].expression.operands[1]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[1].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[1].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[1].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[1].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[1].expression.operands[1].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[1].expression.operands[1].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[1].expression.operands[1].operands[1].operands[1]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[0].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[0].operands[1].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[0].operands[1].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[0].operands[1].operands[1].operands[1]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[1].operands[0]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[1].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[1].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[1].operands[1].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[1].operands[1].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.formulas[2].expression.operands[1].operands[1].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_q.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression.operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression.operands[0].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression.operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression.operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression.operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0].operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0].operands[0].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0].operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0].operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0].operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.formulas[1].expression.operands[1]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_e.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "shaco_r.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].lifecycle.applicationStacksValue",
+      "kind": "FIXED",
+      "value": 1,
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].lifecycle.maxStacksValue",
+      "kind": "FIXED",
+      "value": 1,
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "near_turret_move_speed_ratio",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[1].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[1].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[1].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[1].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[1].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[2].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[2].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[2].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[2].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[2].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_w.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_e.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_e.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_e.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_e.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_e.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_e.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[1].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[1].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[1].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[1].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[1].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[2].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[2].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[2].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[2].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[2].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[3].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[3].expression.operands[0]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[3].expression.operands[0].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[3].expression.operands[0].operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[3].expression.operands[0].operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[3].expression.operands[0].operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[3].expression.operands[1]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "heimerdinger_r.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_q.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_q.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_q.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_q.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_q.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_q.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_e.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_e.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_e.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_e.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_e.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_e.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_r.write.formulas[0].expression",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_r.write.formulas[0].expression.operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_r.write.formulas[0].expression.operands[1]",
+      "nodeType": "OPERATION",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_r.write.formulas[0].expression.operands[1].operands[0]",
+      "nodeType": "PARAMETER",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_r.write.formulas[0].expression.operands[1].operands[1]",
+      "nodeType": "ATTRIBUTE",
+      "pass": true,
+      "reason": null
+    },
+    {
+      "label": "zyra_r.write.effects[0].results[0].valueRule.value",
+      "kind": "PARAMETER",
+      "reference": "mana_cost",
+      "pass": true,
+      "reason": null
+    }
+  ],
+  "typedReferenceCheckCount": 180,
+  "typedReferencePassCount": 180,
+  "typedReferenceFailCount": 0,
+  "typedReferenceAllPass": true,
+  "finiteChecks": [
+    {
+      "label": "teemo_p.write.parameters[0].fixedValue",
+      "value": 1500,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[1].fixedValue",
+      "value": 5000,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.1",
+      "value": 0.200000003,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.2",
+      "value": 0.200000003,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.3",
+      "value": 0.200000003,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.4",
+      "value": 0.200000003,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.5",
+      "value": 0.400000006,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.6",
+      "value": 0.400000006,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.7",
+      "value": 0.400000006,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.8",
+      "value": 0.400000006,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.9",
+      "value": 0.400000006,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.10",
+      "value": 0.600000009,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.11",
+      "value": 0.600000009,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.12",
+      "value": 0.600000009,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.13",
+      "value": 0.600000009,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.14",
+      "value": 0.600000009,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.15",
+      "value": 0.800000012,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.16",
+      "value": 0.800000012,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.17",
+      "value": 0.800000012,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].levelValues.18",
+      "value": 0.800000012,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.effects[0].lifecycle.applicationStacksValue.value",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.effects[0].lifecycle.maxStacksValue.value",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_p.write.effects[0].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[0].levelValues.1",
+      "value": 80,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[0].levelValues.2",
+      "value": 125,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[0].levelValues.3",
+      "value": 170,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[0].levelValues.4",
+      "value": 215,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[0].levelValues.5",
+      "value": 260,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[1].fixedValue",
+      "value": 0.699999988,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[2].levelValues.1",
+      "value": 2000,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[2].levelValues.2",
+      "value": 2250,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[2].levelValues.3",
+      "value": 2500,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[2].levelValues.4",
+      "value": 2750,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[2].levelValues.5",
+      "value": 3000,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[3].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_q.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[0].levelValues.1",
+      "value": 0.119999997,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[0].levelValues.2",
+      "value": 0.159999996,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[0].levelValues.3",
+      "value": 0.200000003,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[0].levelValues.4",
+      "value": 0.239999995,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[0].levelValues.5",
+      "value": 0.280000001,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[1].fixedValue",
+      "value": 5000,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[2].levelValues.1",
+      "value": 0.239999995,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[2].levelValues.2",
+      "value": 0.319999993,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[2].levelValues.3",
+      "value": 0.400000006,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[2].levelValues.4",
+      "value": 0.479999989,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[2].levelValues.5",
+      "value": 0.560000002,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[3].fixedValue",
+      "value": 3000,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[4].fixedValue",
+      "value": 0.528699994,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[0].lifecycle.applicationStacksValue.value",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[0].lifecycle.maxStacksValue.value",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[0].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[1].lifecycle.applicationStacksValue.value",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[1].lifecycle.maxStacksValue.value",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[1].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[1].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[1].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[1].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[2].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[2].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[2].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "teemo_w.write.effects[2].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[0].levelValues.1",
+      "value": 9,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[0].levelValues.2",
+      "value": 23,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[0].levelValues.3",
+      "value": 37,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[0].levelValues.4",
+      "value": 51,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[0].levelValues.5",
+      "value": 65,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[1].fixedValue",
+      "value": 0.300000012,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[2].fixedValue",
+      "value": 0.050000001,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[3].levelValues.1",
+      "value": 6,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[3].levelValues.2",
+      "value": 12,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[3].levelValues.3",
+      "value": 18,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[3].levelValues.4",
+      "value": 24,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[3].levelValues.5",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[4].fixedValue",
+      "value": 0.100000001,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[5].fixedValue",
+      "value": 0.025,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[5].sortOrder",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[6].fixedValue",
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[6].sortOrder",
+      "value": 70,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[7].fixedValue",
+      "value": 1000,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[7].sortOrder",
+      "value": 80,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[8].fixedValue",
+      "value": 4,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.parameters[8].sortOrder",
+      "value": 90,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.formulas[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "teemo_e.write.formulas[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[1].fixedValue",
+      "value": 0.200000003,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[3].fixedValue",
+      "value": 0.100000001,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[4].fixedValue",
+      "value": 1.5,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[5].fixedValue",
+      "value": 0.3,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.parameters[5].sortOrder",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.formulas[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "shaco_p.write.formulas[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[0].levelValues.1",
+      "value": 2500,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[0].levelValues.2",
+      "value": 2750,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[0].levelValues.3",
+      "value": 3000,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[0].levelValues.4",
+      "value": 3250,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[0].levelValues.5",
+      "value": 3500,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[1].levelValues.1",
+      "value": 25,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[1].levelValues.2",
+      "value": 35,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[1].levelValues.3",
+      "value": 45,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[1].levelValues.4",
+      "value": 55,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[1].levelValues.5",
+      "value": 65,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[2].fixedValue",
+      "value": 0.600000024,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[3].fixedValue",
+      "value": 0.600000024,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[4].fixedValue",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[5].fixedValue",
+      "value": -1,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[5].sortOrder",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[6].sortOrder",
+      "value": 70,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[7].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.parameters[7].sortOrder",
+      "value": 80,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.formulas[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.formulas[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "shaco_q.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[0].levelValues.1",
+      "value": 70,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[0].levelValues.2",
+      "value": 95,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[0].levelValues.3",
+      "value": 120,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[0].levelValues.4",
+      "value": 145,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[0].levelValues.5",
+      "value": 170,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[1].fixedValue",
+      "value": 0.800000012,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[2].fixedValue",
+      "value": 0.600000024,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[3].fixedValue",
+      "value": 0.300000012,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[4].fixedValue",
+      "value": 1.5,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[5].levelValues.1",
+      "value": 20.000000298,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[5].levelValues.2",
+      "value": 22.499999404,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[5].levelValues.3",
+      "value": 25,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[5].levelValues.4",
+      "value": 27.500000596,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[5].levelValues.5",
+      "value": 30.000001192,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[5].sortOrder",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[6].fixedValue",
+      "value": 2000,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[6].sortOrder",
+      "value": 70,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[7].fixedValue",
+      "value": 3000,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[7].sortOrder",
+      "value": 80,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[8].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.parameters[8].sortOrder",
+      "value": 90,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.formulas[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "shaco_e.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "shaco_r.write.parameters[0].fixedValue",
+      "value": 150,
+      "pass": true
+    },
+    {
+      "label": "shaco_r.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_r.write.parameters[1].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "shaco_r.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "shaco_r.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "shaco_r.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "shaco_r.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "shaco_r.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_p.write.parameters[0].fixedValue",
+      "value": 0.200000003,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_p.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].lifecycle.applicationStacksValue.value",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].lifecycle.maxStacksValue.value",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_p.write.effects[0].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[0].levelValues.1",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[0].levelValues.2",
+      "value": 75,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[0].levelValues.3",
+      "value": 100,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[0].levelValues.4",
+      "value": 125,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[0].levelValues.5",
+      "value": 150,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[1].fixedValue",
+      "value": 0.550000012,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[2].levelValues.1",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[2].levelValues.2",
+      "value": 15,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[2].levelValues.3",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[2].levelValues.4",
+      "value": 25,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[2].levelValues.5",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[3].fixedValue",
+      "value": 0.119999997,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[4].levelValues.1",
+      "value": 90,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[4].levelValues.2",
+      "value": 135,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[4].levelValues.3",
+      "value": 180,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[4].levelValues.4",
+      "value": 225,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[4].levelValues.5",
+      "value": 270,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[5].fixedValue",
+      "value": 1.029999971,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[5].sortOrder",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[6].fixedValue",
+      "value": 5,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[6].sortOrder",
+      "value": 70,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[7].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.parameters[7].sortOrder",
+      "value": 80,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.formulas[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_w.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[0].levelValues.1",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[0].levelValues.2",
+      "value": 100,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[0].levelValues.3",
+      "value": 140,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[0].levelValues.4",
+      "value": 180,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[0].levelValues.5",
+      "value": 220,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[1].fixedValue",
+      "value": 0.600000024,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[2].fixedValue",
+      "value": 34.999999404,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[3].fixedValue",
+      "value": 2000,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[4].fixedValue",
+      "value": 1500,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[5].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.parameters[5].sortOrder",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_e.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[0].fixedValue",
+      "value": 0.381249994,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[1].levelValues.1",
+      "value": 135,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[1].levelValues.2",
+      "value": 180,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[1].levelValues.3",
+      "value": 225,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[2].fixedValue",
+      "value": 0.449999988,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[3].levelValues.1",
+      "value": 503,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[3].levelValues.2",
+      "value": 697.5,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[3].levelValues.3",
+      "value": 892,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[4].fixedValue",
+      "value": 1.830000043,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[5].fixedValue",
+      "value": 4,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[5].sortOrder",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[6].levelValues.1",
+      "value": 100,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[6].levelValues.2",
+      "value": 200,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[6].levelValues.3",
+      "value": 300,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[6].sortOrder",
+      "value": 70,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[7].fixedValue",
+      "value": 0.600000024,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[7].sortOrder",
+      "value": 80,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.parameters[8].sortOrder",
+      "value": 90,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.formulas[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "heimerdinger_r.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[0].levelValues.1",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[0].levelValues.2",
+      "value": 100,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[0].levelValues.3",
+      "value": 140,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[0].levelValues.4",
+      "value": 180,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[0].levelValues.5",
+      "value": 220,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[1].fixedValue",
+      "value": 0.649999976,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[2].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "zyra_q.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[0].levelValues.1",
+      "value": 60,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[0].levelValues.2",
+      "value": 95,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[0].levelValues.3",
+      "value": 130,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[0].levelValues.4",
+      "value": 165,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[0].levelValues.5",
+      "value": 200,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[1].fixedValue",
+      "value": 0.600000024,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[2].levelValues.1",
+      "value": 1000,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[2].levelValues.2",
+      "value": 1250,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[2].levelValues.3",
+      "value": 1500,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[2].levelValues.4",
+      "value": 1750,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[2].levelValues.5",
+      "value": 2000,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[3].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "zyra_e.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[0].levelValues.1",
+      "value": 200,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[0].levelValues.2",
+      "value": 300,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[0].levelValues.3",
+      "value": 400,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[1].fixedValue",
+      "value": 0.699999988,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[1].sortOrder",
+      "value": 20,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[2].fixedValue",
+      "value": 2000,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[2].sortOrder",
+      "value": 30,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[3].fixedValue",
+      "value": 1000,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[3].sortOrder",
+      "value": 40,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[4].fixedValue",
+      "value": 250,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.parameters[4].sortOrder",
+      "value": 50,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.formulas[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.effects[0].results[0].sortOrder",
+      "value": 10,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.effects[0].results[0].valueRule.fixedMinValue",
+      "value": 0,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.effects[0].results[0].valueRule.fixedMultiplier",
+      "value": 1,
+      "pass": true
+    },
+    {
+      "label": "zyra_r.write.effects[0].sortOrder",
+      "value": 900,
+      "pass": true
+    }
+  ],
+  "finiteCheckCount": 344,
+  "finitePassCount": 344,
+  "finiteFailCount": 0,
+  "finiteAllPass": true,
+  "consumerChecks": [
+    {
+      "skillKey": "teemo_q",
+      "calculation": "CalculatedDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "calculation": "ImpactCalculatedDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "calculation": "TotalDotDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "calculation": "BasicAttackDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "calculation": "ShivDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "calculation": "ShivDamageExecute",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "calculation": "TotalDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "calculation": "QCritDamageMod",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "calculation": "TotalDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "calculation": "TotalExecuteDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "calculation": "Damage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "calculation": "ExtraHitDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "calculation": "TotalDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "calculation": "Damage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "calculation": "WUltDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "calculation": "WUltTotalDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "calculation": "EUltDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "calculation": "InitialDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "calculation": "TotalDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "calculation": "TotalDamage",
+      "sourceExists": true,
+      "textContainsName": true,
+      "selected": true,
+      "pass": true
+    }
+  ],
+  "currentConsumerAllPass": true,
+  "effectChecks": [
+    {
+      "skillKey": "teemo_p",
+      "effectKey": "self_attack_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 0.800000012,
+      "fixedMultiplier": 1,
+      "finalValue": 0.800000012,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 90,
+      "fixedMultiplier": 1,
+      "finalValue": 90,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "effectKey": "passive_move_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 0.280000001,
+      "fixedMultiplier": 1,
+      "finalValue": 0.280000001,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "effectKey": "active_move_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 0.560000002,
+      "fixedMultiplier": 1,
+      "finalValue": 0.560000002,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 40,
+      "fixedMultiplier": 1,
+      "finalValue": 40,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 40,
+      "fixedMultiplier": 1,
+      "finalValue": 40,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 75,
+      "fixedMultiplier": 1,
+      "finalValue": 75,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_r",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 100,
+      "fixedMultiplier": 1,
+      "finalValue": 100,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_p",
+      "effectKey": "near_turret_move_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 0.200000003,
+      "fixedMultiplier": 1,
+      "finalValue": 0.200000003,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 90,
+      "fixedMultiplier": 1,
+      "finalValue": 90,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 85,
+      "fixedMultiplier": 1,
+      "finalValue": 85,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 100,
+      "fixedMultiplier": 1,
+      "finalValue": 100,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 55,
+      "fixedMultiplier": 1,
+      "finalValue": 55,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 90,
+      "fixedMultiplier": 1,
+      "finalValue": 90,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "valueKind": "PARAMETER",
+      "value": 100,
+      "fixedMultiplier": 1,
+      "finalValue": 100,
+      "multiplierPass": true,
+      "ratioPass": true,
+      "pass": true
+    }
+  ],
+  "effectCount": 15,
+  "effectFinalMultiplierCheckCount": 15,
+  "effectFinalMultiplierAllPass": true,
+  "ratioAttributeFlatAddChecks": [
+    {
+      "skillKey": "teemo_p",
+      "effectKey": "self_attack_speed",
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "effectKey": "passive_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "effectKey": "active_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_p",
+      "effectKey": "near_turret_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "pass": true
+    }
+  ],
+  "ratioAttributeFlatAddAllPass": true,
+  "selectedBannedParameterChecks": [
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "stealth_stationary_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "attack_speed_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_p",
+      "parameterKey": "attack_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "blind_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "passive_move_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "passive_no_hero_damage_window_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "active_move_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "active_move_speed_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "cast_time_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "impact_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "poison_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "tick_interval_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "teemo_e",
+      "parameterKey": "poison_tick_count",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "backstab_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "backstab_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "shivs_execute_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_p",
+      "parameterKey": "execute_health_threshold_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "stealth_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "enhanced_attack_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "enhanced_attack_bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "backstab_crit_coefficient",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "crit_baseline",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "crit_minus_one",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "actual_critical_damage_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "bonus_ad_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "execute_health_threshold_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "execute_multiplier",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "slow_percent_points",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "passive_slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "active_slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_r",
+      "parameterKey": "teleport_range",
+      "pass": true
+    },
+    {
+      "skillKey": "shaco_r",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_p",
+      "parameterKey": "near_turret_move_speed_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "initial_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "initial_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "following_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "following_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "all_five_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "all_five_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "missile_count",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "slow_percent_points",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "slow_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "stun_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "cast_time_seconds",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_initial_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_initial_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_total_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_total_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "rw_wave_count",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_discharge_base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "re_same_target_discharge_count",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "root_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "base_damage",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "ap_ratio",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "knockup_delay_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "knockup_duration_ms",
+      "pass": true
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "cast_time_ms",
+      "pass": true
+    }
+  ],
+  "noUnitExclusionParameters": true,
+  "scopeExclusionChecks": [
+    {
+      "skillKey": "shaco_w",
+      "noParameters": true,
+      "noFormulas": true,
+      "noEffects": true,
+      "pass": true
+    },
+    {
+      "skillKey": "heimerdinger_q",
+      "noParameters": true,
+      "noFormulas": true,
+      "noEffects": true,
+      "pass": true
+    }
+  ],
+  "scopeExclusionAllPass": true,
+  "teemoWStateChecks": [
+    {
+      "rank": 1,
+      "passive": 0.119999997,
+      "active": 0.239999995,
+      "sourcePassive": 0.119999997,
+      "sourceActive": 0.239999995,
+      "additiveValue": 0.359999992,
+      "effectiveReplacementValue": 0.239999995,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "passive": 0.159999996,
+      "active": 0.319999993,
+      "sourcePassive": 0.159999996,
+      "sourceActive": 0.319999993,
+      "additiveValue": 0.479999989,
+      "effectiveReplacementValue": 0.319999993,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "passive": 0.200000003,
+      "active": 0.400000006,
+      "sourcePassive": 0.200000003,
+      "sourceActive": 0.400000006,
+      "additiveValue": 0.600000009,
+      "effectiveReplacementValue": 0.400000006,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "passive": 0.239999995,
+      "active": 0.479999989,
+      "sourcePassive": 0.239999995,
+      "sourceActive": 0.479999989,
+      "additiveValue": 0.719999984,
+      "effectiveReplacementValue": 0.479999989,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "passive": 0.280000001,
+      "active": 0.560000002,
+      "sourcePassive": 0.280000001,
+      "sourceActive": 0.560000002,
+      "additiveValue": 0.840000003,
+      "effectiveReplacementValue": 0.560000002,
+      "pass": true
+    }
+  ],
+  "teemoWStateAllPass": true,
+  "shacoQBoundaryCheck": {
+    "formulaKey": "backstab_critical_full_attack_physical_damage",
+    "formulaPresent": true,
+    "totalAttackDamageAttributeCount": 1,
+    "containsQBaseParameter": true,
+    "containsQRatioParameter": true,
+    "containsPBackstabParameter": false,
+    "pass": true
+  },
+  "publicReuseCount": 22,
+  "publicReuseExpected": 22,
+  "publicReuseAllProtected": true,
+  "protectedSubjectsAllPresent": true,
+  "maxLevelCheck": true,
+  "inputProtection": {
+    "GETs": 194,
+    "expectedGETs": 194,
+    "apiWrites": 0,
+    "expectedApiWrites": 0
+  },
+  "noApiCalls": true,
+  "noBrowserCalls": true,
+  "noGitWrites": true,
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "statusPass": true,
+  "scenarios": {
+    "基础场景": "技能等级1（R为1级）、角色等级1；总攻击力180、额外攻击力80、法强120；mStat9、插值基础值和强化E命中次数显式提供。",
+    "强化场景": "技能等级5（R为3级）、角色等级18；总攻击力320、额外攻击力180、法强420；运行输入改用另一组实际值。",
+    "missingInput": "逐公式移除所引用的RUNTIME_INPUT，必须拒绝计算；候选没有默认值。"
+  }
+}

@@ -1,0 +1,474 @@
+{
+  "generatedAt": "2026-09-10T01:26:52.356Z",
+  "batch": "英雄机制第四十五批提莫萨科黑默丁格婕拉",
+  "revision": "hero45-source-v1-luna-candidate",
+  "status": "来源值与录入范围清单；未调用业务接口",
+  "inputGETs": 194,
+  "reusedPublicParameters": 22,
+  "sourceBindingSha256": "c3a084eaa66df5c6cc9477423d6ac6a4ae4e47214ce1c2440b15ebd66c4122ab",
+  "sourceRangeSha256": "47458ba2d5b686e1cfd6c7e37f0f7ae306f15df9b447a43a2132f6e95aba6f08",
+  "sourceAuditSha256": "9c851b5fd7182f6a8f1e01067ecfd16e46b6afd2ee5ea80dc6e5c4bad01ac892",
+  "cursorConclusionSha256": "9dda44cc79082f6e6d38869cdccd154cc154e528fea3ee3a7d0b519fead9bfae",
+  "sourceReviewVerdict": "READY",
+  "fixedVersions": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "globalScope": {
+    "included": [
+      "本体伤害与控制",
+      "同一敌人的连续命中",
+      "自身隐身与属性收益",
+      "本体基础资源消耗",
+      "当前消费的匿名或tooltipOnly公式"
+    ],
+    "excluded": [
+      "独立召唤物和陷阱",
+      "兵野与建筑专用分支",
+      "额外敌人分配",
+      "纯视野",
+      "未证实际插值或同目标命中次数"
+    ],
+    "unknownPolicy": "未知曲线、实际命中次数、目标资格和事件时序用无默认运行输入或待接线说明，不用0占位。"
+  },
+  "skills": {
+    "teemo_p": {
+      "maxLevel": 1,
+      "recordableParameters": [
+        "stealth_stationary_duration_ms",
+        "attack_speed_duration_ms",
+        "attack_speed_ratio"
+      ],
+      "recordableFormulas": [],
+      "recordableEffects": [
+        "self_attack_speed"
+      ],
+      "excluded": [
+        "草丛移动保持隐形的持续数值未在当前根中给出，不造固定值。"
+      ],
+      "pending": [
+        "草丛保持隐形资格需运行事件接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "teemo_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "ap_ratio",
+        "blind_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "小兵和野怪致盲延长分支（MinionMonsterDurationMod及匿名计算）不录参数。"
+      ],
+      "pending": [
+        "致盲命中条件由事件层接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "teemo_w": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "passive_move_speed_ratio",
+        "passive_no_hero_damage_window_ms",
+        "active_move_speed_ratio",
+        "active_move_speed_duration_ms",
+        "cast_time_seconds"
+      ],
+      "recordableFormulas": [],
+      "recordableEffects": [
+        "passive_move_speed",
+        "active_move_speed",
+        "mana_cost"
+      ],
+      "excluded": [
+        "防御塔伤害分支不录单位专用参数。"
+      ],
+      "pending": [
+        "被动未受英雄/防御塔伤害、主动受击不移除等资格需事件层接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "teemo_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "impact_base_damage",
+        "impact_ap_ratio",
+        "impact_bonus_ad_ratio",
+        "tick_base_damage",
+        "tick_ap_ratio",
+        "tick_bonus_ad_ratio",
+        "poison_duration_ms",
+        "tick_interval_ms",
+        "poison_tick_count"
+      ],
+      "recordableFormulas": [
+        "impact_magic_damage",
+        "poison_tick_magic_damage",
+        "total_poison_magic_damage"
+      ],
+      "recordableEffects": [],
+      "excluded": [
+        "野怪1.6倍伤害分支不录MonsterMod及匿名计算。"
+      ],
+      "pending": [
+        "攻击特效命中与毒性刷新事件需运行层接线；重命中刷新不等于无证叠加。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "teemo_r": {
+      "maxLevel": 3,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "蘑菇陷阱、触发爆炸、持续伤害、减速、弹跳和充能链全部按范围排除。"
+      ],
+      "pending": [
+        "只保留公共参数之外的本体施放接线待主负责人决定；不造陷阱对象。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "shaco_p": {
+      "maxLevel": 1,
+      "recordableParameters": [
+        "backstab_base_damage",
+        "backstab_bonus_ad_ratio",
+        "shivs_base_damage",
+        "shivs_ap_ratio",
+        "shivs_execute_multiplier",
+        "execute_health_threshold_ratio"
+      ],
+      "recordableFormulas": [
+        "backstab_basic_attack_physical_damage",
+        "backstab_shiv_magic_damage",
+        "backstab_shiv_execute_magic_damage"
+      ],
+      "recordableEffects": [],
+      "excluded": [
+        "怪物暴击和分身倍率不录。",
+        "未消费的每目标3秒冷却、旧-40%慢速字段不录。"
+      ],
+      "pending": [
+        "背后方向资格、普攻和E的跨槽命中资格、低于30%阈值事件需接线。",
+        "两段角色等级插值曲线未证，使用无默认实际输入。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "shaco_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "stealth_duration_ms",
+        "enhanced_attack_base_damage",
+        "enhanced_attack_bonus_ad_ratio",
+        "backstab_crit_coefficient",
+        "crit_baseline",
+        "crit_minus_one",
+        "actual_critical_damage_multiplier",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "enhanced_attack_physical_damage",
+        "backstab_critical_multiplier",
+        "backstab_critical_full_attack_physical_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "伪施法0.125秒、额外普攻时间0.25秒和CDRefund2.5不被当前消费，不录。",
+        "显示距离400不写成通用原始25000。"
+      ],
+      "pending": [
+        "W/R不破隐形和背后必暴击资格需事件层接线；mStat9实际值必填。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "shaco_w": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "mana_cost"
+      ],
+      "recordableFormulas": [],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "盒子陷阱、恐惧、持续攻击、单目标与野怪分支全部排除。"
+      ],
+      "pending": [
+        "不生成盒子对象或单位专用参数。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "shaco_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "execute_health_threshold_ratio",
+        "execute_multiplier",
+        "slow_percent_points",
+        "passive_slow_duration_ms",
+        "active_slow_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "magic_damage",
+        "execute_magic_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "目标类别、野怪专用分支不录；不生成单位排除参数。"
+      ],
+      "pending": [
+        "被动攻击减速只在E不冷却时生效；主动与被动减速、P背刺跨槽资格需事件层接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "shaco_r": {
+      "maxLevel": 3,
+      "recordableParameters": [
+        "teleport_range",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "分身18秒、分身攻击倍率、死亡爆炸、小盒子和控制链全部排除。"
+      ],
+      "pending": [
+        "本体暂时消失再出现的时序保留资格，但根没有消失持续；不把施法时间当不可选取时长。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "heimerdinger_p": {
+      "maxLevel": 1,
+      "recordableParameters": [
+        "near_turret_move_speed_ratio"
+      ],
+      "recordableFormulas": [],
+      "recordableEffects": [
+        "near_turret_move_speed"
+      ],
+      "excluded": [
+        "炮台和友方防御塔是触发资格，不生成虚拟炮台或建筑单位。"
+      ],
+      "pending": [
+        "靠近自身炮台或友方防御塔的资格需运行层接线，不能当永久加速。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "heimerdinger_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "turret_kit_cost",
+        "mana_cost"
+      ],
+      "recordableFormulas": [],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "独立炮台主体、生命、攻击、光束和充能链全部排除。"
+      ],
+      "pending": [
+        "配置消耗的实际扣除时点由事件层接线；不生成炮台单位。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "heimerdinger_w": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "initial_base_damage",
+        "initial_ap_ratio",
+        "following_base_damage",
+        "following_ap_ratio",
+        "all_five_base_damage",
+        "all_five_ap_ratio",
+        "missile_count",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "initial_magic_damage",
+        "following_magic_damage",
+        "all_five_magic_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "小兵和野怪额外倍率、炮台充能收益不录单位专用参数。",
+        "显示射程1325不写成通用原始25000。"
+      ],
+      "pending": [
+        "同一目标后续命中次数和每颗命中事件需运行层接线；五颗总值只按当前消费TotalDamage记录。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "heimerdinger_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "ap_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "stun_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "炮台满充能收益不录；不生成炮台事件。"
+      ],
+      "pending": [
+        "中心同一敌人命中、减速和眩晕区域资格需事件层接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "heimerdinger_r": {
+      "maxLevel": 3,
+      "recordableParameters": [
+        "cast_time_seconds",
+        "rw_initial_base_damage",
+        "rw_initial_ap_ratio",
+        "rw_total_base_damage",
+        "rw_total_ap_ratio",
+        "rw_wave_count",
+        "re_discharge_base_damage",
+        "re_ap_ratio",
+        "re_same_target_discharge_count"
+      ],
+      "recordableFormulas": [
+        "rw_initial_magic_damage",
+        "rw_total_magic_damage",
+        "re_single_discharge_magic_damage",
+        "re_same_target_total_magic_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "RQ炮台及炮台生命、护甲、魔抗、常规/满能量射击排除。",
+        "旧WUltExtraHitBaseDamage、WUltSecondaryBaseDamage及匿名减伤树不录。"
+      ],
+      "pending": [
+        "R只强化下一次非终极技能；RE同一目标命中次数无默认；升级消耗免除和重施取消需事件层接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "zyra_p": {
+      "maxLevel": 1,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "种子生成、植物生成和独立植物攻击链全部排除。",
+        "旧被动通用法力70、冷却8和施法0.25不当作可施放本体技能。"
+      ],
+      "pending": [
+        "SeedCooldown的13.6至9.05角色等级插值未知，不录默认。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "zyra_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "ap_ratio",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "种子转植物和植物攻击链排除；不生成植物参数。"
+      ],
+      "pending": [
+        "本体命中和种子附近资格需事件层接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "zyra_w": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "种子、充能、击杀返还和纯视野完整链排除。",
+        "源spellCastTime=0且mCastTime=0.24320000410079956不替代本体施法记录。"
+      ],
+      "pending": [
+        "不创建没有植物前提的击杀充能返还事件。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "zyra_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "ap_ratio",
+        "root_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "种子转植物、植物攻击和植物30%减速/2秒/最多两层排除。"
+      ],
+      "pending": [
+        "本体藤蔓命中、禁锢资格需事件层接线；植物慢速不冒充本体E控制。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "zyra_r": {
+      "maxLevel": 3,
+      "recordableParameters": [
+        "base_damage",
+        "ap_ratio",
+        "knockup_delay_ms",
+        "knockup_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        "植物激怒、重置寿命、增加50%生命和50%伤害排除；不影响密林本体。"
+      ],
+      "pending": [
+        "密林区域命中、2秒后击飞事件需运行层接线。"
+      ],
+      "currentSubjectProtected": true
+    }
+  },
+  "noApiCalls": true,
+  "apiWrites": 0
+}

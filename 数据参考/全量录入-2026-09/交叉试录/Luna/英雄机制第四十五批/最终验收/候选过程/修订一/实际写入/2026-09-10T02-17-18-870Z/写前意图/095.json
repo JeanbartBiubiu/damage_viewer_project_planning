@@ -1,0 +1,28 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 95,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/parameters",
+    "detailRoute": "/skills/heimerdinger_r/parameters/re_discharge_base_damage",
+    "skillKey": "heimerdinger_r",
+    "kind": "parameters",
+    "stableKey": "re_discharge_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "re_discharge_base_damage",
+      "name": "强化E单次放电基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 200,
+        "3": 300
+      },
+      "description": "EUltDamage消费EUltBaseDamage索引1至3为100/200/300；同一目标命中次数未证。",
+      "sortOrder": 70
+    }
+  }
+}

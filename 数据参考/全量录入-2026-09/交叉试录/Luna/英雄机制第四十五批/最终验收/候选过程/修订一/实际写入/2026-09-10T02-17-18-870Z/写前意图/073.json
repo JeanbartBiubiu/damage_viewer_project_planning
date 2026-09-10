@@ -1,0 +1,30 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_w/parameters",
+    "detailRoute": "/skills/heimerdinger_w/parameters/all_five_base_damage",
+    "skillKey": "heimerdinger_w",
+    "kind": "parameters",
+    "stableKey": "all_five_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "all_five_base_damage",
+      "name": "五颗全部命中基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 90,
+        "2": 135,
+        "3": 180,
+        "4": 225,
+        "5": 270
+      },
+      "description": "当前TotalDamage消费TotalBaseDamage索引1至5为90/135/180/225/270；不从未消费字段任意拼接。",
+      "sortOrder": 50
+    }
+  }
+}
