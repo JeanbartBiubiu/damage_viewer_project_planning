@@ -7,16 +7,25 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.error.ApiException;
 
 class SkillTargetCategoryConditionSemanticsTest {
+    @Test
+    void killCategoryCheckReadsTheKilledObjectAsCurrentTarget() {
+        assertEquals("本次被击杀对象",
+            SkillTriggerEventCapabilities.currentTargetBindings().get(SkillTriggerEventType.KILL));
+    }
+
     @ParameterizedTest
-    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT"})
-    void hitCategoriesNeedNoCatalogOrExecutionReferences(String event) {
+    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL"})
+    void supportedEventTargetCategoriesNeedNoCatalogOrExecutionReferences(String event) {
         List<Aggregate> objects = List.of(rule(event, "{\"categories\":[\"CHAMPION\",\"EPIC_MONSTER\"]}"));
         assertEquals(List.of(), SkillObjectReferences.extractAndValidate("lol", objects, Set.of()));
         assertDoesNotThrow(() -> SkillTargetCategoryConditionSemantics.validate(objects));
@@ -25,7 +34,7 @@ class SkillTargetCategoryConditionSemanticsTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"SKILL_USED", "RESULT_AVAILABLE", "BASIC_ATTACK_START"})
-    void finalEventStateCannotRetainHitOnlyCondition(String event) {
+    void finalEventStateCannotRetainTargetCategoryCondition(String event) {
         ApiException error = assertThrows(ApiException.class, () -> SkillTargetCategoryConditionSemantics.validate(
             List.of(rule(event, "{\"categories\":[\"CHAMPION\"]}"))));
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", error.getCode());
