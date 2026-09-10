@@ -1,0 +1,135 @@
+{
+  "schema": "hero50_revision_diff_v2",
+  "generatedAt": "2026-09-10T06:06:30.448Z",
+  "batch": "第五十批乌迪尔阿兹尔艾希伊泽瑞尔",
+  "fromRevision": "hero50-source-v2-luna-revision-1",
+  "toRevision": "hero50-source-v2-luna-revision-2",
+  "sourceRevisionOne": {
+    "candidateSha256": "14905a98ad4be773283bb740e7a5a98ff6ce41eeed7014c4428a053c697471ec",
+    "planSha256": "15c841da9bda7dd8b9fc1c4fcb19ec71f97d4a2baec7431a7961dbb21a20c485",
+    "scopeSha256": "c5edbe571cef81c9be3652cfe716249f2f365de39fbfbbc9636ba9f2b8537e52",
+    "sourceValuesSha256": "eec7f401013775c68f01cbfec843a0d0472d074cc606e822ae88c5ebb8e063df"
+  },
+  "changedPaths": [
+    {
+      "file": "完整候选.json",
+      "path": "/skills/ashe_q/write/effects[effectKey=empowered_attack]/results[resultKey=damage]/spellShieldBlockScope",
+      "from": "RESULT",
+      "to": null,
+      "reason": "固定本地与公开资料交叉证据支持当前聚合结果建议null。"
+    },
+    {
+      "file": "完整候选.json",
+      "path": "/skills/udyr_q/write/effects[effectKey=standard_on_hit]",
+      "from": "存在于正常写集合",
+      "to": "撤出正常写集合，原完整效果保存于待补护盾证据.json",
+      "reason": "组件和公式已证，结果的法术护盾范围未逐项证实。"
+    },
+    {
+      "file": "完整候选.json",
+      "path": "/skills/udyr_q/write/effects[effectKey=standard_max_health_hit]",
+      "from": "存在于正常写集合",
+      "to": "撤出正常写集合，原完整效果保存于待补护盾证据.json",
+      "reason": "组件和公式已证，结果的法术护盾范围未逐项证实。"
+    },
+    {
+      "file": "完整候选.json",
+      "path": "/skills/udyr_q/write/effects[effectKey=empowered_max_health_hit]",
+      "from": "存在于正常写集合",
+      "to": "撤出正常写集合，原完整效果保存于待补护盾证据.json",
+      "reason": "组件和公式已证，结果的法术护盾范围未逐项证实。"
+    },
+    {
+      "file": "完整候选.json",
+      "path": "/skills/udyr_r/write/effects[effectKey=pulse_damage]",
+      "from": "存在于正常写集合",
+      "to": "撤出正常写集合，原完整效果保存于待补护盾证据.json",
+      "reason": "组件和公式已证，结果的法术护盾范围未逐项证实。"
+    },
+    {
+      "file": "来源值摘要.json",
+      "path": "/sourceValues/udyr_q/selectedEffectKeys",
+      "from": "standard_on_hit",
+      "to": "移除",
+      "reason": "来源选择与正常写集合保持一致；源文本和rawCalculations仍保留。"
+    },
+    {
+      "file": "来源值摘要.json",
+      "path": "/sourceValues/udyr_q/selectedEffectKeys",
+      "from": "standard_max_health_hit",
+      "to": "移除",
+      "reason": "来源选择与正常写集合保持一致；源文本和rawCalculations仍保留。"
+    },
+    {
+      "file": "来源值摘要.json",
+      "path": "/sourceValues/udyr_q/selectedEffectKeys",
+      "from": "empowered_max_health_hit",
+      "to": "移除",
+      "reason": "来源选择与正常写集合保持一致；源文本和rawCalculations仍保留。"
+    },
+    {
+      "file": "来源值摘要.json",
+      "path": "/sourceValues/udyr_r/selectedEffectKeys",
+      "from": "pulse_damage",
+      "to": "移除",
+      "reason": "来源选择与正常写集合保持一致；源文本和rawCalculations仍保留。"
+    }
+  ],
+  "unchanged": {
+    "parameters": 120,
+    "formulas": 24,
+    "formulaKeysPreserved": true,
+    "parameterKeysPreserved": true,
+    "noNewProcesses": true,
+    "noNewInternalStates": true,
+    "noNewTriggerRules": true,
+    "noRuntimeCode": true
+  },
+  "counts": {
+    "newParameters": 120,
+    "newFormulas": 24,
+    "newEffects": 26,
+    "newTotal": 170,
+    "withheldEffects": 4,
+    "protectedExistingComponents": 120,
+    "reusedPublicParameters": 26,
+    "conceptualAllComponents": 290
+  },
+  "removedEffects": [
+    {
+      "skillKey": "udyr_q",
+      "effectKey": "standard_on_hit",
+      "resultKey": "damage",
+      "pendingFile": "待补护盾证据.json"
+    },
+    {
+      "skillKey": "udyr_q",
+      "effectKey": "standard_max_health_hit",
+      "resultKey": "damage",
+      "pendingFile": "待补护盾证据.json"
+    },
+    {
+      "skillKey": "udyr_q",
+      "effectKey": "empowered_max_health_hit",
+      "resultKey": "damage",
+      "pendingFile": "待补护盾证据.json"
+    },
+    {
+      "skillKey": "udyr_r",
+      "effectKey": "pulse_damage",
+      "resultKey": "damage",
+      "pendingFile": "待补护盾证据.json"
+    }
+  ],
+  "validation": {
+    "baseCandidateReadOnly": true,
+    "basePlanReadOnly": true,
+    "baseScopeReadOnly": true,
+    "baseSourceValuesReadOnly": true,
+    "inputFilesModified": false,
+    "businessApiCalls": 0,
+    "databaseWrites": 0,
+    "browserCalls": 0,
+    "gitWrites": 0
+  }
+}

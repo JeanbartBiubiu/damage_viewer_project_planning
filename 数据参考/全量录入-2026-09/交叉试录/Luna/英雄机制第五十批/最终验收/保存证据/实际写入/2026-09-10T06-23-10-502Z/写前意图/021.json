@@ -1,0 +1,24 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/lightning_ap_ratio",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "lightning_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lightning_ap_ratio",
+      "name": "闪电法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.00006,
+      "levelValues": null,
+      "description": "EmpoweredLightningBonus第二分支读取LightningAPRatio=0.00006×法强。",
+      "sortOrder": 90
+    }
+  }
+}

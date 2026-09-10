@@ -1,0 +1,72 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/effects",
+    "detailRoute": "/skills/udyr_q/effects/attack_range",
+    "skillKey": "udyr_q",
+    "kind": "effects",
+    "stableKey": "attack_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "attack_range",
+      "name": "狂暴爪击攻击距离",
+      "description": "姿态中下两次攻击增加50攻击距离；使用独立的实际剩余两次攻击资格时长，不表示施法距离或4秒攻速寿命。",
+      "sortOrder": 80,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "actual_remaining_two_attack_range_qualification_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "狂暴爪击攻击距离",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只记录属性变化，触发条件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_range_bonus"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "attack_range",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

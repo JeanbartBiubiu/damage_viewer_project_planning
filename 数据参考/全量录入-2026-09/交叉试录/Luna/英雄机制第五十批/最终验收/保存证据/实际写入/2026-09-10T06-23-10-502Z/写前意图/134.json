@@ -1,0 +1,46 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_e/formulas",
+    "detailRoute": "/skills/azir_e/formulas/shield",
+    "skillKey": "azir_e",
+    "kind": "formulas",
+    "stableKey": "shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield",
+      "name": "流沙移形自身护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalShield=BaseShield+0.6×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

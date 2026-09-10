@@ -1,0 +1,24 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/empowered_max_hp_ad_ratio",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "empowered_max_hp_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_max_hp_ad_ratio",
+      "name": "觉醒目标最大生命额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0005,
+      "levelValues": null,
+      "description": "Q2TotalOnHitHPDamage第三分支系数0.0005为额外攻击力比例。",
+      "sortOrder": 80
+    }
+  }
+}

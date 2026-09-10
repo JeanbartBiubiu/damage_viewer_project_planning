@@ -1,0 +1,72 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/effects",
+    "detailRoute": "/skills/udyr_w/effects/awakened_life_steal",
+    "skillKey": "udyr_w",
+    "kind": "effects",
+    "stableKey": "awakened_life_steal",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "awakened_life_steal",
+      "name": "坚铁甲胄觉醒生命偷取",
+      "description": "觉醒姿态下两次攻击的生命偷取比例；本技能贡献使用INCREASE并与普通贡献互斥替代，外部装备生命偷取保留，资格时长待事件层提供。",
+      "sortOrder": 70,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "actual_remaining_two_attack_qualification_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "坚铁甲胄觉醒生命偷取",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只记录本技能觉醒生命偷取贡献；与普通贡献互斥，外部来源不被覆盖，实际两次攻击资格由事件层提供。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "awakened_life_steal_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "life_steal_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

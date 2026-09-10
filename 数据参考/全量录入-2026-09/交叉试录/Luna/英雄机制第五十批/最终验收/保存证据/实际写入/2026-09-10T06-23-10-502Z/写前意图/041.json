@@ -1,0 +1,68 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/formulas",
+    "detailRoute": "/skills/udyr_q/formulas/on_hit_physical_damage",
+    "skillKey": "udyr_q",
+    "kind": "formulas",
+    "stableKey": "on_hit_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "on_hit_physical_damage",
+      "name": "狂暴爪击普攻附加物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "on_hit_bonus_hp_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "OnHitDamage=BaseDamage+0.2×来源额外攻击力+OnHitBonusHPRatio×来源额外生命。",
+      "sortOrder": 10
+    }
+  }
+}

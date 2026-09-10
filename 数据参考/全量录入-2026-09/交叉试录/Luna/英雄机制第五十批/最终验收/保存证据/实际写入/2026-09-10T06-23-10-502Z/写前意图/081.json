@@ -1,0 +1,43 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 81,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/effects",
+    "detailRoute": "/skills/udyr_w/effects/normal_on_hit_heal",
+    "skillKey": "udyr_w",
+    "kind": "effects",
+    "stableKey": "normal_on_hit_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "normal_on_hit_heal",
+      "name": "坚铁甲胄普通命中治疗",
+      "description": "每次合资格命中回复一次；只记录自身实际治疗公式。",
+      "sortOrder": 40,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "heal",
+          "name": "坚铁甲胄普通命中治疗",
+          "resultType": "DIRECT_HEAL",
+          "target": "SOURCE",
+          "description": "只记录自身直接治疗；事件次数和时点由运行层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "life_on_hit_heal"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {}
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/awakened_shield_bonus_ad_ratio",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "awakened_shield_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "awakened_shield_bonus_ad_ratio",
+      "name": "觉醒护盾额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "RecastShield第五分支mStat=2、mStatFormula=2系数1×额外攻击力。",
+      "sortOrder": 130
+    }
+  }
+}

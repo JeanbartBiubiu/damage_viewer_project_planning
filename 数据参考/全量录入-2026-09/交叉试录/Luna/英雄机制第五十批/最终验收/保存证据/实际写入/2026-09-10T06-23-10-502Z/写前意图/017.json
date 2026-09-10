@@ -1,0 +1,31 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/base_damage",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "普攻附加基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6,
+        "2": 12,
+        "3": 18,
+        "4": 24,
+        "5": 30,
+        "6": 36
+      },
+      "description": "BaseDamage按技能等级1至6取6至36。",
+      "sortOrder": 50
+    }
+  }
+}

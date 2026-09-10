@@ -1,0 +1,24 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/empowered_move_speed_level_actual",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "empowered_move_speed_level_actual",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_move_speed_level_actual",
+      "name": "实际角色等级觉醒移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "由运行层提供0.30至0.40之间的角色等级实际值；源曲线未知且无默认。",
+      "sortOrder": 130
+    }
+  }
+}

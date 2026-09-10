@@ -1,0 +1,52 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 137,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_e/effects",
+    "detailRoute": "/skills/azir_e/effects/dash_damage",
+    "skillKey": "azir_e",
+    "kind": "effects",
+    "stableKey": "dash_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "dash_damage",
+      "name": "流沙移形突进魔法伤害",
+      "description": "一次本体突进命中伤害；击退/停下事件与士兵条件待接线。",
+      "sortOrder": 30,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "流沙移形突进魔法伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "单一目标伤害结果；命中事件与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

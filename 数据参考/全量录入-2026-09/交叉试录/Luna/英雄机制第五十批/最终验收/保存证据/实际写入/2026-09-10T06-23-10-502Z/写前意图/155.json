@@ -1,0 +1,24 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 155,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_p/parameters",
+    "detailRoute": "/skills/ashe_p/parameters/crit_base_multiplier",
+    "skillKey": "ashe_p",
+    "kind": "parameters",
+    "stableKey": "crit_base_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_base_multiplier",
+      "name": "伤害加成树固定基准",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "DamageBonus树第一项固定1。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/repeat_bounce_penalty",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "repeat_bounce_penalty",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "repeat_bounce_penalty",
+      "name": "重复弹射倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "EmpoweredLightningBonusMax使用RepeatBouncePenalty=1。",
+      "sortOrder": 120
+    }
+  }
+}

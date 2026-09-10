@@ -1,0 +1,24 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/empowered_move_speed_start_ratio",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "empowered_move_speed_start_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_move_speed_start_ratio",
+      "name": "角色1级觉醒移动速度端点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "MoveSpeedBonus角色等级起始端点0.30；中间曲线未知。",
+      "sortOrder": 90
+    }
+  }
+}

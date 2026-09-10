@@ -1,0 +1,24 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_p/parameters",
+    "detailRoute": "/skills/udyr_p/parameters/attack_speed_ratio",
+    "skillKey": "udyr_p",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "被动攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.300000012,
+      "levelValues": null,
+      "description": "AttackSpeed计算树固定mNumber=0.3，按比例属性记录。",
+      "sortOrder": 60
+    }
+  }
+}

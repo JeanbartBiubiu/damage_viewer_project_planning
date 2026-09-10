@@ -1,0 +1,24 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/empowered_source_hp_ratio",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "empowered_source_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_source_hp_ratio",
+      "name": "觉醒自身额外生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.00001,
+      "levelValues": null,
+      "description": "Q2TotalOnHitHPDamage第四分支mStat=12系数0.00001；展开时乘来源额外生命。",
+      "sortOrder": 220
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "at": "2026-09-10T06:21:20.807Z",
+  "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba",
+  "planSha256": "403cf72c8dc50c1e203d1a5fdf1fccb8b0b4a6253e9c19865095909af12ba69f",
+  "writerSha256": "c17e8a02c76d36e4886791317f65d5b107eaaba60f4df308eeffe46f89c107cf",
+  "counts": {
+    "parameters": 120,
+    "formulas": 24,
+    "effects": 26,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newComponents": 170,
+  "protectedExistingComponents": 120,
+  "publicParamsIncludedWithinExisting": 26,
+  "finalComponents": 290,
+  "expectedGETs": {
+    "preflight": 582,
+    "writer": 1504,
+    "independent": 582
+  },
+  "checks": {
+    "integerParams": 57,
+    "integerValues": 92,
+    "finiteValues": 189,
+    "arrays": 18,
+    "arrayValues": 98,
+    "mandatorySortOrder": true,
+    "revisionBusinessDeltaOnly": "AsheQ范围改null，暂缓四Udyr效果，其他请求体不变"
+  },
+  "withheld": [
+    [
+      "udyr_q",
+      "standard_on_hit"
+    ],
+    [
+      "udyr_q",
+      "standard_max_health_hit"
+    ],
+    [
+      "udyr_q",
+      "empowered_max_health_hit"
+    ],
+    [
+      "udyr_r",
+      "pulse_damage"
+    ]
+  ],
+  "sourceDecisionSha256": "88562486d93180ab59fadc992cd30a76393efa26bb81b0693684fe10c89c5b0f",
+  "runtimeValidation": "未执行；四个Udyr结果仍需补证，本批不代表整体完成",
+  "apiWrites": 0
+}

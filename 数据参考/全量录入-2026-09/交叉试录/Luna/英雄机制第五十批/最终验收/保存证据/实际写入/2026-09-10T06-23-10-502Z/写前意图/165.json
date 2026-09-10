@@ -1,0 +1,30 @@
+{
+  "i": 164,
+  "intent": {
+    "sequence": 165,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_q/parameters",
+    "detailRoute": "/skills/ashe_q/parameters/bonus_attack_speed_ratio",
+    "skillKey": "ashe_q",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_speed_ratio",
+      "name": "强化攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.3,
+        "3": 0.4,
+        "4": 0.5,
+        "5": 0.6
+      },
+      "description": "BonusAS源数组技能等级1至5为20/30/40/50/60百分数点，转换为0.20/0.30/0.40/0.50/0.60；数学逐级读取原始数组。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/formulas",
+    "detailRoute": "/skills/udyr_w/formulas/awakened_total_heal",
+    "skillKey": "udyr_w",
+    "kind": "formulas",
+    "stableKey": "awakened_total_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "awakened_total_heal",
+      "name": "坚铁甲胄觉醒持续总治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "awakened_shield_level_actual"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "awakened_shield_base_from_skill"
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "awakened_shield_ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "awakened_shield_hp_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "hp",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "awakened_shield_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "awakened_total_heal_ratio"
+          }
+        ]
+      },
+      "description": "RecastHeal=0.5×觉醒护盾，表示4秒窗口的总量；不使用旧HealPerSecond或Omnivamp。",
+      "sortOrder": 40
+    }
+  }
+}

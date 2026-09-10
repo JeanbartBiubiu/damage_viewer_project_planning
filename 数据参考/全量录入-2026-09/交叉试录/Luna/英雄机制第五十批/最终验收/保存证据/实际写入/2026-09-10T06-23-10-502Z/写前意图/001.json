@@ -1,0 +1,24 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_p/parameters",
+    "detailRoute": "/skills/udyr_p/parameters/attack_speed_duration_ms",
+    "skillKey": "udyr_p",
+    "kind": "parameters",
+    "stableKey": "attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_duration_ms",
+      "name": "被动攻击速度持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "DataValues.AttackSpeedDuration=4秒，精确换算为4000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

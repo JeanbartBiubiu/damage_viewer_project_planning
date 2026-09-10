@@ -1,0 +1,24 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 95,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/attack_count_per_target",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "attack_count_per_target",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_count_per_target",
+      "name": "每目标首次攻击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确每个目标第一次攻击造成眩晕；每目标独立冷却。",
+      "sortOrder": 110
+    }
+  }
+}

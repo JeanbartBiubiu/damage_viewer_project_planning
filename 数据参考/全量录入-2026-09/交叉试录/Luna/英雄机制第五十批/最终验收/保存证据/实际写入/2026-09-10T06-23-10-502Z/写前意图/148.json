@@ -1,0 +1,24 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_p/parameters",
+    "detailRoute": "/skills/ashe_p/parameters/slow_duration_ms",
+    "skillKey": "ashe_p",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前中文正文消费SlowDuration=2秒，精确换算为2000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

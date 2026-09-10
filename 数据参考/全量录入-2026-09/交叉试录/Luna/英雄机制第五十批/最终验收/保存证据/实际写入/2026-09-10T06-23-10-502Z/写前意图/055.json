@@ -1,0 +1,31 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 55,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/shield_hp_ratio",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "shield_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_hp_ratio",
+      "name": "普通护盾自身最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.02,
+        "2": 0.023,
+        "3": 0.026000001,
+        "4": 0.028999999,
+        "5": 0.032000002,
+        "6": 0.035
+      },
+      "description": "ShieldPercentHealth按技能等级1至6取0.02至0.035，乘来源最大生命。",
+      "sortOrder": 30
+    }
+  }
+}

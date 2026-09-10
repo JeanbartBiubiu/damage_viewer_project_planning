@@ -1,0 +1,24 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 34,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/attack_range_bonus",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "attack_range_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_range_bonus",
+      "name": "姿态攻击距离增加",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 50,
+      "levelValues": null,
+      "description": "AttackRange=50；只新增一次稳定参数。",
+      "sortOrder": 230
+    }
+  }
+}

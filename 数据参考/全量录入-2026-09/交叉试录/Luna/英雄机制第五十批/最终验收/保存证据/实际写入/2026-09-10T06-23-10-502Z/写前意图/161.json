@@ -1,0 +1,24 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_q/parameters",
+    "detailRoute": "/skills/ashe_q/parameters/shots_per_strike",
+    "skillKey": "ashe_q",
+    "kind": "parameters",
+    "stableKey": "shots_per_strike",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shots_per_strike",
+      "name": "每次强化攻击小型打击数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "ShotsPerStrike=5；只是内部小型打击数量，整段伤害不再乘5。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,1961 @@
+{
+  "generatedAt": "2026-09-10T05:41:05.836Z",
+  "batch": "第五十批乌迪尔阿兹尔艾希伊泽瑞尔",
+  "revision": "hero50-source-v2-luna-revision-1",
+  "status": "PASS（结构与契约审计通过；艾希Q建议null，四个乌迪尔范围未证）",
+  "auditBoundary": "只读审计；不调用业务API、数据库、浏览器或Git，不改候选、输入、业务代码。",
+  "noApiCalls": true,
+  "noDatabaseAccess": true,
+  "noBrowserAccess": true,
+  "noGitWrites": true,
+  "inputs": {
+    "candidateFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\完整候选.json",
+    "planFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\请求计划.json",
+    "sourceValuesFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\来源值摘要.json",
+    "mathFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\独立数学报告.json",
+    "fixedProtectionSnapshot": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\当前20槽保护快照.json",
+    "sourceBindingFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\来源绑定与当前文本.json",
+    "inputHashes": {
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\来源绑定与当前文本.json": "535b370464d85894e4c57ce6c92c03b3a74043cd62d07eb0e16abbfd0c9fb378",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\主负责人最终范围与核对说明.md": "a344ecae410f54d1d991f7d12e80c834a3de0819d2af520f7712d56dde1eab56",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\主负责人前两英雄源值核对.md": "5eac276711a78549d2041bfcb5f20a740de824d0a03e200a245afa74c47cc213",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\当前20槽保护快照.json": "82fc907cc6d4ad118dec4a5cadb7b427a5796287257b0e80b8c80e412c77319f",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\公共参数复用清单.json": "d7a7ec99bb8f514923b45d01b7af64d1c379eecfb70b94bb31ebdd3970d88f63",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\输入版本.json": "f8dfeea1c00e056ac7969f5917ecd362178024c71accef19753e0c3786ea1575",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\完整候选.json": "14905a98ad4be773283bb740e7a5a98ff6ce41eeed7014c4428a053c697471ec",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\请求计划.json": "15c841da9bda7dd8b9fc1c4fcb19ec71f97d4a2baec7431a7961dbb21a20c485",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\来源值摘要.json": "eec7f401013775c68f01cbfec843a0d0472d074cc606e822ae88c5ebb8e063df",
+      "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\独立数学报告.json": "f884870fe5b1a4c8b5b9b6159de10e1de129d7faa09b624b0cf7ea36a9523fe0"
+    }
+  },
+  "counts": {
+    "candidateLocal": {
+      "parameters": 120,
+      "formulas": 24,
+      "effects": 30,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "candidateLocalTotal": 174,
+    "planRequests": 174,
+    "reusedPublicParameters": 26,
+    "requiredFieldChecks": {
+      "envelope": 1740,
+      "body": 1260,
+      "effectResult": 300
+    },
+    "requiredFieldFailures": 0,
+    "candidateFailures": 0,
+    "formulaCount": 24,
+    "formulaNodeCount": 190,
+    "runtimeInputCount": 11,
+    "lifecycleEffectCount": 12,
+    "lifecycleResultCount": 12,
+    "persistentResultCount": 12,
+    "dictionaryReferenceCount": 34,
+    "scopeQuestionEffectCount": 5
+  },
+  "requestAudit": {
+    "expectedRequestCount": 174,
+    "actualRequestCount": 174,
+    "requiredEnvelopeFields": [
+      "sequence",
+      "operation",
+      "method",
+      "route",
+      "detailRoute",
+      "skillKey",
+      "kind",
+      "stableKey",
+      "status",
+      "body"
+    ],
+    "requiredBodyFields": {
+      "parameters": [
+        "parameterKey",
+        "name",
+        "valueType",
+        "valueMode",
+        "fixedValue",
+        "levelValues",
+        "description",
+        "sortOrder"
+      ],
+      "formulas": [
+        "formulaKey",
+        "name",
+        "expression",
+        "description",
+        "sortOrder"
+      ],
+      "effects": [
+        "effectKey",
+        "name",
+        "description",
+        "sortOrder",
+        "lifecycle",
+        "results"
+      ]
+    },
+    "requiredEffectResultFields": [
+      "resultKey",
+      "name",
+      "resultType",
+      "target",
+      "description",
+      "sortOrder",
+      "lifecycleBehavior",
+      "spellShieldBlockScope",
+      "valueRule",
+      "detail"
+    ],
+    "fieldCounts": {
+      "envelope": 1740,
+      "body": 1260,
+      "effectResult": 300
+    },
+    "planIdsUnique": true,
+    "candidateAndPlanIdsMatch": true,
+    "failures": []
+  },
+  "candidateAudit": {
+    "orderCount": 20,
+    "orderUnique": true,
+    "maxLevelAgainstProtection": [
+      {
+        "skillKey": "udyr_p",
+        "candidate": 1,
+        "protected": 1,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "candidate": 6,
+        "protected": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "candidate": 6,
+        "protected": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "candidate": 6,
+        "protected": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "candidate": 6,
+        "protected": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_p",
+        "candidate": 1,
+        "protected": 1,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_q",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_w",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "candidate": 3,
+        "protected": 3,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "candidate": 1,
+        "protected": 1,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_w",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_e",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_r",
+        "candidate": 3,
+        "protected": 3,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_p",
+        "candidate": 1,
+        "protected": 1,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_q",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_w",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_e",
+        "candidate": 5,
+        "protected": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_r",
+        "candidate": 3,
+        "protected": 3,
+        "pass": true
+      }
+    ],
+    "counts": {
+      "parameters": 120,
+      "formulas": 24,
+      "effects": 30,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "countsPass": true,
+    "failures": [],
+    "sortOrderChecks": {
+      "total": 204,
+      "pass": 204,
+      "failures": []
+    }
+  },
+  "nodeAudit": {
+    "allowedNodeTypes": [
+      "OPERATION",
+      "PARAMETER",
+      "ATTRIBUTE"
+    ],
+    "allowedOperations": [
+      "ADD",
+      "SUBTRACT",
+      "MULTIPLY",
+      "DIVIDE",
+      "MIN",
+      "MAX"
+    ],
+    "allowedAttributeOwners": [
+      "SOURCE",
+      "TARGET"
+    ],
+    "allowedAttributeValueKinds": [
+      "BASE",
+      "BONUS",
+      "TOTAL",
+      "CURRENT",
+      "MISSING",
+      "CURRENT_RATIO",
+      "MISSING_RATIO"
+    ],
+    "stats": {
+      "totalNodes": 190,
+      "operations": 83,
+      "parameters": 68,
+      "attributes": 39,
+      "maxMinOperations": 0
+    },
+    "formulaReferenceCount": 68,
+    "runtimeFormulaReferenceCount": 9,
+    "failures": []
+  },
+  "levelAudit": {
+    "fullLevelArrayChecks": [
+      {
+        "skillKey": "udyr_q",
+        "parameterKey": "attack_speed_ratio",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "parameterKey": "max_hp_on_hit_ratio",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "parameterKey": "base_damage",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "parameterKey": "on_hit_bonus_hp_ratio",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "parameterKey": "shield_base",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "parameterKey": "shield_hp_ratio",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "parameterKey": "life_steal_ratio",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "parameterKey": "awakened_shield_base_from_skill",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "parameterKey": "target_icd_ms",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "parameterKey": "base_move_speed_ratio",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "parameterKey": "slow_ratio",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "parameterKey": "storm_base_damage",
+        "maxLevel": 6,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "parameterKey": "base_damage",
+        "maxLevel": 5,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "parameterKey": "base_shield",
+        "maxLevel": 5,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "parameterKey": "base_damage",
+        "maxLevel": 3,
+        "keys": [
+          "1",
+          "2",
+          "3"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "parameterKey": "wall_construct_count",
+        "maxLevel": 3,
+        "keys": [
+          "1",
+          "2",
+          "3"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "parameterKey": "damage_per_strike",
+        "maxLevel": 5,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "parameterKey": "bonus_attack_speed_ratio",
+        "maxLevel": 5,
+        "keys": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "pass": true
+      }
+    ],
+    "totalSkillLevelParameters": 18,
+    "pass": 18,
+    "failures": []
+  },
+  "runtimeInputAudit": {
+    "checks": [
+      {
+        "skillKey": "udyr_q",
+        "parameterKey": "lightning_level_ratio_actual",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层按角色等级提供LightningDamageLevel1至18之间的实际值；源曲线未知且无默认。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "parameterKey": "empowered_bonus_as_actual",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层提供EmpoweredBonusASLevel1至18之间的实际值；源曲线未知且无默认。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "parameterKey": "empowered_percent_hp_level_actual",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层提供角色等级额外0.02至0.04比例；源曲线未知且无默认。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "parameterKey": "actual_remaining_two_attack_range_qualification_duration_ms",
+        "valueType": "INTEGER",
+        "pass": true,
+        "description": "本次Q姿态下额外50攻击距离所对应的实际剩余两次攻击资格时长；无默认值，不借用4秒攻速寿命，攻击消耗和姿态离开由事件层处理。"
+      },
+      {
+        "skillKey": "udyr_w",
+        "parameterKey": "awakened_shield_level_actual",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层提供RecastShield在当前角色等级的20至150实际值；中间曲线未知且无默认，允许小数实际输入。"
+      },
+      {
+        "skillKey": "udyr_w",
+        "parameterKey": "actual_remaining_two_attack_qualification_duration_ms",
+        "valueType": "INTEGER",
+        "pass": true,
+        "description": "本次W普通或觉醒下两次攻击资格在当前时刻的实际剩余时长；无默认值，不等同于4秒护盾寿命，攻击消耗和姿态离开由事件层处理。"
+      },
+      {
+        "skillKey": "udyr_e",
+        "parameterKey": "empowered_move_speed_level_actual",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层提供0.30至0.40之间的角色等级实际值；源曲线未知且无默认。"
+      },
+      {
+        "skillKey": "udyr_r",
+        "parameterKey": "pulse_level_actual",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层提供PulseDamage在10至40端点之间的实际角色等级值；源曲线未知且无默认。"
+      },
+      {
+        "skillKey": "udyr_r",
+        "parameterKey": "percent_hp_level_actual_ratio",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层提供PercentHPBlast在0.08至0.14端点之间的实际值；源曲线未知且无默认。"
+      },
+      {
+        "skillKey": "ashe_p",
+        "parameterKey": "slow_ratio_actual",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层提供SlowAmount在0.20至0.30之间的实际值；不猜角色等级曲线。"
+      },
+      {
+        "skillKey": "ashe_p",
+        "parameterKey": "empowered_slow_ratio_actual",
+        "valueType": "DECIMAL",
+        "pass": true,
+        "description": "由运行层提供EmpoweredSlowAmount在0.40至0.60之间的实际值；持续期内衰减由运行层接线。"
+      }
+    ],
+    "count": 11,
+    "allNoDefaultAndDocumented": true,
+    "formulaMissingValueCases": [
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_max_health_physical_damage",
+        "parameterKey": "empowered_percent_hp_level_actual",
+        "nodePath": "skills.udyr_q.formulas.empowered_max_health_physical_damage.expression.operands[0].operands[0].operands[0].operands[1]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_total_attack_speed_ratio",
+        "parameterKey": "empowered_bonus_as_actual",
+        "nodePath": "skills.udyr_q.formulas.empowered_total_attack_speed_ratio.expression.operands[1]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_single_magic_damage",
+        "parameterKey": "lightning_level_ratio_actual",
+        "nodePath": "skills.udyr_q.formulas.empowered_lightning_single_magic_damage.expression.operands[0].operands[0]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_total_magic_damage",
+        "parameterKey": "lightning_level_ratio_actual",
+        "nodePath": "skills.udyr_q.formulas.empowered_lightning_total_magic_damage.expression.operands[0].operands[0]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_shield",
+        "parameterKey": "awakened_shield_level_actual",
+        "nodePath": "skills.udyr_w.formulas.awakened_shield.expression.operands[0].operands[0].operands[0].operands[0]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_total_heal",
+        "parameterKey": "awakened_shield_level_actual",
+        "nodePath": "skills.udyr_w.formulas.awakened_total_heal.expression.operands[0].operands[0].operands[0].operands[0].operands[0]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "empowered_move_speed_ratio",
+        "parameterKey": "empowered_move_speed_level_actual",
+        "nodePath": "skills.udyr_e.formulas.empowered_move_speed_ratio.expression.operands[0]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "pulse_damage",
+        "parameterKey": "pulse_level_actual",
+        "nodePath": "skills.udyr_r.formulas.pulse_damage.expression.operands[0]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "empowered_percent_hp_damage",
+        "parameterKey": "percent_hp_level_actual_ratio",
+        "nodePath": "skills.udyr_r.formulas.empowered_percent_hp_damage.expression.operands[0].operands[0]",
+        "missingValueRejected": true,
+        "evidence": "公式取值器在缺少RUNTIME_INPUT时拒绝；候选不提供默认fixedValue或levelValues。"
+      }
+    ],
+    "lifecycleRuntimeDurationRefs": 3,
+    "policy": "RUNTIME_INPUT只保留类型与说明；实际输入缺失时拒绝，不用0、等级端点或固定时长补值。"
+  },
+  "lifecycleAudit": {
+    "stats": {
+      "effects": 12,
+      "results": 12,
+      "persistentResults": 12,
+      "durationRefs": 12,
+      "runtimeDurationRefs": 3
+    },
+    "valueReferenceStats": {
+      "rules": 30,
+      "formulaRefs": 18,
+      "parameterRefs": 24,
+      "fixedValues": 24
+    },
+    "lifecycleFailureCount": 0,
+    "failures": [],
+    "policy": "父效果有生命周期时每个结果必须有合法lifecycleBehavior；父效果无生命周期时结果行为必须为null；持续结果不使用非空法术护盾范围，除状态施加窄例外。"
+  },
+  "resultAudit": {
+    "valueRuleFailures": [],
+    "protocolFailures": [],
+    "dictionaryRefs": [
+      {
+        "path": "skills.udyr_p.effects.attack_speed_buff.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_p.effects.attack_speed_buff.results.attribute.detail.attributeKey",
+        "key": "bonus_attack_speed_percent",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.standard_attack_speed.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.standard_attack_speed.results.attribute.detail.attributeKey",
+        "key": "bonus_attack_speed_percent",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.standard_on_hit.results.damage.detail.damageTypeKey",
+        "key": "physics",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.standard_max_health_hit.results.damage.detail.damageTypeKey",
+        "key": "physics",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.empowered_attack_speed.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.empowered_attack_speed.results.attribute.detail.attributeKey",
+        "key": "bonus_attack_speed_percent",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.empowered_max_health_hit.results.damage.detail.damageTypeKey",
+        "key": "physics",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.empowered_lightning.results.damage.detail.damageTypeKey",
+        "key": "magic",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.attack_range.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.attack_range.results.attribute.detail.attributeKey",
+        "key": "attack_range",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_q.effects.mana_cost.results.consume_mana.detail.attributeKey",
+        "key": "mana",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_w.effects.normal_life_steal.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_w.effects.normal_life_steal.results.attribute.detail.attributeKey",
+        "key": "life_steal_percent",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_w.effects.awakened_life_steal.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_w.effects.awakened_life_steal.results.attribute.detail.attributeKey",
+        "key": "life_steal_percent",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_w.effects.mana_cost.results.consume_mana.detail.attributeKey",
+        "key": "mana",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_e.effects.base_move_speed.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_e.effects.base_move_speed.results.attribute.detail.attributeKey",
+        "key": "move_speed_percent",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_e.effects.empowered_move_speed.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_e.effects.empowered_move_speed.results.attribute.detail.attributeKey",
+        "key": "move_speed_percent",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_e.effects.mana_cost.results.consume_mana.detail.attributeKey",
+        "key": "mana",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_r.effects.storm_damage.results.damage.detail.damageTypeKey",
+        "key": "magic",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_r.effects.pulse_damage.results.damage.detail.damageTypeKey",
+        "key": "magic",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.udyr_r.effects.mana_cost.results.consume_mana.detail.attributeKey",
+        "key": "mana",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.azir_e.effects.dash_damage.results.damage.detail.damageTypeKey",
+        "key": "magic",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.azir_e.effects.mana_cost.results.consume_mana.detail.attributeKey",
+        "key": "mana",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.azir_r.effects.charge_damage.results.damage.detail.damageTypeKey",
+        "key": "magic",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.azir_r.effects.mana_cost.results.consume_mana.detail.attributeKey",
+        "key": "mana",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.ashe_q.effects.empowered_attack.results.damage.detail.damageTypeKey",
+        "key": "physics",
+        "dictionary": "damage-types",
+        "pass": true
+      },
+      {
+        "path": "skills.ashe_q.effects.attack_speed_buff.results.attribute.detail.modifierZoneKey",
+        "key": "attribute_flat_add",
+        "dictionary": "modifier-zones",
+        "pass": true
+      },
+      {
+        "path": "skills.ashe_q.effects.attack_speed_buff.results.attribute.detail.attributeKey",
+        "key": "bonus_attack_speed_percent",
+        "dictionary": "attributes",
+        "pass": true
+      },
+      {
+        "path": "skills.ashe_q.effects.mana_cost.results.consume_mana.detail.attributeKey",
+        "key": "mana",
+        "dictionary": "attributes",
+        "pass": true
+      }
+    ],
+    "dictionaries": {
+      "damageTypes": [
+        "physics",
+        "real",
+        "magic"
+      ],
+      "modifierZones": [
+        "attribute_percent_bonus",
+        "attribute_flat_add",
+        "item_3071_armor_reduction",
+        "item_8010_magic_resistance_reduction"
+      ],
+      "statuses": [],
+      "attributesCount": 28
+    },
+    "allNonNullDictionaryRefsPass": true,
+    "allSpellShieldShapeChecksPass": true
+  },
+  "sourceSelectionAudit": {
+    "checks": [
+      {
+        "skillKey": "udyr_p",
+        "kind": "parameters",
+        "candidateCount": 11,
+        "sourceCount": 11,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_p",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_p",
+        "kind": "effects",
+        "candidateCount": 1,
+        "sourceCount": 1,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "kind": "parameters",
+        "candidateCount": 28,
+        "sourceCount": 28,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "kind": "formulas",
+        "candidateCount": 7,
+        "sourceCount": 7,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "kind": "effects",
+        "candidateCount": 8,
+        "sourceCount": 8,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "kind": "parameters",
+        "candidateCount": 20,
+        "sourceCount": 20,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "kind": "formulas",
+        "candidateCount": 6,
+        "sourceCount": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "kind": "effects",
+        "candidateCount": 7,
+        "sourceCount": 7,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "kind": "parameters",
+        "candidateCount": 12,
+        "sourceCount": 12,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "kind": "formulas",
+        "candidateCount": 2,
+        "sourceCount": 2,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "kind": "effects",
+        "candidateCount": 3,
+        "sourceCount": 3,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "kind": "parameters",
+        "candidateCount": 18,
+        "sourceCount": 18,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "kind": "formulas",
+        "candidateCount": 3,
+        "sourceCount": 3,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "kind": "effects",
+        "candidateCount": 3,
+        "sourceCount": 3,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_p",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_p",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_p",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_q",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_q",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_q",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_w",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_w",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_w",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "kind": "parameters",
+        "candidateCount": 8,
+        "sourceCount": 8,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "kind": "formulas",
+        "candidateCount": 2,
+        "sourceCount": 2,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "kind": "effects",
+        "candidateCount": 3,
+        "sourceCount": 3,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "kind": "parameters",
+        "candidateCount": 6,
+        "sourceCount": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "kind": "formulas",
+        "candidateCount": 1,
+        "sourceCount": 1,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "kind": "effects",
+        "candidateCount": 2,
+        "sourceCount": 2,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "kind": "parameters",
+        "candidateCount": 10,
+        "sourceCount": 10,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "kind": "formulas",
+        "candidateCount": 2,
+        "sourceCount": 2,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "kind": "parameters",
+        "candidateCount": 7,
+        "sourceCount": 7,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "kind": "formulas",
+        "candidateCount": 1,
+        "sourceCount": 1,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "kind": "effects",
+        "candidateCount": 3,
+        "sourceCount": 3,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_w",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_w",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_w",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_e",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_e",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_e",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_r",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_r",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_r",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_p",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_p",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_p",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_q",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_q",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_q",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_w",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_w",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_w",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_e",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_e",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_e",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_r",
+        "kind": "parameters",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_r",
+        "kind": "formulas",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      },
+      {
+        "skillKey": "ez_r",
+        "kind": "effects",
+        "candidateCount": 0,
+        "sourceCount": 0,
+        "pass": true
+      }
+    ],
+    "failures": [],
+    "allSelectedKeysMatch": true,
+    "formulaTreeEvidence": [
+      {
+        "skillKey": "udyr_q",
+        "selectedFormulaCount": 7,
+        "rawCalculationCount": 13,
+        "rawDataValueCount": 17,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "selectedFormulaCount": 6,
+        "rawCalculationCount": 10,
+        "rawDataValueCount": 10,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "selectedFormulaCount": 2,
+        "rawCalculationCount": 3,
+        "rawDataValueCount": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "selectedFormulaCount": 3,
+        "rawCalculationCount": 8,
+        "rawDataValueCount": 5,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "selectedFormulaCount": 2,
+        "rawCalculationCount": 2,
+        "rawDataValueCount": 7,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "selectedFormulaCount": 1,
+        "rawCalculationCount": 1,
+        "rawDataValueCount": 3,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "selectedFormulaCount": 2,
+        "rawCalculationCount": 4,
+        "rawDataValueCount": 1,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "selectedFormulaCount": 1,
+        "rawCalculationCount": 1,
+        "rawDataValueCount": 8,
+        "pass": true
+      }
+    ],
+    "note": "候选每槽的selectedParameterKeys/selectedFormulaKeys/selectedEffectKeys与来源值摘要逐项比对；公式数学期望仍以固定源树直接读取的已落盘独立数学报告为源侧证据。"
+  },
+  "spellShieldScopeAudit": {
+    "scopeEffects": [
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_on_hit",
+        "resultKey": "damage",
+        "formulaKey": "on_hit_physical_damage",
+        "sourceCalculation": "OnHitDamage",
+        "sourceTreeParts": [
+          {
+            "mDataValue": "BaseDamage",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mCoefficient": 0.20000000298023224,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          {
+            "mStat": 12,
+            "mStatFormula": 2,
+            "mDataValue": "OnHitBonusHPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "deliveryKind": "BASIC_ATTACK",
+        "damageTypeKey": "physics",
+        "candidateSpellShieldBlockScope": "RESULT",
+        "sourcePointers": [
+          {
+            "pointer": "/sourceValues/udyr_q/currentText/keySummary/text",
+            "present": true,
+            "text": "乌迪尔获得攻击速度加成并且他的下两次攻击造成额外的物理伤害。再次施放：获得更多攻击速度加成，并且下两次攻击会召唤闪电打击目标。"
+          },
+          {
+            "pointer": "/sourceValues/udyr_q/currentText/keyTooltip/text",
+            "present": true,
+            "text": "<spellActive>爪击姿态：</spellActive>乌迪尔获得<attackSpeed>@AttackSpeedBase*100@%攻击速度</attackSpeed>并且他攻击造成<physicalDamage>@OnHitDamage@物理伤害</physicalDamage> {{ Item_Keyword_OnHit }}，持续@AttackSpeedDurationBase@秒。此外，乌迪尔在这个姿态中的下两次攻击造成额外的<physicalDamage>@MaxHPOnHit1@最大生命值的物理伤害</physicalDamage>并获得@AttackRange@距离。"
+          },
+          {
+            "pointer": "/sourceValues/udyr_q/rawCalculations/OnHitDamage",
+            "present": true,
+            "text": null
+          }
+        ],
+        "sourceExcerpt": "正文说明下两次攻击造成额外物理伤害，Tooltip以OnHitDamage绑定该数值；固定摘要无spellShieldBlockScope字段。",
+        "sourceContainsSpellShieldScope": false,
+        "templateEvidence": "初版生成候选.mjs:196-199的通用damageEffect为所有DAMAGE结果写入spellShieldBlockScope:\"RESULT\"，不读取源树字段。",
+        "sourceSupportVerdict": "固定源文本、DataValues和计算树没有护盾范围字段",
+        "verdict": "候选结构合法，但该RESULT是候选模板默认/录入选择，不能当作这五个效果的游戏来源事实。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_max_health_hit",
+        "resultKey": "damage",
+        "formulaKey": "standard_max_health_physical_damage",
+        "sourceCalculation": "MaxHPOnHit1",
+        "sourceTreeParts": [
+          {
+            "mDataValue": "MaxHPOnHitBase",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "MaxHPADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "deliveryKind": "BASIC_ATTACK",
+        "damageTypeKey": "physics",
+        "candidateSpellShieldBlockScope": "RESULT",
+        "sourcePointers": [
+          {
+            "pointer": "/sourceValues/udyr_q/currentText/keyTooltip/text",
+            "present": true,
+            "text": "<spellActive>爪击姿态：</spellActive>乌迪尔获得<attackSpeed>@AttackSpeedBase*100@%攻击速度</attackSpeed>并且他攻击造成<physicalDamage>@OnHitDamage@物理伤害</physicalDamage> {{ Item_Keyword_OnHit }}，持续@AttackSpeedDurationBase@秒。此外，乌迪尔在这个姿态中的下两次攻击造成额外的<physicalDamage>@MaxHPOnHit1@最大生命值的物理伤害</physicalDamage>并获得@AttackRange@距离。"
+          },
+          {
+            "pointer": "/sourceValues/udyr_q/rawCalculations/MaxHPOnHit1",
+            "present": true,
+            "text": null
+          }
+        ],
+        "sourceExcerpt": "Tooltip说明下两次攻击造成额外最大生命值物理伤害，固定摘要无spellShieldBlockScope字段。",
+        "sourceContainsSpellShieldScope": false,
+        "templateEvidence": "初版生成候选.mjs:196-199的通用damageEffect为所有DAMAGE结果写入spellShieldBlockScope:\"RESULT\"，不读取源树字段。",
+        "sourceSupportVerdict": "固定源文本、DataValues和计算树没有护盾范围字段",
+        "verdict": "候选结构合法，但该RESULT是候选模板默认/录入选择，不能当作这五个效果的游戏来源事实。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_max_health_hit",
+        "resultKey": "damage",
+        "formulaKey": "empowered_max_health_physical_damage",
+        "sourceCalculation": "Q2TotalOnHitHPDamage",
+        "sourceTreeParts": [
+          {
+            "mDataValue": "MaxHPOnHitBase",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mStartValue": 0.019999999552965164,
+            "mEndValue": 0.03999999910593033,
+            "__type": "ByCharLevelInterpolationCalculationPart"
+          },
+          {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "Q2MaxHPADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          {
+            "mStat": 12,
+            "mStatFormula": 2,
+            "mCoefficient": 0.000009999999747378752,
+            "__type": "StatByCoefficientCalculationPart"
+          }
+        ],
+        "deliveryKind": "BASIC_ATTACK",
+        "damageTypeKey": "physics",
+        "candidateSpellShieldBlockScope": "RESULT",
+        "sourcePointers": [
+          {
+            "pointer": "/sourceValues/udyr_q/currentText/keyTooltip/text",
+            "present": true,
+            "text": "<spellActive>爪击姿态：</spellActive>乌迪尔获得<attackSpeed>@AttackSpeedBase*100@%攻击速度</attackSpeed>并且他攻击造成<physicalDamage>@OnHitDamage@物理伤害</physicalDamage> {{ Item_Keyword_OnHit }}，持续@AttackSpeedDurationBase@秒。此外，乌迪尔在这个姿态中的下两次攻击造成额外的<physicalDamage>@MaxHPOnHit1@最大生命值的物理伤害</physicalDamage>并获得@AttackRange@距离。"
+          },
+          {
+            "pointer": "/sourceValues/udyr_q/rawCalculations/Q2TotalOnHitHPDamage",
+            "present": true,
+            "text": null
+          }
+        ],
+        "sourceExcerpt": "Tooltip说明觉醒时下两次攻击改用Q2TotalOnHitHPDamage，固定摘要无spellShieldBlockScope字段。",
+        "sourceContainsSpellShieldScope": false,
+        "templateEvidence": "初版生成候选.mjs:196-199的通用damageEffect为所有DAMAGE结果写入spellShieldBlockScope:\"RESULT\"，不读取源树字段。",
+        "sourceSupportVerdict": "固定源文本、DataValues和计算树没有护盾范围字段",
+        "verdict": "候选结构合法，但该RESULT是候选模板默认/录入选择，不能当作这五个效果的游戏来源事实。"
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "pulse_damage",
+        "resultKey": "damage",
+        "formulaKey": "pulse_damage",
+        "sourceCalculation": "PulseDamage",
+        "sourceTreeParts": [
+          {
+            "mStartValue": 10,
+            "mEndValue": 40,
+            "__type": "ByCharLevelInterpolationCalculationPart"
+          },
+          {
+            "mCoefficient": 0.3499999940395355,
+            "__type": "StatByCoefficientCalculationPart"
+          }
+        ],
+        "deliveryKind": "BASIC_ATTACK",
+        "damageTypeKey": "magic",
+        "candidateSpellShieldBlockScope": "RESULT",
+        "sourcePointers": [
+          {
+            "pointer": "/sourceValues/udyr_r/currentText/keyTooltip/text",
+            "present": true,
+            "text": "<spellActive>飓风姿态：</spellActive>乌迪尔召唤冰川风暴环绕自身@BuffDuration@秒，每秒对附近的敌人造成<magicDamage>@StormDamage@魔法伤害</magicDamage>，并对这些敌人造成@SlowPotency*100@%<status>减速</status>。此外，乌迪尔在这个姿态中的下两次攻击对风暴中的敌人造成<magicDamage>@PulseDamage@魔法伤害</magicDamage>。<br><br><keywordMajor>觉醒：</keywordMajor>释放风暴，使它跟随乌迪尔最后攻击的那名敌人，在持续期"
+          },
+          {
+            "pointer": "/sourceValues/udyr_r/rawCalculations/PulseDamage",
+            "present": true,
+            "text": null
+          }
+        ],
+        "sourceExcerpt": "Tooltip说明风暴中的下两次攻击造成PulseDamage魔法伤害，固定摘要无spellShieldBlockScope字段。",
+        "sourceContainsSpellShieldScope": false,
+        "templateEvidence": "初版生成候选.mjs:196-199的通用damageEffect为所有DAMAGE结果写入spellShieldBlockScope:\"RESULT\"，不读取源树字段。",
+        "sourceSupportVerdict": "固定源文本、DataValues和计算树没有护盾范围字段",
+        "verdict": "候选结构合法，但该RESULT是候选模板默认/录入选择，不能当作这五个效果的游戏来源事实。"
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "empowered_attack",
+        "resultKey": "damage",
+        "formulaKey": "empowered_attack_damage",
+        "sourceCalculation": "EmpoweredDamage",
+        "sourceTreeParts": [
+          {
+            "mStat": 2,
+            "mDataValue": "DamagePerStrike",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "deliveryKind": "BASIC_ATTACK",
+        "damageTypeKey": "physics",
+        "candidateSpellShieldBlockScope": "RESULT",
+        "sourcePointers": [
+          {
+            "pointer": "/sourceValues/ashe_q/currentText/keySummary/text",
+            "present": true,
+            "text": "艾希会在攻击时聚集【全神贯注】效果。在【全神贯注】到达最大值时，艾希就能施放【射手的专注】来消耗掉所有【全神贯注】效果，以临时提升她的攻击速度，并在持续期间将她的普攻转变为一阵强力的飓风箭阵。"
+          },
+          {
+            "pointer": "/sourceValues/ashe_q/currentText/keyTooltip/text",
+            "present": true,
+            "text": "<spellPassive>被动：</spellPassive>艾希的攻击提供一层持续@StackDuration@秒的效果。在@MaxStacks@层时，她就可以激活这个技能。<br><br><spellPassive>主动：</spellPassive>艾希获得<attackSpeed>@BonusAS@%攻击速度</attackSpeed>并且她的攻击转而造成<physicalDamage>@EmpoweredDamage@伤害</physicalDamage>，持续@BuffDuration@秒。"
+          },
+          {
+            "pointer": "/sourceValues/ashe_q/currentText/keyTooltipExtendedBelowLine/text",
+            "present": true,
+            "text": "<rules>每次强化版攻击由5次小型打击组成。每次攻击只会施加1次攻击特效。</rules>"
+          },
+          {
+            "pointer": "/sourceValues/ashe_q/rawCalculations/EmpoweredDamage",
+            "present": true,
+            "text": null
+          }
+        ],
+        "sourceExcerpt": "摘要和Tooltip说明普攻转为强化攻击，扩展说明每次强化攻击由5次小打击组成且每次只施加一次攻击特效，固定摘要无spellShieldBlockScope字段。",
+        "sourceContainsSpellShieldScope": false,
+        "templateEvidence": "初版生成候选.mjs:196-199的通用damageEffect为所有DAMAGE结果写入spellShieldBlockScope:\"RESULT\"，不读取源树字段。",
+        "sourceSupportVerdict": "固定源文本、DataValues和计算树没有护盾范围字段",
+        "verdict": "候选结构合法，但该RESULT是候选模板默认/录入选择，不能当作这五个效果的游戏来源事实。"
+      }
+    ],
+    "localConsumerEvidence": [
+      {
+        "subject": "艾希Q强化普攻",
+        "file": "C:/project/damage_viewer_project_planning/数据参考/lol-wiki-current-champions/raw/ashe-q.wikitext",
+        "lines": "8-12,17-26,31-35",
+        "lastWriteTimeUtc": "2026-07-17T15:24:47.6948216Z",
+        "gameVersionBoundary": "本地原始资料快照未标注客户端版本；候选固定源是16.17/16.17.1，因此只作本地机制交叉证据。",
+        "excerpts": [
+          "|description2 = ... empowers her basic attacks to fire a flurry of five arrows ... modified physical damage ... apply on-hit effects only once.",
+          "|spellshield  = false",
+          "|spelleffects = special",
+          "The flurries deal 1 instance of basic damage followed by 4 instances of a non-reactive type of damage.",
+          "The flurries are classified as a basic attack on a script level, but are considered an ability for other effects."
+        ],
+        "interpretation": "原始记录直接声明spellshield=false，并同时声明特殊分段、首段基础伤害、后四段非反应伤害和每次只施加一次攻击特效；它支持艾希Q不是法术护盾阻挡结果，但不把五段细分自动等同为一个当前聚合结果。"
+      },
+      {
+        "subject": "艾希Q运行消费者",
+        "file": "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/internal/runtime/generic_ashe_rangers_focus_test.go",
+        "lines": "20-29,689-716,821-862",
+        "lastWriteTimeUtc": "2026-07-26T10:14:46.4455952Z",
+        "gameVersionBoundary": "仓库运行测试是局部机制消费者，不是16.17实战或法术护盾执行证明。",
+        "excerpts": [
+          "Flurry first AA: 6×28% total AD; subsequent: 5×28%; one basic_attack_hit per flurry AA (on-hit once).",
+          "Two flurry AAs → exactly two basic_attack_hit events (on-hit once each).",
+          "basic_attack types=[ability/basic_attack]; flurry arrow CritEligible=false; damageType=damage/physical."
+        ],
+        "interpretation": "消费者确认BASIC_ATTACK载体、五段箭的伤害拆分和每次强化攻击一次攻击特效；代码没有法术护盾范围字段，不能单独证明RESULT。"
+      },
+      {
+        "subject": "原始Wiki机制盘点规则",
+        "file": "C:/project/damage_viewer_project_planning/文档记录/需求澄清/项目/效果与状态本地Wiki机制盘点.md",
+        "lines": "45-53,73-82",
+        "excerpts": [
+          "第二轮扫描完整原文和备注，用于发现法术护盾阻挡粒度。",
+          "自动扫描只用于发现候选；代表性机制必须回到原始记录逐条核对。",
+          "原始Wiki的英文标签和值不能直接作为页面术语、数据库字段或固定枚举。",
+          "spellshield原始值包含true、special、false和空值，special至少要求区分阻挡整个技能、效果项、一次伤害或其他联动。"
+        ],
+        "interpretation": "项目规则要求把原始spellshield字段作为逐条发现线索，不能以BASIC_ATTACK或通用候选模板替代逐效果证明。"
+      }
+    ],
+    "externalResearch": {
+      "researchedAt": "2026-09-10",
+      "purpose": "补查五个BASIC_ATTACK伤害结果的法术护盾范围；未改候选、输入或业务代码。",
+      "versionBoundary": "外部公开页是当前Wiki页面/抓取结果，未声明客户端16.17或16.17.1；固定候选仍以16.17/16.17.1源绑定为准。公开资料只用于交叉验证，不能覆盖固定源值。",
+      "sources": [
+        {
+          "title": "Template:Data Ashe/Ranger's Focus",
+          "url": "https://wiki.leagueoflegends.com/en-us/Template%3AData_Ashe/Ranger%27s_Focus",
+          "access": "搜索结果可读取，直接页面访问受robots限制；抓取标记为1.2年前。",
+          "excerpts": [
+            "Counters Spell shield — Not Blocked",
+            "Each arrow deals modified physical damage ... Flurries apply on-hit effects only once.",
+            "The first bolt deals basic damage; the subsequent four bolts use a non-reactive damage type."
+          ],
+          "use": "与本地艾希Q原始记录的spellshield=false、特殊五箭和一次攻击特效相互印证；由于页面不是16.17版本快照，保留版本边界。"
+        },
+        {
+          "title": "Template:Data Udyr/Bridge Between",
+          "url": "https://wiki.leagueoflegends.com/en-us/Template%3AData_Udyr/Bridge_Between",
+          "access": "搜索结果可读取，抓取标记为1.2年前。",
+          "excerpts": [
+            "Only Wilding Claw's lightning damage is amplified. The on-hit damage is not increased.",
+            "The returned template parameter table shows spellshield with no value for Bridge Between."
+          ],
+          "use": "页面说明了乌迪尔觉醒雷电与附伤是不同伤害组成，但没有给出乌迪尔Q三个附伤或R普攻脉冲的spell shield阻挡粒度；空参数不能推导null或RESULT。"
+        },
+        {
+          "title": "Template:Data Udyr/Wilding Claw",
+          "url": "https://wiki.leagueoflegends.com/en-us/Template%3AData_Udyr/Wilding_Claw",
+          "access": "直接页面访问受robots限制；未取得可核对的spellshield字段或正文。",
+          "excerpts": [],
+          "use": "记录为未取得证据，不能把访问受限当作无护盾交互。"
+        },
+        {
+          "title": "Template:Data Udyr/Wingborne Storm",
+          "url": "https://wiki.leagueoflegends.com/en-us/Template%3AData_Udyr/Wingborne_Storm",
+          "access": "直接页面访问受robots限制；未取得可核对的spellshield字段或正文。",
+          "excerpts": [],
+          "use": "记录为未取得证据，不能把访问受限当作无护盾交互。"
+        }
+      ]
+    },
+    "scopeResolution": [
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_on_hit",
+        "resultKey": "damage",
+        "currentScope": "RESULT",
+        "sourceEvidenceLevel": "insufficient",
+        "recommendedScope": null,
+        "recommendationKind": "hold_without_scope_value",
+        "decision": "unresolved",
+        "evidence": [
+          "固定16.17/16.17.1来源值、DataValues和OnHitDamage计算树没有spellshield字段。",
+          "本地仓库没有该效果的法术护盾消费者或交互约定。",
+          "公开乌迪尔Bridge Between页只区分雷电与on-hit组成，没有给出该结果的阻挡粒度。"
+        ],
+        "action": "不把RESULT视为已证，也不把null视为已证；若本轮必须保存，按标准流程暂撤该效果，保留确定的参数、公式和来源值，待同版本逐效果来源或业务确认。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_max_health_hit",
+        "resultKey": "damage",
+        "currentScope": "RESULT",
+        "sourceEvidenceLevel": "insufficient",
+        "recommendedScope": null,
+        "recommendationKind": "hold_without_scope_value",
+        "decision": "unresolved",
+        "evidence": [
+          "固定来源只证明普通两次攻击的最大生命附伤计算；没有护盾范围字段。",
+          "本地运行消费者和交互资料没有该结果的独立spell shield事实。",
+          "公开乌迪尔资料没有该细粒度结论。"
+        ],
+        "action": "暂不改候选；保存前撤出未确认的效果或补同版本逐效果证据。"
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_max_health_hit",
+        "resultKey": "damage",
+        "currentScope": "RESULT",
+        "sourceEvidenceLevel": "insufficient",
+        "recommendedScope": null,
+        "recommendationKind": "hold_without_scope_value",
+        "decision": "unresolved",
+        "evidence": [
+          "固定来源只证明觉醒两次攻击使用Q2TotalOnHitHPDamage；没有护盾范围字段。",
+          "Bridge Between页提到觉醒伤害特殊处理，但没有该附伤的阻挡粒度。",
+          "不能把觉醒或BASIC_ATTACK标签推成RESULT。"
+        ],
+        "action": "暂不改候选；保存前撤出未确认的效果或补同版本逐效果证据。"
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "pulse_damage",
+        "resultKey": "damage",
+        "currentScope": "RESULT",
+        "sourceEvidenceLevel": "insufficient",
+        "recommendedScope": null,
+        "recommendationKind": "hold_without_scope_value",
+        "decision": "unresolved",
+        "evidence": [
+          "固定PulseDamage树和文本说明普攻脉冲魔法伤害，但没有spellshield字段。",
+          "公开Wingborne Storm页面无法取得；Bridge Between只说明觉醒风暴伤害的特殊触发，没有阻挡粒度。",
+          "BASIC_ATTACK载体不等于法术护盾RESULT范围。"
+        ],
+        "action": "暂不改候选；保存前撤出未确认的效果或补同版本逐效果证据。"
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "empowered_attack",
+        "resultKey": "damage",
+        "currentScope": "RESULT",
+        "sourceEvidenceLevel": "strong_external_and_local",
+        "recommendedScope": null,
+        "recommendationKind": "null",
+        "decision": "recommended_null",
+        "evidence": [
+          "本地原始艾希Q记录第20行明确spellshield=false；第25-26行说明五箭由首段基础伤害和后四段非反应伤害构成。",
+          "本地运行消费者确认每次强化普攻只发一个basic_attack_hit，且五箭是物理伤害拆分。",
+          "League Wiki公开模板把Ranger's Focus的Counters Spell shield显示为Not Blocked，并说明on-hit effects only once。"
+        ],
+        "caveat": "候选把五段伤害聚合成一个DAMAGE结果，而原始机制含五个伤害实例且spelleffects=special；null是当前聚合映射的最小风险建议，不代表已完成五段独立结果建模。",
+        "action": "不修改当前冻结候选；若根负责人接受外部交叉证据，保存前可将该结果的范围改为null，或先按标准流程撤出聚合效果并保留参数、公式和来源值。"
+      }
+    ],
+    "scopeQuestionConclusion": {
+      "resolved": [
+        "ashe_q/empowered_attack"
+      ],
+      "unresolved": [
+        "udyr_q/standard_on_hit",
+        "udyr_q/standard_max_health_hit",
+        "udyr_q/empowered_max_health_hit",
+        "udyr_r/pulse_damage"
+      ],
+      "conclusion": "补查后只有艾希Q获得了本地原始字段与公开Wiki显示一致的Not Blocked证据，当前聚合结果建议null；四个乌迪尔BASIC_ATTACK伤害结果仍无逐效果护盾事实，既不能保留RESULT为已证，也不能把null当作已证。候选保持不变，按录入标准在保存前对四个未确认效果暂撤或补证。",
+      "noCandidateChange": true,
+      "noApiCalls": true,
+      "noDatabaseAccess": true,
+      "noBrowserAccess": true,
+      "noGitWrites": true
+    },
+    "candidateNonNullScopeCount": 9,
+    "relevantNonNullScopeCount": 5,
+    "existingPrecedent": [
+      {
+        "route": "/skills/ez_q/effects/primary_hit",
+        "result": "physical_damage",
+        "scope": "RESULT",
+        "source": "固定保护快照中的已保存伊泽瑞尔Q结果"
+      },
+      {
+        "route": "/skills/ez_e/effects/primary_hit",
+        "result": "magic_damage",
+        "scope": "RESULT",
+        "source": "固定保护快照中的已保存伊泽瑞尔E结果"
+      },
+      {
+        "route": "/skills/ez_r/effects/champion_hit",
+        "result": "magic_damage",
+        "scope": "RESULT",
+        "source": "固定保护快照中的已保存伊泽瑞尔R英雄结果"
+      },
+      {
+        "route": "/skills/ez_r/effects/minion_monster_hit",
+        "result": "magic_damage",
+        "scope": "RESULT",
+        "source": "固定保护快照中的已保存伊泽瑞尔R小兵野怪结果"
+      }
+    ],
+    "existingPrecedentLimitation": "以上是固定保护快照中伊泽瑞尔既有保存对象的具体证据；标准流程和艾希Q综合案例没有把该值规定为所有英雄普攻伤害的通用默认，不能直接外推给乌迪尔或艾希。",
+    "conclusion": "补查后，艾希Q获得本地原始spellshield=false和公开Wiki Not Blocked的交叉证据，当前聚合结果建议null；乌迪尔Q三个附伤和乌迪尔R普攻脉冲仍没有逐效果护盾范围来源，RESULT属于模板默认/业务选择，null也未被证实。五个结果均保持候选原值不变。",
+    "minimalRemediation": [
+      "保留五个效果已有的确定伤害公式、伤害类型、BASIC_ATTACK传递和DIRECT来源；只对spellShieldBlockScope逐效果补同版本来源或明确业务确认。",
+      "四个乌迪尔结果补证前按标准流程从正常保存集合撤出，参数、公式和源值证据仍可保留；不要用null或另一个合法范围掩盖未知。艾希Q若接受Not Blocked证据，可把聚合结果改为null，或先拆分五段结果。",
+      "若根负责人确认某个乌迪尔结果应按当前命中结果参与法术护盾，再保留RESULT并记录确认来源；这只是录入契约决定，不是本审计从BASIC_ATTACK标签推导出的事实。"
+    ],
+    "outsideQuestion": "其它四个SKILL+RESULT伤害结果不属于本次普攻/on-hit窄问题；其结构检查仍已纳入resultAudit。"
+  },
+  "mathEvidence": {
+    "existingMathReportSha256": "f884870fe5b1a4c8b5b9b6159de10e1de129d7faa09b624b0cf7ea36a9523fe0",
+    "status": "PASS",
+    "formulaScenarioCount": 48,
+    "formulaCount": 24,
+    "formulaTwoScenarioPass": true,
+    "formulaMissingReferenceCases": 24,
+    "runtimeMissingCases": 9,
+    "runtimeMissingRejected": true,
+    "effectFinalValueCount": 60,
+    "sourceArrayChecks": 50,
+    "sourceArrayPass": 50,
+    "integerParameterCount": 57,
+    "integerValueCount": 92,
+    "dictionaryRefChecks": 18,
+    "attributeRefChecks": 39,
+    "ratioAttributeChecks": 8,
+    "note": "本审计未执行会写候选/耐久目录的原数学脚本；以上是已落盘数学报告的源值核算证据，候选结构、源选择键和类型引用由本脚本重新读取。"
+  },
+  "contractEvidence": {
+    "shieldDesign": [
+      {
+        "file": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/法术护盾闭环详细设计.md",
+        "lines": "118-145",
+        "point": "非空只允许四个范围；DAMAGE且TARGET且非持续可用四种；null不表示保证；请求必须显式提交且不依赖默认。"
+      },
+      {
+        "file": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/法术护盾闭环详细设计.md",
+        "lines": "186-199",
+        "point": "合法非空结果只表示未来可能形成阻挡边，当前阶段不以此推导真实阻挡执行。"
+      }
+    ],
+    "standardFlow": [
+      {
+        "file": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+        "lines": "233-247",
+        "point": "阻挡范围须由业务逐结果显式选择；资格未确认时保留确定参数并撤出效果，不能用null或合法选项填未知；伊泽瑞尔示例是具体样例。"
+      }
+    ],
+    "asheAcceptance": [
+      {
+        "file": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/特殊交互与前序结果联动管理详细设计.md",
+        "lines": "605-617",
+        "point": "艾希Q明确BASIC_ATTACK+DIRECT、五次伤害和攻击特效；伊泽瑞尔Q的RESULT是具体样例，没有把RESULT规定为所有普攻伤害的通用来源事实。"
+      }
+    ],
+    "frontendContract": [
+      {
+        "file": "C:\\project\\damage_web_dev/web/src/services/skillEffectClient.ts",
+        "lines": "169-212",
+        "point": "前端枚举与结构资格校验。"
+      },
+      {
+        "file": "C:\\project\\damage_web_dev/web/src/pages/admin/skills/effects/effectForm.ts",
+        "lines": "1459-1493,2161-2169",
+        "point": "界面按target、时点和结果类型列出可选范围，合法值仍不等于源值证明。"
+      }
+    ],
+    "backendContract": [
+      {
+        "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResultRequestDeserializer.java",
+        "lines": "22-60",
+        "point": "后端要求字段存在并反序列化合法枚举，允许null。"
+      },
+      {
+        "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+        "lines": "539-570",
+        "point": "后端校验结果资格和DAMAGE_INSTANCE约束，只证明可保存的形状。"
+      },
+      {
+        "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+        "lines": "781-858",
+        "point": "后端校验DAMAGE字典、传递、来源、暴击和吸血字段，只证明协议合法。"
+      }
+    ]
+  },
+  "knownFixedRevisionItems": "本审计不重复判定主负责人已指出并在修订一修复的八项业务数值；仅以当前候选文件重新检查结构、引用和范围字段，未改候选。"
+}

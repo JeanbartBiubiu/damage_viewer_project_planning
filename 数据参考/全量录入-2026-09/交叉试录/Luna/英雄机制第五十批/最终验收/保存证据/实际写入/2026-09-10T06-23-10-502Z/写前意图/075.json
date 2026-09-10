@@ -1,0 +1,100 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/formulas",
+    "detailRoute": "/skills/udyr_w/formulas/awakened_shield",
+    "skillKey": "udyr_w",
+    "kind": "formulas",
+    "stableKey": "awakened_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "awakened_shield",
+      "name": "坚铁甲胄觉醒护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "awakened_shield_level_actual"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "awakened_shield_base_from_skill"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "awakened_shield_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "awakened_shield_hp_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "awakened_shield_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RecastShield=角色等级实际基础值+技能基础值+0.65×法强+0.08×来源最大生命+1×额外攻击力；与剩余普通护盾叠加。",
+      "sortOrder": 30
+    }
+  }
+}

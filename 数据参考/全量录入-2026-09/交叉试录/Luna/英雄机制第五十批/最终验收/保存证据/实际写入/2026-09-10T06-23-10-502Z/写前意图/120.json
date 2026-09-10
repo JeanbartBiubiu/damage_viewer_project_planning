@@ -1,0 +1,24 @@
+{
+  "i": 119,
+  "intent": {
+    "sequence": 120,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/percent_hp_level_actual_ratio",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "percent_hp_level_actual_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_hp_level_actual_ratio",
+      "name": "实际角色等级觉醒目标生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "由运行层提供PercentHPBlast在0.08至0.14端点之间的实际值；源曲线未知且无默认。",
+      "sortOrder": 180
+    }
+  }
+}

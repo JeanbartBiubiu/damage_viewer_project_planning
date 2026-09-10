@@ -1,0 +1,24 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/max_hp_ad_ratio",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "max_hp_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_hp_ad_ratio",
+      "name": "普通目标最大生命额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.00035,
+      "levelValues": null,
+      "description": "MaxHPOnHit1第二分支mStat=2、mStatFormula=2，系数0.00035为额外攻击力比例。",
+      "sortOrder": 70
+    }
+  }
+}

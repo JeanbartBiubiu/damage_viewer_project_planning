@@ -1,0 +1,31 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/slow_ratio",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "风暴减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.150000006,
+        "2": 0.180000007,
+        "3": 0.209999993,
+        "4": 0.239999995,
+        "5": 0.270000011,
+        "6": 0.300000012
+      },
+      "description": "SlowPotency按技能等级1至6取0.15至0.30；1表示100%。",
+      "sortOrder": 20
+    }
+  }
+}

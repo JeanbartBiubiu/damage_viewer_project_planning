@@ -1,0 +1,24 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 113,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/percent_hp_level_end_ratio",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "percent_hp_level_end_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_hp_level_end_ratio",
+      "name": "角色18级觉醒目标生命端点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.14,
+      "levelValues": null,
+      "description": "PercentHPBlast角色等级结束端点0.14；中间曲线未知。",
+      "sortOrder": 110
+    }
+  }
+}

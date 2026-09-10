@@ -1,0 +1,98 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/formulas",
+    "detailRoute": "/skills/udyr_q/formulas/empowered_lightning_total_magic_damage",
+    "skillKey": "udyr_q",
+    "kind": "formulas",
+    "stableKey": "empowered_lightning_total_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_lightning_total_magic_damage",
+      "name": "狂暴爪击落单闪电总魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lightning_level_ratio_actual"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "lightning_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bounce_multiplier_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "lightning_bounce_count"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bounce_count_subtract_one"
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "repeat_bounce_penalty"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "按正文目标最大生命语义展开：单次闪电比例×目标最大生命×落单弹射总倍率；其他目标分配排除。",
+      "sortOrder": 70
+    }
+  }
+}

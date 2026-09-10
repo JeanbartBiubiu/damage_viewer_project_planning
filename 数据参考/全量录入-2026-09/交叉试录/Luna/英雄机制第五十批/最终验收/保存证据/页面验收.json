@@ -1,0 +1,77 @@
+{
+  "at": "2026-09-10T06:55:00.000Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "apiBase": "http://127.0.0.1:8080",
+  "gameId": "lol",
+  "status": "PASS",
+  "businessWrites": 0,
+  "representativePages": [
+    {
+      "skillKey": "udyr_w",
+      "listImageVisible": true,
+      "parametersVisible": true,
+      "formulaCount": 6,
+      "effectKeys": [
+        "normal_shield",
+        "normal_life_steal",
+        "normal_on_hit_heal",
+        "awakened_shield",
+        "awakened_life_steal",
+        "awakened_on_hit_heal",
+        "mana_cost"
+      ],
+      "detailChecked": "normal_shield",
+      "result": "参数分组、六条公式、七条效果及护盾生命周期详情均可正常展开"
+    },
+    {
+      "skillKey": "ashe_q",
+      "listImageVisible": true,
+      "parametersVisible": true,
+      "formulasVisible": true,
+      "effectKeys": [
+        "empowered_attack",
+        "attack_speed_buff",
+        "mana_cost"
+      ],
+      "detailChecked": "empowered_attack",
+      "spellShieldBlockScopeShown": "—",
+      "result": "强化攻击展示为物理伤害、普攻传递、直接来源且不可暴击，法术护盾范围为空"
+    },
+    {
+      "skillKey": "azir_e",
+      "listImageVisible": true,
+      "fixedParameterCount": 7,
+      "skillLevelParameterCount": 3,
+      "formulaKeys": [
+        "shield",
+        "magic_damage"
+      ],
+      "effectKeys": [
+        "self_shield",
+        "dash_damage",
+        "mana_cost"
+      ],
+      "detailChecked": "self_shield",
+      "result": "护盾持续时间引用 shield_duration_ms，按来源对象保留层数、刷新全部时间并一次全部到期；结果作用于施法者且按施加时留存"
+    },
+    {
+      "skillKey": "ez_r",
+      "listImageVisible": true,
+      "protectedParameterCount": 10,
+      "protectedFormulaKeys": [
+        "champion_damage",
+        "minion_monster_damage"
+      ],
+      "protectedEffectKeys": [
+        "mana_cost",
+        "champion_hit",
+        "minion_monster_hit"
+      ],
+      "result": "旧参数、公式与效果均可正常展开，页面未出现本批新增或保护漂移"
+    }
+  ],
+  "notes": [
+    "本次仅做真实浏览器读取验收，未在页面提交表单。",
+    "页面通过不表示战斗运行时已经执行。"
+  ]
+}

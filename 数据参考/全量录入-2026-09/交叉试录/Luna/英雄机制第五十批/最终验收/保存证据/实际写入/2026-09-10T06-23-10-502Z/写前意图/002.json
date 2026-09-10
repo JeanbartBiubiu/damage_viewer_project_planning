@@ -1,0 +1,24 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_p/parameters",
+    "detailRoute": "/skills/udyr_p/parameters/awakened_cooldown_return_ratio",
+    "skillKey": "udyr_p",
+    "kind": "parameters",
+    "stableKey": "awakened_cooldown_return_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "awakened_cooldown_return_ratio",
+      "name": "觉醒冷却返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.050000001,
+      "levelValues": null,
+      "description": "DataValues.UltCDReduction=0.05；正文显示为5%，返还剩余或总冷却的结算基准未知。",
+      "sortOrder": 20
+    }
+  }
+}

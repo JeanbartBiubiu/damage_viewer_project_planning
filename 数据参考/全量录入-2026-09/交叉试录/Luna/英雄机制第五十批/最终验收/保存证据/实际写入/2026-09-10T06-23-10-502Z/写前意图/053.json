@@ -1,0 +1,24 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/shield_duration_ms",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "护盾与觉醒治疗窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "ShieldDuration=4秒，精确换算为4000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

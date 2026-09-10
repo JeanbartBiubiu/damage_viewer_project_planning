@@ -1,0 +1,46 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/formulas",
+    "detailRoute": "/skills/udyr_r/formulas/pulse_damage",
+    "skillKey": "udyr_r",
+    "kind": "formulas",
+    "stableKey": "pulse_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "pulse_damage",
+      "name": "极凌飓风攻击脉冲魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "pulse_level_actual"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "pulse_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "PulseDamage=角色等级实际基础值+0.35×法强；下两次攻击的事件次数另接。",
+      "sortOrder": 20
+    }
+  }
+}

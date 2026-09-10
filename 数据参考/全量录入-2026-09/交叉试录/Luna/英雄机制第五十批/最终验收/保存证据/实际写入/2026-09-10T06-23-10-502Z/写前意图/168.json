@@ -1,0 +1,52 @@
+{
+  "i": 167,
+  "intent": {
+    "sequence": 168,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_q/effects",
+    "detailRoute": "/skills/ashe_q/effects/empowered_attack",
+    "skillKey": "ashe_q",
+    "kind": "effects",
+    "stableKey": "empowered_attack",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "empowered_attack",
+      "name": "射手的专注强化攻击",
+      "description": "强化期间一次普攻整段物理伤害；替代普通攻击伤害段且每次只施加一次攻击特效。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "射手的专注强化攻击",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "单一目标伤害结果；命中事件与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "empowered_attack_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_e/parameters",
+    "detailRoute": "/skills/azir_e/parameters/base_damage",
+    "skillKey": "azir_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "突进基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "description": "BaseDamage按技能等级1至5取70至230。",
+      "sortOrder": 10
+    }
+  }
+}

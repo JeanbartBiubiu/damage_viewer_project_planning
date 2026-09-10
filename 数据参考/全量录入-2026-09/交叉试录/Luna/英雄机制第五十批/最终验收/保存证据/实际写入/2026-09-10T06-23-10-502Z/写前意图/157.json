@@ -1,0 +1,24 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_p/parameters",
+    "detailRoute": "/skills/ashe_p/parameters/crit_subpart_coefficient",
+    "skillKey": "ashe_p",
+    "kind": "parameters",
+    "stableKey": "crit_subpart_coefficient",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_subpart_coefficient",
+      "name": "额外暴击伤害子项系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "DamageBonus树mStat=9,mStatFormula=2子项系数1。",
+      "sortOrder": 100
+    }
+  }
+}
