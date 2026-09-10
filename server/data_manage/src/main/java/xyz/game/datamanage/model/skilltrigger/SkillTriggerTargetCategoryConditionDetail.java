@@ -26,14 +26,14 @@ public record SkillTriggerTargetCategoryConditionDetail(
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     static SkillTriggerTargetCategoryConditionDetail fromJson(JsonNode node) {
-        if (!node.isObject()) throw new IllegalArgumentException("命中目标类别明细必须为对象");
+        if (!node.isObject()) throw new IllegalArgumentException("事件目标类别明细必须为对象");
         JsonNode categories = node.get("categories");
         List<SkillTriggerTargetCategory> selected = null;
         if (categories != null && !categories.isNull()) {
-            if (!categories.isArray()) throw new IllegalArgumentException("命中目标类别必须为数组");
+            if (!categories.isArray()) throw new IllegalArgumentException("事件目标类别必须为数组");
             selected = new ArrayList<>();
             for (JsonNode category : categories) {
-                if (!category.isTextual()) throw new IllegalArgumentException("命中目标类别必须为明确的类别标识");
+                if (!category.isTextual()) throw new IllegalArgumentException("事件目标类别必须为明确的类别标识");
                 selected.add(SkillTriggerTargetCategory.valueOf(category.textValue()));
             }
         }
