@@ -1,0 +1,233 @@
+{
+  "artifact": "特里斯塔娜 W 本人击杀重置触发规则独立只读回读",
+  "reader": "Luna Max 独立读取者",
+  "observedAt": "2026-09-10",
+  "scope": "仅依据本次管理接口 GET 回读；未读取或采用根执行者的写入结果文件。",
+  "requestPolicy": {
+    "method": "GET",
+    "baseUrl": "http://127.0.0.1:8080",
+    "getCount": 11,
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false,
+    "browserUsed": false,
+    "gitUsed": false
+  },
+  "readOrder": [
+    "/api/admin/games/lol/skills/tristana_w",
+    "/api/admin/games/lol/skills/tristana_w/parameters",
+    "/api/admin/games/lol/skills/tristana_w/formulas",
+    "/api/admin/games/lol/skills/tristana_w/effects",
+    "/api/admin/games/lol/skills/tristana_w/effects/reset_jump",
+    "/api/admin/games/lol/skills/tristana_w/processes",
+    "/api/admin/games/lol/skills/tristana_w/processes/cast",
+    "/api/admin/games/lol/skills/tristana_w/internal-states",
+    "/api/admin/games/lol/skills/tristana_w/trigger-rules",
+    "/api/admin/games/lol/skills/tristana_w/trigger-rules/actual_hit",
+    "/api/admin/games/lol/skills/tristana_w/trigger-rules/own_kill_reset"
+  ],
+  "responses": [
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w",
+      "status": 200,
+      "observed": {
+        "skillKey": "tristana_w",
+        "name": "崔丝塔娜·火箭跳跃",
+        "maxLevel": 5,
+        "status": "ENABLED"
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/parameters",
+      "status": 200,
+      "observed": {
+        "count": 8,
+        "keys": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "base_damage",
+          "ad_ratio",
+          "ap_ratio",
+          "slow_ratio",
+          "slow_duration_ms"
+        ],
+        "values": {
+          "cooldown_ms": { "valueMode": "SKILL_LEVEL", "valueType": "INTEGER", "levelValues": { "1": 22000, "2": 20000, "3": 18000, "4": 16000, "5": 14000 } },
+          "mana_cost": { "valueMode": "SKILL_LEVEL", "valueType": "INTEGER", "levelValues": { "1": 30, "2": 35, "3": 40, "4": 45, "5": 50 } },
+          "cast_time_ms": { "valueMode": "FIXED", "valueType": "INTEGER", "fixedValue": 250 },
+          "base_damage": { "valueMode": "SKILL_LEVEL", "valueType": "INTEGER", "levelValues": { "1": 70, "2": 105, "3": 140, "4": 175, "5": 210 } },
+          "ad_ratio": { "valueMode": "FIXED", "valueType": "INTEGER", "fixedValue": 1 },
+          "ap_ratio": { "valueMode": "FIXED", "valueType": "DECIMAL", "fixedValue": 0.5 },
+          "slow_ratio": { "valueMode": "FIXED", "valueType": "DECIMAL", "fixedValue": 0.4 },
+          "slow_duration_ms": { "valueMode": "FIXED", "valueType": "INTEGER", "fixedValue": 2000 }
+        }
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/formulas",
+      "status": 200,
+      "observed": {
+        "count": 1,
+        "keys": ["damage"]
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/effects",
+      "status": 200,
+      "observed": {
+        "count": 3,
+        "keys": ["mana_cost", "landing_hit", "reset_jump"],
+        "resultCounts": { "mana_cost": 1, "landing_hit": 1, "reset_jump": 1 }
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/effects/reset_jump",
+      "status": 200,
+      "observed": {
+        "effectKey": "reset_jump",
+        "resultCount": 1,
+        "result": {
+          "resultKey": "cooldown",
+          "resultType": "COOLDOWN_CHANGE",
+          "target": "SOURCE",
+          "detail": {
+            "operation": "RESET",
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillKeys": ["tristana_w"],
+              "skillCategoryKeys": []
+            }
+          }
+        }
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/processes",
+      "status": 200,
+      "observed": {
+        "count": 1,
+        "keys": ["cast"],
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/processes/cast",
+      "status": 200,
+      "observed": {
+        "processKey": "cast",
+        "cooldown": {
+          "durationValue": { "kind": "PARAMETER", "parameterKey": "cooldown_ms" },
+          "startMoment": { "momentType": "PROCESS_START", "stepKey": null }
+        },
+        "effectBindings": [
+          { "bindingKey": "mana_cost", "effectKey": "mana_cost", "moment": "PROCESS_START", "sortOrder": 10 }
+        ],
+        "steps": [
+          { "stepKey": "cast_time", "stepType": "DELAY", "delayValue": { "kind": "PARAMETER", "parameterKey": "cast_time_ms" } }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/internal-states",
+      "status": 200,
+      "observed": {
+        "body": null
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/trigger-rules",
+      "status": 200,
+      "observed": {
+        "count": 2,
+        "keys": ["actual_hit", "own_kill_reset"],
+        "ruleKeyCounts": { "actual_hit": 1, "own_kill_reset": 1 },
+        "limits": {
+          "actual_hit": { "perTargetCooldown": false, "maxTriggersPerProcess": false },
+          "own_kill_reset": { "perTargetCooldown": false, "maxTriggersPerProcess": false }
+        }
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/trigger-rules/actual_hit",
+      "status": 200,
+      "observed": {
+        "ruleKey": "actual_hit",
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": { "sourceSkillKey": "tristana_w", "useKind": null }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": { "effectKey": "landing_hit" },
+            "targetContext": "CURRENT_TARGET",
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/trigger-rules/own_kill_reset",
+      "status": 200,
+      "observed": {
+        "ruleKey": "own_kill_reset",
+        "eventSource": {
+          "eventType": "KILL",
+          "detail": {}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "killed_target",
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": { "categories": ["CHAMPION"] }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": { "effectKey": "reset_jump" },
+            "targetContext": "CURRENT_TARGET",
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "checks": {
+    "allElevenRequestsAreGetAndStatus200": true,
+    "ownKillResetAppearsExactlyOnce": true,
+    "ownKillResetEventIsKillWithEmptyDetail": true,
+    "ownKillResetHasChampionTargetCategoryCheck": true,
+    "ownKillResetExecutesResetJump": true,
+    "ownKillResetUsesCurrentTargetContext": true,
+    "ownKillResetHasNoCooldownOrCountLimit": true,
+    "actualHitExistingCompositionNormal": true,
+    "effectAndProcessCompositionNormal": true,
+    "overall": "规则与既有技能组成通过；新规则唯一且字段符合预期。"
+  },
+  "anomalies": [
+    {
+      "route": "/api/admin/games/lol/skills/tristana_w/internal-states",
+      "observation": "状态 200 但响应体为 JSON null，而不是通常的空数组。",
+      "impact": "本次未发现内部状态数据；若列表接口契约要求数组，前端类型和空列表处理仍需另行确认。",
+      "actionTaken": "未修改业务数据或接口。"
+    }
+  ]
+}
