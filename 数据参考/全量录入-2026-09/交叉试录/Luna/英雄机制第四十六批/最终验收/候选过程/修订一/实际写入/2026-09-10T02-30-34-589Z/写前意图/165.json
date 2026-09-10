@@ -1,0 +1,24 @@
+{
+  "i": 164,
+  "intent": {
+    "sequence": 165,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_p/parameters",
+    "detailRoute": "/skills/locke_p/parameters/max_reach_remaining_health_ratio",
+    "skillKey": "locke_p",
+    "kind": "parameters",
+    "stableKey": "max_reach_remaining_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_reach_remaining_health_ratio",
+      "name": "达到最高伤害的剩余生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "正文明确目标30%剩余生命达到最高值。",
+      "sortOrder": 90
+    }
+  }
+}

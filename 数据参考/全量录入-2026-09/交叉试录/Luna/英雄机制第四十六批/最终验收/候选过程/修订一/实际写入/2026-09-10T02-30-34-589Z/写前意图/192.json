@@ -1,0 +1,24 @@
+{
+  "i": 191,
+  "intent": {
+    "sequence": 192,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/parameters",
+    "detailRoute": "/skills/locke_w/parameters/actual_attack_speed_ratio",
+    "skillKey": "locke_w",
+    "kind": "parameters",
+    "stableKey": "actual_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_attack_speed_ratio",
+      "name": "当前角色等级攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "AttackSpeed为角色等级40%至70%插值，中间算法未证，运行层提供实际比例，不设默认。",
+      "sortOrder": 10
+    }
+  }
+}

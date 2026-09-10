@@ -1,0 +1,46 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/formulas",
+    "detailRoute": "/skills/hwei_q/formulas/qe_magic_damage_per_second",
+    "skillKey": "hwei_q",
+    "kind": "formulas",
+    "stableKey": "qe_magic_damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "qe_magic_damage_per_second",
+      "name": "连皴山区域每秒魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "qe_damage_per_second_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qe_dps_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每秒=20至80+0.24×法强；不由DamageDuration推跳率。",
+      "sortOrder": 270
+    }
+  }
+}

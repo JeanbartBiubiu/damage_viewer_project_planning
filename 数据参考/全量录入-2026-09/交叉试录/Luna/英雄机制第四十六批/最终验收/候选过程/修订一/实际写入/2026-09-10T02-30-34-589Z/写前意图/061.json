@@ -1,0 +1,24 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_p/parameters",
+    "detailRoute": "/skills/hwei_p/parameters/per_skill_target_trigger_count",
+    "skillKey": "hwei_p",
+    "kind": "parameters",
+    "stableKey": "per_skill_target_trigger_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "per_skill_target_trigger_count",
+      "name": "每技能每目标触发次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "官方正文明确每个技能对每个目标只触发一次。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/wq_move_speed_base",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "wq_move_speed_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wq_move_speed_base",
+      "name": "飞染基础移动速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 32.5,
+        "3": 35,
+        "4": 37.5,
+        "5": 40
+      },
+      "description": "源值30/32.5/35/37.5/40百分数点。",
+      "sortOrder": 10
+    }
+  }
+}

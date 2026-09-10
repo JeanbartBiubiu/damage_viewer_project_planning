@@ -1,0 +1,24 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 123,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/parameters",
+    "detailRoute": "/skills/hwei_e/parameters/eq_cast_time_ms",
+    "skillKey": "hwei_e",
+    "kind": "parameters",
+    "stableKey": "eq_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "eq_cast_time_ms",
+      "name": "阴沉变意施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "技法源对象mCastTime=0.25秒。",
+      "sortOrder": 40
+    }
+  }
+}

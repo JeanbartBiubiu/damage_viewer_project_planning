@@ -1,0 +1,30 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_q/parameters",
+    "detailRoute": "/skills/belveth_q/parameters/damage_base",
+    "skillKey": "belveth_q",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "单敌基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 12,
+        "2": 14,
+        "3": 16,
+        "4": 18,
+        "5": 20
+      },
+      "description": "DataValues.Damage索引1至5：12/14/16/18/20。",
+      "sortOrder": 10
+    }
+  }
+}

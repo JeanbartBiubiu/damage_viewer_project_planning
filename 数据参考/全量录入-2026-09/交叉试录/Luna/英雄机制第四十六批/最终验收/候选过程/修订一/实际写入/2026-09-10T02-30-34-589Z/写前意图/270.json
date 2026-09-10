@@ -1,0 +1,30 @@
+{
+  "i": 269,
+  "intent": {
+    "sequence": 270,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_w/parameters",
+    "detailRoute": "/skills/zaahen_w/parameters/initial_damage_base",
+    "skillKey": "zaahen_w",
+    "kind": "parameters",
+    "stableKey": "initial_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_damage_base",
+      "name": "第一段基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 60,
+        "3": 80,
+        "4": 100,
+        "5": 120
+      },
+      "description": "第一段40/60/80/100/120。",
+      "sortOrder": 10
+    }
+  }
+}

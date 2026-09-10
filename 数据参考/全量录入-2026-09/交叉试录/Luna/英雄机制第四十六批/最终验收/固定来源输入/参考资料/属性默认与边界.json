@@ -1,0 +1,107 @@
+{
+  "confirmed": [
+    {
+      "key": "legacy-stat-constructor",
+      "scope": [
+        "StatByCoefficientCalculationPart",
+        "StatByNamedDataValueCalculationPart",
+        "StatBySubPartCalculationPart"
+      ],
+      "facts": {
+        "mStat": 0,
+        "mStatFormula": 0,
+        "UseNewStats": false,
+        "statType": 13,
+        "OutputType": 0
+      },
+      "limit": "三个具体类的构造默认；不推广全部类，不推广UseNewStats=true，不声称0的完整枚举语义。"
+    },
+    {
+      "key": "breakpoint-constructor",
+      "scope": [
+        "ByCharLevelBreakpointsCalculationPart"
+      ],
+      "facts": {
+        "mLevel1Value": 0,
+        "mInitialBonusPerLevel": 0,
+        "mBreakpoints": []
+      },
+      "limit": "字段默认，不是完整按等级求值算法。"
+    },
+    {
+      "key": "breakpoint-entry-constructor",
+      "scope": [
+        "Breakpoint"
+      ],
+      "facts": {
+        "mLevel": 1,
+        "mBonusPerLevelAtAndAfter": 0,
+        "mAdditionalBonusAtThisLevel": 0
+      },
+      "limit": "缺省字段为0；不能按字段缺省擅自继承前一斜率，但是否由求值器另行累加/保留斜率仍未证。"
+    }
+  ],
+  "boundedInferences": [
+    {
+      "key": "mStat2-formula0-totalAD",
+      "confidence": "同版本具名交叉支持，尚非求值器实现证明",
+      "evidence": [
+        "Caitlyn Q：StatBySubPart mStat2，mStatFormula省略，tADRatio绑定Spell_ListType_TotalADRatio",
+        "Jhin Q：StatByNamed mStat2，mStatFormula省略，ADRatio绑定Spell_ListType_TotalADRatio",
+        "同构建三个具体类省略mStatFormula均构造为0"
+      ],
+      "implication": "Caitlyn P/Jhin W/Jhin R 原树省略字段的数值缺口已补到0；总AD含义可按具名跨对象证据审查，暂不自行改已录公式。"
+    },
+    {
+      "key": "mStat0-AP",
+      "confidence": "同版本具名交叉支持，尚非完整属性分派证明",
+      "evidence": [
+        "Items/2503 与 Items/3118 的 APRatio 同类节点省略mStat及mStatFormula",
+        "符文Electrocute/TasteOfBlood 的 APRatio 同类节点省略mStat/mStatFormula；AD分支显式2/2",
+        "同构建三个具体类省略mStat均构造为0"
+      ],
+      "implication": "支持0为法强这一窄映射；还未取得按mStat0分派到法强的当前客户端函数，不把全部枚举映射视为已证。"
+    },
+    {
+      "key": "explicit-bonus-not-default",
+      "confidence": "同版本具名交叉支持",
+      "evidence": [
+        "Draven R：RCoefficient，mStat2/mStatFormula2，对应Spell_ListType_BonusADRatio",
+        "Caitlyn R同为2/2，明确有值，不能套省略默认0"
+      ],
+      "implication": "维持Caitlyn R额外AD，不可改成总AD。"
+    }
+  ],
+  "missing": [
+    "同构建计算函数如何将mStat0/2及mStatFormula0/2分派至当前/基础/额外属性的实现，尤其UseNewStats或OutputType非默认分支。",
+    "同构建ByCharLevelBreakpoints求值循环及断点级计入时点：构造默认只能补字段，不能单独生成完整曲线。",
+    "抽取器代码说明了默认取得方式，但本轮没有自行加载客户端二进制运行构造器或检验游戏实战。"
+  ],
+  "discriminatingExamples": [
+    {
+      "inputs": {
+        "totalAD": 200,
+        "bonusAD": 100,
+        "AP": 300
+      },
+      "meaning": "Jhin W AD系数0.5：总AD项100，额外AD项50；用于后续验证，非本次客户端执行结果。"
+    },
+    {
+      "inputs": {
+        "totalAD": 200,
+        "bonusAD": 100,
+        "AP": 300
+      },
+      "meaning": "Caitlyn R 一级基础300、额外AD系数1：裸值400；误用总AD为500。暴击乘数另行保留。"
+    },
+    {
+      "inputs": {
+        "totalAD": 200,
+        "bonusAD": 100,
+        "AP": 300
+      },
+      "meaning": "2503 APRatio 0.02：法强项约6；若误用总AD则约4。3118 基础60+APRatio0.05：每秒约75；误用总AD为70。使用原始浮点值会有微小尾差。"
+    }
+  ],
+  "noWrites": true
+}

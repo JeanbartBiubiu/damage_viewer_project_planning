@@ -1,0 +1,24 @@
+{
+  "i": 253,
+  "intent": {
+    "sequence": 254,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/parameters",
+    "detailRoute": "/skills/zaahen_p/parameters/revive_health_breakpoint_bonus_ratio",
+    "skillKey": "zaahen_p",
+    "kind": "parameters",
+    "stableKey": "revive_health_breakpoint_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "revive_health_breakpoint_bonus_ratio",
+      "name": "复活生命比例断点增量",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.150000006,
+      "levelValues": null,
+      "description": "6/11/16级各有0.15增量；空斜率不补0。",
+      "sortOrder": 120
+    }
+  }
+}

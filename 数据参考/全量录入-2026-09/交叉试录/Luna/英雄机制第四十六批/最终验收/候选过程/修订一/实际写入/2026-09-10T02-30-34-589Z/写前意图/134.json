@@ -1,0 +1,30 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/parameters",
+    "detailRoute": "/skills/hwei_e/parameters/ee_slow_percent_points",
+    "skillKey": "hwei_e",
+    "kind": "parameters",
+    "stableKey": "ee_slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ee_slow_percent_points",
+      "name": "双钩血喉减速百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 47.5,
+        "3": 55,
+        "4": 62.5,
+        "5": 70
+      },
+      "description": "减速40/47.5/55/62.5/70百分数点，结果保留百分数点单位。",
+      "sortOrder": 150
+    }
+  }
+}

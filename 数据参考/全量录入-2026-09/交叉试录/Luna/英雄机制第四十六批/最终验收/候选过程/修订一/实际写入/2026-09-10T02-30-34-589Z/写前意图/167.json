@@ -1,0 +1,46 @@
+{
+  "i": 166,
+  "intent": {
+    "sequence": 167,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_p/formulas",
+    "detailRoute": "/skills/locke_p/formulas/minimum_magic_damage",
+    "skillKey": "locke_p",
+    "kind": "formulas",
+    "stableKey": "minimum_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "minimum_magic_damage",
+      "name": "圣银穿心最低魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_min_onhit_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "min_onhit_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "最低档=当前插值基础+0.1×法强。",
+      "sortOrder": 110
+    }
+  }
+}

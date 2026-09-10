@@ -1,0 +1,46 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 139,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/formulas",
+    "detailRoute": "/skills/hwei_e/formulas/ew_magic_damage",
+    "skillKey": "hwei_e",
+    "kind": "formulas",
+    "stableKey": "ew_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ew_magic_damage",
+      "name": "滞涩幽瞳单敌魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ew_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ew_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "滞涩幽瞳=70至230+0.65×法强。",
+      "sortOrder": 190
+    }
+  }
+}

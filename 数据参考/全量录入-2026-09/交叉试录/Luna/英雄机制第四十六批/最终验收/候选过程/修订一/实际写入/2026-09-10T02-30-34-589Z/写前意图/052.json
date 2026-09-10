@@ -1,0 +1,24 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_r/parameters",
+    "detailRoute": "/skills/belveth_r/parameters/bonus_ad_ratio",
+    "skillKey": "belveth_r",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "普通形态R被动额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.029999999,
+      "levelValues": null,
+      "description": "FinalOnHitDamage树mStat=2/formula2，主负责人说明按额外攻击力0.03消费。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/formulas",
+    "detailRoute": "/skills/hwei_w/formulas/wq_move_speed_ratio",
+    "skillKey": "hwei_w",
+    "kind": "formulas",
+    "stableKey": "wq_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "wq_move_speed_ratio",
+      "name": "飞染自身移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "wq_percent_point_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "wq_move_speed_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "wq_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "飞染=0.01×(30至40+0.03×法强)，结果为比例。",
+      "sortOrder": 180
+    }
+  }
+}

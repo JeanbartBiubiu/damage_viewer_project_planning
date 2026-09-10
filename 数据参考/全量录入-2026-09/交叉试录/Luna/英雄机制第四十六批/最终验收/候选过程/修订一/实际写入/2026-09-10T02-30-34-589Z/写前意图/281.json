@@ -1,0 +1,24 @@
+{
+  "i": 280,
+  "intent": {
+    "sequence": 281,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_e/parameters",
+    "detailRoute": "/skills/zaahen_e/parameters/inner_bonus_ad_ratio",
+    "skillKey": "zaahen_e",
+    "kind": "parameters",
+    "stableKey": "inner_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "inner_bonus_ad_ratio",
+      "name": "内圈额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前BaseDamageCalc系数0.5。",
+      "sortOrder": 20
+    }
+  }
+}

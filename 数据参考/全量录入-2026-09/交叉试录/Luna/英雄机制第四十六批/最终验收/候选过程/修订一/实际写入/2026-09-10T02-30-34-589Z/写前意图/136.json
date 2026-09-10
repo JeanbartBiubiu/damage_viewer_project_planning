@@ -1,0 +1,24 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/parameters",
+    "detailRoute": "/skills/hwei_e/parameters/ee_cast_time_ms",
+    "skillKey": "hwei_e",
+    "kind": "parameters",
+    "stableKey": "ee_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ee_cast_time_ms",
+      "name": "双钩血喉施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 350,
+      "levelValues": null,
+      "description": "补充对象mCastTime约0.35秒，转换为350毫秒。",
+      "sortOrder": 170
+    }
+  }
+}

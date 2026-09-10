@@ -1,0 +1,24 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/formulas",
+    "detailRoute": "/skills/hwei_q/formulas/qw_actual_damage",
+    "skillKey": "hwei_q",
+    "kind": "formulas",
+    "stableKey": "qw_actual_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "qw_actual_damage",
+      "name": "攒聚雷当前条件魔法伤害",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "qw_actual_condition_damage"
+      },
+      "description": "运行层提供当前孤立/定身和低血条件下实际值。",
+      "sortOrder": 250
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_p/parameters",
+    "detailRoute": "/skills/locke_p/parameters/actual_max_onhit_base",
+    "skillKey": "locke_p",
+    "kind": "parameters",
+    "stableKey": "actual_max_onhit_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_max_onhit_base",
+      "name": "当前最高附魔基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "最高附魔基础值为10至80的哈希插值，运行层提供当前值，不设默认。",
+      "sortOrder": 50
+    }
+  }
+}

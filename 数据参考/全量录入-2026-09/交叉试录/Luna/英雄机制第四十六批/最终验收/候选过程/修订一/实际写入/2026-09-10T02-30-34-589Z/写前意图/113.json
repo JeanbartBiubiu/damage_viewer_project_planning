@@ -1,0 +1,56 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 113,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/formulas",
+    "detailRoute": "/skills/hwei_w/formulas/ww_initial_shield",
+    "skillKey": "hwei_w",
+    "kind": "formulas",
+    "stableKey": "ww_initial_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ww_initial_shield",
+      "name": "渲浓自身初始护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ww_initial_shield_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ww_shield_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ww_shield_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "自身初始护盾为满盾的50%。",
+      "sortOrder": 200
+    }
+  }
+}

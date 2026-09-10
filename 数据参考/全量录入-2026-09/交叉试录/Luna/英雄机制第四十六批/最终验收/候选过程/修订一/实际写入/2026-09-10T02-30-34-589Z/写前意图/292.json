@@ -1,0 +1,28 @@
+{
+  "i": 291,
+  "intent": {
+    "sequence": 292,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_r/parameters",
+    "detailRoute": "/skills/zaahen_r/parameters/end_damage_base",
+    "skillKey": "zaahen_r",
+    "kind": "parameters",
+    "stableKey": "end_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "end_damage_base",
+      "name": "终结基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 250,
+        "2": 400,
+        "3": 550
+      },
+      "description": "终结伤害250/400/550。",
+      "sortOrder": 10
+    }
+  }
+}

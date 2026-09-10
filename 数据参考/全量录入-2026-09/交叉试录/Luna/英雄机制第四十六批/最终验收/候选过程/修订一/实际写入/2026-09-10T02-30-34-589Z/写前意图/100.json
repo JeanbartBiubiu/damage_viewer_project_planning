@@ -1,0 +1,24 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/ww_full_shield_time_ms",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "ww_full_shield_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ww_full_shield_time_ms",
+      "name": "渲浓到满盾时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "3秒内提升至满盾；按主负责人固定源值说明保存。",
+      "sortOrder": 100
+    }
+  }
+}

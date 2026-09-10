@@ -1,0 +1,24 @@
+{
+  "i": 235,
+  "intent": {
+    "sequence": 236,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/parameters",
+    "detailRoute": "/skills/locke_r/parameters/sealed_hero_count",
+    "skillKey": "locke_r",
+    "kind": "parameters",
+    "stableKey": "sealed_hero_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "sealed_hero_count",
+      "name": "当前已封印英雄数量",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "处决阈值层数来自已封印英雄数，事件层提供，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

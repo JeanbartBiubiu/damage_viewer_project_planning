@@ -1,0 +1,43 @@
+{
+  "i": 250,
+  "intent": {
+    "sequence": 251,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/parameters",
+    "detailRoute": "/skills/zaahen_p/parameters/revive_cooldown_ms",
+    "skillKey": "zaahen_p",
+    "kind": "parameters",
+    "stableKey": "revive_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "revive_cooldown_ms",
+      "name": "复活冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 300000,
+        "2": 300000,
+        "3": 300000,
+        "4": 300000,
+        "5": 300000,
+        "6": 240000,
+        "7": 240000,
+        "8": 240000,
+        "9": 240000,
+        "10": 240000,
+        "11": 180000,
+        "12": 180000,
+        "13": 180000,
+        "14": 180000,
+        "15": 180000,
+        "16": 120000,
+        "17": 120000,
+        "18": 120000
+      },
+      "description": "ReviveCooldownCalc=300秒，6/11/16级各减少60秒；展开为完整18级整数毫秒数组。",
+      "sortOrder": 90
+    }
+  }
+}

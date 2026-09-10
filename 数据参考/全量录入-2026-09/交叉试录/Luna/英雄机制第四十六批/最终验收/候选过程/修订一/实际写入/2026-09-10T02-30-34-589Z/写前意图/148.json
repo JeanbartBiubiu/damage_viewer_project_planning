@@ -1,0 +1,24 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/parameters",
+    "detailRoute": "/skills/hwei_r/parameters/duration_seconds",
+    "skillKey": "hwei_r",
+    "kind": "parameters",
+    "stableKey": "duration_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "duration_seconds",
+      "name": "画卷持续（秒，用于每秒伤害合计）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "同一3秒源值仅用于每秒伤害总量计算。",
+      "sortOrder": 70
+    }
+  }
+}

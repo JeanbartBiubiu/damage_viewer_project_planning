@@ -1,0 +1,30 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/parameters",
+    "detailRoute": "/skills/hwei_q/parameters/qq_damage_base",
+    "skillKey": "hwei_q",
+    "kind": "parameters",
+    "stableKey": "qq_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qq_damage_base",
+      "name": "没骨火基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 80,
+        "3": 110,
+        "4": 140,
+        "5": 170
+      },
+      "description": "没骨火基础50/80/110/140/170。",
+      "sortOrder": 10
+    }
+  }
+}

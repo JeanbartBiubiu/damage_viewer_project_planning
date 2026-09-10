@@ -1,0 +1,24 @@
+{
+  "i": 192,
+  "intent": {
+    "sequence": 193,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/parameters",
+    "detailRoute": "/skills/locke_w/parameters/attack_speed_level1_ratio",
+    "skillKey": "locke_w",
+    "kind": "parameters",
+    "stableKey": "attack_speed_level1_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_level1_ratio",
+      "name": "攻击速度比例下界",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.400000006,
+      "levelValues": null,
+      "description": "角色等级插值下界，比例属性。",
+      "sortOrder": 20
+    }
+  }
+}

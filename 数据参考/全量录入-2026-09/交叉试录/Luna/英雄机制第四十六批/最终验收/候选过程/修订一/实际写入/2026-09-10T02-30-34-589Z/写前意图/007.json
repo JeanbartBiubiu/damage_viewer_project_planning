@@ -1,0 +1,24 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/stack_ratio_after_level11",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "stack_ratio_after_level11",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_ratio_after_level11",
+      "name": "11级后每级每层攻击速度增量（百分数点）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.150000006,
+      "levelValues": null,
+      "description": "源ASPerStackLevel11BonusPerLevel=0.15百分数点；只记录11级断点。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 215,
+  "intent": {
+    "sequence": 216,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/formulas",
+    "detailRoute": "/skills/locke_w/formulas/damage_restore_amount",
+    "skillKey": "locke_w",
+    "kind": "formulas",
+    "stableKey": "damage_restore_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_restore_amount",
+      "name": "灵焰仪式受伤返还数额",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_restore_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_restore_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "返还数额=40至120+1×法强。",
+      "sortOrder": 250
+    }
+  }
+}

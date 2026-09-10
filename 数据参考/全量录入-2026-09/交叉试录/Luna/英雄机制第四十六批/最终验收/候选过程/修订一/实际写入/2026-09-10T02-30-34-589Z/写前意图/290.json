@@ -1,0 +1,56 @@
+{
+  "i": 289,
+  "intent": {
+    "sequence": 290,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_e/formulas",
+    "detailRoute": "/skills/zaahen_e/formulas/outer_physical_damage",
+    "skillKey": "zaahen_e",
+    "kind": "formulas",
+    "stableKey": "outer_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "outer_physical_damage",
+      "name": "赤金突袭外圈物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "outer_physical_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "inner_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "inner_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "外圈物理整段×1.5。",
+      "sortOrder": 110
+    }
+  }
+}

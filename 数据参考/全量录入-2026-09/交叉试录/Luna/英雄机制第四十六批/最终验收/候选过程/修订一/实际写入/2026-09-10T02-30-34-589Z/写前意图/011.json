@@ -1,0 +1,24 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/formulas",
+    "detailRoute": "/skills/belveth_p/formulas/temporary_attack_speed_bonus",
+    "skillKey": "belveth_p",
+    "kind": "formulas",
+    "stableKey": "temporary_attack_speed_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "temporary_attack_speed_bonus",
+      "name": "溶烛化紫临时攻击速度",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_temporary_attack_speed_ratio"
+      },
+      "description": "保留实际角色等级乘数后的临时攻速比例。",
+      "sortOrder": 10
+    }
+  }
+}

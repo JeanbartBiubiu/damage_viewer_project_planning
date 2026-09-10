@@ -1,0 +1,46 @@
+{
+  "i": 277,
+  "intent": {
+    "sequence": 278,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_w/formulas",
+    "detailRoute": "/skills/zaahen_w/formulas/initial_physical_damage",
+    "skillKey": "zaahen_w",
+    "kind": "formulas",
+    "stableKey": "initial_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_physical_damage",
+      "name": "厄影回锋第一段物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "initial_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "initial_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "第一段=40至120+0.5×额外攻击力。",
+      "sortOrder": 90
+    }
+  }
+}

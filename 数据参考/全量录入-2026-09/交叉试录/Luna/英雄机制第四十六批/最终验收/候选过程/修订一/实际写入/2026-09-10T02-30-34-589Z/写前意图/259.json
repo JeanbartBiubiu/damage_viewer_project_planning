@@ -1,0 +1,30 @@
+{
+  "i": 258,
+  "intent": {
+    "sequence": 259,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_q/parameters",
+    "detailRoute": "/skills/zaahen_q/parameters/first_attack_base_damage",
+    "skillKey": "zaahen_q",
+    "kind": "parameters",
+    "stableKey": "first_attack_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "first_attack_base_damage",
+      "name": "第一强化攻击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15,
+        "2": 30,
+        "3": 45,
+        "4": 60,
+        "5": 75
+      },
+      "description": "第一段15/30/45/60/75。",
+      "sortOrder": 10
+    }
+  }
+}

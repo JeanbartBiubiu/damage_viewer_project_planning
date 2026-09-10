@@ -1,0 +1,28 @@
+{
+  "i": 142,
+  "intent": {
+    "sequence": 143,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/parameters",
+    "detailRoute": "/skills/hwei_r/parameters/dot_base_damage_per_second",
+    "skillKey": "hwei_r",
+    "kind": "parameters",
+    "stableKey": "dot_base_damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dot_base_damage_per_second",
+      "name": "每秒持续伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 20,
+        "3": 30
+      },
+      "description": "每秒10/20/30。",
+      "sortOrder": 20
+    }
+  }
+}

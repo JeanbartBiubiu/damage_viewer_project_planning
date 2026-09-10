@@ -1,0 +1,24 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/stack_ratio_after_level6",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "stack_ratio_after_level6",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_ratio_after_level6",
+      "name": "6级后每级每层攻击速度增量（百分数点）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.100000001,
+      "levelValues": null,
+      "description": "源ASPerStackLevel6BonusPerLevel=0.1百分数点；只记录6级断点。",
+      "sortOrder": 60
+    }
+  }
+}

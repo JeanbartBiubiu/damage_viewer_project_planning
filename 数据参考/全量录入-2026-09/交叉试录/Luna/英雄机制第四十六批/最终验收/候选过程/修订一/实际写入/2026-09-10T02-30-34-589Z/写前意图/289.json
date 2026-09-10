@@ -1,0 +1,46 @@
+{
+  "i": 288,
+  "intent": {
+    "sequence": 289,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_e/formulas",
+    "detailRoute": "/skills/zaahen_e/formulas/inner_physical_damage",
+    "skillKey": "zaahen_e",
+    "kind": "formulas",
+    "stableKey": "inner_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "inner_physical_damage",
+      "name": "赤金突袭内圈物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "inner_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "inner_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "内圈=40至120+0.5×额外攻击力。",
+      "sortOrder": 100
+    }
+  }
+}

@@ -1,0 +1,568 @@
+{
+  "generatedAt": "2026-09-10T02:21:43.418Z",
+  "batch": "英雄机制第四十六批",
+  "revision": "hero46-source-v1-luna-revision-1",
+  "base": {
+    "candidateSha256": "563ec1be0b272c42a462f768242a3cb3676bfd0b59f2774bd0293e337445eefb",
+    "planSha256": "590e1f1ad9ba2bd97a152165d4e617002dd6fa7b4cf7b6e88c77ede01134758b",
+    "sourceValuesSha256": "a7422743ff1b3303a79ed83fb52f16a539c864394644dc8444196bd241b7467b"
+  },
+  "changes": [
+    {
+      "scope": "belveth_e",
+      "kind": "parameter",
+      "key": "damage_reduction_ratio",
+      "before": {
+        "parameterKey": "damage_reduction_ratio",
+        "name": "伤害减免比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.200000003,
+        "levelValues": null,
+        "description": "减伤20%至60%，比例单位。",
+        "sortOrder": 60
+      },
+      "after": {
+        "parameterKey": "damage_reduction_ratio",
+        "name": "伤害减免比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.200000003,
+          "2": 0.300000012,
+          "3": 0.400000006,
+          "4": 0.5,
+          "5": 0.600000024
+        },
+        "description": "技能等级减伤20%/30%/40%/50%/60%，按比例值保存；来源DRPercent索引1至5。",
+        "sortOrder": 60
+      },
+      "evidence": "客户端DataValues.DRPercent[1..5]"
+    },
+    {
+      "scope": "belveth_w",
+      "kind": "effects",
+      "key": "refresh_q_direction",
+      "before": [
+        {
+          "effectKey": "refresh_q_direction",
+          "name": "命中英雄刷新对应方向虚空激流",
+          "description": "仅记录来源明确的指定技能冷却重置；命中资格和实际时点由事件层接线。",
+          "sortOrder": 20,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "reset_cooldown",
+              "name": "命中英雄刷新对应方向虚空激流",
+              "resultType": "COOLDOWN_CHANGE",
+              "target": "SOURCE",
+              "description": "重置指定技能，不携带数值规则。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": null,
+              "detail": {
+                "affectedSkillScope": {
+                  "mode": "SKILLS",
+                  "skillKeys": [
+                    "belveth_q"
+                  ],
+                  "skillCategoryKeys": []
+                },
+                "operation": "RESET"
+              }
+            }
+          ]
+        }
+      ],
+      "after": [],
+      "evidence": "根绑定正文有方向资格，但当前效果类型无法表达方向子槽"
+    },
+    {
+      "scope": "belveth_p",
+      "kind": "parameter-description",
+      "key": "stack_ratio_level1",
+      "before": {
+        "parameterKey": "stack_ratio_level1",
+        "name": "1级每层攻击速度起点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.100000001,
+        "levelValues": null,
+        "description": "哈希断点结构的1级每层起点，比例单位。",
+        "sortOrder": 40
+      },
+      "after": {
+        "parameterKey": "stack_ratio_level1",
+        "name": "1级每层攻击速度起点（百分数点）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.100000001,
+        "levelValues": null,
+        "description": "源ASPerStackLevel1Value=0.1百分数点；这里0.1表示0.1个百分点，不是0.1比例。",
+        "sortOrder": 40
+      },
+      "evidence": "客户端AttackSpeedPerStack断点DataValues"
+    },
+    {
+      "scope": "belveth_p",
+      "kind": "parameter-description",
+      "key": "stack_ratio_initial_per_level",
+      "before": {
+        "parameterKey": "stack_ratio_initial_per_level",
+        "name": "初始每级每层攻击速度增量",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.050000001,
+        "levelValues": null,
+        "description": "断点前逐级增量；不据此补齐完整曲线。",
+        "sortOrder": 50
+      },
+      "after": {
+        "parameterKey": "stack_ratio_initial_per_level",
+        "name": "初始每级每层攻击速度增量（百分数点）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.050000001,
+        "levelValues": null,
+        "description": "源ASPerStackInitialBonusPerLevel=0.05百分数点；只记录断点，不补完整曲线。",
+        "sortOrder": 50
+      },
+      "evidence": "客户端AttackSpeedPerStack断点DataValues"
+    },
+    {
+      "scope": "belveth_p",
+      "kind": "parameter-description",
+      "key": "stack_ratio_after_level6",
+      "before": {
+        "parameterKey": "stack_ratio_after_level6",
+        "name": "6级后每级每层攻击速度增量",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.100000001,
+        "levelValues": null,
+        "description": "6级断点后的源值；不据此补齐完整曲线。",
+        "sortOrder": 60
+      },
+      "after": {
+        "parameterKey": "stack_ratio_after_level6",
+        "name": "6级后每级每层攻击速度增量（百分数点）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.100000001,
+        "levelValues": null,
+        "description": "源ASPerStackLevel6BonusPerLevel=0.1百分数点；只记录6级断点。",
+        "sortOrder": 60
+      },
+      "evidence": "客户端AttackSpeedPerStack断点DataValues"
+    },
+    {
+      "scope": "belveth_p",
+      "kind": "parameter-description",
+      "key": "stack_ratio_after_level11",
+      "before": {
+        "parameterKey": "stack_ratio_after_level11",
+        "name": "11级后每级每层攻击速度增量",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.150000006,
+        "levelValues": null,
+        "description": "11级断点后的源值；不据此补齐完整曲线。",
+        "sortOrder": 70
+      },
+      "after": {
+        "parameterKey": "stack_ratio_after_level11",
+        "name": "11级后每级每层攻击速度增量（百分数点）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.150000006,
+        "levelValues": null,
+        "description": "源ASPerStackLevel11BonusPerLevel=0.15百分数点；只记录11级断点。",
+        "sortOrder": 70
+      },
+      "evidence": "客户端AttackSpeedPerStack断点DataValues"
+    },
+    {
+      "scope": "locke_q",
+      "kind": "formula",
+      "key": "two_mark_magic_damage",
+      "before": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "two_mark_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mark_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mark_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "after": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "two_mark_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "two_mark_stack_count"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mark_damage_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "mark_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "evidence": "客户端MarkDamage/MarkRatio与TwoMarkBonusPercent=20"
+    },
+    {
+      "scope": "locke_q",
+      "kind": "formula",
+      "key": "three_mark_magic_damage",
+      "before": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "three_mark_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mark_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mark_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "after": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "three_mark_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "three_mark_stack_count"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mark_damage_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "mark_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "evidence": "客户端MarkDamage/MarkRatio与ThreeMarkBonusPercent=40"
+    },
+    {
+      "scope": "locke_w",
+      "kind": "formula",
+      "key": "self_damage_per_second",
+      "before": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_health_cost_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "after": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_health_cost_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "CURRENT"
+          }
+        ]
+      },
+      "evidence": "源节点为SOURCE.hp.CURRENT"
+    },
+    {
+      "scope": "locke_w",
+      "kind": "lifecycle",
+      "key": "self_move_speed.durationValue",
+      "before": {
+        "kind": "PARAMETER",
+        "parameterKey": "decay_total_time_ms"
+      },
+      "after": {
+        "kind": "FORMULA",
+        "formulaKey": "decay_total_time_ms"
+      },
+      "evidence": "候选公式decay_total_time_ms=DecayTime+TimeMaxPower"
+    },
+    {
+      "scope": "hwei_w",
+      "kind": "effect-value",
+      "key": "we_mana_restore",
+      "before": {
+        "kind": "FORMULA",
+        "formulaKey": "we_total_mana_restore"
+      },
+      "after": {
+        "kind": "PARAMETER",
+        "parameterKey": "we_mana_restore"
+      },
+      "evidence": "补充对象HweiWE Tooltip_WEOnHitManaRestore每次45至65"
+    },
+    {
+      "scope": "hwei_w",
+      "kind": "parameter-remove",
+      "key": "w_group_m_cast_time_ms",
+      "before": {
+        "parameterKey": "w_group_m_cast_time_ms",
+        "name": "主题靖mCastTime（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "组施法字段0.25秒，技法施法另按具体源对象保存。",
+        "sortOrder": 170
+      },
+      "after": null,
+      "evidence": "菜单选择不等于实际施法；Q/W/E技法各自保留源施法时间"
+    },
+    {
+      "scope": "hwei_e",
+      "kind": "parameter-add",
+      "key": "ee_delay_ms",
+      "before": null,
+      "after": {
+        "parameterKey": "ee_delay_ms",
+        "name": "双钩血喉命中延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "补充对象HweiEE的Delay=0.6秒，转为600毫秒；与0.35秒施法时间分开保存。",
+        "sortOrder": 175
+      },
+      "evidence": "彗九种技法来源补充HweiEE.rawDataValues.Delay[1]"
+    },
+    {
+      "scope": "zaahen_e",
+      "kind": "parameter-rename",
+      "key": "spell_total_time_ms",
+      "before": {
+        "parameterKey": "dash_stage_duration_ms",
+        "name": "冲刺阶段持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "spellTotalTime=0.25秒；spellCastTime=0不表示突进瞬达。",
+        "sortOrder": 90
+      },
+      "after": {
+        "parameterKey": "spell_total_time_ms",
+        "name": "spellTotalTime原始总时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "源spellTotalTime=0.25秒，转为250毫秒；仅保存原始总时间，不等同突进耗时，spellCastTime=0也不表示突进瞬达。",
+        "sortOrder": 90
+      },
+      "evidence": "客户端fields.spellTotalTime=0.25；spellCastTime=0"
+    },
+    {
+      "scope": "zaahen_p",
+      "kind": "effects",
+      "key": "bonus_attack_damage",
+      "before": [
+        {
+          "effectKey": "bonus_attack_damage",
+          "name": "不落之志自身额外攻击力",
+          "description": "比例攻击力按固定加算区域承接；基础攻击力由运行层提供，不引入自引用。",
+          "sortOrder": 20,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "attribute",
+              "name": "不落之志自身额外攻击力",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "target": "SOURCE",
+              "description": "只定义自身属性变化，触发条件由事件层接线。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "bonus_ad_ratio_total"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "attack_damage",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ],
+      "after": [],
+      "evidence": "根说明要求比例AD不自引用，攻击力基准未证"
+    }
+  ],
+  "counts": {
+    "newParameters": 230,
+    "newFormulas": 65,
+    "newEffects": 9,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 304,
+    "reusedPublicParameters": 26,
+    "plannedTotalIncludingReused": 330,
+    "protectedCurrentCompositionLists": 120
+  },
+  "requestCount": 304,
+  "apiCalls": 0,
+  "businessWrites": 0
+}

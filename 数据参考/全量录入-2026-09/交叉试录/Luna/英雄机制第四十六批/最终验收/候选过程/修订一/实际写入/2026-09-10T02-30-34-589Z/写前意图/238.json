@@ -1,0 +1,24 @@
+{
+  "i": 237,
+  "intent": {
+    "sequence": 238,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/parameters",
+    "detailRoute": "/skills/locke_r/parameters/total_cooldown_refund_ratio",
+    "skillKey": "locke_r",
+    "kind": "parameters",
+    "stableKey": "total_cooldown_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_cooldown_refund_ratio",
+      "name": "拾取法器总冷却返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "每封印英雄拾取返还总冷却20%，比例单位。",
+      "sortOrder": 100
+    }
+  }
+}

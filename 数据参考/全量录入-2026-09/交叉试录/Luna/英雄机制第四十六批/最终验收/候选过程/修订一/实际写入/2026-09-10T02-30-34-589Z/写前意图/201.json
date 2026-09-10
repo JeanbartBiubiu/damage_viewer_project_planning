@@ -1,0 +1,24 @@
+{
+  "i": 200,
+  "intent": {
+    "sequence": 201,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/parameters",
+    "detailRoute": "/skills/locke_w/parameters/current_health_cost_ratio",
+    "skillKey": "locke_w",
+    "kind": "parameters",
+    "stableKey": "current_health_cost_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_cost_ratio",
+      "name": "每秒当前生命自伤比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.02,
+      "levelValues": null,
+      "description": "每秒损失当时当前生命2%，比例单位。",
+      "sortOrder": 100
+    }
+  }
+}

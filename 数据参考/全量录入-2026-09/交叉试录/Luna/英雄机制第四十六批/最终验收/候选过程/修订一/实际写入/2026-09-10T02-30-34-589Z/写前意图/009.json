@@ -1,0 +1,24 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/temporary_attack_speed_endpoint_ratio",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "temporary_attack_speed_endpoint_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "temporary_attack_speed_endpoint_ratio",
+      "name": "临时攻击速度端点比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.200000003,
+      "levelValues": null,
+      "description": "客户端临时攻速计算起止均为0.2；不当作全等级实值。",
+      "sortOrder": 90
+    }
+  }
+}

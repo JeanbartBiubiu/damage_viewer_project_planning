@@ -1,0 +1,24 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 127,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/parameters",
+    "detailRoute": "/skills/hwei_e/parameters/ew_stare_duration_ms",
+    "skillKey": "hwei_e",
+    "kind": "parameters",
+    "stableKey": "ew_stare_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ew_stare_duration_ms",
+      "name": "滞涩幽瞳眼眸探测持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "眼眸探测持续直接取补充对象StareDuration=3秒；根技能的定身Duration单独保留。",
+      "sortOrder": 80
+    }
+  }
+}

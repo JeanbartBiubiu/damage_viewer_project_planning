@@ -1,0 +1,30 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 132,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/parameters",
+    "detailRoute": "/skills/hwei_e/parameters/ee_damage_base",
+    "skillKey": "hwei_e",
+    "kind": "parameters",
+    "stableKey": "ee_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ee_damage_base",
+      "name": "双钩血喉基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "description": "九技法源值70/110/150/190/230。",
+      "sortOrder": 130
+    }
+  }
+}

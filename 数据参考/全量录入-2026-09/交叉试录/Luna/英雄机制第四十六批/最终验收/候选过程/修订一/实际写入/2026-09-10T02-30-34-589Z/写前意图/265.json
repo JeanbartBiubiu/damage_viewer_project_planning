@@ -1,0 +1,24 @@
+{
+  "i": 264,
+  "intent": {
+    "sequence": 265,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_q/parameters",
+    "detailRoute": "/skills/zaahen_q/parameters/time_between_attacks_ms",
+    "skillKey": "zaahen_q",
+    "kind": "parameters",
+    "stableKey": "time_between_attacks_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "time_between_attacks_ms",
+      "name": "两次攻击间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "两次攻击间1.5秒。",
+      "sortOrder": 70
+    }
+  }
+}

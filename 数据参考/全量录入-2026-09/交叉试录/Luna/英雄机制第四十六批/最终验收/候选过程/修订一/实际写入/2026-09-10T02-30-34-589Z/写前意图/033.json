@@ -1,0 +1,24 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/parameters",
+    "detailRoute": "/skills/belveth_e/parameters/channel_duration_ms",
+    "skillKey": "belveth_e",
+    "kind": "parameters",
+    "stableKey": "channel_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "channel_duration_ms",
+      "name": "引导持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "正文明确1.5秒引导。",
+      "sortOrder": 10
+    }
+  }
+}

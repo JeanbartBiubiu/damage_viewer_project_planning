@@ -1,0 +1,24 @@
+{
+  "i": 184,
+  "intent": {
+    "sequence": 185,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/three_mark_stack_count",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "three_mark_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "three_mark_stack_count",
+      "name": "三层印记层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "源正文三层增强包含3层印记；先累计三层单层伤害，再乘40%整段增强。",
+      "sortOrder": 155
+    }
+  }
+}

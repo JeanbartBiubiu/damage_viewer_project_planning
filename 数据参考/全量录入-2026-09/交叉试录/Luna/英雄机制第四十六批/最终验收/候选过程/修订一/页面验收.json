@@ -1,0 +1,69 @@
+{
+  "at": "2026-09-10T03:22:55.597Z",
+  "status": "PASS",
+  "passed": true,
+  "method": "主负责人真实内置浏览器查询并打开参数、公式、效果及结果详情，核对实际可访问性树。",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 4,
+  "additionalScriptGETs": 0,
+  "browserNetworkCount": "未单独计数",
+  "candidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
+  "pages": [
+    {
+      "skillKey": "belveth_e",
+      "passed": true,
+      "observed": [
+        "代表图片正常；减伤damage_reduction_ratio按五级显示约0.2/0.3/0.4/0.5/0.6，不再仅固定一级0.2",
+        "持续1500毫秒和现有冷却分列，其他等级数组可见"
+      ]
+    },
+    {
+      "skillKey": "hwei_w",
+      "passed": true,
+      "observed": [
+        "代表图片正常，自身移速、护盾、宿墨每次回蓝三个效果分列",
+        "实际打开宿墨回蓝结果：PARAMETER we_mana_restore，固定倍率1，SOURCE mana RESTORE；每次只回一次，不用三次总公式冒充单次"
+      ]
+    },
+    {
+      "skillKey": "locke_w",
+      "passed": true,
+      "observed": [
+        "代表图片正常；实际打开self_damage_per_second公式，0.02参数乘SOURCE.hp.CURRENT，中文预览为施法者生命当前值",
+        "实际打开self_move_speed效果，生命周期取值选中技能公式decay_total_time_ms，而非同名参数",
+        "初始移速与衰减后移速、两个1000毫秒时段分列；衰减事件仍需后续接线，不能据固定初值效果宣称完整持续行为已完成"
+      ]
+    },
+    {
+      "skillKey": "zaahen_e",
+      "passed": true,
+      "observed": [
+        "实际参数列表显示350冲刺距离、900冲刺速度、spell_total_time_ms整数250、内圈伤害40/60/80/100/120",
+        "实际打开250毫秒参数说明：来自spellTotalTime=0.25秒，不等同突进耗时，spellCastTime=0也不表示瞬达"
+      ]
+    }
+  ],
+  "experienceIssues": [
+    {
+      "issue": "每次值与多次合计容易混用",
+      "detail": "彗WE效果使用单次参数，三次总公式仅作汇总参考。"
+    },
+    {
+      "issue": "公式与参数引用必须按真实类型选择",
+      "detail": "洛克W持续时间是两参数求和公式；当前UI正确显示公式来源。"
+    },
+    {
+      "issue": "生命取值方式必须可见",
+      "detail": "洛克W自伤为每秒当时当前生命，不能使用总量或在起始时固定整段。"
+    },
+    {
+      "issue": "原始动作总时间不能推断位移耗时",
+      "detail": "亚恒E分别保留距离、速度和原始总时间，原始0施法字段不证明瞬达。"
+    },
+    {
+      "issue": "持续移速衰减需要事件接线",
+      "detail": "当前保存初始值、下限和时段证据，未验证完整随时间衰减。"
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

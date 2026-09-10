@@ -1,0 +1,30 @@
+{
+  "i": 220,
+  "intent": {
+    "sequence": 221,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_e/parameters",
+    "detailRoute": "/skills/locke_e/parameters/onhit_damage_base",
+    "skillKey": "locke_e",
+    "kind": "parameters",
+    "stableKey": "onhit_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "onhit_damage_base",
+      "name": "抵达附近基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 50,
+        "3": 60,
+        "4": 70,
+        "5": 80
+      },
+      "description": "抵达伤害40/50/60/70/80。",
+      "sortOrder": 10
+    }
+  }
+}

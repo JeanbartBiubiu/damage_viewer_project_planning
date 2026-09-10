@@ -1,0 +1,34 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_q/formulas",
+    "detailRoute": "/skills/belveth_q/formulas/direction_cooldown_haste",
+    "skillKey": "belveth_q",
+    "kind": "formulas",
+    "stableKey": "direction_cooldown_haste",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "direction_cooldown_haste",
+      "name": "虚空激流方向冷却攻速换算",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "attack_speed_to_haste_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_attack_speed_percent_points"
+          }
+        ]
+      },
+      "description": "每百分数点攻速提供0.2技能急速；实际缩短公式待事件层接线。",
+      "sortOrder": 20
+    }
+  }
+}

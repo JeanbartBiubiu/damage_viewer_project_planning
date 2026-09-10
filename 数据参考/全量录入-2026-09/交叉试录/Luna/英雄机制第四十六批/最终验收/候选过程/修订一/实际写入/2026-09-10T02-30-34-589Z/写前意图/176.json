@@ -1,0 +1,24 @@
+{
+  "i": 175,
+  "intent": {
+    "sequence": 176,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/slow_first_ratio",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "slow_first_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_first_ratio",
+      "name": "第一颗减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "前两次25%减速，比例单位。",
+      "sortOrder": 80
+    }
+  }
+}

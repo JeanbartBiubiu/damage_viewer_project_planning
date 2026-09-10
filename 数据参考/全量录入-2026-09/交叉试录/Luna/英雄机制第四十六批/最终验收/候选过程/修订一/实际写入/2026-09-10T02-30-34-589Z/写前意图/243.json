@@ -1,0 +1,24 @@
+{
+  "i": 242,
+  "intent": {
+    "sequence": 243,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/parameters",
+    "detailRoute": "/skills/zaahen_p/parameters/stack_count",
+    "skillKey": "zaahen_p",
+    "kind": "parameters",
+    "stableKey": "stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_count",
+      "name": "当前果决层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "攻击或技能命中唯一敌方英雄所得层数由运行状态提供，不设默认。",
+      "sortOrder": 10
+    }
+  }
+}

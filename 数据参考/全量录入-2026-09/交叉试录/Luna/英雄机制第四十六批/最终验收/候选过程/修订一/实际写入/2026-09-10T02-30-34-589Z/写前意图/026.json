@@ -1,0 +1,24 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 26,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_w/parameters",
+    "detailRoute": "/skills/belveth_w/parameters/stat_formula_2_value",
+    "skillKey": "belveth_w",
+    "kind": "parameters",
+    "stableKey": "stat_formula_2_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stat_formula_2_value",
+      "name": "当前mStat省略且formula2的实际属性值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "W计算树省略mStat、保留mStatFormula=2；法强窄证不能将其改成攻击力或总法强，运行层提供实际值，不设默认。",
+      "sortOrder": 20
+    }
+  }
+}

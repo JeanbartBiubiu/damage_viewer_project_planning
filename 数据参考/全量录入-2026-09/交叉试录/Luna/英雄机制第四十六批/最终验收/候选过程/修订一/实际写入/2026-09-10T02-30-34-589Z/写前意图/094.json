@@ -1,0 +1,30 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/wq_area_duration_ms",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "wq_area_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wq_area_duration_ms",
+      "name": "飞染区域持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4000,
+        "2": 4500,
+        "3": 5000,
+        "4": 5500,
+        "5": 6000
+      },
+      "description": "区域持续4/4.5/5/5.5/6秒。",
+      "sortOrder": 40
+    }
+  }
+}

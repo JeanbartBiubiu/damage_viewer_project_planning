@@ -1,0 +1,24 @@
+{
+  "i": 293,
+  "intent": {
+    "sequence": 294,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_r/parameters",
+    "detailRoute": "/skills/zaahen_r/parameters/actual_damage_heal_ratio",
+    "skillKey": "zaahen_r",
+    "kind": "parameters",
+    "stableKey": "actual_damage_heal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_damage_heal_ratio",
+      "name": "实际伤害治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.330000013,
+      "levelValues": null,
+      "description": "治疗比例33%，按当前敌方英雄合资格实际伤害计算。",
+      "sortOrder": 30
+    }
+  }
+}

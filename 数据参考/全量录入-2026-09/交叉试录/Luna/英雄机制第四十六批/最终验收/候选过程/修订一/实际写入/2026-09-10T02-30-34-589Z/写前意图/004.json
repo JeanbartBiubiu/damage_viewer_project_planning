@@ -1,0 +1,24 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/stack_ratio_level1",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "stack_ratio_level1",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_ratio_level1",
+      "name": "1级每层攻击速度起点（百分数点）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.100000001,
+      "levelValues": null,
+      "description": "源ASPerStackLevel1Value=0.1百分数点；这里0.1表示0.1个百分点，不是0.1比例。",
+      "sortOrder": 40
+    }
+  }
+}

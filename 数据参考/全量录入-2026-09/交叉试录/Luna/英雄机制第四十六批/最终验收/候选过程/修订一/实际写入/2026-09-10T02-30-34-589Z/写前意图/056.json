@@ -1,0 +1,24 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_p/parameters",
+    "detailRoute": "/skills/hwei_p/parameters/mark_duration_ms",
+    "skillKey": "hwei_p",
+    "kind": "parameters",
+    "stableKey": "mark_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_duration_ms",
+      "name": "落款标记持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "正文明确4秒；不使用旧InkTimeout=25000毫秒替代。",
+      "sortOrder": 10
+    }
+  }
+}

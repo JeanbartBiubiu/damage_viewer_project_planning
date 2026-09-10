@@ -1,0 +1,24 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/ww_shield_duration_ms",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "ww_shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ww_shield_duration_ms",
+      "name": "渲浓护盾原始持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "离区后或实例字段1秒，和区域寿命分开保存；按主负责人固定源值说明保存。",
+      "sortOrder": 110
+    }
+  }
+}

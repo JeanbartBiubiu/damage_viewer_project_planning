@@ -1,0 +1,24 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/parameters",
+    "detailRoute": "/skills/hwei_q/parameters/qw_actual_condition_damage",
+    "skillKey": "hwei_q",
+    "kind": "parameters",
+    "stableKey": "qw_actual_condition_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qw_actual_condition_damage",
+      "name": "当前攒聚雷条件伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "低血曲线和条件选择未证，运行层提供当前实际伤害，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

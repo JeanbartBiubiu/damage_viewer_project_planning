@@ -1,0 +1,24 @@
+{
+  "i": 185,
+  "intent": {
+    "sequence": 186,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/unused_nail_cooldown_refund_ratio",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "unused_nail_cooldown_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "unused_nail_cooldown_refund_ratio",
+      "name": "未使用大钉当前冷却返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "AmmoCooldownReset为角色等级20%至35%插值，中间算法未证，运行层提供实际比例，不设默认。",
+      "sortOrder": 160
+    }
+  }
+}

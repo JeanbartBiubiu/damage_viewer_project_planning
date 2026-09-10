@@ -1,0 +1,940 @@
+{
+  "generatedAt": "2026-09-10T02:21:43.418Z",
+  "batch": "英雄机制第四十六批",
+  "revision": "hero46-source-v1-luna-revision-1",
+  "status": "修订一范围和源值说明",
+  "sourceBindingSha256": "6c585544e0f8ff3a74dce9b11945480f924bb5e863760dfd745aaa49a2edead1",
+  "sourceRangeSha256": "c64baeed4928e9c2fd40c4c8c492303593f8aa073b2ecc7141c0e54af369834b",
+  "sourceAuditSha256": "d96fcdb0ab8000925884f4a546f17c5852a494e60f5755e514258a7c6b4d9413",
+  "cursorConclusionSha256": "043fb09441944cbfa0a035ac055f84b3b4e9d46c756c0ccf9f2c328487acbf76",
+  "sourceReviewVerdict": "READY",
+  "inputGETs": 198,
+  "publicReuseCount": 26,
+  "scopeDecisions": {
+    "belveth": "普通P/Q/W/E及R普通被动保留；真正形态、虚空鱼和主动吞噬链跳过。",
+    "hwei": "P/Q/W/E/R主体保留；九技法进入既有Q/W/E组，菜单不消费，组共享冷却/消耗分开；眼眸只保留控制链。",
+    "locke": "法器作为伤害/阈值载体；P/Q/W/E/R本体与唯一敌人保留，官方E冷却不静默补入。",
+    "zaahen": "P/Q/W/E/R本体保留；凝滞复活是本体生存，不构造形态；比例AD不自引用。"
+  },
+  "skills": {
+    "belveth_p": {
+      "recordableParameters": [
+        "champion_kill_stacks",
+        "stack_count",
+        "actual_stack_attack_speed_ratio",
+        "stack_ratio_level1",
+        "stack_ratio_initial_per_level",
+        "stack_ratio_after_level6",
+        "stack_ratio_after_level11",
+        "actual_temporary_attack_speed_ratio",
+        "temporary_attack_speed_endpoint_ratio",
+        "temporary_attack_speed_duration_ms"
+      ],
+      "recordableFormulas": [
+        "temporary_attack_speed_bonus",
+        "permanent_attack_speed_bonus"
+      ],
+      "recordableEffects": [
+        "temporary_attack_speed",
+        "permanent_attack_speed"
+      ],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "大型小兵和野怪层数、ARAM/Brawl模式层数",
+          "reason": "纯兵野或模式专用收益。"
+        },
+        {
+          "item": "SheenNumberOfAttacks=2",
+          "reason": "当前正文不消费两次攻击节奏。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "每层攻速中间曲线",
+          "reason": "仅有1级、6级、11级断点，使用无默认实际输入。"
+        },
+        {
+          "item": "临时攻速角色等级乘数语义",
+          "reason": "mScaleByStatProgressionMultiplier语义待运行层核对。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "belveth_q": {
+      "recordableParameters": [
+        "damage_base",
+        "total_ad_ratio",
+        "per_side_cooldown_ms",
+        "attack_speed_to_haste_ratio",
+        "actual_attack_speed_percent_points",
+        "dash_distance",
+        "base_dash_speed",
+        "overall_cooldown_ms"
+      ],
+      "recordableFormulas": [
+        "dash_physical_damage",
+        "direction_cooldown_haste"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "穿墙625/1500速度、野怪额外伤害、未消费吸血字段",
+          "reason": "真实形态或兵野专用分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "攻速缩短实际作用公式",
+          "reason": "只记录已知换算系数和无默认攻速输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "belveth_w": {
+      "recordableParameters": [
+        "damage_base",
+        "stat_formula_2_value",
+        "slow_ratio",
+        "slow_duration_ms",
+        "knockup_duration_ms",
+        "m_cast_time_ms",
+        "damage_coefficient"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "穿墙、野怪伤害和其他形态字段",
+          "reason": "真实形态或兵野专用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "命中英雄后所在方向的Q刷新资格",
+          "reason": "源正文明确刷新该方向资格；当前通用COOLDOWN_CHANGE会重置整个Q，不能代表单一方向，效果留待方向事件层接线。"
+        },
+        {
+          "item": "mStat省略属性",
+          "reason": "保留系数与无默认实际属性，伤害属性口径待运行层核对。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "belveth_e": {
+      "recordableParameters": [
+        "channel_duration_ms",
+        "damage_per_hit_base",
+        "onhit_effect_ratio_min",
+        "onhit_effect_ratio_max_multiplier",
+        "base_strike_count",
+        "damage_reduction_ratio",
+        "life_steal_ratio",
+        "attack_speed_strike_ratio",
+        "actual_attack_speed_stat_formula_2",
+        "actual_strike_count",
+        "onhit_damage_ad_ratio",
+        "max_damage_multiplier"
+      ],
+      "recordableFormulas": [
+        "damage_per_strike",
+        "maximum_damage_per_strike",
+        "source_counted_strikes",
+        "actual_strikes",
+        "total_lifesteal_ratio"
+      ],
+      "recordableEffects": [
+        "self_life_steal"
+      ],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "野怪伤害倍率和野怪目标",
+          "reason": "纯野怪分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "mStat4/formula2、取整、缺失生命中间曲线和触发时点",
+          "reason": "用无默认实际输入保留源树边界。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "belveth_r": {
+      "recordableParameters": [
+        "passive_onhit_base",
+        "bonus_ad_ratio",
+        "qualified_hit_count",
+        "passive_stack_duration_ms"
+      ],
+      "recordableFormulas": [
+        "passive_true_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "真正形态、虚空珊瑚、吞噬、虚空鱼和主动爆炸",
+          "reason": "完整真正形态及依赖其变形的主动链按范围跳过。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "被动叠层和触发频率",
+          "reason": "只保留每次合资格的源值与无默认事件输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "hwei_p": {
+      "recordableParameters": [
+        "mark_duration_ms",
+        "actual_mark_damage_base",
+        "mark_damage_base_lower",
+        "mark_damage_base_upper",
+        "mark_ap_ratio",
+        "per_skill_target_trigger_count",
+        "actual_slow_stack_decay_ratio"
+      ],
+      "recordableFormulas": [
+        "mark_magic_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "InkTimeout=25000",
+          "reason": "旧字段不替代正文4秒标记。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "角色等级插值中间值和减速递减规则",
+          "reason": "保留端点并使用无默认实际输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "hwei_q": {
+      "recordableParameters": [
+        "qq_damage_base",
+        "qq_target_hp_percent_points",
+        "percent_point_ratio",
+        "qq_ap_ratio",
+        "qw_damage_base",
+        "qw_ap_ratio",
+        "qw_condition_max_multiplier",
+        "qw_actual_condition_damage",
+        "qw_delay_ms",
+        "qw_cast_time_ms",
+        "qe_burst_base",
+        "qe_damage_per_second_base",
+        "qe_ap_ratio",
+        "qe_dps_ap_ratio",
+        "qe_zone_duration_ms",
+        "qe_slow_ratio",
+        "qe_damage_duration_ms",
+        "qe_cast_time_ms",
+        "qq_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "qq_magic_damage",
+        "qq_target_hp_damage",
+        "qq_total_magic_damage",
+        "qw_base_magic_damage",
+        "qw_max_condition_damage",
+        "qw_actual_damage",
+        "qe_burst_magic_damage",
+        "qe_magic_damage_per_second"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "没骨火野怪额外上限、攒聚雷小兵野怪修正、连皴山小兵野怪修正",
+          "reason": "纯兵野分支。"
+        },
+        {
+          "item": "菜单选择250毫秒和技法各自额外消耗/冷却",
+          "reason": "菜单不等于施法；Q组公共冷却和消耗只复用一次。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "攒聚雷低血中间曲线、连皴山重复爆裂与伤害跳率",
+          "reason": "使用无默认实际输入或仅保留原始时序字段。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "hwei_w": {
+      "recordableParameters": [
+        "wq_move_speed_base",
+        "wq_ap_ratio",
+        "wq_percent_point_ratio",
+        "wq_area_duration_ms",
+        "wq_personal_effect_duration_ms",
+        "ww_shield_base",
+        "ww_shield_ap_ratio",
+        "ww_initial_shield_multiplier",
+        "ww_area_duration_ms",
+        "ww_full_shield_time_ms",
+        "ww_shield_duration_ms",
+        "we_onhit_base_damage",
+        "we_onhit_ap_ratio",
+        "we_mana_restore",
+        "we_duration_ms",
+        "we_charge_count",
+        "wq_cast_time_ms",
+        "ww_m_cast_time_ms",
+        "ww_spell_cast_time_ms",
+        "we_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "wq_move_speed_ratio",
+        "ww_full_shield",
+        "ww_initial_shield",
+        "we_onhit_magic_damage",
+        "we_total_magic_damage",
+        "we_total_mana_restore"
+      ],
+      "recordableEffects": [
+        "self_move_speed",
+        "self_shield",
+        "we_mana_restore"
+      ],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "渲浓友军15%削减和其他友军目标",
+          "reason": "纯其他友方分支。"
+        },
+        {
+          "item": "菜单选择、组外独立冷却和多份法力消耗",
+          "reason": "三种技法共享W组冷却和消耗。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "飞染个人寿命、渲浓护盾累积/离区事件、宿墨命中时点",
+          "reason": "事件层待接，所有运行输入无默认。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "hwei_e": {
+      "recordableParameters": [
+        "eq_damage_base",
+        "eq_ap_ratio",
+        "eq_flee_duration_ms",
+        "eq_cast_time_ms",
+        "ew_damage_base",
+        "ew_ap_ratio",
+        "ew_root_duration_ms",
+        "ew_stare_duration_ms",
+        "ew_setup_delay_ms",
+        "ew_fire_delay_ms",
+        "ew_eye_detection_radius",
+        "ew_cast_time_ms",
+        "ee_damage_base",
+        "ee_ap_ratio",
+        "ee_slow_percent_points",
+        "ee_slow_duration_ms",
+        "ee_cast_time_ms",
+        "ee_delay_ms"
+      ],
+      "recordableFormulas": [
+        "eq_magic_damage",
+        "ew_magic_damage",
+        "ee_magic_damage",
+        "ee_slow_percent_points"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "纯视野展示和独立可攻击召唤单位",
+          "reason": "眼眸只保留探测、锁定和追踪飞弹控制伤害；无独立攻击单位证据。"
+        },
+        {
+          "item": "E组每技法独立冷却与消耗",
+          "reason": "三种技法共享E组公共冷却和消耗，菜单选择不消费。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "眼眸探测触发、最近目标选择、飞弹命中时点和减速衰减",
+          "reason": "链路字段保留，事件资格待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "hwei_r": {
+      "recordableParameters": [
+        "explosion_base_damage",
+        "dot_base_damage_per_second",
+        "explosion_ap_ratio",
+        "dot_ap_ratio",
+        "total_max_ap_ratio",
+        "duration_ms",
+        "duration_seconds",
+        "slow_stack_percent_points",
+        "slow_stack_period_ms",
+        "slow_fade_duration_ms",
+        "m_cast_time_ms",
+        "spell_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "explosion_magic_damage",
+        "dot_magic_damage_per_second",
+        "total_max_magic_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "每0.25秒持续伤害跳率",
+          "reason": "0.25秒是减速叠加周期，不替代伤害跳率。"
+        },
+        {
+          "item": "旧MaxDamageHelper=230/360/490",
+          "reason": "当前TotalMaxDamage源树为230/385/540，旧辅助值不覆盖当前树。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速上限、递减和伤害跳率",
+          "reason": "保留源周期与每秒公式，实际事件资格待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "locke_p": {
+      "recordableParameters": [
+        "actual_min_onhit_base",
+        "min_onhit_base_lower",
+        "min_onhit_base_upper",
+        "min_onhit_ap_ratio",
+        "actual_max_onhit_base",
+        "max_onhit_base_lower",
+        "max_onhit_base_upper",
+        "max_onhit_ap_ratio",
+        "max_reach_remaining_health_ratio",
+        "actual_target_missing_health_ratio"
+      ],
+      "recordableFormulas": [
+        "minimum_magic_damage",
+        "maximum_magic_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "spellCastTime=0",
+          "reason": "被动不可主动施放，不生成0毫秒施法占位。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "两条哈希插值曲线和目标血量中间算法",
+          "reason": "使用无默认角色/目标实际输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "locke_q": {
+      "recordableParameters": [
+        "missile_damage_base",
+        "missile_ap_ratio",
+        "mark_damage_base",
+        "mark_ap_ratio",
+        "max_mark_stacks",
+        "skill_duration_ms",
+        "mark_duration_ms",
+        "slow_first_ratio",
+        "slow_second_ratio",
+        "slow_third_ratio",
+        "slow_first_duration_ms",
+        "slow_second_duration_ms",
+        "slow_third_duration_ms",
+        "two_mark_multiplier",
+        "three_mark_multiplier",
+        "unused_nail_cooldown_refund_ratio",
+        "nail_count",
+        "two_mark_stack_count",
+        "three_mark_stack_count"
+      ],
+      "recordableFormulas": [
+        "missile_magic_damage",
+        "mark_magic_damage",
+        "two_mark_magic_damage",
+        "three_mark_magic_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "回蓝数值",
+          "reason": "冻结源未给明确回蓝数值，不能填默认。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "未用钉返还曲线、三颗命中时点和普攻消费事件",
+          "reason": "只保留已知数值和无默认运行输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "locke_w": {
+      "recordableParameters": [
+        "actual_attack_speed_ratio",
+        "attack_speed_level1_ratio",
+        "attack_speed_level18_ratio",
+        "move_speed_base_ratio",
+        "move_speed_ap_ratio",
+        "move_speed_min_ratio",
+        "decay_time_ms",
+        "time_max_power_ms",
+        "self_burn_duration_ms",
+        "current_health_cost_ratio",
+        "damage_restore_base",
+        "damage_restore_ap_ratio",
+        "actual_additional_heal",
+        "additional_heal_level1_base",
+        "additional_heal_level18_base",
+        "additional_heal_ap_ratio",
+        "actual_max_healing_threshold",
+        "max_healing_level1_base",
+        "max_healing_level18_base",
+        "max_healing_ap_ratio"
+      ],
+      "recordableFormulas": [
+        "initial_move_speed_ratio",
+        "decay_total_time_ms",
+        "attack_speed_ratio",
+        "self_damage_per_second",
+        "damage_restore_amount",
+        "additional_heal_amount",
+        "max_healing_threshold"
+      ],
+      "recordableEffects": [
+        "self_attack_speed",
+        "self_move_speed"
+      ],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "幽灵和被控制时可施放",
+          "reason": "资格和状态由事件层处理，不制造独立属性。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "攻速角色等级中间曲线、每秒当前生命变化、治疗交互",
+          "reason": "分别保留端点或无默认实际输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "locke_e": {
+      "recordableParameters": [
+        "onhit_damage_base",
+        "onhit_ap_ratio",
+        "dash_damage_base",
+        "dash_ap_ratio",
+        "next_attack_delay_ms",
+        "m_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "arrival_magic_damage",
+        "dash_magic_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "官方10秒冷却",
+          "reason": "根对象没有cooldownTime且不在26公共参数中；按审计要求不静默补入。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "击杀刷新、两段同敌命中和Q标记消费时点",
+          "reason": "跨事件资格待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "locke_r": {
+      "recordableParameters": [
+        "damage_base",
+        "damage_ap_ratio",
+        "slow_ratio",
+        "slow_duration_ms",
+        "mark_duration_ms",
+        "execute_base_ratio",
+        "execute_ratio_per_stack",
+        "sealed_hero_count",
+        "ground_artifact_duration_ms",
+        "total_cooldown_refund_ratio",
+        "m_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "magic_damage",
+        "execute_bonus_ratio",
+        "execute_threshold_ratio"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "旧每层技能急速6",
+          "reason": "当前正文未消费。"
+        },
+        {
+          "item": "其他敌方目标续标记和法器独立攻击召唤物",
+          "reason": "额外敌人和独立攻击单位范围外；法器仅作为伤害/阈值载体。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "ExecuteTooltipCalc对应资格与实际处决事件",
+          "reason": "根树匿名阈值树已保存，但命中/处决事件待补证。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zaahen_p": {
+      "recordableParameters": [
+        "stack_count",
+        "max_stacks",
+        "actual_bonus_ad_per_stack_ratio",
+        "bonus_ad_per_stack_lower_ratio",
+        "bonus_ad_per_stack_upper_ratio",
+        "full_stack_multiplier",
+        "stack_falloff_duration_ms",
+        "stasis_revive_duration_ms",
+        "revive_cooldown_ms",
+        "actual_revive_health_ratio",
+        "revive_health_level1_ratio",
+        "revive_health_breakpoint_bonus_ratio"
+      ],
+      "recordableFormulas": [
+        "bonus_ad_ratio_total",
+        "full_stack_bonus_ad_ratio",
+        "revive_health_ratio",
+        "revive_cooldown"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "PercentBonusAD=2.5%旧常量",
+          "reason": "未消费，改用哈希插值端点和无默认实际比例。"
+        },
+        {
+          "item": "被动cooldownTime=100",
+          "reason": "未消费，不替代复活300秒断点冷却。"
+        },
+        {
+          "item": "比例攻击力直接属性效果",
+          "reason": "攻击力基准未证，直接写入attribute_flat_add会把比例当固定攻击力值并可能形成自引用；仅保留比例倍率公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "复活生命比例空字段、层数触发和本体生存事件",
+          "reason": "空字段不补0，事件层待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zaahen_q": {
+      "recordableParameters": [
+        "first_attack_base_damage",
+        "bonus_ad_ratio",
+        "recast_attack_base_damage",
+        "self_max_health_heal_ratio",
+        "knockup_duration_ms",
+        "recast_window_ms",
+        "time_between_attacks_ms",
+        "strike_count"
+      ],
+      "recordableFormulas": [
+        "first_attack_physical_damage",
+        "recast_attack_physical_damage",
+        "self_max_health_heal_ratio"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "非英雄治疗降低和野怪额外伤害",
+          "reason": "纯兵野/非英雄分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "两次斩击实际攻击时点和治疗折算",
+          "reason": "只保存正文数值和窗口，事件层待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zaahen_w": {
+      "recordableParameters": [
+        "initial_damage_base",
+        "initial_bonus_ad_ratio",
+        "secondary_damage_base",
+        "secondary_bonus_ad_ratio",
+        "maximum_pull_distance",
+        "pull_speed",
+        "m_cast_time_ms",
+        "spell_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "initial_physical_damage",
+        "secondary_physical_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "额外敌人",
+          "reason": "一对一只保留同一敌人的两段命中。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "两段命中时点和拉拽事件",
+          "reason": "源数值已保存，事件层待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zaahen_e": {
+      "recordableParameters": [
+        "inner_damage_base",
+        "inner_bonus_ad_ratio",
+        "outer_physical_multiplier",
+        "outer_target_max_health_ratio",
+        "dash_distance",
+        "dash_speed",
+        "inner_radius",
+        "outer_radius",
+        "spell_total_time_ms"
+      ],
+      "recordableFormulas": [
+        "inner_physical_damage",
+        "outer_physical_damage",
+        "outer_magic_health_damage"
+      ],
+      "recordableEffects": [],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "DamageBonusBase、野怪加伤和野怪上限",
+          "reason": "当前整树使用SweetSpotDamageMod；兵野专用分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "突进命中时点和内外圈资格",
+          "reason": "保留半径和整段倍率，事件层待接线；spellTotalTime只作为原始总时间字段，不作为突进耗时。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zaahen_r": {
+      "recordableParameters": [
+        "end_damage_base",
+        "bonus_ad_ratio",
+        "actual_damage_heal_ratio",
+        "armor_penetration_ratio",
+        "damage_reduction_ratio",
+        "dash_max_distance",
+        "dash_speed",
+        "aoe_size",
+        "actual_eligible_damage",
+        "m_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "end_physical_damage",
+        "self_healing_from_actual_damage"
+      ],
+      "recordableEffects": [
+        "armor_penetration"
+      ],
+      "recordableProcesses": [],
+      "recordableInternalStates": [],
+      "recordableTriggerRules": [],
+      "excluded": [
+        {
+          "item": "击杀/受控本体生存链之外的完整变形",
+          "reason": "凝滞复活是P本体生存机制，不构造完整形态。"
+        },
+        {
+          "item": "兵野分支",
+          "reason": "纯非英雄目标分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "治疗折前折后实际伤害、施放状态和事件时点",
+          "reason": "用具名无默认实际伤害输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    }
+  },
+  "noApiCalls": true,
+  "apiWrites": 0,
+  "counts": {
+    "newParameters": 230,
+    "newFormulas": 65,
+    "newEffects": 9,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 304,
+    "reusedPublicParameters": 26,
+    "plannedTotalIncludingReused": 330,
+    "protectedCurrentCompositionLists": 120
+  },
+  "revisionChanges": [
+    {
+      "scope": "belveth_e",
+      "kind": "parameter",
+      "key": "damage_reduction_ratio",
+      "evidence": "客户端DataValues.DRPercent[1..5]"
+    },
+    {
+      "scope": "belveth_w",
+      "kind": "effects",
+      "key": "refresh_q_direction",
+      "evidence": "根绑定正文有方向资格，但当前效果类型无法表达方向子槽"
+    },
+    {
+      "scope": "belveth_p",
+      "kind": "parameter-description",
+      "key": "stack_ratio_level1",
+      "evidence": "客户端AttackSpeedPerStack断点DataValues"
+    },
+    {
+      "scope": "belveth_p",
+      "kind": "parameter-description",
+      "key": "stack_ratio_initial_per_level",
+      "evidence": "客户端AttackSpeedPerStack断点DataValues"
+    },
+    {
+      "scope": "belveth_p",
+      "kind": "parameter-description",
+      "key": "stack_ratio_after_level6",
+      "evidence": "客户端AttackSpeedPerStack断点DataValues"
+    },
+    {
+      "scope": "belveth_p",
+      "kind": "parameter-description",
+      "key": "stack_ratio_after_level11",
+      "evidence": "客户端AttackSpeedPerStack断点DataValues"
+    },
+    {
+      "scope": "locke_q",
+      "kind": "formula",
+      "key": "two_mark_magic_damage",
+      "evidence": "客户端MarkDamage/MarkRatio与TwoMarkBonusPercent=20"
+    },
+    {
+      "scope": "locke_q",
+      "kind": "formula",
+      "key": "three_mark_magic_damage",
+      "evidence": "客户端MarkDamage/MarkRatio与ThreeMarkBonusPercent=40"
+    },
+    {
+      "scope": "locke_w",
+      "kind": "formula",
+      "key": "self_damage_per_second",
+      "evidence": "源节点为SOURCE.hp.CURRENT"
+    },
+    {
+      "scope": "locke_w",
+      "kind": "lifecycle",
+      "key": "self_move_speed.durationValue",
+      "evidence": "候选公式decay_total_time_ms=DecayTime+TimeMaxPower"
+    },
+    {
+      "scope": "hwei_w",
+      "kind": "effect-value",
+      "key": "we_mana_restore",
+      "evidence": "补充对象HweiWE Tooltip_WEOnHitManaRestore每次45至65"
+    },
+    {
+      "scope": "hwei_w",
+      "kind": "parameter-remove",
+      "key": "w_group_m_cast_time_ms",
+      "evidence": "菜单选择不等于实际施法；Q/W/E技法各自保留源施法时间"
+    },
+    {
+      "scope": "hwei_e",
+      "kind": "parameter-add",
+      "key": "ee_delay_ms",
+      "evidence": "彗九种技法来源补充HweiEE.rawDataValues.Delay[1]"
+    },
+    {
+      "scope": "zaahen_e",
+      "kind": "parameter-rename",
+      "key": "spell_total_time_ms",
+      "evidence": "客户端fields.spellTotalTime=0.25；spellCastTime=0"
+    },
+    {
+      "scope": "zaahen_p",
+      "kind": "effects",
+      "key": "bonus_attack_damage",
+      "evidence": "根说明要求比例AD不自引用，攻击力基准未证"
+    }
+  ]
+}

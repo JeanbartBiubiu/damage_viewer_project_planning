@@ -1,0 +1,56 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/formulas",
+    "detailRoute": "/skills/hwei_q/formulas/qw_max_condition_damage",
+    "skillKey": "hwei_q",
+    "kind": "formulas",
+    "stableKey": "qw_max_condition_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "qw_max_condition_damage",
+      "name": "攒聚雷条件最高魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "qw_condition_max_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qw_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "qw_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "条件最高为整段乘源倍率；不猜中间低血曲线。",
+      "sortOrder": 240
+    }
+  }
+}

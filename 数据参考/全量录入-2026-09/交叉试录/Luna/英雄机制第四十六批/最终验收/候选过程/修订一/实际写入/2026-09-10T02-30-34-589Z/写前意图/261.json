@@ -1,0 +1,30 @@
+{
+  "i": 260,
+  "intent": {
+    "sequence": 261,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_q/parameters",
+    "detailRoute": "/skills/zaahen_q/parameters/recast_attack_base_damage",
+    "skillKey": "zaahen_q",
+    "kind": "parameters",
+    "stableKey": "recast_attack_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_attack_base_damage",
+      "name": "再次施放攻击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 50,
+        "3": 75,
+        "4": 100,
+        "5": 125
+      },
+      "description": "第二段25/50/75/100/125。",
+      "sortOrder": 30
+    }
+  }
+}

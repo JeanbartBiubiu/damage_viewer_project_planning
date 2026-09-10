@@ -1,0 +1,24 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/champion_kill_stacks",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "champion_kill_stacks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "champion_kill_stacks",
+      "name": "英雄参与击杀获得层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前英雄击杀源值为2层；兵野和其他模式层数排除。",
+      "sortOrder": 10
+    }
+  }
+}

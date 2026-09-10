@@ -1,0 +1,44 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 32,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_w/formulas",
+    "detailRoute": "/skills/belveth_w/formulas/magic_damage",
+    "skillKey": "belveth_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "上觐沉渊单敌魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_coefficient"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "stat_formula_2_value"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "80至320+1.5×实际mStat/formula2属性值；不猜属性枚举。",
+      "sortOrder": 10
+    }
+  }
+}

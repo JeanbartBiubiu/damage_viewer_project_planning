@@ -1,0 +1,46 @@
+{
+  "i": 227,
+  "intent": {
+    "sequence": 228,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_e/formulas",
+    "detailRoute": "/skills/locke_e/formulas/dash_magic_damage",
+    "skillKey": "locke_e",
+    "kind": "formulas",
+    "stableKey": "dash_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dash_magic_damage",
+      "name": "灰猎无影冲刺魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dash_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "dash_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "冲刺=40至120+0.4×法强。",
+      "sortOrder": 80
+    }
+  }
+}

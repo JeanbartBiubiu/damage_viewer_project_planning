@@ -1,0 +1,66 @@
+{
+  "i": 190,
+  "intent": {
+    "sequence": 191,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/formulas",
+    "detailRoute": "/skills/locke_q/formulas/three_mark_magic_damage",
+    "skillKey": "locke_q",
+    "kind": "formulas",
+    "stableKey": "three_mark_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "three_mark_magic_damage",
+      "name": "伏魔三钉三层整段魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "three_mark_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "three_mark_stack_count"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mark_damage_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "mark_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "三层整段=3×(18至50+0.25至0.35×法强)×1.4；3层数和40%增强均来自源值。",
+      "sortOrder": 210
+    }
+  }
+}
