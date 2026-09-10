@@ -1,0 +1,24 @@
+{
+  "i": 189,
+  "intent": {
+    "sequence": 190,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_e/parameters",
+    "detailRoute": "/skills/zed_e/parameters/energy_cost",
+    "skillKey": "zed_e",
+    "kind": "parameters",
+    "stableKey": "energy_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "energy_cost",
+      "name": "鬼斩能量消耗",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 40,
+      "levelValues": null,
+      "description": "当前根能量消耗40；不命名为法力。",
+      "sortOrder": 30
+    }
+  }
+}

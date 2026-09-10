@@ -1,0 +1,30 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 144,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_e/parameters",
+    "detailRoute": "/skills/naafiri_e/parameters/second_hit_base_damage",
+    "skillKey": "naafiri_e",
+    "kind": "parameters",
+    "stableKey": "second_hit_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "second_hit_base_damage",
+      "name": "剔骨本能第二段基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 85,
+        "3": 110,
+        "4": 135,
+        "5": 160
+      },
+      "description": "第二段基础值索引1至5：60/85/110/135/160。",
+      "sortOrder": 30
+    }
+  }
+}

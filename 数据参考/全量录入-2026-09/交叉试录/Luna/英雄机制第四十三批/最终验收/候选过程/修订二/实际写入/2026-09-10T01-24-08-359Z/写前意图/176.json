@@ -1,0 +1,30 @@
+{
+  "i": 175,
+  "intent": {
+    "sequence": 176,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_q/parameters",
+    "detailRoute": "/skills/zed_q/parameters/energy_cost",
+    "skillKey": "zed_q",
+    "kind": "parameters",
+    "stableKey": "energy_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "energy_cost",
+      "name": "诸刃能量消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 75,
+        "2": 70,
+        "3": 65,
+        "4": 60,
+        "5": 55
+      },
+      "description": "当前根资源为能量，索引0起的75/70/65/60/55；不命名为法力。",
+      "sortOrder": 30
+    }
+  }
+}

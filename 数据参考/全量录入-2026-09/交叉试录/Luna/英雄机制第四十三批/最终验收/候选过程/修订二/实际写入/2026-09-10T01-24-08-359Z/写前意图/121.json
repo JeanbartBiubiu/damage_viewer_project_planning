@@ -1,0 +1,24 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_q/parameters",
+    "detailRoute": "/skills/naafiri_q/parameters/execute_multiplier",
+    "skillKey": "naafiri_q",
+    "kind": "parameters",
+    "stableKey": "execute_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_multiplier",
+      "name": "第二刀最大伤害乘数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "最大式整体乘2；不把最小完整式乘2。",
+      "sortOrder": 100
+    }
+  }
+}

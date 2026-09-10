@@ -1,0 +1,24 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/parameters",
+    "detailRoute": "/skills/gangplank_r/parameters/raise_morale_duration_ms",
+    "skillKey": "gangplank_r",
+    "kind": "parameters",
+    "stableKey": "raise_morale_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "raise_morale_duration_ms",
+      "name": "鼓舞士气持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "正文明确2秒。",
+      "sortOrder": 130
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "i": 171,
+  "intent": {
+    "sequence": 172,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_p/formulas",
+    "detailRoute": "/skills/zed_p/formulas/base_max_health_magic_damage",
+    "skillKey": "zed_p",
+    "kind": "formulas",
+    "stableKey": "base_max_health_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "base_max_health_magic_damage",
+      "name": "灭魂劫基础最大生命魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_health_damage_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "MaxHPDamage基础分支=当前角色等级比例×目标最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

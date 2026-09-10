@@ -1,0 +1,24 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_p/parameters",
+    "detailRoute": "/skills/gangplank_p/parameters/bonus_ad_ratio",
+    "skillKey": "gangplank_p",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "TotalDamage使用来源额外攻击力，倍率为1。",
+      "sortOrder": 50
+    }
+  }
+}

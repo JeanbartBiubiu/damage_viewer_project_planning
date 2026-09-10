@@ -1,0 +1,24 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_w/parameters",
+    "detailRoute": "/skills/gangplank_w/parameters/actual_missing_health",
+    "skillKey": "gangplank_w",
+    "kind": "parameters",
+    "stableKey": "actual_missing_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_missing_health",
+      "name": "当前自身已损生命值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "正文治疗还需要施放瞬间自身已损生命值，运行层提供实际值，不设默认。",
+      "sortOrder": 40
+    }
+  }
+}

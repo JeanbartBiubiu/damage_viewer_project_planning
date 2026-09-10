@@ -1,0 +1,24 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/parameters",
+    "detailRoute": "/skills/kindred_q/parameters/spell_cast_time_ms",
+    "skillKey": "kindred_q",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_ms",
+      "name": "客户端spellCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0.25秒；与mCastTime并列保留。",
+      "sortOrder": 110
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/parameters",
+    "detailRoute": "/skills/kindred_p/parameters/mark_count",
+    "skillKey": "kindred_p",
+    "kind": "parameters",
+    "stableKey": "mark_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_count",
+      "name": "当前战斗印记层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "战前选择和击杀所得印记属于战斗输入，不设默认。",
+      "sortOrder": 10
+    }
+  }
+}

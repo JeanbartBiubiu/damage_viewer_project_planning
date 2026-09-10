@@ -1,0 +1,46 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/formulas",
+    "detailRoute": "/skills/kindred_q/formulas/arrow_physical_damage",
+    "skillKey": "kindred_q",
+    "kind": "formulas",
+    "stableKey": "arrow_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "arrow_physical_damage",
+      "name": "乱箭之舞唯一目标物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=基础值+0.75×来源额外攻击力；不乘最多三名目标。",
+      "sortOrder": 10
+    }
+  }
+}

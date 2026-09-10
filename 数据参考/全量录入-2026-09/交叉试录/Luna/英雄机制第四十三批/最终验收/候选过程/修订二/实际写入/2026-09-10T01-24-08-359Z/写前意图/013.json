@@ -1,0 +1,30 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_q/parameters",
+    "detailRoute": "/skills/gangplank_q/parameters/base_damage",
+    "skillKey": "gangplank_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "枪火谈判基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 40,
+        "3": 70,
+        "4": 100,
+        "5": 130
+      },
+      "description": "当前模式1正文展开为DataValues.SpellDamage索引1至5：10/40/70/100/130；索引0负值不作1级。",
+      "sortOrder": 10
+    }
+  }
+}

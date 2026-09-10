@@ -1,0 +1,46 @@
+{
+  "i": 178,
+  "intent": {
+    "sequence": 179,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_q/effects",
+    "detailRoute": "/skills/zed_q/effects/energy_cost",
+    "skillKey": "zed_q",
+    "kind": "effects",
+    "stableKey": "energy_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "energy_cost",
+      "name": "施放能量消耗",
+      "description": "仅记录基础资源消耗；实际扣除时点与施放资格由事件层接线。",
+      "sortOrder": 900,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "consume_resource",
+          "name": "消耗能量",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": "不表示战斗事件已经接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "energy_cost"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "energy",
+            "operation": "CONSUME"
+          }
+        }
+      ]
+    }
+  }
+}

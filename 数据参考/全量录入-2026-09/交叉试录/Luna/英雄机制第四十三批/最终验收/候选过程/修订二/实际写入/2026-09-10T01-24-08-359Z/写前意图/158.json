@@ -1,0 +1,24 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/shield_bonus_ad_ratio",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "shield_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_bonus_ad_ratio",
+      "name": "第二次施放护盾额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "ShieldTotal系数1.5，读取来源额外攻击力。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_q/formulas",
+    "detailRoute": "/skills/gangplank_q/formulas/shot_crit_multiplier",
+    "skillKey": "gangplank_q",
+    "kind": "formulas",
+    "stableKey": "shot_crit_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shot_crit_multiplier",
+      "name": "枪火谈判暴击倍率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crit_baseline"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_damage_mod"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "critical_stat"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "minus_one"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ShotCrit=1+CritDamageMod×(实际mStat9−1)。",
+      "sortOrder": 20
+    }
+  }
+}

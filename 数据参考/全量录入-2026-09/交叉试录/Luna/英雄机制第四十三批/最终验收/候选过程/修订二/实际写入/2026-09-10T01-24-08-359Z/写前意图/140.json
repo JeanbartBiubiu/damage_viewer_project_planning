@@ -1,0 +1,72 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_w/effects",
+    "detailRoute": "/skills/naafiri_w/effects/self_move_speed",
+    "skillKey": "naafiri_w",
+    "kind": "effects",
+    "stableKey": "self_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_move_speed",
+      "name": "暴吼自身移动速度增益",
+      "description": "移动速度自身是比例属性，直接按0.2至0.3写入attribute_flat_add。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "暴吼自身移动速度增益",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "移动速度自身是比例属性，直接按0.2至0.3写入attribute_flat_add。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

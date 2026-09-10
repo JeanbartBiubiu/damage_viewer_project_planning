@@ -1,0 +1,46 @@
+{
+  "i": 172,
+  "intent": {
+    "sequence": 173,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_p/formulas",
+    "detailRoute": "/skills/zed_p/formulas/quest_max_health_magic_damage",
+    "skillKey": "zed_p",
+    "kind": "formulas",
+    "stableKey": "quest_max_health_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "quest_max_health_magic_damage",
+      "name": "灭魂劫慎劫条件最大生命魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_health_damage_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_shen_zed_quest_bonus_ratio"
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "条件分支=基础比例+当前具名任务增益×目标最大生命；条件资格待接。",
+      "sortOrder": 20
+    }
+  }
+}

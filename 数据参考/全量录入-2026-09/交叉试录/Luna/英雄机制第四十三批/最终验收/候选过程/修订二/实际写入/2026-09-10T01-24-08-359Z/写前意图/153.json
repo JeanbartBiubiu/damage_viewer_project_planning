@@ -1,0 +1,24 @@
+{
+  "i": 152,
+  "intent": {
+    "sequence": 153,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/slow_percent_points",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "短暂减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 99,
+      "levelValues": null,
+      "description": "原始SlowPercent约-0.99，按当前中文‘短暂减速’保留99百分数点；实际执行资格待接。",
+      "sortOrder": 30
+    }
+  }
+}

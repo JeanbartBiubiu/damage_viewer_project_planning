@@ -1,0 +1,30 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_w/parameters",
+    "detailRoute": "/skills/gangplank_w/parameters/base_heal",
+    "skillKey": "gangplank_w",
+    "kind": "parameters",
+    "stableKey": "base_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_heal",
+      "name": "坏血病疗法基础治疗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 70,
+        "3": 95,
+        "4": 120,
+        "5": 145
+      },
+      "description": "BaseHealth使用DataValues.BaseHeal索引1至5：45/70/95/120/145。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 198,
+  "intent": {
+    "sequence": 199,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_r/parameters",
+    "detailRoute": "/skills/zed_r/parameters/recast_lock_ms",
+    "skillKey": "zed_r",
+    "kind": "parameters",
+    "stableKey": "recast_lock_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_lock_ms",
+      "name": "再次施放锁定（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "正文和当前根明确0.5秒。",
+      "sortOrder": 40
+    }
+  }
+}

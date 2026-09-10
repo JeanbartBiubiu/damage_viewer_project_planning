@@ -1,0 +1,24 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_q/parameters",
+    "detailRoute": "/skills/naafiri_q/parameters/bleed_duration_ms",
+    "skillKey": "naafiri_q",
+    "kind": "parameters",
+    "stableKey": "bleed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_duration_ms",
+      "name": "流血持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "正文明确5秒。",
+      "sortOrder": 50
+    }
+  }
+}

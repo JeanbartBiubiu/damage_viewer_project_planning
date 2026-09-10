@@ -1,0 +1,28 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_r/parameters",
+    "detailRoute": "/skills/kindred_r/parameters/ending_heal",
+    "skillKey": "kindred_r",
+    "kind": "parameters",
+    "stableKey": "ending_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ending_heal",
+      "name": "区域结束治疗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 225,
+        "2": 300,
+        "3": 375
+      },
+      "description": "HealFlat使用技能等级索引1至3：225/300/375。",
+      "sortOrder": 20
+    }
+  }
+}

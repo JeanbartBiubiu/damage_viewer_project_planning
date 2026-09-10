@@ -1,0 +1,24 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 82,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_w/formulas",
+    "detailRoute": "/skills/kindred_w/formulas/self_attack_heal",
+    "skillKey": "kindred_w",
+    "kind": "formulas",
+    "stableKey": "self_attack_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_attack_heal",
+      "name": "狼灵狂热自身最大治疗",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_attack_heal"
+      },
+      "description": "运行层当前实际自身最大治疗；实际已损生命折算和触发时点待接。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/parameters",
+    "detailRoute": "/skills/kindred_e/parameters/total_duration_ms",
+    "skillKey": "kindred_e",
+    "kind": "parameters",
+    "stableKey": "total_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_duration_ms",
+      "name": "第三次攻击窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "正文明确4秒内第三次攻击触发狼跃。",
+      "sortOrder": 150
+    }
+  }
+}

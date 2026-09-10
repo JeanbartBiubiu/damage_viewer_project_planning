@@ -1,0 +1,24 @@
+{
+  "i": 197,
+  "intent": {
+    "sequence": 198,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_r/parameters",
+    "detailRoute": "/skills/zed_r/parameters/mark_duration_ms",
+    "skillKey": "zed_r",
+    "kind": "parameters",
+    "stableKey": "mark_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_duration_ms",
+      "name": "死亡印记持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "正文明确3秒；不把7.5秒换位窗口当印记持续。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "at": "2026-09-10T01:54:14.805Z",
+  "batch": "英雄机制第四十三批",
+  "status": "本轮来源明确组成已保存，独立回读、源值数学与四个代表页面通过；未知曲线和触发资格单列",
+  "heroes": [
+    "Gangplank",
+    "Kindred",
+    "Naafiri",
+    "Zed"
+  ],
+  "skills": [
+    "gangplank_p",
+    "gangplank_q",
+    "gangplank_w",
+    "gangplank_e",
+    "gangplank_r",
+    "kindred_p",
+    "kindred_q",
+    "kindred_w",
+    "kindred_e",
+    "kindred_r",
+    "naafiri_p",
+    "naafiri_q",
+    "naafiri_w",
+    "naafiri_e",
+    "naafiri_r",
+    "zed_p",
+    "zed_q",
+    "zed_w",
+    "zed_e",
+    "zed_r"
+  ],
+  "newCounts": {
+    "parameters": 150,
+    "formulas": 39,
+    "effects": 17
+  },
+  "counts": {
+    "parameters": 174,
+    "formulas": 39,
+    "effects": 17
+  },
+  "created": 206,
+  "businessWrites": 206,
+  "reusedParameters": 24,
+  "currentTotalComponents": 230,
+  "candidateFile": "最终验收/候选过程/修订二/完整候选.json",
+  "candidateFileSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
+  "writePlan": "最终验收/候选过程/修订二/写前请求计划.json",
+  "writePlanSha256": "7e0e330acea1dad7c8e45d06e3465564a735026a7a28625cb6e764edee064886",
+  "save": {
+    "GETs": 1264,
+    "POSTs": 206,
+    "confirmed": 206,
+    "file": "最终验收/候选过程/修订二/实际写入/2026-09-10T01-24-08-359Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 426,
+    "protectedPaths": 196,
+    "details": 230,
+    "reused": 24,
+    "new": 206,
+    "file": "最终验收/独立回读证据/实际回读/2026-09-10T01-30-17-114Z/独立全量GET.json"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 39,
+    "cases": 78,
+    "missing": 25,
+    "binaryNodes": 106,
+    "sourceArrays": 24,
+    "sourceArrayValues": 121,
+    "fixedSourceValues": 111,
+    "integerValues": 157,
+    "integerParameters": 119,
+    "millisecondsParameters": 62,
+    "file": "最终验收/实际数学证据/独立数学报告.json",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订二/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 6633,
+    "uniqueTools": 51,
+    "inputs": 23,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "39公式78场景、25缺值拒绝、17效果单位及固定倍率检查通过",
+    "全部24等级参数121源值通过；111固定参数有限数值、157整数值、48毫秒参数及106双目节点通过",
+    "千珏P狼灵独立输出和未证首段匿名公式移出，后续射程与Q/E印记保留",
+    "普朗克R鼓舞士气自身目标资格未证，保留40%/2秒源参数，暂不创建自身效果",
+    "复核独立SwapTimeLimit字段恢复劫W5250毫秒换位窗口；千珏Q冷却零基索引说明纠正为1..5，数值本来正确",
+    "实际Cursor6633事件51唯一只读调用23输入Git零变化；根逐槽审查"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "当前技能按键和客户端对象旧名可能不同",
+      "detail": "纳亚菲利W为暴吼，应按当前主体与正文绑定，不凭原始对象里的R名称交换录入。"
+    },
+    {
+      "issue": "复合暴击伤害存在漏乘分支风险",
+      "detail": "千珏E应分别核对基础撕咬和已损生命项的修正；在详情打开完整式核对。"
+    },
+    {
+      "issue": "持续时间必须核对独立消费者",
+      "detail": "劫W原始SwapTimeLimit明确5250毫秒，不能仅凭分身存在时间推断或删除窗口；根复核后恢复该参数。"
+    },
+    {
+      "issue": "比例属性的数值和乘区容易误配",
+      "detail": "暴吼移速0.2至0.3直接按属性固定加算，不再把20至30或百分比乘区叠加。"
+    }
+  ],
+  "pending": [
+    "未知角色等级插值、印记与低血量阈值、同目标第三次攻击和流血剩余伤害时序待接",
+    "千珏首段射程别名和普朗克鼓舞士气自身资格待证",
+    "纳亚菲利当前根W/R换名已保留，7秒击杀与12秒再施不能凭空制造新敌人",
+    "劫R合格本体伤害折算阶段、任务2%资格和复制链依赖保持具名无默认输入"
+  ],
+  "runtimeValidation": "未执行"
+}

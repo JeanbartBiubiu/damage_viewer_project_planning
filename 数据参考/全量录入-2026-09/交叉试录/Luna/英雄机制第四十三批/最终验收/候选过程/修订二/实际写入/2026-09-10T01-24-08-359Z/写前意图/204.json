@@ -1,0 +1,24 @@
+{
+  "i": 203,
+  "intent": {
+    "sequence": 204,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_r/parameters",
+    "detailRoute": "/skills/zed_r/parameters/qualified_body_damage",
+    "skillKey": "zed_r",
+    "kind": "parameters",
+    "stableKey": "qualified_body_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qualified_body_damage",
+      "name": "印记激活期间合格本体伤害总和",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "R爆炸需要印记激活期间折算阶段明确的本体伤害总和；折前折后、伤害种类和装备归属未证，不设默认。",
+      "sortOrder": 90
+    }
+  }
+}

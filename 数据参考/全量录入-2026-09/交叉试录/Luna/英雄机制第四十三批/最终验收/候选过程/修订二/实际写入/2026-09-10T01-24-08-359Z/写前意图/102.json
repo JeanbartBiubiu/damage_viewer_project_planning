@@ -1,0 +1,44 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/formulas",
+    "detailRoute": "/skills/kindred_e/formulas/raw_missing_health_ratio",
+    "skillKey": "kindred_e",
+    "kind": "formulas",
+    "stableKey": "raw_missing_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "raw_missing_health_ratio",
+      "name": "横生惧意未修正已损生命比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_missing_health_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mark_count"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missing_health_per_mark_ratio"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "已损生命比例=0.05+0.005×当前印记层数。",
+      "sortOrder": 40
+    }
+  }
+}

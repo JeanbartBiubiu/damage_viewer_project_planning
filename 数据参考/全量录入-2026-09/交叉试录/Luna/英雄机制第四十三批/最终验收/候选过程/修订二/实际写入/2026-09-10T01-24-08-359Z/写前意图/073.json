@@ -1,0 +1,72 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/effects",
+    "detailRoute": "/skills/kindred_q/effects/self_attack_speed",
+    "skillKey": "kindred_q",
+    "kind": "effects",
+    "stableKey": "self_attack_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_attack_speed",
+      "name": "乱箭之舞自身攻击速度",
+      "description": "自身攻速比例增量使用attribute_flat_add；不把0.35当成攻速点数。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "attack_speed_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "乱箭之舞自身攻击速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "自身攻速比例增量使用attribute_flat_add；不把0.35当成攻速点数。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "total_attack_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

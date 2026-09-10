@@ -1,0 +1,43 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 169,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_p/parameters",
+    "detailRoute": "/skills/zed_p/parameters/max_health_damage_ratio",
+    "skillKey": "zed_p",
+    "kind": "parameters",
+    "stableKey": "max_health_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_health_damage_ratio",
+      "name": "目标最大生命魔法伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.05,
+        "2": 0.05,
+        "3": 0.05,
+        "4": 0.05,
+        "5": 0.05,
+        "6": 0.05,
+        "7": 0.075,
+        "8": 0.075,
+        "9": 0.075,
+        "10": 0.075,
+        "11": 0.075,
+        "12": 0.075,
+        "13": 0.075,
+        "14": 0.075,
+        "15": 0.075,
+        "16": 0.075,
+        "17": 0.1,
+        "18": 0.1
+      },
+      "description": "客户端角色等级断点：1至6级5%，7至16级7.5%，17至18级10%；只展开纯加法断点，不线性插值。",
+      "sortOrder": 40
+    }
+  }
+}

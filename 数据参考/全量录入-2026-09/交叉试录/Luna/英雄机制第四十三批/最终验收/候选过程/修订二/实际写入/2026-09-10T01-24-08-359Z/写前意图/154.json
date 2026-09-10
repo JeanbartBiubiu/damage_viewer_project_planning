@@ -1,0 +1,24 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/slow_duration_ms",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "短暂减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "原始SlowDuration=0.25秒。",
+      "sortOrder": 40
+    }
+  }
+}

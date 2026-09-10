@@ -1,0 +1,86 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_q/formulas",
+    "detailRoute": "/skills/gangplank_q/formulas/shot_crit_physical_damage",
+    "skillKey": "gangplank_q",
+    "kind": "formulas",
+    "stableKey": "shot_crit_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shot_crit_physical_damage",
+      "name": "枪火谈判暴击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_baseline"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "crit_damage_mod"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "critical_stat"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "minus_one"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "暴击完整伤害=ShotCrit×ShotDamage；不附带烈火审讯。",
+      "sortOrder": 30
+    }
+  }
+}

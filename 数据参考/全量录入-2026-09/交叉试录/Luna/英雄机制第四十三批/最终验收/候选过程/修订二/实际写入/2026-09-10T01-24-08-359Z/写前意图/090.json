@@ -1,0 +1,24 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/parameters",
+    "detailRoute": "/skills/kindred_e/parameters/critical_stat8",
+    "skillKey": "kindred_e",
+    "kind": "parameters",
+    "stableKey": "critical_stat8",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_stat8",
+      "name": "当前mStat8暴击相关统计量",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BaseBiteDamage与PercentBiteDamage当前消费树均读取mStat8，含义未独立证实，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

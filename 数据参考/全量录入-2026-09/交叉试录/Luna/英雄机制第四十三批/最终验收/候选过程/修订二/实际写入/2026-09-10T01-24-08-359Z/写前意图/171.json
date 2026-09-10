@@ -1,0 +1,24 @@
+{
+  "i": 170,
+  "intent": {
+    "sequence": 171,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_p/parameters",
+    "detailRoute": "/skills/zed_p/parameters/actual_shen_zed_quest_bonus_ratio",
+    "skillKey": "zed_p",
+    "kind": "parameters",
+    "stableKey": "actual_shen_zed_quest_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_shen_zed_quest_bonus_ratio",
+      "name": "当前慎劫任务增益比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前匿名条件是否成立未证；运行层提供实际0至0.02增益，不设默认，不能凭空常驻加2%。",
+      "sortOrder": 60
+    }
+  }
+}

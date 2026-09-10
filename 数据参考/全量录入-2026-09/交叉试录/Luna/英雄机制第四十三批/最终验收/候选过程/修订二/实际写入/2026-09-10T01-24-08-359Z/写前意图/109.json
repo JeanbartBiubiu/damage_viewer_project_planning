@@ -1,0 +1,24 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 109,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_r/parameters",
+    "detailRoute": "/skills/kindred_r/parameters/aoe_radius",
+    "skillKey": "kindred_r",
+    "kind": "parameters",
+    "stableKey": "aoe_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "aoe_radius",
+      "name": "区域半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 530,
+      "levelValues": null,
+      "description": "当前根AoERadius=530。",
+      "sortOrder": 40
+    }
+  }
+}

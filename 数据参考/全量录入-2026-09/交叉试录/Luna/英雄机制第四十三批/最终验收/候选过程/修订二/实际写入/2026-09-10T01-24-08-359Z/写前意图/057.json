@@ -1,0 +1,34 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/formulas",
+    "detailRoute": "/skills/kindred_p/formulas/additional_range_increase",
+    "skillKey": "kindred_p",
+    "kind": "formulas",
+    "stableKey": "additional_range_increase",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "additional_range_increase",
+      "name": "千珏之印后续射程增加",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "range_increase"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "additional_range_tier_count"
+          }
+        ]
+      },
+      "description": "后续射程=25×已满足的3层整档数。",
+      "sortOrder": 20
+    }
+  }
+}

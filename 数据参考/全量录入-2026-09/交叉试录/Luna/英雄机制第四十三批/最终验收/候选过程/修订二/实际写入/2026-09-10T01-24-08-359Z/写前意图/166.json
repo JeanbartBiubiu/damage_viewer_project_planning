@@ -1,0 +1,24 @@
+{
+  "i": 165,
+  "intent": {
+    "sequence": 166,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_p/parameters",
+    "detailRoute": "/skills/zed_p/parameters/target_current_health_threshold_ratio",
+    "skillKey": "zed_p",
+    "kind": "parameters",
+    "stableKey": "target_current_health_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_current_health_threshold_ratio",
+      "name": "目标当前生命触发阈值",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "正文明确目标低于50%当前生命。",
+      "sortOrder": 10
+    }
+  }
+}

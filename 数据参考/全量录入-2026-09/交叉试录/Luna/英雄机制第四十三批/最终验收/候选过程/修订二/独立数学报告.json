@@ -1,0 +1,4036 @@
+{
+  "generatedAt": "2026-09-10T01:22:47.893Z",
+  "batch": "英雄机制第四十三批",
+  "revision": "hero43-root-revision-2",
+  "status": "独立数学核算已执行；未调用业务接口",
+  "sourceBasis": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+    "sourceAuditSha256": "f13d58f8898235689c25434c2bd92d3be2f1b8e43e860f993a3b37204e8fd69c",
+    "candidateSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
+    "expectedSide": "直接读取输入包原始DataValues/计算树并按补核语义重算，不读取候选参数作为期望值",
+    "actualSide": "读取候选表达式，场景显式提供实际属性和无默认运行输入"
+  },
+  "formulaResults": [
+    {
+      "skillKey": "gangplank_p",
+      "formulaKey": "passive_true_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 160,
+      "expected": 160,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "formulaKey": "passive_true_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 400,
+      "expected": 400,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "formulaKey": "shot_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 190,
+      "expected": 190,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "formulaKey": "shot_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 450,
+      "expected": 450,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "formulaKey": "shot_crit_multiplier",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 1,
+      "expected": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "formulaKey": "shot_crit_multiplier",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 1.5,
+      "expected": 1.5,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "formulaKey": "shot_crit_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 190,
+      "expected": 190,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "formulaKey": "shot_crit_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 675,
+      "expected": 675,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "formulaKey": "self_heal",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 191.99999712,
+      "expected": 191.999997139,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "formulaKey": "self_heal",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 633.49998992,
+      "expected": 633.499989986,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "formulaKey": "one_wave_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 52.00000012,
+      "expected": 52.000000179,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "formulaKey": "one_wave_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 142.00000042,
+      "expected": 142.000000626,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "formulaKey": "full_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 624.00000144,
+      "expected": 624.000002146,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "formulaKey": "full_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 1704.00000504,
+      "expected": 1704.00000751,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "formulaKey": "full_magic_damage_with_extra_waves",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 936.00000216,
+      "expected": 936.000003219,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "formulaKey": "full_magic_damage_with_extra_waves",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 2556.00000756,
+      "expected": 2556.000011265,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "formulaKey": "deaths_daughter_true_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 156.00000144,
+      "expected": 156.000001431,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "formulaKey": "deaths_daughter_true_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 426.00000504,
+      "expected": 426.000005007,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "additional_range_increase",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 0,
+      "expected": 0,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "additional_range_increase",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 50,
+      "expected": 50,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "q_mark_attack_speed_bonus",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 0.200000004,
+      "expected": 0.200000003,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "q_mark_attack_speed_bonus",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 0.550000011,
+      "expected": 0.550000008,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "e_mark_missing_health_damage_ratio",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 0.02,
+      "expected": 0.02,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "e_mark_missing_health_damage_ratio",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 0.055,
+      "expected": 0.054999999,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "formulaKey": "arrow_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 100,
+      "expected": 100,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "formulaKey": "arrow_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 275,
+      "expected": 275,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "formulaKey": "total_attack_speed_ratio",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 0.549999998,
+      "expected": 0.549999997,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "formulaKey": "total_attack_speed_ratio",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 0.900000005,
+      "expected": 0.900000002,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "formulaKey": "self_attack_heal",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 47,
+      "expected": 47,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "formulaKey": "self_attack_heal",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 75,
+      "expected": 75,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "raw_bite_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 160,
+      "expected": 160,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "raw_bite_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 380,
+      "expected": 380,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "critical_multiplier",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 1,
+      "expected": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "critical_multiplier",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 1.3125,
+      "expected": 1.3125,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_bite_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 160,
+      "expected": 160,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_bite_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 498.75,
+      "expected": 498.75,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "raw_missing_health_ratio",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 0.070000001,
+      "expected": 0.07,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "raw_missing_health_ratio",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 0.105000001,
+      "expected": 0.105,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_missing_health_ratio",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 0.070000001,
+      "expected": 0.07,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_missing_health_ratio",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 0.137812501,
+      "expected": 0.137812499,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "wolf_lunge_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 181.000000224,
+      "expected": 181.000000089,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "wolf_lunge_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 615.890625831,
+      "expected": 615.89062446,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "slow_percent_points",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 36.000000089,
+      "expected": 36.000000089,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "slow_percent_points",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 51.000000313,
+      "expected": 51.000000313,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "formulaKey": "ending_heal",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 225,
+      "expected": 225,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "formulaKey": "ending_heal",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 375,
+      "expected": 375,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "first_cast_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 51.000000238,
+      "expected": 51.000000238,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "first_cast_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 91.000000536,
+      "expected": 91.000000536,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "bleed_total_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 99.000000954,
+      "expected": 99.000000954,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "bleed_total_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 279.000002146,
+      "expected": 279.000002146,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "second_cast_min_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 62.000000477,
+      "expected": 62.000000477,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "second_cast_min_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 152.000001073,
+      "expected": 152.000001073,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "second_cast_max_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 171.999998093,
+      "expected": 171.999998093,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "second_cast_max_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 411.999995708,
+      "expected": 411.999995708,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "second_cast_self_heal",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 77.000000477,
+      "expected": 77.000000477,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "formulaKey": "second_cast_self_heal",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 177.000001073,
+      "expected": 177.000001073,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "formulaKey": "self_attack_damage_bonus",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 36.000000536,
+      "expected": 36.000000536,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "formulaKey": "self_attack_damage_bonus",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 64.000000954,
+      "expected": 64.000000954,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "formulaKey": "first_slash_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 47.000000477,
+      "expected": 47.000000477,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "formulaKey": "first_slash_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 127.000001073,
+      "expected": 127.000001073,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "formulaKey": "second_hit_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 124.000000954,
+      "expected": 124.000000954,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "formulaKey": "second_hit_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 304.000002146,
+      "expected": 304.000002146,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "formulaKey": "body_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 205,
+      "expected": 205,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "formulaKey": "body_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 455,
+      "expected": 455,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "formulaKey": "second_cast_shield",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 220,
+      "expected": 220,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "formulaKey": "second_cast_shield",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 470,
+      "expected": 470,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "formulaKey": "base_max_health_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 50,
+      "expected": 50,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "formulaKey": "base_max_health_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 180,
+      "expected": 180,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "formulaKey": "quest_max_health_magic_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 50,
+      "expected": 50,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "formulaKey": "quest_max_health_magic_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 216,
+      "expected": 216,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_q",
+      "formulaKey": "body_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 160,
+      "expected": 160,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_q",
+      "formulaKey": "body_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 420,
+      "expected": 420,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "formulaKey": "body_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 125.999999046,
+      "expected": 125.999999046,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "formulaKey": "body_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 5,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 285.999997854,
+      "expected": 285.999997854,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "formulaKey": "mark_base_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 180,
+      "expected": 180,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "formulaKey": "mark_base_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 320,
+      "expected": 320,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "formulaKey": "detonation_physical_damage",
+      "scenario": "基础场景",
+      "inputs": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "totalAD": 180,
+        "bonusAD": 80,
+        "AP": 120,
+        "targetMaxHP": 1000,
+        "runtime": {
+          "mark_count": 4,
+          "additional_range_tier_count": 0,
+          "actual_damage_base": 80,
+          "actual_move_speed_ratio": 0.15,
+          "actual_missing_health": 300,
+          "actual_attack_heal": 47,
+          "actual_target_missing_health": 300,
+          "critical_stat": 1,
+          "critical_stat8": 1,
+          "critical_stat9": 1,
+          "actual_target_current_health_ratio": 0.49,
+          "actual_shen_zed_quest_bonus_ratio": 0,
+          "qualified_body_damage": 400
+        }
+      },
+      "actual": 280,
+      "expected": 280,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "formulaKey": "detonation_physical_damage",
+      "scenario": "强化场景",
+      "inputs": {
+        "skillLevel": 3,
+        "characterLevel": 18,
+        "totalAD": 320,
+        "bonusAD": 180,
+        "AP": 420,
+        "targetMaxHP": 1800,
+        "runtime": {
+          "mark_count": 11,
+          "additional_range_tier_count": 2,
+          "actual_damage_base": 220,
+          "actual_move_speed_ratio": 0.3,
+          "actual_missing_health": 850,
+          "actual_attack_heal": 75,
+          "actual_target_missing_health": 850,
+          "critical_stat": 1.5,
+          "critical_stat8": 1.25,
+          "critical_stat9": 1.5,
+          "actual_target_current_health_ratio": 0.2,
+          "actual_shen_zed_quest_bonus_ratio": 0.02,
+          "qualified_body_damage": 900
+        }
+      },
+      "actual": 815.000010729,
+      "expected": 815.000010729,
+      "pass": true
+    }
+  ],
+  "formulaCount": 78,
+  "formulaPassCount": 78,
+  "formulaFailCount": 0,
+  "missingInputCases": [
+    {
+      "skillKey": "gangplank_p",
+      "formulaKey": "passive_true_damage",
+      "missingParameterKey": "actual_damage_base",
+      "rejected": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "formulaKey": "shot_crit_multiplier",
+      "missingParameterKey": "critical_stat",
+      "rejected": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "formulaKey": "shot_crit_physical_damage",
+      "missingParameterKey": "critical_stat",
+      "rejected": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "formulaKey": "self_heal",
+      "missingParameterKey": "actual_missing_health",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "additional_range_increase",
+      "missingParameterKey": "additional_range_tier_count",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "q_mark_attack_speed_bonus",
+      "missingParameterKey": "mark_count",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "formulaKey": "e_mark_missing_health_damage_ratio",
+      "missingParameterKey": "mark_count",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "formulaKey": "total_attack_speed_ratio",
+      "missingParameterKey": "mark_count",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "formulaKey": "self_attack_heal",
+      "missingParameterKey": "actual_attack_heal",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "critical_multiplier",
+      "missingParameterKey": "critical_stat8",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "critical_multiplier",
+      "missingParameterKey": "critical_stat9",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_bite_damage",
+      "missingParameterKey": "critical_stat8",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_bite_damage",
+      "missingParameterKey": "critical_stat9",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "raw_missing_health_ratio",
+      "missingParameterKey": "mark_count",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_missing_health_ratio",
+      "missingParameterKey": "critical_stat8",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_missing_health_ratio",
+      "missingParameterKey": "critical_stat9",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "corrected_missing_health_ratio",
+      "missingParameterKey": "mark_count",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "wolf_lunge_physical_damage",
+      "missingParameterKey": "critical_stat8",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "wolf_lunge_physical_damage",
+      "missingParameterKey": "critical_stat9",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "wolf_lunge_physical_damage",
+      "missingParameterKey": "critical_stat8",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "wolf_lunge_physical_damage",
+      "missingParameterKey": "critical_stat9",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "wolf_lunge_physical_damage",
+      "missingParameterKey": "mark_count",
+      "rejected": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "formulaKey": "wolf_lunge_physical_damage",
+      "missingParameterKey": "actual_target_missing_health",
+      "rejected": true
+    },
+    {
+      "skillKey": "zed_p",
+      "formulaKey": "quest_max_health_magic_damage",
+      "missingParameterKey": "actual_shen_zed_quest_bonus_ratio",
+      "rejected": true
+    },
+    {
+      "skillKey": "zed_r",
+      "formulaKey": "detonation_physical_damage",
+      "missingParameterKey": "qualified_body_damage",
+      "rejected": true
+    }
+  ],
+  "missingInputAllRejected": true,
+  "effectValueCases": [
+    {
+      "skillKey": "gangplank_p",
+      "effectKey": "self_move_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "value": 0.3,
+      "fixedMultiplier": 1,
+      "finalValue": 0.3,
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unitNote": "比例属性：1表示100%，attribute_flat_add直接加比例",
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 30,
+      "fixedMultiplier": 1,
+      "finalValue": 30,
+      "attributeKey": "mana",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 100,
+      "fixedMultiplier": 1,
+      "finalValue": 100,
+      "attributeKey": "mana",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 100,
+      "fixedMultiplier": 1,
+      "finalValue": 100,
+      "attributeKey": "mana",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "effectKey": "self_attack_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "value": 0.900000005,
+      "fixedMultiplier": 1,
+      "finalValue": 0.900000005,
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unitNote": "比例属性：1表示100%，attribute_flat_add直接加比例",
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 35,
+      "fixedMultiplier": 1,
+      "finalValue": 35,
+      "attributeKey": "mana",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 90,
+      "fixedMultiplier": 1,
+      "finalValue": 90,
+      "attributeKey": "mana",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "effectKey": "self_attack_damage",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "value": 64.000000954,
+      "fixedMultiplier": 1,
+      "finalValue": 64.000000954,
+      "attributeKey": "attack_damage",
+      "modifierZoneKey": "attribute_flat_add",
+      "unitNote": "点数属性：attribute_flat_add直接加攻击力",
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "effectKey": "self_move_speed",
+      "resultKey": "attribute",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "value": 0.300000012,
+      "fixedMultiplier": 1,
+      "finalValue": 0.300000012,
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unitNote": "比例属性：1表示100%，attribute_flat_add直接加比例",
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 60,
+      "fixedMultiplier": 1,
+      "finalValue": 60,
+      "attributeKey": "mana",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 40,
+      "fixedMultiplier": 1,
+      "finalValue": 40,
+      "attributeKey": "mana",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "effectKey": "self_shield",
+      "resultKey": "shield",
+      "resultType": "NORMAL_SHIELD",
+      "value": 470,
+      "fixedMultiplier": 1,
+      "finalValue": 470,
+      "attributeKey": null,
+      "modifierZoneKey": null,
+      "unitNote": "护盾点数：普通护盾",
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "effectKey": "mana_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 100,
+      "fixedMultiplier": 1,
+      "finalValue": 100,
+      "attributeKey": "mana",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "zed_q",
+      "effectKey": "energy_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 55,
+      "fixedMultiplier": 1,
+      "finalValue": 55,
+      "attributeKey": "energy",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "zed_w",
+      "effectKey": "energy_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 20,
+      "fixedMultiplier": 1,
+      "finalValue": 20,
+      "attributeKey": "energy",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "effectKey": "reduce_w_cooldown",
+      "resultKey": "reduce_cooldown",
+      "resultType": "COOLDOWN_CHANGE",
+      "value": 3000,
+      "fixedMultiplier": 1,
+      "finalValue": 3000,
+      "attributeKey": null,
+      "modifierZoneKey": null,
+      "unitNote": "未分类",
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "effectKey": "energy_cost",
+      "resultKey": "consume_resource",
+      "resultType": "RESOURCE_CHANGE",
+      "value": 40,
+      "fixedMultiplier": 1,
+      "finalValue": 40,
+      "attributeKey": "energy",
+      "modifierZoneKey": null,
+      "unitNote": "资源点数：RESOURCE_CHANGE/CONSUME",
+      "pass": true
+    }
+  ],
+  "effectValuePassCount": 17,
+  "effectValueFailCount": 0,
+  "integerAndModeChecks": [
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "cooldown_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "actual_damage_base",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "damage_base_lower",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "damage_base_upper",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "damage_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "actual_move_speed_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "move_speed_lower_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "move_speed_upper_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "parameterKey": "move_speed_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "parameterKey": "total_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "parameterKey": "current_game_mode",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "parameterKey": "crit_damage_mod",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "parameterKey": "critical_stat",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "parameterKey": "crit_baseline",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "parameterKey": "minus_one",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "parameterKey": "base_heal",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "parameterKey": "heal_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "parameterKey": "missing_health_heal_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "parameterKey": "actual_missing_health",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "damage_per_wave",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "total_waves",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "additional_waves",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "zone_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "slow_percent_points",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "slow_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "deaths_daughter_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "deaths_daughter_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "deaths_daughter_slow_percent_points",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "deaths_daughter_slow_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "raise_morale_move_speed_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "raise_morale_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "parameterKey": "mark_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "parameterKey": "initial_mark_threshold",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "parameterKey": "additional_mark_threshold",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "parameterKey": "range_increase",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "parameterKey": "additional_range_tier_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "parameterKey": "q_attack_speed_per_mark_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "parameterKey": "e_missing_health_per_mark_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "base_attack_speed_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "mark_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "attack_speed_per_mark_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "attack_speed_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "w_zone_cooldown_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "dash_speed",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "dash_speed_scaling",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "m_cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "parameterKey": "spell_cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "parameterKey": "attack_heal_level1",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "parameterKey": "attack_heal_per_character_level",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "parameterKey": "actual_attack_heal",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "parameterKey": "full_stack_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "parameterKey": "zone_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "parameterKey": "ring_range",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "base_bite_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "base_missing_health_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "mark_count",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "missing_health_per_mark_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "actual_target_missing_health",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "crit_mod",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "critical_stat8",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "critical_stat9",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "crit_baseline",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "minus_one",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "slow_base_percent_points",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "slow_ap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "slow_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "total_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "parameterKey": "zone_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "parameterKey": "ending_heal",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "parameterKey": "health_floor_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "parameterKey": "aoe_radius",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "first_cast_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "first_cast_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "bleed_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "bleed_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "bleed_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "bleed_interval_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "second_cast_min_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "second_cast_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "second_cast_max_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "execute_multiplier",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "second_cast_heal_base",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "second_cast_heal_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "recast_window_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "recast_lockout_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "parameterKey": "untargetable_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "parameterKey": "bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "parameterKey": "move_speed_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "parameterKey": "duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "parameterKey": "first_slash_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "parameterKey": "first_slash_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "parameterKey": "second_hit_base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "parameterKey": "second_hit_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "parameterKey": "dash_distance",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "parameterKey": "dash_speed",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "slow_percent_points",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "slow_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "takedown_window_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "recast_window_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "shield_base",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "shield_bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "shield_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "w_refresh_extension_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "parameterKey": "channel_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "parameterKey": "target_current_health_threshold_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "parameterKey": "actual_target_current_health_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "parameterKey": "per_target_cooldown_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "parameterKey": "max_health_damage_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "parameterKey": "shen_zed_quest_bonus_cap_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_p",
+      "parameterKey": "actual_shen_zed_quest_bonus_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_q",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_q",
+      "parameterKey": "bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_q",
+      "parameterKey": "energy_cost",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_q",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_w",
+      "parameterKey": "recast_range",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_w",
+      "parameterKey": "shadow_duration_tooltip_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_w",
+      "parameterKey": "shadow_duration_internal_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_w",
+      "parameterKey": "swap_window_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_w",
+      "parameterKey": "energy_cost",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_w",
+      "parameterKey": "energy_restore_double_hit",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_w",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "parameterKey": "base_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "parameterKey": "bonus_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "parameterKey": "energy_cost",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "parameterKey": "shadow_hit_cdr_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_e",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "damage_amp",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "total_ad_ratio",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "mark_duration_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "recast_lock_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "swap_window_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "shadow_duration_displayed_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "delayed_shadow_linger_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "cast_time_ms",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    },
+    {
+      "skillKey": "zed_r",
+      "parameterKey": "qualified_body_damage",
+      "integerOk": true,
+      "msOk": true,
+      "runtimeNoDefault": true,
+      "pass": true
+    }
+  ],
+  "integerAndModeAllPass": true,
+  "structureIssues": [],
+  "protectionChecks": {
+    "inputGETs": 196,
+    "expectedInputGETs": 196,
+    "publicReuseCount": 24,
+    "expectedPublicReuseCount": 24,
+    "apiWrites": 0,
+    "allSubjectsProtected": true,
+    "allExpressionsBinary": true
+  },
+  "scenarios": {
+    "基础场景": "技能等级1；角色等级1；总攻击力180、额外攻击力80、法强120；目标最大生命1000；运行输入显式填写。",
+    "强化场景": "技能等级5或3；角色等级18；总攻击力320、额外攻击力180、法强420；目标最大生命1800；运行输入显式填写。",
+    "missingInput": "逐公式移除其所引用的RUNTIME_INPUT，必须拒绝计算；候选不提供默认值。"
+  },
+  "noApiCalls": true,
+  "apiWrites": 0
+}

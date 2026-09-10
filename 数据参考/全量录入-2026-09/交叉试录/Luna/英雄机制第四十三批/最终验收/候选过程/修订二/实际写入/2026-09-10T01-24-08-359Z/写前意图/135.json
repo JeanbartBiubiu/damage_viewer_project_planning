@@ -1,0 +1,30 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_w/parameters",
+    "detailRoute": "/skills/naafiri_w/parameters/move_speed_ratio",
+    "skillKey": "naafiri_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_ratio",
+      "name": "自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.20000000298023224,
+        "2": 0.22499999403953552,
+        "3": 0.25,
+        "4": 0.2750000059604645,
+        "5": 0.30000001192092896
+      },
+      "description": "正文20/22.5/25/27.5/30%，按比例属性记录为0.2至0.3。",
+      "sortOrder": 30
+    }
+  }
+}

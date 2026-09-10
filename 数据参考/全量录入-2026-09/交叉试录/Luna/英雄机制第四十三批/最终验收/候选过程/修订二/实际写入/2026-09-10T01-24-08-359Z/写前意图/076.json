@@ -1,0 +1,24 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_w/parameters",
+    "detailRoute": "/skills/kindred_w/parameters/attack_heal_per_character_level",
+    "skillKey": "kindred_w",
+    "kind": "parameters",
+    "stableKey": "attack_heal_per_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_heal_per_character_level",
+      "name": "每角色等级自身治疗增量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "AttackHeal每级初始增量2；中间等级算法按补核要求不展开为18级数组。",
+      "sortOrder": 20
+    }
+  }
+}

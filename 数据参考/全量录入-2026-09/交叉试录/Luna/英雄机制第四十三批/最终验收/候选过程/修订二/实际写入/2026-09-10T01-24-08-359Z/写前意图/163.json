@@ -1,0 +1,46 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 163,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/formulas",
+    "detailRoute": "/skills/naafiri_r/formulas/second_cast_shield",
+    "skillKey": "naafiri_r",
+    "kind": "formulas",
+    "stableKey": "second_cast_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "second_cast_shield",
+      "name": "猎狗血性第二次施放自身护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ShieldTotal=基础值+1.5×来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

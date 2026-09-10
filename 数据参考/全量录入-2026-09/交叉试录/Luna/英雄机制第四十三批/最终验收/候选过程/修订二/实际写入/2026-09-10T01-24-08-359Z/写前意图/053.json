@@ -1,0 +1,24 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/parameters",
+    "detailRoute": "/skills/kindred_p/parameters/range_increase",
+    "skillKey": "kindred_p",
+    "kind": "parameters",
+    "stableKey": "range_increase",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "range_increase",
+      "name": "后续每层射程增加",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 25,
+      "levelValues": null,
+      "description": "正文按每3层增加25攻击距离。",
+      "sortOrder": 40
+    }
+  }
+}

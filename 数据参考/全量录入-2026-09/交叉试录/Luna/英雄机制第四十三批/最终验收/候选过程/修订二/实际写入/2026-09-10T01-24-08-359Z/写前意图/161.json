@@ -1,0 +1,24 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/channel_duration_ms",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "channel_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "channel_duration_ms",
+      "name": "引导持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "当前根mChannelDuration各等级均为0.75秒；与spellCastTime=0字段分开。",
+      "sortOrder": 110
+    }
+  }
+}

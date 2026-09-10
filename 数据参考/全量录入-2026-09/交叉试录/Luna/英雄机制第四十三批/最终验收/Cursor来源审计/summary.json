@@ -1,0 +1,860 @@
+{
+  "startedAt": "2026-09-09T20:50:23.295Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-20260910",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-run-20260910",
+  "promptSource": "hero43-cursor-prompt.txt",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-20260910",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 1,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-d247965d-c989-4c50-8206-9ea11cf3e4d2",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "f04ad530-23e2-4897-b43c-dc04043cc196",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-20260910",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 622,
+    "assistant": 5906,
+    "tool_call": 102,
+    "usage": 1
+  },
+  "assistantText": "按只读评审要求先核对来源绑定、范围文档和当前文本，不写文件、不跑命令。先摸清来源绑定结构、保护快照和属性选择器口径，再逐槽核对。继续抽取各槽计算公式、施法时间、当前文本和官方描述，逐字段对照。接着核对千珏、纳亚菲利和劫的技能树与官方文本。**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero43-source-v1**\n\n客户端16.17、官方16.17.1一致。196 GET、24公共冷却/消耗已与来源逐级对齐（技能冷却索引1、资源索引0），槽内公式/效果仍空。本包未保存，不声称业务写入、页面或战斗通过。mStat2/formula2=额外AD；省略formula的mStat2=总AD；省略mStat的系数项按窄证为法强；mStat12省略formula按窄证为最大生命。mStat8/9/13/15及`{a8cb9c14}`不猜。百分数点与比例、每跳/每秒/全程总和分开。\n\n---\n\n**普朗克**\n\n1. **P 烈火审讯**  \n可录：`Cooldown` 15s（樱桃10不采用）；`DoTDuration` 2.5s 全程真实伤害（非每跳）；`MoveSpeedDuration` 2s。`TotalDamage`=插值50→250（仅上下限，不线性18级）+1.0×额外AD；`MoveSpeed` 比例0.15→0.30、`mDisplayAsPercent` 显示15%–30%，插值算法未知。无`mCastTime`，不冒充瞬发。  \n范围外：炮塔`TurretDamageMult` 0.5。  \n未知：DoT跳数/间隔。\n\n2. **Q 枪火谈判**  \n可录：冷却4.5s=4500ms、法力50/45/40/35/30（已复用）。`ShotDamage`=SpellDamage 索引1–5为10/40/70/100/130+1.0×总AD。`ShotCrit`当前消费于扩展文本，保留为暴击修正树；乘数含未证mStat9，不猜暴击伤害输入。无`mCastTime`，施法时间未知。主提示为`GameModeInteger`未展开模板，不以gzip补句。  \n范围外：`GoldProc`/`SSProc`/银蛇币/已掠金币。  \n未消费：`ManaRefundPercent`无值。\n\n3. **W 坏血病疗法**  \n可录：冷却22/20/18/16/14s、法力60–100（已复用）；`mCastTime` 0.25s。`BaseHealth`（tooltipOnly且当前消费）=BaseHeal 45/70/95/120/145+0.9×法强。`PercentHeal`=13百分数点已损失生命（文本`@PercentHeal@%`，不是0.13）。  \n未知：已损失生命选择器（mStat15仅BotData，未入当前计算树）。`HasteAmount`/`unused`不录。\n\n4. **E 火药桶**  \n整槽按陷阱跳过：放置、生命衰减、连锁爆炸、爆炸伤害/减速/护甲穿透/充能弹药。不按英雄名清空记录，但无独立于桶系统的本体可录输出。金币排除。\n\n5. **R 加农炮幕**  \n可录：冷却160/140/120s、法力100（已复用）；`mCastTime` 0.25s。`OneWaveDamage`=DamagePerWave 40/70/100+0.1×法强（每波，非每秒）。`TotalDamageTooltip`=×12为全程总和（`TotalWavesTooltip`=12，不由8s/`CannonInterval`2s反推跳数）。当前敌人减速30百分数点、0.5s。商店升级：死亡之女`DeathsDaughterDamage`=120/210/300+0.3×法强（当前敌真实伤害）；文本显式“6波额外”可录为文本常量。  \n范围外：鼓舞士气友军移速；纯金钱。  \n未知：实际波次时序 vs 提示12波。\n\n---\n\n**千珏**\n\n6. **P 千珏之印**  \n可录战前印记自身成长（与经济掉落分开）：门槛4层、之后每3层；`QMarkBonus` tooltipOnly且当前消费，每层0.05、`mDisplayAsPercent`=每层5%攻速；`WMarkBonus`每层0.01→1%当前生命；`EMarkBonus`每层0.005→0.5%已损失生命。`RangeIncrease`=25。  \n未知：匿名`{d34fc902}`=25×3=75，当前文本消费`FirstTierRangeIncreaseTT`，字段名未证等同，不把75当已证。`BaseHealAmount`45+`HealAmountPerLevel`2未消费。  \n范围外：野怪狩猎路线/兵野专用。\n\n7. **Q 乱箭之舞**  \n可录：冷却9s、法力35（已复用）。`TotalDamage`=BaseDamage 40/65/90/115/140+0.75×额外AD。`TotalQAttackSpeed` tooltipOnly当前消费：0.35+每层0.05、`mDisplayAsPercent`（35%+印记），持续4s。W内冷却`CDNewValue`索引1–5=4/3.5/3/2.5/2s。位移保留。  \n施法时间冲突：`mCastTime`≈0.01 与 `spellCastTime` 0.25，不任取、不冒充瞬发。  \n未消费：`DashSpeedScaling`。\n\n8. **W 狼灵狂热**  \n可录自身：冷却18–14s、法力40（已复用）；仅有`spellCastTime` 0.25（无`mCastTime`）。`AttackHeal`纯加法断点47+2/级，完整18级47…81，为“至多”值；已损失生命如何缩放到该上限未知。领地8.5s。  \n跳过：狼灵自主攻击`BaseWolfDamage`/`PercentWolfDamage`/`{fe248f68}`（含未证mStat13）、AS→狼咬转换。  \n范围外：野怪增伤/减速。勿把`ClonePercentDamagePerBounty`与印记层数混同。\n\n9. **E 横生惧意**  \n可录：冷却14/12.5/11/9.5/8s（已复用）；官方消耗0，不以`manaUiOverride`50冒充消耗。`BaseBiteDamage`加法部=80/110/140/170/200+1.0×额外AD。`PercentBiteDamage`=0.05+每层0.005、`mDisplayAsPercent`、`mPrecision`1（5%+0.5%/层已损失生命）。`TotalSlow`=30百分数点+0.05×法强，持续1s；窗口4s第三次攻击。仅有`spellCastTime` 0.25。  \n未知：暴击乘数mStat8/9（不猜）；`CritDamage`未入当前文本。  \n范围外：野怪已损失生命上限200。\n\n10. **R 羊灵生息**  \n可录当前双方：冷却160/140/120s、法力100（已复用）；持续4s；文本显式10%生命地板；结束治疗`HealFlat`索引1–3=225/300/375。仅有`spellCastTime` 0.25。  \n范围外：第三友方治疗/分配。  \n未消费：无名`mCoefficient` 0.22/0.33。\n\n---\n\n**纳亚菲利**（客户端W/R对象对调，根绑定已按槽对齐：W=NaafiriR暴吼，R=NaafiriW猎狗血性）\n\n11. **P 狂烈种群**  \n跳过犬群生成/自主攻击/狂暴伤害（含tooltipOnly`FrenzyDamageTooltipOnly`）。冷却缩减与数量上限均属召唤周期，不录为本体输出。  \n范围外：野怪/建筑/非英雄承伤、小兵处决。  \n未消费：`HealthRegenDelay`/`HealthRegenPercent`。断点中间过程不线性化。\n\n12. **Q 暗裔犬牙**  \n可录本体：冷却9/8.5/8/7.5/7s、法力50–90（已复用）；`mCastTime` 0.25。一段`TotalDamageFirstCast`=35/40/45/50/55+0.2×额外AD。流血`TotalBleedDamage`=35/60/85/110/135+0.8×额外AD，为5s全程总和（`BleedInterval`0.5仅数据，跳数不编、非每秒）。重施窗口4s、锁0.75s。二段下限=30/42.5/55/67.5/80+0.4×额外AD；上限=`ExecuteMultiplier`2×(同基础+0.7×额外AD)，已损失生命插值过程未知。治疗`TotalHealSecondCast`=45/60/75/90/105+0.4×额外AD（英雄路径保留，大型野怪路径排除）。  \n跳过：犬群跃击。  \n范围外：小兵处决阈值。\n\n13. **W 暴吼**  \n可录本体：冷却26/24/22/20/18s、法力60（已复用）；`mCastTime`=`spellCastTime`=0.75s。不可选取1s。`BonusAD`=0.2×总AD。移速`MoveSpeedAmount`索引1–5为比例0.20/0.225/0.25/0.275/0.30，文本`×100`→20%–30**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero43-source-v1**\n\n客户端 16.17、官方 16.17.1。24 公共冷却/法力已与根绑定索引一致，仅作保护，不视为技能写入完成。未保存，不声称业务/页面/战斗通过。技能等级 DataValues/冷却取索引 1；资源消耗取索引 0。mStat2+formula2=额外攻击力；省略 formula=总攻击力；mStat12 省略 formula=最大生命（窄证）。mPrecision 仅显示精度。\n\n---\n\n**普朗克 P 烈火审讯**  \n可录：`TotalDamage`=插值下 50 / 上 250 + **1.0×额外AD**（mStat2/formula2，`ADRatio=1`）；`DoTDuration=2.5s` 为**全程总和**非每跳；`MoveSpeed` 比例下 0.15 / 上 0.30（`mDisplayAsPercent`，展示 15%–30%），`MoveSpeedDuration=2s`；被动冷却 `Cooldown=15s`（当前消费）。  \n未知：插值算法，不可线性化 18 级。无施法时间。  \n范围外：防御塔 `TurretDamageMult=0.5`。樱桃冷却 10 不录。\n\n**普朗克 Q 枪火谈判**  \n可录：冷却 4.5s（4500ms 已复用）；法力 50/45/40/35/30（索引 0）。`ShotDamage`=`SpellDamage` 10/40/70/100/130 + **1.0×总AD**（mStat2 省略 formula）。`ShotCrit` 当前消费（扩展树），保留为修正树。  \n未知：主提示 `{{…_@GameModeInteger@}}` 未展开，不以 gzip 补句；`mStat9` 暴击乘区未证；无 `mCastTime`，**不得作瞬发**。`ManaRefundPercent` 无值。  \n范围外：`GoldProc`/`SSProc`、银蛇币与金币统计。\n\n**普朗克 W 坏血病疗法**  \n可录：冷却 22/20/18/16/14s、法力 60/70/80/90/100（已复用）；`mCastTime=0.25s`。`BaseHealth`（tooltipOnly 且当前消费）=`BaseHeal` 45/70/95/120/145 + **0.9×法强**（省略 mStat 窄证 AP）；`PercentHeal=13` 为**已损失生命百分点**（`@PercentHeal@%`），非 0.13。  \n未知：已损失生命选择器；`mStat15` 仅 Bot 树，单列未消费。`BuffDuration_unused`/`SteroidAmount_unused` 不录。\n\n**普朗克 E 火药桶**  \n按陷阱跳过：放置物、连锁爆炸、桶伤、桶减速、生命衰减、充能弹药。不按英雄名清空槽，但本槽无独立本体伤害/治疗/位移可录。`BarrelEnemyGoldBounty` 经济排除。`BarrelDecayTime` 断点（7/13 级）属桶系统，不录。\n\n**普朗克 R 加农炮幕**  \n可录：冷却 160/140/120s、法力 100（已复用）；`mCastTime=0.25s`。单波 `OneWaveDamage`=`DamagePerWave` 40/70/100 + **0.1×法强**；`TotalDamageTooltip`=单波×`TotalWavesTooltip=12`（**全程总和**，非每秒）；`ZoneDuration=8s`、`SlowPercent=30` 百分点、`SlowDuration=0.5s`。死亡之女（当前敌）：`DeathsDaughterDamage`=120/210/300+**0.3×法强**，减速 75%×1s。文本明示额外 6 波可保留为升级分支。  \n未知：8s/`CannonInterval=2`/`CannonDelay=0.5` 与 12 波关系，不编跳数/DPS。  \n范围外：鼓舞士气友军移速；纯商店经济。\n\n---\n\n**千珏 P 千珏之印**  \n可录战前层数（勿与经济掉落混同）：`InitialMarkThreshold=4`、`AdditionalMarkThreshold=3`；`RangeIncrease=25`；`QMarkBonus`（tooltipOnly 已消费）每层 **0.05 且 displayAsPercent=5%攻速**；`WMarkBonus` 每层 **0.01→1%当前生命**；`EMarkBonus` 每层 **0.005→0.5%已损失生命**。  \n未知：匿名 `{d34fc902}`=`RangeIncrease×FirstTierMultiplier(3)` 与 `@FirstTierRangeIncreaseTT@` 未证同名。`BaseHealAmount=45`、`HealAmountPerLevel=2` 未消费。`EDamagePerMark=0.5` 未被 E 公式使用。  \n范围外：野怪狩猎流程/野区专用说明。\n\n**千珏 Q 乱箭之舞**  \n可录：冷却 9s、法力 35（已复用）。`TotalDamage`=`BaseDamage` 40/65/90/115/140 + **0.75×额外AD**；`TotalQAttackSpeed`（tooltipOnly 已消费）=0.35 + 印记×0.05（displayAsPercent）；`BaseASDuration=4s`；W 内冷却 `CDNewValue` 4/3.5/3/2.5/2s。位移保留。  \n未知：**`mCastTime≈0.01` 与 `spellCastTime=0.25` 冲突，不任取、不冒充瞬发。** 至多 3 名敌人中额外目标分配排除，只录当前唯一敌人。\n\n**千珏 W 狼灵狂热**  \n可录自身：冷却 18/17/16/15/14s、法力 40（已复用）；`AttackHeal` 纯加法断点 1 级 47、每级 +2，18 级 **47–81**（至多治疗；已损失生命折算未知）；`ZoneDuration=8.5s`。仅 `spellCastTime=0.25`，无 `mCastTime`，不作冲突瞬发。  \n跳过：狼灵自主攻击 `BaseWolfDamage`/`PercentWolfDamage`、`{fe248f68}`（mStat13 未证）、野怪加成/减速。`LambToWolfAttackSpeedConversionPercent=0.25` 属狼咬频率，跳过。\n\n**千珏 E 横生惧意**  \n可录：冷却 14/12.5/11/9.5/8s（已复用）；官方消耗 0，`manaUiOverride=50` 不作实耗。`BaseBiteDamage` 加法=80/110/140/170/200+**1.0×额外AD**；`PercentBiteDamage`=0.05+印记×0.005（displayAsPercent，precision 1）为**已损失生命比例**；`TotalSlow`=30 百分点 + **0.05×法强**；`SlowDuration=1s`、`TotalDuration=4s`。仅 `spellCastTime=0.25`。  \n未知：乘区 `mStat8/9` 暴击未证，不猜；`CritDamage` 树未在主提示消费，单列。  \n范围外：`MonsterCap` 野怪上限。\n\n**千珏 R 羊灵生息**  \n可录当前双方：冷却 160/140/120s、法力 100（已复用）；`BuffDuration=4s`；赐福结束治疗 `HealFlat` 225/300/375；文本 10% 生命地板。仅 `spellCastTime=0.25`。  \n范围外：第三友方、中立单位治疗。`mCoefficient` 0.22/0.33 无名未证。无 `mSpellCalculations` 伤害树。\n\n---\n\n**纳亚菲利 P 狂烈种群**  \n跳过犬群生成/自主攻击/召回输出（`PackmateTotalDamage`、狂暴乘区、数量/冷却断点）。  \n未消费：`HealthRegenDelay=5`、`HealthRegenPercent=0.25`。  \n范围外：兵野处决、野怪/防御塔修正、视野外群体承伤。AOE 断点有 16 级空断点，不可线性化。\n\n**纳亚菲利 Q 暗裔犬牙**  \n可录本体：冷却 9/8.5/8/7.5/7s、法力 50/60/70/80/90（已复用）；`mCastTime=0.25s`（展开对象有值，索引头 null 不覆盖）。一段 `TotalDamageFirstCast`=35/40/45/50/55+**0.2×额外AD**；流血 **全程** `TotalBleedDamage`=35/60/85/110/135+**0.8×额外AD**，`BleedDuration=5s`（`BleedInterval=0.5` 不编每跳）；再施 `TotalMinDamageSecondCast`=30/42.5/55/67.5/80+**0.4×额外AD**；上限 `TotalMaxDamageSecondCast`=2×(同基础+**0.7×额外AD**)，**不是** 2×下限；英雄治疗 `TotalHealSecondCast`=45/60/75/90/105+**0.4×额外AD**；`RecastWindow=4s`。跨技能 `@spell.NaafiriQ:*` 按当前消费保留。  \n范围外：犬群跳跃嘲讽、小兵/非史诗处决。空断点处决曲线不线性化。\n\n**纳亚菲利 W 暴吼**（根绑定 `NaafiriR`，槽位已校正）  \n可录本体：冷却 26/24/22/20/18s、法力 60（已复用）；`mCastTime=spellCastTime=0.75s`。不可选取 1s；`BonusAD`=**0.2×总AD**（mStat2 省略 formula）；移速比例 0.20/0.225/0.25/0.275/0.30（`×100` 为百分点），持续 `Duration=5s`。  \n跳过：额外犬群、召回。`NaafiriADFlatBoost` 无值。\n\n**纳亚菲利 E 剔骨本能**  \n可录本体两段：冷却 11/10/9/8/7s、法力 40（已复用）。一段 15/25/35/45/55+**0.4×额外AD**；二段 60/85/110/135/160+**0.8×额外AD**（分段，不默认求和）。`DashDistance=450`。  \n未知：无 `mCastTime`/`spellCastTime`，**不冒充瞬发**。  \n跳过：犬群召回与 100% 犬群治疗。\n\n**纳亚菲利 R 猎狗血性**（根绑定 `NaafiriW`）  \n可录本体：冷却 110/95/80s、法力 100（已复用）。`TotalDamage`=125/200/275+**1.0×额外AD**；护盾 `ShieldTotal`=100/150/200+**1.5×额外AD**，`ShieldDuration=3s`；`TakedownWindow=7s`、`RecastWindow=12s`。减速数值未进当前提示（仅“短暂”）。  \n未知：**`spellCastTime=0` 与 `mChannelDuration=0.75` 冲突，不用 0 冒充瞬发。** `ArmorShred` 纯加法 1 级 6、每级 +2 未消费，单列。  \n跳过：`PackmateDamage`、召回冲刺。视野/显形排除。\n\n---\n\n**劫 P 灭魂劫**  \n可录当前敌：阈值 `CurrentHealthThreshold=0.5`（50%）；`PerUnitCD=10s`。匿名 `{6a1a62e9}` 经 `MaxHPDamage` 当前消费：1 级 0.05（displayAsPercent、precision 1）；7/17 级各 `mAdditionalBonusAtThisLevel=+0.025`；省略每级斜率按构造 0，**不线性插值**。`TotalDamage`=该比例×**最大生命**（mStat12 省略 formula）。  \n未知：断点是否立即计入、条件树 `FinalDamage` 实际门控。`{a8cb9c14}` 未证。  \n范围外：野怪修正/上限；慎劫任务 `{ad3d785f}` 未消费。\n\n**劫 Q 诸刃**  \n可录本体：冷却 6s（已复用）；能量 75/70/65/60/55（索引 0，**能量非法力**，不在 24 复用内）。`TotalDamage`=80/120/160/200/240+**1.0×额外AD**。仅 `spellCastTime=0.25`。  \n范围外：影分身复制；`PassThroughDamage=0.6×` 额外敌人。\n\n**劫 W 分身**  \n可录自身位移/能量：冷却 20/19/18/17/16s、能量 40/35/30/25/20（均未复用）。被动回复 `EnergyRestoreDoubleHit` 30/35/40/45/50（同技能重复命中当前英雄，每次技能一次）；`ShadowDurationTooltip=5s`（与内部 `ShadowDuration=5.25` 区分，用当前消费 5）。互换为自身位移。仅 `spellCastTime=0.25`。  \n跳过：分身作为额外攻击主体与复制输出。`mCoefficient=0.9` 无名未证。\n\n**劫 E 鬼斩**  \n可录本体：冷却 5/4.5/4/3.5/3s（已复用）；能量 40。`TotalDamage`=70/92.5/115/137.5/160+**0.7×额外AD**；命中英雄缩短 W `ShadowHitCDR=3s`。仅 `spellCastTime=0.25`。  \n跳过：影分身斩击与其减速（`MoveSpeedMod`/`MoveSpeedModBonus` 绑定分身/多重斩击）。不把分身伤并入本体。\n\n**劫 R 瞬狱影杀阵**  \n可录：冷却 120/110/100s；无消耗。自身不可选取与突进；标记 `RDeathMarkDuration=3s`；引爆 `RCalculatedDamage`=**1.0×总AD**（mStat2 省略 formula）+ 印记期**本体**伤害×`RDamageAmp` 0.25/0.40/0.55；再施互换为自身位移。`RShadowDurationDisplayed=7.5s` 只作标记窗口时长，不分身伤害。仅 `spellCastTime=0.25`。  \n未知：`RBaseDamage` 无值；匿名 `{43a019eb}`=7.5+0.5 未消费（扩展写额外 1.5s，对不上）。击杀窃取 AD 仅摘要、主提示未消费。  \n范围外：影分身复制输出、`RVisionDuration` 视野。印记统计不得混入分身伤害。\n\n---\n\n资格：20 槽根绑定齐全；公共 24 参与来源逐级一致。樱桃/URF 覆盖不进召唤师峡谷。未证选择器（mStat 8/9/13/15）不猜输入。",
+  "toolCalls": [
+    {
+      "callId": "call-c37b7880-2e6f-4520-9480-01ede5f3594f-0\nfc_48ec3a56-a0d8-93c2-9294-63e53aa017f8_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c37b7880-2e6f-4520-9480-01ede5f3594f-1\nfc_48ec3a56-a0d8-93c2-9294-63e53aa017f8_1",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c37b7880-2e6f-4520-9480-01ede5f3594f-2\nfc_48ec3a56-a0d8-93c2-9294-63e53aa017f8_2",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c37b7880-2e6f-4520-9480-01ede5f3594f-1\nfc_48ec3a56-a0d8-93c2-9294-63e53aa017f8_1",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c37b7880-2e6f-4520-9480-01ede5f3594f-2\nfc_48ec3a56-a0d8-93c2-9294-63e53aa017f8_2",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c37b7880-2e6f-4520-9480-01ede5f3594f-0\nfc_48ec3a56-a0d8-93c2-9294-63e53aa017f8_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-3\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-3\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-4\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-4\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-5\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-5\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-6\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-6\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-7\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-8\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-7\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-98c830a0-1f7d-43ab-91f6-418941308148-8\nfc_f0fc676c-cce3-9928-b6b8-ccccc190af3c_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-9\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-9\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-10\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-10\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-11\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-11\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-12\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-13\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_4",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-12\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d1d5b555-07cf-4d44-97ac-464fc8e1191e-13\nfc_3a1a8899-4d09-9347-9f41-5974f3da54d3_4",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-cd2f5440-2058-405c-9099-6b9de9b12876-14\nfc_b3f96836-f726-99ee-bcc5-0f685839cfa9_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-cd2f5440-2058-405c-9099-6b9de9b12876-15\nfc_b3f96836-f726-99ee-bcc5-0f685839cfa9_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-cd2f5440-2058-405c-9099-6b9de9b12876-16\nfc_b3f96836-f726-99ee-bcc5-0f685839cfa9_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-cd2f5440-2058-405c-9099-6b9de9b12876-14\nfc_b3f96836-f726-99ee-bcc5-0f685839cfa9_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-cd2f5440-2058-405c-9099-6b9de9b12876-15\nfc_b3f96836-f726-99ee-bcc5-0f685839cfa9_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-cd2f5440-2058-405c-9099-6b9de9b12876-16\nfc_b3f96836-f726-99ee-bcc5-0f685839cfa9_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7ebe5b5e-d778-4f32-b72e-297db72daf46-17\nfc_ce1a65ba-ac68-93b2-90ca-c61d521dbab8_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7ebe5b5e-d778-4f32-b72e-297db72daf46-17\nfc_ce1a65ba-ac68-93b2-90ca-c61d521dbab8_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7ebe5b5e-d778-4f32-b72e-297db72daf46-18\nfc_ce1a65ba-ac68-93b2-90ca-c61d521dbab8_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7ebe5b5e-d778-4f32-b72e-297db72daf46-18\nfc_ce1a65ba-ac68-93b2-90ca-c61d521dbab8_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7ebe5b5e-d778-4f32-b72e-297db72daf46-19\nfc_ce1a65ba-ac68-93b2-90ca-c61d521dbab8_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7ebe5b5e-d778-4f32-b72e-297db72daf46-20\nfc_ce1a65ba-ac68-93b2-90ca-c61d521dbab8_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7ebe5b5e-d778-4f32-b72e-297db72daf46-19\nfc_ce1a65ba-ac68-93b2-90ca-c61d521dbab8_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7ebe5b5e-d778-4f32-b72e-297db72daf46-20\nfc_ce1a65ba-ac68-93b2-90ca-c61d521dbab8_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-78bd8fb0-ce92-4157-971a-fb111420b8e1-21\nfc_0d938e91-7012-918a-8fdd-d51b4cca1960_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-78bd8fb0-ce92-4157-971a-fb111420b8e1-21\nfc_0d938e91-7012-918a-8fdd-d51b4cca1960_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-78bd8fb0-ce92-4157-971a-fb111420b8e1-22\nfc_0d938e91-7012-918a-8fdd-d51b4cca1960_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-78bd8fb0-ce92-4157-971a-fb111420b8e1-23\nfc_0d938e91-7012-918a-8fdd-d51b4cca1960_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-78bd8fb0-ce92-4157-971a-fb111420b8e1-22\nfc_0d938e91-7012-918a-8fdd-d51b4cca1960_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-78bd8fb0-ce92-4157-971a-fb111420b8e1-23\nfc_0d938e91-7012-918a-8fdd-d51b4cca1960_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d234b5c-7ca4-4f13-891a-6c4709b2b1a6-24\nfc_98d67831-d78b-9cb1-a0b6-53cc0c4def15_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d234b5c-7ca4-4f13-891a-6c4709b2b1a6-24\nfc_98d67831-d78b-9cb1-a0b6-53cc0c4def15_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d234b5c-7ca4-4f13-891a-6c4709b2b1a6-25\nfc_98d67831-d78b-9cb1-a0b6-53cc0c4def15_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d234b5c-7ca4-4f13-891a-6c4709b2b1a6-26\nfc_98d67831-d78b-9cb1-a0b6-53cc0c4def15_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d234b5c-7ca4-4f13-891a-6c4709b2b1a6-25\nfc_98d67831-d78b-9cb1-a0b6-53cc0c4def15_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5d234b5c-7ca4-4f13-891a-6c4709b2b1a6-26\nfc_98d67831-d78b-9cb1-a0b6-53cc0c4def15_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-09c98967-5290-4d33-8cf1-a60614d56b71-27\nfc_70876eb5-36bc-952a-b02e-86173385e143_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-09c98967-5290-4d33-8cf1-a60614d56b71-28\nfc_70876eb5-36bc-952a-b02e-86173385e143_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-09c98967-5290-4d33-8cf1-a60614d56b71-29\nfc_70876eb5-36bc-952a-b02e-86173385e143_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-09c98967-5290-4d33-8cf1-a60614d56b71-28\nfc_70876eb5-36bc-952a-b02e-86173385e143_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-09c98967-5290-4d33-8cf1-a60614d56b71-27\nfc_70876eb5-36bc-952a-b02e-86173385e143_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-09c98967-5290-4d33-8cf1-a60614d56b71-29\nfc_70876eb5-36bc-952a-b02e-86173385e143_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f09b8de6-13ee-4f2d-be10-e9c43836962b-30\nfc_f363e65d-0c75-92ca-8899-565918387c87_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f09b8de6-13ee-4f2d-be10-e9c43836962b-31\nfc_f363e65d-0c75-92ca-8899-565918387c87_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f09b8de6-13ee-4f2d-be10-e9c43836962b-32\nfc_f363e65d-0c75-92ca-8899-565918387c87_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f09b8de6-13ee-4f2d-be10-e9c43836962b-30\nfc_f363e65d-0c75-92ca-8899-565918387c87_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f09b8de6-13ee-4f2d-be10-e9c43836962b-31\nfc_f363e65d-0c75-92ca-8899-565918387c87_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f09b8de6-13ee-4f2d-be10-e9c43836962b-32\nfc_f363e65d-0c75-92ca-8899-565918387c87_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-314003b1-444b-4327-8996-c3cda24ac19c-33\nfc_50c6ff45-a1cc-9149-8605-003037aade2c_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-314003b1-444b-4327-8996-c3cda24ac19c-34\nfc_50c6ff45-a1cc-9149-8605-003037aade2c_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-314003b1-444b-4327-8996-c3cda24ac19c-35\nfc_50c6ff45-a1cc-9149-8605-003037aade2c_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-314003b1-444b-4327-8996-c3cda24ac19c-33\nfc_50c6ff45-a1cc-9149-8605-003037aade2c_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-314003b1-444b-4327-8996-c3cda24ac19c-34\nfc_50c6ff45-a1cc-9149-8605-003037aade2c_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-314003b1-444b-4327-8996-c3cda24ac19c-35\nfc_50c6ff45-a1cc-9149-8605-003037aade2c_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a6285814-af88-4ae5-b363-54509b28a2f0-36\nfc_0b11a4fd-9701-9cf7-9dcc-2cff5babcbc1_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a6285814-af88-4ae5-b363-54509b28a2f0-37\nfc_0b11a4fd-9701-9cf7-9dcc-2cff5babcbc1_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a6285814-af88-4ae5-b363-54509b28a2f0-38\nfc_0b11a4fd-9701-9cf7-9dcc-2cff5babcbc1_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a6285814-af88-4ae5-b363-54509b28a2f0-36\nfc_0b11a4fd-9701-9cf7-9dcc-2cff5babcbc1_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a6285814-af88-4ae5-b363-54509b28a2f0-37\nfc_0b11a4fd-9701-9cf7-9dcc-2cff5babcbc1_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a6285814-af88-4ae5-b363-54509b28a2f0-38\nfc_0b11a4fd-9701-9cf7-9dcc-2cff5babcbc1_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-493b85b9-6d80-4f3a-981e-807da5914b41-39\nfc_55d53679-cae4-90db-8c5d-babe34c257e9_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-493b85b9-6d80-4f3a-981e-807da5914b41-40\nfc_55d53679-cae4-90db-8c5d-babe34c257e9_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-493b85b9-6d80-4f3a-981e-807da5914b41-41\nfc_55d53679-cae4-90db-8c5d-babe34c257e9_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-493b85b9-6d80-4f3a-981e-807da5914b41-39\nfc_55d53679-cae4-90db-8c5d-babe34c257e9_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-493b85b9-6d80-4f3a-981e-807da5914b41-40\nfc_55d53679-cae4-90db-8c5d-babe34c257e9_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-493b85b9-6d80-4f3a-981e-807da5914b41-41\nfc_55d53679-cae4-90db-8c5d-babe34c257e9_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-3f6678ff-94de-4d1e-a7ff-f3eebd301f7f-42\nfc_0c62b8b7-7dd2-9d86-a90e-44f2892856f5_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-3f6678ff-94de-4d1e-a7ff-f3eebd301f7f-43\nfc_0c62b8b7-7dd2-9d86-a90e-44f2892856f5_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-3f6678ff-94de-4d1e-a7ff-f3eebd301f7f-44\nfc_0c62b8b7-7dd2-9d86-a90e-44f2892856f5_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-3f6678ff-94de-4d1e-a7ff-f3eebd301f7f-42\nfc_0c62b8b7-7dd2-9d86-a90e-44f2892856f5_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-3f6678ff-94de-4d1e-a7ff-f3eebd301f7f-43\nfc_0c62b8b7-7dd2-9d86-a90e-44f2892856f5_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-3f6678ff-94de-4d1e-a7ff-f3eebd301f7f-44\nfc_0c62b8b7-7dd2-9d86-a90e-44f2892856f5_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8e15a5fd-a13e-42f9-bc21-e526596ecd7a-45\nfc_2fa8e3ca-4b34-9969-a2a0-0cedfafad99c_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8e15a5fd-a13e-42f9-bc21-e526596ecd7a-46\nfc_2fa8e3ca-4b34-9969-a2a0-0cedfafad99c_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8e15a5fd-a13e-42f9-bc21-e526596ecd7a-47\nfc_2fa8e3ca-4b34-9969-a2a0-0cedfafad99c_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8e15a5fd-a13e-42f9-bc21-e526596ecd7a-45\nfc_2fa8e3ca-4b34-9969-a2a0-0cedfafad99c_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8e15a5fd-a13e-42f9-bc21-e526596ecd7a-47\nfc_2fa8e3ca-4b34-9969-a2a0-0cedfafad99c_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8e15a5fd-a13e-42f9-bc21-e526596ecd7a-46\nfc_2fa8e3ca-4b34-9969-a2a0-0cedfafad99c_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-431f8fe4-5640-47ef-beaf-b0af08ff4bfc-48\nfc_acf0d130-0df1-9d10-862b-f114a964a42a_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-431f8fe4-5640-47ef-beaf-b0af08ff4bfc-48\nfc_acf0d130-0df1-9d10-862b-f114a964a42a_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-431f8fe4-5640-47ef-beaf-b0af08ff4bfc-49\nfc_acf0d130-0df1-9d10-862b-f114a964a42a_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-431f8fe4-5640-47ef-beaf-b0af08ff4bfc-50\nfc_acf0d130-0df1-9d10-862b-f114a964a42a_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-431f8fe4-5640-47ef-beaf-b0af08ff4bfc-49\nfc_acf0d130-0df1-9d10-862b-f114a964a42a_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-431f8fe4-5640-47ef-beaf-b0af08ff4bfc-50\nfc_acf0d130-0df1-9d10-862b-f114a964a42a_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-run-20260910\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-run-20260910\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-run-20260910\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-run-20260910\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-run-20260910\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-run-20260910\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero43-cursor-review-run-20260910\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-d247965d-c989-4c50-8206-9ea11cf3e4d2",
+  "runId": "run-9f43b1ae-e324-489e-8638-654238cffff6",
+  "result": {
+    "id": "run-9f43b1ae-e324-489e-8638-654238cffff6",
+    "requestId": "f04ad530-23e2-4897-b43c-dc04043cc196",
+    "status": "finished",
+    "result": "**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero43-source-v1**\n\n客户端 16.17、官方 16.17.1。24 公共冷却/法力已与根绑定索引一致，仅作保护，不视为技能写入完成。未保存，不声称业务/页面/战斗通过。技能等级 DataValues/冷却取索引 1；资源消耗取索引 0。mStat2+formula2=额外攻击力；省略 formula=总攻击力；mStat12 省略 formula=最大生命（窄证）。mPrecision 仅显示精度。\n\n---\n\n**普朗克 P 烈火审讯**  \n可录：`TotalDamage`=插值下 50 / 上 250 + **1.0×额外AD**（mStat2/formula2，`ADRatio=1`）；`DoTDuration=2.5s` 为**全程总和**非每跳；`MoveSpeed` 比例下 0.15 / 上 0.30（`mDisplayAsPercent`，展示 15%–30%），`MoveSpeedDuration=2s`；被动冷却 `Cooldown=15s`（当前消费）。  \n未知：插值算法，不可线性化 18 级。无施法时间。  \n范围外：防御塔 `TurretDamageMult=0.5`。樱桃冷却 10 不录。\n\n**普朗克 Q 枪火谈判**  \n可录：冷却 4.5s（4500ms 已复用）；法力 50/45/40/35/30（索引 0）。`ShotDamage`=`SpellDamage` 10/40/70/100/130 + **1.0×总AD**（mStat2 省略 formula）。`ShotCrit` 当前消费（扩展树），保留为修正树。  \n未知：主提示 `{{…_@GameModeInteger@}}` 未展开，不以 gzip 补句；`mStat9` 暴击乘区未证；无 `mCastTime`，**不得作瞬发**。`ManaRefundPercent` 无值。  \n范围外：`GoldProc`/`SSProc`、银蛇币与金币统计。\n\n**普朗克 W 坏血病疗法**  \n可录：冷却 22/20/18/16/14s、法力 60/70/80/90/100（已复用）；`mCastTime=0.25s`。`BaseHealth`（tooltipOnly 且当前消费）=`BaseHeal` 45/70/95/120/145 + **0.9×法强**（省略 mStat 窄证 AP）；`PercentHeal=13` 为**已损失生命百分点**（`@PercentHeal@%`），非 0.13。  \n未知：已损失生命选择器；`mStat15` 仅 Bot 树，单列未消费。`BuffDuration_unused`/`SteroidAmount_unused` 不录。\n\n**普朗克 E 火药桶**  \n按陷阱跳过：放置物、连锁爆炸、桶伤、桶减速、生命衰减、充能弹药。不按英雄名清空槽，但本槽无独立本体伤害/治疗/位移可录。`BarrelEnemyGoldBounty` 经济排除。`BarrelDecayTime` 断点（7/13 级）属桶系统，不录。\n\n**普朗克 R 加农炮幕**  \n可录：冷却 160/140/120s、法力 100（已复用）；`mCastTime=0.25s`。单波 `OneWaveDamage`=`DamagePerWave` 40/70/100 + **0.1×法强**；`TotalDamageTooltip`=单波×`TotalWavesTooltip=12`（**全程总和**，非每秒）；`ZoneDuration=8s`、`SlowPercent=30` 百分点、`SlowDuration=0.5s`。死亡之女（当前敌）：`DeathsDaughterDamage`=120/210/300+**0.3×法强**，减速 75%×1s。文本明示额外 6 波可保留为升级分支。  \n未知：8s/`CannonInterval=2`/`CannonDelay=0.5` 与 12 波关系，不编跳数/DPS。  \n范围外：鼓舞士气友军移速；纯商店经济。\n\n---\n\n**千珏 P 千珏之印**  \n可录战前层数（勿与经济掉落混同）：`InitialMarkThreshold=4`、`AdditionalMarkThreshold=3`；`RangeIncrease=25`；`QMarkBonus`（tooltipOnly 已消费）每层 **0.05 且 displayAsPercent=5%攻速**；`WMarkBonus` 每层 **0.01→1%当前生命**；`EMarkBonus` 每层 **0.005→0.5%已损失生命**。  \n未知：匿名 `{d34fc902}`=`RangeIncrease×FirstTierMultiplier(3)` 与 `@FirstTierRangeIncreaseTT@` 未证同名。`BaseHealAmount=45`、`HealAmountPerLevel=2` 未消费。`EDamagePerMark=0.5` 未被 E 公式使用。  \n范围外：野怪狩猎流程/野区专用说明。\n\n**千珏 Q 乱箭之舞**  \n可录：冷却 9s、法力 35（已复用）。`TotalDamage`=`BaseDamage` 40/65/90/115/140 + **0.75×额外AD**；`TotalQAttackSpeed`（tooltipOnly 已消费）=0.35 + 印记×0.05（displayAsPercent）；`BaseASDuration=4s`；W 内冷却 `CDNewValue` 4/3.5/3/2.5/2s。位移保留。  \n未知：**`mCastTime≈0.01` 与 `spellCastTime=0.25` 冲突，不任取、不冒充瞬发。** 至多 3 名敌人中额外目标分配排除，只录当前唯一敌人。\n\n**千珏 W 狼灵狂热**  \n可录自身：冷却 18/17/16/15/14s、法力 40（已复用）；`AttackHeal` 纯加法断点 1 级 47、每级 +2，18 级 **47–81**（至多治疗；已损失生命折算未知）；`ZoneDuration=8.5s`。仅 `spellCastTime=0.25`，无 `mCastTime`，不作冲突瞬发。  \n跳过：狼灵自主攻击 `BaseWolfDamage`/`PercentWolfDamage`、`{fe248f68}`（mStat13 未证）、野怪加成/减速。`LambToWolfAttackSpeedConversionPercent=0.25` 属狼咬频率，跳过。\n\n**千珏 E 横生惧意**  \n可录：冷却 14/12.5/11/9.5/8s（已复用）；官方消耗 0，`manaUiOverride=50` 不作实耗。`BaseBiteDamage` 加法=80/110/140/170/200+**1.0×额外AD**；`PercentBiteDamage`=0.05+印记×0.005（displayAsPercent，precision 1）为**已损失生命比例**；`TotalSlow`=30 百分点 + **0.05×法强**；`SlowDuration=1s`、`TotalDuration=4s`。仅 `spellCastTime=0.25`。  \n未知：乘区 `mStat8/9` 暴击未证，不猜；`CritDamage` 树未在主提示消费，单列。  \n范围外：`MonsterCap` 野怪上限。\n\n**千珏 R 羊灵生息**  \n可录当前双方：冷却 160/140/120s、法力 100（已复用）；`BuffDuration=4s`；赐福结束治疗 `HealFlat` 225/300/375；文本 10% 生命地板。仅 `spellCastTime=0.25`。  \n范围外：第三友方、中立单位治疗。`mCoefficient` 0.22/0.33 无名未证。无 `mSpellCalculations` 伤害树。\n\n---\n\n**纳亚菲利 P 狂烈种群**  \n跳过犬群生成/自主攻击/召回输出（`PackmateTotalDamage`、狂暴乘区、数量/冷却断点）。  \n未消费：`HealthRegenDelay=5`、`HealthRegenPercent=0.25`。  \n范围外：兵野处决、野怪/防御塔修正、视野外群体承伤。AOE 断点有 16 级空断点，不可线性化。\n\n**纳亚菲利 Q 暗裔犬牙**  \n可录本体：冷却 9/8.5/8/7.5/7s、法力 50/60/70/80/90（已复用）；`mCastTime=0.25s`（展开对象有值，索引头 null 不覆盖）。一段 `TotalDamageFirstCast`=35/40/45/50/55+**0.2×额外AD**；流血 **全程** `TotalBleedDamage`=35/60/85/110/135+**0.8×额外AD**，`BleedDuration=5s`（`BleedInterval=0.5` 不编每跳）；再施 `TotalMinDamageSecondCast`=30/42.5/55/67.5/80+**0.4×额外AD**；上限 `TotalMaxDamageSecondCast`=2×(同基础+**0.7×额外AD**)，**不是** 2×下限；英雄治疗 `TotalHealSecondCast`=45/60/75/90/105+**0.4×额外AD**；`RecastWindow=4s`。跨技能 `@spell.NaafiriQ:*` 按当前消费保留。  \n范围外：犬群跳跃嘲讽、小兵/非史诗处决。空断点处决曲线不线性化。\n\n**纳亚菲利 W 暴吼**（根绑定 `NaafiriR`，槽位已校正）  \n可录本体：冷却 26/24/22/20/18s、法力 60（已复用）；`mCastTime=spellCastTime=0.75s`。不可选取 1s；`BonusAD`=**0.2×总AD**（mStat2 省略 formula）；移速比例 0.20/0.225/0.25/0.275/0.30（`×100` 为百分点），持续 `Duration=5s`。  \n跳过：额外犬群、召回。`NaafiriADFlatBoost` 无值。\n\n**纳亚菲利 E 剔骨本能**  \n可录本体两段：冷却 11/10/9/8/7s、法力 40（已复用）。一段 15/25/35/45/55+**0.4×额外AD**；二段 60/85/110/135/160+**0.8×额外AD**（分段，不默认求和）。`DashDistance=450`。  \n未知：无 `mCastTime`/`spellCastTime`，**不冒充瞬发**。  \n跳过：犬群召回与 100% 犬群治疗。\n\n**纳亚菲利 R 猎狗血性**（根绑定 `NaafiriW`）  \n可录本体：冷却 110/95/80s、法力 100（已复用）。`TotalDamage`=125/200/275+**1.0×额外AD**；护盾 `ShieldTotal`=100/150/200+**1.5×额外AD**，`ShieldDuration=3s`；`TakedownWindow=7s`、`RecastWindow=12s`。减速数值未进当前提示（仅“短暂”）。  \n未知：**`spellCastTime=0` 与 `mChannelDuration=0.75` 冲突，不用 0 冒充瞬发。** `ArmorShred` 纯加法 1 级 6、每级 +2 未消费，单列。  \n跳过：`PackmateDamage`、召回冲刺。视野/显形排除。\n\n---\n\n**劫 P 灭魂劫**  \n可录当前敌：阈值 `CurrentHealthThreshold=0.5`（50%）；`PerUnitCD=10s`。匿名 `{6a1a62e9}` 经 `MaxHPDamage` 当前消费：1 级 0.05（displayAsPercent、precision 1）；7/17 级各 `mAdditionalBonusAtThisLevel=+0.025`；省略每级斜率按构造 0，**不线性插值**。`TotalDamage`=该比例×**最大生命**（mStat12 省略 formula）。  \n未知：断点是否立即计入、条件树 `FinalDamage` 实际门控。`{a8cb9c14}` 未证。  \n范围外：野怪修正/上限；慎劫任务 `{ad3d785f}` 未消费。\n\n**劫 Q 诸刃**  \n可录本体：冷却 6s（已复用）；能量 75/70/65/60/55（索引 0，**能量非法力**，不在 24 复用内）。`TotalDamage`=80/120/160/200/240+**1.0×额外AD**。仅 `spellCastTime=0.25`。  \n范围外：影分身复制；`PassThroughDamage=0.6×` 额外敌人。\n\n**劫 W 分身**  \n可录自身位移/能量：冷却 20/19/18/17/16s、能量 40/35/30/25/20（均未复用）。被动回复 `EnergyRestoreDoubleHit` 30/35/40/45/50（同技能重复命中当前英雄，每次技能一次）；`ShadowDurationTooltip=5s`（与内部 `ShadowDuration=5.25` 区分，用当前消费 5）。互换为自身位移。仅 `spellCastTime=0.25`。  \n跳过：分身作为额外攻击主体与复制输出。`mCoefficient=0.9` 无名未证。\n\n**劫 E 鬼斩**  \n可录本体：冷却 5/4.5/4/3.5/3s（已复用）；能量 40。`TotalDamage`=70/92.5/115/137.5/160+**0.7×额外AD**；命中英雄缩短 W `ShadowHitCDR=3s`。仅 `spellCastTime=0.25`。  \n跳过：影分身斩击与其减速（`MoveSpeedMod`/`MoveSpeedModBonus` 绑定分身/多重斩击）。不把分身伤并入本体。\n\n**劫 R 瞬狱影杀阵**  \n可录：冷却 120/110/100s；无消耗。自身不可选取与突进；标记 `RDeathMarkDuration=3s`；引爆 `RCalculatedDamage`=**1.0×总AD**（mStat2 省略 formula）+ 印记期**本体**伤害×`RDamageAmp` 0.25/0.40/0.55；再施互换为自身位移。`RShadowDurationDisplayed=7.5s` 只作标记窗口时长，不分身伤害。仅 `spellCastTime=0.25`。  \n未知：`RBaseDamage` 无值；匿名 `{43a019eb}`=7.5+0.5 未消费（扩展写额外 1.5s，对不上）。击杀窃取 AD 仅摘要、主提示未消费。  \n范围外：影分身复制输出、`RVisionDuration` 视野。印记统计不得混入分身伤害。\n\n---\n\n资格：20 槽根绑定齐全；公共 24 参与来源逐级一致。樱桃/URF 覆盖不进召唤师峡谷。未证选择器（mStat 8/9/13/15）不猜输入。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 516121,
+    "usage": {
+      "inputTokens": 150057,
+      "outputTokens": 6161,
+      "cacheReadTokens": 150016,
+      "cacheWriteTokens": 0,
+      "totalTokens": 306234,
+      "reasoningTokens": 2530
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 516121,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-09T20:59:06.139Z"
+}
