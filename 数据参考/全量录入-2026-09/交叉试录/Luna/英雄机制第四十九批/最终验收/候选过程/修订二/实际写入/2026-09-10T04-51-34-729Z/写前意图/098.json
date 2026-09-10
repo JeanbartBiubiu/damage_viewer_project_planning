@@ -1,0 +1,25 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/minimum_charge_multiplier",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "minimum_charge_multiplier",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "minimum_charge_multiplier",
+      "name": "最小冲撞距离倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "MinimumDamageTooltip.mMultiplier=0.01，已是最终比例系数。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_e/parameters",
+    "detailRoute": "/skills/gnar_e/parameters/slow_duration_ms",
+    "skillKey": "gnar_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "源值0.5秒。",
+      "sortOrder": 60
+    }
+  }
+}

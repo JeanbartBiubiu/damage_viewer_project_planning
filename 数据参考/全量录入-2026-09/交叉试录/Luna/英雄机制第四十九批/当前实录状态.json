@@ -1,0 +1,164 @@
+{
+  "at": "2026-09-10T05:06:13.558Z",
+  "batch": "英雄机制第四十九批",
+  "status": "本轮来源明确组成已保存；请求节点及必填字段修正后断点续录，独立回读、实际数学和四个代表页面通过；未知曲线与事件单列",
+  "heroes": [
+    "Gnar",
+    "Kled",
+    "Quinn",
+    "RekSai"
+  ],
+  "skills": [
+    "gnar_p",
+    "gnar_q",
+    "gnar_w",
+    "gnar_e",
+    "gnar_r",
+    "kled_p",
+    "kled_q",
+    "kled_w",
+    "kled_e",
+    "kled_r",
+    "quinn_p",
+    "quinn_q",
+    "quinn_w",
+    "quinn_e",
+    "quinn_r",
+    "reksai_p",
+    "reksai_q",
+    "reksai_w",
+    "reksai_e",
+    "reksai_r"
+  ],
+  "newCounts": {
+    "parameters": 148,
+    "formulas": 30,
+    "effects": 12
+  },
+  "counts": {
+    "parameters": 162,
+    "formulas": 30,
+    "effects": 12
+  },
+  "created": 190,
+  "businessWrites": 190,
+  "reusedParameters": 14,
+  "currentTotalComponents": 204,
+  "candidateFile": "最终验收/候选过程/修订三/完整候选.json",
+  "candidateFileSha256": "259e4ac0b29cd92c3b0dc2597c3ad794fbdc00ae74498971b53c2fa7d0d1c35c",
+  "writePlan": "最终验收/候选过程/修订三/写前请求计划.json",
+  "writePlanSha256": "39fa7defd5a33f5eef36652f13f99288ec6c287b2ed7bad1cf288c0cd70373db",
+  "save": {
+    "GETs": 1551,
+    "POSTAttempts": 191,
+    "POSTs": 190,
+    "rejectedPOSTs": 1,
+    "confirmedUnique": 190,
+    "duplicatePOSTs": 0,
+    "runs": [
+      {
+        "file": "最终验收/候选过程/修订二/实际写入/2026-09-10T04-51-34-729Z/执行结果.json",
+        "GETs": 671,
+        "POSTAttempts": 141,
+        "successfulPOSTs": 140
+      },
+      {
+        "file": "最终验收/候选过程/修订三/实际写入/2026-09-10T04-58-05-988Z/执行结果.json",
+        "GETs": 880,
+        "POSTAttempts": 50,
+        "successfulPOSTs": 50
+      }
+    ]
+  },
+  "independentReadback": {
+    "GETs": 390,
+    "protectedPaths": 186,
+    "details": 204,
+    "reused": 14,
+    "new": 190,
+    "file": "最终验收/独立回读证据/实际回读/2026-09-10T05-01-14-277Z/独立全量GET.json",
+    "sha256": "dec7267543991114a918a3c7e13c338251856bbeaa643a038e1849c33fd7ab10"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "actualHydrated": 190,
+    "formulas": 30,
+    "cases": 60,
+    "effectCount": 12,
+    "missingInputCases": 10,
+    "typedReferences": 84,
+    "attributeReferences": 70,
+    "effectAttributeReferences": 11,
+    "dictionaryReferences": 11,
+    "finiteChecks": 229,
+    "binaryNodes": 154,
+    "completeParameterArrays": 29,
+    "completeArrayValues": 123,
+    "fixedFiniteParameters": 106,
+    "newIntegerParameters": 85,
+    "integerValues": 133,
+    "integerParameters": 99,
+    "millisecondsParameters": 48,
+    "sourceGnarMoveSpeedCases": 5,
+    "sourceKledRLevelCases": 12,
+    "sourceMissileSpeedCases": 3,
+    "apiNodeKindsPassed": true,
+    "file": "最终验收/实际数学证据/独立数学报告.json",
+    "sha256": "e9ca1a4174ab0702448a0c0422019f123f8642acd18cfee0a1bfdabfe9eca101",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订三/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 2946,
+    "uniqueTools": 79,
+    "inputs": 24,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "全部20槽固定来源已核对，修订差异限7技能；排除与待接文字另外核对",
+    "GnarW未学R20%，R1/2/3为40/60/80%；R只保留小型W跨槽资格",
+    "KledR倍率0.01/0.03已经将百分数点转比例，不再额外乘0.01；三等级12场景独立来源对照",
+    "GnarQ1200/QuinnQ1550为速度，不作飞弹范围；QuinnP4000纯显形排除",
+    "QuinnR受伤移除加速3000ms与自身冷却分开；RekSaiW旧4000ms保护",
+    "KledR实际请求仅用ATTRIBUTE节点；资料核对用SOURCE_ATTRIBUTE不得写入接口",
+    "30公式60场景、10缺值拒绝、154二元运算、70公式属性引用11效果属性引用与11字典键通过",
+    "Cursor79只读工具24固定输入Git零变化"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "来源辅助节点不能进入业务请求",
+      "detail": "克烈R修订一的四个SOURCE_ATTRIBUTE节点在静态写前检查被拦下，修正为真实ATTRIBUTE后保存。公式数学与请求节点合法性分开核对。"
+    },
+    {
+      "issue": "全等级与跨槽等级必须单独核对",
+      "detail": "纳尔W移速对应未学R与R1/2/3，不能直接按W等级套错索引。"
+    },
+    {
+      "issue": "百分数点与最终比例不能重复转换",
+      "detail": "克烈R源倍率0.01/0.03已经完成转换，去掉额外0.01。"
+    },
+    {
+      "issue": "来源字段名字和单位必须对应",
+      "detail": "纳尔Q与奎因Q的1200/1550是飞弹速度，不是范围；奎因P纯显形参数排除。"
+    },
+    {
+      "issue": "请求必填字段与数学检查分离",
+      "detail": "奎因R移速参数缺sortOrder导致第141次POST被400拒绝；补齐排序10，前140项保持不变，续录50项。"
+    }
+  ],
+  "pending": [
+    "小型/骑乘/地表保留范围内事件、跨R资格和未知曲线无默认运行输入；不猜完整变形链",
+    "克烈R护盾寿命及距离增长、纳尔衰减移速、雷克塞强化替代命中等事件尚未接线",
+    "上述保存及数学检查不表示运行时伤害或法术护盾等战斗行为通过"
+  ],
+  "runtimeValidation": "未执行"
+}

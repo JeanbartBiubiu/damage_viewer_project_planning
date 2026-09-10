@@ -1,0 +1,25 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_q/parameters",
+    "detailRoute": "/skills/reksai_q/parameters/attack_buff_duration_ms",
+    "skillKey": "reksai_q",
+    "kind": "parameters",
+    "stableKey": "attack_buff_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_buff_duration_ms",
+      "name": "三次攻击窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "源值3秒；每次攻击刷新窗口。",
+      "sortOrder": 10
+    }
+  }
+}

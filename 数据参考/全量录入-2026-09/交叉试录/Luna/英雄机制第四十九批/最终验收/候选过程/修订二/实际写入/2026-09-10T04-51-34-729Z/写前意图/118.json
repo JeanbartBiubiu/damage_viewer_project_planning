@@ -1,0 +1,57 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_p/formulas",
+    "detailRoute": "/skills/quinn_p/formulas/marked_attack_physical_damage",
+    "skillKey": "quinn_p",
+    "kind": "formulas",
+    "stableKey": "marked_attack_physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "marked_attack_physical_damage",
+      "name": "侵扰标记额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_mark_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mode_damage_multiplier"
+          }
+        ]
+      },
+      "description": "标记额外伤害=(角色等级基础+0.4×额外攻击力)×当前模式倍率。",
+      "sortOrder": 90
+    }
+  }
+}

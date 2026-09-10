@@ -1,0 +1,25 @@
+{
+  "i": 183,
+  "intent": {
+    "sequence": 184,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/parameters",
+    "detailRoute": "/skills/reksai_r/parameters/cast_buff_duration_ms",
+    "skillKey": "reksai_r",
+    "kind": "parameters",
+    "stableKey": "cast_buff_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_buff_duration_ms",
+      "name": "施法阶段无敌/不可选取窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1100,
+      "levelValues": null,
+      "description": "CastBuffDuration=1.1秒；只记录阶段字段，不当完整遁地形态。",
+      "sortOrder": 90
+    }
+  }
+}

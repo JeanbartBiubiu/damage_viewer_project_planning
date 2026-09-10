@@ -1,0 +1,25 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/move_speed_initial_bonus_per_level",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_initial_bonus_per_level",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_initial_bonus_per_level",
+      "name": "移速初始每级增量",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "TotalMS源树的初始每级增量；1级值和16级断点当级未证，不补完整角色曲线。",
+      "sortOrder": 10
+    }
+  }
+}

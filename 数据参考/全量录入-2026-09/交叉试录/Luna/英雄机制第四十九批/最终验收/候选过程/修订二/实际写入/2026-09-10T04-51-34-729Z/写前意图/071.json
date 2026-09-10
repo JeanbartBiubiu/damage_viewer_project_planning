@@ -1,0 +1,25 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_w/parameters",
+    "detailRoute": "/skills/kled_w/parameters/attack_window_ms",
+    "skillKey": "kled_w",
+    "kind": "parameters",
+    "stableKey": "attack_window_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_window_ms",
+      "name": "四次攻击窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "源值4秒，和四次攻击资格并列。",
+      "sortOrder": 20
+    }
+  }
+}

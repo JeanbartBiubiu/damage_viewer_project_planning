@@ -1,0 +1,25 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/move_speed_breakpoint_level",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_breakpoint_level",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_breakpoint_level",
+      "name": "移速断点等级",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 16,
+      "levelValues": null,
+      "description": "TotalMS源树的断点等级。",
+      "sortOrder": 20
+    }
+  }
+}

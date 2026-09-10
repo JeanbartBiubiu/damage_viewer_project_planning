@@ -1,0 +1,31 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_e/parameters",
+    "detailRoute": "/skills/gnar_e/parameters/attack_speed_ratio",
+    "skillKey": "gnar_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "小型攻速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.400000006,
+        "2": 0.449999988,
+        "3": 0.5,
+        "4": 0.550000012,
+        "5": 0.600000024
+      },
+      "description": "小型攻速40%至60%，比例属性。",
+      "sortOrder": 30
+    }
+  }
+}

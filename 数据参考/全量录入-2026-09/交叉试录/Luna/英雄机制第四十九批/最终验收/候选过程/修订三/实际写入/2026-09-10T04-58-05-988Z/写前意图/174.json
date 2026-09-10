@@ -1,0 +1,47 @@
+{
+  "i": 173,
+  "intent": {
+    "sequence": 174,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_e/formulas",
+    "detailRoute": "/skills/reksai_e/formulas/unempowered_physical_damage",
+    "skillKey": "reksai_e",
+    "kind": "formulas",
+    "stableKey": "unempowered_physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "unempowered_physical_damage",
+      "name": "雷克塞地表撕咬物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "普通地表=70至170+0.6×额外攻击力。",
+      "sortOrder": 80
+    }
+  }
+}

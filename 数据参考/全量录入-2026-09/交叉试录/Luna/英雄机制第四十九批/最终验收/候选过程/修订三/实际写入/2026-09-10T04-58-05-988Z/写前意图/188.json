@@ -1,0 +1,35 @@
+{
+  "i": 187,
+  "intent": {
+    "sequence": 188,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/formulas",
+    "detailRoute": "/skills/reksai_r/formulas/percent_health_ratio",
+    "skillKey": "reksai_r",
+    "kind": "formulas",
+    "stableKey": "percent_health_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "percent_health_ratio",
+      "name": "虚空猛冲最大生命伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "target_max_hp_percent_points"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_point_unit"
+          }
+        ]
+      },
+      "description": "15/20/25百分数点×0.01。",
+      "sortOrder": 130
+    }
+  }
+}

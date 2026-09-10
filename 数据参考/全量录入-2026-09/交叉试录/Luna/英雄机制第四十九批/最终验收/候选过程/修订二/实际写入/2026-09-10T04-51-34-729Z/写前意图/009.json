@@ -1,0 +1,25 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/actual_small_attack_range_bonus",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "actual_small_attack_range_bonus",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_small_attack_range_bonus",
+      "name": "当前小型实际射程增量",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalAttackRange只有终点且起点省略，运行层提供实际增量，不设默认。",
+      "sortOrder": 90
+    }
+  }
+}

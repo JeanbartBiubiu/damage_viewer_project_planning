@@ -1,0 +1,47 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 67,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_q/formulas",
+    "detailRoute": "/skills/kled_q/formulas/first_physical_damage",
+    "skillKey": "kled_q",
+    "kind": "formulas",
+    "stableKey": "first_physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_physical_damage",
+      "name": "飞索捕熊器首次物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "first_hit_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "首次=30/55/80/105/130+0.6×额外攻击力。",
+      "sortOrder": 100
+    }
+  }
+}

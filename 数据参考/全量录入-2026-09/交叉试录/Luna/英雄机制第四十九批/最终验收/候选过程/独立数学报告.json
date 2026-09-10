@@ -1,0 +1,778 @@
+{
+  "generatedAt": "2026-09-10T03:43:35.724Z",
+  "batch": "英雄机制第四十九批",
+  "revision": "hero49-source-v1-luna-candidate",
+  "status": "通过",
+  "tolerance": 0.00001,
+  "failures": [],
+  "formulas": [
+    {
+      "key": "gnar_p",
+      "formulaKey": "small_move_speed_bonus",
+      "rank": 1,
+      "sourceCalculation": "TotalMS",
+      "candidateValue": 1.1,
+      "sourceValue": 1.1,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "gnar_p",
+      "formulaKey": "small_move_speed_bonus",
+      "rank": 1,
+      "sourceCalculation": "TotalMS",
+      "candidateValue": 1.1,
+      "sourceValue": 1.1,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "gnar_p",
+      "formulaKey": "small_attack_speed_bonus",
+      "rank": 1,
+      "sourceCalculation": "TotalAS",
+      "candidateValue": 0.26,
+      "sourceValue": 0.26,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "gnar_p",
+      "formulaKey": "small_attack_speed_bonus",
+      "rank": 1,
+      "sourceCalculation": "TotalAS",
+      "candidateValue": 0.26,
+      "sourceValue": 0.26,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "gnar_p",
+      "formulaKey": "small_attack_range_bonus",
+      "rank": 1,
+      "sourceCalculation": "TotalAttackRange",
+      "candidateValue": 1.1,
+      "sourceValue": 1.1,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "gnar_p",
+      "formulaKey": "small_attack_range_bonus",
+      "rank": 1,
+      "sourceCalculation": "TotalAttackRange",
+      "candidateValue": 1.1,
+      "sourceValue": 1.1,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "gnar_q",
+      "formulaKey": "mini_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "MiniTotalDamage",
+      "candidateValue": 280,
+      "sourceValue": 280,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "gnar_q",
+      "formulaKey": "mini_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "MiniTotalDamage",
+      "candidateValue": 690,
+      "sourceValue": 690,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "gnar_w",
+      "formulaKey": "third_hit_magic_damage",
+      "rank": 1,
+      "sourceCalculation": "MiniTotalDamage",
+      "candidateValue": 443.99999760000003,
+      "sourceValue": 443.9999967813492,
+      "delta": 8.186508466678788e-7,
+      "matched": true
+    },
+    {
+      "key": "gnar_w",
+      "formulaKey": "third_hit_magic_damage",
+      "rank": 5,
+      "sourceCalculation": "MiniTotalDamage",
+      "candidateValue": 1044.0000036000001,
+      "sourceValue": 1044.0000021457672,
+      "delta": 0.0000014542329154210165,
+      "matched": true
+    },
+    {
+      "key": "gnar_e",
+      "formulaKey": "mini_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "MiniTotalDamage",
+      "candidateValue": 157.9999982,
+      "sourceValue": 157.9999975860119,
+      "delta": 6.139881065791997e-7,
+      "matched": true
+    },
+    {
+      "key": "gnar_e",
+      "formulaKey": "mini_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "MiniTotalDamage",
+      "candidateValue": 345.9999974,
+      "sourceValue": 345.9999965131283,
+      "delta": 8.86871703187353e-7,
+      "matched": true
+    },
+    {
+      "key": "kled_p",
+      "formulaKey": "skaarl_damage_pool",
+      "rank": 1,
+      "sourceCalculation": "SkaarlHealth",
+      "candidateValue": 1400,
+      "sourceValue": 1400,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_p",
+      "formulaKey": "skaarl_damage_pool",
+      "rank": 1,
+      "sourceCalculation": "SkaarlHealth",
+      "candidateValue": 1400,
+      "sourceValue": 1400,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_q",
+      "formulaKey": "first_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 96.00000263999999,
+      "sourceValue": 96.00000263999999,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_q",
+      "formulaKey": "first_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 256.00000504,
+      "sourceValue": 256.00000504,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_q",
+      "formulaKey": "tether_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "TotalYankDamage",
+      "candidateValue": 192.00000527999998,
+      "sourceValue": 192.00000527999998,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_q",
+      "formulaKey": "tether_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "TotalYankDamage",
+      "candidateValue": 512.00001008,
+      "sourceValue": 512.00001008,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_q",
+      "formulaKey": "full_two_segment_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "TotalYankDamage",
+      "candidateValue": 288.00000792,
+      "sourceValue": 288.00000792,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_q",
+      "formulaKey": "full_two_segment_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "TotalYankDamage",
+      "candidateValue": 768.0000151200001,
+      "sourceValue": 768.0000151200001,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_w",
+      "formulaKey": "fourth_max_hp_ratio",
+      "rank": 1,
+      "sourceCalculation": "PercentDamage",
+      "candidateValue": 0.083,
+      "sourceValue": 0.083,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_w",
+      "formulaKey": "fourth_max_hp_ratio",
+      "rank": 5,
+      "sourceCalculation": "PercentDamage",
+      "candidateValue": 0.135,
+      "sourceValue": 0.135,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_w",
+      "formulaKey": "fourth_max_hp_damage",
+      "rank": 1,
+      "sourceCalculation": "PercentDamage",
+      "candidateValue": 199.20000000000002,
+      "sourceValue": 199.20000000000002,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_w",
+      "formulaKey": "fourth_max_hp_damage",
+      "rank": 5,
+      "sourceCalculation": "PercentDamage",
+      "candidateValue": 486.00000000000006,
+      "sourceValue": 486.00000000000006,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_w",
+      "formulaKey": "fourth_total_extra_damage",
+      "rank": 1,
+      "sourceCalculation": "PercentDamage",
+      "candidateValue": 219.20000000000002,
+      "sourceValue": 219.20000000000002,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_w",
+      "formulaKey": "fourth_total_extra_damage",
+      "rank": 5,
+      "sourceCalculation": "PercentDamage",
+      "candidateValue": 546,
+      "sourceValue": 546,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_e",
+      "formulaKey": "dash_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 95.50000132,
+      "sourceValue": 95.50000132,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_e",
+      "formulaKey": "dash_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 250.50000252,
+      "sourceValue": 250.50000252,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_e",
+      "formulaKey": "recast_dash_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 95.50000132,
+      "sourceValue": 95.50000132,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_e",
+      "formulaKey": "recast_dash_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 250.50000252,
+      "sourceValue": 250.50000252,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_r",
+      "formulaKey": "damage_percent_bracket_points",
+      "rank": 1,
+      "sourceCalculation": "{598e3ed3}",
+      "candidateValue": 7.2999998900000005,
+      "sourceValue": 7.2999998900000005,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_r",
+      "formulaKey": "damage_percent_bracket_points",
+      "rank": 3,
+      "sourceCalculation": "{598e3ed3}",
+      "candidateValue": 14.299999790000001,
+      "sourceValue": 14.299999790000001,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_r",
+      "formulaKey": "minimum_magic_damage",
+      "rank": 1,
+      "sourceCalculation": "MinimumDamageTooltip",
+      "candidateValue": 1.7519999736000003,
+      "sourceValue": 1.7519999736000003,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_r",
+      "formulaKey": "minimum_magic_damage",
+      "rank": 3,
+      "sourceCalculation": "MinimumDamageTooltip",
+      "candidateValue": 5.1479999244000005,
+      "sourceValue": 5.1479999244000005,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_r",
+      "formulaKey": "maximum_magic_damage",
+      "rank": 1,
+      "sourceCalculation": "MaximumChargeDamage",
+      "candidateValue": 5.255999745600003,
+      "sourceValue": 5.255999745600003,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_r",
+      "formulaKey": "maximum_magic_damage",
+      "rank": 3,
+      "sourceCalculation": "MaximumChargeDamage",
+      "candidateValue": 15.44399925840001,
+      "sourceValue": 15.44399925840001,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_r",
+      "formulaKey": "maximum_shield",
+      "rank": 1,
+      "sourceCalculation": "MaximumShield",
+      "candidateValue": 530,
+      "sourceValue": 530,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "kled_r",
+      "formulaKey": "maximum_shield",
+      "rank": 3,
+      "sourceCalculation": "MaximumShield",
+      "candidateValue": 1030,
+      "sourceValue": 1030,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "quinn_p",
+      "formulaKey": "marked_attack_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "BonusDamage",
+      "candidateValue": 45.100000660000006,
+      "sourceValue": 45.100000655651094,
+      "delta": 4.348912341356481e-9,
+      "matched": true
+    },
+    {
+      "key": "quinn_p",
+      "formulaKey": "marked_attack_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "BonusDamage",
+      "candidateValue": 45.100000660000006,
+      "sourceValue": 45.100000655651094,
+      "delta": 4.348912341356481e-9,
+      "matched": true
+    },
+    {
+      "key": "quinn_q",
+      "formulaKey": "physical_damage",
+      "rank": 1,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 303.00000132,
+      "sourceValue": 303.0000013113022,
+      "delta": 8.697838893567678e-9,
+      "matched": true
+    },
+    {
+      "key": "quinn_q",
+      "formulaKey": "physical_damage",
+      "rank": 5,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 665,
+      "sourceValue": 665,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "quinn_e",
+      "formulaKey": "physical_damage",
+      "rank": 1,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 62.000000330000006,
+      "sourceValue": 62.000000330000006,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "quinn_e",
+      "formulaKey": "physical_damage",
+      "rank": 5,
+      "sourceCalculation": "TotalDamage",
+      "candidateValue": 182.00000063,
+      "sourceValue": 182.00000063,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "quinn_r",
+      "formulaKey": "move_speed_bonus",
+      "rank": 1,
+      "sourceCalculation": "MovementSpeedMod",
+      "candidateValue": 0.699999988,
+      "sourceValue": 0.699999988079071,
+      "delta": 7.907108301452581e-11,
+      "matched": true
+    },
+    {
+      "key": "quinn_r",
+      "formulaKey": "move_speed_bonus",
+      "rank": 3,
+      "sourceCalculation": "MovementSpeedMod",
+      "candidateValue": 1.299999952,
+      "sourceValue": 1.2999999523162842,
+      "delta": 3.162841100134983e-10,
+      "matched": true
+    },
+    {
+      "key": "quinn_r",
+      "formulaKey": "end_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "Damage",
+      "candidateValue": 98.49999933999999,
+      "sourceValue": 98.49999934434891,
+      "delta": 4.348919446783839e-9,
+      "matched": true
+    },
+    {
+      "key": "quinn_r",
+      "formulaKey": "end_physical_damage",
+      "rank": 3,
+      "sourceCalculation": "Damage",
+      "candidateValue": 193.49999874,
+      "sourceValue": 193.49999874830246,
+      "delta": 8.302464493681327e-9,
+      "matched": true
+    },
+    {
+      "key": "reksai_q",
+      "formulaKey": "unburrowed_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "TotalDamageTooltip",
+      "candidateValue": 66.00000263999999,
+      "sourceValue": 66.00000262260437,
+      "delta": 1.7395620943716494e-8,
+      "matched": true
+    },
+    {
+      "key": "reksai_q",
+      "formulaKey": "unburrowed_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "TotalDamageTooltip",
+      "candidateValue": 210,
+      "sourceValue": 210,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "reksai_e",
+      "formulaKey": "unempowered_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "BaseDamageCalculation",
+      "candidateValue": 136.00000264,
+      "sourceValue": 136.00000262260437,
+      "delta": 1.7395620943716494e-8,
+      "matched": true
+    },
+    {
+      "key": "reksai_e",
+      "formulaKey": "unempowered_physical_damage",
+      "rank": 5,
+      "sourceCalculation": "BaseDamageCalculation",
+      "candidateValue": 296.00000504,
+      "sourceValue": 296.00000500679016,
+      "delta": 3.320985797472531e-8,
+      "matched": true
+    },
+    {
+      "key": "reksai_e",
+      "formulaKey": "empowered_true_damage",
+      "rank": 1,
+      "sourceCalculation": "EmpoweredDamageCalculation",
+      "candidateValue": 163.2000096960001,
+      "sourceValue": 163.20000963211072,
+      "delta": 6.388938800228061e-8,
+      "matched": true
+    },
+    {
+      "key": "reksai_e",
+      "formulaKey": "empowered_true_damage",
+      "rank": 5,
+      "sourceCalculation": "EmpoweredDamageCalculation",
+      "candidateValue": 355.20002025600024,
+      "sourceValue": 355.2000201225283,
+      "delta": 1.3347192862056545e-7,
+      "matched": true
+    },
+    {
+      "key": "reksai_r",
+      "formulaKey": "percent_health_ratio",
+      "rank": 1,
+      "sourceCalculation": "RBaseDamageCalc",
+      "candidateValue": 0.15,
+      "sourceValue": 0.15,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "reksai_r",
+      "formulaKey": "percent_health_ratio",
+      "rank": 3,
+      "sourceCalculation": "RBaseDamageCalc",
+      "candidateValue": 0.25,
+      "sourceValue": 0.25,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "reksai_r",
+      "formulaKey": "base_plus_ad_damage",
+      "rank": 1,
+      "sourceCalculation": "RBaseDamageCalc",
+      "candidateValue": 260,
+      "sourceValue": 260,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "reksai_r",
+      "formulaKey": "base_plus_ad_damage",
+      "rank": 3,
+      "sourceCalculation": "RBaseDamageCalc",
+      "candidateValue": 560,
+      "sourceValue": 560,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "reksai_r",
+      "formulaKey": "total_physical_damage",
+      "rank": 1,
+      "sourceCalculation": "RBaseDamageCalc",
+      "candidateValue": 620,
+      "sourceValue": 620,
+      "delta": 0,
+      "matched": true
+    },
+    {
+      "key": "reksai_r",
+      "formulaKey": "total_physical_damage",
+      "rank": 3,
+      "sourceCalculation": "RBaseDamageCalc",
+      "candidateValue": 1460,
+      "sourceValue": 1460,
+      "delta": 0,
+      "matched": true
+    }
+  ],
+  "effectUnits": [
+    {
+      "key": "gnar_p",
+      "effectKey": "small_attack_speed",
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    },
+    {
+      "key": "gnar_w",
+      "effectKey": "third_hit_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    },
+    {
+      "key": "gnar_e",
+      "effectKey": "mini_attack_speed",
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    },
+    {
+      "key": "kled_w",
+      "effectKey": "attack_speed",
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    },
+    {
+      "key": "kled_e",
+      "effectKey": "hero_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    },
+    {
+      "key": "quinn_w",
+      "effectKey": "marked_attack_speed",
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    },
+    {
+      "key": "quinn_w",
+      "effectKey": "marked_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    },
+    {
+      "key": "quinn_r",
+      "effectKey": "r_move_speed",
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    },
+    {
+      "key": "reksai_q",
+      "effectKey": "attack_speed",
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add",
+      "unit": "1=100%"
+    }
+  ],
+  "sourceMatches": 60,
+  "formulaScenarios": 60,
+  "missingRuntimeRejected": 10,
+  "typeReferencesChecked": 209,
+  "parameterArraysChecked": 149,
+  "finalEffectMultipliers": [
+    {
+      "key": "gnar_p",
+      "effectKey": "small_move_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "move_speed",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "gnar_p",
+      "effectKey": "small_attack_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "gnar_p",
+      "effectKey": "small_attack_range",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "attack_range",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "gnar_w",
+      "effectKey": "third_hit_move_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "gnar_e",
+      "effectKey": "mini_attack_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "kled_w",
+      "effectKey": "attack_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "kled_e",
+      "effectKey": "hero_move_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "kled_r",
+      "effectKey": "charge_shield",
+      "resultKey": "shield",
+      "fixedMultiplier": 1,
+      "attributeKey": null,
+      "modifierZoneKey": null
+    },
+    {
+      "key": "quinn_w",
+      "effectKey": "marked_attack_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "quinn_w",
+      "effectKey": "marked_move_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "quinn_r",
+      "effectKey": "r_move_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "move_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    },
+    {
+      "key": "reksai_q",
+      "effectKey": "attack_speed",
+      "resultKey": "attribute",
+      "fixedMultiplier": 1,
+      "attributeKey": "bonus_attack_speed_percent",
+      "modifierZoneKey": "attribute_flat_add"
+    }
+  ]
+}

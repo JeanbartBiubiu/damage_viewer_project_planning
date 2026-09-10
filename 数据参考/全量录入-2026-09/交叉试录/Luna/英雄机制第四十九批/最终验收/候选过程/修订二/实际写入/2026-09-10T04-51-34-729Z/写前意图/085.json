@@ -1,0 +1,25 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 85,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_e/parameters",
+    "detailRoute": "/skills/kled_e/parameters/hero_move_speed_ratio",
+    "skillKey": "kled_e",
+    "kind": "parameters",
+    "stableKey": "hero_move_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "hero_move_speed_ratio",
+      "name": "命中英雄移速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "命中英雄获得50%移速，比例属性。",
+      "sortOrder": 30
+    }
+  }
+}

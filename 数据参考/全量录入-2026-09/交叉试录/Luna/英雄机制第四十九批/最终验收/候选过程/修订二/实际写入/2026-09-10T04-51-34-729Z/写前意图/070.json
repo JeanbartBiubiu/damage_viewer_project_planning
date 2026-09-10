@@ -1,0 +1,25 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_w/parameters",
+    "detailRoute": "/skills/kled_w/parameters/attack_speed_ratio",
+    "skillKey": "kled_w",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "四次攻击攻速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "源值150%，比例属性1表示100%。",
+      "sortOrder": 10
+    }
+  }
+}

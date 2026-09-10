@@ -1,0 +1,101 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 81,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_w/formulas",
+    "detailRoute": "/skills/kled_w/formulas/fourth_total_extra_damage",
+    "skillKey": "kled_w",
+    "kind": "formulas",
+    "stableKey": "fourth_total_extra_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "fourth_total_extra_damage",
+      "name": "第四击额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "fourth_flat_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_percent_unit"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "fourth_max_hp_percent_points"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "OPERATION",
+                            "operation": "MULTIPLY",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "bonus_ad_percent_points"
+                              },
+                              {
+                                "nodeType": "ATTRIBUTE",
+                                "attributeOwner": "SOURCE",
+                                "attributeKey": "attack_damage",
+                                "attributeValueKind": "BONUS"
+                              }
+                            ]
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operation": "MULTIPLY",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "bonus_hp_percent_points"
+                              },
+                              {
+                                "nodeType": "ATTRIBUTE",
+                                "attributeOwner": "SOURCE",
+                                "attributeKey": "hp",
+                                "attributeValueKind": "BONUS"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "第四击额外伤害=基础值+最大生命比例部分。",
+      "sortOrder": 120
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 159,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_p/parameters",
+    "detailRoute": "/skills/reksai_p/parameters/actual_fury",
+    "skillKey": "reksai_p",
+    "kind": "parameters",
+    "stableKey": "actual_fury",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_fury",
+      "name": "当前怒气",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "怒气状态由运行层提供，不填0默认。",
+      "sortOrder": 50
+    }
+  }
+}

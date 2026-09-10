@@ -1,0 +1,25 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_w/parameters",
+    "detailRoute": "/skills/kled_w/parameters/source_percent_unit",
+    "skillKey": "kled_w",
+    "kind": "parameters",
+    "stableKey": "source_percent_unit",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "source_percent_unit",
+      "name": "百分数点转比例单位",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "源计算树的mMultiplier=0.01；百分数点乘此值才成为比例。",
+      "sortOrder": 50
+    }
+  }
+}

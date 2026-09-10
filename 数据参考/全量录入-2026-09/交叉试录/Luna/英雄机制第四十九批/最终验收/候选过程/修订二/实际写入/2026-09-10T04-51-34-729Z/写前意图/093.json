@@ -1,0 +1,47 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_e/formulas",
+    "detailRoute": "/skills/kled_e/formulas/recast_dash_physical_damage",
+    "skillKey": "kled_e",
+    "kind": "formulas",
+    "stableKey": "recast_dash_physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "recast_dash_physical_damage",
+      "name": "比武再次冲刺物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dash_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "再次穿过同一目标时造成等额伤害。",
+      "sortOrder": 110
+    }
+  }
+}

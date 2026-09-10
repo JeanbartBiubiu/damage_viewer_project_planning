@@ -1,0 +1,25 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_q/parameters",
+    "detailRoute": "/skills/kled_q/parameters/m_cast_time_ms",
+    "skillKey": "kled_q",
+    "kind": "parameters",
+    "stableKey": "m_cast_time_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "m_cast_time_ms",
+      "name": "客户端mCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "mCastTime=0.25秒。",
+      "sortOrder": 80
+    }
+  }
+}

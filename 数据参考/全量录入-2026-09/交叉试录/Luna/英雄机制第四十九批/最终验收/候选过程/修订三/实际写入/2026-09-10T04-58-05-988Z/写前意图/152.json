@@ -1,0 +1,25 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 152,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/formulas",
+    "detailRoute": "/skills/quinn_r/formulas/move_speed_bonus",
+    "skillKey": "quinn_r",
+    "kind": "formulas",
+    "stableKey": "move_speed_bonus",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "move_speed_bonus",
+      "name": "深入敌后移速比例",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "move_speed_ratio"
+      },
+      "description": "R等级移速70%/100%/130%。",
+      "sortOrder": 110
+    }
+  }
+}

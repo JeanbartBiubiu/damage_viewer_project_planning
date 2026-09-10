@@ -1,0 +1,25 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_q/parameters",
+    "detailRoute": "/skills/kled_q/parameters/tether_time_ms",
+    "skillKey": "kled_q",
+    "kind": "parameters",
+    "stableKey": "tether_time_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tether_time_ms",
+      "name": "牵引成立时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1750,
+      "levelValues": null,
+      "description": "源值1.75秒。",
+      "sortOrder": 70
+    }
+  }
+}

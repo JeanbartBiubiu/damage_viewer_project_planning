@@ -1,0 +1,25 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_w/parameters",
+    "detailRoute": "/skills/gnar_w/parameters/preloaded_max_stacks",
+    "skillKey": "gnar_w",
+    "kind": "parameters",
+    "stableKey": "preloaded_max_stacks",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "preloaded_max_stacks",
+      "name": "预存最大层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前源值最多2层。",
+      "sortOrder": 60
+    }
+  }
+}

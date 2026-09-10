@@ -1,0 +1,70 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/effects",
+    "detailRoute": "/skills/gnar_p/effects/small_attack_speed",
+    "skillKey": "gnar_p",
+    "kind": "effects",
+    "stableKey": "small_attack_speed",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "small_attack_speed",
+      "name": "小型纳尔攻速",
+      "description": "小型本体攻速比例增量；比例属性1表示100%。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "小型纳尔攻速",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "仅定义自身属性变化，触发资格和时点由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "small_attack_speed_bonus"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

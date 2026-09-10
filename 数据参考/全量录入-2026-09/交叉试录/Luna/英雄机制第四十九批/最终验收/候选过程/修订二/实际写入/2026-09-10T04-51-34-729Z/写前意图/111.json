@@ -1,0 +1,25 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_p/parameters",
+    "detailRoute": "/skills/quinn_p/parameters/mark_damage_level1_base",
+    "skillKey": "quinn_p",
+    "kind": "parameters",
+    "stableKey": "mark_damage_level1_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_damage_level1_base",
+      "name": "标记伤害角色等级起点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 15,
+      "levelValues": null,
+      "description": "BonusDamage角色等级起点15。",
+      "sortOrder": 10
+    }
+  }
+}

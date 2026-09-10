@@ -1,0 +1,29 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/parameters",
+    "detailRoute": "/skills/quinn_r/parameters/move_speed_ratio",
+    "skillKey": "quinn_r",
+    "kind": "parameters",
+    "stableKey": "move_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_ratio",
+      "name": "合体移速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.699999988,
+        "2": 1,
+        "3": 1.299999952
+      },
+      "description": "R1/2/3为70%/100%/130%，比例属性。",
+      "sortOrder": 10
+    }
+  }
+}

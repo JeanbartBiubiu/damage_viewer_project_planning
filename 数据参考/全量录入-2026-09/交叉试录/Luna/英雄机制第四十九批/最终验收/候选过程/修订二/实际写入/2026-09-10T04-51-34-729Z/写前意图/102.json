@@ -1,0 +1,25 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/shield_duration_ms",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "护盾实际寿命（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "护盾寿命和移除时点未证，使用无默认运行输入，避免把护盾当永久效果。",
+      "sortOrder": 90
+    }
+  }
+}

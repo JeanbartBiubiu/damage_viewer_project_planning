@@ -1,0 +1,25 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_w/parameters",
+    "detailRoute": "/skills/kled_w/parameters/bonus_hp_percent_points",
+    "skillKey": "kled_w",
+    "kind": "parameters",
+    "stableKey": "bonus_hp_percent_points",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_hp_percent_points",
+      "name": "额外生命百分数点系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.004,
+      "levelValues": null,
+      "description": "源树额外生命项0.004仍是百分数点系数，不能遗漏。",
+      "sortOrder": 70
+    }
+  }
+}

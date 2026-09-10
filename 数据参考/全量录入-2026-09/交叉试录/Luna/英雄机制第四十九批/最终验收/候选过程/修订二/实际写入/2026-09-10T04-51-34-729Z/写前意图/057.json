@@ -1,0 +1,47 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_p/formulas",
+    "detailRoute": "/skills/kled_p/formulas/skaarl_damage_pool",
+    "skillKey": "kled_p",
+    "kind": "formulas",
+    "stableKey": "skaarl_damage_pool",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "skaarl_damage_pool",
+      "name": "斯嘎尔当前承伤池",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_skaarl_base_health"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "skaarl_bonus_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "承伤池=当前基础池+1×来源额外生命；不生成独立单位。",
+      "sortOrder": 50
+    }
+  }
+}

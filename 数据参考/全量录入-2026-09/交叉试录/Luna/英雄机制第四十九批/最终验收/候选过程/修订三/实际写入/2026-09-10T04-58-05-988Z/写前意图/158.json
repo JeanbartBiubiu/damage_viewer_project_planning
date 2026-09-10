@@ -1,0 +1,25 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_p/parameters",
+    "detailRoute": "/skills/reksai_p/parameters/fury_decay_per_second",
+    "skillKey": "reksai_p",
+    "kind": "parameters",
+    "stableKey": "fury_decay_per_second",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fury_decay_per_second",
+      "name": "每秒怒气衰减",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "当前扩展正文明确5秒不生成后每秒失去20怒气；该值不在DataValues，按范围说明保存。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/formulas",
+    "detailRoute": "/skills/gnar_p/formulas/small_move_speed_bonus",
+    "skillKey": "gnar_p",
+    "kind": "formulas",
+    "stableKey": "small_move_speed_bonus",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "small_move_speed_bonus",
+      "name": "小型纳尔实际移速增量",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_small_move_speed_bonus"
+      },
+      "description": "保留TotalMS的实际输入，不猜1级和断点当级。",
+      "sortOrder": 10
+    }
+  }
+}

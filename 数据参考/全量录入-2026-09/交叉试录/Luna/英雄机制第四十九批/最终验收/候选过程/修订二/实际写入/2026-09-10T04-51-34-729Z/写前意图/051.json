@@ -1,0 +1,29 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_r/parameters",
+    "detailRoute": "/skills/gnar_r/parameters/learned_move_speed_ratio",
+    "skillKey": "gnar_r",
+    "kind": "parameters",
+    "stableKey": "learned_move_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "learned_move_speed_ratio",
+      "name": "R等级对应W移速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.4,
+        "2": 0.6,
+        "3": 0.8
+      },
+      "description": "R1/2/3对应40%/60%/80%，仅服务W被动资格。",
+      "sortOrder": 20
+    }
+  }
+}

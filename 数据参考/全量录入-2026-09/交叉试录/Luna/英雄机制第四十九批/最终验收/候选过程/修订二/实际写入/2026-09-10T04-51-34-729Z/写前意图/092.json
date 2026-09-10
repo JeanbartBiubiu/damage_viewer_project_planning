@@ -1,0 +1,47 @@
+{
+  "i": 91,
+  "intent": {
+    "sequence": 92,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_e/formulas",
+    "detailRoute": "/skills/kled_e/formulas/dash_physical_damage",
+    "skillKey": "kled_e",
+    "kind": "formulas",
+    "stableKey": "dash_physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dash_physical_damage",
+      "name": "比武冲刺物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dash_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每次=35/60/85/110/135+0.55×额外攻击力。",
+      "sortOrder": 100
+    }
+  }
+}

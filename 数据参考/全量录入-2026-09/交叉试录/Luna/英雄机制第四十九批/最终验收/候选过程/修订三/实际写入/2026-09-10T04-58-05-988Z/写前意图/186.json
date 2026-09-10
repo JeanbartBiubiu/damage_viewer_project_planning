@@ -1,0 +1,25 @@
+{
+  "i": 185,
+  "intent": {
+    "sequence": 186,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/parameters",
+    "detailRoute": "/skills/reksai_r/parameters/spell_cast_time_ms",
+    "skillKey": "reksai_r",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_ms",
+      "name": "客户端spellCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "spellCastTime=0.25秒，与mCastTime分列。",
+      "sortOrder": 110
+    }
+  }
+}

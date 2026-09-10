@@ -1,0 +1,25 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/attack_range_end_bonus",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "attack_range_end_bonus",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_range_end_bonus",
+      "name": "小型射程计算终点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "TotalAttackRange只有终点100，起点省略。",
+      "sortOrder": 60
+    }
+  }
+}

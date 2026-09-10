@@ -1,0 +1,25 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_e/parameters",
+    "detailRoute": "/skills/gnar_e/parameters/spell_cast_time_ms",
+    "skillKey": "gnar_e",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_ms",
+      "name": "客户端spellCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "spellCastTime=0.25秒。",
+      "sortOrder": 100
+    }
+  }
+}

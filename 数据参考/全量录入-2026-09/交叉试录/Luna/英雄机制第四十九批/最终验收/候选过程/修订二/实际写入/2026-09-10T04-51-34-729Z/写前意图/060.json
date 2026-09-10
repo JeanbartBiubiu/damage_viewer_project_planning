@@ -1,0 +1,25 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_q/parameters",
+    "detailRoute": "/skills/kled_q/parameters/tether_pop_multiplier",
+    "skillKey": "kled_q",
+    "kind": "parameters",
+    "stableKey": "tether_pop_multiplier",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tether_pop_multiplier",
+      "name": "牵引第二段相对倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "第二段是首段伤害×2，不把2倍当完整两段总量。",
+      "sortOrder": 30
+    }
+  }
+}

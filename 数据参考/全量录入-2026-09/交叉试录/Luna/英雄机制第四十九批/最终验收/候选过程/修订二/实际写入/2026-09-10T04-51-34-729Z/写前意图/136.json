@@ -1,0 +1,25 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_e/parameters",
+    "detailRoute": "/skills/quinn_e/parameters/slow_decay_time_ms",
+    "skillKey": "quinn_e",
+    "kind": "parameters",
+    "stableKey": "slow_decay_time_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_decay_time_ms",
+      "name": "减速衰减时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "源值1.5秒。",
+      "sortOrder": 40
+    }
+  }
+}

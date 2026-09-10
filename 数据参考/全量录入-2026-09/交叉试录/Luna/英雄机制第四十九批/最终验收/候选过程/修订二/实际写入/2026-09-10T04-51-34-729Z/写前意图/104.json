@@ -1,0 +1,25 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/cast_range_source",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "cast_range_source",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_range_source",
+      "name": "客户端冲锋范围起点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3500,
+      "levelValues": null,
+      "description": "客户端范围rank1为3500；与官方等级数组分开。",
+      "sortOrder": 110
+    }
+  }
+}

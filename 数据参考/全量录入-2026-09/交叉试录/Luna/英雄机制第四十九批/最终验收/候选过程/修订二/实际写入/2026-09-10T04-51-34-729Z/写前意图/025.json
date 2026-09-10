@@ -1,0 +1,31 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_w/parameters",
+    "detailRoute": "/skills/gnar_w/parameters/third_hit_base_damage",
+    "skillKey": "gnar_w",
+    "kind": "parameters",
+    "stableKey": "third_hit_base_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "third_hit_base_damage",
+      "name": "第三次命中基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0,
+        "2": 10,
+        "3": 20,
+        "4": 30,
+        "5": 40
+      },
+      "description": "MiniBaseDamage索引1至5为0/10/20/30/40；只在同一目标第三次命中触发。",
+      "sortOrder": 10
+    }
+  }
+}

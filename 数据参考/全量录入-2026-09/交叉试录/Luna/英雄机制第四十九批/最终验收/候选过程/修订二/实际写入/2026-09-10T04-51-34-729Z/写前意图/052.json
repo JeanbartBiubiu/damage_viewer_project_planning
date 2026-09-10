@@ -1,0 +1,25 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_r/parameters",
+    "detailRoute": "/skills/gnar_r/parameters/actual_learned_move_speed_ratio",
+    "skillKey": "gnar_r",
+    "kind": "parameters",
+    "stableKey": "actual_learned_move_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_learned_move_speed_ratio",
+      "name": "当前R等级实际W移速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "R槽主动没有可复用公共冷却，本轮由运行层提供当前W资格，不设默认。",
+      "sortOrder": 30
+    }
+  }
+}

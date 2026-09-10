@@ -1,0 +1,31 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_q/parameters",
+    "detailRoute": "/skills/gnar_q/parameters/slow_ratio",
+    "skillKey": "gnar_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.150000006,
+        "2": 0.200000003,
+        "3": 0.25,
+        "4": 0.300000012,
+        "5": 0.349999994
+      },
+      "description": "小型减速15%至35%，比例单位。",
+      "sortOrder": 30
+    }
+  }
+}

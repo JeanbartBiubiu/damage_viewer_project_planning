@@ -1,0 +1,25 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_p/parameters",
+    "detailRoute": "/skills/quinn_p/parameters/mark_damage_level18_base",
+    "skillKey": "quinn_p",
+    "kind": "parameters",
+    "stableKey": "mark_damage_level18_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_damage_level18_base",
+      "name": "标记伤害角色等级终点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 120,
+      "levelValues": null,
+      "description": "BonusDamage角色等级终点120；中间曲线未证。",
+      "sortOrder": 20
+    }
+  }
+}

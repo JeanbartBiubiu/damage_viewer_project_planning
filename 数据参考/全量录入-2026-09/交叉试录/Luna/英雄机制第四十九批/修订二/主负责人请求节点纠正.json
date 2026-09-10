@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-10T04:50:13.411Z",
+  "changes": [
+    {
+      "skillKey": "kled_r",
+      "formulaKey": "minimum_magic_damage",
+      "path": "expression.operands[1].operands[0].operands[1].operands[1]",
+      "before": "SOURCE_ATTRIBUTE",
+      "after": "ATTRIBUTE"
+    },
+    {
+      "skillKey": "kled_r",
+      "formulaKey": "minimum_magic_damage",
+      "path": "expression.operands[1].operands[1]",
+      "before": "SOURCE_ATTRIBUTE",
+      "after": "ATTRIBUTE"
+    },
+    {
+      "skillKey": "kled_r",
+      "formulaKey": "maximum_magic_damage",
+      "path": "expression.operands[1].operands[0].operands[1].operands[1]",
+      "before": "SOURCE_ATTRIBUTE",
+      "after": "ATTRIBUTE"
+    },
+    {
+      "skillKey": "kled_r",
+      "formulaKey": "maximum_magic_damage",
+      "path": "expression.operands[1].operands[1]",
+      "before": "SOURCE_ATTRIBUTE",
+      "after": "ATTRIBUTE"
+    }
+  ],
+  "apiWrites": 0,
+  "oldCandidateSha256": "a1b18dd1f43246c74756ee259958f8222811a79357515372443b94d74aa9f2fe",
+  "allFormulaNodeKindsChecked": true,
+  "numericSemanticsChanged": false
+}

@@ -1,0 +1,25 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_p/parameters",
+    "detailRoute": "/skills/reksai_p/parameters/fury_from_ability",
+    "skillKey": "reksai_p",
+    "kind": "parameters",
+    "stableKey": "fury_from_ability",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fury_from_ability",
+      "name": "技能命中生成怒气",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 25,
+      "levelValues": null,
+      "description": "地表技能命中每次生成25怒气。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_q/parameters",
+    "detailRoute": "/skills/gnar_q/parameters/missile_speed",
+    "skillKey": "gnar_q",
+    "kind": "parameters",
+    "stableKey": "missile_speed",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missile_speed",
+      "name": "客户端飞弹速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1200,
+      "levelValues": null,
+      "description": "mSpell.missileSpeed=1200；单位为速度，不能当作射程。",
+      "sortOrder": 70
+    }
+  }
+}

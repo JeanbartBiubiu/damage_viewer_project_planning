@@ -1,0 +1,47 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_q/formulas",
+    "detailRoute": "/skills/gnar_q/formulas/mini_physical_damage",
+    "skillKey": "gnar_q",
+    "kind": "formulas",
+    "stableKey": "mini_physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "mini_physical_damage",
+      "name": "小型回力标首段物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mini_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "首段=5/45/85/125/165+1.25×来源总攻击力；每个敌人只处理一次。",
+      "sortOrder": 90
+    }
+  }
+}
