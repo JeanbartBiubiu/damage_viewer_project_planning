@@ -1,0 +1,171 @@
+{
+  "at" : "2026-09-10T03:45:41.893790100Z",
+  "host" : "192.168.5.6",
+  "database" : "test0221",
+  "businessWrites" : 0,
+  "DDL" : 0,
+  "target" : [ {
+    "database_name" : "test0221",
+    "transaction_read_only" : "on"
+  } ],
+  "logicalTables" : [ {
+    "table_name" : "attributes",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "character_attributes",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "character_skill_relations",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "characters",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "damage_types",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "equipment",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "equipment_attributes",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "equipment_skill_relations",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "game_level_configs",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "games",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "image_relations",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "images",
+    "relation_kind" : "p"
+  }, {
+    "table_name" : "modifier_zones",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "rune_paths",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "rune_skill_relations",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "runes",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_categories",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_category_relations",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_effects",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_formulas",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_internal_states",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_object_references",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_parameters",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_processes",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skill_trigger_rules",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "skills",
+    "relation_kind" : "r"
+  }, {
+    "table_name" : "statuses",
+    "relation_kind" : "r"
+  } ],
+  "logicalTableCount" : 27,
+  "partitions" : [ {
+    "parent_table" : "images",
+    "child_table" : "images_lol"
+  }, {
+    "parent_table" : "pk_images",
+    "child_table" : "images_lol_pkey"
+  }, {
+    "parent_table" : "uq_images_name",
+    "child_table" : "images_lol_game_id_lower_idx"
+  } ],
+  "jsonColumns" : [ {
+    "table_name" : "character_attributes",
+    "column_name" : "level_values",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "equipment_attributes",
+    "column_name" : "attribute_values",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "rune_paths",
+    "column_name" : "slots",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_effects",
+    "column_name" : "results",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_effects",
+    "column_name" : "lifecycle",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_formulas",
+    "column_name" : "expression",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_internal_states",
+    "column_name" : "detail",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_parameters",
+    "column_name" : "level_values",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_processes",
+    "column_name" : "steps",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_processes",
+    "column_name" : "cooldown",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_processes",
+    "column_name" : "effect_bindings",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_processes",
+    "column_name" : "state_operations",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_trigger_rules",
+    "column_name" : "event_source",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_trigger_rules",
+    "column_name" : "condition_groups",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_trigger_rules",
+    "column_name" : "actions",
+    "data_type" : "jsonb"
+  }, {
+    "table_name" : "skill_trigger_rules",
+    "column_name" : "limits",
+    "data_type" : "jsonb"
+  } ],
+  "schemaSqlSha256" : "0661a0fed8d79e9acafa6887735cec1c30f13eeea69c5d136d43deedb431abaa",
+  "passed" : true
+}

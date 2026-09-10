@@ -1,0 +1,69 @@
+{
+  "at": "2026-09-10T03:46:45.026Z",
+  "passed": true,
+  "liveLogicalTables": 27,
+  "ddlTables": 27,
+  "designTables": 27,
+  "tables": [
+    "attributes",
+    "character_attributes",
+    "character_skill_relations",
+    "characters",
+    "damage_types",
+    "equipment",
+    "equipment_attributes",
+    "equipment_skill_relations",
+    "game_level_configs",
+    "games",
+    "image_relations",
+    "images",
+    "modifier_zones",
+    "rune_paths",
+    "rune_skill_relations",
+    "runes",
+    "skill_categories",
+    "skill_category_relations",
+    "skill_effects",
+    "skill_formulas",
+    "skill_internal_states",
+    "skill_object_references",
+    "skill_parameters",
+    "skill_processes",
+    "skill_trigger_rules",
+    "skills",
+    "statuses"
+  ],
+  "tablePartitions": [
+    {
+      "parent_table": "images",
+      "child_table": "images_lol"
+    }
+  ],
+  "indexAttachments": [
+    {
+      "parent_table": "pk_images",
+      "child_table": "images_lol_pkey"
+    },
+    {
+      "parent_table": "uq_images_name",
+      "child_table": "images_lol_game_id_lower_idx"
+    }
+  ],
+  "evidence": {
+    "live": {
+      "file": "C:/project/damage_web_dev/.agents/artifacts/live-schema-readonly-20260910.json",
+      "sha256": "1abf793883ea12e9f77b66a6f9626f489e0cede356eff3daf725e435608cf08e"
+    },
+    "ddl": {
+      "file": "C:/project/damage_backend_dev/db/game_manage/schema.sql",
+      "sha256": "0661a0fed8d79e9acafa6887735cec1c30f13eeea69c5d136d43deedb431abaa"
+    },
+    "design": {
+      "file": "C:/project/damage_viewer_project_planning/文档记录/概要设计/项目/实录驱动的系统精简设计.md",
+      "sha256": "28066411bb0d71619487cd1d7667d4fdbf04ebee9edac64d8766e448bd9d4516"
+    }
+  },
+  "sqlReadsDuringComparison": 0,
+  "businessWrites": 0,
+  "DDL": 0
+}
