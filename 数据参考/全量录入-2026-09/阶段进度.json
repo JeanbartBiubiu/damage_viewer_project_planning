@@ -5026,6 +5026,56 @@
         "sha256": "e51f711107958018409e94864e27a693049440588fcc66d97ac3f03d5a535438",
         "commit": "33515a43b860fc5acd74bb32bd1e68cc4b654d9b"
       }
+    },
+    "tristanaWOwnKillResetBackfill": {
+      "at": "2026-09-10T15:59:18.086Z",
+      "status": "作者契约修正、本人击杀英雄重置新增、独立回读与页面通过",
+      "skill": "tristana_w",
+      "created": 1,
+      "updated": 0,
+      "deleted": 0,
+      "sourceDecision": "固定资料的完整机制含参与英雄击杀和英雄身上满层爆炸火花；本次只保存系统可准确表达的本人完成英雄击杀子集。",
+      "contractFix": {
+        "condition": "TARGET_CATEGORY_CHECK",
+        "events": [
+          "SKILL_HIT",
+          "BASIC_ATTACK_HIT",
+          "KILL"
+        ],
+        "backendCommit": "cc9ef07c",
+        "frontendCommit": "c9d840bc",
+        "planningCommit": "f9e3ec38",
+        "cursorReviewRun": "run-343f4b49-4f54-4975-9e6a-39456c40f0b0"
+      },
+      "writer": {
+        "preflightGETs": 10,
+        "POST": 1,
+        "writeStatus": 201,
+        "immediateReadbackGETs": 11,
+        "replayedWrites": 0
+      },
+      "independentAgentGETs": 11,
+      "independentMismatches": 0,
+      "browserPassed": true,
+      "listImageVisible": true,
+      "protectedExistingRule": "actual_hit",
+      "protectedEffect": "reset_jump",
+      "experienceIssues": [
+        "目标类别条件原先拒绝击杀事件，和击杀事件当前目标契约冲突；本批已修正作者契约和界面说明。",
+        "页面自动化首次读取旧构建目录，重新构建后同一用例通过；真实页面验收前需确认预览产物与源码一致。",
+        "无内部状态时接口返回JSON null；本批不受影响，返回形状另行核查。"
+      ],
+      "pending": [
+        "助攻形成的参与击杀缺少准确事件，不能用本人击杀代替。",
+        "英雄身上满层爆炸火花的因果联动缺少准确事件或结果联动。"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜W击杀英雄重置补录/证据清单.json",
+        "sha256": "abc9964c19731fb98100381002bc70dd2caa1bcd16335b21e16f341e550ca9d9",
+        "commit": "cd9f461be3bde422e5b7f3a25c5622e54d9d87af"
+      }
     }
   },
   "runtimeValidation": "未执行"
