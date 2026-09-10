@@ -1,0 +1,30 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/parameters",
+    "detailRoute": "/skills/yorick_q/parameters/missing_health_percent_points",
+    "skillKey": "yorick_q",
+    "kind": "parameters",
+    "stableKey": "missing_health_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_percent_points",
+      "name": "自身已损生命治疗百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6,
+        "2": 7,
+        "3": 8,
+        "4": 9,
+        "5": 10
+      },
+      "description": "MissingHealthRatio为6至10百分数点，正文表示自身已损生命。",
+      "sortOrder": 20
+    }
+  }
+}

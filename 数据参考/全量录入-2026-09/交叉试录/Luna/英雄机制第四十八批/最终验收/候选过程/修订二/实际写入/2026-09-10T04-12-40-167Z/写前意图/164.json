@@ -1,0 +1,30 @@
+{
+  "i": 163,
+  "intent": {
+    "sequence": 164,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_e/parameters",
+    "detailRoute": "/skills/viego_e/parameters/mist_duration_ms",
+    "skillKey": "viego_e",
+    "kind": "parameters",
+    "stableKey": "mist_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mist_duration_ms",
+      "name": "黑雾持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 8000,
+        "2": 8000,
+        "3": 8000,
+        "4": 8000,
+        "5": 8000
+      },
+      "description": "MistDuration按保护最高等级逐级精确转换为8000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

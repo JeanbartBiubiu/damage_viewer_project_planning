@@ -1,0 +1,24 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/parameters",
+    "detailRoute": "/skills/ivern_w/parameters/buff_duration_ms",
+    "skillKey": "ivern_w",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "离开草丛后持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "BuffDuration=3秒，精确转换为3000毫秒；不是草丛45秒寿命。",
+      "sortOrder": 20
+    }
+  }
+}

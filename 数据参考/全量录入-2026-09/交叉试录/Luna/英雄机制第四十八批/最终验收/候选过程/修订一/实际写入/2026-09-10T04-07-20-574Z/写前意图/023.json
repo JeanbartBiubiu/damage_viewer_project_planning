@@ -1,0 +1,24 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/parameters",
+    "detailRoute": "/skills/ivern_w/parameters/spell_cast_time_ms",
+    "skillKey": "ivern_w",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_ms",
+      "name": "spellCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒；不得以未知mCastTime替代。",
+      "sortOrder": 100
+    }
+  }
+}

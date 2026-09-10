@@ -1,0 +1,24 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 123,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/health_crit_ratio",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "health_crit_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_crit_ratio",
+      "name": "攻击特效暴击效能",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.699999988,
+      "levelValues": null,
+      "description": "HealthCritDamage的mStat9分支HealthCritMod=0.7，不使用mStat8。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/active_mstat9",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "active_mstat9",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_mstat9",
+      "name": "主动段实际mStat9",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalDamage实际mStat9未在本包属性枚举中证实，必须由运行层提供，不设默认。",
+      "sortOrder": 140
+    }
+  }
+}

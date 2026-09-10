@@ -1,0 +1,30 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_q/parameters",
+    "detailRoute": "/skills/kayn_q/parameters/base_damage",
+    "skillKey": "kayn_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "一次伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 75,
+        "2": 105,
+        "3": 135,
+        "4": 165,
+        "5": 195
+      },
+      "description": "TotalDamage按Q保护最高等级取BaseDamage索引1至最高等级；当前未变形值75/105/135/165/195。",
+      "sortOrder": 10
+    }
+  }
+}

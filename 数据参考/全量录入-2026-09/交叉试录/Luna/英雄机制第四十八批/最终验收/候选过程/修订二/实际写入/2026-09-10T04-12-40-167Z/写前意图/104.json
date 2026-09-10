@@ -1,0 +1,43 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_e/effects",
+    "detailRoute": "/skills/kayn_e/effects/terrain_heal",
+    "skillKey": "kayn_e",
+    "kind": "effects",
+    "stableKey": "terrain_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "terrain_heal",
+      "name": "掠影步首次入地形治疗",
+      "description": "首次进入地形事件、英雄战斗提前结束和治疗时点由运行层接线；不创建形态治疗。",
+      "sortOrder": 30,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "heal",
+          "name": "掠影步首次入地形治疗",
+          "resultType": "DIRECT_HEAL",
+          "target": "SOURCE",
+          "description": "只记录自身直接治疗，目标与触发事件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "self_healing"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {}
+        }
+      ]
+    }
+  }
+}

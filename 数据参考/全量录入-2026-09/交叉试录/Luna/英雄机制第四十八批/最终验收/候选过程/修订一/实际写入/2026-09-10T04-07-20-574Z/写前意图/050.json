@@ -1,0 +1,24 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/parameters",
+    "detailRoute": "/skills/yorick_q/parameters/q_heal_base_actual",
+    "skillKey": "yorick_q",
+    "kind": "parameters",
+    "stableKey": "q_heal_base_actual",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_heal_base_actual",
+      "name": "QHeal实际基础治疗输入",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "QHeal含角色等级初始值、初始斜率和7/13级断点；断点当级计入未证，运行层必须提供实际值，不生成18级曲线或默认值。",
+      "sortOrder": 60
+    }
+  }
+}

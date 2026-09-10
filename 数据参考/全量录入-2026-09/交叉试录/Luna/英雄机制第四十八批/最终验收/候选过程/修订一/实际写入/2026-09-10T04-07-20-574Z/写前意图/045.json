@@ -1,0 +1,30 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/parameters",
+    "detailRoute": "/skills/yorick_q/parameters/base_damage",
+    "skillKey": "yorick_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "额外物理伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 50,
+        "3": 70,
+        "4": 90,
+        "5": 110
+      },
+      "description": "BonusDamage读取BaseDamage，按保护最高等级取索引1至最高等级。",
+      "sortOrder": 10
+    }
+  }
+}

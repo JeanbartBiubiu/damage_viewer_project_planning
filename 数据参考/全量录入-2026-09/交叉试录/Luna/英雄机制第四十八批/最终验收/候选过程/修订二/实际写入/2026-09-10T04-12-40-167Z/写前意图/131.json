@@ -1,0 +1,24 @@
+{
+  "i": 130,
+  "intent": {
+    "sequence": 131,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/on_hit_crit_mstat9",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "on_hit_crit_mstat9",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_crit_mstat9",
+      "name": "攻击特效实际mStat9",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "HealthCritDamage实际mStat9未在本包属性枚举中证实，必须由运行层提供，不设默认。",
+      "sortOrder": 150
+    }
+  }
+}

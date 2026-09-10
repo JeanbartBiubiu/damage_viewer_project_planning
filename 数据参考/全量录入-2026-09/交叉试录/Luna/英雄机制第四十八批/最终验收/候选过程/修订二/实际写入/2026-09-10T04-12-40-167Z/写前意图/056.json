@@ -1,0 +1,30 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_e/parameters",
+    "detailRoute": "/skills/yorick_e/parameters/health_damage_percent_points",
+    "skillKey": "yorick_e",
+    "kind": "parameters",
+    "stableKey": "health_damage_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_damage_percent_points",
+      "name": "目标最大生命伤害百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6,
+        "2": 6.5,
+        "3": 7,
+        "4": 7.5,
+        "5": 8
+      },
+      "description": "HealthDamage按保护最高等级取索引1至最高等级；Calc_HealthDamage另乘0.01。",
+      "sortOrder": 10
+    }
+  }
+}

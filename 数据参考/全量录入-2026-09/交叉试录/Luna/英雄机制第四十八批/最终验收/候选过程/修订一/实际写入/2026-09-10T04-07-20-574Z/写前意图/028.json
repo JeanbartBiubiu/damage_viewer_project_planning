@@ -1,0 +1,46 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 28,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/formulas",
+    "detailRoute": "/skills/ivern_w/formulas/magic_damage",
+    "skillKey": "ivern_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "揠苗助攻附加魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+0.2×来源总法强；本体自身攻击附伤。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/parameters",
+    "detailRoute": "/skills/ivern_w/parameters/cooldown_interval_ms",
+    "skillKey": "ivern_w",
+    "kind": "parameters",
+    "stableKey": "cooldown_interval_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_interval_ms",
+      "name": "充能间隔字段（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前根cooldownTime=0.5秒，作为间隔字段保留，不当普通冷却复用。",
+      "sortOrder": 90
+    }
+  }
+}

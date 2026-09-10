@@ -1,0 +1,24 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/parameters",
+    "detailRoute": "/skills/ivern_w/parameters/brush_radius",
+    "skillKey": "ivern_w",
+    "kind": "parameters",
+    "stableKey": "brush_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "brush_radius",
+      "name": "本人资格草丛半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 190,
+      "levelValues": null,
+      "description": "BrushRadius固定190，只记录艾翁本人资格地形，不表示自主单位。",
+      "sortOrder": 40
+    }
+  }
+}

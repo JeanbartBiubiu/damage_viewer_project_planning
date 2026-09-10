@@ -1,0 +1,24 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_e/parameters",
+    "detailRoute": "/skills/yorick_e/parameters/health_ap_ratio",
+    "skillKey": "yorick_e",
+    "kind": "parameters",
+    "stableKey": "health_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_ap_ratio",
+      "name": "最大生命法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.029999999,
+      "levelValues": null,
+      "description": "Calc_HealthDamage第二分支HealthAPRatio=0.03。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_q/parameters",
+    "detailRoute": "/skills/ivern_q/parameters/cast_range",
+    "skillKey": "ivern_q",
+    "kind": "parameters",
+    "stableKey": "cast_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_range",
+      "name": "实际施法距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1150,
+      "levelValues": null,
+      "description": "当前根castRange索引1为1150；不与显示距离混用。",
+      "sortOrder": 70
+    }
+  }
+}

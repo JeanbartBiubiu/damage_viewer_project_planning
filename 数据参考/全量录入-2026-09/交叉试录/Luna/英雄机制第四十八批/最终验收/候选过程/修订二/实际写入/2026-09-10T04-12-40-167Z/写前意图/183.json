@@ -1,0 +1,24 @@
+{
+  "i": 182,
+  "intent": {
+    "sequence": 183,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/parameters",
+    "detailRoute": "/skills/viego_r/parameters/percent_point_ratio",
+    "skillKey": "viego_r",
+    "kind": "parameters",
+    "stableKey": "percent_point_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_point_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "正文TotalPercentHealth以百分数点显示，固定转换系数0.01。",
+      "sortOrder": 70
+    }
+  }
+}

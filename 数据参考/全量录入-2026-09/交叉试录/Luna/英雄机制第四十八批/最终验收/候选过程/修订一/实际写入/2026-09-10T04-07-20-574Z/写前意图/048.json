@@ -1,0 +1,24 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/parameters",
+    "detailRoute": "/skills/yorick_q/parameters/buff_duration_ms",
+    "skillKey": "yorick_q",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "强化攻击窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "BuffDuration=5秒，精确转换为5000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

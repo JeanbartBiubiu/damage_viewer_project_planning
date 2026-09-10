@@ -1,0 +1,52 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_e/effects",
+    "detailRoute": "/skills/yorick_e/effects/max_health_damage",
+    "skillKey": "yorick_e",
+    "kind": "effects",
+    "stableKey": "max_health_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "max_health_damage",
+      "name": "哀伤之雾目标最大生命魔法伤害",
+      "description": "唯一敌人本体伤害；减速、标记和兵野分支由运行层接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "哀伤之雾目标最大生命魔法伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "max_health_magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

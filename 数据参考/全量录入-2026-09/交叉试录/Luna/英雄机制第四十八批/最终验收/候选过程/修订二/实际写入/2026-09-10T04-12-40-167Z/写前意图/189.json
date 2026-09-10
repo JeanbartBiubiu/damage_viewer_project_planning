@@ -1,0 +1,86 @@
+{
+  "i": 188,
+  "intent": {
+    "sequence": 189,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/formulas",
+    "detailRoute": "/skills/viego_r/formulas/base_physical_damage",
+    "skillKey": "viego_r",
+    "kind": "formulas",
+    "stableKey": "base_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "base_physical_damage",
+      "name": "痛贯天灵基础物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_base_multiplier"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "crit_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "mstat8_actual"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "mstat9_actual"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "crit_subtract_one"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=1.2×总攻击力×[1+0.7×实际mStat8×(实际mStat9−1)]，暴击因子只覆盖基础攻击力段。",
+      "sortOrder": 10
+    }
+  }
+}

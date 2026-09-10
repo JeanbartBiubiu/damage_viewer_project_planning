@@ -1,0 +1,24 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_e/parameters",
+    "detailRoute": "/skills/kayn_e/parameters/out_of_terrain_end_ms",
+    "skillKey": "kayn_e",
+    "kind": "parameters",
+    "stableKey": "out_of_terrain_end_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "out_of_terrain_end_ms",
+      "name": "地形外连续结束时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "地形外连续1.5秒提前结束，精确转换为1500毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

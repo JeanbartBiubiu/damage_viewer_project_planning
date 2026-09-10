@@ -1,0 +1,46 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_e/formulas",
+    "detailRoute": "/skills/kayn_e/formulas/self_healing",
+    "skillKey": "kayn_e",
+    "kind": "formulas",
+    "stableKey": "self_healing",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_healing",
+      "name": "掠影步自身治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "heal_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalHealing=HealAmount+0.45×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

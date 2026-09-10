@@ -1,0 +1,30 @@
+{
+  "i": 116,
+  "intent": {
+    "sequence": 117,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/active_base_damage",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "active_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_base_damage",
+      "name": "主动基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 40,
+        "3": 55,
+        "4": 70,
+        "5": 85
+      },
+      "description": "TotalDamage第一分支Damage按Q保护最高等级取索引1至最高等级。",
+      "sortOrder": 10
+    }
+  }
+}

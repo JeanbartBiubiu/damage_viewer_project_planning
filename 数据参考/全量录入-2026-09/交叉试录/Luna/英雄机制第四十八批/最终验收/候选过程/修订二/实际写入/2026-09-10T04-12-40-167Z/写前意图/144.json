@@ -1,0 +1,52 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 144,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/effects",
+    "detailRoute": "/skills/viego_q/effects/critical_on_hit_damage",
+    "skillKey": "viego_q",
+    "kind": "effects",
+    "stableKey": "critical_on_hit_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "critical_on_hit_damage",
+      "name": "破败王剑暴击攻击特效当前生命伤害",
+      "description": "暴击攻击特效效果；与普通攻击特效互斥，每次实际命中独立读取目标当前生命，不限于第二次攻击且不含mStat8。",
+      "sortOrder": 40,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "破败王剑暴击攻击特效当前生命伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "critical_on_hit_current_health_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

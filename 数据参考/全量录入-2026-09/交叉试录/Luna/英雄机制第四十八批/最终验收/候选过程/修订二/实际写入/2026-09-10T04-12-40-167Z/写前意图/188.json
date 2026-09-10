@@ -1,0 +1,24 @@
+{
+  "i": 187,
+  "intent": {
+    "sequence": 188,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/parameters",
+    "detailRoute": "/skills/viego_r/parameters/display_range",
+    "skillKey": "viego_r",
+    "kind": "parameters",
+    "stableKey": "display_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "display_range",
+      "name": "显示距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前根显示距离500；原castRange25000不作实际施法距离。",
+      "sortOrder": 120
+    }
+  }
+}

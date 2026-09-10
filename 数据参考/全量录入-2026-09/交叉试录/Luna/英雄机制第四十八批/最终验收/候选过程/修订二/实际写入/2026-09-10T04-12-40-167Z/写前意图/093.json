@@ -1,0 +1,46 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_w/formulas",
+    "detailRoute": "/skills/kayn_w/formulas/physical_damage",
+    "skillKey": "kayn_w",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "利刃纵贯物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+1.1×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}
