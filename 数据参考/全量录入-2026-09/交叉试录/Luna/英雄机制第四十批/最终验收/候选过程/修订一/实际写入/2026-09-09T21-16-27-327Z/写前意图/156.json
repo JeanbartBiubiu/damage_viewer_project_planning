@@ -1,0 +1,23 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/pyke_e/parameters",
+    "detailRoute": "/skills/pyke_e/parameters/lethality_points_input",
+    "skillKey": "pyke_e",
+    "kind": "parameters",
+    "stableKey": "lethality_points_input",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lethality_points_input",
+      "name": "魅影浪洄固定穿甲点数输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前StunDuration消费mStat29；实际穿甲点数由运行层提供，无默认。",
+      "sortOrder": 50
+    }
+  }
+}

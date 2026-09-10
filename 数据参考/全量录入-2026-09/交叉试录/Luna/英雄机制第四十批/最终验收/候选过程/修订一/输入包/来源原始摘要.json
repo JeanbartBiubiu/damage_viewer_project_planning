@@ -1,0 +1,4451 @@
+{
+  "generatedAt": "2026-09-09T19:59:03.025Z",
+  "batch": "第四十批赛娜锤石派克崔斯特",
+  "sourceVersion": {
+    "build": "16.17.8104348+branch.releases-16-17.content.release",
+    "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8"
+  },
+  "rootInputFiles": {
+    "binding": {
+      "path": "来源绑定与当前文本.json",
+      "sha256": "db3e9b2bb4763ab5655f4cb4ea88850632c0c80b5644af403d21cd010eb34d71"
+    },
+    "version": {
+      "path": "输入版本.json",
+      "sha256": "fc79a626649b2e1113d3e9281c50c611370a50bba5d5d9118a629657cdfd0a03"
+    },
+    "snapshot": {
+      "path": "参考资料/当前20槽保护快照.json",
+      "sha256": "5845afe729a7af7762db46e9898dbd57581e69513a1f152880fd6a4eb0b18ffc"
+    },
+    "reuse": {
+      "path": "参考资料/公共参数复用清单.json",
+      "sha256": "9e2e3836e0e17dc25d7a874da345b3e8e3fd9f837a5104c125e5919939c9991b"
+    }
+  },
+  "skills": [
+    {
+      "heroId": "Senna",
+      "heroName": "赛娜",
+      "skillKey": "senna_p",
+      "slot": "P",
+      "binding": "Characters/Senna/Spells/SennaPassiveAbility/SennaPassive",
+      "spellCastTime": null,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "ADPerStack",
+          "values": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ]
+        },
+        {
+          "name": "StacksForBonus",
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ]
+        },
+        {
+          "name": "SoulDuration",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "BonusRange",
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ]
+        },
+        {
+          "name": "CritDamageMod",
+          "values": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929
+          ]
+        },
+        {
+          "name": "BonusCritChance",
+          "values": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "name": "CritToLifestealConversionPercent",
+          "values": [
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355
+          ]
+        },
+        {
+          "name": "SoulDropPercentChance",
+          "values": [
+            0.3199999928474426,
+            0.3199999928474426,
+            0.3199999928474426,
+            0.3199999928474426,
+            0.3199999928474426,
+            0.3199999928474426,
+            0.3199999928474426
+          ]
+        },
+        {
+          "name": "SoulDropPercentChanceOnSennaKill",
+          "values": [
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806
+          ]
+        },
+        {
+          "name": "MSStealDuration",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "SoulTravelDistanceBad",
+          "values": [
+            350,
+            350,
+            350,
+            350,
+            350,
+            350,
+            350
+          ]
+        },
+        {
+          "name": "SoulTravelDistanceGood",
+          "values": [
+            -50,
+            -50,
+            -50,
+            -50,
+            -50,
+            -50,
+            -50
+          ]
+        },
+        {
+          "name": "SoulTravelVarianceRadiusInner",
+          "values": [
+            130,
+            130,
+            130,
+            130,
+            130,
+            130,
+            130
+          ]
+        },
+        {
+          "name": "SoulTravelVarianceRadiusOuter",
+          "values": [
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150
+          ]
+        },
+        {
+          "name": "ChanceForGoodSoul",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ]
+        },
+        {
+          "name": "ThreshSoulsToTriggerQuest",
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        {
+          "name": "SennaSoulsToTriggerQuest",
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "name": "QuestRewardForSennaStacks",
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ]
+        },
+        {
+          "name": "QuestRewardSennaAPPerStack",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "QuestRewardSennaArmorPerStack",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "QuestRewardForThreshStacks",
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ]
+        },
+        {
+          "name": "QuestAssistWindow",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "MarkDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "ArmorShredDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ]
+        }
+      ],
+      "calculations": {
+        "BonusOnHitDamage": {
+          "name": "BonusOnHitDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.20000000298023224
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 0.20000000298023224
+                }
+              ]
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.20000000298023224
+            }
+          ]
+        },
+        "MSSteal": {
+          "name": "MSSteal",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": true,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 0.10000000149011612,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": 0.05000000074505806
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 9,
+                  "mAdditionalBonusAtThisLevel": 0.05000000074505806
+                }
+              ]
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mDisplayAsPercent": true,
+              "mFormulaParts": [
+                {
+                  "__type": "ByCharLevelBreakpointsCalculationPart",
+                  "mLevel1Value": 0.10000000149011612,
+                  "mBreakpoints": [
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": 0.05000000074505806
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 9,
+                      "mAdditionalBonusAtThisLevel": 0.05000000074505806
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 0.10000000149011612,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": 0.05000000074505806
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 9,
+                  "mAdditionalBonusAtThisLevel": 0.05000000074505806
+                }
+              ]
+            }
+          ]
+        },
+        "{bb59ad08}": {
+          "name": "{bb59ad08}",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "BuffCounterByNamedDataValueCalculationPart",
+              "mDataValue": "ADPerStack"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "BuffCounterByNamedDataValueCalculationPart",
+                  "mDataValue": "ADPerStack"
+                }
+              ]
+            },
+            {
+              "__type": "BuffCounterByNamedDataValueCalculationPart",
+              "mDataValue": "ADPerStack"
+            }
+          ]
+        },
+        "BonusCurentHealthDamage": {
+          "name": "BonusCurentHealthDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 1,
+              "mInitialBonusPerLevel": 1,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 11
+                }
+              ]
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "ByCharLevelBreakpointsCalculationPart",
+                  "mLevel1Value": 1,
+                  "mInitialBonusPerLevel": 1,
+                  "mBreakpoints": [
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 11
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 1,
+              "mInitialBonusPerLevel": 1,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 11
+                }
+              ]
+            }
+          ]
+        },
+        "DebuffDuration": {
+          "name": "DebuffDuration",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 6,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": -1
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": -1
+                }
+              ]
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "ByCharLevelBreakpointsCalculationPart",
+                  "mLevel1Value": 6,
+                  "mBreakpoints": [
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 6,
+                      "mAdditionalBonusAtThisLevel": -1
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": -1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 6,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": -1
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": -1
+                }
+              ]
+            }
+          ]
+        },
+        "CriticalDamage": {
+          "name": "CriticalDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": true,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 9,
+              "mCoefficient": 1
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mDisplayAsPercent": true,
+              "mFormulaParts": [
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 9,
+                  "mCoefficient": 1
+                }
+              ]
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 9,
+              "mCoefficient": 1
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyTooltipExtended"
+      ]
+    },
+    {
+      "heroId": "Senna",
+      "heroName": "赛娜",
+      "skillKey": "senna_q",
+      "slot": "Q",
+      "binding": "Characters/Senna/Spells/SennaQAbility/SennaQ",
+      "spellCastTime": 0,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": {
+        "__type": "UseAutoattackCastTimeData"
+      },
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            5,
+            30,
+            55,
+            80,
+            105,
+            130,
+            155
+          ]
+        },
+        {
+          "name": "BaseHeal",
+          "values": [
+            20,
+            40,
+            60,
+            80,
+            100,
+            120,
+            140
+          ]
+        },
+        {
+          "name": "HealAPRatio",
+          "values": [
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355
+          ]
+        },
+        {
+          "name": "HealADRatio",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        },
+        {
+          "name": "CDReductionOnHit",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "RectangleWidthEnemy",
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "name": "RectangleWidthAlly",
+          "values": [
+            280,
+            280,
+            280,
+            280,
+            280,
+            280,
+            280
+          ]
+        },
+        {
+          "name": "RectangleLeadDistance",
+          "values": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "name": "RectangleRange",
+          "values": [
+            1300,
+            1300,
+            1300,
+            1300,
+            1300,
+            1300,
+            1300
+          ]
+        },
+        {
+          "name": "MaxTargetingRange",
+          "values": [
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100
+          ]
+        },
+        {
+          "name": "BaseSlow",
+          "values": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            0.75,
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25
+          ]
+        },
+        {
+          "name": "SlowAPRatio",
+          "values": [
+            0.000699999975040555,
+            0.000699999975040555,
+            0.000699999975040555,
+            0.000699999975040555,
+            0.000699999975040555,
+            0.000699999975040555,
+            0.000699999975040555
+          ]
+        },
+        {
+          "name": "BADDamageRatio",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "name": "TotalDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "BADDamageRatio",
+              "mStat": 2
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "BADDamageRatio",
+                  "mStat": 2
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "BADDamageRatio",
+              "mStat": 2
+            }
+          ]
+        },
+        "TotalHeal": {
+          "name": "TotalHeal",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseHeal"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "HealAPRatio"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "HealADRatio",
+              "mStat": 2
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseHeal"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "HealAPRatio"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "HealADRatio",
+                  "mStat": 2
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseHeal"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "HealAPRatio"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "HealADRatio",
+              "mStat": 2
+            }
+          ]
+        },
+        "TotalSlow": {
+          "name": "TotalSlow",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": true,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseSlow"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "SlowAPRatio"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.001500000013038516
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mDisplayAsPercent": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseSlow"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "SlowAPRatio"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 0.001500000013038516
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseSlow"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "SlowAPRatio"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.001500000013038516
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "Senna",
+      "heroName": "赛娜",
+      "skillKey": "senna_w",
+      "slot": "W",
+      "binding": "Characters/Senna/Spells/SennaWAbility/SennaW",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            70,
+            110,
+            150,
+            190,
+            230,
+            270
+          ]
+        },
+        {
+          "name": "RootDuration",
+          "values": [
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25,
+            2.5
+          ]
+        },
+        {
+          "name": "DelayTime",
+          "values": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "calculations": {
+        "Damage": {
+          "name": "Damage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.8999999761581421
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 0.8999999761581421
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.8999999761581421
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary"
+      ]
+    },
+    {
+      "heroId": "Senna",
+      "heroName": "赛娜",
+      "skillKey": "senna_e",
+      "slot": "E",
+      "binding": "Characters/Senna/Spells/SennaEAbility/SennaE",
+      "spellCastTime": 0,
+      "mCastTime": 1,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "BuffDuration",
+          "values": [
+            5.5,
+            6,
+            6.5,
+            7,
+            7.5,
+            8,
+            8.5
+          ]
+        },
+        {
+          "name": "MovementSpeedPercent",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ]
+        },
+        {
+          "name": "DefenseRadius",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ]
+        },
+        {
+          "name": "DurationBeforeRestealth",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        },
+        {
+          "name": "MinAllyduration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "AllyMSMult",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "SmokeLinger",
+          "values": [
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5,
+            3.5
+          ]
+        },
+        {
+          "name": "SmokeArmTime",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "name": "SmokeRadius",
+          "values": [
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150
+          ]
+        },
+        {
+          "name": "MSAPRatio",
+          "values": [
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257,
+            0.0005000000237487257
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalMS": {
+          "name": "TotalMS",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": true,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "MovementSpeedPercent"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "MSAPRatio"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mDisplayAsPercent": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "MovementSpeedPercent"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "MSAPRatio"
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "MovementSpeedPercent"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "MSAPRatio"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "Senna",
+      "heroName": "赛娜",
+      "skillKey": "senna_r",
+      "slot": "R",
+      "binding": "Characters/Senna/Spells/SennaRAbility/SennaR",
+      "spellCastTime": 1,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "Damage",
+          "values": [
+            100,
+            250,
+            400,
+            550,
+            700,
+            850,
+            1000
+          ]
+        },
+        {
+          "name": "Shield",
+          "values": [
+            80,
+            120,
+            160,
+            200,
+            240,
+            280,
+            320
+          ]
+        },
+        {
+          "name": "ShieldDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "PostCastAnimLock",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "DamageAPRatio",
+          "values": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071
+          ]
+        },
+        {
+          "name": "ShieldAPRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "name": "TotalDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "DamageAPRatio"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1.149999976158142
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "Damage"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "DamageAPRatio"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 1.149999976158142
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "DamageAPRatio"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1.149999976158142
+            }
+          ]
+        },
+        "TotalShield": {
+          "name": "TotalShield",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Shield"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "ShieldAPRatio"
+            },
+            {
+              "__type": "BuffCounterByCoefficientCalculationPart",
+              "mCoefficient": 1.5
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "Shield"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "ShieldAPRatio"
+                },
+                {
+                  "__type": "BuffCounterByCoefficientCalculationPart",
+                  "mCoefficient": 1.5
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Shield"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "ShieldAPRatio"
+            },
+            {
+              "__type": "BuffCounterByCoefficientCalculationPart",
+              "mCoefficient": 1.5
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "Thresh",
+      "heroName": "锤石",
+      "skillKey": "thresh_p",
+      "slot": "P",
+      "binding": "Characters/Thresh/Spells/ThreshPassiveSoulsAbility/ThreshPassiveSouls",
+      "spellCastTime": null,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "StatValuePerSoul",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "SoulsToGainOnPickUp",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "calculations": {
+        "CurrentSoulBonus": {
+          "name": "CurrentSoulBonus",
+          "tooltipOnly": true,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "BuffCounterByNamedDataValueCalculationPart",
+              "mDataValue": "StatValuePerSoul"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "__type": "BuffCounterByNamedDataValueCalculationPart",
+                  "mDataValue": "StatValuePerSoul"
+                }
+              ]
+            },
+            {
+              "__type": "BuffCounterByNamedDataValueCalculationPart",
+              "mDataValue": "StatValuePerSoul"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyTooltipExtended"
+      ]
+    },
+    {
+      "heroId": "Thresh",
+      "heroName": "锤石",
+      "skillKey": "thresh_q",
+      "slot": "Q",
+      "binding": "Characters/Thresh/Spells/ThreshQAbility/ThreshQ",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            50,
+            100,
+            150,
+            200,
+            250,
+            300,
+            350
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421
+          ]
+        },
+        {
+          "name": "TauntLength",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        },
+        {
+          "name": "SlowPercent",
+          "values": [
+            75,
+            75,
+            75,
+            75,
+            75,
+            75,
+            75
+          ]
+        },
+        {
+          "name": "HitBonusCooldown",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "name": "TotalDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "APRatio"
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ]
+    },
+    {
+      "heroId": "Thresh",
+      "heroName": "锤石",
+      "skillKey": "thresh_w",
+      "slot": "W",
+      "binding": "Characters/Thresh/Spells/ThreshWAbility/ThreshW",
+      "spellCastTime": null,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "ShieldPerSoul",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "LanternDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ]
+        },
+        {
+          "name": "BaseShieldValue",
+          "values": [
+            30,
+            50,
+            70,
+            90,
+            110,
+            130,
+            150
+          ]
+        },
+        {
+          "name": "ShieldDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalShield": {
+          "name": "TotalShield",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseShieldValue"
+            },
+            {
+              "__type": "BuffCounterByNamedDataValueCalculationPart",
+              "mDataValue": "ShieldPerSoul"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseShieldValue"
+                },
+                {
+                  "__type": "BuffCounterByNamedDataValueCalculationPart",
+                  "mDataValue": "ShieldPerSoul"
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseShieldValue"
+            },
+            {
+              "__type": "BuffCounterByNamedDataValueCalculationPart",
+              "mDataValue": "ShieldPerSoul"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "Thresh",
+      "heroName": "锤石",
+      "skillKey": "thresh_e",
+      "slot": "E",
+      "binding": "Characters/Thresh/Spells/ThreshEAbility/ThreshE",
+      "spellCastTime": 0.3888999819755554,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "PassiveADRatioTT",
+          "values": [
+            0.6000000238418579,
+            0.8999999761581421,
+            1.2000000476837158,
+            1.5,
+            1.7999999523162842,
+            2.0999999046325684,
+            2.4000000953674316
+          ]
+        },
+        {
+          "name": "PassiveADRatio",
+          "values": [
+            60,
+            90,
+            120,
+            150,
+            180,
+            210,
+            240
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ]
+        },
+        {
+          "name": "ActiveBaseDamage",
+          "values": [
+            20,
+            65,
+            110,
+            155,
+            200,
+            245,
+            290
+          ]
+        },
+        {
+          "name": "ActiveSlowPercentage",
+          "values": [
+            20,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "PassiveDmgPerSoul",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        },
+        {
+          "name": "DmgPerSoul",
+          "values": [
+            1.7000000476837158,
+            1.7000000476837158,
+            1.7000000476837158,
+            1.7000000476837158,
+            1.7000000476837158,
+            1.7000000476837158,
+            1.7000000476837158
+          ]
+        },
+        {
+          "name": "FullChargeDuration",
+          "values": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "name": "Icon1ThresholdPercentage",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ]
+        },
+        {
+          "name": "Icon2ThresholdPercentage",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ]
+        },
+        {
+          "name": "Icon3ThresholdPercentage",
+          "values": [
+            0.9750000238418579,
+            0.9750000238418579,
+            0.9750000238418579,
+            0.9750000238418579,
+            0.9750000238418579,
+            0.9750000238418579,
+            0.9750000238418579
+          ]
+        }
+      ],
+      "calculations": {
+        "PAttackDamageMin": {
+          "name": "PAttackDamageMin",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "BuffCounterByCoefficientCalculationPart",
+              "mCoefficient": 1.7000000476837158
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "BuffCounterByCoefficientCalculationPart",
+                  "mCoefficient": 1.7000000476837158
+                }
+              ]
+            },
+            {
+              "__type": "BuffCounterByCoefficientCalculationPart",
+              "mCoefficient": 1.7000000476837158
+            }
+          ]
+        },
+        "PAttackDamageMax": {
+          "name": "PAttackDamageMax",
+          "tooltipOnly": true,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "BuffCounterByCoefficientCalculationPart",
+              "mCoefficient": 1.7000000476837158
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "PassiveADRatioTT",
+              "mStat": 2
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "__type": "BuffCounterByCoefficientCalculationPart",
+                  "mCoefficient": 1.7000000476837158
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "PassiveADRatioTT",
+                  "mStat": 2
+                }
+              ]
+            },
+            {
+              "__type": "BuffCounterByCoefficientCalculationPart",
+              "mCoefficient": 1.7000000476837158
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "PassiveADRatioTT",
+              "mStat": 2
+            }
+          ]
+        },
+        "TotalDamage": {
+          "name": "TotalDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "ActiveBaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "ActiveBaseDamage"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "APRatio"
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "ActiveBaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "Thresh",
+      "heroName": "锤石",
+      "skillKey": "thresh_r",
+      "slot": "R",
+      "binding": "Characters/Thresh/Spells/ThreshRPentaAbility/ThreshRPenta",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.44999998807907104,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "ThreshRCageRadius",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ]
+        },
+        {
+          "name": "ThreshRWallThickness",
+          "values": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ]
+        },
+        {
+          "name": "ThreshRWallLength",
+          "values": [
+            470.2279968261719,
+            470.2279968261719,
+            470.2279968261719,
+            470.2279968261719,
+            470.2279968261719,
+            470.2279968261719,
+            470.2279968261719
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "Damage",
+          "values": [
+            0,
+            250,
+            400,
+            550,
+            175,
+            175,
+            0
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            99,
+            99,
+            99,
+            99,
+            99,
+            99,
+            99
+          ]
+        },
+        {
+          "name": "WallDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "name": "TotalDamage",
+          "tooltipOnly": true,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "Damage"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "APRatio"
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ]
+    },
+    {
+      "heroId": "Pyke",
+      "heroName": "派克",
+      "skillKey": "pyke_p",
+      "slot": "P",
+      "binding": "Characters/Pyke/Spells/PykePassiveAbility/PykePassive",
+      "spellCastTime": null,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "OneEnemy",
+          "values": [
+            0.09000000357627869,
+            0.09000000357627869,
+            0.09000000357627869,
+            0.09000000357627869,
+            0.09000000357627869,
+            0.09000000357627869,
+            0.09000000357627869
+          ]
+        },
+        {
+          "name": "AdditionalBonus",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        },
+        {
+          "name": "HPPerBAD",
+          "values": [
+            14,
+            14,
+            14,
+            14,
+            14,
+            14,
+            14
+          ]
+        },
+        {
+          "name": "BonusDamagePercent",
+          "values": null
+        },
+        {
+          "name": "BonusADGain",
+          "values": null
+        },
+        {
+          "name": "BonusDamagePercentPerLevel",
+          "values": null
+        },
+        {
+          "name": "CooldownPerChamp",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "AmmoCooldown",
+          "values": [
+            30,
+            30,
+            30,
+            30,
+            30,
+            30,
+            30
+          ]
+        },
+        {
+          "name": "DamageStoreMaxBonusADRatio",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ]
+        }
+      ],
+      "calculations": {
+        "DamageStorageMax": {
+          "name": "DamageStorageMax",
+          "tooltipOnly": true,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NumberCalculationPart",
+              "mNumber": 80
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "DamageStoreMaxBonusADRatio",
+              "mStat": 2
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NumberCalculationPart",
+                  "mNumber": 80
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "DamageStoreMaxBonusADRatio",
+                  "mStat": 2
+                }
+              ]
+            },
+            {
+              "__type": "NumberCalculationPart",
+              "mNumber": 80
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "DamageStoreMaxBonusADRatio",
+              "mStat": 2
+            }
+          ]
+        },
+        "OneEnemyCalc": {
+          "name": "OneEnemyCalc",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": true,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "OneEnemy"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 0.0020000000949949026
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mDisplayAsPercent": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "OneEnemy"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 29,
+                  "mCoefficient": 0.0020000000949949026
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "OneEnemy"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 0.0020000000949949026
+            }
+          ]
+        },
+        "AdditionalBonusCalc": {
+          "name": "AdditionalBonusCalc",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": true,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "AdditionalBonus"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 0.004000000189989805
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mDisplayAsPercent": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "AdditionalBonus"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 29,
+                  "mCoefficient": 0.004000000189989805
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "AdditionalBonus"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 0.004000000189989805
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keyTooltipExtended"
+      ]
+    },
+    {
+      "heroId": "Pyke",
+      "heroName": "派克",
+      "skillKey": "pyke_q",
+      "slot": "Q",
+      "binding": "Characters/Pyke/Spells/PykeQAbility/PykeQ",
+      "spellCastTime": 0,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "ManaRefund",
+          "values": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ]
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            50,
+            100,
+            150,
+            200,
+            250,
+            300,
+            350
+          ]
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "MinChargeTime",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "MaxChargeTime",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "SelfSlow",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ]
+        },
+        {
+          "name": "PullDistance",
+          "values": [
+            500,
+            500,
+            500,
+            500,
+            500,
+            500,
+            500
+          ]
+        },
+        {
+          "name": "MinRangeDistance",
+          "values": [
+            500,
+            500,
+            500,
+            500,
+            500,
+            500,
+            500
+          ]
+        },
+        {
+          "name": "MaxRangeDistance",
+          "values": [
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100
+          ]
+        },
+        {
+          "name": "ChargeTimeToGetMaxRange",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "BonusADRatio",
+          "values": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "name": "TotalDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "BonusADRatio",
+              "mStat": 2
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "BonusADRatio",
+                  "mStat": 2
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "BonusADRatio",
+              "mStat": 2
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ]
+    },
+    {
+      "heroId": "Pyke",
+      "heroName": "派克",
+      "skillKey": "pyke_w",
+      "slot": "W",
+      "binding": "Characters/Pyke/Spells/PykeWAbility/PykeW",
+      "spellCastTime": null,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "BaseMoveSpeed",
+          "values": [
+            45,
+            45,
+            45,
+            45,
+            45,
+            45,
+            45
+          ]
+        },
+        {
+          "name": "CooldownPerChamp",
+          "values": null
+        },
+        {
+          "name": "BaseHealCap",
+          "values": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ]
+        },
+        {
+          "name": "MaxHPHealCap",
+          "values": [
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929
+          ]
+        },
+        {
+          "name": "HealADRatio",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "HealRampBase",
+          "values": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ]
+        },
+        {
+          "name": "HealRampPerTick",
+          "values": [
+            1.149999976158142,
+            1.149999976158142,
+            1.149999976158142,
+            1.149999976158142,
+            1.149999976158142,
+            1.149999976158142,
+            1.149999976158142
+          ]
+        },
+        {
+          "name": "CamoDuration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        }
+      ],
+      "calculations": {
+        "{601654a1}": {
+          "name": "{601654a1}",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": true,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 0.25,
+              "mInitialBonusPerLevel": 0.029999999329447746,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 4,
+                  "mBonusPerLevelAtAndAfter": 0.019999999552965164
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 8,
+                  "mBonusPerLevelAtAndAfter": 0.009999999776482582
+                }
+              ]
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mDisplayAsPercent": true,
+              "mFormulaParts": [
+                {
+                  "__type": "ByCharLevelBreakpointsCalculationPart",
+                  "mLevel1Value": 0.25,
+                  "mInitialBonusPerLevel": 0.029999999329447746,
+                  "mBreakpoints": [
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 4,
+                      "mBonusPerLevelAtAndAfter": 0.019999999552965164
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 8,
+                      "mBonusPerLevelAtAndAfter": 0.009999999776482582
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 0.25,
+              "mInitialBonusPerLevel": 0.029999999329447746,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 4,
+                  "mBonusPerLevelAtAndAfter": 0.019999999552965164
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 8,
+                  "mBonusPerLevelAtAndAfter": 0.009999999776482582
+                }
+              ]
+            }
+          ]
+        },
+        "MoveSpeed": {
+          "name": "MoveSpeed",
+          "tooltipOnly": true,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseMoveSpeed"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 2
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseMoveSpeed"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 29,
+                  "mCoefficient": 2
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseMoveSpeed"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 2
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "Pyke",
+      "heroName": "派克",
+      "skillKey": "pyke_e",
+      "slot": "E",
+      "binding": "Characters/Pyke/Spells/PykeEAbility/PykeE",
+      "spellCastTime": null,
+      "mCastTime": 0.2750000059604645,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            100,
+            100,
+            150,
+            200,
+            250,
+            300,
+            350
+          ]
+        },
+        {
+          "name": "BonusADRatio",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "BaseStunDuration",
+          "values": [
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25
+          ]
+        },
+        {
+          "name": "ELethalityRatio",
+          "values": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ]
+        },
+        {
+          "name": "DashDistance",
+          "values": [
+            550,
+            550,
+            550,
+            550,
+            550,
+            550,
+            550
+          ]
+        },
+        {
+          "name": "StunDelay",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "calculations": {
+        "StunDuration": {
+          "name": "StunDuration",
+          "tooltipOnly": true,
+          "mPrecision": -1,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseStunDuration"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 0.009999999776482582
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mPrecision": -1,
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseStunDuration"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 29,
+                  "mCoefficient": 0.009999999776482582
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseStunDuration"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 0.009999999776482582
+            }
+          ]
+        },
+        "TotalDamage": {
+          "name": "TotalDamage",
+          "tooltipOnly": true,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 1
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "Pyke",
+      "heroName": "派克",
+      "skillKey": "pyke_r",
+      "slot": "R",
+      "binding": "Characters/Pyke/Spells/PykeRAbility/PykeR",
+      "spellCastTime": null,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "RRecastDuration",
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ]
+        },
+        {
+          "name": "ReducedDamage",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "DamageCap",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "calculations": {
+        "RDamage": {
+          "name": "RDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 250,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 7,
+                  "mBonusPerLevelAtAndAfter": 40
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 10,
+                  "mBonusPerLevelAtAndAfter": 30
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 12,
+                  "mBonusPerLevelAtAndAfter": 20
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 17,
+                  "mBonusPerLevelAtAndAfter": 10
+                }
+              ]
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.800000011920929
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 1.5
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "ByCharLevelBreakpointsCalculationPart",
+                  "mLevel1Value": 250,
+                  "mBreakpoints": [
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 7,
+                      "mBonusPerLevelAtAndAfter": 40
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 10,
+                      "mBonusPerLevelAtAndAfter": 30
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 12,
+                      "mBonusPerLevelAtAndAfter": 20
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 17,
+                      "mBonusPerLevelAtAndAfter": 10
+                    }
+                  ]
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 0.800000011920929
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 29,
+                  "mCoefficient": 1.5
+                }
+              ]
+            },
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 250,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 7,
+                  "mBonusPerLevelAtAndAfter": 40
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 10,
+                  "mBonusPerLevelAtAndAfter": 30
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 12,
+                  "mBonusPerLevelAtAndAfter": 20
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 17,
+                  "mBonusPerLevelAtAndAfter": 10
+                }
+              ]
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.800000011920929
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 1.5
+            }
+          ]
+        },
+        "RADDamage": {
+          "name": "RADDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.800000011920929
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 0.800000011920929
+                }
+              ]
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 0.800000011920929
+            }
+          ]
+        },
+        "RLethalityDamage": {
+          "name": "RLethalityDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 1.5
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 29,
+                  "mCoefficient": 1.5
+                }
+              ]
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 29,
+              "mCoefficient": 1.5
+            }
+          ]
+        },
+        "RBaseDamage": {
+          "name": "RBaseDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 250,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 7,
+                  "mBonusPerLevelAtAndAfter": 40
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 10,
+                  "mBonusPerLevelAtAndAfter": 30
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 12,
+                  "mBonusPerLevelAtAndAfter": 20
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 17,
+                  "mBonusPerLevelAtAndAfter": 10
+                }
+              ]
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "ByCharLevelBreakpointsCalculationPart",
+                  "mLevel1Value": 250,
+                  "mBreakpoints": [
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 7,
+                      "mBonusPerLevelAtAndAfter": 40
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 10,
+                      "mBonusPerLevelAtAndAfter": 30
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 12,
+                      "mBonusPerLevelAtAndAfter": 20
+                    },
+                    {
+                      "__type": "Breakpoint",
+                      "mLevel": 17,
+                      "mBonusPerLevelAtAndAfter": 10
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 250,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 7,
+                  "mBonusPerLevelAtAndAfter": 40
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 10,
+                  "mBonusPerLevelAtAndAfter": 30
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 12,
+                  "mBonusPerLevelAtAndAfter": 20
+                },
+                {
+                  "__type": "Breakpoint",
+                  "mLevel": 17,
+                  "mBonusPerLevelAtAndAfter": 10
+                }
+              ]
+            }
+          ]
+        },
+        "ReducedDamageFinal": {
+          "name": "ReducedDamageFinal",
+          "tooltipOnly": true,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": "RDamage",
+          "formulaParts": [],
+          "multiplier": {
+            "__type": "NamedDataValueCalculationPart",
+            "mDataValue": "ReducedDamage"
+          },
+          "nodes": [
+            {
+              "__type": "GameCalculationModified",
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "RDamage",
+              "mMultiplier": {
+                "__type": "NamedDataValueCalculationPart",
+                "mDataValue": "ReducedDamage"
+              }
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "ReducedDamage"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "TwistedFate",
+      "heroName": "崔斯特",
+      "skillKey": "twistedfate_p",
+      "slot": "P",
+      "binding": "Characters/TwistedFate/Spells/SecondSightAbility/SecondSight",
+      "spellCastTime": null,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "GoldRatioMinCherry",
+          "values": [
+            0.019999999552965164,
+            0.019999999552965164,
+            0.019999999552965164,
+            0.019999999552965164,
+            0.019999999552965164,
+            0.019999999552965164,
+            0.019999999552965164
+          ]
+        },
+        {
+          "name": "GoldRatioMaxCherry",
+          "values": [
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066
+          ]
+        },
+        {
+          "name": "GameModeInteger",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "calculations": {},
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyTooltipExtended"
+      ]
+    },
+    {
+      "heroId": "TwistedFate",
+      "heroName": "崔斯特",
+      "skillKey": "twistedfate_q",
+      "slot": "Q",
+      "binding": "Characters/TwistedFate/Spells/WildCardsAbility/WildCards",
+      "spellCastTime": 0.25,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            15,
+            60,
+            105,
+            150,
+            195,
+            240,
+            285
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.8500000238418579,
+            0.8500000238418579,
+            0.8500000238418579,
+            0.8500000238418579,
+            0.8500000238418579,
+            0.8500000238418579,
+            0.8500000238418579
+          ]
+        },
+        {
+          "name": "BonusADRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "name": "TotalDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "BonusADRatio",
+              "mStat": 2
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BaseDamage"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "BonusADRatio",
+                  "mStat": 2
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "APRatio"
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "BonusADRatio",
+              "mStat": 2
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "TwistedFate",
+      "heroName": "崔斯特",
+      "skillKey": "twistedfate_w",
+      "slot": "W",
+      "binding": "Characters/TwistedFate/Spells/PickACardAbility/PickACard",
+      "spellCastTime": 0.42500001192092896,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "BlueBase",
+          "values": [
+            20,
+            40,
+            60,
+            80,
+            100,
+            120,
+            140
+          ]
+        },
+        {
+          "name": "RedBase",
+          "values": [
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105
+          ]
+        },
+        {
+          "name": "GoldBase",
+          "values": [
+            7.5,
+            15,
+            22.5,
+            30,
+            37.5,
+            45,
+            52.5
+          ]
+        },
+        {
+          "name": "BlueCritMultiplier",
+          "values": [
+            0.574999988079071,
+            0.574999988079071,
+            0.574999988079071,
+            0.574999988079071,
+            0.574999988079071,
+            0.574999988079071,
+            0.574999988079071
+          ]
+        },
+        {
+          "name": "RedCritMultiplier",
+          "values": [
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355
+          ]
+        },
+        {
+          "name": "GoldCritMultiplier",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "name": "ttBlueAP",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "name": "ttRedAP",
+          "values": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071
+          ]
+        },
+        {
+          "name": "ttGoldAP",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "ttAD",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "calculations": {
+        "BlueDamage": {
+          "name": "BlueDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BlueBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatBySubPartCalculationPart",
+              "mStat": 8
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BlueBase"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 1
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 1
+                },
+                {
+                  "__type": "StatBySubPartCalculationPart",
+                  "mStat": 8
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BlueBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatBySubPartCalculationPart",
+              "mStat": 8
+            },
+            {
+              "__type": "ProductOfSubPartsCalculationPart",
+              "mPart1": {
+                "__type": "NamedDataValueCalculationPart",
+                "mDataValue": "BlueCritMultiplier"
+              },
+              "mPart2": {
+                "__type": "SumOfSubPartsCalculationPart",
+                "mSubparts": [
+                  {
+                    "__type": "NamedDataValueCalculationPart",
+                    "mDataValue": "BlueBase"
+                  },
+                  {
+                    "__type": "StatByCoefficientCalculationPart",
+                    "mStat": 2,
+                    "mCoefficient": 1
+                  },
+                  {
+                    "__type": "StatByCoefficientCalculationPart",
+                    "mCoefficient": 1
+                  }
+                ]
+              }
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BlueCritMultiplier"
+            },
+            {
+              "__type": "SumOfSubPartsCalculationPart",
+              "mSubparts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "BlueBase"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 1
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 1
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BlueBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 1
+            }
+          ]
+        },
+        "RedDamage": {
+          "name": "RedDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "RedBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 0.699999988079071
+            },
+            {
+              "__type": "StatBySubPartCalculationPart",
+              "mStat": 8
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "RedBase"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 1
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.699999988079071
+                },
+                {
+                  "__type": "StatBySubPartCalculationPart",
+                  "mStat": 8
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "RedBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 0.699999988079071
+            },
+            {
+              "__type": "StatBySubPartCalculationPart",
+              "mStat": 8
+            },
+            {
+              "__type": "ProductOfSubPartsCalculationPart",
+              "mPart1": {
+                "__type": "NamedDataValueCalculationPart",
+                "mDataValue": "RedCritMultiplier"
+              },
+              "mPart2": {
+                "__type": "SumOfSubPartsCalculationPart",
+                "mSubparts": [
+                  {
+                    "__type": "NamedDataValueCalculationPart",
+                    "mDataValue": "RedBase"
+                  },
+                  {
+                    "__type": "StatByCoefficientCalculationPart",
+                    "mStat": 2,
+                    "mCoefficient": 1
+                  },
+                  {
+                    "__type": "StatByCoefficientCalculationPart",
+                    "mCoefficient": 0.699999988079071
+                  }
+                ]
+              }
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "RedCritMultiplier"
+            },
+            {
+              "__type": "SumOfSubPartsCalculationPart",
+              "mSubparts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "RedBase"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 1
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.699999988079071
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "RedBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 0.699999988079071
+            }
+          ]
+        },
+        "GoldDamage": {
+          "name": "GoldDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "GoldBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 0.5
+            },
+            {
+              "__type": "StatBySubPartCalculationPart",
+              "mStat": 8
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "GoldBase"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 1
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.5
+                },
+                {
+                  "__type": "StatBySubPartCalculationPart",
+                  "mStat": 8
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "GoldBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 0.5
+            },
+            {
+              "__type": "StatBySubPartCalculationPart",
+              "mStat": 8
+            },
+            {
+              "__type": "ProductOfSubPartsCalculationPart",
+              "mPart1": {
+                "__type": "NamedDataValueCalculationPart",
+                "mDataValue": "GoldCritMultiplier"
+              },
+              "mPart2": {
+                "__type": "SumOfSubPartsCalculationPart",
+                "mSubparts": [
+                  {
+                    "__type": "NamedDataValueCalculationPart",
+                    "mDataValue": "GoldBase"
+                  },
+                  {
+                    "__type": "StatByCoefficientCalculationPart",
+                    "mStat": 2,
+                    "mCoefficient": 1
+                  },
+                  {
+                    "__type": "StatByCoefficientCalculationPart",
+                    "mCoefficient": 0.5
+                  }
+                ]
+              }
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "GoldCritMultiplier"
+            },
+            {
+              "__type": "SumOfSubPartsCalculationPart",
+              "mSubparts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "GoldBase"
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mStat": 2,
+                  "mCoefficient": 1
+                },
+                {
+                  "__type": "StatByCoefficientCalculationPart",
+                  "mCoefficient": 0.5
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "GoldBase"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mCoefficient": 1
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 0.5
+            }
+          ]
+        },
+        "ttBlueDamage": {
+          "name": "ttBlueDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": "BlueDamage",
+          "formulaParts": [],
+          "multiplier": {
+            "__type": "NumberCalculationPart",
+            "mNumber": 1
+          },
+          "nodes": [
+            {
+              "__type": "GameCalculationModified",
+              "mModifiedGameCalculation": "BlueDamage",
+              "mMultiplier": {
+                "__type": "NumberCalculationPart",
+                "mNumber": 1
+              }
+            },
+            {
+              "__type": "NumberCalculationPart",
+              "mNumber": 1
+            }
+          ]
+        },
+        "ttRedDamage": {
+          "name": "ttRedDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": "RedDamage",
+          "formulaParts": [],
+          "multiplier": {
+            "__type": "NumberCalculationPart",
+            "mNumber": 1
+          },
+          "nodes": [
+            {
+              "__type": "GameCalculationModified",
+              "mModifiedGameCalculation": "RedDamage",
+              "mMultiplier": {
+                "__type": "NumberCalculationPart",
+                "mNumber": 1
+              }
+            },
+            {
+              "__type": "NumberCalculationPart",
+              "mNumber": 1
+            }
+          ]
+        },
+        "ttGoldDamage": {
+          "name": "ttGoldDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": "GoldDamage",
+          "formulaParts": [],
+          "multiplier": {
+            "__type": "NumberCalculationPart",
+            "mNumber": 1
+          },
+          "nodes": [
+            {
+              "__type": "GameCalculationModified",
+              "mModifiedGameCalculation": "GoldDamage",
+              "mMultiplier": {
+                "__type": "NumberCalculationPart",
+                "mNumber": 1
+              }
+            },
+            {
+              "__type": "NumberCalculationPart",
+              "mNumber": 1
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtended"
+      ]
+    },
+    {
+      "heroId": "TwistedFate",
+      "heroName": "崔斯特",
+      "skillKey": "twistedfate_e",
+      "slot": "E",
+      "binding": "Characters/TwistedFate/Spells/CardmasterStackAbility/CardmasterStack",
+      "spellCastTime": null,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "AttackSpeedBonus",
+          "values": [
+            5,
+            15,
+            25,
+            35,
+            45,
+            55,
+            65
+          ]
+        },
+        {
+          "name": "Damage",
+          "values": [
+            40,
+            65,
+            90,
+            115,
+            140,
+            165,
+            190
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        },
+        {
+          "name": "BonusADRatio",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ]
+        },
+        {
+          "name": "TowerEffectiveness",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "calculations": {
+        "BonusDamage": {
+          "name": "BonusDamage",
+          "tooltipOnly": false,
+          "mPrecision": null,
+          "mDisplayAsPercent": false,
+          "modified": null,
+          "formulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "BonusADRatio",
+              "mStat": 2
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ],
+          "multiplier": null,
+          "nodes": [
+            {
+              "__type": "GameCalculation",
+              "mFormulaParts": [
+                {
+                  "__type": "NamedDataValueCalculationPart",
+                  "mDataValue": "Damage"
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "BonusADRatio",
+                  "mStat": 2
+                },
+                {
+                  "__type": "StatByNamedDataValueCalculationPart",
+                  "mDataValue": "APRatio"
+                }
+              ]
+            },
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "BonusADRatio",
+              "mStat": 2
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ]
+        }
+      },
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyCost",
+        "keyCooldown",
+        "keyTooltipExtendedBelowLine"
+      ]
+    },
+    {
+      "heroId": "TwistedFate",
+      "heroName": "崔斯特",
+      "skillKey": "twistedfate_r",
+      "slot": "R",
+      "binding": "Characters/TwistedFate/Spells/DestinyAbility/Destiny",
+      "spellCastTime": 0.25,
+      "mCastTime": null,
+      "mUseAutoattackCastTimeData": null,
+      "dataValues": [
+        {
+          "name": "RecastDuration",
+          "values": [
+            6,
+            6,
+            8,
+            10,
+            12,
+            14,
+            16
+          ]
+        }
+      ],
+      "calculations": {},
+      "placeholderRefs": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ]
+    }
+  ]
+}

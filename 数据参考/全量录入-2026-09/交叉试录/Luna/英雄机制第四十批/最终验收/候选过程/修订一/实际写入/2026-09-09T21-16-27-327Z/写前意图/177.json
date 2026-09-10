@@ -1,0 +1,23 @@
+{
+  "i": 176,
+  "intent": {
+    "sequence": 177,
+    "method": "POST",
+    "route": "/skills/pyke_r/parameters",
+    "detailRoute": "/skills/pyke_r/parameters/lethality_points_input",
+    "skillKey": "pyke_r",
+    "kind": "parameters",
+    "stableKey": "lethality_points_input",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lethality_points_input",
+      "name": "涌泉之恨固定穿甲点数输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前RDamage消费mStat29；实际穿甲点数由运行层提供，无默认。",
+      "sortOrder": 150
+    }
+  }
+}

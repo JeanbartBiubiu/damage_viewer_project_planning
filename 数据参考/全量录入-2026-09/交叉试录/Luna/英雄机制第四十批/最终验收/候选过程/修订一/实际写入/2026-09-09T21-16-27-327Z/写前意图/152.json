@@ -1,0 +1,29 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 152,
+    "method": "POST",
+    "route": "/skills/pyke_e/parameters",
+    "detailRoute": "/skills/pyke_e/parameters/base_damage",
+    "skillKey": "pyke_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "魅影浪洄基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 150,
+        "3": 200,
+        "4": 250,
+        "5": 300
+      },
+      "description": "当前DataValues.BaseDamage技能等级1至5为100/150/200/250/300；数组首项重复100，不按索引0错取二级。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "method": "POST",
+    "route": "/skills/thresh_q/parameters",
+    "detailRoute": "/skills/thresh_q/parameters/spell_cast_time_source_seconds",
+    "skillKey": "thresh_q",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_source_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_source_seconds",
+      "name": "死亡判决spellCastTime来源值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前spellCastTime=0.25秒，与mCastTime冲突，不能任选其一。",
+      "sortOrder": 70
+    }
+  }
+}

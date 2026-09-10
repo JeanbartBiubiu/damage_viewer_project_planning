@@ -1,0 +1,45 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "method": "POST",
+    "route": "/skills/pyke_q/effects",
+    "detailRoute": "/skills/pyke_q/effects/mana_refund",
+    "skillKey": "pyke_q",
+    "kind": "effects",
+    "stableKey": "mana_refund",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "mana_refund",
+      "name": "透骨尖钉条件法力返还",
+      "description": "只记录75%×本次实际消耗，触发条件由事件层接线。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "resource",
+          "name": "透骨尖钉条件法力返还",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "mana_refund_amount"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "REFUND"
+          }
+        }
+      ]
+    }
+  }
+}

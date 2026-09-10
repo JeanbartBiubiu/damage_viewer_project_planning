@@ -1,0 +1,23 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/critical_damage_ratio_input",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "critical_damage_ratio_input",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_damage_ratio_input",
+      "name": "暴击伤害实际比例输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前CriticalDamage是mStat9×1且直接显示为百分比；mStat9属性口径由运行层提供，无默认。",
+      "sortOrder": 220
+    }
+  }
+}

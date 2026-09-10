@@ -1,0 +1,23 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "method": "POST",
+    "route": "/skills/thresh_p/parameters",
+    "detailRoute": "/skills/thresh_p/parameters/souls_to_gain_on_pickup",
+    "skillKey": "thresh_p",
+    "kind": "parameters",
+    "stableKey": "souls_to_gain_on_pickup",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "souls_to_gain_on_pickup",
+      "name": "每次拾取获得的灵魂数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前DataValues.SoulsToGainOnPickUp=1。",
+      "sortOrder": 20
+    }
+  }
+}

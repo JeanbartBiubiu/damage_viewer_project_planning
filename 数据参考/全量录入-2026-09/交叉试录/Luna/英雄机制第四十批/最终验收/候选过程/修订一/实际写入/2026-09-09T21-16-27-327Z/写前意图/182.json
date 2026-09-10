@@ -1,0 +1,23 @@
+{
+  "i": 181,
+  "intent": {
+    "sequence": 182,
+    "method": "POST",
+    "route": "/skills/twistedfate_q/parameters",
+    "detailRoute": "/skills/twistedfate_q/parameters/bonus_ad_ratio",
+    "skillKey": "twistedfate_q",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "万能牌额外攻击力伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前TotalDamage的mStat2带formula2，按来源额外攻击力读取。",
+      "sortOrder": 20
+    }
+  }
+}

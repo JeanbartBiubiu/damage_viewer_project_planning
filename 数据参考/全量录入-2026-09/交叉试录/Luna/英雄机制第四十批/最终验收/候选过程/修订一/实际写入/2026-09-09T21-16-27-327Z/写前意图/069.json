@@ -1,0 +1,23 @@
+{
+  "i": 68,
+  "intent": {
+    "sequence": 69,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/soul_count",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "soul_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "soul_count",
+      "name": "暗影燎原战前黑雾层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "护盾计算树消费魂层计数；无默认值，与赛娜P的战前层数同口径但不跨技能自动引用。",
+      "sortOrder": 80
+    }
+  }
+}

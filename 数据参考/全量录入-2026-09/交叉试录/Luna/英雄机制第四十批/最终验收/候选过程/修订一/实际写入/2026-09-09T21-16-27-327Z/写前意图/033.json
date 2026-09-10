@@ -1,0 +1,23 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/slow_ad_ratio",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "slow_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ad_ratio",
+      "name": "黑暗洞灭额外攻击力减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0015,
+      "levelValues": null,
+      "description": "当前TotalSlow第三项是mStat2×0.0015且formula2；按来源额外攻击力读取。",
+      "sortOrder": 90
+    }
+  }
+}

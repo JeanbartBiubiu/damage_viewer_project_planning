@@ -1,0 +1,23 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/bonus_ad_damage_ratio",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_damage_ratio",
+      "name": "黑暗洞灭额外攻击力伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.60000002,
+      "levelValues": null,
+      "description": "当前TotalDamage的mStat2带formula2，按来源额外攻击力读取。",
+      "sortOrder": 50
+    }
+  }
+}

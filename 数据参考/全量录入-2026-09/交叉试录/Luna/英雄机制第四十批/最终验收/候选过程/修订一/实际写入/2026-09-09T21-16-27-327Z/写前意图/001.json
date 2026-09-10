@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/ad_per_soul",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "ad_per_soul",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ad_per_soul",
+      "name": "每层黑雾攻击力",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.75,
+      "levelValues": null,
+      "description": "当前DataValues.ADPerStack=0.75；战前魂层是运行输入，不在本批自动产生。",
+      "sortOrder": 10
+    }
+  }
+}

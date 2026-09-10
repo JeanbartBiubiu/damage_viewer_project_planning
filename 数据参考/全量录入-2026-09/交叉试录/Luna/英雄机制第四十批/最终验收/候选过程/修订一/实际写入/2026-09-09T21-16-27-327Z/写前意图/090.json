@@ -1,0 +1,23 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/thresh_w/parameters",
+    "detailRoute": "/skills/thresh_w/parameters/shield_per_soul",
+    "skillKey": "thresh_w",
+    "kind": "parameters",
+    "stableKey": "shield_per_soul",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_per_soul",
+      "name": "魂引之灯每魂护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前TotalShield消费每魂2点护盾。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/slow_ap_ratio",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "slow_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ap_ratio",
+      "name": "黑暗洞灭法强减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0007,
+      "levelValues": null,
+      "description": "当前TotalSlow消费SlowAPRatio×来源总法强。",
+      "sortOrder": 80
+    }
+  }
+}

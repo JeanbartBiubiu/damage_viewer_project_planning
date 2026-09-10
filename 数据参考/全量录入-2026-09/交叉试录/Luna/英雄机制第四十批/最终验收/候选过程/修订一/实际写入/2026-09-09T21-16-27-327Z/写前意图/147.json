@@ -1,0 +1,23 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 147,
+    "method": "POST",
+    "route": "/skills/pyke_w/parameters",
+    "detailRoute": "/skills/pyke_w/parameters/lethality_move_speed_ratio_per_point",
+    "skillKey": "pyke_w",
+    "kind": "parameters",
+    "stableKey": "lethality_move_speed_ratio_per_point",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lethality_move_speed_ratio_per_point",
+      "name": "幽潭潜行每点穿甲移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.02,
+      "levelValues": null,
+      "description": "当前MoveSpeed=45+2×mStat29百分数点；2点百分数除以100后为0.02，不能把45当比例。",
+      "sortOrder": 20
+    }
+  }
+}

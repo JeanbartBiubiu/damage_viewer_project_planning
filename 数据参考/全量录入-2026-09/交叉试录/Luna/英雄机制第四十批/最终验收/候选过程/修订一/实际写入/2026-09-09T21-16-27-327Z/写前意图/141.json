@@ -1,0 +1,23 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "method": "POST",
+    "route": "/skills/pyke_q/parameters",
+    "detailRoute": "/skills/pyke_q/parameters/spell_cast_time_source_seconds",
+    "skillKey": "pyke_q",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_source_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_source_seconds",
+      "name": "透骨尖钉spellCastTime来源值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前spellCastTime=0；蓄力和事件时序不能由此固定。",
+      "sortOrder": 140
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 196,
+  "intent": {
+    "sequence": 197,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/critical_effectiveness_input",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "critical_effectiveness_input",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_effectiveness_input",
+      "name": "选牌暴击效能实际输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BlueDamage/RedDamage/GoldDamage的mStat8子树无默认，实际暴击效能由运行层外供。",
+      "sortOrder": 110
+    }
+  }
+}

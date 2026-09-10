@@ -1,0 +1,23 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "method": "POST",
+    "route": "/skills/thresh_r/parameters",
+    "detailRoute": "/skills/thresh_r/parameters/spell_cast_time_source_seconds",
+    "skillKey": "thresh_r",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_source_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_source_seconds",
+      "name": "幽冥监牢spellCastTime来源值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前spellCastTime=0.25秒。",
+      "sortOrder": 70
+    }
+  }
+}

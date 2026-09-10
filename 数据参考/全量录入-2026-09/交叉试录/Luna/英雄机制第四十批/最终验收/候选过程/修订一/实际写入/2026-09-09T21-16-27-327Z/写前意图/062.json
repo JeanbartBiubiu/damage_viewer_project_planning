@@ -1,0 +1,27 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/damage",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage",
+      "name": "暗影燎原基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 250,
+        "2": 400,
+        "3": 550
+      },
+      "description": "当前DataValues.Damage技能等级1至3为250/400/550；索引0的100不是一级。",
+      "sortOrder": 10
+    }
+  }
+}

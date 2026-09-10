@@ -1,0 +1,23 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/spell_cast_time_source_seconds",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_source_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_source_seconds",
+      "name": "黑暗洞灭spellCastTime来源值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "客户端字段为0；它不能替代攻击施法时间，当前正文的攻击施法资格仍待接。",
+      "sortOrder": 110
+    }
+  }
+}

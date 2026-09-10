@@ -1,0 +1,87 @@
+{
+  "batch": "英雄机制第四十批",
+  "revision": "hero40-source-v1",
+  "status": "静态候选与独立源值数学已完成；未调用业务接口",
+  "apiWrites": 0,
+  "noApiCalls": true,
+  "candidateFile": {
+    "path": "完整候选.json",
+    "sha256": "33b23b037c4fe1c36d7b5c7feee3690af645035aa71d2e3794f474a74ad66360"
+  },
+  "planFile": {
+    "path": "写前请求计划.json",
+    "sha256": "b36363179da143e1869e69e458c7ca3d1ad9fc962756976e1768e2416f646866"
+  },
+  "independentMath": {
+    "script": {
+      "path": "独立源值数学.mjs",
+      "sha256": "21ff895be061588666b51d77246b7f57e2c00721435c37e2b30a97797c83048a"
+    },
+    "report": {
+      "path": "独立源值数学报告.json",
+      "sha256": "1dcf8b192aa4b7dc8fb3772df1fba54b73927fda093288bede32a3ff78db85b0"
+    },
+    "status": "PASS",
+    "counts": {
+      "formulas": 30,
+      "sourceVsCandidateCases": 60,
+      "missingInputChecks": 47,
+      "binaryOperationChecks": 100,
+      "integerMillisecondChecks": 40,
+      "finiteChecks": 178,
+      "sourceBoundaryChecks": 9,
+      "totalChecks": 434,
+      "passed": 434,
+      "failed": 0
+    },
+    "actualSide": "读取候选参数与表达式",
+    "expectedSide": "重新读取冻结客户端DataValues/计算树及官方资料数组"
+  },
+  "otherDeliverables": [
+    {
+      "path": "源值解析.json",
+      "sha256": "633323161c22460cc7f5d12fb2be7d225993bd39995b258af68f50a8ec3cb283"
+    },
+    {
+      "path": "来源哈希汇总.json",
+      "sha256": "c5e449963387e53b7b27820b43f38ec48de7bb6344c3d7ca1032fd753e18dd5f"
+    },
+    {
+      "path": "来源与范围.json",
+      "sha256": "64cb6852b5b036e2e680d8ea21d46fc1cdcec1fa6fb3225389cb21b7d6857b03"
+    },
+    {
+      "path": "候选版本.json",
+      "sha256": "273697fae6b6617becba2135ad10157f2d62e74a96b35ada4c5559ce98727f70"
+    },
+    {
+      "path": "冻结候选锁.json",
+      "sha256": "ff013793c8079afc3b47032c4bf732e3a0d04736a8835f46aa41c05c66ffd52c"
+    },
+    {
+      "path": "候选交付索引.json",
+      "sha256": "da03d665aa0e9b9c00f6f0f05aebbc2ea66b7f452be1fb23ca3b090659c81c44"
+    },
+    {
+      "path": "文件散列.json",
+      "sha256": "2cfc42b4a06620a1eb5bc2d47f78cdf03318db98136fdcf1f87632667a6cfd8e"
+    },
+    {
+      "path": "README.md",
+      "sha256": "d42a9afb5759999f4ab1df07cb5fd3fbba4a60ee731368c22c8742b990a7de40"
+    },
+    {
+      "path": "体验报告.md",
+      "sha256": "5f8d01ab5e6e755e46de52b12c1dc69342c8bd9eb5684936ae9cdf7f4a486141"
+    },
+    {
+      "path": "生成候选.mjs",
+      "sha256": "ef1fd61f127e8138aa9ef65367c80f0056e96566344ea5db7b9eb9f3c6670901"
+    }
+  ],
+  "batchReadme": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十批/README.md",
+    "sha256": "3674692f7b8b58ae16c471779ad104c27da10e43eff25f6962bed45a1e9f3871"
+  },
+  "selfHash": "本文件不包含自身字节散列"
+}

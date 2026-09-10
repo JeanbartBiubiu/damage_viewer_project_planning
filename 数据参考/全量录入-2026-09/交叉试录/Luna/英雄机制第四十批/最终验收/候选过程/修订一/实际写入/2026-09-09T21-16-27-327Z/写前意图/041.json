@@ -1,0 +1,29 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/senna_w/parameters",
+    "detailRoute": "/skills/senna_w/parameters/base_damage",
+    "skillKey": "senna_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "无尽厮守基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "description": "当前DataValues.BaseDamage技能等级1至5为70/110/150/190/230；索引0的30不是一级。",
+      "sortOrder": 10
+    }
+  }
+}

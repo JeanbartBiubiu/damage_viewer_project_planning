@@ -1,0 +1,23 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/current_health_damage_percent_points_at_character_level",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "current_health_damage_percent_points_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_damage_percent_points_at_character_level",
+      "name": "当前生命伤害角色等级实际百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前树是角色等级断点算法，端点之外的实际曲线未证；无默认值，供后续运行层外供。",
+      "sortOrder": 160
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "method": "POST",
+    "route": "/skills/senna_e/parameters",
+    "detailRoute": "/skills/senna_e/parameters/spell_cast_time_source_seconds",
+    "skillKey": "senna_e",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_source_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_source_seconds",
+      "name": "黑雾咒附spellCastTime来源值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前spellCastTime=0，与mCastTime冲突，不能任选其一作为最终施法时长。",
+      "sortOrder": 100
+    }
+  }
+}

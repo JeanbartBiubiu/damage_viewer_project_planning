@@ -1,0 +1,75 @@
+{
+  "i": 178,
+  "intent": {
+    "sequence": 179,
+    "method": "POST",
+    "route": "/skills/pyke_r/formulas",
+    "detailRoute": "/skills/pyke_r/formulas/reduced_damage",
+    "skillKey": "pyke_r",
+    "kind": "formulas",
+    "stableKey": "reduced_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "reduced_damage",
+      "name": "涌泉之恨未斩杀单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "reduced_damage_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "r_base_damage_at_character_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "lethality_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "lethality_points_input"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前ReducedDamageFinal=ReducedDamage×完整RDamage，不能只乘基础伤害。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/thresh_e/parameters",
+    "detailRoute": "/skills/thresh_e/parameters/full_charge_duration_ms",
+    "skillKey": "thresh_e",
+    "kind": "parameters",
+    "stableKey": "full_charge_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "full_charge_duration_ms",
+      "name": "厄运钟摆被动满蓄等待时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10000,
+      "levelValues": null,
+      "description": "当前FullChargeDuration=10秒；实际蓄力进度与普攻间隔待接。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/move_speed_steal_level_9_18_ratio",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_steal_level_9_18_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_steal_level_9_18_ratio",
+      "name": "9至18级目标移速偷取比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "MSSteal在9级再增加0.05；中间区间按当前断点直接记录。",
+      "sortOrder": 110
+    }
+  }
+}

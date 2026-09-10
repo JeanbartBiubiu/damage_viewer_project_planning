@@ -1,0 +1,23 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/base_slow_ratio",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "base_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_slow_ratio",
+      "name": "黑暗洞灭基础减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.15000001,
+      "levelValues": null,
+      "description": "当前BaseSlow=0.15，正文直接作为减速比例。",
+      "sortOrder": 60
+    }
+  }
+}

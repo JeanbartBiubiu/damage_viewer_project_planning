@@ -1,0 +1,23 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 146,
+    "method": "POST",
+    "route": "/skills/pyke_w/parameters",
+    "detailRoute": "/skills/pyke_w/parameters/base_move_speed_ratio",
+    "skillKey": "pyke_w",
+    "kind": "parameters",
+    "stableKey": "base_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_move_speed_ratio",
+      "name": "幽潭潜行基础移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.45,
+      "levelValues": null,
+      "description": "当前BaseMoveSpeed=45百分数点；写入移动速度比例属性时按0.01换算为0.45。",
+      "sortOrder": 10
+    }
+  }
+}

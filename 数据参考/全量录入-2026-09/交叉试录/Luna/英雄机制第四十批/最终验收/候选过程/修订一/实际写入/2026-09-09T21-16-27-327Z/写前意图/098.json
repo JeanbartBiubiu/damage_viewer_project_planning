@@ -1,0 +1,23 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "method": "POST",
+    "route": "/skills/thresh_e/parameters",
+    "detailRoute": "/skills/thresh_e/parameters/soul_count",
+    "skillKey": "thresh_e",
+    "kind": "parameters",
+    "stableKey": "soul_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "soul_count",
+      "name": "厄运钟摆战前灵魂层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "被动伤害树消费魂层；由战前状态外供，不默认填0。",
+      "sortOrder": 20
+    }
+  }
+}

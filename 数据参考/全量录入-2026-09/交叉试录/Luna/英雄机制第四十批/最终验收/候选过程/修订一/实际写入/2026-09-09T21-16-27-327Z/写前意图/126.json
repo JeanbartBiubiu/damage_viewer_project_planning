@@ -1,0 +1,43 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "method": "POST",
+    "route": "/skills/pyke_p/formulas",
+    "detailRoute": "/skills/pyke_p/formulas/one_enemy_storage_ratio",
+    "skillKey": "pyke_p",
+    "kind": "formulas",
+    "stableKey": "one_enemy_storage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "one_enemy_storage_ratio",
+      "name": "溺水之幸单一敌人储存比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "one_enemy_base_storage_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_enemy_lethality_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lethality_points_input"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前OneEnemyCalc=0.09+0.002×mStat29，结果按正文百分数显示。",
+      "sortOrder": 10
+    }
+  }
+}

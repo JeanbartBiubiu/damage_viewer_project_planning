@@ -1,0 +1,88 @@
+{
+  "batch": "英雄机制第四十批",
+  "revision": "hero40-source-v1-revision-1",
+  "status": "修订一静态候选与独立源值数学已完成；未调用业务接口",
+  "apiWrites": 0,
+  "noApiCalls": true,
+  "candidateFile": {
+    "path": "完整候选.json",
+    "sha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023"
+  },
+  "planFile": {
+    "path": "写前请求计划.json",
+    "sha256": "a09729d2eab607c1e88d9ee83e135aaf72efb88c9ee5fa1a0c611696818455ce"
+  },
+  "independentMath": {
+    "script": {
+      "path": "独立源值数学.mjs",
+      "sha256": "21ff895be061588666b51d77246b7f57e2c00721435c37e2b30a97797c83048a"
+    },
+    "report": {
+      "path": "独立源值数学报告.json",
+      "sha256": "5fe39401f960cce19dd5eb91eba76d9d63f9ae7a237b90ff3037b4abef67244b"
+    },
+    "status": "PASS",
+    "counts": {
+      "formulas": 30,
+      "sourceVsCandidateCases": 60,
+      "missingInputChecks": 47,
+      "binaryOperationChecks": 100,
+      "integerMillisecondChecks": 40,
+      "finiteChecks": 170,
+      "sourceBoundaryChecks": 9,
+      "totalChecks": 426,
+      "passed": 426,
+      "failed": 0
+    },
+    "actualSide": "读取修订候选参数与表达式",
+    "expectedSide": "重新读取冻结客户端DataValues/计算树及官方资料数组"
+  },
+  "otherDeliverables": [
+    {
+      "path": "源值解析.json",
+      "sha256": "60984f873429ebe55eb904f62d0a0e0d4f6b4f11d6546cae2eb58e68f576945a"
+    },
+    {
+      "path": "来源哈希汇总.json",
+      "sha256": "9a5deb26d933ffd12758f2aa8a6cbf322ef11ac35a7f7526b98e46ce180d0fbe"
+    },
+    {
+      "path": "来源与范围.json",
+      "sha256": "f67c499202ff11929da17ede3023c6e6197727658cb7c98eeaed98f5f599d6a2"
+    },
+    {
+      "path": "候选版本.json",
+      "sha256": "f4c3af199ae9a04bb8ec3b2977ad9132e9256c455e402f9f91b9b664bb352eef"
+    },
+    {
+      "path": "冻结候选锁.json",
+      "sha256": "186554e52e5adece3bfef90d599e5a4a801a170fd725f93e719730d27f8741c2"
+    },
+    {
+      "path": "候选交付索引.json",
+      "sha256": "3dd0debc665b0a3e48b55ee630586d87be980e5dcbb8d264ec651f57f18ddb45"
+    },
+    {
+      "path": "文件散列.json",
+      "sha256": "b9335d7dc71cee5be95e6eb6d8e6afce014904a2271620a1df37b0cc52c813d2"
+    },
+    {
+      "path": "README.md",
+      "sha256": "d42a9afb5759999f4ab1df07cb5fd3fbba4a60ee731368c22c8742b990a7de40"
+    },
+    {
+      "path": "体验报告.md",
+      "sha256": "5f8d01ab5e6e755e46de52b12c1dc69342c8bd9eb5684936ae9cdf7f4a486141"
+    },
+    {
+      "path": "生成修订候选.mjs",
+      "sha256": "a13671678820987a045c17515498830788bec9bb440bbe67e24b800d675b565d"
+    }
+  ],
+  "sourceChanges": [
+    "twistedfate_e移除未进入英雄目标路径的tower_effectiveness_ratio新增请求，并在excluded保留建筑专用来源。",
+    "pyke_w移除未被当前MoveSpeed正文/计算树消费的七项匿名角色等级移速参数，并在excluded保留来源树。",
+    "其余候选参数、公式、效果和冻结输入保持原版。"
+  ],
+  "selfHash": "本文件不包含自身字节散列"
+}

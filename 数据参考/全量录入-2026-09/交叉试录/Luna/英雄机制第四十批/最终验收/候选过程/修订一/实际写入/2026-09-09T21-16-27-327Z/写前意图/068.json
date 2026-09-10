@@ -1,0 +1,23 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/shield_soul_ratio",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "shield_soul_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_soul_ratio",
+      "name": "暗影燎原每层魂护盾比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "当前TotalShield第三项为魂层计数×1.5；战前魂层输入单独保存。",
+      "sortOrder": 70
+    }
+  }
+}

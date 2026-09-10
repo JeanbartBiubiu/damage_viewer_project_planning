@@ -1,0 +1,45 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 127,
+    "method": "POST",
+    "route": "/skills/pyke_p/formulas",
+    "detailRoute": "/skills/pyke_p/formulas/damage_storage_max",
+    "skillKey": "pyke_p",
+    "kind": "formulas",
+    "stableKey": "damage_storage_max",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_storage_max",
+      "name": "溺水之幸伤害储存上限",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "storage_max_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "storage_max_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DamageStorageMax=80+8×来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

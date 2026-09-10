@@ -1,0 +1,23 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/heal_ap_ratio",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "heal_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_ap_ratio",
+      "name": "黑暗洞灭法强治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.34999999,
+      "levelValues": null,
+      "description": "当前TotalHeal消费HealAPRatio×来源总法强。",
+      "sortOrder": 30
+    }
+  }
+}

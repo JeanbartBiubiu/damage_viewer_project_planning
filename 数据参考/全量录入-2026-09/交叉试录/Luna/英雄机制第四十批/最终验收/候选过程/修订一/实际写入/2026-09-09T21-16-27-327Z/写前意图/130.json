@@ -1,0 +1,23 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/pyke_q/parameters",
+    "detailRoute": "/skills/pyke_q/parameters/slow_ratio",
+    "skillKey": "pyke_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "透骨尖钉减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.89999998,
+      "levelValues": null,
+      "description": "当前正文使用@SlowAmount*100@%，原值0.9已是比例。",
+      "sortOrder": 30
+    }
+  }
+}

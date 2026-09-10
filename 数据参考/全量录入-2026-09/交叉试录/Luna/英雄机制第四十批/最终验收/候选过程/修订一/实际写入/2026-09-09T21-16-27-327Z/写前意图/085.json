@@ -1,0 +1,23 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 85,
+    "method": "POST",
+    "route": "/skills/thresh_q/parameters",
+    "detailRoute": "/skills/thresh_q/parameters/mcast_time_source_seconds",
+    "skillKey": "thresh_q",
+    "kind": "parameters",
+    "stableKey": "mcast_time_source_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mcast_time_source_seconds",
+      "name": "死亡判决mCastTime来源值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前mCastTime=0.5秒。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/thresh_e/formulas",
+    "detailRoute": "/skills/thresh_e/formulas/passive_damage_min",
+    "skillKey": "thresh_e",
+    "kind": "formulas",
+    "stableKey": "passive_damage_min",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_damage_min",
+      "name": "厄运钟摆被动最低魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_damage_per_soul"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "soul_count"
+          }
+        ]
+      },
+      "description": "当前PAttackDamageMin=1.7×魂层。",
+      "sortOrder": 10
+    }
+  }
+}

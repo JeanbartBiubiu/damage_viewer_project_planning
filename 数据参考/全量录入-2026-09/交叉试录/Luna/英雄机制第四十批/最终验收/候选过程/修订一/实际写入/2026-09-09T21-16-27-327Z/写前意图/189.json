@@ -1,0 +1,29 @@
+{
+  "i": 188,
+  "intent": {
+    "sequence": 189,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/gold_base_damage",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "gold_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "gold_base_damage",
+      "name": "金牌基础魔法伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15,
+        "2": 22.5,
+        "3": 30,
+        "4": 37.5,
+        "5": 45
+      },
+      "description": "当前GoldBase技能等级1至5为15/22.5/30/37.5/45；完整PickACard树已核实存在。",
+      "sortOrder": 30
+    }
+  }
+}

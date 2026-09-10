@@ -1,0 +1,23 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/post_cast_animation_lock_ms",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "post_cast_animation_lock_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "post_cast_animation_lock_ms",
+      "name": "暗影燎原施法后动作锁（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前PostCastAnimLock=0.5秒，与根施法分开。",
+      "sortOrder": 100
+    }
+  }
+}

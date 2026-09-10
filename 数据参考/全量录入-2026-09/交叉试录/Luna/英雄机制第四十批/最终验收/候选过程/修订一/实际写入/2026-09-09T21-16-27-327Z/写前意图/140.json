@@ -1,0 +1,23 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "method": "POST",
+    "route": "/skills/pyke_q/parameters",
+    "detailRoute": "/skills/pyke_q/parameters/charge_time_to_max_range_ms",
+    "skillKey": "pyke_q",
+    "kind": "parameters",
+    "stableKey": "charge_time_to_max_range_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_time_to_max_range_ms",
+      "name": "透骨尖钉达到最大距离时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前ChargeTimeToGetMaxRange=1秒。",
+      "sortOrder": 130
+    }
+  }
+}

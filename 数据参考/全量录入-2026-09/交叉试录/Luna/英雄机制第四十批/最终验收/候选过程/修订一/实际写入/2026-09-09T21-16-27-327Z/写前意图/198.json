@@ -1,0 +1,29 @@
+{
+  "i": 197,
+  "intent": {
+    "sequence": 198,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/blue_mana_restore",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "blue_mana_restore",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "blue_mana_restore",
+      "name": "蓝牌自身法力回复",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 90,
+        "3": 110,
+        "4": 130,
+        "5": 150
+      },
+      "description": "当前官方中文Effect[6]技能等级1至5为70/90/110/130/150，属于自身资源回复。",
+      "sortOrder": 120
+    }
+  }
+}

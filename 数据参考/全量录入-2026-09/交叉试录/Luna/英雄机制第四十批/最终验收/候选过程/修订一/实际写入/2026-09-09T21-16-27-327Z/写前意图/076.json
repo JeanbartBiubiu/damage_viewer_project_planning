@@ -1,0 +1,23 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/thresh_p/parameters",
+    "detailRoute": "/skills/thresh_p/parameters/stat_value_per_soul",
+    "skillKey": "thresh_p",
+    "kind": "parameters",
+    "stableKey": "stat_value_per_soul",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stat_value_per_soul",
+      "name": "每个灵魂的护甲与法强",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确每魂同时提供1护甲和1法强。",
+      "sortOrder": 10
+    }
+  }
+}

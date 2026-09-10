@@ -1,0 +1,45 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "method": "POST",
+    "route": "/skills/thresh_r/formulas",
+    "detailRoute": "/skills/thresh_r/formulas/enemy_magic_damage",
+    "skillKey": "thresh_r",
+    "kind": "formulas",
+    "stableKey": "enemy_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "enemy_magic_damage",
+      "name": "幽冥监牢单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=Damage+1×来源总法强；剩余墙对同一敌人只保留1秒减速，不重复生成伤害。",
+      "sortOrder": 10
+    }
+  }
+}

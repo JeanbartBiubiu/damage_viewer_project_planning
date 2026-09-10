@@ -1,0 +1,125 @@
+{
+  "at": "2026-09-10T00:25:47.258Z",
+  "batch": "英雄机制第四十批",
+  "status": "本轮来源明确组成已保存，独立回读、源值数学与四个代表页面通过；事件和未知曲线单列",
+  "heroes": [
+    "Senna",
+    "Thresh",
+    "Pyke",
+    "TwistedFate"
+  ],
+  "skills": [
+    "senna_p",
+    "senna_q",
+    "senna_w",
+    "senna_e",
+    "senna_r",
+    "thresh_p",
+    "thresh_q",
+    "thresh_w",
+    "thresh_e",
+    "thresh_r",
+    "pyke_p",
+    "pyke_q",
+    "pyke_w",
+    "pyke_e",
+    "pyke_r",
+    "twistedfate_p",
+    "twistedfate_q",
+    "twistedfate_w",
+    "twistedfate_e",
+    "twistedfate_r"
+  ],
+  "newCounts": {
+    "parameters": 170,
+    "formulas": 30,
+    "effects": 21
+  },
+  "counts": {
+    "parameters": 198,
+    "formulas": 30,
+    "effects": 21
+  },
+  "created": 221,
+  "businessWrites": 221,
+  "reusedParameters": 28,
+  "currentTotalComponents": 249,
+  "candidateFile": "最终验收/候选过程/修订一/完整候选.json",
+  "candidateFileSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
+  "writePlan": "最终验收/候选过程/修订一/写前请求计划.json",
+  "writePlanSha256": "a09729d2eab607c1e88d9ee83e135aaf72efb88c9ee5fa1a0c611696818455ce",
+  "save": {
+    "GETs": 1340,
+    "POSTs": 221,
+    "confirmed": 221,
+    "file": "最终验收/候选过程/修订一/实际写入/2026-09-09T21-16-27-327Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 449,
+    "protectedPaths": 200,
+    "details": 249,
+    "reused": 28,
+    "new": 221,
+    "file": "最终验收/独立回读证据/实际回读/2026-09-09T21-22-53-885Z/独立全量GET-最终.json",
+    "reportCorrection": "原报告详情期望误写245，使用同一449GET响应修正为249，未重发GET；原件保留"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 30,
+    "cases": 60,
+    "missing": 47,
+    "binaryNodes": 100,
+    "finiteParameters": 170,
+    "newMillisecondsParameters": 40,
+    "integerParameters": 120,
+    "millisecondsParameters": 54,
+    "boundaries": 9,
+    "totalChecks": 426,
+    "file": "最终验收/实际数学证据/独立源值数学报告.json",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订一/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 3734,
+    "uniqueTools": 67,
+    "inputs": 24,
+    "apiWrites": 0,
+    "gitDelta": [],
+    "run": "正确隔离目录重跑"
+  },
+  "issues": [
+    "赛娜Q/R与锤石E起点、金牌完整树由主负责人补核纠正",
+    "派克W七个未消费旧等级移速参数和崔斯特E建筑倍率移出新增",
+    "原读后报告期望总数机械误写，通过相同原始响应纠正，不重复录入和GET",
+    "早期数学脚本误落仓库根，验证身份与字节后归入本批历史"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "长公式预览重复完整基础段，阅读成本较高",
+      "detail": "金牌按源树保存基础段与额外暴击段，中文预览可核对但较长；后续可提供纯显示的因式化摘要，不修改底层来源公式。"
+    },
+    {
+      "issue": "来源秒精度与整数毫秒字段并存",
+      "detail": "锤石E当前必须保留秒值，不应让录入者误以为所有时间均已进入执行毫秒参数。"
+    },
+    {
+      "issue": "不同公式的外供输入仍需要显式说明",
+      "detail": "战前魂层、未知角色等级基础与穿甲点数应在标准流程中区分；未知输入没有补0。"
+    }
+  ],
+  "pending": [
+    "等级未知算法、实际取魂/灰色生命/伪装及选牌事件仍待接",
+    "锤石E原始388.89998毫秒非整数，当前保存来源秒值不无证舍入",
+    "历史批次属性比例字段与乘区映射需要集中统一；本批比例属性加法使用attribute_flat_add",
+    "赛娜P当前暴击源输入已保留但完整消费资格仍待集中补接"
+  ],
+  "runtimeValidation": "未执行"
+}
