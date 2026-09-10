@@ -1,0 +1,135 @@
+{
+  "at": "2026-09-10T02:26:52.430Z",
+  "batch": "英雄机制第四十四批",
+  "status": "本轮来源明确组成已保存，独立回读、实际源值数学与四个代表页面通过；护盾未知寿命和事件资格单列",
+  "heroes": [
+    "Illaoi",
+    "MonkeyKing",
+    "Neeko",
+    "Yuumi"
+  ],
+  "skills": [
+    "illaoi_p",
+    "illaoi_q",
+    "illaoi_w",
+    "illaoi_e",
+    "illaoi_r",
+    "monkeyking_p",
+    "monkeyking_q",
+    "monkeyking_w",
+    "monkeyking_e",
+    "monkeyking_r",
+    "neeko_p",
+    "neeko_q",
+    "neeko_w",
+    "neeko_e",
+    "neeko_r",
+    "yuumi_p",
+    "yuumi_q",
+    "yuumi_w",
+    "yuumi_e",
+    "yuumi_r"
+  ],
+  "newCounts": {
+    "parameters": 113,
+    "formulas": 36,
+    "effects": 19
+  },
+  "counts": {
+    "parameters": 139,
+    "formulas": 36,
+    "effects": 19
+  },
+  "created": 168,
+  "businessWrites": 168,
+  "reusedParameters": 26,
+  "currentTotalComponents": 194,
+  "candidateFile": "最终验收/候选过程/修订三/完整候选.json",
+  "candidateFileSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
+  "writePlan": "最终验收/候选过程/修订三/写前请求计划.json",
+  "writePlanSha256": "4107741e7d58e19731d65d418ec375edc371f289b0de16942de297e2d2956f52",
+  "save": {
+    "GETs": 1120,
+    "POSTs": 168,
+    "confirmed": 168,
+    "file": "最终验收/候选过程/修订三/实际写入/2026-09-10T02-01-37-405Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 392,
+    "protectedPaths": 198,
+    "details": 194,
+    "reused": 26,
+    "new": 168,
+    "file": "最终验收/独立回读证据/实际回读/2026-09-10T02-09-05-426Z/独立全量GET.json"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 36,
+    "cases": 72,
+    "effectValueCases": 38,
+    "ratioEffectChecks": 10,
+    "missingInputs": 5,
+    "missingAttributes": 31,
+    "nonFiniteInputCases": 36,
+    "binaryNodes": 78,
+    "completeParameterArrays": 26,
+    "completeArrayValues": 123,
+    "independentlySourceCheckedLevelValues": 118,
+    "fixedFiniteParameters": 82,
+    "integerValues": 131,
+    "integerParameters": 90,
+    "millisecondsParameters": 48,
+    "sourceFormulaCoefficientChecks": 10,
+    "allRawCoefficientParts": 15,
+    "file": "最终验收/实际数学证据/独立数学核算.json",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订三/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 4618,
+    "uniqueTools": 62,
+    "inputs": 23,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "主负责人20槽来源与全部候选审查完成；Cursor来源READY、62只读工具23输入Git零变化",
+    "Luna Max独立检查修订二168请求一致、所有引用、源值修正，无正确性阻塞",
+    "修订三仅改孙悟空R陈旧说明0.02/0.04/0.06，实际数组不变；最终36公式72场景、38效果算例、10比例检查通过",
+    "最终所有固定参数有限、等级数组完整、毫秒与整数正确",
+    "俄洛伊E独立灵魂、妮蔻伪装移除字段按范围排除；孙悟空E突进1050与R每秒4/6/8%保留",
+    "悠米未知盾寿命和关联移速不设永久效果，保留数值公式及明确3秒攻速"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "孙悟空R主体分类显示为空",
+      "detail": "技能列表显示分类—；记录在统一录完后的主体分类核对，不在本批保护写入时改已有主体。"
+    },
+    {
+      "issue": "未知护盾寿命不能以永久效果替代",
+      "detail": "悠米E保留护盾公式和明确3秒攻速，未保存寿命不明的护盾及关联移速效果。"
+    },
+    {
+      "issue": "相同技能的每秒值和全程值容易混用",
+      "detail": "孙悟空R公式和描述分别核对每秒4/6/8%与完整两秒8/12/16%，包括历史描述的小数值。"
+    },
+    {
+      "issue": "治疗取值时点必须明确",
+      "detail": "俄洛伊被动使用猛击命中时已损生命；运行输入名称与描述一致。"
+    }
+  ],
+  "pending": [
+    "未知角色等级曲线、护盾累积/移除、同敌人重复命中及资格仍待接",
+    "悠米R没有禁锢，当前仅逐波慢速；自身治疗目标资格继续保留来源待证",
+    "孙悟空分身、俄洛伊独立触手与灵魂、妮蔻独立复制体等范围外链不录"
+  ],
+  "runtimeValidation": "未执行"
+}

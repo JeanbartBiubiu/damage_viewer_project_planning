@@ -1,0 +1,45 @@
+{
+  "i": 163,
+  "intent": {
+    "sequence": 164,
+    "method": "POST",
+    "route": "/skills/yuumi_r/formulas",
+    "detailRoute": "/skills/yuumi_r/formulas/missile_damage",
+    "skillKey": "yuumi_r",
+    "kind": "formulas",
+    "stableKey": "missile_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "missile_damage",
+      "name": "魔典终章单波魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_missile_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应TotalMissileDamage。",
+      "sortOrder": 10
+    }
+  }
+}

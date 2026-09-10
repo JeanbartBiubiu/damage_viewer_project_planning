@@ -1,0 +1,23 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 144,
+    "method": "POST",
+    "route": "/skills/yuumi_e/parameters",
+    "detailRoute": "/skills/yuumi_e/parameters/attack_speed_duration_ms",
+    "skillKey": "yuumi_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_duration_ms",
+      "name": "攻速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前正文明确攻速持续3秒；不据此推断护盾寿命。",
+      "sortOrder": 70
+    }
+  }
+}

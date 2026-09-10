@@ -1,0 +1,33 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/illaoi_p/formulas",
+    "detailRoute": "/skills/illaoi_p/formulas/self_missing_health_heal",
+    "skillKey": "illaoi_p",
+    "kind": "formulas",
+    "stableKey": "self_missing_health_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_missing_health_heal",
+      "name": "俄洛伊自身已损失生命治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "missing_hp_heal_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "missing_hp_at_slam"
+          }
+        ]
+      },
+      "description": "当前本体触手猛击命中至少一名敌方英雄时，5%×猛击命中时已损失生命；触发链待接。",
+      "sortOrder": 10
+    }
+  }
+}

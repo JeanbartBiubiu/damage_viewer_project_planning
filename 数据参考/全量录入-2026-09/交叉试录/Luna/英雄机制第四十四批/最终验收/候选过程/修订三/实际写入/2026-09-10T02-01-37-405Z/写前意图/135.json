@@ -1,0 +1,45 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "method": "POST",
+    "route": "/skills/yuumi_q/formulas",
+    "detailRoute": "/skills/yuumi_q/formulas/normal_damage",
+    "skillKey": "yuumi_q",
+    "kind": "formulas",
+    "stableKey": "normal_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "normal_damage",
+      "name": "摸鱼飞弹普通魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "missile_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "普通首个命中目标伤害。",
+      "sortOrder": 10
+    }
+  }
+}

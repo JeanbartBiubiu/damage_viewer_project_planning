@@ -1,0 +1,23 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "method": "POST",
+    "route": "/skills/neeko_r/parameters",
+    "detailRoute": "/skills/neeko_r/parameters/delay_until_explosion_ms",
+    "skillKey": "neeko_r",
+    "kind": "parameters",
+    "stableKey": "delay_until_explosion_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "delay_until_explosion_ms",
+      "name": "落地前击飞延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "来源0.6秒转毫秒；当前正文称先击飞再落地。",
+      "sortOrder": 30
+    }
+  }
+}

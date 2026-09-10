@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/illaoi_p/parameters",
+    "detailRoute": "/skills/illaoi_p/parameters/slam_min_enemy_champions",
+    "skillKey": "illaoi_p",
+    "kind": "parameters",
+    "stableKey": "slam_min_enemy_champions",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slam_min_enemy_champions",
+      "name": "触手治疗所需敌方英雄数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确至少命中1名敌方英雄。",
+      "sortOrder": 50
+    }
+  }
+}

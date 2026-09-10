@@ -1,0 +1,45 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/neeko_w/formulas",
+    "detailRoute": "/skills/neeko_w/formulas/passive_damage",
+    "skillKey": "neeko_w",
+    "kind": "formulas",
+    "stableKey": "passive_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_damage",
+      "name": "两生花影第三击魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应PassiveBonusDamageCalc。",
+      "sortOrder": 10
+    }
+  }
+}

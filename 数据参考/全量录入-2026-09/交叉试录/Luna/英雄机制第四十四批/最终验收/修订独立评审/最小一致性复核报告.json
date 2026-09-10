@@ -1,0 +1,279 @@
+{
+  "generatedAt": "2026-09-10T01:55:53.187Z",
+  "batch": "第四十四批俄洛伊孙悟空妮蔻悠米",
+  "revision": "hero44-root-revision-2",
+  "status": "通过",
+  "correctnessBlockers": [],
+  "nonBlockingFindings": [
+    "非阻塞描述问题：孙悟空R实际数组为0.04/0.06/0.08，但参数说明仍写0.02/0.04/0.06。"
+  ],
+  "evidence": {
+    "sourceVersion": {
+      "clientVersion": "16.17",
+      "officialVersion": "16.17.1",
+      "build": "16.17.8104348+branch.releases-16-17.content.release"
+    },
+    "sourceBindingSha256": "5176d182b8888aac57b433c52671dc4461c1ebd9077e01a58634097861c55742",
+    "sourceInputSha256": "38242a877de30423e80332dcce95aa9684295d39ce59a6ded085a52ff835e9f5",
+    "principalSourceNoteSha256": "1a809a887704633d685b879d8e74894ff302b5f72e510d4d0965121480a146c7",
+    "currentSnapshotSha256": "e07e74dd94de45d3d4c4cb88a120bd5a0b4228c4e3f10ea7d9459050f737e9fb",
+    "sourceReview": {
+      "conclusionFile": ".agents/artifacts/hero44-cursor-review-run-20260910/Cursor来源复核结论.md",
+      "conclusionSha256": "46e15f00f7e44ec7a70bdee7e040056c7b0249479a2ea05134904f2d93b0decf",
+      "auditFile": ".agents/artifacts/hero44-cursor-review-run-20260910/主负责人执行审计.json",
+      "auditSha256": "24f84be14e08be37fbb2d63c29668241e4f549313bd5d5f56b359dfe5f764674",
+      "inputManifestFile": ".agents/artifacts/hero44-cursor-review-run-20260910/path-signatures-before.json",
+      "inputManifestSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "verdict": "READY",
+      "runId": "run-412ea285-ba9d-4b27-bbdc-cd4a671449d7",
+      "requestId": "52a13d5f-3af3-45a1-aa41-44bce0818cba",
+      "events": 4618,
+      "uniqueTools": 62,
+      "inputsChecked": 23,
+      "apiWrites": 0,
+      "gitDelta": [],
+      "reviewedPlanRev": "hero44-source-v1"
+    }
+  },
+  "candidateCounts": {
+    "newParameters": 113,
+    "newFormulas": 36,
+    "newEffects": 19,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 168,
+    "reusedPublicParameters": 26,
+    "plannedTotalIncludingReused": 194,
+    "protectedCurrentCompositionLists": 120
+  },
+  "requestCount": 168,
+  "requestMatchesCandidate": true,
+  "deletedScopeChecks": {
+    "illaoiEEmpty": true,
+    "neekoPEmpty": true,
+    "yuumiWEmpty": true,
+    "monkeyKingPCombatDurationRemoved": true,
+    "yuumiEUnknownLifetimeEffectsRemoved": true
+  },
+  "focusedSourceChecks": {
+    "illaoiPHealRatio": {
+      "candidate": 0.0500000007,
+      "source": 0.05000000074505806,
+      "passed": true
+    },
+    "monkeyKingEDashSpeed": {
+      "candidate": 1050,
+      "source": 1050,
+      "passed": true
+    },
+    "monkeyKingRPercentRatios": {
+      "candidate": {
+        "1": 0.0399999991,
+        "2": 0.0599999987,
+        "3": 0.0799999982
+      },
+      "source": [
+        0.03999999910593033,
+        0.05999999865889549,
+        0.07999999821186066
+      ],
+      "passed": true
+    },
+    "illaoiPHitCondition": {
+      "minimumEnemyChampions": 1,
+      "description": "当前本体触手猛击命中至少一名敌方英雄时，5%×猛击命中时已损失生命；触发链待接。",
+      "passed": true
+    }
+  },
+  "structuralChecks": {
+    "integerMilliseconds": [
+      {
+        "skillKey": "illaoi_w",
+        "parameterKey": "cooldown_during_r_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "illaoi_w",
+        "parameterKey": "buff_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "illaoi_w",
+        "parameterKey": "cast_time_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "illaoi_r",
+        "parameterKey": "buff_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_p",
+        "parameterKey": "stack_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_p",
+        "parameterKey": "health_regen_interval_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_q",
+        "parameterKey": "shred_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_q",
+        "parameterKey": "buff_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_q",
+        "parameterKey": "cooldown_decrease_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_w",
+        "parameterKey": "stealth_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_w",
+        "parameterKey": "cast_time_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_e",
+        "parameterKey": "attack_speed_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_r",
+        "parameterKey": "knockup_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_r",
+        "parameterKey": "spin_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_r",
+        "parameterKey": "tick_interval_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_r",
+        "parameterKey": "recast_window_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "monkeyking_r",
+        "parameterKey": "recast_lockout_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_q",
+        "parameterKey": "repeat_delay_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_q",
+        "parameterKey": "cast_time_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_w",
+        "parameterKey": "passive_move_speed_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_w",
+        "parameterKey": "active_move_speed_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_w",
+        "parameterKey": "stealth_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_e",
+        "parameterKey": "min_root_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_e",
+        "parameterKey": "cast_time_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_r",
+        "parameterKey": "delay_until_explosion_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "neeko_r",
+        "parameterKey": "stun_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_p",
+        "parameterKey": "passive_cooldown_level1_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_q",
+        "parameterKey": "empowered_slow_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_q",
+        "parameterKey": "afterburner_time_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_q",
+        "parameterKey": "missile_lifetime_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_q",
+        "parameterKey": "cast_time_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_e",
+        "parameterKey": "attack_speed_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_r",
+        "parameterKey": "slow_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_r",
+        "parameterKey": "channel_duration_ms",
+        "passed": true
+      },
+      {
+        "skillKey": "yuumi_r",
+        "parameterKey": "wave_interval_ms",
+        "passed": true
+      }
+    ],
+    "binaryOperationRule": "所有候选表达式运算节点均要求恰好两个操作数",
+    "danglingReferenceErrors": [],
+    "publicReuseCount": 26
+  },
+  "hashes": {
+    "copiedCandidate": "6f2c82ca33da9ffe97be6dff6e57be85ee2c04b3b9a1eb14734ca6e3aed7d717",
+    "copiedPlan": "744d6631d7b6ae0e765b002eb862590b12f55c8ff67c60541db7b8ed4c1c68df",
+    "copiedMathScript": "219328835bbff2e8253d2e9491d06b1d14c39cf2164773f7443eb7d11c7e183e",
+    "copiedMathReport": "449636b68c603b1e0ce3a0ad122be316138a1f3d165eb41ad2dce433e09e3740"
+  },
+  "apiWrites": 0,
+  "noApiCalls": true
+}

@@ -1,0 +1,29 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/monkeyking_e/parameters",
+    "detailRoute": "/skills/monkeyking_e/parameters/attack_speed_ratio",
+    "skillKey": "monkeyking_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "自身攻击速度增加比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.400000006,
+        "2": 0.4499999881,
+        "3": 0.5,
+        "4": 0.5500000119,
+        "5": 0.6000000238
+      },
+      "description": "来源0.40至0.60，比例本身按1表示100%；属性增量用平加区。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "method": "POST",
+    "route": "/skills/monkeyking_q/parameters",
+    "detailRoute": "/skills/monkeyking_q/parameters/armor_shred_ratio",
+    "skillKey": "monkeyking_q",
+    "kind": "parameters",
+    "stableKey": "armor_shred_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "armor_shred_ratio",
+      "name": "目标护甲降低比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1000000015,
+        "2": 0.150000006,
+        "3": 0.200000003,
+        "4": 0.25,
+        "5": 0.3000000119
+      },
+      "description": "来源10%至30%，数组本身已是0.10至0.30比例。",
+      "sortOrder": 30
+    }
+  }
+}

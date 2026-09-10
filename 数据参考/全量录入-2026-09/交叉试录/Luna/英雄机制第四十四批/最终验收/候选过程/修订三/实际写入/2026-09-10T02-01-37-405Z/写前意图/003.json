@@ -1,0 +1,23 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/illaoi_p/parameters",
+    "detailRoute": "/skills/illaoi_p/parameters/missing_hp_at_slam",
+    "skillKey": "illaoi_p",
+    "kind": "parameters",
+    "stableKey": "missing_hp_at_slam",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_hp_at_slam",
+      "name": "猛击时已损失生命值（实际输入）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "治疗公式需要猛击命中时已损失生命实际输入；未知值无默认。",
+      "sortOrder": 60
+    }
+  }
+}

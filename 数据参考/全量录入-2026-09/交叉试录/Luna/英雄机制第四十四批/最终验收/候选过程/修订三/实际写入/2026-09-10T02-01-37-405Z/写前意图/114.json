@@ -1,0 +1,27 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/neeko_r/parameters",
+    "detailRoute": "/skills/neeko_r/parameters/damage_base",
+    "skillKey": "neeko_r",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "本体基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 350,
+        "3": 550
+      },
+      "description": "来源150/350/550。",
+      "sortOrder": 10
+    }
+  }
+}

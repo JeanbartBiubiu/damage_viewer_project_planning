@@ -1,0 +1,29 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/monkeyking_q/parameters",
+    "detailRoute": "/skills/monkeyking_q/parameters/attack_range_bonus",
+    "skillKey": "monkeyking_q",
+    "kind": "parameters",
+    "stableKey": "attack_range_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_range_bonus",
+      "name": "额外攻击距离",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 135,
+        "2": 145,
+        "3": 155,
+        "4": 165,
+        "5": 175
+      },
+      "description": "来源135/145/155/165/175。",
+      "sortOrder": 60
+    }
+  }
+}

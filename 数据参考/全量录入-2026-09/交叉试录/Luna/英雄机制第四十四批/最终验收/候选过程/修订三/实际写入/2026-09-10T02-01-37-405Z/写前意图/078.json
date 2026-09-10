@@ -1,0 +1,57 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "method": "POST",
+    "route": "/skills/monkeyking_r/formulas",
+    "detailRoute": "/skills/monkeyking_r/formulas/damage_per_second",
+    "skillKey": "monkeyking_r",
+    "kind": "formulas",
+    "stableKey": "damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_second",
+      "name": "大闹天宫每秒物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_hp_damage_per_second_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio_per_second"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每秒=目标最大生命×4/6/8%+1.375×来源总攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

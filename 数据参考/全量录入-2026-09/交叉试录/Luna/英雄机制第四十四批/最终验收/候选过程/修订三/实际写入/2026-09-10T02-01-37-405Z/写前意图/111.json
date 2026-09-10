@@ -1,0 +1,45 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "method": "POST",
+    "route": "/skills/neeko_e/formulas",
+    "detailRoute": "/skills/neeko_e/formulas/damage",
+    "skillKey": "neeko_e",
+    "kind": "formulas",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage",
+      "name": "缠结倒刺本体魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应BaseDamage；本轮只保留首个目标。",
+      "sortOrder": 10
+    }
+  }
+}

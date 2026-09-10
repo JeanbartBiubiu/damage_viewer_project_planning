@@ -1,0 +1,23 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 155,
+    "method": "POST",
+    "route": "/skills/yuumi_r/parameters",
+    "detailRoute": "/skills/yuumi_r/parameters/channel_duration_ms",
+    "skillKey": "yuumi_r",
+    "kind": "parameters",
+    "stableKey": "channel_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "channel_duration_ms",
+      "name": "引导持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3500,
+      "levelValues": null,
+      "description": "3.5秒转毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

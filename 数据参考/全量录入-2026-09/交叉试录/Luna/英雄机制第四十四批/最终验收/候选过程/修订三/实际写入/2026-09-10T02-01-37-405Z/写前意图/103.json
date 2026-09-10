@@ -1,0 +1,33 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "method": "POST",
+    "route": "/skills/neeko_w/formulas",
+    "detailRoute": "/skills/neeko_w/formulas/passive_move_speed",
+    "skillKey": "neeko_w",
+    "kind": "formulas",
+    "stableKey": "passive_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_move_speed",
+      "name": "两生花影被动移速比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_percent_scale"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_move_speed_points"
+          }
+        ]
+      },
+      "description": "第三次攻击后自身移速增量；属性使用平加区。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 166,
+  "intent": {
+    "sequence": 167,
+    "method": "POST",
+    "route": "/skills/yuumi_r/formulas",
+    "detailRoute": "/skills/yuumi_r/formulas/heal_per_wave",
+    "skillKey": "yuumi_r",
+    "kind": "formulas",
+    "stableKey": "heal_per_wave",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "heal_per_wave",
+      "name": "魔典终章每波友军治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "heal_base_per_wave"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "友军治疗来源公式；自身是否合资格待核。",
+      "sortOrder": 40
+    }
+  }
+}

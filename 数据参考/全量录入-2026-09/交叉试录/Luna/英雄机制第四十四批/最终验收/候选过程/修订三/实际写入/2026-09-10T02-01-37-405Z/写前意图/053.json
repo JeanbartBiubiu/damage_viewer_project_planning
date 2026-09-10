@@ -1,0 +1,45 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "method": "POST",
+    "route": "/skills/monkeyking_q/formulas",
+    "detailRoute": "/skills/monkeyking_q/formulas/damage",
+    "skillKey": "monkeyking_q",
+    "kind": "formulas",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage",
+      "name": "粉碎打击额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "主负责人核对为基础值+0.5×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

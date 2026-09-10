@@ -1,0 +1,45 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "method": "POST",
+    "route": "/skills/yuumi_q/formulas",
+    "detailRoute": "/skills/yuumi_q/formulas/empowered_damage",
+    "skillKey": "yuumi_q",
+    "kind": "formulas",
+    "stableKey": "empowered_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_damage",
+      "name": "摸鱼飞弹强化魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "强化飞弹伤害；附身资格不在独立1V1场景中擅自开启。",
+      "sortOrder": 20
+    }
+  }
+}

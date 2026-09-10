@@ -1,0 +1,23 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "method": "POST",
+    "route": "/skills/monkeyking_p/parameters",
+    "detailRoute": "/skills/monkeyking_p/parameters/max_extra_stacks",
+    "skillKey": "monkeyking_p",
+    "kind": "parameters",
+    "stableKey": "max_extra_stacks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_extra_stacks",
+      "name": "最多额外层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "最多5个额外层；基础层另计，最高为6倍。",
+      "sortOrder": 40
+    }
+  }
+}

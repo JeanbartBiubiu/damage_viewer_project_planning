@@ -1,0 +1,23 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "method": "POST",
+    "route": "/skills/monkeyking_r/parameters",
+    "detailRoute": "/skills/monkeyking_r/parameters/tick_interval_ms",
+    "skillKey": "monkeyking_r",
+    "kind": "parameters",
+    "stableKey": "tick_interval_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tick_interval_ms",
+      "name": "每次伤害间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "0.25秒转毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

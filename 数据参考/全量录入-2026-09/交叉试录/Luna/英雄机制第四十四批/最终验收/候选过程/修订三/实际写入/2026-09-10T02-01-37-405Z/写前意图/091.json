@@ -1,0 +1,45 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/neeko_q/formulas",
+    "detailRoute": "/skills/neeko_q/formulas/repeat_damage",
+    "skillKey": "neeko_q",
+    "kind": "formulas",
+    "stableKey": "repeat_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "repeat_damage",
+      "name": "盛开花种后续魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "secondary_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "secondary_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应SecondDamage；同一敌人可重复命中，最多两次。",
+      "sortOrder": 20
+    }
+  }
+}

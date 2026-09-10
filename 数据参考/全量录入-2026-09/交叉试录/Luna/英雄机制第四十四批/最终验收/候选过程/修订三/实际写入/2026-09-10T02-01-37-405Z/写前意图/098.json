@@ -1,0 +1,29 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "method": "POST",
+    "route": "/skills/neeko_w/parameters",
+    "detailRoute": "/skills/neeko_w/parameters/active_move_speed_points",
+    "skillKey": "neeko_w",
+    "kind": "parameters",
+    "stableKey": "active_move_speed_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_move_speed_points",
+      "name": "主动移速百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 25,
+        "3": 30,
+        "4": 35,
+        "5": 40
+      },
+      "description": "来源20/25/30/35/40百分数点；外层0.01转系统比例。",
+      "sortOrder": 60
+    }
+  }
+}

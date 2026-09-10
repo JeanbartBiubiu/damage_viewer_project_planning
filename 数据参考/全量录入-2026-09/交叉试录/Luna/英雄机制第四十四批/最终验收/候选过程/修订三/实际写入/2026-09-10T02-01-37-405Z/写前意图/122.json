@@ -1,0 +1,23 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "method": "POST",
+    "route": "/skills/yuumi_p/parameters",
+    "detailRoute": "/skills/yuumi_p/parameters/passive_cooldown_at_character_level",
+    "skillKey": "yuumi_p",
+    "kind": "parameters",
+    "stableKey": "passive_cooldown_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_cooldown_at_character_level",
+      "name": "被动冷却角色等级值（实际输入）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "起点20秒、逐级减1且14级空断点；断点后算法未知，不造18级映射。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "method": "POST",
+    "route": "/skills/illaoi_w/parameters",
+    "detailRoute": "/skills/illaoi_w/parameters/health_damage_ad_ratio",
+    "skillKey": "illaoi_w",
+    "kind": "parameters",
+    "stableKey": "health_damage_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_damage_ad_ratio",
+      "name": "最大生命伤害攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0350000001,
+      "levelValues": null,
+      "description": "当前树为0.035×来源总攻击力，先与百分数点相加再乘0.01。",
+      "sortOrder": 30
+    }
+  }
+}

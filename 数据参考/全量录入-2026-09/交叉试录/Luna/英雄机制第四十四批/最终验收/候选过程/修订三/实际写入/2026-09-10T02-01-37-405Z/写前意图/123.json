@@ -1,0 +1,23 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 123,
+    "method": "POST",
+    "route": "/skills/yuumi_p/parameters",
+    "detailRoute": "/skills/yuumi_p/parameters/passive_cooldown_level1_ms",
+    "skillKey": "yuumi_p",
+    "kind": "parameters",
+    "stableKey": "passive_cooldown_level1_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_cooldown_level1_ms",
+      "name": "被动冷却一级值（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20000,
+      "levelValues": null,
+      "description": "来源PassiveCooldown树一级20秒；仅保存已知起点。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,6487 @@
+{
+  "generatedAt": "2026-09-10T00:48:44.847Z",
+  "status": "仅写入意图，未调用业务接口；候选等待主负责人审查",
+  "batch": "第四十四批俄洛伊孙悟空妮蔻悠米",
+  "revision": "hero44-source-v1-luna-candidate",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "c8c567f30559ee5305d32c32c7a07d017afe9e1caf4ea845134762c3cff88b0c",
+  "sourceInputSha256": "38242a877de30423e80332dcce95aa9684295d39ce59a6ded085a52ff835e9f5",
+  "sourceBindingSha256": "5176d182b8888aac57b433c52671dc4461c1ebd9077e01a58634097861c55742",
+  "principalSourceNoteSha256": "1a809a887704633d685b879d8e74894ff302b5f72e510d4d0965121480a146c7",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero44-cursor-review-run-20260910/Cursor来源复核结论.md",
+    "conclusionSha256": "46e15f00f7e44ec7a70bdee7e040056c7b0249479a2ea05134904f2d93b0decf",
+    "auditFile": ".agents/artifacts/hero44-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "24f84be14e08be37fbb2d63c29668241e4f549313bd5d5f56b359dfe5f764674",
+    "inputManifestFile": ".agents/artifacts/hero44-cursor-review-run-20260910/path-signatures-before.json",
+    "inputManifestSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "verdict": "READY",
+    "runId": "run-412ea285-ba9d-4b27-bbdc-cd4a671449d7",
+    "requestId": "52a13d5f-3af3-45a1-aa41-44bce0818cba",
+    "events": 4618,
+    "uniqueTools": 62,
+    "inputsChecked": 23,
+    "apiWrites": 0,
+    "gitDelta": [],
+    "reviewedPlanRev": "hero44-source-v1"
+  },
+  "protectionSnapshotSha256": "e07e74dd94de45d3d4c4cb88a120bd5a0b4228c4e3f10ea7d9459050f737e9fb",
+  "publicReuseSha256": "22bf984c720953b3e9e0b6860f10583481c40b228ff744ec328157a4306ea9ef",
+  "requestCount": 207,
+  "requestCounts": {
+    "parameters": 144,
+    "formulas": 39,
+    "effects": 24,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "currentTotalComponents": 233,
+  "currentCompositionListsProtected": 120,
+  "reusedPublicParameters": [
+    {
+      "skillKey": "illaoi_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "illaoi_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "illaoi_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "illaoi_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "illaoi_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "illaoi_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "monkeyking_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "monkeyking_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "monkeyking_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "monkeyking_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "monkeyking_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "monkeyking_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "monkeyking_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "monkeyking_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "neeko_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "neeko_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "neeko_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "neeko_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "neeko_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "neeko_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "neeko_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "yuumi_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "yuumi_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "yuumi_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "yuumi_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "yuumi_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    }
+  ],
+  "protectedSkills": [
+    "illaoi_p",
+    "illaoi_q",
+    "illaoi_w",
+    "illaoi_e",
+    "illaoi_r",
+    "monkeyking_p",
+    "monkeyking_q",
+    "monkeyking_w",
+    "monkeyking_e",
+    "monkeyking_r",
+    "neeko_p",
+    "neeko_q",
+    "neeko_w",
+    "neeko_e",
+    "neeko_r",
+    "yuumi_p",
+    "yuumi_q",
+    "yuumi_w",
+    "yuumi_e",
+    "yuumi_r"
+  ],
+  "protectedCounts": {
+    "GETs": 198,
+    "subjects": 20,
+    "currentCompositionSkillSlots": 20,
+    "currentCompositionLists": 120,
+    "reusedPublicParameters": 26,
+    "images": 20,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "dictionaries": 4
+  },
+  "protectedRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_illaoi",
+    "/character-skill-relations?characterKey=champion_illaoi",
+    "/characters/champion_monkeyking",
+    "/character-skill-relations?characterKey=champion_monkeyking",
+    "/characters/champion_neeko",
+    "/character-skill-relations?characterKey=champion_neeko",
+    "/characters/champion_yuumi",
+    "/character-skill-relations?characterKey=champion_yuumi",
+    "/skills/illaoi_p",
+    "/skills/illaoi_p/representative-image",
+    "/skills/illaoi_p/parameters",
+    "/skills/illaoi_p/formulas",
+    "/skills/illaoi_p/effects",
+    "/skills/illaoi_p/processes",
+    "/skills/illaoi_p/internal-states",
+    "/skills/illaoi_p/trigger-rules",
+    "/skills/illaoi_q",
+    "/skills/illaoi_q/representative-image",
+    "/skills/illaoi_q/parameters",
+    "/skills/illaoi_q/parameters/cooldown_ms",
+    "/skills/illaoi_q/parameters/mana_cost",
+    "/skills/illaoi_q/formulas",
+    "/skills/illaoi_q/effects",
+    "/skills/illaoi_q/processes",
+    "/skills/illaoi_q/internal-states",
+    "/skills/illaoi_q/trigger-rules",
+    "/skills/illaoi_w",
+    "/skills/illaoi_w/representative-image",
+    "/skills/illaoi_w/parameters",
+    "/skills/illaoi_w/parameters/cooldown_ms",
+    "/skills/illaoi_w/parameters/mana_cost",
+    "/skills/illaoi_w/formulas",
+    "/skills/illaoi_w/effects",
+    "/skills/illaoi_w/processes",
+    "/skills/illaoi_w/internal-states",
+    "/skills/illaoi_w/trigger-rules",
+    "/skills/illaoi_e",
+    "/skills/illaoi_e/representative-image",
+    "/skills/illaoi_e/parameters",
+    "/skills/illaoi_e/formulas",
+    "/skills/illaoi_e/effects",
+    "/skills/illaoi_e/processes",
+    "/skills/illaoi_e/internal-states",
+    "/skills/illaoi_e/trigger-rules",
+    "/skills/illaoi_r",
+    "/skills/illaoi_r/representative-image",
+    "/skills/illaoi_r/parameters",
+    "/skills/illaoi_r/parameters/cooldown_ms",
+    "/skills/illaoi_r/parameters/mana_cost",
+    "/skills/illaoi_r/formulas",
+    "/skills/illaoi_r/effects",
+    "/skills/illaoi_r/processes",
+    "/skills/illaoi_r/internal-states",
+    "/skills/illaoi_r/trigger-rules",
+    "/skills/monkeyking_p",
+    "/skills/monkeyking_p/representative-image",
+    "/skills/monkeyking_p/parameters",
+    "/skills/monkeyking_p/formulas",
+    "/skills/monkeyking_p/effects",
+    "/skills/monkeyking_p/processes",
+    "/skills/monkeyking_p/internal-states",
+    "/skills/monkeyking_p/trigger-rules",
+    "/skills/monkeyking_q",
+    "/skills/monkeyking_q/representative-image",
+    "/skills/monkeyking_q/parameters",
+    "/skills/monkeyking_q/parameters/cooldown_ms",
+    "/skills/monkeyking_q/parameters/mana_cost",
+    "/skills/monkeyking_q/formulas",
+    "/skills/monkeyking_q/effects",
+    "/skills/monkeyking_q/processes",
+    "/skills/monkeyking_q/internal-states",
+    "/skills/monkeyking_q/trigger-rules",
+    "/skills/monkeyking_w",
+    "/skills/monkeyking_w/representative-image",
+    "/skills/monkeyking_w/parameters",
+    "/skills/monkeyking_w/parameters/cooldown_ms",
+    "/skills/monkeyking_w/parameters/mana_cost",
+    "/skills/monkeyking_w/formulas",
+    "/skills/monkeyking_w/effects",
+    "/skills/monkeyking_w/processes",
+    "/skills/monkeyking_w/internal-states",
+    "/skills/monkeyking_w/trigger-rules",
+    "/skills/monkeyking_e",
+    "/skills/monkeyking_e/representative-image",
+    "/skills/monkeyking_e/parameters",
+    "/skills/monkeyking_e/parameters/cooldown_ms",
+    "/skills/monkeyking_e/parameters/mana_cost",
+    "/skills/monkeyking_e/formulas",
+    "/skills/monkeyking_e/effects",
+    "/skills/monkeyking_e/processes",
+    "/skills/monkeyking_e/internal-states",
+    "/skills/monkeyking_e/trigger-rules",
+    "/skills/monkeyking_r",
+    "/skills/monkeyking_r/representative-image",
+    "/skills/monkeyking_r/parameters",
+    "/skills/monkeyking_r/parameters/cooldown_ms",
+    "/skills/monkeyking_r/parameters/mana_cost",
+    "/skills/monkeyking_r/formulas",
+    "/skills/monkeyking_r/effects",
+    "/skills/monkeyking_r/processes",
+    "/skills/monkeyking_r/internal-states",
+    "/skills/monkeyking_r/trigger-rules",
+    "/skills/neeko_p",
+    "/skills/neeko_p/representative-image",
+    "/skills/neeko_p/parameters",
+    "/skills/neeko_p/formulas",
+    "/skills/neeko_p/effects",
+    "/skills/neeko_p/processes",
+    "/skills/neeko_p/internal-states",
+    "/skills/neeko_p/trigger-rules",
+    "/skills/neeko_q",
+    "/skills/neeko_q/representative-image",
+    "/skills/neeko_q/parameters",
+    "/skills/neeko_q/parameters/cooldown_ms",
+    "/skills/neeko_q/parameters/mana_cost",
+    "/skills/neeko_q/formulas",
+    "/skills/neeko_q/effects",
+    "/skills/neeko_q/processes",
+    "/skills/neeko_q/internal-states",
+    "/skills/neeko_q/trigger-rules",
+    "/skills/neeko_w",
+    "/skills/neeko_w/representative-image",
+    "/skills/neeko_w/parameters",
+    "/skills/neeko_w/parameters/cooldown_ms",
+    "/skills/neeko_w/formulas",
+    "/skills/neeko_w/effects",
+    "/skills/neeko_w/processes",
+    "/skills/neeko_w/internal-states",
+    "/skills/neeko_w/trigger-rules",
+    "/skills/neeko_e",
+    "/skills/neeko_e/representative-image",
+    "/skills/neeko_e/parameters",
+    "/skills/neeko_e/parameters/cooldown_ms",
+    "/skills/neeko_e/parameters/mana_cost",
+    "/skills/neeko_e/formulas",
+    "/skills/neeko_e/effects",
+    "/skills/neeko_e/processes",
+    "/skills/neeko_e/internal-states",
+    "/skills/neeko_e/trigger-rules",
+    "/skills/neeko_r",
+    "/skills/neeko_r/representative-image",
+    "/skills/neeko_r/parameters",
+    "/skills/neeko_r/parameters/cooldown_ms",
+    "/skills/neeko_r/parameters/mana_cost",
+    "/skills/neeko_r/formulas",
+    "/skills/neeko_r/effects",
+    "/skills/neeko_r/processes",
+    "/skills/neeko_r/internal-states",
+    "/skills/neeko_r/trigger-rules",
+    "/skills/yuumi_p",
+    "/skills/yuumi_p/representative-image",
+    "/skills/yuumi_p/parameters",
+    "/skills/yuumi_p/formulas",
+    "/skills/yuumi_p/effects",
+    "/skills/yuumi_p/processes",
+    "/skills/yuumi_p/internal-states",
+    "/skills/yuumi_p/trigger-rules",
+    "/skills/yuumi_q",
+    "/skills/yuumi_q/representative-image",
+    "/skills/yuumi_q/parameters",
+    "/skills/yuumi_q/parameters/cooldown_ms",
+    "/skills/yuumi_q/parameters/mana_cost",
+    "/skills/yuumi_q/formulas",
+    "/skills/yuumi_q/effects",
+    "/skills/yuumi_q/processes",
+    "/skills/yuumi_q/internal-states",
+    "/skills/yuumi_q/trigger-rules",
+    "/skills/yuumi_w",
+    "/skills/yuumi_w/representative-image",
+    "/skills/yuumi_w/parameters",
+    "/skills/yuumi_w/formulas",
+    "/skills/yuumi_w/effects",
+    "/skills/yuumi_w/processes",
+    "/skills/yuumi_w/internal-states",
+    "/skills/yuumi_w/trigger-rules",
+    "/skills/yuumi_e",
+    "/skills/yuumi_e/representative-image",
+    "/skills/yuumi_e/parameters",
+    "/skills/yuumi_e/parameters/mana_cost",
+    "/skills/yuumi_e/formulas",
+    "/skills/yuumi_e/effects",
+    "/skills/yuumi_e/processes",
+    "/skills/yuumi_e/internal-states",
+    "/skills/yuumi_e/trigger-rules",
+    "/skills/yuumi_r",
+    "/skills/yuumi_r/representative-image",
+    "/skills/yuumi_r/parameters",
+    "/skills/yuumi_r/parameters/cooldown_ms",
+    "/skills/yuumi_r/parameters/mana_cost",
+    "/skills/yuumi_r/formulas",
+    "/skills/yuumi_r/effects",
+    "/skills/yuumi_r/processes",
+    "/skills/yuumi_r/internal-states",
+    "/skills/yuumi_r/trigger-rules"
+  ],
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "route": "/skills/illaoi_p/parameters",
+      "detailRoute": "/skills/illaoi_p/parameters/missing_hp_heal_ratio",
+      "skillKey": "illaoi_p",
+      "kind": "parameters",
+      "stableKey": "missing_hp_heal_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missing_hp_heal_ratio",
+        "name": "已损失生命治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0500000007,
+        "levelValues": null,
+        "description": "当前正文消费5%已损失生命；比例本身按1表示100%。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "route": "/skills/illaoi_p/parameters",
+      "detailRoute": "/skills/illaoi_p/parameters/tentacle_disabled_lifetime_ms",
+      "skillKey": "illaoi_p",
+      "kind": "parameters",
+      "stableKey": "tentacle_disabled_lifetime_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tentacle_disabled_lifetime_ms",
+        "name": "触手离开范围后的消散时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30000,
+        "levelValues": null,
+        "description": "客户端30秒转毫秒；独立触手单位仍排除。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "route": "/skills/illaoi_p/parameters",
+      "detailRoute": "/skills/illaoi_p/parameters/tentacle_second_hit_multiplier",
+      "skillKey": "illaoi_p",
+      "kind": "parameters",
+      "stableKey": "tentacle_second_hit_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tentacle_second_hit_multiplier",
+        "name": "同时命中第二条触手伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前中文扩展正文明确为50%；单位链数值，不表示本体直接伤害。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "route": "/skills/illaoi_p/parameters",
+      "detailRoute": "/skills/illaoi_p/parameters/tentacle_subsequent_hit_multiplier",
+      "skillKey": "illaoi_p",
+      "kind": "parameters",
+      "stableKey": "tentacle_subsequent_hit_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tentacle_subsequent_hit_multiplier",
+        "name": "同时命中后续触手伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前中文扩展正文明确为25%；单位链数值，不表示本体直接伤害。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "route": "/skills/illaoi_p/parameters",
+      "detailRoute": "/skills/illaoi_p/parameters/slam_min_enemy_champions",
+      "skillKey": "illaoi_p",
+      "kind": "parameters",
+      "stableKey": "slam_min_enemy_champions",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slam_min_enemy_champions",
+        "name": "触手治疗所需敌方英雄数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前正文明确至少命中1名敌方英雄。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "route": "/skills/illaoi_p/parameters",
+      "detailRoute": "/skills/illaoi_p/parameters/missing_hp_at_slam",
+      "skillKey": "illaoi_p",
+      "kind": "parameters",
+      "stableKey": "missing_hp_at_slam",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missing_hp_at_slam",
+        "name": "猛击时已损失生命值（实际输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "治疗公式需要施放时已损失生命实际输入；未知值无默认。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "route": "/skills/illaoi_p/formulas",
+      "detailRoute": "/skills/illaoi_p/formulas/self_missing_health_heal",
+      "skillKey": "illaoi_p",
+      "kind": "formulas",
+      "stableKey": "self_missing_health_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_missing_health_heal",
+        "name": "俄洛伊自身已损失生命治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missing_hp_heal_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missing_hp_at_slam"
+            }
+          ]
+        },
+        "description": "当前本体触手猛击命中至少一名敌方英雄时，5%×施放时已损失生命；触发链待接。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/tentacle_damage_amp",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "tentacle_damage_amp",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tentacle_damage_amp",
+        "name": "触手伤害提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.1000000015,
+          "2": 0.150000006,
+          "3": 0.200000003,
+          "4": 0.25,
+          "5": 0.3000000119
+        },
+        "description": "当前完整公式使用技能等级1至5的0.10至0.30；比例本身按1表示100%。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/total_ad_ratio",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "total_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "total_ad_ratio",
+        "name": "总攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.1000000238,
+        "levelValues": null,
+        "description": "当前完整公式第一攻击力项为1.1×来源总攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/ap_ratio",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.400000006,
+        "levelValues": null,
+        "description": "当前完整公式法强项为0.4×来源法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 11,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/tentacle_damage_base_at_character_level",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "tentacle_damage_base_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tentacle_damage_base_at_character_level",
+        "name": "角色等级触手基础伤害（实际输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前完整放大树为角色等级基础9至180，中间曲线未知；不带默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 12,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/damage_increase_base_at_character_level",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "damage_increase_base_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_increase_base_at_character_level",
+        "name": "展示树角色等级基础伤害（实际输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "旧展示树端点为9至162，当前正文消费的是完整9至180树；该树只留来源核对，不作为主动伤害。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/tentacle_damage_base_start",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "tentacle_damage_base_start",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tentacle_damage_base_start",
+        "name": "完整放大树基础起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9,
+        "levelValues": null,
+        "description": "TentacleDamageTotal角色等级插值起点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/tentacle_damage_base_end",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "tentacle_damage_base_end",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tentacle_damage_base_end",
+        "name": "完整放大树基础终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 180,
+        "levelValues": null,
+        "description": "TentacleDamageTotal角色等级插值终点；中间值由实际输入提供。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/damage_increase_base_start",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "damage_increase_base_start",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_increase_base_start",
+        "name": "展示树基础起点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9,
+        "levelValues": null,
+        "description": "DamageIncreaseTooltip角色等级插值起点。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/damage_increase_base_end",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "damage_increase_base_end",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_increase_base_end",
+        "name": "展示树基础终点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 162,
+        "levelValues": null,
+        "description": "DamageIncreaseTooltip角色等级插值终点；不替代主动完整树。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "route": "/skills/illaoi_q/parameters",
+      "detailRoute": "/skills/illaoi_q/parameters/one",
+      "skillKey": "illaoi_q",
+      "kind": "parameters",
+      "stableKey": "one",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "one",
+        "name": "单位一",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "公式常量；不表示业务默认输入。",
+        "sortOrder": 1000
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "route": "/skills/illaoi_q/formulas",
+      "detailRoute": "/skills/illaoi_q/formulas/tentacle_damage",
+      "skillKey": "illaoi_q",
+      "kind": "formulas",
+      "stableKey": "tentacle_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "tentacle_damage",
+        "name": "本体主动触手猛击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tentacle_damage_base_at_character_level"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tentacle_damage_amp"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "主动Q是本体施放载体，完整树为(1+技能放大)×(角色等级基础+1.1×总攻击力+0.4×法强)；自主触手结果另列排除。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "route": "/skills/illaoi_q/formulas",
+      "detailRoute": "/skills/illaoi_q/formulas/damage_increase_tooltip",
+      "skillKey": "illaoi_q",
+      "kind": "formulas",
+      "stableKey": "damage_increase_tooltip",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_increase_tooltip",
+        "name": "触手伤害提升展示值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "tentacle_damage_amp"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_increase_base_at_character_level"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "保留客户端另一个展示树9至162；不把展示树误当主动Q完整伤害。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "route": "/skills/illaoi_q/effects",
+      "detailRoute": "/skills/illaoi_q/effects/mana_cost",
+      "skillKey": "illaoi_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "route": "/skills/illaoi_w/parameters",
+      "detailRoute": "/skills/illaoi_w/parameters/w_min_damage",
+      "skillKey": "illaoi_w",
+      "kind": "parameters",
+      "stableKey": "w_min_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "w_min_damage",
+        "name": "强化普攻百分比伤害最低值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 30,
+          "3": 40,
+          "4": 50,
+          "5": 60
+        },
+        "description": "当前正文明确20/30/40/50/60；不是包含普攻本体的整击伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "route": "/skills/illaoi_w/parameters",
+      "detailRoute": "/skills/illaoi_w/parameters/health_percent_damage_points",
+      "skillKey": "illaoi_w",
+      "kind": "parameters",
+      "stableKey": "health_percent_damage_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_percent_damage_points",
+        "name": "最大生命伤害百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 3,
+          "2": 3.5,
+          "3": 4,
+          "4": 4.5,
+          "5": 5
+        },
+        "description": "当前正文消费3/3.5/4/4.5/5百分数点；公式外乘0.01转比例。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "route": "/skills/illaoi_w/parameters",
+      "detailRoute": "/skills/illaoi_w/parameters/health_damage_ad_ratio",
+      "skillKey": "illaoi_w",
+      "kind": "parameters",
+      "stableKey": "health_damage_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_damage_ad_ratio",
+        "name": "最大生命伤害攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0350000001,
+        "levelValues": null,
+        "description": "当前树为0.035×来源总攻击力，先与百分数点相加再乘0.01。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 24,
+      "method": "POST",
+      "route": "/skills/illaoi_w/parameters",
+      "detailRoute": "/skills/illaoi_w/parameters/percent_point_scale",
+      "skillKey": "illaoi_w",
+      "kind": "parameters",
+      "stableKey": "percent_point_scale",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_point_scale",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "3百分数点转为0.03比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 25,
+      "method": "POST",
+      "route": "/skills/illaoi_w/parameters",
+      "detailRoute": "/skills/illaoi_w/parameters/cooldown_during_r_ms",
+      "skillKey": "illaoi_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_during_r_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_during_r_ms",
+        "name": "R期间强化普攻冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "跨技能正文消费2秒，转为毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 26,
+      "method": "POST",
+      "route": "/skills/illaoi_w/parameters",
+      "detailRoute": "/skills/illaoi_w/parameters/buff_duration_ms",
+      "skillKey": "illaoi_w",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "强化窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "客户端原始6秒；主负责人要求标注消费依据。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 27,
+      "method": "POST",
+      "route": "/skills/illaoi_w/formulas",
+      "detailRoute": "/skills/illaoi_w/formulas/health_percent_ratio",
+      "skillKey": "illaoi_w",
+      "kind": "formulas",
+      "stableKey": "health_percent_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "health_percent_ratio",
+        "name": "严酷训诫最大生命伤害比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_point_scale"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "health_percent_damage_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "health_damage_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "0.01×(百分数点+0.035×来源总攻击力)。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 28,
+      "method": "POST",
+      "route": "/skills/illaoi_w/formulas",
+      "detailRoute": "/skills/illaoi_w/formulas/minimum_damage",
+      "skillKey": "illaoi_w",
+      "kind": "formulas",
+      "stableKey": "minimum_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "minimum_damage",
+        "name": "严酷训诫百分比伤害最低值",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "w_min_damage"
+        },
+        "description": "单独保存最低值；实际伤害取最低值与目标最大生命×百分比公式的较大值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 29,
+      "method": "POST",
+      "route": "/skills/illaoi_w/formulas",
+      "detailRoute": "/skills/illaoi_w/formulas/damage",
+      "skillKey": "illaoi_w",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "严酷训诫额外物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "w_min_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_point_scale"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "health_percent_damage_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "health_damage_ad_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "主负责人核对的MAX(最低值,目标最大生命×0.01×(百分数点+0.035×总攻击力))；不包含普攻本体。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 30,
+      "method": "POST",
+      "route": "/skills/illaoi_w/effects",
+      "detailRoute": "/skills/illaoi_w/effects/mana_cost",
+      "skillKey": "illaoi_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 31,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/cooldown_ms",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "description": "当前绑定的官方16.17.1基础冷却，单位转为毫秒；公共参数不在此重复。",
+        "sortOrder": 800
+      }
+    },
+    {
+      "sequence": 32,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/mana_cost",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 40,
+          "3": 45,
+          "4": 50,
+          "5": 55
+        },
+        "description": "当前绑定的官方16.17.1基础法力消耗；公共参数不在此重复。",
+        "sortOrder": 810
+      }
+    },
+    {
+      "sequence": 33,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/damage_transfer_ratio",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "damage_transfer_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_transfer_ratio",
+        "name": "灵魂伤害转移比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.3000000119,
+          "3": 0.349999994,
+          "4": 0.400000006,
+          "5": 0.4499999881
+        },
+        "description": "来源25/30/35/40/45%；该链主体按范围跳过，参数只作来源证据。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 34,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/echo_ad_ratio",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "echo_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "echo_ad_ratio",
+        "name": "伤害转移攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0008,
+        "levelValues": null,
+        "description": "当前树为每1点总攻击力增加0.0008比例。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 35,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/vessel_duration_ms",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "vessel_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "vessel_duration_ms",
+        "name": "躯壳标记持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "4秒转毫秒；依赖灵魂结束链。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 36,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/spirit_duration_ms",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "spirit_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "spirit_duration_ms",
+        "name": "灵魂持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "description": "7秒转毫秒；灵魂单位执行链跳过。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 37,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/slow_duration_ms",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "标记减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "1.5秒转毫秒；只作被排除链的来源值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 38,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/slow_ratio",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "标记减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8000000119,
+        "levelValues": null,
+        "description": "来源80%，比例本身按1表示100%；不创建无前提独立减速效果。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 39,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/grace_before_dormant_ms",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "grace_before_dormant_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "grace_before_dormant_ms",
+        "name": "落地后进入休眠宽限（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "1.5秒转毫秒；灵魂链行为未接。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 40,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/tentacle_spawn_density",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "tentacle_spawn_density",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tentacle_spawn_density",
+        "name": "触手生成密度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 700,
+        "levelValues": null,
+        "description": "保存来源值；独立召唤链排除。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 41,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/spirit_leash_range",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "spirit_leash_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "spirit_leash_range",
+        "name": "灵魂牵引距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "保存来源值；资格和时序待核。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 42,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/slam_interval_ms_at_character_level",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "slam_interval_ms_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slam_interval_ms_at_character_level",
+        "name": "躯壳触手猛击间隔（角色等级，毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 4000,
+          "2": 4000,
+          "3": 4000,
+          "4": 4000,
+          "5": 4000,
+          "6": 4000,
+          "7": 3500,
+          "8": 3500,
+          "9": 3500,
+          "10": 3500,
+          "11": 3500,
+          "12": 3500,
+          "13": 3000,
+          "14": 3000,
+          "15": 3000,
+          "16": 3000,
+          "17": 3000,
+          "18": 3000
+        },
+        "description": "当前断点明确1至6级4秒、7至12级3.5秒、13至18级3秒；只作独立触手链来源值。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 43,
+      "method": "POST",
+      "route": "/skills/illaoi_e/parameters",
+      "detailRoute": "/skills/illaoi_e/parameters/spirit_damage_value",
+      "skillKey": "illaoi_e",
+      "kind": "parameters",
+      "stableKey": "spirit_damage_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "spirit_damage_value",
+        "name": "灵魂已承受伤害（实际输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "伤害转移公式需要灵魂本体执行链提供已承受伤害；不带默认。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 44,
+      "method": "POST",
+      "route": "/skills/illaoi_e/formulas",
+      "detailRoute": "/skills/illaoi_e/formulas/echo_transfer_ratio",
+      "skillKey": "illaoi_e",
+      "kind": "formulas",
+      "stableKey": "echo_transfer_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "echo_transfer_ratio",
+        "name": "灵魂伤害转移比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_transfer_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "echo_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应EchoPercent：技能比例+0.0008×来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 45,
+      "method": "POST",
+      "route": "/skills/illaoi_e/formulas",
+      "detailRoute": "/skills/illaoi_e/formulas/echo_damage",
+      "skillKey": "illaoi_e",
+      "kind": "formulas",
+      "stableKey": "echo_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "echo_damage",
+        "name": "传递到本体的伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "spirit_damage_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_transfer_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "echo_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "明确链条的比例结果；灵魂结束/标记和触手事件不创建独立效果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 46,
+      "method": "POST",
+      "route": "/skills/illaoi_e/effects",
+      "detailRoute": "/skills/illaoi_e/effects/mana_cost",
+      "skillKey": "illaoi_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能使用候选新增法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 47,
+      "method": "POST",
+      "route": "/skills/illaoi_r/parameters",
+      "detailRoute": "/skills/illaoi_r/parameters/base_damage",
+      "skillKey": "illaoi_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "本体大招基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "来源150/250/350，技能等级1至3。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 48,
+      "method": "POST",
+      "route": "/skills/illaoi_r/parameters",
+      "detailRoute": "/skills/illaoi_r/parameters/buff_radius",
+      "skillKey": "illaoi_r",
+      "kind": "parameters",
+      "stableKey": "buff_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_radius",
+        "name": "强化范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "来源500；触手对象链不建立结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 49,
+      "method": "POST",
+      "route": "/skills/illaoi_r/parameters",
+      "detailRoute": "/skills/illaoi_r/parameters/buff_duration_ms",
+      "skillKey": "illaoi_r",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "强化持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "来源8秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 50,
+      "method": "POST",
+      "route": "/skills/illaoi_r/parameters",
+      "detailRoute": "/skills/illaoi_r/parameters/bonus_ad_ratio",
+      "skillKey": "illaoi_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前树mStat2/mStatFormula2，系数0.5；按主负责人说明保留为额外攻击力。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 51,
+      "method": "POST",
+      "route": "/skills/illaoi_r/formulas",
+      "detailRoute": "/skills/illaoi_r/formulas/damage",
+      "skillKey": "illaoi_r",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "过界信仰本体物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "本体落地伤害=150/250/350+0.5×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 52,
+      "method": "POST",
+      "route": "/skills/illaoi_r/effects",
+      "detailRoute": "/skills/illaoi_r/effects/mana_cost",
+      "skillKey": "illaoi_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 53,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/parameters",
+      "detailRoute": "/skills/monkeyking_p/parameters/bonus_armor_at_character_level",
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "stableKey": "bonus_armor_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_armor_at_character_level",
+        "name": "等级护甲加成（实际输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "BonusArmor为6至10角色等级插值，中间算法未证；不带默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 54,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/parameters",
+      "detailRoute": "/skills/monkeyking_p/parameters/health_percent_per_5_ratio",
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "stableKey": "health_percent_per_5_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_percent_per_5_ratio",
+        "name": "每5秒最大生命回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0035000001,
+        "levelValues": null,
+        "description": "来源0.0035，比例本身按1表示100%。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 55,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/parameters",
+      "detailRoute": "/skills/monkeyking_p/parameters/stack_duration_ms",
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "stableKey": "stack_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stack_duration_ms",
+        "name": "额外层持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "来源5秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 56,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/parameters",
+      "detailRoute": "/skills/monkeyking_p/parameters/max_extra_stacks",
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "stableKey": "max_extra_stacks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_extra_stacks",
+        "name": "最多额外层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "最多5个额外层；基础层另计，最高为6倍。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 57,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/parameters",
+      "detailRoute": "/skills/monkeyking_p/parameters/stack_multiplier",
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "stableKey": "stack_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stack_multiplier",
+        "name": "每额外层基础倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "来源1，即每层增加100%基础效果。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 58,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/parameters",
+      "detailRoute": "/skills/monkeyking_p/parameters/combat_duration_ms",
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "stableKey": "combat_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "combat_duration_ms",
+        "name": "战斗窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "来源3秒转毫秒；触发资格事件待接。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 59,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/parameters",
+      "detailRoute": "/skills/monkeyking_p/parameters/tooltip_multiplier",
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "stableKey": "tooltip_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tooltip_multiplier",
+        "name": "展示护甲倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "来源6；最高5额外层加基础层共6倍。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 60,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/parameters",
+      "detailRoute": "/skills/monkeyking_p/parameters/health_regen_interval_ms",
+      "skillKey": "monkeyking_p",
+      "kind": "parameters",
+      "stableKey": "health_regen_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_regen_interval_ms",
+        "name": "生命回复间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前中文正文明确每5秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 61,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/formulas",
+      "detailRoute": "/skills/monkeyking_p/formulas/bonus_armor",
+      "skillKey": "monkeyking_p",
+      "kind": "formulas",
+      "stableKey": "bonus_armor",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_armor",
+        "name": "金刚不坏护甲加成",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "bonus_armor_at_character_level"
+        },
+        "description": "角色等级护甲实际输入，不猜6至10之间的插值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 62,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/formulas",
+      "detailRoute": "/skills/monkeyking_p/formulas/tooltip_max_armor",
+      "skillKey": "monkeyking_p",
+      "kind": "formulas",
+      "stableKey": "tooltip_max_armor",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "tooltip_max_armor",
+        "name": "金刚不坏最高护甲展示值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_armor_at_character_level"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "tooltip_multiplier"
+            }
+          ]
+        },
+        "description": "完整基础层与5个额外层共6倍。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 63,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/formulas",
+      "detailRoute": "/skills/monkeyking_p/formulas/health_regen_per_tick",
+      "skillKey": "monkeyking_p",
+      "kind": "formulas",
+      "stableKey": "health_regen_per_tick",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "health_regen_per_tick",
+        "name": "金刚不坏每次生命回复",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "health_percent_per_5_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "每5秒回复0.35%最大生命；触发事件待接。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 64,
+      "method": "POST",
+      "route": "/skills/monkeyking_p/effects",
+      "detailRoute": "/skills/monkeyking_p/effects/self_bonus_armor",
+      "skillKey": "monkeyking_p",
+      "kind": "effects",
+      "stableKey": "self_bonus_armor",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_bonus_armor",
+        "name": "金刚不坏自身护甲",
+        "description": "自身属性收益保留；等级实际值由运行输入提供。",
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": 100
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "金刚不坏自身护甲",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "bonus_armor"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": null,
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 65,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/parameters",
+      "detailRoute": "/skills/monkeyking_q/parameters/base_damage",
+      "skillKey": "monkeyking_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "额外物理伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 45,
+          "3": 70,
+          "4": 95,
+          "5": 120
+        },
+        "description": "来源20/45/70/95/120。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 66,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/parameters",
+      "detailRoute": "/skills/monkeyking_q/parameters/ad_ratio",
+      "skillKey": "monkeyking_q",
+      "kind": "parameters",
+      "stableKey": "ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ad_ratio",
+        "name": "总攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前树为0.5×来源总攻击力；主负责人标注为额外攻击力时仍按当前树留源。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 67,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/parameters",
+      "detailRoute": "/skills/monkeyking_q/parameters/armor_shred_ratio",
+      "skillKey": "monkeyking_q",
+      "kind": "parameters",
+      "stableKey": "armor_shred_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "armor_shred_ratio",
+        "name": "目标护甲降低比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.1000000015,
+          "2": 0.150000006,
+          "3": 0.200000003,
+          "4": 0.25,
+          "5": 0.3000000119
+        },
+        "description": "来源10%至30%，数组本身已是0.10至0.30比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 68,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/parameters",
+      "detailRoute": "/skills/monkeyking_q/parameters/shred_duration_ms",
+      "skillKey": "monkeyking_q",
+      "kind": "parameters",
+      "stableKey": "shred_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shred_duration_ms",
+        "name": "护甲降低持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "3秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 69,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/parameters",
+      "detailRoute": "/skills/monkeyking_q/parameters/buff_duration_ms",
+      "skillKey": "monkeyking_q",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "强化攻击窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "来源6秒，正文消费；触发/减冷却事件待接。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 70,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/parameters",
+      "detailRoute": "/skills/monkeyking_q/parameters/attack_range_bonus",
+      "skillKey": "monkeyking_q",
+      "kind": "parameters",
+      "stableKey": "attack_range_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_range_bonus",
+        "name": "额外攻击距离",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 135,
+          "2": 145,
+          "3": 155,
+          "4": 165,
+          "5": 175
+        },
+        "description": "来源135/145/155/165/175。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 71,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/parameters",
+      "detailRoute": "/skills/monkeyking_q/parameters/cooldown_decrease_ms",
+      "skillKey": "monkeyking_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_decrease_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_decrease_ms",
+        "name": "命中后冷却减少（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "来源0.5秒转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 72,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/formulas",
+      "detailRoute": "/skills/monkeyking_q/formulas/damage",
+      "skillKey": "monkeyking_q",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "粉碎打击额外物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalDamage/BonusDamageTT均为基础值+0.5×来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 73,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/formulas",
+      "detailRoute": "/skills/monkeyking_q/formulas/armor_shred_ratio",
+      "skillKey": "monkeyking_q",
+      "kind": "formulas",
+      "stableKey": "armor_shred_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "armor_shred_ratio",
+        "name": "粉碎打击护甲降低比例",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "armor_shred_ratio"
+        },
+        "description": "只保留目标护甲降低来源比例；目标属性效果待接。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 74,
+      "method": "POST",
+      "route": "/skills/monkeyking_q/effects",
+      "detailRoute": "/skills/monkeyking_q/effects/mana_cost",
+      "skillKey": "monkeyking_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 75,
+      "method": "POST",
+      "route": "/skills/monkeyking_w/parameters",
+      "detailRoute": "/skills/monkeyking_w/parameters/stealth_duration_ms",
+      "skillKey": "monkeyking_w",
+      "kind": "parameters",
+      "stableKey": "stealth_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stealth_duration_ms",
+        "name": "本体隐身持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1000,
+          "3": 1000,
+          "4": 1000,
+          "5": 1000
+        },
+        "description": "来源1秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 76,
+      "method": "POST",
+      "route": "/skills/monkeyking_w/parameters",
+      "detailRoute": "/skills/monkeyking_w/parameters/dash_speed",
+      "skillKey": "monkeyking_w",
+      "kind": "parameters",
+      "stableKey": "dash_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dash_speed",
+        "name": "本体突进速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 900,
+        "levelValues": null,
+        "description": "来源900；分身独立分支排除。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 77,
+      "method": "POST",
+      "route": "/skills/monkeyking_w/parameters",
+      "detailRoute": "/skills/monkeyking_w/parameters/cast_time_ms",
+      "skillKey": "monkeyking_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "根spellCastTime为0.25秒；不表示分身完成或命中时点。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 78,
+      "method": "POST",
+      "route": "/skills/monkeyking_w/effects",
+      "detailRoute": "/skills/monkeyking_w/effects/mana_cost",
+      "skillKey": "monkeyking_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 79,
+      "method": "POST",
+      "route": "/skills/monkeyking_e/parameters",
+      "detailRoute": "/skills/monkeyking_e/parameters/base_damage",
+      "skillKey": "monkeyking_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "当前敌人基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "来源80/120/160/200/240。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 80,
+      "method": "POST",
+      "route": "/skills/monkeyking_e/parameters",
+      "detailRoute": "/skills/monkeyking_e/parameters/ap_ratio",
+      "skillKey": "monkeyking_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": 1,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 20
+      }
+    },
+    {
+      "sequence": 81,
+      "method": "POST",
+      "route": "/skills/monkeyking_e/parameters",
+      "detailRoute": "/skills/monkeyking_e/parameters/attack_speed_ratio",
+      "skillKey": "monkeyking_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_ratio",
+        "name": "自身攻击速度增加比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.400000006,
+          "2": 0.4499999881,
+          "3": 0.5,
+          "4": 0.5500000119,
+          "5": 0.6000000238
+        },
+        "description": "来源0.40至0.60，比例本身按1表示100%；属性增量用平加区。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 82,
+      "method": "POST",
+      "route": "/skills/monkeyking_e/parameters",
+      "detailRoute": "/skills/monkeyking_e/parameters/attack_speed_duration_ms",
+      "skillKey": "monkeyking_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_duration_ms",
+        "name": "攻击速度持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "5秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 83,
+      "method": "POST",
+      "route": "/skills/monkeyking_e/formulas",
+      "detailRoute": "/skills/monkeyking_e/formulas/damage",
+      "skillKey": "monkeyking_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "腾云突击当前敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "本体当前敌人结果=基础值+1.0×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 84,
+      "method": "POST",
+      "route": "/skills/monkeyking_e/formulas",
+      "detailRoute": "/skills/monkeyking_e/formulas/attack_speed_ratio",
+      "skillKey": "monkeyking_e",
+      "kind": "formulas",
+      "stableKey": "attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "attack_speed_ratio",
+        "name": "腾云突击自身攻击速度增加",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "attack_speed_ratio"
+        },
+        "description": "来源0.40至0.60直接是系统比例；效果使用attribute_flat_add。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 85,
+      "method": "POST",
+      "route": "/skills/monkeyking_e/effects",
+      "detailRoute": "/skills/monkeyking_e/effects/self_attack_speed",
+      "skillKey": "monkeyking_e",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_attack_speed",
+        "name": "腾云突击自身攻击速度",
+        "description": "自身攻速增量保留；分身和额外敌人事件排除。",
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": 100
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "腾云突击自身攻击速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "attack_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "attack_speed_duration_ms",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 86,
+      "method": "POST",
+      "route": "/skills/monkeyking_e/effects",
+      "detailRoute": "/skills/monkeyking_e/effects/mana_cost",
+      "skillKey": "monkeyking_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 87,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/knockup_duration_ms",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "0.6秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 88,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/spin_duration_ms",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "spin_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "spin_duration_ms",
+        "name": "旋转持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "2秒转毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 89,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/move_speed_ratio",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_ratio",
+        "name": "自身移动速度增加比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.200000003,
+        "levelValues": null,
+        "description": "来源0.2，即20%；比例属性使用平加区。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 90,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/max_hp_damage_per_second_ratio",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "max_hp_damage_per_second_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_hp_damage_per_second_ratio",
+        "name": "目标最大生命每秒伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.0399999991,
+          "2": 0.0599999987,
+          "3": 0.0799999982
+        },
+        "description": "来源2/4/6%，数组已转为0.02/0.04/0.06比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 91,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/tick_interval_ms",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "tick_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tick_interval_ms",
+        "name": "每次伤害间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "0.25秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 92,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/recast_window_ms",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "recast_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recast_window_ms",
+        "name": "重放窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "8秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 93,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/recast_lockout_ms",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "recast_lockout_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recast_lockout_ms",
+        "name": "重放锁定间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "1秒转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 94,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/ad_ratio_per_second",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "ad_ratio_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ad_ratio_per_second",
+        "name": "每秒总攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.375,
+        "levelValues": null,
+        "description": "来源1.375×来源总攻击力。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 95,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/parameters",
+      "detailRoute": "/skills/monkeyking_r/parameters/seconds_to_ms_inverse",
+      "skillKey": "monkeyking_r",
+      "kind": "parameters",
+      "stableKey": "seconds_to_ms_inverse",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "seconds_to_ms_inverse",
+        "name": "毫秒转秒比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.001,
+        "levelValues": null,
+        "description": "毫秒转秒的固定换算比例。",
+        "sortOrder": 1000
+      }
+    },
+    {
+      "sequence": 96,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/formulas",
+      "detailRoute": "/skills/monkeyking_r/formulas/damage_per_second",
+      "skillKey": "monkeyking_r",
+      "kind": "formulas",
+      "stableKey": "damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "大闹天宫每秒物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_hp_damage_per_second_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ad_ratio_per_second"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "每秒=目标最大生命×2/4/6%+1.375×来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 97,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/formulas",
+      "detailRoute": "/skills/monkeyking_r/formulas/damage_per_tick",
+      "skillKey": "monkeyking_r",
+      "kind": "formulas",
+      "stableKey": "damage_per_tick",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_per_tick",
+        "name": "大闹天宫每跳物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_hp_damage_per_second_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ad_ratio_per_second"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tick_interval_ms"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "seconds_to_ms_inverse"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "每0.25秒伤害=每秒整段×0.25；0.001为毫秒转秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 98,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/formulas",
+      "detailRoute": "/skills/monkeyking_r/formulas/full_spin_damage",
+      "skillKey": "monkeyking_r",
+      "kind": "formulas",
+      "stableKey": "full_spin_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "full_spin_damage",
+        "name": "大闹天宫完整一段物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_hp_damage_per_second_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ad_ratio_per_second"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spin_duration_ms"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "seconds_to_ms_inverse"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "完整2秒=目标最大生命×8/12/16%+2.75×来源总攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 99,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/effects",
+      "detailRoute": "/skills/monkeyking_r/effects/self_move_speed",
+      "skillKey": "monkeyking_r",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "大闹天宫自身移动速度",
+        "description": "自身移动速度增量使用move_speed_percent的平加区；旋转期间持续。",
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": 100
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "大闹天宫自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "spin_duration_ms",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 100,
+      "method": "POST",
+      "route": "/skills/monkeyking_r/effects",
+      "detailRoute": "/skills/monkeyking_r/effects/mana_cost",
+      "skillKey": "monkeyking_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 101,
+      "method": "POST",
+      "route": "/skills/neeko_q/parameters",
+      "detailRoute": "/skills/neeko_q/parameters/zone_damage_base",
+      "skillKey": "neeko_q",
+      "kind": "parameters",
+      "stableKey": "zone_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "zone_damage_base",
+        "name": "首段基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 110,
+          "3": 160,
+          "4": 210,
+          "5": 260
+        },
+        "description": "来源60/110/160/210/260。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 102,
+      "method": "POST",
+      "route": "/skills/neeko_q/parameters",
+      "detailRoute": "/skills/neeko_q/parameters/secondary_damage_base",
+      "skillKey": "neeko_q",
+      "kind": "parameters",
+      "stableKey": "secondary_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "secondary_damage_base",
+        "name": "后续绽放基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 60,
+          "3": 85,
+          "4": 110,
+          "5": 135
+        },
+        "description": "来源35/60/85/110/135；最多两次后续。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 103,
+      "method": "POST",
+      "route": "/skills/neeko_q/parameters",
+      "detailRoute": "/skills/neeko_q/parameters/ap_ratio",
+      "skillKey": "neeko_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "首段法强倍率",
+        "valueType": 0.6000000238,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 30
+      }
+    },
+    {
+      "sequence": 104,
+      "method": "POST",
+      "route": "/skills/neeko_q/parameters",
+      "detailRoute": "/skills/neeko_q/parameters/secondary_ap_ratio",
+      "skillKey": "neeko_q",
+      "kind": "parameters",
+      "stableKey": "secondary_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "secondary_ap_ratio",
+        "name": "后续法强倍率",
+        "valueType": 0.25,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 40
+      }
+    },
+    {
+      "sequence": 105,
+      "method": "POST",
+      "route": "/skills/neeko_q/parameters",
+      "detailRoute": "/skills/neeko_q/parameters/repeat_delay_ms",
+      "skillKey": "neeko_q",
+      "kind": "parameters",
+      "stableKey": "repeat_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "repeat_delay_ms",
+        "name": "后续绽放间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "0.75秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 106,
+      "method": "POST",
+      "route": "/skills/neeko_q/parameters",
+      "detailRoute": "/skills/neeko_q/parameters/max_additional_blooms",
+      "skillKey": "neeko_q",
+      "kind": "parameters",
+      "stableKey": "max_additional_blooms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_additional_blooms",
+        "name": "最多额外绽放次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前中文正文明确最多额外盛开2次；同一敌人资格保留。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 107,
+      "method": "POST",
+      "route": "/skills/neeko_q/parameters",
+      "detailRoute": "/skills/neeko_q/parameters/cast_time_ms",
+      "skillKey": "neeko_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "根spellCastTime为0.25秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 108,
+      "method": "POST",
+      "route": "/skills/neeko_q/formulas",
+      "detailRoute": "/skills/neeko_q/formulas/first_damage",
+      "skillKey": "neeko_q",
+      "kind": "formulas",
+      "stableKey": "first_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "first_damage",
+        "name": "盛开花种首段魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "zone_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应ExplosionDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 109,
+      "method": "POST",
+      "route": "/skills/neeko_q/formulas",
+      "detailRoute": "/skills/neeko_q/formulas/repeat_damage",
+      "skillKey": "neeko_q",
+      "kind": "formulas",
+      "stableKey": "repeat_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "repeat_damage",
+        "name": "盛开花种后续魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "secondary_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "secondary_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应SecondDamage；同一敌人可重复命中，最多两次。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 110,
+      "method": "POST",
+      "route": "/skills/neeko_q/effects",
+      "detailRoute": "/skills/neeko_q/effects/mana_cost",
+      "skillKey": "neeko_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 111,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/mana_cost",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "description": "当前绑定的官方16.17.1基础法力消耗；公共参数不在此重复。",
+        "sortOrder": 810
+      }
+    },
+    {
+      "sequence": 112,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/passive_damage_base",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "passive_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_damage_base",
+        "name": "第三次攻击基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 65,
+          "3": 100,
+          "4": 135,
+          "5": 170
+        },
+        "description": "来源30/65/100/135/170。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 113,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/ap_ratio",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "被动伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6000000238,
+        "levelValues": null,
+        "description": "当前树NamedDataValue APRatio=0.6。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 114,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/passive_move_speed_points",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "passive_move_speed_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_move_speed_points",
+        "name": "被动移速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 17.5,
+          "3": 25,
+          "4": 32.5,
+          "5": 40
+        },
+        "description": "来源10/17.5/25/32.5/40百分数点；外层0.01转系统比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 115,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/passive_percent_scale",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "passive_percent_scale",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_percent_scale",
+        "name": "被动移速百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "百分数点到系统比例转换。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 116,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/passive_move_speed_duration_ms",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "passive_move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_move_speed_duration_ms",
+        "name": "被动移速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "1秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 117,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/active_move_speed_points",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "active_move_speed_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_move_speed_points",
+        "name": "主动移速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "description": "来源20/25/30/35/40百分数点；外层0.01转系统比例。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 118,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/active_percent_scale",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "active_percent_scale",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_percent_scale",
+        "name": "主动移速百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "百分数点到系统比例转换。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 119,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/active_move_speed_duration_ms",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "active_move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_move_speed_duration_ms",
+        "name": "主动移速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "3秒转毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 120,
+      "method": "POST",
+      "route": "/skills/neeko_w/parameters",
+      "detailRoute": "/skills/neeko_w/parameters/stealth_duration_ms",
+      "skillKey": "neeko_w",
+      "kind": "parameters",
+      "stableKey": "stealth_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stealth_duration_ms",
+        "name": "本体隐身持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "0.5秒转毫秒；独立分身排除。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 121,
+      "method": "POST",
+      "route": "/skills/neeko_w/formulas",
+      "detailRoute": "/skills/neeko_w/formulas/passive_damage",
+      "skillKey": "neeko_w",
+      "kind": "formulas",
+      "stableKey": "passive_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "passive_damage",
+        "name": "两生花影第三击魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应PassiveBonusDamageCalc。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 122,
+      "method": "POST",
+      "route": "/skills/neeko_w/formulas",
+      "detailRoute": "/skills/neeko_w/formulas/passive_move_speed",
+      "skillKey": "neeko_w",
+      "kind": "formulas",
+      "stableKey": "passive_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "passive_move_speed",
+        "name": "两生花影被动移速比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_percent_scale"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_move_speed_points"
+            }
+          ]
+        },
+        "description": "第三次攻击后自身移速增量；属性使用平加区。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 123,
+      "method": "POST",
+      "route": "/skills/neeko_w/formulas",
+      "detailRoute": "/skills/neeko_w/formulas/active_move_speed",
+      "skillKey": "neeko_w",
+      "kind": "formulas",
+      "stableKey": "active_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "active_move_speed",
+        "name": "两生花影主动移速比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_percent_scale"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_move_speed_points"
+            }
+          ]
+        },
+        "description": "主动本体移速增量；分身不建结果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 124,
+      "method": "POST",
+      "route": "/skills/neeko_w/effects",
+      "detailRoute": "/skills/neeko_w/effects/self_passive_move_speed",
+      "skillKey": "neeko_w",
+      "kind": "effects",
+      "stableKey": "self_passive_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_passive_move_speed",
+        "name": "两生花影被动自身移动速度",
+        "description": "第三次攻击后的自身增益；触发由事件层接线。",
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": 100
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "两生花影被动自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "passive_move_speed"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "passive_move_speed_duration_ms",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 125,
+      "method": "POST",
+      "route": "/skills/neeko_w/effects",
+      "detailRoute": "/skills/neeko_w/effects/self_active_move_speed",
+      "skillKey": "neeko_w",
+      "kind": "effects",
+      "stableKey": "self_active_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_active_move_speed",
+        "name": "两生花影主动自身移动速度",
+        "description": "主动本体自身增益；分身和镜像链排除。",
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": 110
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "两生花影主动自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "active_move_speed"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "active_move_speed_duration_ms",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 126,
+      "method": "POST",
+      "route": "/skills/neeko_w/effects",
+      "detailRoute": "/skills/neeko_w/effects/mana_cost",
+      "skillKey": "neeko_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能使用候选新增法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 127,
+      "method": "POST",
+      "route": "/skills/neeko_e/parameters",
+      "detailRoute": "/skills/neeko_e/parameters/damage_base",
+      "skillKey": "neeko_e",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "首个目标基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "来源70/105/140/175/210。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 128,
+      "method": "POST",
+      "route": "/skills/neeko_e/parameters",
+      "detailRoute": "/skills/neeko_e/parameters/ap_ratio",
+      "skillKey": "neeko_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": 0.6499999762,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 20
+      }
+    },
+    {
+      "sequence": 129,
+      "method": "POST",
+      "route": "/skills/neeko_e/parameters",
+      "detailRoute": "/skills/neeko_e/parameters/min_root_duration_ms",
+      "skillKey": "neeko_e",
+      "kind": "parameters",
+      "stableKey": "min_root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "min_root_duration_ms",
+        "name": "首个目标禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 700,
+          "2": 900,
+          "3": 1100,
+          "4": 1300,
+          "5": 1500
+        },
+        "description": "当前正文首个目标为0.7/0.9/1.1/1.3/1.5秒，转为毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 130,
+      "method": "POST",
+      "route": "/skills/neeko_e/parameters",
+      "detailRoute": "/skills/neeko_e/parameters/targets_required_for_empower",
+      "skillKey": "neeko_e",
+      "kind": "parameters",
+      "stableKey": "targets_required_for_empower",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "targets_required_for_empower",
+        "name": "强化所需前序目标数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前源值2；强化后续目标支路本轮排除。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 131,
+      "method": "POST",
+      "route": "/skills/neeko_e/parameters",
+      "detailRoute": "/skills/neeko_e/parameters/max_root_duration_ms",
+      "skillKey": "neeko_e",
+      "kind": "parameters",
+      "stableKey": "max_root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_root_duration_ms",
+        "name": "强化后续目标禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1800,
+          "2": 2100,
+          "3": 2400,
+          "4": 2700,
+          "5": 3000
+        },
+        "description": "来源1.8/2.1/2.4/2.7/3秒；仅作为被排除分支来源值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 132,
+      "method": "POST",
+      "route": "/skills/neeko_e/parameters",
+      "detailRoute": "/skills/neeko_e/parameters/cast_time_ms",
+      "skillKey": "neeko_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "根spellCastTime为0.25秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 133,
+      "method": "POST",
+      "route": "/skills/neeko_e/formulas",
+      "detailRoute": "/skills/neeko_e/formulas/damage",
+      "skillKey": "neeko_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "缠结倒刺本体魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应BaseDamage；本轮只保留首个目标。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 134,
+      "method": "POST",
+      "route": "/skills/neeko_e/formulas",
+      "detailRoute": "/skills/neeko_e/formulas/first_target_root_duration",
+      "skillKey": "neeko_e",
+      "kind": "formulas",
+      "stableKey": "first_target_root_duration",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "first_target_root_duration",
+        "name": "缠结倒刺首个目标禁锢",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "min_root_duration_ms"
+        },
+        "description": "首个目标第一次命中使用最小禁锢；强化后续目标需要额外敌人，排除。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 135,
+      "method": "POST",
+      "route": "/skills/neeko_e/effects",
+      "detailRoute": "/skills/neeko_e/effects/mana_cost",
+      "skillKey": "neeko_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 136,
+      "method": "POST",
+      "route": "/skills/neeko_r/parameters",
+      "detailRoute": "/skills/neeko_r/parameters/damage_base",
+      "skillKey": "neeko_r",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "本体基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 350,
+          "3": 550
+        },
+        "description": "来源150/350/550。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 137,
+      "method": "POST",
+      "route": "/skills/neeko_r/parameters",
+      "detailRoute": "/skills/neeko_r/parameters/ap_ratio",
+      "skillKey": "neeko_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": 1.2000000477,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 20
+      }
+    },
+    {
+      "sequence": 138,
+      "method": "POST",
+      "route": "/skills/neeko_r/parameters",
+      "detailRoute": "/skills/neeko_r/parameters/delay_until_explosion_ms",
+      "skillKey": "neeko_r",
+      "kind": "parameters",
+      "stableKey": "delay_until_explosion_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "delay_until_explosion_ms",
+        "name": "落地前击飞延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "来源0.6秒转毫秒；当前正文称先击飞再落地。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 139,
+      "method": "POST",
+      "route": "/skills/neeko_r/parameters",
+      "detailRoute": "/skills/neeko_r/parameters/stun_duration_ms",
+      "skillKey": "neeko_r",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "落地眩晕持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "0.75秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 140,
+      "method": "POST",
+      "route": "/skills/neeko_r/parameters",
+      "detailRoute": "/skills/neeko_r/parameters/passive_removal_delay_ms",
+      "skillKey": "neeko_r",
+      "kind": "parameters",
+      "stableKey": "passive_removal_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_removal_delay_ms",
+        "name": "施放后解除伪装延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "0.5秒转毫秒；伪装主体链排除，保留明确时长。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 141,
+      "method": "POST",
+      "route": "/skills/neeko_r/formulas",
+      "detailRoute": "/skills/neeko_r/formulas/damage",
+      "skillKey": "neeko_r",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "怒放本体魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalDamage；保留本体唯一敌方伤害数值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 142,
+      "method": "POST",
+      "route": "/skills/neeko_r/effects",
+      "detailRoute": "/skills/neeko_r/effects/mana_cost",
+      "skillKey": "neeko_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 143,
+      "method": "POST",
+      "route": "/skills/yuumi_p/parameters",
+      "detailRoute": "/skills/yuumi_p/parameters/heal_base_at_character_level",
+      "skillKey": "yuumi_p",
+      "kind": "parameters",
+      "stableKey": "heal_base_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_base_at_character_level",
+        "name": "命中治疗角色等级基础值（实际输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "HealAmount为20至110角色等级插值，中间曲线未知；不带默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 144,
+      "method": "POST",
+      "route": "/skills/yuumi_p/parameters",
+      "detailRoute": "/skills/yuumi_p/parameters/friend_heal_window_ms",
+      "skillKey": "yuumi_p",
+      "kind": "parameters",
+      "stableKey": "friend_heal_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "friend_heal_window_ms",
+        "name": "附身友军治疗转移窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "4秒是附身友军转移窗口，不是自身治疗延迟。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 145,
+      "method": "POST",
+      "route": "/skills/yuumi_p/parameters",
+      "detailRoute": "/skills/yuumi_p/parameters/pity_timer_ms",
+      "skillKey": "yuumi_p",
+      "kind": "parameters",
+      "stableKey": "pity_timer_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "pity_timer_ms",
+        "name": "友谊保底计时（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "来源6秒；友谊增长链排除。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 146,
+      "method": "POST",
+      "route": "/skills/yuumi_p/parameters",
+      "detailRoute": "/skills/yuumi_p/parameters/heal_ap_ratio",
+      "skillKey": "yuumi_p",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "治疗法强倍率",
+        "valueType": 0.3000000119,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 40
+      }
+    },
+    {
+      "sequence": 147,
+      "method": "POST",
+      "route": "/skills/yuumi_p/parameters",
+      "detailRoute": "/skills/yuumi_p/parameters/passive_cooldown_at_character_level",
+      "skillKey": "yuumi_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_cooldown_at_character_level",
+        "name": "被动冷却角色等级值（实际输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "起点20秒、逐级减1且14级空断点；断点后算法未知，不造18级映射。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 148,
+      "method": "POST",
+      "route": "/skills/yuumi_p/parameters",
+      "detailRoute": "/skills/yuumi_p/parameters/passive_cooldown_level1_ms",
+      "skillKey": "yuumi_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_level1_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_cooldown_level1_ms",
+        "name": "被动冷却一级值（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20000,
+        "levelValues": null,
+        "description": "来源PassiveCooldown树一级20秒；仅保存已知起点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 149,
+      "method": "POST",
+      "route": "/skills/yuumi_p/formulas",
+      "detailRoute": "/skills/yuumi_p/formulas/heal_amount",
+      "skillKey": "yuumi_p",
+      "kind": "formulas",
+      "stableKey": "heal_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "heal_amount",
+        "name": "猫的博爱自身治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_base_at_character_level"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "20至110角色等级基础实际输入+0.3×来源法强；自身治疗明确，附身友军转移另列待核。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 150,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/missile_damage_base",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "missile_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missile_damage_base",
+        "name": "普通飞弹基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200,
+          "6": 235
+        },
+        "description": "悠米Q最高六级，来源60/95/130/165/200/235。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 151,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/ap_ratio",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "普通飞弹法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.200000003,
+        "levelValues": null,
+        "description": "当前树系数0.2。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 152,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/empowered_damage_base",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "empowered_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_damage_base",
+        "name": "强化飞弹基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 135,
+          "3": 190,
+          "4": 245,
+          "5": 300,
+          "6": 355
+        },
+        "description": "来源80/135/190/245/300/355；强化资格依附状态待核。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 153,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/empowered_ap_ratio",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "empowered_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_ap_ratio",
+        "name": "强化飞弹法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3000000119,
+        "levelValues": null,
+        "description": "当前树系数0.3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 154,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/slow_percent_points",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "普通减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "当前正文消费20%；源字段SlowDuration另存于待核说明。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 155,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/empowered_slow_percent_points",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "empowered_slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_slow_percent_points",
+        "name": "强化减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 53,
+          "3": 56,
+          "4": 59,
+          "5": 62,
+          "6": 65
+        },
+        "description": "来源50/53/56/59/62/65；强化资格待核。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 156,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/empowered_slow_duration_ms",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "empowered_slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_slow_duration_ms",
+        "name": "强化减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "2秒转毫秒；当前正文明确强化分支。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 157,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/afterburner_time_ms",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "afterburner_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "afterburner_time_ms",
+        "name": "提速前导引时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1350,
+        "levelValues": null,
+        "description": "1.35秒转毫秒；附身导引资格待核。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 158,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/missile_lifetime_ms",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "missile_lifetime_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missile_lifetime_ms",
+        "name": "飞弹寿命（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1850,
+        "levelValues": null,
+        "description": "1.85秒转毫秒；根施法0不代表弹道瞬达。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 159,
+      "method": "POST",
+      "route": "/skills/yuumi_q/parameters",
+      "detailRoute": "/skills/yuumi_q/parameters/cast_time_ms",
+      "skillKey": "yuumi_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "根施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "根spellCastTime为0，仅表示施法阶段字段。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 160,
+      "method": "POST",
+      "route": "/skills/yuumi_q/formulas",
+      "detailRoute": "/skills/yuumi_q/formulas/normal_damage",
+      "skillKey": "yuumi_q",
+      "kind": "formulas",
+      "stableKey": "normal_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "normal_damage",
+        "name": "摸鱼飞弹普通魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missile_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "普通首个命中目标伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 161,
+      "method": "POST",
+      "route": "/skills/yuumi_q/formulas",
+      "detailRoute": "/skills/yuumi_q/formulas/empowered_damage",
+      "skillKey": "yuumi_q",
+      "kind": "formulas",
+      "stableKey": "empowered_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "empowered_damage",
+        "name": "摸鱼飞弹强化魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "empowered_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "强化飞弹伤害；附身资格不在独立1V1场景中擅自开启。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 162,
+      "method": "POST",
+      "route": "/skills/yuumi_q/effects",
+      "detailRoute": "/skills/yuumi_q/effects/mana_cost",
+      "skillKey": "yuumi_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 163,
+      "method": "POST",
+      "route": "/skills/yuumi_w/parameters",
+      "detailRoute": "/skills/yuumi_w/parameters/cooldown_ms",
+      "skillKey": "yuumi_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "description": "当前绑定的官方16.17.1基础冷却，单位转为毫秒；公共参数不在此重复。",
+        "sortOrder": 800
+      }
+    },
+    {
+      "sequence": 164,
+      "method": "POST",
+      "route": "/skills/yuumi_w/parameters",
+      "detailRoute": "/skills/yuumi_w/parameters/mana_cost",
+      "skillKey": "yuumi_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0
+        },
+        "description": "当前绑定的官方16.17.1基础法力消耗；公共参数不在此重复。",
+        "sortOrder": 810
+      }
+    },
+    {
+      "sequence": 165,
+      "method": "POST",
+      "route": "/skills/yuumi_w/parameters",
+      "detailRoute": "/skills/yuumi_w/parameters/attach_cooldown_ms_at_character_level",
+      "skillKey": "yuumi_w",
+      "kind": "parameters",
+      "stableKey": "attach_cooldown_ms_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attach_cooldown_ms_at_character_level",
+        "name": "附身冷却（角色等级，毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10000,
+          "2": 10000,
+          "3": 10000,
+          "4": 10000,
+          "5": 10000,
+          "6": 5000,
+          "7": 5000,
+          "8": 5000,
+          "9": 5000,
+          "10": 5000,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "17": 0,
+          "18": 0
+        },
+        "description": "当前断点明确1至5级10秒、6至10级5秒、11至18级0秒；完整角色等级映射。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 166,
+      "method": "POST",
+      "route": "/skills/yuumi_w/parameters",
+      "detailRoute": "/skills/yuumi_w/parameters/cc_attach_lockout_ms",
+      "skillKey": "yuumi_w",
+      "kind": "parameters",
+      "stableKey": "cc_attach_lockout_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cc_attach_lockout_ms",
+        "name": "定身后的附身锁定（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "计算树固定数字5秒转毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 167,
+      "method": "POST",
+      "route": "/skills/yuumi_w/parameters",
+      "detailRoute": "/skills/yuumi_w/parameters/heal_shield_power_ratio",
+      "skillKey": "yuumi_w",
+      "kind": "parameters",
+      "stableKey": "heal_shield_power_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_shield_power_ratio",
+        "name": "挚友附身治疗护盾强度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.0399999991,
+          "2": 0.0500000007,
+          "3": 0.0599999987,
+          "4": 0.0700000003,
+          "5": 0.0799999982
+        },
+        "description": "来源4%至8%，比例本身按1表示100%；第三友军资格保留为待核。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 168,
+      "method": "POST",
+      "route": "/skills/yuumi_w/parameters",
+      "detailRoute": "/skills/yuumi_w/parameters/health_on_hit_base",
+      "skillKey": "yuumi_w",
+      "kind": "parameters",
+      "stableKey": "health_on_hit_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_on_hit_base",
+        "name": "附身友军命中治疗基础值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "来源3/4/5/6/7；第三友军效果不建。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 169,
+      "method": "POST",
+      "route": "/skills/yuumi_w/parameters",
+      "detailRoute": "/skills/yuumi_w/parameters/health_on_hit_ap_ratio",
+      "skillKey": "yuumi_w",
+      "kind": "parameters",
+      "stableKey": "health_on_hit_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_on_hit_ap_ratio",
+        "name": "附身友军命中治疗法强倍率",
+        "valueType": 0.0299999993,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 50
+      }
+    },
+    {
+      "sequence": 170,
+      "method": "POST",
+      "route": "/skills/yuumi_w/formulas",
+      "detailRoute": "/skills/yuumi_w/formulas/health_on_hit",
+      "skillKey": "yuumi_w",
+      "kind": "formulas",
+      "stableKey": "health_on_hit",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "health_on_hit",
+        "name": "附身友军命中治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "health_on_hit_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "health_on_hit_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "只保存来源公式；目标是第三友军，效果不擅自改成自身。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 171,
+      "method": "POST",
+      "route": "/skills/yuumi_w/effects",
+      "detailRoute": "/skills/yuumi_w/effects/mana_cost",
+      "skillKey": "yuumi_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能使用候选新增法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 172,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/cooldown_ms",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10000,
+          "2": 10000,
+          "3": 10000,
+          "4": 10000,
+          "5": 10000
+        },
+        "description": "当前绑定的官方16.17.1基础冷却，单位转为毫秒；公共参数不在此重复。",
+        "sortOrder": 800
+      }
+    },
+    {
+      "sequence": 173,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/shield_base",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "自身基础护盾",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 65,
+          "2": 90,
+          "3": 115,
+          "4": 140,
+          "5": 165
+        },
+        "description": "来源65/90/115/140/165。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 174,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/shield_ap_ratio",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.400000006,
+        "levelValues": null,
+        "description": "当前TotalShielding树系数0.4。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 175,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/attack_speed_points",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_points",
+        "name": "攻击速度百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 27.5,
+          "3": 30,
+          "4": 32.5,
+          "5": 35
+        },
+        "description": "来源25/27.5/30/32.5/35百分数点；需乘0.01转系统比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 176,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/attack_speed_percent_scale",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_percent_scale",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_percent_scale",
+        "name": "攻击速度百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "百分数点到系统比例转换。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 177,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/move_speed_points",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "move_speed_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_points",
+        "name": "移动速度百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "来源20百分数点；需乘0.01转系统比例。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 178,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/move_speed_percent_scale",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "move_speed_percent_scale",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_percent_scale",
+        "name": "移动速度百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "百分数点到系统比例转换。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 179,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/attack_speed_duration_ms",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_duration_ms",
+        "name": "攻速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前正文明确攻速持续3秒；不据此推断护盾寿命。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 180,
+      "method": "POST",
+      "route": "/skills/yuumi_e/parameters",
+      "detailRoute": "/skills/yuumi_e/parameters/attack_speed_ap_points_ratio",
+      "skillKey": "yuumi_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_ap_points_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_ap_points_ratio",
+        "name": "攻击速度法强百分数点倍率",
+        "valueType": 0.0799999982,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 75
+      }
+    },
+    {
+      "sequence": 181,
+      "method": "POST",
+      "route": "/skills/yuumi_e/formulas",
+      "detailRoute": "/skills/yuumi_e/formulas/shield_value",
+      "skillKey": "yuumi_e",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "旺盛精力自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalShielding；附身转给第三友军的分支排除。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 182,
+      "method": "POST",
+      "route": "/skills/yuumi_e/formulas",
+      "detailRoute": "/skills/yuumi_e/formulas/attack_speed_ratio",
+      "skillKey": "yuumi_e",
+      "kind": "formulas",
+      "stableKey": "attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "attack_speed_ratio",
+        "name": "旺盛精力自身攻击速度增加",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_speed_percent_scale"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_speed_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_speed_ap_points_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "攻击速度=(25/27.5/30/32.5/35+0.08×法强)×0.01；效果使用bonus_attack_speed_percent的平加区。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 183,
+      "method": "POST",
+      "route": "/skills/yuumi_e/formulas",
+      "detailRoute": "/skills/yuumi_e/formulas/move_speed_ratio",
+      "skillKey": "yuumi_e",
+      "kind": "formulas",
+      "stableKey": "move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "move_speed_ratio",
+        "name": "旺盛精力自身移动速度增加",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "move_speed_percent_scale"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "move_speed_points"
+            }
+          ]
+        },
+        "description": "20百分数点×0.01=0.2系统比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 184,
+      "method": "POST",
+      "route": "/skills/yuumi_e/effects",
+      "detailRoute": "/skills/yuumi_e/effects/self_shield",
+      "skillKey": "yuumi_e",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "旺盛精力自身普通护盾",
+        "description": "未附身时自身护盾保留；护盾寿命未从3秒攻速时长推断。",
+        "sortOrder": 100,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "旺盛精力自身普通护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "普通护盾；触发和移除事件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 185,
+      "method": "POST",
+      "route": "/skills/yuumi_e/effects",
+      "detailRoute": "/skills/yuumi_e/effects/self_attack_speed",
+      "skillKey": "yuumi_e",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_attack_speed",
+        "name": "旺盛精力自身攻击速度",
+        "description": "正文明确3秒攻速；效果值已由百分数点转系统比例。",
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": 110
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "旺盛精力自身攻击速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "attack_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "attack_speed_duration_ms",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 186,
+      "method": "POST",
+      "route": "/skills/yuumi_e/effects",
+      "detailRoute": "/skills/yuumi_e/effects/self_move_speed",
+      "skillKey": "yuumi_e",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "旺盛精力自身移动速度",
+        "description": "移动速度仅在护盾存留时有效；护盾寿命与移速联动待接。",
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": 120
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "旺盛精力自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": null,
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 187,
+      "method": "POST",
+      "route": "/skills/yuumi_e/effects",
+      "detailRoute": "/skills/yuumi_e/effects/mana_cost",
+      "skillKey": "yuumi_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 188,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/base_missile_damage",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "base_missile_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_missile_damage",
+        "name": "首波基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 75,
+          "2": 125,
+          "3": 175
+        },
+        "description": "来源75/125/175。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 189,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/ap_ratio",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "波纹法强倍率",
+        "valueType": 0.25,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 20
+      }
+    },
+    {
+      "sequence": 190,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/subsequent_wave_multiplier",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "subsequent_wave_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "subsequent_wave_multiplier",
+        "name": "后续波纹伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "来源0.25；同一敌人后续每波使用整段25%。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 191,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/slow_duration_ms",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "1.25秒转毫秒；当前中文正文只写减速，不创建禁锢。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 192,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/channel_duration_ms",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "channel_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "channel_duration_ms",
+        "name": "引导持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3500,
+        "levelValues": null,
+        "description": "3.5秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 193,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/wave_count",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "wave_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "wave_count",
+        "name": "波纹数量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "来源5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 194,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/wave_interval_ms",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "wave_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "wave_interval_ms",
+        "name": "波纹间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "0.75秒转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 195,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/heal_base_per_wave",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "heal_base_per_wave",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_base_per_wave",
+        "name": "每波基础治疗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 50,
+          "3": 70
+        },
+        "description": "来源30/50/70；友军资格待核。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 196,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/heal_ap_ratio",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "每波治疗法强倍率",
+        "valueType": 0.1199999973,
+        "valueMode": "FIXED",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": 90
+      }
+    },
+    {
+      "sequence": 197,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/base_slow_ratio",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "base_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_slow_ratio",
+        "name": "首波减速源比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -0.1000000015,
+        "levelValues": null,
+        "description": "来源-0.1；文本转正显示10%，叠层起算待核。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 198,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/bonus_slow_per_wave_ratio",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "bonus_slow_per_wave_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_slow_per_wave_ratio",
+        "name": "每后续波减速增加源比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -0.1000000015,
+        "levelValues": null,
+        "description": "来源-0.1；文本转正显示每波10%。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 199,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/ally_healing_multiplier_at_character_level",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "ally_healing_multiplier_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ally_healing_multiplier_at_character_level",
+        "name": "挚友治疗倍率（实际输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "AllyHealingPerc角色等级断点在13级后斜率未证；第三友军分支不带默认。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 200,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/slow_source_sign",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "slow_source_sign",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_source_sign",
+        "name": "减速源值转正符号",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "BaseSlow和BonusSlowPerWave为负源值，显示效果使用乘-1；只记录来源口径。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "sequence": 201,
+      "method": "POST",
+      "route": "/skills/yuumi_r/parameters",
+      "detailRoute": "/skills/yuumi_r/parameters/one",
+      "skillKey": "yuumi_r",
+      "kind": "parameters",
+      "stableKey": "one",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "one",
+        "name": "单位一",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "公式常量；不表示业务默认输入。",
+        "sortOrder": 1000
+      }
+    },
+    {
+      "sequence": 202,
+      "method": "POST",
+      "route": "/skills/yuumi_r/formulas",
+      "detailRoute": "/skills/yuumi_r/formulas/missile_damage",
+      "skillKey": "yuumi_r",
+      "kind": "formulas",
+      "stableKey": "missile_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "missile_damage",
+        "name": "魔典终章单波魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_missile_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalMissileDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 203,
+      "method": "POST",
+      "route": "/skills/yuumi_r/formulas",
+      "detailRoute": "/skills/yuumi_r/formulas/subsequent_wave_damage",
+      "skillKey": "yuumi_r",
+      "kind": "formulas",
+      "stableKey": "subsequent_wave_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "subsequent_wave_damage",
+        "name": "魔典终章后续波纹同敌人伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_missile_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "subsequent_wave_multiplier"
+            }
+          ]
+        },
+        "description": "后续波纹对同一敌人的整段25%伤害。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 204,
+      "method": "POST",
+      "route": "/skills/yuumi_r/formulas",
+      "detailRoute": "/skills/yuumi_r/formulas/single_target_total_damage",
+      "skillKey": "yuumi_r",
+      "kind": "formulas",
+      "stableKey": "single_target_total_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "single_target_total_damage",
+        "name": "魔典终章同敌人完整伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_missile_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "SUBTRACT",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "wave_count"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "subsequent_wave_multiplier"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "5波同一敌人最大值=首波×(1+4×0.25)=2倍；没有禁锢结果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 205,
+      "method": "POST",
+      "route": "/skills/yuumi_r/formulas",
+      "detailRoute": "/skills/yuumi_r/formulas/heal_per_wave",
+      "skillKey": "yuumi_r",
+      "kind": "formulas",
+      "stableKey": "heal_per_wave",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "heal_per_wave",
+        "name": "魔典终章每波友军治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_base_per_wave"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "友军治疗来源公式；自身是否合资格待核。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 206,
+      "method": "POST",
+      "route": "/skills/yuumi_r/formulas",
+      "detailRoute": "/skills/yuumi_r/formulas/enhanced_heal_per_wave",
+      "skillKey": "yuumi_r",
+      "kind": "formulas",
+      "stableKey": "enhanced_heal_per_wave",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "enhanced_heal_per_wave",
+        "name": "魔典终章挚友每波治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ally_healing_multiplier_at_character_level"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_base_per_wave"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "第三友军挚友倍率保留为运行输入，不把友军文字解释成自身必含。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 207,
+      "method": "POST",
+      "route": "/skills/yuumi_r/effects",
+      "detailRoute": "/skills/yuumi_r/effects/mana_cost",
+      "skillKey": "yuumi_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "noApiCalls": true,
+  "apiWrites": 0
+}

@@ -1,0 +1,68 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "method": "POST",
+    "route": "/skills/monkeyking_p/effects",
+    "detailRoute": "/skills/monkeyking_p/effects/self_bonus_armor",
+    "skillKey": "monkeyking_p",
+    "kind": "effects",
+    "stableKey": "self_bonus_armor",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_bonus_armor",
+      "name": "金刚不坏自身护甲",
+      "description": "自身属性收益保留；等级实际值由运行输入提供。",
+      "sortOrder": 100,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "金刚不坏自身护甲",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义自身属性变化，触发条件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "bonus_armor"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "armor",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/monkeyking_p/parameters",
+    "detailRoute": "/skills/monkeyking_p/parameters/stack_duration_ms",
+    "skillKey": "monkeyking_p",
+    "kind": "parameters",
+    "stableKey": "stack_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_duration_ms",
+      "name": "额外层持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "来源5秒转毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

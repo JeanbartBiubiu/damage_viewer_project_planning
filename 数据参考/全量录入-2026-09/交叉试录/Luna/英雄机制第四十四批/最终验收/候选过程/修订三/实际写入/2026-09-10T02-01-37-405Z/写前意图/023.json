@@ -1,0 +1,23 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "method": "POST",
+    "route": "/skills/illaoi_w/formulas",
+    "detailRoute": "/skills/illaoi_w/formulas/minimum_damage",
+    "skillKey": "illaoi_w",
+    "kind": "formulas",
+    "stableKey": "minimum_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "minimum_damage",
+      "name": "严酷训诫百分比伤害最低值",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "w_min_damage"
+      },
+      "description": "单独保存最低值；实际伤害取最低值与目标最大生命×百分比公式的较大值。",
+      "sortOrder": 20
+    }
+  }
+}
