@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T02:27:48.518Z",
+  "generatedAt": "2026-09-10T02:55:33.627Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -4168,6 +4168,102 @@
         {
           "issue": "治疗取值时点必须明确",
           "detail": "俄洛伊被动使用猛击命中时已损生命；运行输入名称与描述一致。"
+        }
+      ],
+      "runtimeValidation": "未执行"
+    },
+    "heroFortyFifthBatch": {
+      "skills": [
+        "teemo_p",
+        "teemo_q",
+        "teemo_w",
+        "teemo_e",
+        "teemo_r",
+        "shaco_p",
+        "shaco_q",
+        "shaco_w",
+        "shaco_e",
+        "shaco_r",
+        "heimerdinger_p",
+        "heimerdinger_q",
+        "heimerdinger_w",
+        "heimerdinger_e",
+        "heimerdinger_r",
+        "zyra_p",
+        "zyra_q",
+        "zyra_w",
+        "zyra_e",
+        "zyra_r"
+      ],
+      "heroes": [
+        "Teemo",
+        "Shaco",
+        "Heimerdinger",
+        "Zyra"
+      ],
+      "parameters": 104,
+      "formulas": 23,
+      "effects": 15,
+      "newCounts": {
+        "parameters": 82,
+        "formulas": 23,
+        "effects": 15
+      },
+      "created": 120,
+      "businessWrites": 120,
+      "reusedParameters": 22,
+      "currentTotalComponents": 142,
+      "saveGETs": 912,
+      "independentGets": 336,
+      "protectedPaths": 194,
+      "detailChecks": 142,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 23,
+      "independentSourceCases": 46,
+      "independentMissingRejects": 6,
+      "independentBinaryChecks": 66,
+      "completeParameterArrays": 22,
+      "completeArrayValues": 115,
+      "typedReferences": 180,
+      "finiteChecks": 344,
+      "independentIntegerValues": 105,
+      "integerParameters": 66,
+      "millisecondParameters": 35,
+      "representativePages": 4,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
+      "planSha256": "e416d8b6bedadf3bfccaf51a3c68052e4361fe88f8be64661f1dc989dfdf1b05",
+      "executor": "Cursor来源复核、Luna Max候选和独立快照数学检查、主负责人修订保存与页面验收",
+      "status": "本轮来源明确组成已保存，独立回读、实际源值数学与四个代表页面通过；条件互斥、曲线和事件接线单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十五批/当前实录状态.json",
+        "sha256": "613a520a49dfcae83c4f25e5459aa78e2ee30159308f018f6eb3a3c1522420ab",
+        "commit": "15280b974bfef8aa18155a1511d5b72440ad6976"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十五批/最终验收/候选过程/修订一/页面验收.json",
+        "commit": "15280b974bfef8aa18155a1511d5b72440ad6976"
+      },
+      "experienceIssues": [
+        {
+          "issue": "同技能多个属性效果容易重复叠加",
+          "detail": "提莫W分别保存条件状态定义，主动替代被动的移除与恢复还需事件层接线，不能只靠效果名称理解。"
+        },
+        {
+          "issue": "完整普攻公式与额外伤害公式必须区分",
+          "detail": "萨科Q全段已经包含一次总攻击力，仍需与P背刺及其他附伤分开。"
+        },
+        {
+          "issue": "排除召唤不能漏掉本体条件收益",
+          "detail": "黑默丁格P近合资格目标时的自身20%移速保留；婕拉R直接伤害与独立植物伤害分开。"
+        },
+        {
+          "issue": "已排除技能不应遗留新增专用消耗",
+          "detail": "保存前移除萨科W法力及效果、黑默丁格Q炮台套件和法力及效果五项。"
         }
       ],
       "runtimeValidation": "未执行"
