@@ -1,0 +1,30 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 111,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/explosion_base_damage",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "explosion_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "explosion_base_damage",
+      "name": "结束爆炸基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 100,
+        "3": 120,
+        "4": 140,
+        "5": 160
+      },
+      "description": "当前根BaseDamage索引1至5为80/100/120/140/160；索引0=60不作技能1级。",
+      "sortOrder": 100
+    }
+  }
+}

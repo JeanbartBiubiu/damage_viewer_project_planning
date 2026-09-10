@@ -1,0 +1,31 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/jayce_q/parameters",
+    "detailRoute": "/skills/jayce_q/parameters/slow_percent_points",
+    "skillKey": "jayce_q",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "减速百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 34.999999404,
+        "2": 40.000000596,
+        "3": 44.999998808,
+        "4": 50,
+        "5": 55.000001192,
+        "6": 60.000002384
+      },
+      "description": "Slow原始为负比例，按正文Slow×-100转换为35/40/45/50/55/60百分数点。",
+      "sortOrder": 30
+    }
+  }
+}

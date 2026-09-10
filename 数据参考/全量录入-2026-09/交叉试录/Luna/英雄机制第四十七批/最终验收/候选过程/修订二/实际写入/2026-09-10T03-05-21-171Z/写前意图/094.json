@@ -1,0 +1,30 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 95,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/parameters",
+    "detailRoute": "/skills/shyvana_q/parameters/recast_duration_ms",
+    "skillKey": "shyvana_q",
+    "kind": "parameters",
+    "stableKey": "recast_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_duration_ms",
+      "name": "再施窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4000,
+        "2": 4000,
+        "3": 4000,
+        "4": 4000,
+        "5": 4000
+      },
+      "description": "当前根RecastDuration索引1至5均为4秒，转换为4000毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

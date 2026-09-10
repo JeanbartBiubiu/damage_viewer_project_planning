@@ -1,0 +1,24 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_e/parameters",
+    "detailRoute": "/skills/nidalee_e/parameters/max_heal_base_multiplier",
+    "skillKey": "nidalee_e",
+    "kind": "parameters",
+    "stableKey": "max_heal_base_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_heal_base_multiplier",
+      "name": "最大治疗固定倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "MaxHealing的SumOfSubParts第一项固定1。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 127,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_e/formulas",
+    "detailRoute": "/skills/shyvana_e/formulas/damage",
+    "skillKey": "shyvana_e",
+    "kind": "formulas",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage",
+      "name": "爆炎吐息火球基础魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage=基础值+DamageAPRatio×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

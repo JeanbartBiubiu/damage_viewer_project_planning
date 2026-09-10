@@ -1,0 +1,31 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/jayce_e/parameters",
+    "detailRoute": "/skills/jayce_e/parameters/target_max_health_damage_ratio",
+    "skillKey": "jayce_e",
+    "kind": "parameters",
+    "stableKey": "target_max_health_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_max_health_damage_ratio",
+      "name": "目标最大生命伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.079999998,
+        "2": 0.108000003,
+        "3": 0.136000007,
+        "4": 0.164000005,
+        "5": 0.192000002,
+        "6": 0.219999999
+      },
+      "description": "当前根PercHPDamage索引1至6为0.08/0.108/0.136/0.164/0.192/0.22。",
+      "sortOrder": 10
+    }
+  }
+}

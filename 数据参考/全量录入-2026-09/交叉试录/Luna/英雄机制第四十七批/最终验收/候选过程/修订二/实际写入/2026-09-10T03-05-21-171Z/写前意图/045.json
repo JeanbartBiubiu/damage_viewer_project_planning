@@ -1,0 +1,24 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_p/parameters",
+    "detailRoute": "/skills/nidalee_p/parameters/passive_move_speed_ratio",
+    "skillKey": "nidalee_p",
+    "kind": "parameters",
+    "stableKey": "passive_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_move_speed_ratio",
+      "name": "草丛或捕猎基础移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "当前R的PassivePercentMS=10百分数点；正文的人类被动和捕猎基础移速均读取该值。",
+      "sortOrder": 10
+    }
+  }
+}

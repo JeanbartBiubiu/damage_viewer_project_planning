@@ -1,0 +1,24 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/jayce_e/parameters",
+    "detailRoute": "/skills/jayce_e/parameters/bonus_ad_ratio",
+    "skillKey": "jayce_e",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "FlatDamage树mStat=2、mStatFormula=2、系数1，读取来源额外攻击力；没有固定基础值。",
+      "sortOrder": 20
+    }
+  }
+}

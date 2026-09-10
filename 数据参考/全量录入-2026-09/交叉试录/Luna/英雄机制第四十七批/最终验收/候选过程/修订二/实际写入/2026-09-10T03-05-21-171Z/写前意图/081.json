@@ -1,0 +1,24 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 82,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_p/parameters",
+    "detailRoute": "/skills/shyvana_p/parameters/champion_takedown_stack_gain",
+    "skillKey": "shyvana_p",
+    "kind": "parameters",
+    "stableKey": "champion_takedown_stack_gain",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "champion_takedown_stack_gain",
+      "name": "英雄参与击杀获得层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前根Stacks_Per_Champion=3；事件资格由运行层接线。",
+      "sortOrder": 30
+    }
+  }
+}

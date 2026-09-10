@@ -1,0 +1,24 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_e/formulas",
+    "detailRoute": "/skills/elise_e/formulas/stun_duration",
+    "skillKey": "elise_e",
+    "kind": "formulas",
+    "stableKey": "stun_duration",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "stun_duration",
+      "name": "结茧眩晕持续",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "stun_duration_ms"
+      },
+      "description": "TotalStunDuration直接读取BaseStunDuration；纯视野和蜘蛛形态盘丝不录。",
+      "sortOrder": 10
+    }
+  }
+}

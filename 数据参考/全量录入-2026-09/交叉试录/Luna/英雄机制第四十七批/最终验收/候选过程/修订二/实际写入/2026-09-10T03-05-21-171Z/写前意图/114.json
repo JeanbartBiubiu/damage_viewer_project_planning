@@ -1,0 +1,98 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 115,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/formulas",
+    "detailRoute": "/skills/shyvana_w/formulas/shield_total",
+    "skillKey": "shyvana_w",
+    "kind": "formulas",
+    "stableKey": "shield_total",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_total",
+      "name": "烈火圣盾最终护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "shield_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bonus_health_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "hp",
+                            "attributeValueKind": "BONUS"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "nearby_enemy_bonus_ratio"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "nearby_enemy_count"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "最终护盾=完整基础护盾+[完整基础护盾×0.3×合格敌人数]，敌人数只核对0或1。",
+      "sortOrder": 30
+    }
+  }
+}

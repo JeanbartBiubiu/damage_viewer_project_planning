@@ -1,0 +1,56 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_q/formulas",
+    "detailRoute": "/skills/nidalee_q/formulas/maximum_magic_damage",
+    "skillKey": "nidalee_q",
+    "kind": "formulas",
+    "stableKey": "maximum_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_magic_damage",
+      "name": "标枪最大魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minimum_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_damage_multiplier"
+          }
+        ]
+      },
+      "description": "HumanMaximumDamage=完整最小伤害式×3.25，距离曲线仅由运行层按已证规则接线。",
+      "sortOrder": 20
+    }
+  }
+}

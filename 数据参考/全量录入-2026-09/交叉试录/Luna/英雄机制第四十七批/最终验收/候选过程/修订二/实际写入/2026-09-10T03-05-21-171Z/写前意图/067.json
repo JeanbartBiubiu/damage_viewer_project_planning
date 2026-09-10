@@ -1,0 +1,24 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 67,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_e/parameters",
+    "detailRoute": "/skills/nidalee_e/parameters/max_heal_multiplier_bonus",
+    "skillKey": "nidalee_e",
+    "kind": "parameters",
+    "stableKey": "max_heal_multiplier_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_heal_multiplier_bonus",
+      "name": "生命损失治疗额外倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "MaxHealing的SumOfSubParts第二项MaxHealMult=1，与固定基准1相加。",
+      "sortOrder": 20
+    }
+  }
+}

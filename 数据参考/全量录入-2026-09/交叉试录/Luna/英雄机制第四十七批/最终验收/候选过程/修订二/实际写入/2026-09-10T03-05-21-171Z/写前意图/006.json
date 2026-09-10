@@ -1,0 +1,24 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_q/parameters",
+    "detailRoute": "/skills/elise_q/parameters/display_range",
+    "skillKey": "elise_q",
+    "kind": "parameters",
+    "stableKey": "display_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "display_range",
+      "name": "人类形态显示距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 615,
+      "levelValues": null,
+      "description": "当前根castRangeDisplayOverride=615；不与实际施法距离混用。",
+      "sortOrder": 60
+    }
+  }
+}

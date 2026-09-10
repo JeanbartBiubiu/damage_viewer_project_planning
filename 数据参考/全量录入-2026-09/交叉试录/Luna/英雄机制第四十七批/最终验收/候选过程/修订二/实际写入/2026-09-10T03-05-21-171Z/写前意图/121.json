@@ -1,0 +1,30 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 122,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_e/parameters",
+    "detailRoute": "/skills/shyvana_e/parameters/ap_ratio",
+    "skillKey": "shyvana_e",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "普通形态火球法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.600000024,
+        "2": 0.649999976,
+        "3": 0.699999988,
+        "4": 0.75,
+        "5": 0.800000012
+      },
+      "description": "当前根DamageAPRatio索引1至5为0.6/0.65/0.7/0.75/0.8。",
+      "sortOrder": 20
+    }
+  }
+}

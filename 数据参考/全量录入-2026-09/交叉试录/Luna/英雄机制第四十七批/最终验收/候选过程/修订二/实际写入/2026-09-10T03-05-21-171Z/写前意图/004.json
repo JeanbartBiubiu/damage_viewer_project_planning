@@ -1,0 +1,24 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_q/parameters",
+    "detailRoute": "/skills/elise_q/parameters/percent_point_ratio",
+    "skillKey": "elise_q",
+    "kind": "parameters",
+    "stableKey": "percent_point_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_point_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "HumanPercentHealth树mMultiplier=0.01；4百分数点先与0.03×法强相加，再乘0.01和目标当前生命。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_p/parameters",
+    "detailRoute": "/skills/nidalee_p/parameters/hunt_duration_ms",
+    "skillKey": "nidalee_p",
+    "kind": "parameters",
+    "stableKey": "hunt_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "hunt_duration_ms",
+      "name": "捕猎标记持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前被动正文写明捕猎状态持续4秒，精确换算为4000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

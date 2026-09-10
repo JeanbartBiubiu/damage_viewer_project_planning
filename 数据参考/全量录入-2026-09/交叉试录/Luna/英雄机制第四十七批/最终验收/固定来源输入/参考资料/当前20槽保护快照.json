@@ -1,0 +1,3629 @@
+{
+  "at": "2026-09-10T01:29:38.558Z",
+  "GETs": 193,
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_elise",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_elise",
+        "createdAt": "2026-09-06T17:09:26.515249Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "伊莉丝",
+        "updatedAt": "2026-09-06T17:09:26.515249Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_elise",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_elise",
+            "characterName": "伊莉丝",
+            "gameId": "lol",
+            "skillKey": "elise_p",
+            "skillName": "伊莉丝·蜘蛛女皇",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_elise",
+            "characterName": "伊莉丝",
+            "gameId": "lol",
+            "skillKey": "elise_q",
+            "skillName": "伊莉丝·神经毒素 / 剧毒之蜇",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_elise",
+            "characterName": "伊莉丝",
+            "gameId": "lol",
+            "skillKey": "elise_w",
+            "skillName": "伊莉丝·自爆蜘蛛 / 掠行狂暴",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_elise",
+            "characterName": "伊莉丝",
+            "gameId": "lol",
+            "skillKey": "elise_e",
+            "skillName": "伊莉丝·结茧 / 盘丝",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_elise",
+            "characterName": "伊莉丝",
+            "gameId": "lol",
+            "skillKey": "elise_r",
+            "skillName": "伊莉丝·蜘蛛形态",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_jayce",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_jayce",
+        "createdAt": "2026-09-06T17:14:52.453647Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "杰斯",
+        "updatedAt": "2026-09-06T17:14:52.453647Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_jayce",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_jayce",
+            "characterName": "杰斯",
+            "gameId": "lol",
+            "skillKey": "jayce_p",
+            "skillName": "杰斯·海克斯科技电容",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_jayce",
+            "characterName": "杰斯",
+            "gameId": "lol",
+            "skillKey": "jayce_q",
+            "skillName": "杰斯·苍穹之跃 / 电能震荡",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_jayce",
+            "characterName": "杰斯",
+            "gameId": "lol",
+            "skillKey": "jayce_w",
+            "skillName": "杰斯·闪电领域 / 超能电荷",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_jayce",
+            "characterName": "杰斯",
+            "gameId": "lol",
+            "skillKey": "jayce_e",
+            "skillName": "杰斯·雷霆一击 / 加速之门",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_jayce",
+            "characterName": "杰斯",
+            "gameId": "lol",
+            "skillKey": "jayce_r",
+            "skillName": "杰斯·墨丘利之炮 / 墨丘利之锤",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_nidalee",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_nidalee",
+        "createdAt": "2026-09-06T17:16:31.157Z",
+        "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+        "gameId": "lol",
+        "name": "奈德丽",
+        "updatedAt": "2026-09-06T17:16:31.157Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_nidalee",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_nidalee",
+            "characterName": "奈德丽",
+            "gameId": "lol",
+            "skillKey": "nidalee_p",
+            "skillName": "奈德丽·寻觅",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_nidalee",
+            "characterName": "奈德丽",
+            "gameId": "lol",
+            "skillKey": "nidalee_q",
+            "skillName": "奈德丽·标枪投掷 / 推倒",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_nidalee",
+            "characterName": "奈德丽",
+            "gameId": "lol",
+            "skillKey": "nidalee_w",
+            "skillName": "奈德丽·丛林伏击 / 猛扑",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_nidalee",
+            "characterName": "奈德丽",
+            "gameId": "lol",
+            "skillKey": "nidalee_e",
+            "skillName": "奈德丽·野性奔腾 / 挥击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_nidalee",
+            "characterName": "奈德丽",
+            "gameId": "lol",
+            "skillKey": "nidalee_r",
+            "skillName": "奈德丽·美洲狮形态",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_shyvana",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_shyvana",
+        "createdAt": "2026-09-06T17:42:08.357372Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "希瓦娜",
+        "updatedAt": "2026-09-06T17:42:08.357372Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_shyvana",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_shyvana",
+            "characterName": "希瓦娜",
+            "gameId": "lol",
+            "skillKey": "shyvana_p",
+            "skillName": "希瓦娜·龙鳞铁衣",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_shyvana",
+            "characterName": "希瓦娜",
+            "gameId": "lol",
+            "skillKey": "shyvana_q",
+            "skillName": "希瓦娜·焚焰打击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_shyvana",
+            "characterName": "希瓦娜",
+            "gameId": "lol",
+            "skillKey": "shyvana_w",
+            "skillName": "希瓦娜·烈火圣盾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_shyvana",
+            "characterName": "希瓦娜",
+            "gameId": "lol",
+            "skillKey": "shyvana_e",
+            "skillName": "希瓦娜·爆炎吐息",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_shyvana",
+            "characterName": "希瓦娜",
+            "gameId": "lol",
+            "skillKey": "shyvana_r",
+            "skillName": "希瓦娜·魔龙降世",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/elise_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:13.887754Z",
+        "description": "人类形态：每当伊莉丝的技能命中一名敌人时，就会有一只小蜘蛛准备就绪。<br><br>蜘蛛形态：普攻造成额外魔法伤害并回复自身生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "伊莉丝·蜘蛛女皇",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "elise_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:13.887754Z"
+      }
+    },
+    {
+      "route": "/skills/elise_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_elise_p",
+          "name": "elise_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/elise_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:14.176053Z",
+        "description": "人类形态：根据目标的当前生命值来造成伤害。<br><br>蜘蛛形态：戳刺目标，并根据目标已损失的生命值来造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "伊莉丝·神经毒素 / 剧毒之蜇",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "elise_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:14.176053Z"
+      }
+    },
+    {
+      "route": "/skills/elise_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_elise_q",
+          "name": "elise_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/elise_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:11.802934Z",
+          "description": "DDragon16.17.1 Elise.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "elise_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:11.802934Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:12.367051Z",
+          "description": "DDragon16.17.1 Elise.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 85,
+            "3": 90,
+            "4": 95,
+            "5": 100
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "elise_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:12.367051Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/elise_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:11.802934Z",
+        "description": "DDragon16.17.1 Elise.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "elise_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:11.802934Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/elise_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:12.367051Z",
+        "description": "DDragon16.17.1 Elise.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 85,
+          "3": 90,
+          "4": 95,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "elise_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:12.367051Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/elise_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:14.474446Z",
+        "description": "人类形态：召唤一个注满毒液的小蜘蛛，并在靠近目标时爆炸。<br><br>蜘蛛形态：伊莉丝和她的小蜘蛛们获得攻击速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "伊莉丝·自爆蜘蛛 / 掠行狂暴",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "elise_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:14.474446Z"
+      }
+    },
+    {
+      "route": "/skills/elise_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_elise_w",
+          "name": "elise_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/elise_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:13.039852Z",
+          "description": "DDragon16.17.1 Elise.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。爆炸蜘蛛的独立可受击对象属性尚不明确，机制范围局部待核；不凭召唤关键词排除已确证参数。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "elise_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:13.039852Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:13.557507Z",
+          "description": "DDragon16.17.1 Elise.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。爆炸蜘蛛的独立可受击对象属性尚不明确，机制范围局部待核；不凭召唤关键词排除已确证参数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 70,
+            "3": 80,
+            "4": 90,
+            "5": 100
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "elise_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:13.557507Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/elise_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:13.039852Z",
+        "description": "DDragon16.17.1 Elise.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。爆炸蜘蛛的独立可受击对象属性尚不明确，机制范围局部待核；不凭召唤关键词排除已确证参数。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "elise_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:13.039852Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/elise_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:13.557507Z",
+        "description": "DDragon16.17.1 Elise.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。爆炸蜘蛛的独立可受击对象属性尚不明确，机制范围局部待核；不凭召唤关键词排除已确证参数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "elise_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:13.557507Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/elise_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:14.724377Z",
+        "description": "人类形态：将命中的第一个敌人晕眩，如敌方未处于潜行状态则将其暴露在己方视野中。<br><br>蜘蛛形态：伊莉丝和她的小蜘蛛们拉升至半空中，随后降落到目标敌人身上。在降落到目标敌方处时，伊莉丝的来自蜘蛛形态的额外伤害和治疗效果都会提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "伊莉丝·结茧 / 盘丝",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "elise_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:14.724377Z"
+      }
+    },
+    {
+      "route": "/skills/elise_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_elise_e",
+          "name": "elise_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/elise_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:14.152253Z",
+          "description": "DDragon16.17.1 Elise.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11500,
+            "3": 11000,
+            "4": 10500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "elise_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:14.152253Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:14.706203Z",
+          "description": "DDragon16.17.1 Elise.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "elise_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:14.706203Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/elise_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:14.152253Z",
+        "description": "DDragon16.17.1 Elise.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "elise_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:14.152253Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/elise_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:14.706203Z",
+        "description": "DDragon16.17.1 Elise.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "elise_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:14.706203Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/elise_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:15.031017Z",
+        "description": "变成一只凶恶的蜘蛛，减少攻击距离，但获得移动速度加成、一套全新技能并且会有一群小蜘蛛来攻击她的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 4,
+        "name": "伊莉丝·蜘蛛形态",
+        "skillCategoryKeys": [],
+        "skillKey": "elise_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:15.031017Z"
+      }
+    },
+    {
+      "route": "/skills/elise_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_elise_r",
+          "name": "elise_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/elise_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:15.19867Z",
+          "description": "DDragon16.17.1 Elise.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留形态条件与被动自身治疗依赖；完整替换技能组和独立小蜘蛛后置。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "elise_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:15.19867Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/elise_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:15.19867Z",
+        "description": "DDragon16.17.1 Elise.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留形态条件与被动自身治疗依赖；完整替换技能组和独立小蜘蛛后置。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "elise_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:15.19867Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/elise_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/elise_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:42.666064Z",
+        "description": "每当杰斯切换武器时，他会获得短暂持续的移动速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "杰斯·海克斯科技电容",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "jayce_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:42.666064Z"
+      }
+    },
+    {
+      "route": "/skills/jayce_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_jayce_p",
+          "name": "jayce_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/jayce_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:42.924985Z",
+        "description": "锤形态：跳向一个敌人，对敌人造成物理伤害和减速效果。 <br><br>炮形态：发射一团电球，在命中一名敌人或者到达最大射程后爆炸，对命中的敌人造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 6,
+        "name": "杰斯·苍穹之跃 / 电能震荡",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jayce_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:42.924985Z"
+      }
+    },
+    {
+      "route": "/skills/jayce_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_jayce_q",
+          "name": "jayce_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/jayce_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:20.876295Z",
+          "description": "DDragon16.17.1 Jayce.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16000,
+            "2": 14000,
+            "3": 12000,
+            "4": 10000,
+            "5": 8000,
+            "6": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "jayce_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:20.876295Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:21.315665Z",
+          "description": "DDragon16.17.1 Jayce.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "jayce_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:21.315665Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/jayce_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:20.876295Z",
+        "description": "DDragon16.17.1 Jayce.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 14000,
+          "3": 12000,
+          "4": 10000,
+          "5": 8000,
+          "6": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jayce_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:20.876295Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/jayce_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:21.315665Z",
+        "description": "DDragon16.17.1 Jayce.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jayce_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:21.315665Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/jayce_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:43.240333Z",
+        "description": "锤形态：被动：每次攻击回复法力。主动：创造一个闪电领域，在数秒内对附近的敌人造成伤害。<br><br>炮形态：杰斯的活力暴涨，将攻击速度提升至最大值，此效果在若干次攻击后消失。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 6,
+        "name": "杰斯·闪电领域 / 超能电荷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jayce_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:43.240333Z"
+      }
+    },
+    {
+      "route": "/skills/jayce_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_jayce_w",
+          "name": "jayce_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/jayce_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:21.826367Z",
+          "description": "DDragon16.17.1 Jayce.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "jayce_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:21.826367Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/jayce_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:21.826367Z",
+        "description": "DDragon16.17.1 Jayce.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jayce_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:21.826367Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/jayce_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:43.532426Z",
+        "description": "锤形态：对一个敌人造成魔法伤害，并将目标击退一小段距离。<br><br>炮形态：展开一个加速之门，所有穿过它的友军英雄都会得到移动速度加成。如果电能震荡穿过这个门发射，那么它的弹道速度和射程都会得到提高，并且伤害会提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 6,
+        "name": "杰斯·雷霆一击 / 加速之门",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jayce_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:43.532426Z"
+      }
+    },
+    {
+      "route": "/skills/jayce_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_jayce_e",
+          "name": "jayce_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/jayce_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:22.258083Z",
+          "description": "DDragon16.17.1 Jayce.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 18000,
+            "3": 16000,
+            "4": 14000,
+            "5": 12000,
+            "6": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "jayce_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:22.258083Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:22.795945Z",
+          "description": "DDragon16.17.1 Jayce.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 55,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "jayce_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:22.795945Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/jayce_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:22.258083Z",
+        "description": "DDragon16.17.1 Jayce.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000,
+          "6": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jayce_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:22.258083Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/jayce_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:22.795945Z",
+        "description": "DDragon16.17.1 Jayce.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jayce_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:22.795945Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/jayce_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:43.882618Z",
+        "description": "锤形态：将墨丘利之锤变成墨丘利之炮，获得新的技能和远程攻击能力。切换至这个形态后的第一下攻击将会减少目标的护甲和魔法抗性。<br><br>炮形态：将墨丘利之炮变成墨丘利之锤，获得新的技能和护甲与魔法抗性加成，切换至这个形态后的第一下攻击将会造成额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "杰斯·墨丘利之炮 / 墨丘利之锤",
+        "skillCategoryKeys": [],
+        "skillKey": "jayce_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:43.882618Z"
+      }
+    },
+    {
+      "route": "/skills/jayce_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_jayce_r",
+          "name": "jayce_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/jayce_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:23.318458Z",
+          "description": "DDragon16.17.1 Jayce.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留下次攻击削减双抗等本体组成，完整形态组后置。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "jayce_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:23.318458Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/jayce_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:23.318458Z",
+        "description": "DDragon16.17.1 Jayce.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留下次攻击削减双抗等本体组成，完整形态组后置。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jayce_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:23.318458Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/jayce_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/jayce_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:38.216179Z",
+        "description": "在穿越草丛进行移动时，奈德丽的移动速度会提升10%，持续2秒，并在朝着1400码内的出现在己方视野内的敌方英雄进行移动时，移动速度加成会提升至30%。<br><br>在【Q标枪投掷】或【W丛林伏击】对敌方英雄或野怪造成伤害后，奈德丽会开始<font color='#FFF673'>捕猎</font>目标英雄，提供其<font color='#ee91d7'>真实视野</font>，持续4秒。在此期间，奈德丽获得10%移动速度加成（在她朝着<font color='#FFF673'>被捕猎</font>的目标移动时，这个加成会提升至30%）并且她的【Q推倒】和【W猛扑】会对这些目标造成强化伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "奈德丽·寻觅",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nidalee_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:38.216179Z"
+      }
+    },
+    {
+      "route": "/skills/nidalee_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nidalee_p",
+          "name": "nidalee_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/nidalee_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:38.478151Z",
+        "description": "人类形态下，奈德丽向她的目标投掷标枪，飞行中击中目标造成伤害。美洲狮形态下，她的下一次攻击会试图对目标造成致命伤害，目标的生命值越低，造成的伤害越大。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奈德丽·标枪投掷 / 推倒",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nidalee_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:38.478151Z"
+      }
+    },
+    {
+      "route": "/skills/nidalee_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nidalee_q",
+          "name": "nidalee_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/nidalee_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:53.517324Z",
+          "description": "DDragon16.17.1 Nidalee.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nidalee_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:53.517324Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:53.968391Z",
+          "description": "DDragon16.17.1 Nidalee.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nidalee_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:53.968391Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nidalee_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:53.517324Z",
+        "description": "DDragon16.17.1 Nidalee.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nidalee_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:53.517324Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nidalee_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:53.968391Z",
+        "description": "DDragon16.17.1 Nidalee.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nidalee_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:53.968391Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nidalee_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:38.77374Z",
+        "description": "人类形态下， 奈德丽会对指定位置放置一个陷阱，踩中陷阱的单位的视野将会被暴露给奈德丽，并持续受到伤害。美洲狮形态下，她会猛扑向目标，落地时造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奈德丽·丛林伏击 / 猛扑",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nidalee_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:38.77374Z"
+      }
+    },
+    {
+      "route": "/skills/nidalee_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nidalee_w",
+          "name": "nidalee_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/nidalee_w/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:39.011138Z",
+        "description": "人类形态下，奈德丽引导美洲狮的灵魂以治疗友方单位，并且短暂提升他们的攻击速度。美洲狮形态下，她迅速的挥爪攻击她面前的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奈德丽·野性奔腾 / 挥击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nidalee_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.011138Z"
+      }
+    },
+    {
+      "route": "/skills/nidalee_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nidalee_e",
+          "name": "nidalee_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/nidalee_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:54.45337Z",
+          "description": "DDragon16.17.1 Nidalee.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nidalee_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:54.45337Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:54.967879Z",
+          "description": "DDragon16.17.1 Nidalee.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nidalee_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:54.967879Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nidalee_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:54.45337Z",
+        "description": "DDragon16.17.1 Nidalee.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nidalee_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:54.45337Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nidalee_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:54.967879Z",
+        "description": "DDragon16.17.1 Nidalee.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nidalee_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:54.967879Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nidalee_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:39.26416Z",
+        "description": "奈德丽转变成美洲狮形态，获得全新技能。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 4,
+        "name": "奈德丽·美洲狮形态",
+        "skillCategoryKeys": [],
+        "skillKey": "nidalee_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.26416Z"
+      }
+    },
+    {
+      "route": "/skills/nidalee_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nidalee_r",
+          "name": "nidalee_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/nidalee_r/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nidalee_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:18.783382Z",
+        "description": "参与击杀敌方英雄、大型小兵和大型野怪后，希瓦娜会获得【龙鳞铁衣】层数，从而改进她的防御属性。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "希瓦娜·龙鳞铁衣",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "shyvana_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:18.783382Z"
+      }
+    },
+    {
+      "route": "/skills/shyvana_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_shyvana_p",
+          "name": "shyvana_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/shyvana_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:19.076033Z",
+        "description": "希瓦娜的下次攻击会打击目标和周围区域。这个技能可以再次施放。在【魔龙形态】下，它提供一次额外的再次施放，对单体目标造成巨额伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "希瓦娜·焚焰打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "shyvana_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.076033Z"
+      }
+    },
+    {
+      "route": "/skills/shyvana_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_shyvana_q",
+          "name": "shyvana_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/shyvana_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:08.742621Z",
+          "description": "DDragon16.17.1 Shyvana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "shyvana_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:08.742621Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/shyvana_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:08.742621Z",
+        "description": "DDragon16.17.1 Shyvana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shyvana_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:08.742621Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/shyvana_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:19.306561Z",
+        "description": "希瓦娜获得一个护盾和移动速度，并在短暂延迟后，她周围的区域会被引爆。在【魔龙形态】下，这次爆炸如果击中一个敌方英雄，则会治疗希瓦娜。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "希瓦娜·烈火圣盾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "shyvana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.306561Z"
+      }
+    },
+    {
+      "route": "/skills/shyvana_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_shyvana_w",
+          "name": "shyvana_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/shyvana_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:09.231744Z",
+          "description": "DDragon16.17.1 Shyvana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 13000,
+            "2": 12250,
+            "3": 11500,
+            "4": 10750,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "shyvana_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:09.231744Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/shyvana_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:09.231744Z",
+        "description": "DDragon16.17.1 Shyvana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12250,
+          "3": 11500,
+          "4": 10750,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shyvana_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:09.231744Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/shyvana_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:19.57729Z",
+        "description": "希瓦娜发射一团火球，火球在击中一个大型目标时爆炸并将其减速。在【魔龙形态】下，它会穿过敌人并在击中大型目标时爆炸，还会留下一条烈焰轨迹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "希瓦娜·爆炎吐息",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "shyvana_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.57729Z"
+      }
+    },
+    {
+      "route": "/skills/shyvana_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_shyvana_e",
+          "name": "shyvana_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/shyvana_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:09.829601Z",
+          "description": "DDragon16.17.1 Shyvana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "shyvana_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:09.829601Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/shyvana_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:09.829601Z",
+        "description": "DDragon16.17.1 Shyvana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shyvana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:09.829601Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/shyvana_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:19.900163Z",
+        "description": "希瓦娜变形成一头魔龙并向前跳跃来使途经的敌人们因恐惧而逃跑。在【魔龙形态】下，她的体型变得更大并且她的基础技能都会获得强化。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "希瓦娜·魔龙降世",
+        "skillCategoryKeys": [],
+        "skillKey": "shyvana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.900163Z"
+      }
+    },
+    {
+      "route": "/skills/shyvana_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_shyvana_r",
+          "name": "shyvana_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/shyvana_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:10.371725Z",
+          "description": "DDragon16.17.1 Shyvana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。基础冷却零且当前根不消费冷却；仍要求100龙怒，初始伤害及自身生命收益保留。",
+          "fixedValue": 0,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "shyvana_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:10.371725Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/shyvana_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:10.371725Z",
+        "description": "DDragon16.17.1 Shyvana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。基础冷却零且当前根不消费冷却；仍要求100龙怒，初始伤害及自身生命收益保留。",
+        "fixedValue": 0,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shyvana_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:10.371725Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/shyvana_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/shyvana_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "summary": {
+    "elise_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:13.887754Z",
+        "description": "人类形态：每当伊莉丝的技能命中一名敌人时，就会有一只小蜘蛛准备就绪。<br><br>蜘蛛形态：普攻造成额外魔法伤害并回复自身生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "伊莉丝·蜘蛛女皇",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "elise_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:13.887754Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "elise_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:14.176053Z",
+        "description": "人类形态：根据目标的当前生命值来造成伤害。<br><br>蜘蛛形态：戳刺目标，并根据目标已损失的生命值来造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "伊莉丝·神经毒素 / 剧毒之蜇",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "elise_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:14.176053Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:11.802934Z",
+            "description": "DDragon16.17.1 Elise.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 6000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "elise_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:11.802934Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:12.367051Z",
+            "description": "DDragon16.17.1 Elise.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 80,
+              "2": 85,
+              "3": 90,
+              "4": 95,
+              "5": 100
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "elise_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:12.367051Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "elise_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:14.474446Z",
+        "description": "人类形态：召唤一个注满毒液的小蜘蛛，并在靠近目标时爆炸。<br><br>蜘蛛形态：伊莉丝和她的小蜘蛛们获得攻击速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "伊莉丝·自爆蜘蛛 / 掠行狂暴",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "elise_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:14.474446Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:13.039852Z",
+            "description": "DDragon16.17.1 Elise.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。爆炸蜘蛛的独立可受击对象属性尚不明确，机制范围局部待核；不凭召唤关键词排除已确证参数。",
+            "fixedValue": 12000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "elise_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:13.039852Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:13.557507Z",
+            "description": "DDragon16.17.1 Elise.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。爆炸蜘蛛的独立可受击对象属性尚不明确，机制范围局部待核；不凭召唤关键词排除已确证参数。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 70,
+              "3": 80,
+              "4": 90,
+              "5": 100
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "elise_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:13.557507Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "elise_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:14.724377Z",
+        "description": "人类形态：将命中的第一个敌人晕眩，如敌方未处于潜行状态则将其暴露在己方视野中。<br><br>蜘蛛形态：伊莉丝和她的小蜘蛛们拉升至半空中，随后降落到目标敌人身上。在降落到目标敌方处时，伊莉丝的来自蜘蛛形态的额外伤害和治疗效果都会提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "伊莉丝·结茧 / 盘丝",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "elise_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:14.724377Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:14.152253Z",
+            "description": "DDragon16.17.1 Elise.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 11500,
+              "3": 11000,
+              "4": 10500,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "elise_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:14.152253Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:14.706203Z",
+            "description": "DDragon16.17.1 Elise.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 50,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "elise_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:14.706203Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "elise_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:15.031017Z",
+        "description": "变成一只凶恶的蜘蛛，减少攻击距离，但获得移动速度加成、一套全新技能并且会有一群小蜘蛛来攻击她的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 4,
+        "name": "伊莉丝·蜘蛛形态",
+        "skillCategoryKeys": [],
+        "skillKey": "elise_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:15.031017Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:15.19867Z",
+            "description": "DDragon16.17.1 Elise.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留形态条件与被动自身治疗依赖；完整替换技能组和独立小蜘蛛后置。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "elise_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:15.19867Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jayce_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:42.666064Z",
+        "description": "每当杰斯切换武器时，他会获得短暂持续的移动速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "杰斯·海克斯科技电容",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "jayce_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:42.666064Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jayce_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:42.924985Z",
+        "description": "锤形态：跳向一个敌人，对敌人造成物理伤害和减速效果。 <br><br>炮形态：发射一团电球，在命中一名敌人或者到达最大射程后爆炸，对命中的敌人造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 6,
+        "name": "杰斯·苍穹之跃 / 电能震荡",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jayce_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:42.924985Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:20.876295Z",
+            "description": "DDragon16.17.1 Jayce.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 16000,
+              "2": 14000,
+              "3": 12000,
+              "4": 10000,
+              "5": 8000,
+              "6": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "jayce_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:20.876295Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:21.315665Z",
+            "description": "DDragon16.17.1 Jayce.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "jayce_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:21.315665Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jayce_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:43.240333Z",
+        "description": "锤形态：被动：每次攻击回复法力。主动：创造一个闪电领域，在数秒内对附近的敌人造成伤害。<br><br>炮形态：杰斯的活力暴涨，将攻击速度提升至最大值，此效果在若干次攻击后消失。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 6,
+        "name": "杰斯·闪电领域 / 超能电荷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jayce_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:43.240333Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:21.826367Z",
+            "description": "DDragon16.17.1 Jayce.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "jayce_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:21.826367Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jayce_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:43.532426Z",
+        "description": "锤形态：对一个敌人造成魔法伤害，并将目标击退一小段距离。<br><br>炮形态：展开一个加速之门，所有穿过它的友军英雄都会得到移动速度加成。如果电能震荡穿过这个门发射，那么它的弹道速度和射程都会得到提高，并且伤害会提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 6,
+        "name": "杰斯·雷霆一击 / 加速之门",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jayce_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:43.532426Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:22.258083Z",
+            "description": "DDragon16.17.1 Jayce.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 20000,
+              "2": 18000,
+              "3": 16000,
+              "4": 14000,
+              "5": 12000,
+              "6": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "jayce_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:22.258083Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:22.795945Z",
+            "description": "DDragon16.17.1 Jayce.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 55,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "jayce_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:22.795945Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "jayce_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:43.882618Z",
+        "description": "锤形态：将墨丘利之锤变成墨丘利之炮，获得新的技能和远程攻击能力。切换至这个形态后的第一下攻击将会减少目标的护甲和魔法抗性。<br><br>炮形态：将墨丘利之炮变成墨丘利之锤，获得新的技能和护甲与魔法抗性加成，切换至这个形态后的第一下攻击将会造成额外的魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "杰斯·墨丘利之炮 / 墨丘利之锤",
+        "skillCategoryKeys": [],
+        "skillKey": "jayce_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:43.882618Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:23.318458Z",
+            "description": "DDragon16.17.1 Jayce.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留下次攻击削减双抗等本体组成，完整形态组后置。",
+            "fixedValue": 6000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "jayce_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:23.318458Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nidalee_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:38.216179Z",
+        "description": "在穿越草丛进行移动时，奈德丽的移动速度会提升10%，持续2秒，并在朝着1400码内的出现在己方视野内的敌方英雄进行移动时，移动速度加成会提升至30%。<br><br>在【Q标枪投掷】或【W丛林伏击】对敌方英雄或野怪造成伤害后，奈德丽会开始<font color='#FFF673'>捕猎</font>目标英雄，提供其<font color='#ee91d7'>真实视野</font>，持续4秒。在此期间，奈德丽获得10%移动速度加成（在她朝着<font color='#FFF673'>被捕猎</font>的目标移动时，这个加成会提升至30%）并且她的【Q推倒】和【W猛扑】会对这些目标造成强化伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "奈德丽·寻觅",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nidalee_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:38.216179Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nidalee_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:38.478151Z",
+        "description": "人类形态下，奈德丽向她的目标投掷标枪，飞行中击中目标造成伤害。美洲狮形态下，她的下一次攻击会试图对目标造成致命伤害，目标的生命值越低，造成的伤害越大。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奈德丽·标枪投掷 / 推倒",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nidalee_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:38.478151Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:53.517324Z",
+            "description": "DDragon16.17.1 Nidalee.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 6000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "nidalee_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:53.517324Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:53.968391Z",
+            "description": "DDragon16.17.1 Nidalee.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nidalee_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:53.968391Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nidalee_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:38.77374Z",
+        "description": "人类形态下， 奈德丽会对指定位置放置一个陷阱，踩中陷阱的单位的视野将会被暴露给奈德丽，并持续受到伤害。美洲狮形态下，她会猛扑向目标，落地时造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奈德丽·丛林伏击 / 猛扑",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nidalee_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:38.77374Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nidalee_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:39.011138Z",
+        "description": "人类形态下，奈德丽引导美洲狮的灵魂以治疗友方单位，并且短暂提升他们的攻击速度。美洲狮形态下，她迅速的挥爪攻击她面前的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奈德丽·野性奔腾 / 挥击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nidalee_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.011138Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:54.45337Z",
+            "description": "DDragon16.17.1 Nidalee.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 12000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "nidalee_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:54.45337Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:54.967879Z",
+            "description": "DDragon16.17.1 Nidalee.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nidalee_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:54.967879Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nidalee_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:39.26416Z",
+        "description": "奈德丽转变成美洲狮形态，获得全新技能。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 4,
+        "name": "奈德丽·美洲狮形态",
+        "skillCategoryKeys": [],
+        "skillKey": "nidalee_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.26416Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "shyvana_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:18.783382Z",
+        "description": "参与击杀敌方英雄、大型小兵和大型野怪后，希瓦娜会获得【龙鳞铁衣】层数，从而改进她的防御属性。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "希瓦娜·龙鳞铁衣",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "shyvana_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:18.783382Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "shyvana_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:19.076033Z",
+        "description": "希瓦娜的下次攻击会打击目标和周围区域。这个技能可以再次施放。在【魔龙形态】下，它提供一次额外的再次施放，对单体目标造成巨额伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "希瓦娜·焚焰打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "shyvana_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.076033Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:08.742621Z",
+            "description": "DDragon16.17.1 Shyvana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 10000,
+              "2": 9000,
+              "3": 8000,
+              "4": 7000,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "shyvana_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:08.742621Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "shyvana_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:19.306561Z",
+        "description": "希瓦娜获得一个护盾和移动速度，并在短暂延迟后，她周围的区域会被引爆。在【魔龙形态】下，这次爆炸如果击中一个敌方英雄，则会治疗希瓦娜。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "希瓦娜·烈火圣盾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "shyvana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.306561Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:09.231744Z",
+            "description": "DDragon16.17.1 Shyvana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 13000,
+              "2": 12250,
+              "3": 11500,
+              "4": 10750,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "shyvana_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:09.231744Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "shyvana_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:19.57729Z",
+        "description": "希瓦娜发射一团火球，火球在击中一个大型目标时爆炸并将其减速。在【魔龙形态】下，它会穿过敌人并在击中大型目标时爆炸，还会留下一条烈焰轨迹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "希瓦娜·爆炎吐息",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "shyvana_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.57729Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:09.829601Z",
+            "description": "DDragon16.17.1 Shyvana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 11000,
+              "3": 10000,
+              "4": 9000,
+              "5": 8000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "shyvana_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:09.829601Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "shyvana_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:19.900163Z",
+        "description": "希瓦娜变形成一头魔龙并向前跳跃来使途经的敌人们因恐惧而逃跑。在【魔龙形态】下，她的体型变得更大并且她的基础技能都会获得强化。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "希瓦娜·魔龙降世",
+        "skillCategoryKeys": [],
+        "skillKey": "shyvana_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:19.900163Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:10.371725Z",
+            "description": "DDragon16.17.1 Shyvana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。基础冷却零且当前根不消费冷却；仍要求100龙怒，初始伤害及自身生命收益保留。",
+            "fixedValue": 0,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "shyvana_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:10.371725Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  },
+  "apiWrites": 0
+}

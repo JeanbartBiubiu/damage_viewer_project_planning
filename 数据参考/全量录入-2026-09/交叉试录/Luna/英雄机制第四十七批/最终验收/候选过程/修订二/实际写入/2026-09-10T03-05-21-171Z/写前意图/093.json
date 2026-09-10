@@ -1,0 +1,30 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 94,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/parameters",
+    "detailRoute": "/skills/shyvana_q/parameters/enhance_duration_ms",
+    "skillKey": "shyvana_q",
+    "kind": "parameters",
+    "stableKey": "enhance_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "enhance_duration_ms",
+      "name": "强化窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6000,
+        "2": 6000,
+        "3": 6000,
+        "4": 6000,
+        "5": 6000
+      },
+      "description": "当前根EnhanceDuration索引1至5均为6秒，转换为6000毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

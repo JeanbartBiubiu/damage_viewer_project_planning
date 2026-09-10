@@ -1,0 +1,30 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 109,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/move_speed_ratio",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_ratio",
+      "name": "自身移动速度提升比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.25,
+        "3": 0.25,
+        "4": 0.25,
+        "5": 0.25
+      },
+      "description": "当前根BaseMoveSpeed索引1至5均为0.25；比例属性使用1=100%。",
+      "sortOrder": 80
+    }
+  }
+}

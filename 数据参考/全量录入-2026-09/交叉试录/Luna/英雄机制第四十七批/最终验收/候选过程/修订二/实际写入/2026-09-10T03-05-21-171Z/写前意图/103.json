@@ -1,0 +1,24 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 104,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/shield_radius",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "shield_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_radius",
+      "name": "护盾目标检查半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "当前根Shield_Radius=600。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 91,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/parameters",
+    "detailRoute": "/skills/shyvana_q/parameters/active_total_ad_ratio",
+    "skillKey": "shyvana_q",
+    "kind": "parameters",
+    "stableKey": "active_total_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_total_ad_ratio",
+      "name": "强化攻击总攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.100000024,
+      "levelValues": null,
+      "description": "Calc_Damage第二分支Damage_AD_Ratio=1.1，当前正文为总攻击力段。",
+      "sortOrder": 40
+    }
+  }
+}

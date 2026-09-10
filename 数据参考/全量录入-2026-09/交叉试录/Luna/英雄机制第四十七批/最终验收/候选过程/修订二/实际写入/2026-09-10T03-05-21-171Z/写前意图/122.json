@@ -1,0 +1,24 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 123,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_e/parameters",
+    "detailRoute": "/skills/shyvana_e/parameters/target_max_health_damage_ratio",
+    "skillKey": "shyvana_e",
+    "kind": "parameters",
+    "stableKey": "target_max_health_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_max_health_damage_ratio",
+      "name": "目标最大生命伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.050000001,
+      "levelValues": null,
+      "description": "Calc_Max_Health_Damage读取MaxHealthDamage=0.05；普通形态保留。",
+      "sortOrder": 30
+    }
+  }
+}

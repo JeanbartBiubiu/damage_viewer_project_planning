@@ -1,0 +1,5826 @@
+{
+  "generatedAt": "2026-09-10T02:30:55.289Z",
+  "status": "仅写入意图，未调用业务接口",
+  "batch": "英雄机制第四十七批伊莉丝杰斯奈德丽希瓦娜",
+  "revision": "hero47-source-v1-luna-candidate-revision1",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "9d6644e80d31631a4cfbc5e3cfce49a1dffa16cd5fe4eae8972ee88b671c1452",
+  "sourceBindingSha256": "0325bce9f1b0ad3b254da0ca89180d9d2e8458d365caa849f9eaf6c974236486",
+  "sourceRangeSha256": "3ff03208a1504e63c9abf5c60a45d45a2096b0d3153c78256263d90670eff041",
+  "inputSourceRangeSha256": "610b8034976decfeac8d441c21d7827427f480f8ba5639f375cf49063f7fb921",
+  "sourceAuditSha256": "5c290f2eda29a9c40cc60850d7f47c809e3d5a366f5fa53b3c7d965ff08f3b71",
+  "cursorConclusionSha256": "cb124ba85c3a05c5eb6d4e2a705fbd9a67cd413c9a1eba2a8210ebcff18a5ce8",
+  "cursorAuditSha256": "2ed3473e663de8b9c945e4ec36d3316fe233d9d12f9a54f1f5665c5d051fa464",
+  "qualificationReviewSha256": "90f6694f4aa2f75a367fec7296692b633fe8d8766a2ac560352c3db80e013cf2",
+  "qualificationExcerptSha256": "b018c475e6440dafbc8032c4f3090263b42926a638bbf0afedb1ba0a97b62879",
+  "qualificationManifestSha256": "524a0bae47b6f4b13208b6203ae9fdec02e084a0ae81ac5731e55a80a8775de9",
+  "qualificationReviewVerdict": "READY",
+  "protectionSnapshotSha256": "2d52424a78f409bb7e984ca7b60c75fcfd76baa39adbae5b1c0882385866eab5",
+  "publicReuseSha256": "aba125b39074ec2858622426dc9768a309edecda689c9466858eb205b38cb8b3",
+  "requestCount": 129,
+  "counts": {
+    "newParameters": 83,
+    "newFormulas": 24,
+    "newEffects": 22,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 129,
+    "reusedPublicParameters": 21,
+    "plannedTotalIncludingReused": 150,
+    "protectedCurrentCompositionLists": 120
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/elise_q/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:11.802934Z",
+        "description": "DDragon16.17.1 Elise.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "elise_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:11.802934Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "b9d77977a4ccd2ae04f3ea01a0201752b02c67fa7792d6dba6a0996725c88fd3"
+    },
+    {
+      "skillKey": "elise_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/elise_q/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:12.367051Z",
+        "description": "DDragon16.17.1 Elise.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 85,
+          "3": 90,
+          "4": 95,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "elise_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:12.367051Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "c0231bbdace804989c6306e307183440b24d9de6d6ddebfb9caefa2670617946"
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/elise_w/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:13.039852Z",
+        "description": "DDragon16.17.1 Elise.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。爆炸蜘蛛的独立可受击对象属性尚不明确，机制范围局部待核；不凭召唤关键词排除已确证参数。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "elise_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:13.039852Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "4104a67b5d83d3fdc06c9502119137050a0a185a6a4c2f3a6313245df6ec6034"
+    },
+    {
+      "skillKey": "elise_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/elise_w/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:13.557507Z",
+        "description": "DDragon16.17.1 Elise.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。爆炸蜘蛛的独立可受击对象属性尚不明确，机制范围局部待核；不凭召唤关键词排除已确证参数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "elise_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:13.557507Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "c834d80ba9276f3f5603e785abaebe829ee4787e3273c2a699e9236cfedeb092"
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/elise_e/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:14.152253Z",
+        "description": "DDragon16.17.1 Elise.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "elise_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:14.152253Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "ec24309e1f9a79e00ec8c5aa1db1f2bebd4653d1bad0e40c061082eb21881ee2"
+    },
+    {
+      "skillKey": "elise_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/elise_e/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:14.706203Z",
+        "description": "DDragon16.17.1 Elise.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "elise_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:14.706203Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "4e59d6311949b079985f08cf0a4c43953fceec9f7ca9f8ffca34e4915990a837"
+    },
+    {
+      "skillKey": "elise_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/elise_r/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:15.19867Z",
+        "description": "DDragon16.17.1 Elise.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留形态条件与被动自身治疗依赖；完整替换技能组和独立小蜘蛛后置。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "elise_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:15.19867Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "7dee65a322803eba402c060adf1e5a150893a4ea681745b64bd0cef47b866217"
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/jayce_q/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:20.876295Z",
+        "description": "DDragon16.17.1 Jayce.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 14000,
+          "3": 12000,
+          "4": 10000,
+          "5": 8000,
+          "6": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jayce_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:20.876295Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "5a16895a7fabe7d1c2c2628f1fd0454c53ec55710ffec60dd505c1736795e02d"
+    },
+    {
+      "skillKey": "jayce_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/jayce_q/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:21.315665Z",
+        "description": "DDragon16.17.1 Jayce.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jayce_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:21.315665Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "86403ace64a12f0857eacca5fb2cc4cfc33ad69764f43028301b8ec2a0be73b0"
+    },
+    {
+      "skillKey": "jayce_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/jayce_w/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:21.826367Z",
+        "description": "DDragon16.17.1 Jayce.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jayce_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:21.826367Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "fa41aaae3d7d3a9c6a53cfca0e99c4fd05e0248fd256a0b93c055b44158d7794"
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/jayce_e/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:22.258083Z",
+        "description": "DDragon16.17.1 Jayce.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000,
+          "6": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jayce_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:22.258083Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "c115afef31373543782f81338a7635a66465ae7f7c3c406856393929a8c6014b"
+    },
+    {
+      "skillKey": "jayce_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/jayce_e/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:22.795945Z",
+        "description": "DDragon16.17.1 Jayce.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "jayce_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:22.795945Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "ba68137519c1517bd4e1e0e1080439888fc8c4ccdd29462a99fc0b1b50db229f"
+    },
+    {
+      "skillKey": "jayce_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/jayce_r/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:23.318458Z",
+        "description": "DDragon16.17.1 Jayce.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留下次攻击削减双抗等本体组成，完整形态组后置。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "jayce_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:23.318458Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "e0b9bae42736704619dc0afe021203ce4fdb771d281c8bc9daf23f807c5736a8"
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/nidalee_q/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:53.517324Z",
+        "description": "DDragon16.17.1 Nidalee.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nidalee_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:53.517324Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "7470a12a0f49e3181af0594cce08e384b8bc58496f049de2afb4035f21a956dc"
+    },
+    {
+      "skillKey": "nidalee_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/nidalee_q/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:53.968391Z",
+        "description": "DDragon16.17.1 Nidalee.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nidalee_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:53.968391Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "96ff1517cc453e31de6b98d7d1cd9b6a2cdea8aa2722189fa6e61a442f316e4f"
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/nidalee_e/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:54.45337Z",
+        "description": "DDragon16.17.1 Nidalee.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nidalee_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:54.45337Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "62659538db59f70809f64e6cfb31b29329e70abbff27dd29e116602fe879b1c3"
+    },
+    {
+      "skillKey": "nidalee_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/nidalee_e/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:40:54.967879Z",
+        "description": "DDragon16.17.1 Nidalee.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nidalee_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:54.967879Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "276cb392723b6f9d215e3fdeb7288d7a678e919fc3950982649a056f6f51d171"
+    },
+    {
+      "skillKey": "shyvana_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shyvana_q/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:08.742621Z",
+        "description": "DDragon16.17.1 Shyvana.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shyvana_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:08.742621Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "cab21f5a15045174d98d60f67b1627c032d241db2c5476b7d4dd585a8f208d5e"
+    },
+    {
+      "skillKey": "shyvana_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shyvana_w/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:09.231744Z",
+        "description": "DDragon16.17.1 Shyvana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12250,
+          "3": 11500,
+          "4": 10750,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shyvana_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:09.231744Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "abdce7cd82b91df1ad55af831739d9c4a71eaf0a96ebd943cd82f74eeddc6e9e"
+    },
+    {
+      "skillKey": "shyvana_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shyvana_e/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:09.829601Z",
+        "description": "DDragon16.17.1 Shyvana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shyvana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:09.829601Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "ef9c4d7ee91fbb1a904ee015904a38bbc578297b386b33ac605faa0824ab73e0"
+    },
+    {
+      "skillKey": "shyvana_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shyvana_r/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:10.371725Z",
+        "description": "DDragon16.17.1 Shyvana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。基础冷却零且当前根不消费冷却；仍要求100龙怒，初始伤害及自身生命收益保留。",
+        "fixedValue": 0,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shyvana_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:10.371725Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "630bdf4720fbec2f4740242bbcdb03e6ac50cda7fa952d9b9fe5ea9c48d8ccc2"
+    }
+  ],
+  "protectedRoutes": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "dataSha256": "e070aad70597ed317cae63798298ddeda692f0238fd6a3c0b5da4bc97c063116"
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "dataSha256": "90a4c5203870cc8dd6c534d3f9e13158e4267f61c957841f4d21c75ae16b2951"
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "dataSha256": "31edcb54ce724e0590b67e1ebf74ac723b7c0e7d8cc9013a8b49018f01d21fb0"
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "dataSha256": "1fe633fc5953d80471179fa630139be72ae12faa017285974ea53112b62fa177"
+    },
+    {
+      "route": "/characters/champion_elise",
+      "status": 200,
+      "dataSha256": "63f5009b2dc4a69b9182945954c80dfdff20a362e6007f17d7ba87ab59b04e1f"
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_elise",
+      "status": 200,
+      "dataSha256": "9ca7152a7a96eecc2ab8dac326b6fcfc4355ce94e2efedd945b9698b8a2faa97"
+    },
+    {
+      "route": "/characters/champion_jayce",
+      "status": 200,
+      "dataSha256": "a707bdc94397295ee49ea6c7d79d8497f9cbbb604d090d620620b6286003cd99"
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_jayce",
+      "status": 200,
+      "dataSha256": "a8ae19b9c6ce4f6bdb94caa4a20a1a1b9e9adfbf3f7bb9629dab46eb2cc281cb"
+    },
+    {
+      "route": "/characters/champion_nidalee",
+      "status": 200,
+      "dataSha256": "c3e3a98e50d66e10ff05f17a5936e1a963566515cac469913165c3c0fcc572c0"
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_nidalee",
+      "status": 200,
+      "dataSha256": "d30260c3232830fb379e7a015febd2a73ded1f1606f919358cb4d55598d80b38"
+    },
+    {
+      "route": "/characters/champion_shyvana",
+      "status": 200,
+      "dataSha256": "0b6f41a15aca34dabd002d699bfbccee206d4e5dc016fe8eec580ddb7225fa4c"
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_shyvana",
+      "status": 200,
+      "dataSha256": "b92e333e455f64976c537eced4652306a1d2657cd104d2b93e9e2050f92fe4ca"
+    },
+    {
+      "route": "/skills/elise_p",
+      "status": 200,
+      "dataSha256": "8d7c29921a14d86e685337b358acf55352ef85c38593f8006ae29b177a9cc99e"
+    },
+    {
+      "route": "/skills/elise_p/representative-image",
+      "status": 200,
+      "dataSha256": "026f95908378ca9a672d3489aa106a4b4699d51de95866abcedd3073aff2c3cb"
+    },
+    {
+      "route": "/skills/elise_p/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_p/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_p/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_p/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_p/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_p/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_q",
+      "status": 200,
+      "dataSha256": "1e86ab0114982cd46df3314846e1c18477dd05c6674bcf74dbc65a8377be7909"
+    },
+    {
+      "route": "/skills/elise_q/representative-image",
+      "status": 200,
+      "dataSha256": "0304994a1529fa135f064b449f9a7174df042e7222e9d948dcf2db8f63c19992"
+    },
+    {
+      "route": "/skills/elise_q/parameters",
+      "status": 200,
+      "dataSha256": "84ad18c7a9954bdce03640a65be41437a63e50e8fae3b7606c5a7e50280d1eaf"
+    },
+    {
+      "route": "/skills/elise_q/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "b9d77977a4ccd2ae04f3ea01a0201752b02c67fa7792d6dba6a0996725c88fd3"
+    },
+    {
+      "route": "/skills/elise_q/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "c0231bbdace804989c6306e307183440b24d9de6d6ddebfb9caefa2670617946"
+    },
+    {
+      "route": "/skills/elise_q/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_q/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_q/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_q/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_q/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_w",
+      "status": 200,
+      "dataSha256": "90792209f9222106b18af3273d2f53e883ab467588c2c8e4235c2e3baa03808d"
+    },
+    {
+      "route": "/skills/elise_w/representative-image",
+      "status": 200,
+      "dataSha256": "672c5259f7d4a69e0ea38be64c07323e2112f6990317b0cb182c5384af4b62ef"
+    },
+    {
+      "route": "/skills/elise_w/parameters",
+      "status": 200,
+      "dataSha256": "1d38c4450b6ab4dab92dba9ea60d6219c94f614dc7f323aa0f55dd3803809794"
+    },
+    {
+      "route": "/skills/elise_w/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "4104a67b5d83d3fdc06c9502119137050a0a185a6a4c2f3a6313245df6ec6034"
+    },
+    {
+      "route": "/skills/elise_w/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "c834d80ba9276f3f5603e785abaebe829ee4787e3273c2a699e9236cfedeb092"
+    },
+    {
+      "route": "/skills/elise_w/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_w/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_w/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_w/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_w/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_e",
+      "status": 200,
+      "dataSha256": "598c7dd2dd9539c0a3536a22b6dc7c4647b74dc5382b079e8f6f1f8a88fad52a"
+    },
+    {
+      "route": "/skills/elise_e/representative-image",
+      "status": 200,
+      "dataSha256": "c06354afeb3f8b02a350584b836e8005107cebc5540d13b868269c0ce9efeb74"
+    },
+    {
+      "route": "/skills/elise_e/parameters",
+      "status": 200,
+      "dataSha256": "e156ba2c03676235a617c6801788f0bfe9cb21c87d159885f4516a01f62dcea6"
+    },
+    {
+      "route": "/skills/elise_e/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "ec24309e1f9a79e00ec8c5aa1db1f2bebd4653d1bad0e40c061082eb21881ee2"
+    },
+    {
+      "route": "/skills/elise_e/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "4e59d6311949b079985f08cf0a4c43953fceec9f7ca9f8ffca34e4915990a837"
+    },
+    {
+      "route": "/skills/elise_e/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_e/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_e/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_e/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_e/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_r",
+      "status": 200,
+      "dataSha256": "89c449af0055c9aa6367654867561994f7c03a84891b3eae226b91e9725cd017"
+    },
+    {
+      "route": "/skills/elise_r/representative-image",
+      "status": 200,
+      "dataSha256": "56c07dba8881c39b243059873c3176874199d8b75b4bf2a2d30a642d80fcd9da"
+    },
+    {
+      "route": "/skills/elise_r/parameters",
+      "status": 200,
+      "dataSha256": "07f9cd0dc64b28cebe1ea5e7743383cbb4452947b1324d64a90b9c4680d57ae0"
+    },
+    {
+      "route": "/skills/elise_r/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "7dee65a322803eba402c060adf1e5a150893a4ea681745b64bd0cef47b866217"
+    },
+    {
+      "route": "/skills/elise_r/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_r/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_r/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_r/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/elise_r/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_p",
+      "status": 200,
+      "dataSha256": "f9f4321f76df8d6261990a1189f0f42e7aa90728a65ee14b99b65062896e7f27"
+    },
+    {
+      "route": "/skills/jayce_p/representative-image",
+      "status": 200,
+      "dataSha256": "2f515fb9a07cbdf3f34548feb20941ab2715334ee8d8b218591de45c8f31a3ac"
+    },
+    {
+      "route": "/skills/jayce_p/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_p/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_p/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_p/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_p/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_p/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_q",
+      "status": 200,
+      "dataSha256": "9045e58035e351bbe52b0cad68a519a9c06ee70324fab2d5e69624e4ddcdac12"
+    },
+    {
+      "route": "/skills/jayce_q/representative-image",
+      "status": 200,
+      "dataSha256": "159df96f1cc2b93202dbc6e32c0ced9abddf5f5b3c52642b9d53c18a283397e1"
+    },
+    {
+      "route": "/skills/jayce_q/parameters",
+      "status": 200,
+      "dataSha256": "5fb140f176fd4eb681cd0ecc37c055cd062f061570f2b3b2dd99e4d49a1a68c0"
+    },
+    {
+      "route": "/skills/jayce_q/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "5a16895a7fabe7d1c2c2628f1fd0454c53ec55710ffec60dd505c1736795e02d"
+    },
+    {
+      "route": "/skills/jayce_q/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "86403ace64a12f0857eacca5fb2cc4cfc33ad69764f43028301b8ec2a0be73b0"
+    },
+    {
+      "route": "/skills/jayce_q/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_q/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_q/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_q/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_q/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_w",
+      "status": 200,
+      "dataSha256": "3a4639af78fb9d9f69cbaac7ec61f4ae07f808fb648b689004a862bcb14ac91f"
+    },
+    {
+      "route": "/skills/jayce_w/representative-image",
+      "status": 200,
+      "dataSha256": "a7fe1600382fb9a9aca158aaeff48d950534144ba6bbce208d2d9b36cf4b4224"
+    },
+    {
+      "route": "/skills/jayce_w/parameters",
+      "status": 200,
+      "dataSha256": "5c06e757d04cbde34174291a759552feda75fe54246cdea7597a13af979d09d0"
+    },
+    {
+      "route": "/skills/jayce_w/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "fa41aaae3d7d3a9c6a53cfca0e99c4fd05e0248fd256a0b93c055b44158d7794"
+    },
+    {
+      "route": "/skills/jayce_w/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_w/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_w/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_w/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_w/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_e",
+      "status": 200,
+      "dataSha256": "953a764c956f07ef4834c9db3301b1d65655fec75131a1b6d218c496a77801fa"
+    },
+    {
+      "route": "/skills/jayce_e/representative-image",
+      "status": 200,
+      "dataSha256": "e14a6520726b230ffb2157efd0b913e0a8335a9171d1bd82d6a82c9c1d4505e0"
+    },
+    {
+      "route": "/skills/jayce_e/parameters",
+      "status": 200,
+      "dataSha256": "f79e8f7e59e9558ab4a3db2b8dfb9f63b230f333e6920098ee88a167b1599731"
+    },
+    {
+      "route": "/skills/jayce_e/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "c115afef31373543782f81338a7635a66465ae7f7c3c406856393929a8c6014b"
+    },
+    {
+      "route": "/skills/jayce_e/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "ba68137519c1517bd4e1e0e1080439888fc8c4ccdd29462a99fc0b1b50db229f"
+    },
+    {
+      "route": "/skills/jayce_e/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_e/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_e/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_e/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_e/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_r",
+      "status": 200,
+      "dataSha256": "0e8d2de117772c2049030143c42edbdd8d02a78d911b5ba72058040a6fdebd20"
+    },
+    {
+      "route": "/skills/jayce_r/representative-image",
+      "status": 200,
+      "dataSha256": "c78bd076e11b9c3f9d362122dce9fe7a7fbcd72b5886b87b09a84de7c4e209f1"
+    },
+    {
+      "route": "/skills/jayce_r/parameters",
+      "status": 200,
+      "dataSha256": "53f6613471bf3cb8d977fa2dd7478d1912bdaa4ae6105e22e062ca8d09f41248"
+    },
+    {
+      "route": "/skills/jayce_r/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "e0b9bae42736704619dc0afe021203ce4fdb771d281c8bc9daf23f807c5736a8"
+    },
+    {
+      "route": "/skills/jayce_r/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_r/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_r/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_r/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/jayce_r/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_p",
+      "status": 200,
+      "dataSha256": "5bc929395f34590db31f9efd0fb4748a486228a166367ad6eb1ce02bb1773395"
+    },
+    {
+      "route": "/skills/nidalee_p/representative-image",
+      "status": 200,
+      "dataSha256": "157a03a5a3ad17c2ef255a3f7c6fed8bdbd4c449155c2a42aa40d72117022d4f"
+    },
+    {
+      "route": "/skills/nidalee_p/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_p/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_p/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_p/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_p/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_p/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_q",
+      "status": 200,
+      "dataSha256": "73068d13e73ddc1db1f65fe5d081ede8cba627ed977883130e8acf4174b59fe2"
+    },
+    {
+      "route": "/skills/nidalee_q/representative-image",
+      "status": 200,
+      "dataSha256": "85c0fc2d33a7642c2142d2190274df30946a1692600bd0efbcba204f8233149b"
+    },
+    {
+      "route": "/skills/nidalee_q/parameters",
+      "status": 200,
+      "dataSha256": "b305db499fdaecdaf7db79b84b074191fc7250c22788965f1f71272659f98c16"
+    },
+    {
+      "route": "/skills/nidalee_q/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "7470a12a0f49e3181af0594cce08e384b8bc58496f049de2afb4035f21a956dc"
+    },
+    {
+      "route": "/skills/nidalee_q/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "96ff1517cc453e31de6b98d7d1cd9b6a2cdea8aa2722189fa6e61a442f316e4f"
+    },
+    {
+      "route": "/skills/nidalee_q/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_q/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_q/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_q/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_q/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_w",
+      "status": 200,
+      "dataSha256": "3a0722e3e31f648762281184e206b1a1970ae0f9779d60b27f017954144ce227"
+    },
+    {
+      "route": "/skills/nidalee_w/representative-image",
+      "status": 200,
+      "dataSha256": "4512ac7fe3a3bbd27af3cb06a908ee14857e607d7c1cf2a0fee6cf138af6de40"
+    },
+    {
+      "route": "/skills/nidalee_w/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_w/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_w/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_w/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_w/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_w/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_e",
+      "status": 200,
+      "dataSha256": "4d7f3f363993a07a222f3333e5f362cc3c88869d708945adf3c403a18d4ce93b"
+    },
+    {
+      "route": "/skills/nidalee_e/representative-image",
+      "status": 200,
+      "dataSha256": "60a4d0252bca8438472ba712e14540463d46c58cc5258eb8f4038e4c4ed872a5"
+    },
+    {
+      "route": "/skills/nidalee_e/parameters",
+      "status": 200,
+      "dataSha256": "5e6659142dbaf747cd2030fc30470942e7e8389a1dc850eb0675dccf98796be0"
+    },
+    {
+      "route": "/skills/nidalee_e/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "62659538db59f70809f64e6cfb31b29329e70abbff27dd29e116602fe879b1c3"
+    },
+    {
+      "route": "/skills/nidalee_e/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "276cb392723b6f9d215e3fdeb7288d7a678e919fc3950982649a056f6f51d171"
+    },
+    {
+      "route": "/skills/nidalee_e/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_e/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_e/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_e/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_e/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_r",
+      "status": 200,
+      "dataSha256": "75ad1f787596f1951875b6b140a86c75664d4954597dbfb25a53344d450aa11c"
+    },
+    {
+      "route": "/skills/nidalee_r/representative-image",
+      "status": 200,
+      "dataSha256": "935df8f5b4842035afb09c73eba3121098a370180637bcf877137a52e7df661a"
+    },
+    {
+      "route": "/skills/nidalee_r/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_r/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_r/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_r/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_r/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/nidalee_r/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_p",
+      "status": 200,
+      "dataSha256": "031d9b48310ec14c2e77bd874a30633fbb65de0477faee83cd96501b5ca889ab"
+    },
+    {
+      "route": "/skills/shyvana_p/representative-image",
+      "status": 200,
+      "dataSha256": "e082ff333288fb1eb2f11f6b25d0727fc44c8788f2aaf364a424f6848e4b64b3"
+    },
+    {
+      "route": "/skills/shyvana_p/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_p/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_p/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_p/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_p/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_p/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_q",
+      "status": 200,
+      "dataSha256": "5643f0b48a4cdf0b1aa2a3c4de23fdaad4d6fdd1606a3c9ff44297cee83148ae"
+    },
+    {
+      "route": "/skills/shyvana_q/representative-image",
+      "status": 200,
+      "dataSha256": "6093ab8a02e172cafb374eb81b83bab856677746f9855ec66a5051c956e60099"
+    },
+    {
+      "route": "/skills/shyvana_q/parameters",
+      "status": 200,
+      "dataSha256": "bf9298074a5f383be0f78d3a7893bb03b8e503532ea5c5c1095198d0bff98fc9"
+    },
+    {
+      "route": "/skills/shyvana_q/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "cab21f5a15045174d98d60f67b1627c032d241db2c5476b7d4dd585a8f208d5e"
+    },
+    {
+      "route": "/skills/shyvana_q/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_q/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_q/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_q/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_q/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_w",
+      "status": 200,
+      "dataSha256": "bb0aabd40c78b9f33753e3d770db63395a33b5339c1c7ca546dce937d4296e77"
+    },
+    {
+      "route": "/skills/shyvana_w/representative-image",
+      "status": 200,
+      "dataSha256": "36c025de67821da08cfd528606bf523638cba9d448f07eabfd542c3bc6140c37"
+    },
+    {
+      "route": "/skills/shyvana_w/parameters",
+      "status": 200,
+      "dataSha256": "616791858a162c07601d69b4260c246544aaf8c23cf58a661ff1cac5f2331be4"
+    },
+    {
+      "route": "/skills/shyvana_w/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "abdce7cd82b91df1ad55af831739d9c4a71eaf0a96ebd943cd82f74eeddc6e9e"
+    },
+    {
+      "route": "/skills/shyvana_w/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_w/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_w/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_w/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_w/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_e",
+      "status": 200,
+      "dataSha256": "40563bfe24150429f9e9c2a9744e5815809fc4003fd55193d62dd7c93ff89618"
+    },
+    {
+      "route": "/skills/shyvana_e/representative-image",
+      "status": 200,
+      "dataSha256": "e79388ad3714925303c7cc9ab6d8e402cc2f362f8dfd12b5cb0752788f899c51"
+    },
+    {
+      "route": "/skills/shyvana_e/parameters",
+      "status": 200,
+      "dataSha256": "d538ed758b21e05445a3d44ab9d1f90aa68be9c7329c24a39e7bd3b9b5f03ed4"
+    },
+    {
+      "route": "/skills/shyvana_e/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "ef9c4d7ee91fbb1a904ee015904a38bbc578297b386b33ac605faa0824ab73e0"
+    },
+    {
+      "route": "/skills/shyvana_e/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_e/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_e/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_e/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_e/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_r",
+      "status": 200,
+      "dataSha256": "c94ffcd239764c0d7cf2d2f8e4116b0aaf288fa0813186c761af2fe346407e2d"
+    },
+    {
+      "route": "/skills/shyvana_r/representative-image",
+      "status": 200,
+      "dataSha256": "22d5cc7902d42dabb4f11d864adbab3577362ed0abf2011147dedd00a4d4b37d"
+    },
+    {
+      "route": "/skills/shyvana_r/parameters",
+      "status": 200,
+      "dataSha256": "3a79376c03ce9142e1edf7af81df4ed5ee6ad960a6e89aa9cf99a05203cf9462"
+    },
+    {
+      "route": "/skills/shyvana_r/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "630bdf4720fbec2f4740242bbcdb03e6ac50cda7fa952d9b9fe5ea9c48d8ccc2"
+    },
+    {
+      "route": "/skills/shyvana_r/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_r/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_r/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_r/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shyvana_r/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "protectedSummary": {
+    "inputGETs": 193,
+    "inputRequestCount": 193,
+    "currentCompositionLists": 120,
+    "note": "写入前逐条只读保护；本计划不覆盖已有主体和组成。"
+  },
+  "requests": [
+    {
+      "sequence": 1,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/parameters",
+      "detailRoute": "/skills/elise_q/parameters/base_damage",
+      "skillKey": "elise_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "人类形态基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 70,
+          "3": 100,
+          "4": 130,
+          "5": 160
+        },
+        "description": "当前根DataValue.BaseDamage索引1至5为40/70/100/130/160；索引0=10不作技能1级。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/parameters",
+      "detailRoute": "/skills/elise_q/parameters/target_current_health_percent_points",
+      "skillKey": "elise_q",
+      "kind": "parameters",
+      "stableKey": "target_current_health_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "target_current_health_percent_points",
+        "name": "目标当前生命伤害百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 4,
+          "2": 4,
+          "3": 4,
+          "4": 4,
+          "5": 4
+        },
+        "description": "HumanPercentHealth读取TargetHPDamage索引1至5为4百分数点；伤害目标是当前生命。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/parameters",
+      "detailRoute": "/skills/elise_q/parameters/ap_ratio",
+      "skillKey": "elise_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "目标当前生命伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.029999999,
+        "levelValues": null,
+        "description": "HumanPercentHealth第二分支读取APRatio；与当前生命项一起乘0.01。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/parameters",
+      "detailRoute": "/skills/elise_q/parameters/percent_point_ratio",
+      "skillKey": "elise_q",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_point_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "HumanPercentHealth树mMultiplier=0.01；4百分数点先与0.03×法强相加，再乘0.01和目标当前生命。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 5,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/parameters",
+      "detailRoute": "/skills/elise_q/parameters/cast_range",
+      "skillKey": "elise_q",
+      "kind": "parameters",
+      "stableKey": "cast_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_range",
+        "name": "人类形态施法距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 575,
+        "levelValues": null,
+        "description": "当前根castRange=575；与显示距离分开。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 6,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/parameters",
+      "detailRoute": "/skills/elise_q/parameters/display_range",
+      "skillKey": "elise_q",
+      "kind": "parameters",
+      "stableKey": "display_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "display_range",
+        "name": "人类形态显示距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 615,
+        "levelValues": null,
+        "description": "当前根castRangeDisplayOverride=615；不与实际施法距离混用。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 7,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/parameters",
+      "detailRoute": "/skills/elise_q/parameters/missile_speed",
+      "skillKey": "elise_q",
+      "kind": "parameters",
+      "stableKey": "missile_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missile_speed",
+        "name": "人类形态弹道速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2200,
+        "levelValues": null,
+        "description": "当前根missileSpeed=2200。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 8,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/formulas",
+      "detailRoute": "/skills/elise_q/formulas/current_health_magic_damage",
+      "skillKey": "elise_q",
+      "kind": "formulas",
+      "stableKey": "current_health_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "current_health_magic_damage",
+        "name": "神经毒素目标当前生命附加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_current_health_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_point_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "CURRENT"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HumanPercentHealth=0.01×(TargetHPDamage+APRatio×来源法强)×目标当前生命。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 9,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/formulas",
+      "detailRoute": "/skills/elise_q/formulas/human_magic_damage",
+      "skillKey": "elise_q",
+      "kind": "formulas",
+      "stableKey": "human_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "human_magic_damage",
+        "name": "神经毒素人类形态魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_current_health_percent_points"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_point_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "CURRENT"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "人类形态总伤害=基础值+目标当前生命×[0.01×(4+0.03×来源法强)]。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 10,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_q/effects",
+      "detailRoute": "/skills/elise_q/effects/mana_cost",
+      "skillKey": "elise_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 11,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_w/parameters",
+      "detailRoute": "/skills/elise_w/parameters/base_damage",
+      "skillKey": "elise_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "爆炸基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 100,
+          "3": 140,
+          "4": 180,
+          "5": 220
+        },
+        "description": "当前根BaseDamage索引1至5为60/100/140/180/220。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 12,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_w/parameters",
+      "detailRoute": "/skills/elise_w/parameters/ap_ratio",
+      "skillKey": "elise_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "爆炸法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "TotalDamage读取APRatio=0.75。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 13,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_w/parameters",
+      "detailRoute": "/skills/elise_w/parameters/explosion_delay_ms",
+      "skillKey": "elise_w",
+      "kind": "parameters",
+      "stableKey": "explosion_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "explosion_delay_ms",
+        "name": "爆炸延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "接近敌人或3秒后爆炸；TimeToExplode=3秒转换为3000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 14,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_w/parameters",
+      "detailRoute": "/skills/elise_w/parameters/explosion_radius",
+      "skillKey": "elise_w",
+      "kind": "parameters",
+      "stableKey": "explosion_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "explosion_radius",
+        "name": "爆炸半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 275,
+        "levelValues": null,
+        "description": "当前根ExplosionSize=275。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 15,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_w/parameters",
+      "detailRoute": "/skills/elise_w/parameters/cast_time_ms",
+      "skillKey": "elise_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 125,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.125秒，转换为125毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 16,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_w/formulas",
+      "detailRoute": "/skills/elise_w/formulas/magic_damage",
+      "skillKey": "elise_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "自爆蜘蛛爆炸魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=基础值+0.75×来源总法强；资格审查按一次施放、一次爆炸的本体技能伤害载体处理。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 17,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_w/effects",
+      "detailRoute": "/skills/elise_w/effects/explosion_damage",
+      "skillKey": "elise_w",
+      "kind": "effects",
+      "stableKey": "explosion_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "explosion_damage",
+        "name": "自爆蜘蛛一次爆炸魔法伤害",
+        "description": "资格审查根据单一SpellObject、直接伤害树和一次爆炸语义作出有界结构推断；不建立独立召唤单位生命或持续攻击链，接近敌人/3秒爆炸事件仍待运行层接线。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "自爆蜘蛛一次爆炸魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "一次技能伤害结果；爆炸载体分类与事件接线分开记录。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 18,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_w/effects",
+      "detailRoute": "/skills/elise_w/effects/mana_cost",
+      "skillKey": "elise_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 19,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_e/parameters",
+      "detailRoute": "/skills/elise_e/parameters/stun_duration_ms",
+      "skillKey": "elise_e",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "人类形态眩晕持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1600,
+          "2": 1800,
+          "3": 2000,
+          "4": 2200,
+          "5": 2400
+        },
+        "description": "当前根BaseStunDuration索引1至5为1.6/1.8/2/2.2/2.4秒，按原始浮点值精确换算整数毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 20,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_e/parameters",
+      "detailRoute": "/skills/elise_e/parameters/cast_time_ms",
+      "skillKey": "elise_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "mCastTime与spellCastTime均为0.25秒，转换为250毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 21,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_e/formulas",
+      "detailRoute": "/skills/elise_e/formulas/stun_duration",
+      "skillKey": "elise_e",
+      "kind": "formulas",
+      "stableKey": "stun_duration",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "stun_duration",
+        "name": "结茧眩晕持续",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "stun_duration_ms"
+        },
+        "description": "TotalStunDuration直接读取BaseStunDuration；纯视野和蜘蛛形态盘丝不录。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 22,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/elise_e/effects",
+      "detailRoute": "/skills/elise_e/effects/mana_cost",
+      "skillKey": "elise_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 23,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_q/parameters",
+      "detailRoute": "/skills/jayce_q/parameters/base_damage",
+      "skillKey": "jayce_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "锤形态物理伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 110,
+          "3": 160,
+          "4": 210,
+          "5": 260,
+          "6": 310
+        },
+        "description": "当前根BaseDamage索引1至6为60/110/160/210/260/310；按保护主体6级读取。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 24,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_q/parameters",
+      "detailRoute": "/skills/jayce_q/parameters/bonus_ad_ratio",
+      "skillKey": "jayce_q",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.350000024,
+        "levelValues": null,
+        "description": "Damage树mStat=2、mStatFormula=2、系数1.35，读取来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 25,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_q/parameters",
+      "detailRoute": "/skills/jayce_q/parameters/slow_percent_points",
+      "skillKey": "jayce_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 34.999999404,
+          "2": 40.000000596,
+          "3": 44.999998808,
+          "4": 50,
+          "5": 55.000001192,
+          "6": 60.000002384
+        },
+        "description": "Slow原始为负比例，按正文Slow×-100转换为35/40/45/50/55/60百分数点。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 26,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_q/parameters",
+      "detailRoute": "/skills/jayce_q/parameters/slow_duration_ms",
+      "skillKey": "jayce_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "SlowDuration=2秒，转换为2000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 27,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_q/parameters",
+      "detailRoute": "/skills/jayce_q/parameters/cast_time_ms",
+      "skillKey": "jayce_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 125,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.125秒，转换为125毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 28,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_q/formulas",
+      "detailRoute": "/skills/jayce_q/formulas/physical_damage",
+      "skillKey": "jayce_q",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "苍穹之跃物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage=基础值+1.35×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 29,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_q/effects",
+      "detailRoute": "/skills/jayce_q/effects/mana_cost",
+      "skillKey": "jayce_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 30,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_w/parameters",
+      "detailRoute": "/skills/jayce_w/parameters/mana_gain",
+      "skillKey": "jayce_w",
+      "kind": "parameters",
+      "stableKey": "mana_gain",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_gain",
+        "name": "锤形态普攻回复法力",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15,
+          "2": 17,
+          "3": 19,
+          "4": 21,
+          "5": 23,
+          "6": 25
+        },
+        "description": "当前根ManaGain索引1至6为15/17/19/21/23/25；回复资格由攻击事件接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 31,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_w/parameters",
+      "detailRoute": "/skills/jayce_w/parameters/base_damage",
+      "skillKey": "jayce_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "闪电领域基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 140,
+          "2": 200,
+          "3": 260,
+          "4": 320,
+          "5": 380,
+          "6": 440
+        },
+        "description": "当前根BaseDamage索引1至6为140/200/260/320/380/440；为4秒整段基础值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 32,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_w/parameters",
+      "detailRoute": "/skills/jayce_w/parameters/duration_ms",
+      "skillKey": "jayce_w",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "闪电领域持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "Duration=4秒；当前正文显示共计伤害，不把整段值乘4。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 33,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_w/parameters",
+      "detailRoute": "/skills/jayce_w/parameters/ap_ratio",
+      "skillKey": "jayce_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "Damage树mCoefficient=1，当前锤形态W读取来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 34,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_w/parameters",
+      "detailRoute": "/skills/jayce_w/parameters/cast_time_ms",
+      "skillKey": "jayce_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 35,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_w/formulas",
+      "detailRoute": "/skills/jayce_w/formulas/magic_damage",
+      "skillKey": "jayce_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "闪电领域全程魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage=4秒内共计基础值+1.0×来源总法强；不把共计值误乘持续秒数。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 36,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_w/effects",
+      "detailRoute": "/skills/jayce_w/effects/mana_gain_on_attack",
+      "skillKey": "jayce_w",
+      "kind": "effects",
+      "stableKey": "mana_gain_on_attack",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_gain_on_attack",
+        "name": "锤形态普攻回复法力",
+        "description": "回复量明确，具体普攻命中资格由事件层接线。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "锤形态普攻回复法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_gain"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "RESTORE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 37,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_w/effects",
+      "detailRoute": "/skills/jayce_w/effects/mana_cost",
+      "skillKey": "jayce_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录主动基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 38,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_e/parameters",
+      "detailRoute": "/skills/jayce_e/parameters/target_max_health_damage_ratio",
+      "skillKey": "jayce_e",
+      "kind": "parameters",
+      "stableKey": "target_max_health_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "target_max_health_damage_ratio",
+        "name": "目标最大生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.079999998,
+          "2": 0.108000003,
+          "3": 0.136000007,
+          "4": 0.164000005,
+          "5": 0.192000002,
+          "6": 0.219999999
+        },
+        "description": "当前根PercHPDamage索引1至6为0.08/0.108/0.136/0.164/0.192/0.22。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 39,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_e/parameters",
+      "detailRoute": "/skills/jayce_e/parameters/bonus_ad_ratio",
+      "skillKey": "jayce_e",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "FlatDamage树mStat=2、mStatFormula=2、系数1，读取来源额外攻击力；没有固定基础值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 40,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_e/parameters",
+      "detailRoute": "/skills/jayce_e/parameters/knockback_distance",
+      "skillKey": "jayce_e",
+      "kind": "parameters",
+      "stableKey": "knockback_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockback_distance",
+        "name": "击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "KnockbackDistance=600。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 41,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_e/parameters",
+      "detailRoute": "/skills/jayce_e/parameters/knockback_duration_ms",
+      "skillKey": "jayce_e",
+      "kind": "parameters",
+      "stableKey": "knockback_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockback_duration_ms",
+        "name": "击退持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "KnockbackDuration=0.35秒，转换为350毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 42,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_e/parameters",
+      "detailRoute": "/skills/jayce_e/parameters/cast_time_ms",
+      "skillKey": "jayce_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根唯一施法字段mCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 43,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_e/formulas",
+      "detailRoute": "/skills/jayce_e/formulas/magic_damage",
+      "skillKey": "jayce_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "雷霆一击魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_max_health_damage_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "FlatDamage+PercHPDamage×目标最大生命；没有证据时不补固定基础值0。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 44,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/jayce_e/effects",
+      "detailRoute": "/skills/jayce_e/effects/mana_cost",
+      "skillKey": "jayce_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 45,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/parameters",
+      "detailRoute": "/skills/nidalee_p/parameters/passive_move_speed_ratio",
+      "skillKey": "nidalee_p",
+      "kind": "parameters",
+      "stableKey": "passive_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_move_speed_ratio",
+        "name": "草丛或捕猎基础移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "当前R的PassivePercentMS=10百分数点；正文的人类被动和捕猎基础移速均读取该值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 46,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/parameters",
+      "detailRoute": "/skills/nidalee_p/parameters/move_speed_toward_enemy_ratio",
+      "skillKey": "nidalee_p",
+      "kind": "parameters",
+      "stableKey": "move_speed_toward_enemy_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_toward_enemy_ratio",
+        "name": "朝敌方英雄移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前正文PassivePercentMS×3=30%；不因源字段位于R而丢弃人类被动。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 47,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/parameters",
+      "detailRoute": "/skills/nidalee_p/parameters/toward_enemy_multiplier",
+      "skillKey": "nidalee_p",
+      "kind": "parameters",
+      "stableKey": "toward_enemy_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "toward_enemy_multiplier",
+        "name": "朝敌方英雄移动倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前文本对10%移速写明朝敌方英雄提升至3倍。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 48,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/parameters",
+      "detailRoute": "/skills/nidalee_p/parameters/brush_move_speed_duration_ms",
+      "skillKey": "nidalee_p",
+      "kind": "parameters",
+      "stableKey": "brush_move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "brush_move_speed_duration_ms",
+        "name": "进入草丛移动速度持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前被动正文写明进入草丛后持续2秒，精确换算为2000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 49,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/parameters",
+      "detailRoute": "/skills/nidalee_p/parameters/hunt_duration_ms",
+      "skillKey": "nidalee_p",
+      "kind": "parameters",
+      "stableKey": "hunt_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "hunt_duration_ms",
+        "name": "捕猎标记持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前被动正文写明捕猎状态持续4秒，精确换算为4000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 50,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/parameters",
+      "detailRoute": "/skills/nidalee_p/parameters/move_speed_cap_ratio",
+      "skillKey": "nidalee_p",
+      "kind": "parameters",
+      "stableKey": "move_speed_cap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_cap_ratio",
+        "name": "移动速度叠加上限比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前扩展正文写明移动速度可叠加但不能超过30%；上限接线待运行层执行。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 51,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/effects",
+      "detailRoute": "/skills/nidalee_p/effects/brush_move_speed",
+      "skillKey": "nidalee_p",
+      "kind": "effects",
+      "stableKey": "brush_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "brush_move_speed",
+        "name": "草丛基础移动速度",
+        "description": "草丛条件下的10%基础分支；与同一草丛支的朝敌方分支互斥，不把10%和30%相加，离开草丛时移除。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "brush_move_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "草丛基础移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 52,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/effects",
+      "detailRoute": "/skills/nidalee_p/effects/brush_move_speed_toward_enemy",
+      "skillKey": "nidalee_p",
+      "kind": "effects",
+      "stableKey": "brush_move_speed_toward_enemy",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "brush_move_speed_toward_enemy",
+        "name": "草丛朝敌方英雄移动速度",
+        "description": "草丛朝合格敌方英雄移动时的30%替代分支；不与草丛10%基础分支或捕猎分支叠加，离开草丛或失去方向资格时移除。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "brush_move_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "草丛朝敌方英雄移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_toward_enemy_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 53,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/effects",
+      "detailRoute": "/skills/nidalee_p/effects/hunt_move_speed",
+      "skillKey": "nidalee_p",
+      "kind": "effects",
+      "stableKey": "hunt_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "hunt_move_speed",
+        "name": "捕猎基础移动速度",
+        "description": "捕猎条件下的10%基础替代分支；与同一捕猎支的朝敌方分支及草丛支互斥，标记结束时移除。",
+        "sortOrder": 40,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "hunt_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "捕猎基础移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 54,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_p/effects",
+      "detailRoute": "/skills/nidalee_p/effects/hunt_move_speed_toward_enemy",
+      "skillKey": "nidalee_p",
+      "kind": "effects",
+      "stableKey": "hunt_move_speed_toward_enemy",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "hunt_move_speed_toward_enemy",
+        "name": "朝被捕猎敌人移动速度",
+        "description": "朝被捕猎敌人移动时的30%替代分支；不与捕猎10%基础分支或草丛分支叠加，标记结束或失去同一敌人资格时移除。",
+        "sortOrder": 50,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "hunt_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "朝被捕猎敌人移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_toward_enemy_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 55,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/parameters",
+      "detailRoute": "/skills/nidalee_q/parameters/minimum_base_damage",
+      "skillKey": "nidalee_q",
+      "kind": "parameters",
+      "stableKey": "minimum_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_base_damage",
+        "name": "人类形态最小魔法伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 90,
+          "3": 110,
+          "4": 130,
+          "5": 150
+        },
+        "description": "当前根SpearMinimumDamage索引1至5为70/90/110/130/150；索引0=50不作技能1级。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 56,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/parameters",
+      "detailRoute": "/skills/nidalee_q/parameters/ap_ratio",
+      "skillKey": "nidalee_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "标枪法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "HumanMinimumDamage第二分支读取SpearMinimumAPRatio=0.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 57,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/parameters",
+      "detailRoute": "/skills/nidalee_q/parameters/maximum_damage_multiplier",
+      "skillKey": "nidalee_q",
+      "kind": "parameters",
+      "stableKey": "maximum_damage_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_damage_multiplier",
+        "name": "标枪最大伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 3.25,
+        "levelValues": null,
+        "description": "HumanMaximumDamage将完整HumanMinimumDamage乘DamageMulti=3.25；不是只乘基础段。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 58,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/parameters",
+      "detailRoute": "/skills/nidalee_q/parameters/range_threshold",
+      "skillKey": "nidalee_q",
+      "kind": "parameters",
+      "stableKey": "range_threshold",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "range_threshold",
+        "name": "距离阈值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 525,
+        "levelValues": null,
+        "description": "当前根RangeThreshold=525；距离中间曲线语义未证，只保留源值不擅设线性换算。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 59,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/parameters",
+      "detailRoute": "/skills/nidalee_q/parameters/cast_range",
+      "skillKey": "nidalee_q",
+      "kind": "parameters",
+      "stableKey": "cast_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_range",
+        "name": "实际施法距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前根castRange=1500。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 60,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/parameters",
+      "detailRoute": "/skills/nidalee_q/parameters/display_range",
+      "skillKey": "nidalee_q",
+      "kind": "parameters",
+      "stableKey": "display_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "display_range",
+        "name": "显示距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前根castRangeDisplayOverride=1500，与实际距离分开记录。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 61,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/parameters",
+      "detailRoute": "/skills/nidalee_q/parameters/missile_speed",
+      "skillKey": "nidalee_q",
+      "kind": "parameters",
+      "stableKey": "missile_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missile_speed",
+        "name": "标枪弹道速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1300,
+        "levelValues": null,
+        "description": "当前根missileSpeed=1300。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 62,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/parameters",
+      "detailRoute": "/skills/nidalee_q/parameters/cast_time_ms",
+      "skillKey": "nidalee_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 63,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/formulas",
+      "detailRoute": "/skills/nidalee_q/formulas/minimum_magic_damage",
+      "skillKey": "nidalee_q",
+      "kind": "formulas",
+      "stableKey": "minimum_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "minimum_magic_damage",
+        "name": "标枪最小魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HumanMinimumDamage=基础值+0.5×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 64,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/formulas",
+      "detailRoute": "/skills/nidalee_q/formulas/maximum_magic_damage",
+      "skillKey": "nidalee_q",
+      "kind": "formulas",
+      "stableKey": "maximum_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "maximum_magic_damage",
+        "name": "标枪最大魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_damage_multiplier"
+            }
+          ]
+        },
+        "description": "HumanMaximumDamage=完整最小伤害式×3.25，距离曲线仅由运行层按已证规则接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 65,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_q/effects",
+      "detailRoute": "/skills/nidalee_q/effects/mana_cost",
+      "skillKey": "nidalee_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 66,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/parameters",
+      "detailRoute": "/skills/nidalee_e/parameters/base_heal",
+      "skillKey": "nidalee_e",
+      "kind": "parameters",
+      "stableKey": "base_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_heal",
+        "name": "人类形态最小治疗基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "description": "当前根BaseHeal索引1至5为50/75/100/125/150；索引0=25不作技能1级。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 67,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/parameters",
+      "detailRoute": "/skills/nidalee_e/parameters/max_heal_multiplier_bonus",
+      "skillKey": "nidalee_e",
+      "kind": "parameters",
+      "stableKey": "max_heal_multiplier_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_heal_multiplier_bonus",
+        "name": "生命损失治疗额外倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "MaxHealing的SumOfSubParts第二项MaxHealMult=1，与固定基准1相加。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 68,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/parameters",
+      "detailRoute": "/skills/nidalee_e/parameters/max_heal_threshold_ratio",
+      "skillKey": "nidalee_e",
+      "kind": "parameters",
+      "stableKey": "max_heal_threshold_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_heal_threshold_ratio",
+        "name": "最大治疗生命阈值比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.050000001,
+        "levelValues": null,
+        "description": "当前根MaxHealThreshold=0.05；阈值资格和已损生命曲线仍待核。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 69,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/parameters",
+      "detailRoute": "/skills/nidalee_e/parameters/ap_ratio",
+      "skillKey": "nidalee_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.349999994,
+        "levelValues": null,
+        "description": "TotalHealing第二分支mCoefficient=0.35，读取来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 70,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/parameters",
+      "detailRoute": "/skills/nidalee_e/parameters/attack_speed_ratio",
+      "skillKey": "nidalee_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_ratio",
+        "name": "人类形态攻击速度提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.300000012,
+          "2": 0.400000006,
+          "3": 0.5,
+          "4": 0.600000024,
+          "5": 0.699999988
+        },
+        "description": "当前根BonusAS索引1至5为0.3/0.4/0.5/0.6/0.7；比例属性使用1=100%。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 71,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/parameters",
+      "detailRoute": "/skills/nidalee_e/parameters/attack_speed_duration_ms",
+      "skillKey": "nidalee_e",
+      "kind": "parameters",
+      "stableKey": "attack_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_duration_ms",
+        "name": "攻击速度提升持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 7000,
+          "2": 7000,
+          "3": 7000,
+          "4": 7000,
+          "5": 7000
+        },
+        "description": "当前根ASDuration索引1至5均为7秒，精确转换为7000毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 72,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/parameters",
+      "detailRoute": "/skills/nidalee_e/parameters/cast_time_ms",
+      "skillKey": "nidalee_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 73,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/parameters",
+      "detailRoute": "/skills/nidalee_e/parameters/max_heal_base_multiplier",
+      "skillKey": "nidalee_e",
+      "kind": "parameters",
+      "stableKey": "max_heal_base_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_heal_base_multiplier",
+        "name": "最大治疗固定倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "MaxHealing的SumOfSubParts第一项固定1。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 74,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/formulas",
+      "detailRoute": "/skills/nidalee_e/formulas/total_healing",
+      "skillKey": "nidalee_e",
+      "kind": "formulas",
+      "stableKey": "total_healing",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_healing",
+        "name": "野性奔腾最小治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalHealing=基础治疗+0.35×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 75,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/formulas",
+      "detailRoute": "/skills/nidalee_e/formulas/max_healing_multiplier",
+      "skillKey": "nidalee_e",
+      "kind": "formulas",
+      "stableKey": "max_healing_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_healing_multiplier",
+        "name": "生命损失最大治疗倍率",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_heal_base_multiplier"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_heal_multiplier_bonus"
+            }
+          ]
+        },
+        "description": "MaxHealing的倍率为1+MaxHealMult=2；不引用其他公式。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 76,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/formulas",
+      "detailRoute": "/skills/nidalee_e/formulas/maximum_healing",
+      "skillKey": "nidalee_e",
+      "kind": "formulas",
+      "stableKey": "maximum_healing",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "maximum_healing",
+        "name": "野性奔腾最大治疗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_heal_base_multiplier"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_heal_multiplier_bonus"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "最大治疗=完整最小治疗式×(1+MaxHealMult)；已损生命中间曲线由运行层按待核规则提供。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 77,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/effects",
+      "detailRoute": "/skills/nidalee_e/effects/self_heal",
+      "skillKey": "nidalee_e",
+      "kind": "effects",
+      "stableKey": "self_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_heal",
+        "name": "野性奔腾自身直接治疗",
+        "description": "资格审查确认技能允许自身目标；本轮1V1仅保留奈德丽自身，最大治疗分支仍由已损生命阈值和运行层事件选择。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "heal",
+            "name": "野性奔腾自身直接治疗",
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "description": "只记录奈德丽自身的直接治疗结果；友方目标分配由本轮范围排除。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "total_healing"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 78,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/effects",
+      "detailRoute": "/skills/nidalee_e/effects/self_attack_speed",
+      "skillKey": "nidalee_e",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_attack_speed",
+        "name": "野性奔腾自身攻击速度",
+        "description": "资格审查确认技能允许自身目标；本轮仅记录奈德丽自身攻击速度提升，第三方友方分配排除，持续时间和触发由事件层接线。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "野性奔腾自身攻击速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 79,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/nidalee_e/effects",
+      "detailRoute": "/skills/nidalee_e/effects/mana_cost",
+      "skillKey": "nidalee_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 80,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_p/parameters",
+      "detailRoute": "/skills/shyvana_p/parameters/bonus_armor_per_stack",
+      "skillKey": "shyvana_p",
+      "kind": "parameters",
+      "stableKey": "bonus_armor_per_stack",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_armor_per_stack",
+        "name": "每层额外护甲比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.300000012,
+        "levelValues": null,
+        "description": "Calc_Bonus_Armor的BuffCounterByNamedDataValue读取BonusArmor=0.3；每层比例加算。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 81,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_p/parameters",
+      "detailRoute": "/skills/shyvana_p/parameters/bonus_magic_resist_per_stack",
+      "skillKey": "shyvana_p",
+      "kind": "parameters",
+      "stableKey": "bonus_magic_resist_per_stack",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_magic_resist_per_stack",
+        "name": "每层额外魔抗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.300000012,
+        "levelValues": null,
+        "description": "Calc_Bonus_MR的BuffCounterByNamedDataValue读取BonusMagicResist=0.3；每层比例加算。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 82,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_p/parameters",
+      "detailRoute": "/skills/shyvana_p/parameters/champion_takedown_stack_gain",
+      "skillKey": "shyvana_p",
+      "kind": "parameters",
+      "stableKey": "champion_takedown_stack_gain",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "champion_takedown_stack_gain",
+        "name": "英雄参与击杀获得层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前根Stacks_Per_Champion=3；事件资格由运行层接线。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 83,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_p/parameters",
+      "detailRoute": "/skills/shyvana_p/parameters/current_stack_count",
+      "skillKey": "shyvana_p",
+      "kind": "parameters",
+      "stableKey": "current_stack_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_stack_count",
+        "name": "当前龙鳞层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "Calc_Bonus_Armor与Calc_Bonus_MR读取被动层数计数；战前实际层数必须由运行层提供，不设默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 84,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_p/formulas",
+      "detailRoute": "/skills/shyvana_p/formulas/bonus_armor",
+      "skillKey": "shyvana_p",
+      "kind": "formulas",
+      "stableKey": "bonus_armor",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_armor",
+        "name": "龙鳞铁衣额外护甲",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_armor_per_stack"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_stack_count"
+            }
+          ]
+        },
+        "description": "Calc_Bonus_Armor=每层0.3×当前层数。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 85,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_p/formulas",
+      "detailRoute": "/skills/shyvana_p/formulas/bonus_magic_resist",
+      "skillKey": "shyvana_p",
+      "kind": "formulas",
+      "stableKey": "bonus_magic_resist",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_magic_resist",
+        "name": "龙鳞铁衣额外魔抗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_magic_resist_per_stack"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_stack_count"
+            }
+          ]
+        },
+        "description": "Calc_Bonus_MR=每层0.3×当前层数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 86,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_p/effects",
+      "detailRoute": "/skills/shyvana_p/effects/bonus_armor",
+      "skillKey": "shyvana_p",
+      "kind": "effects",
+      "stableKey": "bonus_armor",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "bonus_armor",
+        "name": "龙鳞铁衣额外护甲",
+        "description": "固定护甲点数加成：每层0.3护甲；不是护甲百分比，层数获取事件由事件层接线。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "龙鳞铁衣额外护甲",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "bonus_armor"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "armor",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 87,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_p/effects",
+      "detailRoute": "/skills/shyvana_p/effects/bonus_magic_resist",
+      "skillKey": "shyvana_p",
+      "kind": "effects",
+      "stableKey": "bonus_magic_resist",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "bonus_magic_resist",
+        "name": "龙鳞铁衣额外魔抗",
+        "description": "固定魔抗点数加成：每层0.3魔抗；不是魔抗百分比，层数获取事件由事件层接线。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "龙鳞铁衣额外魔抗",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "bonus_magic_resist"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 88,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/max_health_damage_ratio",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "max_health_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_health_damage_ratio",
+        "name": "普攻附加目标最大生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "Calc_Max_Health_Damage第一分支Max_Health_Damage=0.01。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 89,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/max_health_bonus_ad_ratio",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "max_health_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_health_bonus_ad_ratio",
+        "name": "普攻附加额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.00011,
+        "levelValues": null,
+        "description": "Calc_Max_Health_Damage第二分支Max_Health_AD_Ratio=0.00011，读取来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 90,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/active_base_damage",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "active_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_base_damage",
+        "name": "强化攻击基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "description": "当前根Base_Damage索引1至5为10/15/20/25/30；计算树键BASE_DAMAGE按源DataValue绑定。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 91,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/active_total_ad_ratio",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "active_total_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_total_ad_ratio",
+        "name": "强化攻击总攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.100000024,
+        "levelValues": null,
+        "description": "Calc_Damage第二分支Damage_AD_Ratio=1.1，当前正文为总攻击力段。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 92,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/active_ap_ratio",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "active_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_ap_ratio",
+        "name": "强化攻击法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.300000012,
+        "levelValues": null,
+        "description": "Calc_Damage第三分支mCoefficient=0.3，读取来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 93,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/cooldown_reduction_ms",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_reduction_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_reduction_ms",
+        "name": "普攻缩短Q冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "Cooldown_Reduction=0.5秒，精确转换为500毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 94,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/enhance_duration_ms",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "enhance_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "enhance_duration_ms",
+        "name": "强化窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 6000,
+          "2": 6000,
+          "3": 6000,
+          "4": 6000,
+          "5": 6000
+        },
+        "description": "当前根EnhanceDuration索引1至5均为6秒，转换为6000毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 95,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/recast_duration_ms",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "recast_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recast_duration_ms",
+        "name": "再施窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 4000,
+          "2": 4000,
+          "3": 4000,
+          "4": 4000,
+          "5": 4000
+        },
+        "description": "当前根RecastDuration索引1至5均为4秒，转换为4000毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 96,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/lockout_duration_ms",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "lockout_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "lockout_duration_ms",
+        "name": "再次攻击锁定时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1500,
+          "2": 1500,
+          "3": 1500,
+          "4": 1500,
+          "5": 1500
+        },
+        "description": "当前根LockoutDuration索引1至5均为1.5秒，转换为1500毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 97,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/bonus_attack_range",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "bonus_attack_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_attack_range",
+        "name": "强化攻击额外距离",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 50,
+          "3": 50,
+          "4": 50,
+          "5": 50
+        },
+        "description": "当前根Bonus_Attack_Range索引1至5均为50。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 98,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/parameters",
+      "detailRoute": "/skills/shyvana_q/parameters/cast_time_ms",
+      "skillKey": "shyvana_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0；精确记录为0毫秒，不表示两次攻击同时完成。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 99,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/formulas",
+      "detailRoute": "/skills/shyvana_q/formulas/passive_max_health_magic_damage",
+      "skillKey": "shyvana_q",
+      "kind": "formulas",
+      "stableKey": "passive_max_health_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "passive_max_health_magic_damage",
+        "name": "焚焰打击普攻附加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_health_damage_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_health_bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "Calc_Max_Health_Damage=[0.01+0.00011×来源额外攻击力]×目标最大生命。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 100,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/formulas",
+      "detailRoute": "/skills/shyvana_q/formulas/active_physical_damage",
+      "skillKey": "shyvana_q",
+      "kind": "formulas",
+      "stableKey": "active_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "active_physical_damage",
+        "name": "焚焰打击强化攻击物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "active_total_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Calc_Damage=基础值+1.1×来源总攻击力+0.3×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 101,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_q/effects",
+      "detailRoute": "/skills/shyvana_q/effects/reduce_q_cooldown",
+      "skillKey": "shyvana_q",
+      "kind": "effects",
+      "stableKey": "reduce_q_cooldown",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "reduce_q_cooldown",
+        "name": "普攻命中后缩短自身Q冷却",
+        "description": "仅记录0.5秒冷却缩短量；普攻命中、第一或第二次同敌目标及扣减时点由事件层接线。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_cooldown",
+            "name": "普攻命中后缩短自身Q冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": "只影响指定技能，命中条件和实际扣减时点由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_reduction_ms"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "shyvana_q"
+                ],
+                "skillCategoryKeys": []
+              },
+              "operation": "REDUCE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 102,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/duration_ms",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "护盾与移动速度持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2500,
+          "2": 2500,
+          "3": 2500,
+          "4": 2500,
+          "5": 2500
+        },
+        "description": "当前根Duration索引1至5均为2.5秒，转换为2500毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 103,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/explosion_radius",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "explosion_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "explosion_radius",
+        "name": "结束爆炸半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "当前根Radius=350；与护盾附近目标检查半径分开。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 104,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/shield_radius",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "shield_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_radius",
+        "name": "护盾目标检查半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "当前根Shield_Radius=600。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 105,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/shield_base",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "基础护盾值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 80,
+          "3": 100,
+          "4": 120,
+          "5": 140
+        },
+        "description": "当前根Shield索引1至5为60/80/100/120/140；索引0=40不作技能1级。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 106,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/bonus_health_ratio",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "bonus_health_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_health_ratio",
+        "name": "额外生命护盾比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.119999997,
+        "levelValues": null,
+        "description": "Calc_Shield第二分支ShieldMaxHealth=0.12，读取来源额外生命。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 107,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/nearby_enemy_bonus_ratio",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "nearby_enemy_bonus_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "nearby_enemy_bonus_ratio",
+        "name": "附近合格敌人护盾加成比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.300000012,
+        "levelValues": null,
+        "description": "附近敌人修改树mMultiplier=0.3，作用于完整Calc_Shield。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 108,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/nearby_enemy_count",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "nearby_enemy_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "nearby_enemy_count",
+        "name": "护盾范围内合格敌人数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "只允许当前唯一敌人场景的0或1；运行层必须提供实际数量，不默认填0。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 109,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/move_speed_ratio",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_ratio",
+        "name": "自身移动速度提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.25,
+          "3": 0.25,
+          "4": 0.25,
+          "5": 0.25
+        },
+        "description": "当前根BaseMoveSpeed索引1至5均为0.25；比例属性使用1=100%。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 110,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/move_speed_toward_multiplier",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_toward_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_toward_multiplier",
+        "name": "朝敌方英雄移动倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1.75,
+          "2": 1.75,
+          "3": 1.75,
+          "4": 1.75,
+          "5": 1.75
+        },
+        "description": "当前根MoveSpeedAmpTowardsEnemies索引1至5均为1.75。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 111,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/explosion_base_damage",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "explosion_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "explosion_base_damage",
+        "name": "结束爆炸基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 100,
+          "3": 120,
+          "4": 140,
+          "5": 160
+        },
+        "description": "当前根BaseDamage索引1至5为80/100/120/140/160；索引0=60不作技能1级。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 112,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/parameters",
+      "detailRoute": "/skills/shyvana_w/parameters/explosion_ap_ratio",
+      "skillKey": "shyvana_w",
+      "kind": "parameters",
+      "stableKey": "explosion_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "explosion_ap_ratio",
+        "name": "结束爆炸法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.649999976,
+        "levelValues": null,
+        "description": "Damage第二分支mCoefficient=0.65，读取来源总法强。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 113,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/formulas",
+      "detailRoute": "/skills/shyvana_w/formulas/shield_amount",
+      "skillKey": "shyvana_w",
+      "kind": "formulas",
+      "stableKey": "shield_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_amount",
+        "name": "烈火圣盾基础护盾",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Calc_Shield=基础护盾+0.12×来源额外生命。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 114,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/formulas",
+      "detailRoute": "/skills/shyvana_w/formulas/nearby_shield_bonus",
+      "skillKey": "shyvana_w",
+      "kind": "formulas",
+      "stableKey": "nearby_shield_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "nearby_shield_bonus",
+        "name": "附近敌人护盾加成量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "nearby_enemy_bonus_ratio"
+            }
+          ]
+        },
+        "description": "附近敌人修改树=完整Calc_Shield×0.3；不把每个敌人直接展开为无限目标。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 115,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/formulas",
+      "detailRoute": "/skills/shyvana_w/formulas/shield_total",
+      "skillKey": "shyvana_w",
+      "kind": "formulas",
+      "stableKey": "shield_total",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_total",
+        "name": "烈火圣盾最终护盾",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_base"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bonus_health_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "hp",
+                              "attributeValueKind": "BONUS"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "nearby_enemy_bonus_ratio"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "nearby_enemy_count"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "最终护盾=完整基础护盾+[完整基础护盾×0.3×合格敌人数]，敌人数只核对0或1。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 116,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/formulas",
+      "detailRoute": "/skills/shyvana_w/formulas/toward_move_speed_ratio",
+      "skillKey": "shyvana_w",
+      "kind": "formulas",
+      "stableKey": "toward_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "toward_move_speed_ratio",
+        "name": "朝敌方英雄移动速度比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "move_speed_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "move_speed_toward_multiplier"
+            }
+          ]
+        },
+        "description": "MoveSpeedTowardsEnemies=0.25×1.75=0.4375；以内联二元式表达，不引用其他公式。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 117,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/formulas",
+      "detailRoute": "/skills/shyvana_w/formulas/explosion_magic_damage",
+      "skillKey": "shyvana_w",
+      "kind": "formulas",
+      "stableKey": "explosion_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "explosion_magic_damage",
+        "name": "烈火圣盾结束爆炸魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "explosion_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "explosion_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage=结束爆炸基础值+0.65×来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 118,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/effects",
+      "detailRoute": "/skills/shyvana_w/effects/shield",
+      "skillKey": "shyvana_w",
+      "kind": "effects",
+      "stableKey": "shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "shield",
+        "name": "烈火圣盾最终护盾",
+        "description": "护盾按当前唯一敌人数计算；护盾生成与结束/破盾/再施爆炸事件由事件层接线。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "烈火圣盾最终护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "普通护盾，触发和移除事件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_total"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 119,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/effects",
+      "detailRoute": "/skills/shyvana_w/effects/move_speed",
+      "skillKey": "shyvana_w",
+      "kind": "effects",
+      "stableKey": "move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "move_speed",
+        "name": "烈火圣盾自身移动速度",
+        "description": "烈火圣盾的25%基础状态分支；与朝合格敌方的43.75%完整替代分支互斥，不把两者相加，施放和移除事件由事件层接线。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "烈火圣盾自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 120,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_w/effects",
+      "detailRoute": "/skills/shyvana_w/effects/move_speed_toward_enemy",
+      "skillKey": "shyvana_w",
+      "kind": "effects",
+      "stableKey": "move_speed_toward_enemy",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "move_speed_toward_enemy",
+        "name": "烈火圣盾朝敌方移动速度",
+        "description": "朝唯一合格敌方移动时的43.75%完整替代分支；与25%基础状态互斥，失去方向资格或持续时间结束时切换/移除。",
+        "sortOrder": 40,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "烈火圣盾朝敌方移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "toward_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 121,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/parameters",
+      "detailRoute": "/skills/shyvana_e/parameters/base_damage",
+      "skillKey": "shyvana_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "普通形态火球基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 65,
+          "3": 80,
+          "4": 95,
+          "5": 110
+        },
+        "description": "当前根BaseDamage索引1至5为50/65/80/95/110；索引0=35不作技能1级。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 122,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/parameters",
+      "detailRoute": "/skills/shyvana_e/parameters/ap_ratio",
+      "skillKey": "shyvana_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "普通形态火球法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.600000024,
+          "2": 0.649999976,
+          "3": 0.699999988,
+          "4": 0.75,
+          "5": 0.800000012
+        },
+        "description": "当前根DamageAPRatio索引1至5为0.6/0.65/0.7/0.75/0.8。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 123,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/parameters",
+      "detailRoute": "/skills/shyvana_e/parameters/target_max_health_damage_ratio",
+      "skillKey": "shyvana_e",
+      "kind": "parameters",
+      "stableKey": "target_max_health_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "target_max_health_damage_ratio",
+        "name": "目标最大生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.050000001,
+        "levelValues": null,
+        "description": "Calc_Max_Health_Damage读取MaxHealthDamage=0.05；普通形态保留。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 124,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/parameters",
+      "detailRoute": "/skills/shyvana_e/parameters/slow_ratio",
+      "skillKey": "shyvana_e",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "普通形态减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.300000012,
+          "2": 0.300000012,
+          "3": 0.300000012,
+          "4": 0.300000012,
+          "5": 0.300000012
+        },
+        "description": "当前根SlowAmount索引1至5均为0.3；比例属性和显示30%分开。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 125,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/parameters",
+      "detailRoute": "/skills/shyvana_e/parameters/slow_duration_ms",
+      "skillKey": "shyvana_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2000,
+          "2": 2000,
+          "3": 2000,
+          "4": 2000,
+          "5": 2000
+        },
+        "description": "当前根SlowDuration索引1至5均为2秒，转换为2000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 126,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/parameters",
+      "detailRoute": "/skills/shyvana_e/parameters/cast_time_ms",
+      "skillKey": "shyvana_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 127,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/formulas",
+      "detailRoute": "/skills/shyvana_e/formulas/damage",
+      "skillKey": "shyvana_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "爆炎吐息火球基础魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage=基础值+DamageAPRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 128,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/formulas",
+      "detailRoute": "/skills/shyvana_e/formulas/max_health_damage",
+      "skillKey": "shyvana_e",
+      "kind": "formulas",
+      "stableKey": "max_health_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_health_damage",
+        "name": "爆炎吐息目标最大生命伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "target_max_health_damage_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "Calc_Max_Health_Damage=0.05×目标最大生命。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 129,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shyvana_e/formulas",
+      "detailRoute": "/skills/shyvana_e/formulas/magic_damage",
+      "skillKey": "shyvana_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "爆炎吐息普通形态完整魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_max_health_damage_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "普通形态总伤害=火球基础+法强段+目标最大生命5%；不接龙形态放大或地面轨迹。",
+        "sortOrder": 30
+      }
+    }
+  ],
+  "noApiCalls": true,
+  "apiWrites": 0,
+  "businessWrites": 0
+}

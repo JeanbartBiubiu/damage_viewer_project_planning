@@ -1,0 +1,30 @@
+{
+  "i": 119,
+  "intent": {
+    "sequence": 121,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_e/parameters",
+    "detailRoute": "/skills/shyvana_e/parameters/base_damage",
+    "skillKey": "shyvana_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "普通形态火球基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 65,
+        "3": 80,
+        "4": 95,
+        "5": 110
+      },
+      "description": "当前根BaseDamage索引1至5为50/65/80/95/110；索引0=35不作技能1级。",
+      "sortOrder": 10
+    }
+  }
+}

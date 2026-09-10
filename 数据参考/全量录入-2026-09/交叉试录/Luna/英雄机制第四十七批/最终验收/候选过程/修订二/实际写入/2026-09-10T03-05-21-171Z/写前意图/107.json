@@ -1,0 +1,24 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 108,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/nearby_enemy_count",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "nearby_enemy_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "nearby_enemy_count",
+      "name": "护盾范围内合格敌人数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "只允许当前唯一敌人场景的0或1；运行层必须提供实际数量，不默认填0。",
+      "sortOrder": 70
+    }
+  }
+}

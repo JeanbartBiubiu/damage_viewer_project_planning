@@ -1,0 +1,34 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 85,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_p/formulas",
+    "detailRoute": "/skills/shyvana_p/formulas/bonus_magic_resist",
+    "skillKey": "shyvana_p",
+    "kind": "formulas",
+    "stableKey": "bonus_magic_resist",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bonus_magic_resist",
+      "name": "龙鳞铁衣额外魔抗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_magic_resist_per_stack"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_stack_count"
+          }
+        ]
+      },
+      "description": "每层0.3固定属性点数乘实际当前层数；3层约0.9点，按护甲或魔法抗性固定加算。",
+      "sortOrder": 20
+    }
+  }
+}

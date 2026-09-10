@@ -1,0 +1,24 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_q/parameters",
+    "detailRoute": "/skills/nidalee_q/parameters/maximum_damage_multiplier",
+    "skillKey": "nidalee_q",
+    "kind": "parameters",
+    "stableKey": "maximum_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "maximum_damage_multiplier",
+      "name": "标枪最大伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3.25,
+      "levelValues": null,
+      "description": "HumanMaximumDamage将完整HumanMinimumDamage乘DamageMulti=3.25；不是只乘基础段。",
+      "sortOrder": 30
+    }
+  }
+}

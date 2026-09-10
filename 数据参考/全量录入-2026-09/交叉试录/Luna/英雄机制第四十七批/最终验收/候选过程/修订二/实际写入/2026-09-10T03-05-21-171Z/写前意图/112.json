@@ -1,0 +1,46 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 113,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/formulas",
+    "detailRoute": "/skills/shyvana_w/formulas/shield_amount",
+    "skillKey": "shyvana_w",
+    "kind": "formulas",
+    "stableKey": "shield_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_amount",
+      "name": "烈火圣盾基础护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Calc_Shield=基础护盾+0.12×来源额外生命。",
+      "sortOrder": 10
+    }
+  }
+}

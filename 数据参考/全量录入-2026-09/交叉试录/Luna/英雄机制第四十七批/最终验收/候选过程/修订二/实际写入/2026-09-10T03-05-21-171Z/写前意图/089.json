@@ -1,0 +1,30 @@
+{
+  "i": 88,
+  "intent": {
+    "sequence": 90,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/parameters",
+    "detailRoute": "/skills/shyvana_q/parameters/active_base_damage",
+    "skillKey": "shyvana_q",
+    "kind": "parameters",
+    "stableKey": "active_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_base_damage",
+      "name": "强化攻击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "description": "当前根Base_Damage索引1至5为10/15/20/25/30；计算树键BASE_DAMAGE按源DataValue绑定。",
+      "sortOrder": 30
+    }
+  }
+}

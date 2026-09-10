@@ -1,0 +1,52 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 101,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/effects",
+    "detailRoute": "/skills/shyvana_q/effects/reduce_q_cooldown",
+    "skillKey": "shyvana_q",
+    "kind": "effects",
+    "stableKey": "reduce_q_cooldown",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "reduce_q_cooldown",
+      "name": "普攻命中后缩短自身Q冷却",
+      "description": "仅记录0.5秒冷却缩短量；普攻命中、第一或第二次同敌目标及扣减时点由事件层接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "reduce_cooldown",
+          "name": "普攻命中后缩短自身Q冷却",
+          "resultType": "COOLDOWN_CHANGE",
+          "target": "SOURCE",
+          "description": "只影响指定技能，命中条件和实际扣减时点由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_reduction_ms"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillKeys": [
+                "shyvana_q"
+              ],
+              "skillCategoryKeys": []
+            },
+            "operation": "REDUCE"
+          }
+        }
+      ]
+    }
+  }
+}

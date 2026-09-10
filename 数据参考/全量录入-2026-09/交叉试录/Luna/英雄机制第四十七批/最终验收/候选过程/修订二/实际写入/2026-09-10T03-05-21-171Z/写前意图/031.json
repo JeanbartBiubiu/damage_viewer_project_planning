@@ -1,0 +1,31 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/jayce_w/parameters",
+    "detailRoute": "/skills/jayce_w/parameters/base_damage",
+    "skillKey": "jayce_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "闪电领域基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 140,
+        "2": 200,
+        "3": 260,
+        "4": 320,
+        "5": 380,
+        "6": 440
+      },
+      "description": "当前根BaseDamage索引1至6为140/200/260/320/380/440；为4秒整段基础值。",
+      "sortOrder": 20
+    }
+  }
+}
