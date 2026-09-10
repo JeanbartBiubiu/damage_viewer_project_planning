@@ -1,0 +1,208 @@
+{
+  "generatedAt": "2026-09-10T04:46:04.874Z",
+  "status": "通过",
+  "scope": "只做固定来源与候选层数学、类型引用、单位和缺值拒绝；没有业务接口、数据库、运行时或浏览器证据。",
+  "sourceScenarios": [
+    {
+      "id": "item_2010-source-values",
+      "flat": 20,
+      "ratioRaw": 0.014999999664723873,
+      "ratioNormalized": 0.015,
+      "capRawPercent": 100,
+      "capRatio": 1,
+      "duration_ms": 5000,
+      "thresholdRaw": 0.30000001192092896,
+      "thresholdNormalized": 0.3,
+      "permanentHealthPerCookie": 30
+    }
+  ],
+  "formulaScenarioCounts": {
+    "item_2010_consume.base_biscuit_recovery": 2,
+    "item_2010_consume.biscuit_recovery_total": 2,
+    "item_2010_consume.permanent_health_gain": 2
+  },
+  "formulaScenarios": [
+    {
+      "skillKey": "item_2010_consume",
+      "formulaKey": "base_biscuit_recovery",
+      "label": "基数场景A：最大生命1000",
+      "inputs": {
+        "runtime": {},
+        "attrs": {
+          "SOURCE.hp.TOTAL": 1000
+        }
+      },
+      "actual": 35,
+      "expectedFromSource": 35,
+      "delta": 0,
+      "sourceBasis": "客户端FlatHealTOOLTIP=20 + MaxHPMultiplierTOOLTIP≈0.015 × SOURCE.hp.TOTAL=1000",
+      "passed": true
+    },
+    {
+      "skillKey": "item_2010_consume",
+      "formulaKey": "base_biscuit_recovery",
+      "label": "基数场景B：最大生命2400",
+      "inputs": {
+        "runtime": {},
+        "attrs": {
+          "SOURCE.hp.TOTAL": 2400
+        }
+      },
+      "actual": 56,
+      "expectedFromSource": 56,
+      "delta": 0,
+      "sourceBasis": "客户端FlatHealTOOLTIP=20 + MaxHPMultiplierTOOLTIP≈0.015 × SOURCE.hp.TOTAL=2400",
+      "passed": true
+    },
+    {
+      "skillKey": "item_2010_consume",
+      "formulaKey": "biscuit_recovery_total",
+      "label": "总量场景A：无已损提升",
+      "inputs": {
+        "runtime": {
+          "actual_missing_health_boost_ratio": 0
+        },
+        "attrs": {
+          "SOURCE.hp.TOTAL": 1000
+        }
+      },
+      "actual": 35,
+      "expectedFromSource": 35,
+      "delta": 0,
+      "sourceBasis": "来源上限内MIN(0,100%)=0，5秒总量等于基数",
+      "passed": true
+    },
+    {
+      "skillKey": "item_2010_consume",
+      "formulaKey": "biscuit_recovery_total",
+      "label": "总量场景B：达到100%提升",
+      "inputs": {
+        "runtime": {
+          "actual_missing_health_boost_ratio": 1
+        },
+        "attrs": {
+          "SOURCE.hp.TOTAL": 2400
+        }
+      },
+      "actual": 112,
+      "expectedFromSource": 112,
+      "delta": 0,
+      "sourceBasis": "来源上限100%，5秒总量为基数×2",
+      "passed": true
+    },
+    {
+      "skillKey": "item_2010_consume",
+      "formulaKey": "permanent_health_gain",
+      "label": "永久生命场景A：实际消费1块",
+      "inputs": {
+        "runtime": {
+          "actual_consumed_or_sold_count": 1
+        },
+        "attrs": {}
+      },
+      "actual": 30,
+      "expectedFromSource": 30,
+      "delta": 0,
+      "sourceBasis": "来源BonusMaxHealthTOOLTIP=30 × 实际消费或出售1块",
+      "passed": true
+    },
+    {
+      "skillKey": "item_2010_consume",
+      "formulaKey": "permanent_health_gain",
+      "label": "永久生命场景B：实际消费或出售3块",
+      "inputs": {
+        "runtime": {
+          "actual_consumed_or_sold_count": 3
+        },
+        "attrs": {}
+      },
+      "actual": 90,
+      "expectedFromSource": 90,
+      "delta": 0,
+      "sourceBasis": "来源BonusMaxHealthTOOLTIP=30 × 实际消费或出售3块",
+      "passed": true
+    }
+  ],
+  "missingInputChecks": [
+    {
+      "label": "缺少实际已损生命提升",
+      "expectedToken": "actual_missing_health_boost_ratio",
+      "observed": "MISSING_INPUT:actual_missing_health_boost_ratio",
+      "passed": true
+    },
+    {
+      "label": "缺少实际消费或出售数",
+      "expectedToken": "actual_consumed_or_sold_count",
+      "observed": "MISSING_INPUT:actual_consumed_or_sold_count",
+      "passed": true
+    },
+    {
+      "label": "适应力转换未提供方向",
+      "expectedToken": "adaptive_conversion_choice",
+      "observed": "MISSING_INPUT:adaptive_conversion_choice",
+      "passed": true
+    }
+  ],
+  "typeChecks": [
+    {
+      "id": "item_2422-unique-source",
+      "directMoveSpeed": 25,
+      "additionalMoveSpeed": 10,
+      "prospectiveTotal": 35,
+      "newEffectModeled": true,
+      "newEffectApplied": false,
+      "oldEffectDeletionPending": true,
+      "protectedRuneEffectValue": 10,
+      "passed": true
+    },
+    {
+      "id": "equipment-relation-allowed-change",
+      "count": 4,
+      "before": "四条均为空",
+      "after": "四条各挂对应新技能",
+      "runeRelationsUnchanged": true,
+      "passed": true
+    },
+    {
+      "id": "item_2010-permanent-health-unit",
+      "attributeKey": "hp",
+      "modifierZoneKey": "attribute_flat_add",
+      "valueUnit": "生命值点数",
+      "passed": true
+    },
+    {
+      "id": "item_2152-raw-unit",
+      "adaptiveForce": 25,
+      "duration_ms": 60000,
+      "simultaneousADAndAP": false,
+      "passed": true
+    },
+    {
+      "id": "item_2150-skill-point",
+      "skillPoints": 1,
+      "levelIncrease": false,
+      "maxedSkillInvestment": false,
+      "effectCreated": false,
+      "passed": true
+    }
+  ],
+  "checks": {
+    "expectedAtLeastTwoScenariosPerFormula": true,
+    "allFixedNumbersFinite": true,
+    "allMillisecondsInteger": true,
+    "allOperationsBinary": true,
+    "allAttributeKeysKnown": true,
+    "allTypedReferencesResolved": true,
+    "runtimeInputsHaveNoDefaults": true,
+    "item2422NewEffectCount": 1,
+    "item2422ProspectiveMoveSpeed": 35,
+    "item2422DirectMoveSpeed": 25,
+    "item2422EffectiveNow": false,
+    "item2010PermanentHealthUnit": "hp点数 / attribute_flat_add",
+    "item2152AdaptiveDirectionDefault": null,
+    "item2422OldEffectDeletion": "pending",
+    "allowedEquipmentRelationChanges": 4,
+    "errorCount": 0
+  },
+  "errors": []
+}

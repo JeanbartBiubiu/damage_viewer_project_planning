@@ -1,0 +1,337 @@
+{
+  "generatedAt": "2026-09-10T04:46:04.469Z",
+  "status": "PENDING_ROOT_EXECUTION",
+  "purpose": "将唯一已确认且无数据库入引用的神奇之鞋额外10移速效果从符文8304迁移到item_2422_passive；本文件是只读意图，不是执行结果。",
+  "evidence": {
+    "cursorV2Review": {
+      "path": ".agents/artifacts/rune-equipment-ownership-v2-cursor-review-run-20260910/review.md",
+      "sha256": "3d2e0d2c961d02c4d4dfb837243bcddef82cacfdbd851ab9ece43c710c5ce59c",
+      "verdict": "REVISE",
+      "absorbed": "允许四条新装备挂载变化；删除旧效果后以GET404/空列表续跑且不重复DELETE。"
+    },
+    "cursorV3Review": {
+      "directory": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910",
+      "conclusionPath": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/Cursor来源复核结论.md",
+      "reviewPath": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/review.md",
+      "summaryPath": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/summary.json",
+      "conclusionSha256": "d1cec1483504f62bcab560bd881a58fe0c39209cb4991eb274e28c2690998a15",
+      "reviewSha256": "363e90c6ac5b5197c6728776e5af3efd5aef5cd23e1f3f07d2cc26cc73738848",
+      "summarySha256": "793145792ea7efc3d0c20124f812272468c13b133d6803b284bad78854a972b9",
+      "verdict": "READY",
+      "reviewedPlanRevision": "rune-equipment-ownership-v3",
+      "absorbed": "确认四条计划内装备挂载、GET404/空列表续跑、不重复DELETE、挂载后不恢复旧效果，以及旧效果代表图200/null到404的计划内变化。"
+    },
+    "revisedScheme": {
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/最小补录方案-修订三.md",
+      "sha256": "80702af5beb837c7770949d166db0a3f82fc98706c70e06e2968fec754e188b4",
+      "revision": "rune-equipment-ownership-v3"
+    },
+    "duplicateCheck": {
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/补充查重与分类.json",
+      "sha256": "f270f6179322e797fa92b40fc67a26ed12104f1e544e418a63b5c5e0f7b782f1",
+      "GETs": 6,
+      "businessWrites": 0,
+      "newSkillStatuses": {
+        "item_2010_consume": 404,
+        "item_2150_consume": 404,
+        "item_2152_consume": 404,
+        "item_2422_passive": 404
+      },
+      "categories": [
+        "common",
+        "move_skill",
+        "passive"
+      ],
+      "oldEffectRepresentativeImage": null
+    },
+    "oldEffectReference": {
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/旧鞋效果真实引用只读核对.json",
+      "sha256": "71003cd779663be9e148b078af28684fb8528364b2921928203742219ac4f9f8",
+      "businessWrites": 0,
+      "DDL": 0,
+      "inboundReferences": 0,
+      "imageRelations": 0,
+      "passed": true
+    },
+    "protectedOldEffect": {
+      "skillKey": "rune_8304_passive",
+      "effectKey": "magical_footwear_additional_speed",
+      "value": 10,
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "result": {
+        "description": null,
+        "detail": {
+          "attributeKey": "move_speed",
+          "modifierZoneKey": "attribute_flat_add",
+          "operation": "INCREASE"
+        },
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "periodicExecutionMode": null,
+          "reapplicationValueMode": "REPLACE",
+          "stackValueMode": "SHARED",
+          "valueReadMode": "APPLICATION_SNAPSHOT"
+        },
+        "name": "神奇之鞋额外移速",
+        "resultKey": "attribute_bonus",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "sortOrder": 10,
+        "spellShieldBlockScope": null,
+        "target": "SOURCE",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": 0,
+          "fixedMultiplier": 1,
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "additional_move_speed"
+          }
+        }
+      }
+    }
+  },
+  "sequence": [
+    {
+      "step": 1,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/item_2422_passive",
+      "expected": "404.SKILL_NOT_FOUND；或200且逐字段与候选一致时跳过技能POST",
+      "purpose": "写前查重；404才创建；已存在且逐字段一致则续跑缺失子对象，冲突立即停止"
+    },
+    {
+      "step": 2,
+      "action": "POST",
+      "path": "/api/admin/games/lol/skills",
+      "requestId": "item_2422_passive-skill",
+      "expected": "200，返回skillKey=item_2422_passive",
+      "purpose": "创建新装备技能，尚未挂载到装备"
+    },
+    {
+      "step": 3,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/item_2422_passive",
+      "expected": "200，逐字段与候选技能一致",
+      "purpose": "新技能保存后立即核对"
+    },
+    {
+      "step": 4,
+      "action": "POST",
+      "path": "/api/admin/games/lol/skills/item_2422_passive/parameters",
+      "requestId": "item_2422_passive-parameter-additional_move_speed",
+      "expected": "200，参数值10"
+    },
+    {
+      "step": 5,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/item_2422_passive/parameters/additional_move_speed",
+      "expected": "200，参数值10且无等级数组",
+      "purpose": "新参数保存后立即核对"
+    },
+    {
+      "step": 6,
+      "action": "POST",
+      "path": "/api/admin/games/lol/skills/item_2422_passive/effects",
+      "requestId": "item_2422_passive-effect-magical_footwear_additional_speed",
+      "expected": "200，属性变化目标SOURCE、move_speed固定加算10"
+    },
+    {
+      "step": 7,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/item_2422_passive/effects/magical_footwear_additional_speed",
+      "expected": "200，逐字段等价新效果，所有参数和属性引用存在",
+      "purpose": "新效果逐次GET确认失败即停止，不碰旧对象"
+    },
+    {
+      "step": 8,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive",
+      "expected": "200，旧技能主体与冻结快照一致",
+      "purpose": "删前确认旧技能主体仍在"
+    },
+    {
+      "step": 9,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/parameters",
+      "expected": "19参数中的旧技能参数保持，不能删除或更新",
+      "purpose": "删前保存旧参数组成"
+    },
+    {
+      "step": 10,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/formulas",
+      "expected": "旧公式保持，不能删除或更新",
+      "purpose": "删前保存旧公式组成"
+    },
+    {
+      "step": 11,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/effects",
+      "expected": "仅有冻结的旧鞋效果，删前列表一致",
+      "purpose": "删前核对旧效果列表"
+    },
+    {
+      "step": 12,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/effects/magical_footwear_additional_speed",
+      "expected": "200，旧效果仍与冻结快照一致",
+      "purpose": "删前保存旧效果完整请求和保护证据"
+    },
+    {
+      "step": 13,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/processes",
+      "expected": "[]，旧过程为空",
+      "purpose": "删前核对旧过程为空"
+    },
+    {
+      "step": 14,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/internal-states",
+      "expected": "[]，旧内部状态为空",
+      "purpose": "删前核对旧内部状态为空"
+    },
+    {
+      "step": 15,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/trigger-rules",
+      "expected": "[]，旧触发规则为空",
+      "purpose": "删前核对旧触发规则为空"
+    },
+    {
+      "step": 16,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/effects/magical_footwear_additional_speed/representative-image",
+      "expected": "200，image为null",
+      "purpose": "删前确认旧效果没有图片关联"
+    },
+    {
+      "step": 17,
+      "action": "DELETE",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/effects/magical_footwear_additional_speed",
+      "requestId": "item_2422_passive-migrate-delete-old-effect",
+      "expected": "204；仅允许删除这一条旧效果",
+      "guard": "HTTP409或任何非204立即停止，不删除其他引用，不绕过校验"
+    },
+    {
+      "step": 18,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/effects/magical_footwear_additional_speed",
+      "expected": "404.SKILL_EFFECT_NOT_FOUND",
+      "purpose": "确认旧详情已消失；非404立即停止；若此前已DELETE204，续跑从这里开始，不重放DELETE"
+    },
+    {
+      "step": 19,
+      "action": "GET",
+      "path": "/api/admin/games/lol/skills/rune_8304_passive/effects",
+      "expected": "[]，旧技能效果列表只减少这一条",
+      "purpose": "确认没有残留旧效果；列表为空即可继续挂载，不把原204当作必须重放的门槛"
+    },
+    {
+      "step": 20,
+      "action": "POST",
+      "path": "/api/admin/games/lol/equipment-skill-relations",
+      "requestId": "item_2422_passive-equipment-skill-relation",
+      "expected": "200，equipmentKey=item_2422且skillKey=item_2422_passive",
+      "purpose": "旧效果确认404且旧列表为空后才挂载新技能；若关系已恰为计划内目标则跳过POST，四条装备挂载属于计划内允许变化"
+    },
+    {
+      "step": 21,
+      "action": "PUT",
+      "path": "/api/admin/games/lol/skills/item_2422_passive/representative-image",
+      "requestId": "item_2422_passive-representative-image",
+      "expected": "200，imageKey=item_2422",
+      "purpose": "复用装备代表图；旧效果代表图随旧效果删除变为计划内404"
+    }
+  ],
+  "forbidden": [
+    "删除或更新rune_8304_passive的参数、公式、主体或挂载",
+    "在旧效果未确认404前创建装备挂载",
+    "因为旧效果无数据库引用就跳过逐次GET和DELETE204检查",
+    "并行保留两份可执行额外10效果",
+    "把item_2422直接移速25改成35或45",
+    "旧效果已经确认404且列表为空后重复DELETE",
+    "四个计划内装备挂载完成后恢复旧符文效果"
+  ],
+  "recovery": {
+    "oldEffectPreimagePath": ".agents/artifacts/rune-equipment-ownership-root-20260910/当前保护快照.json",
+    "onDeleteFailure": "非204或HTTP409立即停止并回读当前状态；不自动补写或删除；由主负责人根据已保存旧效果完整请求决定恢复。",
+    "afterDeleteResume": "若已得到DELETE204，或回读已确认旧效果GET404且旧效果列表为空，续跑只从新装备挂载开始，不重复DELETE。",
+    "onPostDeleteFailureBeforeRelation": "旧效果已删且新技能未挂载时，先GET旧效果404、旧列表为空并核对新对象与保护数据，再继续挂载；不把重复DELETE当恢复。",
+    "afterRelation": "四个装备挂载属于允许变化；挂载完成后禁止以删前保存请求恢复旧符文效果。"
+  },
+  "resumeRules": {
+    "existingCorrectNewSkill": "续跑前GET新技能；若已是候选逐字段一致的200，跳过技能POST并只补缺失子对象，不能重复POST或覆盖。",
+    "existingCorrectChild": "参数、公式、效果逐项GET已存在且与候选一致时跳过对应POST；不因已存在就更新未知字段。",
+    "existingCorrectEquipmentRelation": "四件装备关系若GET已有且恰为计划内equipmentKey+skillKey，跳过对应POST；其他或多余关系立即停。",
+    "oldEffectBeforeDelete": "续跑先GET旧效果；仍为200且删前条件一致才允许唯一DELETE，已为404且旧效果列表为空则跳过DELETE继续。",
+    "afterDeleteBeforeRelation": "删除后必须GET旧效果404、旧效果列表为空并核对新对象与保护数据，再继续挂载；不得重复DELETE。",
+    "afterItem2422Relation": "item_2422计划内关系一旦存在，禁止恢复旧符文效果；旧效果代表图404属于计划内结果。"
+  },
+  "finalAudit": {
+    "allowedEquipmentRelationChanges": [
+      {
+        "equipmentKey": "item_2010",
+        "before": 0,
+        "after": 1,
+        "skillKey": "item_2010_consume"
+      },
+      {
+        "equipmentKey": "item_2150",
+        "before": 0,
+        "after": 1,
+        "skillKey": "item_2150_consume"
+      },
+      {
+        "equipmentKey": "item_2152",
+        "before": 0,
+        "after": 1,
+        "skillKey": "item_2152_consume"
+      },
+      {
+        "equipmentKey": "item_2422",
+        "before": 0,
+        "after": 1,
+        "skillKey": "item_2422_passive"
+      }
+    ],
+    "runeProtectedCountsBefore": {
+      "parameters": 19,
+      "formulas": 2,
+      "effects": 1,
+      "total": 22
+    },
+    "runeProtectedCountsAfter": {
+      "parameters": 19,
+      "formulas": 2,
+      "effects": 0,
+      "total": 21
+    },
+    "oldEffectAfterMigration": "GET404且旧效果列表为空",
+    "newEffectAfterMigration": "GET200且仍引用item_2422_passive.additional_move_speed",
+    "oldEffectRepresentativeImageAfterMigration": "GET404；原GET200且image=null是删除旧效果前快照",
+    "allowedEquipmentRelationChangesOnly": true,
+    "noOldEffectRestorationAfterRelation": true
+  },
+  "execution": {
+    "businessApiCalled": false,
+    "databaseCalled": false,
+    "browserUsed": false,
+    "gitUsed": false
+  }
+}
