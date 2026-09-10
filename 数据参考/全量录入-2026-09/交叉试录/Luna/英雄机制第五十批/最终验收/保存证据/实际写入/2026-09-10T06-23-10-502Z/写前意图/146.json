@@ -1,0 +1,52 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 146,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_r/effects",
+    "detailRoute": "/skills/azir_r/effects/charge_damage",
+    "skillKey": "azir_r",
+    "kind": "effects",
+    "stableKey": "charge_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "charge_damage",
+      "name": "禁军之墙一次冲锋魔法伤害",
+      "description": "一次本体冲锋命中魔法伤害；击退与墙体构建另待运行层接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "禁军之墙一次冲锋魔法伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "单一目标伤害结果；命中事件与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

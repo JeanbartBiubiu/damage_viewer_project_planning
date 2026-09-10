@@ -1,0 +1,52 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/effects",
+    "detailRoute": "/skills/udyr_q/effects/empowered_lightning",
+    "skillKey": "udyr_q",
+    "kind": "effects",
+    "stableKey": "empowered_lightning",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "empowered_lightning",
+      "name": "狂暴爪击觉醒落单闪电",
+      "description": "单一目标一次完整六击载荷；不把两次攻击自动复制为12击。",
+      "sortOrder": 70,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "狂暴爪击觉醒落单闪电",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "单一目标伤害结果；命中事件与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "empowered_lightning_total_magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

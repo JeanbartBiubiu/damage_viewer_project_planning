@@ -1,0 +1,144 @@
+{
+  "at": "2026-09-10T14:10:51.997Z",
+  "batch": "英雄机制第五十批",
+  "status": "来源明确组成已保存；受保护写入、独立回读、实际数学和四个代表页面通过；未证事件与四个乌迪尔效果继续单列",
+  "heroes": [
+    "Udyr",
+    "Azir",
+    "Ashe",
+    "Ezreal"
+  ],
+  "skills": [
+    "udyr_p",
+    "udyr_q",
+    "udyr_w",
+    "udyr_e",
+    "udyr_r",
+    "azir_p",
+    "azir_q",
+    "azir_w",
+    "azir_e",
+    "azir_r",
+    "ashe_p",
+    "ashe_q",
+    "ashe_w",
+    "ashe_e",
+    "ashe_r",
+    "ez_p",
+    "ez_q",
+    "ez_w",
+    "ez_e",
+    "ez_r"
+  ],
+  "newCounts": {
+    "parameters": 120,
+    "formulas": 24,
+    "effects": 26
+  },
+  "protectedCounts": {
+    "parameters": 79,
+    "formulas": 8,
+    "effects": 16,
+    "processes": 4,
+    "internalStates": 0,
+    "triggerRules": 13
+  },
+  "created": 170,
+  "businessWrites": 170,
+  "protectedExistingComponents": 120,
+  "currentTotalComponents": 290,
+  "candidateFile": "最终验收/候选过程/修订二/完整候选.json",
+  "candidateFileSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba",
+  "writePlan": "最终验收/候选过程/修订二/请求计划.json",
+  "writePlanSha256": "403cf72c8dc50c1e203d1a5fdf1fccb8b0b4a6253e9c19865095909af12ba69f",
+  "save": {
+    "readonlyPreflight": {
+      "GETs": 582,
+      "status200": 412,
+      "expectedMissing404": 170,
+      "businessWrites": 0,
+      "file": "最终验收/保存证据/只读预检/2026-09-10T06-22-18-647Z/执行结果.json"
+    },
+    "actual": {
+      "GETs": 1504,
+      "status200": 1164,
+      "expectedMissing404": 340,
+      "POSTs": 170,
+      "successfulPOSTs": 170,
+      "confirmedUnique": 170,
+      "unexpectedFailures": 0,
+      "file": "最终验收/保存证据/实际写入/2026-09-10T06-23-10-502Z/执行结果.json"
+    }
+  },
+  "independentReadback": {
+    "GETs": 582,
+    "status200": 582,
+    "protectionRoutes": 292,
+    "protectionPassed": 292,
+    "reusedDetails": 120,
+    "newDetails": 170,
+    "details": 290,
+    "detailsPassed": 290,
+    "failures": 0,
+    "file": "最终验收/独立回读证据/实际回读/2026-09-10T13-47-55-982Z/独立全量GET.json",
+    "sha256": "f72cdf942550e0819d6a396b2c14e64fd571a2575221389c6ca098f2094878a2"
+  },
+  "strictMath": {
+    "reusedIndependentGETs": 582,
+    "extraGETs": 0,
+    "actualDetails": 290,
+    "formulas": 24,
+    "formulaCases": 48,
+    "effects": 26,
+    "effectValueCases": 52,
+    "missingParameterCasesRejected": 24,
+    "missingRuntimeCasesRejected": 9,
+    "integerParameters": 57,
+    "integerValues": 92,
+    "file": "最终验收/实际数学证据/独立数学报告.json",
+    "sha256": "3670d59bc151c9ecdd459a7b0f6c13a85862e3a8b2742a9a0fab7cb9e05acec9",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "skills": [
+      "udyr_w",
+      "ashe_q",
+      "azir_e",
+      "ez_r"
+    ],
+    "businessWrites": 0,
+    "file": "最终验收/保存证据/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "reviewedPlanRevision": "hero50-source-v1",
+    "events": 3550,
+    "uniqueTools": 63,
+    "inputsChecked": 27,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "experienceIssues": [
+    {
+      "issue": "新参数规则不能倒查旧参数类型",
+      "detail": "初版写入器把本批新增的毫秒整数规则误用于14个受保护旧小数参数，静态检查在任何接口请求前终止；修订后只检查新增参数，旧对象仍按保护快照逐项回读。"
+    },
+    {
+      "issue": "稳定标识必须按真实对象使用",
+      "detail": "伊泽瑞尔角色与技能沿用现有 ez、ez_p 至 ez_r，不能凭英雄英文名猜成 ezreal_r；页面验收按实际稳定标识完成。"
+    },
+    {
+      "issue": "可证明公式不等于可证明效果资格",
+      "detail": "乌迪尔Q三项普攻伤害与R脉冲已有参数和公式，但缺逐效果法术护盾证据，因此四个效果未进入正常保存集。"
+    }
+  ],
+  "pending": [
+    "乌迪尔Q standard_on_hit、standard_max_health_hit、empowered_max_health_hit 与乌迪尔R pulse_damage等待逐效果法术护盾证据；参数和公式已经保存。",
+    "未知等级曲线、触发次数、事件阶段与完整姿态切换不填默认值。",
+    "阿兹尔太阳圆盘与持续士兵链、艾希E视野、伊泽瑞尔R沿途多目标衰减均按本轮1V1范围排除。",
+    "静态保存、数学与页面检查不表示战斗运行时已经通过。"
+  ],
+  "runtimeValidation": "未执行"
+}

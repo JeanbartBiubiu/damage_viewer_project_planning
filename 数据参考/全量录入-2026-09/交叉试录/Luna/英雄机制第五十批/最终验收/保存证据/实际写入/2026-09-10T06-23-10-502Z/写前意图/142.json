@@ -1,0 +1,28 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_r/parameters",
+    "detailRoute": "/skills/azir_r/parameters/wall_construct_count",
+    "skillKey": "azir_r",
+    "kind": "parameters",
+    "stableKey": "wall_construct_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_construct_count",
+      "name": "墙体构成数量",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6,
+        "2": 7,
+        "3": 8
+      },
+      "description": "NumberOfSoldiers按技能等级取6/7/8，只表示墙体构成数量，不能乘伤害。",
+      "sortOrder": 40
+    }
+  }
+}

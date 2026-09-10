@@ -1,0 +1,28 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 139,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_r/parameters",
+    "detailRoute": "/skills/azir_r/parameters/base_damage",
+    "skillKey": "azir_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "禁军之墙基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 200,
+        "2": 400,
+        "3": 600
+      },
+      "description": "BaseDamage按技能等级1至3取200/400/600。",
+      "sortOrder": 10
+    }
+  }
+}

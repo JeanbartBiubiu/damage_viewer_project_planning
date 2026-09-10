@@ -1,0 +1,24 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_p/parameters",
+    "detailRoute": "/skills/udyr_p/parameters/awakened_cooldown_multiplier",
+    "skillKey": "udyr_p",
+    "kind": "parameters",
+    "stableKey": "awakened_cooldown_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "awakened_cooldown_multiplier",
+      "name": "觉醒冷却基础倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "UltCD树使用UltCDMultiplier=1。",
+      "sortOrder": 30
+    }
+  }
+}

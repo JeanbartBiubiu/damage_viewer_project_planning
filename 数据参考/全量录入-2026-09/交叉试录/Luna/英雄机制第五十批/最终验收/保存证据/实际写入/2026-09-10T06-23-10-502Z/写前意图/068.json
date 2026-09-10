@@ -1,0 +1,31 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/awakened_shield_base_from_skill",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "awakened_shield_base_from_skill",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "awakened_shield_base_from_skill",
+      "name": "觉醒护盾技能基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 65,
+        "3": 85,
+        "4": 105,
+        "5": 125,
+        "6": 145
+      },
+      "description": "觉醒护盾仍加入当前技能等级ShieldBase，不重复制造普通护盾。",
+      "sortOrder": 160
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/shield_base",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "普通护盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 65,
+        "3": 85,
+        "4": 105,
+        "5": 125,
+        "6": 145
+      },
+      "description": "ShieldBase按技能等级1至6取45至145。",
+      "sortOrder": 20
+    }
+  }
+}

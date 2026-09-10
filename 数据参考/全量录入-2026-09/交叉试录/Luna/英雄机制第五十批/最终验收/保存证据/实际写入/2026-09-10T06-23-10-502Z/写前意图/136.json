@@ -1,0 +1,71 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_e/effects",
+    "detailRoute": "/skills/azir_e/effects/self_shield",
+    "skillKey": "azir_e",
+    "kind": "effects",
+    "stableKey": "self_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_shield",
+      "name": "流沙移形自身护盾",
+      "description": "只记录阿兹尔自身护盾；已有合资格士兵为外部条件，不创建士兵。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "流沙移形自身护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": "普通护盾；应用与移除事件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "shield"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

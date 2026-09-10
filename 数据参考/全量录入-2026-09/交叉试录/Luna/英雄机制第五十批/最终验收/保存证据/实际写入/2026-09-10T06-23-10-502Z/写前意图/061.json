@@ -1,0 +1,24 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/awakened_total_heal_ratio",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "awakened_total_heal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "awakened_total_heal_ratio",
+      "name": "觉醒护盾治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "RecastHeal=PercentOfShieldHealAmount×RecastShield=0.5×觉醒护盾，持续4秒总量。",
+      "sortOrder": 90
+    }
+  }
+}

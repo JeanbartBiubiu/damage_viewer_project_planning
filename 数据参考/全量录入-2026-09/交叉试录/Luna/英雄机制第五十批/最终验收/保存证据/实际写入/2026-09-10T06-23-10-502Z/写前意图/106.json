@@ -1,0 +1,31 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/storm_base_damage",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "storm_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "storm_base_damage",
+      "name": "风暴每秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 36,
+        "3": 52,
+        "4": 68,
+        "5": 84,
+        "6": 100
+      },
+      "description": "StormBaseDamage按技能等级1至6取20至100；每秒一段数值。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 28,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/lightning_level_ratio_end",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "lightning_level_ratio_end",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lightning_level_ratio_end",
+      "name": "角色18级闪电生命比例端点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.029999999,
+      "levelValues": null,
+      "description": "EmpoweredLightningBonus的角色等级端点为0.03；中间曲线未知。",
+      "sortOrder": 170
+    }
+  }
+}

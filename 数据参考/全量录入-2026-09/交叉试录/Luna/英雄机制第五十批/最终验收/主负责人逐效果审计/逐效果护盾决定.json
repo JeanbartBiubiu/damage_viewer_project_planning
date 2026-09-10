@@ -1,0 +1,285 @@
+{
+  "schema": "hero50_spell_shield_scope_decision_v2",
+  "generatedAt": "2026-09-10T05:51:19.248Z",
+  "batch": "第五十批",
+  "revision": "修订一冻结候选的增量护盾决定",
+  "gameVersion": "16.17/16.17.1",
+  "auditBoundary": "只读补证；不修改候选、请求计划、来源值或业务代码，不调用业务API、数据库或Git。公开资料仅作机制交叉证据，固定16.17.1客户端资料优先。",
+  "frozenInputs": {
+    "candidateFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\完整候选.json",
+    "candidateSha256": "14905a98ad4be773283bb740e7a5a98ff6ce41eeed7014c4428a053c697471ec",
+    "planFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\请求计划.json",
+    "planSha256": "15c841da9bda7dd8b9fc1c4fcb19ec71f97d4a2baec7431a7961dbb21a20c485",
+    "sourceValuesFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\来源值摘要.json",
+    "sourceValuesSha256": "eec7f401013775c68f01cbfec843a0d0472d074cc606e822ae88c5ebb8e063df",
+    "fixedUdyrFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json",
+    "fixedUdyrSha256": "1acc759dc22a0e3fef86694a4d10094cc850ee2f01db12865819e5b46ee8d7e7",
+    "clientUdyrFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz",
+    "clientUdyrSha256": "4e90b5ed813eb1951e7ffee2f29172a085f140da5064dd3b9535e9d0c8ba9d8a",
+    "fixedUdyrVersionField": "16.17.1"
+  },
+  "research": {
+    "researchedAt": "2026-09-10",
+    "method": "搜索引擎读取公开页面摘要与公开正文；直接Wiki页面受robots或付费拦截时不绕过，按未取得直接证据处理。",
+    "externalVersionBoundary": "Fandom/Leaguepedia页面是当前抓取资料，页面值主要停留在V14.20或更早，不能当作16.17/16.17.1数值源；本次只采纳交互分类文字，并保留版本漂移风险。",
+    "sources": [
+      {
+        "title": "Udyr (League of Legends) — Fandom",
+        "url": "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "retrievedAt": "2026-09-10",
+        "pageBoundary": "搜索结果标记抓取约2个月前；页面标示Last changed V14.20，非16.17/16.17.1快照。",
+        "excerpts": [
+          "Wilding Claw empowers the next two basic attacks and deals bonus physical damage.",
+          "Udyr deals bonus physical damage on-hit for 4 seconds.",
+          "Wilding Claw: Spell shield — Blocked.",
+          "Wingborne Storm: Spell shield — Not Blocked."
+        ],
+        "limitation": "页面的Q/R护盾分类位于技能级说明；R的Not Blocked位于风暴的AOE DOT分类，未把Q的三个当前结果或R的攻击脉冲分别列出。"
+      },
+      {
+        "title": "Udyr — Leaguepedia",
+        "url": "https://lol.fandom.com/wiki/Udyr",
+        "retrievedAt": "2026-09-10",
+        "pageBoundary": "搜索结果标记抓取约2个月前，资料版本不是16.17/16.17.1。",
+        "excerpts": [
+          "Wingborne Storm: next two attacks deal bonus magic damage to enemies in the storm, or enemies around him if the storm expires."
+        ],
+        "limitation": "只支持R脉冲是攻击触发的附近目标魔法伤害，不提供该脉冲的spell shield粒度。"
+      },
+      {
+        "title": "Spell shield — Fandom",
+        "url": "https://leagueoflegends.fandom.com/wiki/Spell_shield",
+        "retrievedAt": "2026-09-10",
+        "pageBoundary": "搜索结果标记抓取约2个月前，版本边界非16.17/16.17.1。",
+        "excerpts": [
+          "Some abilities that grant an empowered basic attack may trigger spell shields; damage may be blocked entirely, partially, or not at all."
+        ],
+        "use": "说明不能从BASIC_ATTACK标签或技能级护盾标志直接推导当前结果范围。"
+      },
+      {
+        "title": "Patch 12.16 Notes — Riot Games",
+        "url": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-12-16-notes/",
+        "retrievedAt": "2026-09-10",
+        "pageBoundary": "官方重做发布说明，日期2022-08-23；只作攻击载体与历史边界证据。",
+        "excerpts": [
+          "Q Physical On-Hit Damage is a separate balance component from Q Physical Damage."
+        ],
+        "use": "支持Q普通附加攻击伤害与百分比伤害是分开组成；不提供护盾范围。"
+      }
+    ]
+  },
+  "evidenceFiles": [
+    {
+      "file": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json",
+      "version": "16.17.1",
+      "pointers": [
+        "/data/Udyr/spells[id=UdyrQ]/tooltip",
+        "/data/Udyr/spells[id=UdyrR]/tooltip",
+        "/data/Udyr/passive/description"
+      ],
+      "excerpts": [
+        "Q：乌迪尔获得攻击速度加成并且他的下两次攻击造成额外的物理伤害；觉醒提升百分比生命值伤害。",
+        "Q tooltip：攻击造成OnHitDamage物理伤害，持续AttackSpeedDurationBase秒；下两次攻击造成MaxHPOnHit1。",
+        "R tooltip：下两次攻击对风暴中的敌人造成PulseDamage魔法伤害；风暴本身每秒造成StormDamage。",
+        "被动：使用一个技能后，下两次攻击获得攻击速度和冷却返还。"
+      ],
+      "use": "固定客户端源把Q附加伤害归到Q姿态文本，把R脉冲与风暴每秒伤害分开；被动Bridge Between没有OnHitDamage或PulseDamage。"
+    },
+    {
+      "file": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz",
+      "sha256": "4e90b5ed813eb1951e7ffee2f29172a085f140da5064dd3b9535e9d0c8ba9d8a",
+      "pointers": [
+        "/data/Udyr/spells/UdyrQ/calculations/OnHitDamage",
+        "/data/Udyr/spells/UdyrQ/calculations/MaxHPOnHit1",
+        "/data/Udyr/spells/UdyrQ/calculations/Q2TotalOnHitHPDamage",
+        "/data/Udyr/spells/UdyrR/calculations/PulseDamage",
+        "/data/Udyr/spells/UdyrR/calculations/StormDamage"
+      ],
+      "use": "客户端计算树直接确认四项所使用的数值树，但未出现spellshield字段。"
+    },
+    {
+      "file": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-luna-candidate\\修订一\\来源值摘要.json",
+      "sha256": "eec7f401013775c68f01cbfec843a0d0472d074cc606e822ae88c5ebb8e063df",
+      "pointers": [
+        "/sourceValues/udyr_q/currentText/keyTooltip/text",
+        "/sourceValues/udyr_q/rawCalculations/OnHitDamage",
+        "/sourceValues/udyr_q/rawCalculations/MaxHPOnHit1",
+        "/sourceValues/udyr_q/rawCalculations/Q2TotalOnHitHPDamage",
+        "/sourceValues/udyr_r/currentText/keyTooltip/text",
+        "/sourceValues/udyr_r/rawCalculations/PulseDamage"
+      ],
+      "use": "本批来源值摘要的固定文本和原始树选择；没有护盾范围字段，不把候选RESULT倒推为来源。"
+    },
+    {
+      "file": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/法术护盾闭环详细设计.md",
+      "lines": "118-145,186-199",
+      "use": "范围必须显式逐结果选择；合法枚举不等于游戏事实，当前设计只记录未来阻挡边。"
+    },
+    {
+      "file": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+      "lines": "233-247",
+      "use": "资格未确认时保留确定参数并撤出效果，不用null或合法范围掩盖未知。"
+    }
+  ],
+  "decisions": [
+    {
+      "skillKey": "udyr_q",
+      "effectKey": "standard_on_hit",
+      "resultKey": "damage",
+      "sourceConclusion": "已证该字段属于Q狂暴爪击姿态授予的4秒普攻附加物理伤害OnHitDamage，不是Bridge Between被动本身；但Q页面的Spell shield=Blocked是技能级标签，未分别说明该4秒附伤在当前结果模型中的阻挡范围。",
+      "branchClarification": "Q主动姿态的持有效果；不是被动P。候选中的BASIC_ATTACK表示每次合资格普攻消费一次附伤，不表示普通攻击本体由该效果生成。",
+      "suggestedScope": null,
+      "suggestedScopeMeaning": "UNRESOLVED_HOLD：null仅表示本JSON不作决定，不是建议写入null。",
+      "proven": false,
+      "sourceEvidenceLevel": "component_source_proven_scope_unproven",
+      "evidenceFilesOrUrls": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json#/data/Udyr/spells/UdyrQ/tooltip",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz#/data/Udyr/spells/UdyrQ/calculations/OnHitDamage",
+        "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "https://leagueoflegends.fandom.com/wiki/Spell_shield"
+      ],
+      "minimumSupplement": "按训练营方案对第三次攻击单独测试：先施放Q并让前两次攻击消耗完百分比段，仍在4秒姿态附伤窗口内由目标新开Sivir法术护盾；第三次攻击记录普通攻击本体、OnHitDamage是否出现、护盾是否消耗。重复无盾基线和有盾试验至少各两次。",
+      "currentScope": "RESULT",
+      "source结论": "已证该字段属于Q狂暴爪击姿态授予的4秒普攻附加物理伤害OnHitDamage，不是Bridge Between被动本身；但Q页面的Spell shield=Blocked是技能级标签，未分别说明该4秒附伤在当前结果模型中的阻挡范围。",
+      "证据文件或URL": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json#/data/Udyr/spells/UdyrQ/tooltip",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz#/data/Udyr/spells/UdyrQ/calculations/OnHitDamage",
+        "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "https://leagueoflegends.fandom.com/wiki/Spell_shield"
+      ]
+    },
+    {
+      "skillKey": "udyr_q",
+      "effectKey": "standard_max_health_hit",
+      "resultKey": "damage",
+      "sourceConclusion": "已证该字段是Q普通姿态下两次攻击的MaxHPOnHit1额外最大生命物理伤害，不是Q附加OnHitDamage，也不是Bridge Between被动；Q页面虽显示Spell shield=Blocked，但没有把该百分比段与附伤段分别映射到结果范围。",
+      "branchClarification": "Q主动姿态的下两次攻击百分比段；与standard_on_hit同一次攻击可同时发生，需按伤害实例区分。",
+      "suggestedScope": null,
+      "suggestedScopeMeaning": "UNRESOLVED_HOLD：null仅表示本JSON不作决定，不是建议写入null。",
+      "proven": false,
+      "sourceEvidenceLevel": "component_source_proven_scope_unproven",
+      "evidenceFilesOrUrls": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json#/data/Udyr/spells/UdyrQ/tooltip",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz#/data/Udyr/spells/UdyrQ/calculations/MaxHPOnHit1",
+        "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "https://leagueoflegends.fandom.com/wiki/Spell_shield"
+      ],
+      "minimumSupplement": "普通Q下目标开盾后立即做第一击，记录护盾消耗、普通攻击本体、OnHitDamage和MaxHPOnHit1各自的伤害实例；另做第二击新盾试验。用第三击新盾试验隔离OnHitDamage，再以无盾同配置基线相减，避免把两个Q结果合并判断。",
+      "currentScope": "RESULT",
+      "source结论": "已证该字段是Q普通姿态下两次攻击的MaxHPOnHit1额外最大生命物理伤害，不是Q附加OnHitDamage，也不是Bridge Between被动；Q页面虽显示Spell shield=Blocked，但没有把该百分比段与附伤段分别映射到结果范围。",
+      "证据文件或URL": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json#/data/Udyr/spells/UdyrQ/tooltip",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz#/data/Udyr/spells/UdyrQ/calculations/MaxHPOnHit1",
+        "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "https://leagueoflegends.fandom.com/wiki/Spell_shield"
+      ]
+    },
+    {
+      "skillKey": "udyr_q",
+      "effectKey": "empowered_max_health_hit",
+      "resultKey": "damage",
+      "sourceConclusion": "已证该字段是Q觉醒分支把普通百分比段替换为Q2TotalOnHitHPDamage的两次攻击额外最大生命物理伤害；公开Q页的Spell shield=Blocked没有独立列出觉醒百分比结果，因此不能由技能级标志推导当前范围。",
+      "branchClarification": "Q主动姿态的觉醒替代段；不是Bridge Between被动，也不是觉醒闪电技能伤害。",
+      "suggestedScope": null,
+      "suggestedScopeMeaning": "UNRESOLVED_HOLD：null仅表示本JSON不作决定，不是建议写入null。",
+      "proven": false,
+      "sourceEvidenceLevel": "component_source_proven_scope_unproven",
+      "evidenceFilesOrUrls": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json#/data/Udyr/spells/UdyrQ/tooltip",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz#/data/Udyr/spells/UdyrQ/calculations/Q2TotalOnHitHPDamage",
+        "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "https://leagueoflegends.fandom.com/wiki/Spell_shield"
+      ],
+      "minimumSupplement": "开启Q后再按同一技能重施放进入觉醒，目标在第一击前新开法术护盾；分别记录觉醒两次攻击、普通攻击本体、仍存在的OnHitDamage和Q2TotalOnHitHPDamage，第二击另换新盾重复。若只有百分比段被拦截、附伤仍在，记录为部分阻挡并由结果粒度决定；若全部Q附加段同时消失，记录为统一拦截。",
+      "currentScope": "RESULT",
+      "source结论": "已证该字段是Q觉醒分支把普通百分比段替换为Q2TotalOnHitHPDamage的两次攻击额外最大生命物理伤害；公开Q页的Spell shield=Blocked没有独立列出觉醒百分比结果，因此不能由技能级标志推导当前范围。",
+      "证据文件或URL": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json#/data/Udyr/spells/UdyrQ/tooltip",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz#/data/Udyr/spells/UdyrQ/calculations/Q2TotalOnHitHPDamage",
+        "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "https://leagueoflegends.fandom.com/wiki/Spell_shield"
+      ]
+    },
+    {
+      "skillKey": "udyr_r",
+      "effectKey": "pulse_damage",
+      "resultKey": "damage",
+      "sourceConclusion": "已证R脉冲不是风暴每秒StormDamage：固定R文本写明风暴中的下两次攻击触发PulseDamage魔法伤害，公开资料也写明攻击在风暴内或风暴结束后在乌迪尔周围造成该附加伤害。公开R页的Spell shield=Not Blocked位于风暴AOE DOT分类，不能套用到攻击脉冲；攻击脉冲的阻挡范围仍未证。",
+      "branchClarification": "R主动姿态授予的两次普攻附近目标附加魔法伤害；不是风暴每0.5秒的区域周期伤害，也不是觉醒风暴的PercentHPBlast持续段。",
+      "suggestedScope": null,
+      "suggestedScopeMeaning": "UNRESOLVED_HOLD：null仅表示本JSON不作决定，不是建议写入null。",
+      "proven": false,
+      "sourceEvidenceLevel": "pulse_branch_proven_scope_unproven",
+      "evidenceFilesOrUrls": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json#/data/Udyr/spells/UdyrR/tooltip",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz#/data/Udyr/spells/UdyrR/calculations/PulseDamage",
+        "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "https://lol.fandom.com/wiki/Udyr",
+        "https://www.leagueoflegends.com/en-us/news/game-updates/patch-12-16-notes/"
+      ],
+      "minimumSupplement": "R普通姿态下让目标站在风暴范围内，等一次周期风暴伤害后由目标新开法术护盾，再只做第一击并记录PulseDamage与周期伤害的独立事件、护盾是否消耗；新盾重复第二击。另做风暴到期后目标在乌迪尔附近的攻击试验。若周期伤害不触盾而攻击脉冲触盾，范围属于攻击结果；若两者行为不同必须分别记录，不能用R页面Not Blocked替代。",
+      "currentScope": "RESULT",
+      "source结论": "已证R脉冲不是风暴每秒StormDamage：固定R文本写明风暴中的下两次攻击触发PulseDamage魔法伤害，公开资料也写明攻击在风暴内或风暴结束后在乌迪尔周围造成该附加伤害。公开R页的Spell shield=Not Blocked位于风暴AOE DOT分类，不能套用到攻击脉冲；攻击脉冲的阻挡范围仍未证。",
+      "证据文件或URL": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\官方中文\\Udyr.json#/data/Udyr/spells/UdyrR/tooltip",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero50-root-entry-20260910\\参考资料\\客户端原文\\Udyr.json.gz#/data/Udyr/spells/UdyrR/calculations/PulseDamage",
+        "https://leagueoflegends.fandom.com/wiki/Udyr/LoL",
+        "https://lol.fandom.com/wiki/Udyr",
+        "https://www.leagueoflegends.com/en-us/news/game-updates/patch-12-16-notes/"
+      ]
+    },
+    {
+      "skillKey": "ashe_q",
+      "effectKey": "empowered_attack",
+      "resultKey": "damage",
+      "sourceConclusion": "本地原始记录明确spellshield=false，公开Wiki把Ranger’s Focus显示为Spell shield Not Blocked；该结论支持当前聚合结果建议null，但原始机制仍是首段基础伤害加后四段非反应伤害的五段特殊结构。",
+      "branchClarification": "艾希Q五箭强化普攻聚合结果。",
+      "suggestedScope": null,
+      "suggestedScopeMeaning": "RECOMMENDED_WRITE_NULL：建议范围为null。",
+      "proven": true,
+      "sourceEvidenceLevel": "local_and_external_cross_checked",
+      "evidenceFilesOrUrls": [
+        "C:/project/damage_viewer_project_planning/数据参考/lol-wiki-current-champions/raw/ashe-q.wikitext:20,25-26",
+        "https://wiki.leagueoflegends.com/en-us/Template%3AData_Ashe/Ranger%27s_Focus"
+      ],
+      "minimumSupplement": "若要把聚合结果拆为五段，再另行证明各段粒度；当前只改范围字段时保留五段特殊结构说明。",
+      "currentScope": "RESULT",
+      "source结论": "本地原始记录明确spellshield=false，公开Wiki把Ranger’s Focus显示为Spell shield Not Blocked；该结论支持当前聚合结果建议null，但原始机制仍是首段基础伤害加后四段非反应伤害的五段特殊结构。",
+      "证据文件或URL": [
+        "C:/project/damage_viewer_project_planning/数据参考/lol-wiki-current-champions/raw/ashe-q.wikitext:20,25-26",
+        "https://wiki.leagueoflegends.com/en-us/Template%3AData_Ashe/Ranger%27s_Focus"
+      ]
+    }
+  ],
+  "trainingCampEvidencePlan": {
+    "prerequisites": [
+      "使用PC 16.17/16.17.1客户端的自定义对局或训练营；若训练营不能生成可施放护盾的敌方英雄，使用第二名受控玩家的Sivir法术护盾、Nocturne法术护盾或Banshee/Edge of Night，并录屏记录版本号。",
+      "乌迪尔只保留目标技能和无额外伤害装备/符文；目标满血、无减伤，固定Q/R等级、攻击力、法强、目标最大生命和站位。",
+      "每项先做同配置无护盾基线，再做目标刚开启护盾的试验；每项至少重复两轮，记录时间、攻击序号、伤害数字或战斗记录、目标生命前后、护盾消耗与技能标记。不要用训练营目标假人代替法术护盾目标。"
+    ],
+    "observationKeys": [
+      "护盾是在施法时被消耗，还是在命中攻击附加段时被消耗。",
+      "普通攻击本体是否仍造成伤害；Q的OnHitDamage、普通MaxHPOnHit1、觉醒Q2TotalOnHitHPDamage是否分别出现。",
+      "R的StormDamage周期事件和PulseDamage攻击事件是否分别存在、分别消耗护盾。",
+      "若一次护盾只拦一个组成，记录被拦的是哪个结果；若所有组成一起消失，记录为统一拦截；若均不消失，记录为未拦截。"
+    ],
+    "acceptance": "补证材料必须能把技能级页面标签、攻击本体、Q/R各附加段和周期伤害分开；只有这样才能给当前结果填写具体范围。"
+  },
+  "summary": {
+    "proven": [
+      "ashe_q/empowered_attack -> suggestedScope null"
+    ],
+    "unresolved": [
+      "udyr_q/standard_on_hit",
+      "udyr_q/standard_max_health_hit",
+      "udyr_q/empowered_max_health_hit",
+      "udyr_r/pulse_damage"
+    ],
+    "candidateChanged": false,
+    "apiCalls": 0,
+    "databaseAccess": 0,
+    "browserAutomation": 0,
+    "gitWrites": 0,
+    "webSearchReadOnly": true
+  }
+}

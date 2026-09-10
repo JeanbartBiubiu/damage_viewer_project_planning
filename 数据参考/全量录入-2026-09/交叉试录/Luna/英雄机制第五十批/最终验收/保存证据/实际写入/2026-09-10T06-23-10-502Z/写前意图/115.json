@@ -1,0 +1,24 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 115,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/storm_tick_interval_ms",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "storm_tick_interval_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "storm_tick_interval_ms",
+      "name": "风暴伤害间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前中文正文明确每秒伤害；间隔精确记录为1000毫秒，不代表完整事件已接线。",
+      "sortOrder": 130
+    }
+  }
+}

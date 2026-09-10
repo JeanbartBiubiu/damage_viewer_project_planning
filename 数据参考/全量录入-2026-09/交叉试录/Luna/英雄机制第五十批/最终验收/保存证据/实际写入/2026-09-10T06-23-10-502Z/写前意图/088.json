@@ -1,0 +1,24 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/move_speed_duration_ms",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_duration_ms",
+      "name": "普通移动速度持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "MoveSpeedDuration=4秒，精确换算为4000毫秒；源正文说明持续衰减但曲线未消费。",
+      "sortOrder": 30
+    }
+  }
+}

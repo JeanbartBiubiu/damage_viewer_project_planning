@@ -1,0 +1,110 @@
+{
+  "at": "2026-09-10T06:22:18.578Z",
+  "reason": "初次脚本静态预检错误地对旧毫秒参数强制新INTEGER规则；尚未创建运行目录，0GET0写入。仅对本批新增强制新规则，既有类型和值逐字段保护，不趁本批重写。",
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "beforeSha256": "c17e8a02c76d36e4886791317f65d5b107eaaba60f4df308eeffe46f89c107cf",
+  "afterSha256": "8f16726b690b4dd7b7d5b24c545cbcd75ef06bf2c9d6c4e9d62c1836d6ff832f",
+  "legacy": [
+    {
+      "route": "/skills/ez_q/parameters/cooldown_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5500,
+        "2": 5250,
+        "3": 5000,
+        "4": 4750,
+        "5": 4500
+      }
+    },
+    {
+      "route": "/skills/ez_q/parameters/cooldown_reduction_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 1500,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_q/parameters/cast_time_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 250,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_q/parameters/queue_window_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 50,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_w/parameters/cooldown_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 8000,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_w/parameters/cast_time_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 250,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_w/parameters/queue_window_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 500,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_e/parameters/cooldown_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 26000,
+        "2": 23000,
+        "3": 20000,
+        "4": 17000,
+        "5": 14000
+      }
+    },
+    {
+      "route": "/skills/ez_e/parameters/cast_time_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 250,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_e/parameters/queue_window_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 500,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_e/parameters/reveal_duration_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 1000,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_r/parameters/cooldown_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120000,
+        "2": 105000,
+        "3": 90000
+      }
+    },
+    {
+      "route": "/skills/ez_r/parameters/cast_time_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 1000,
+      "levelValues": null
+    },
+    {
+      "route": "/skills/ez_r/parameters/queue_window_ms",
+      "valueType": "DECIMAL",
+      "fixedValue": 500,
+      "levelValues": null
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/pulse_level_end",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "pulse_level_end",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "pulse_level_end",
+      "name": "角色18级脉冲基础端点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 40,
+      "levelValues": null,
+      "description": "PulseDamage角色等级结束端点40；中间曲线未知。",
+      "sortOrder": 90
+    }
+  }
+}

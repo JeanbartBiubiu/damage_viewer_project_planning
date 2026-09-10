@@ -1,0 +1,58 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/formulas",
+    "detailRoute": "/skills/udyr_q/formulas/standard_max_health_physical_damage",
+    "skillKey": "udyr_q",
+    "kind": "formulas",
+    "stableKey": "standard_max_health_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "standard_max_health_physical_damage",
+      "name": "狂暴爪击普通目标最大生命伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_hp_on_hit_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "max_hp_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "MaxHPOnHit1为(普通最大生命比例+0.00035×额外攻击力)×目标最大生命；一名目标的下两次攻击资格待接线。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_p/parameters",
+    "detailRoute": "/skills/udyr_p/parameters/awakened_global_cooldown_ms",
+    "skillKey": "udyr_p",
+    "kind": "parameters",
+    "stableKey": "awakened_global_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "awakened_global_cooldown_ms",
+      "name": "觉醒姿态共用间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "DataValues.GlobalCDEmpowered=0.5秒，精确换算为500毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

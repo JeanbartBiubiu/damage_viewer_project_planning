@@ -1,0 +1,52 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/effects",
+    "detailRoute": "/skills/udyr_r/effects/storm_damage",
+    "skillKey": "udyr_r",
+    "kind": "effects",
+    "stableKey": "storm_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "storm_damage",
+      "name": "极凌飓风风暴伤害",
+      "description": "风暴每秒对同一目标的一段魔法伤害；总持续次数与区域命中待接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "极凌飓风风暴伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "单一目标伤害结果；命中事件与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "storm_damage_per_second"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

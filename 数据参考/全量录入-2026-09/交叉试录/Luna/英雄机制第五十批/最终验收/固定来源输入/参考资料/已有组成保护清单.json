@@ -1,0 +1,1683 @@
+{
+  "ashe_w": {
+    "publicOnly": false,
+    "subject": {
+      "createdAt": "2026-09-06T17:13:49.848641Z",
+      "description": "来源：官方静态资料16.17.1。原始说明：艾希向前方的锥形范围射出多支箭，对敌人造成额外伤害。也会触发冰霜射击的效果。 数值、机制及图片尚待录入与核对。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "艾希·万箭齐发",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ashe_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T17:13:49.848641Z"
+    },
+    "representativeImagePresent": true,
+    "components": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-07T14:29:22.984968Z",
+          "description": "冻结资料：客户端 16.17 Volley 主对象 DataValues.BaseDamage，取等级 1～5；仅基础伤害。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 95,
+            "3": 130,
+            "4": 165,
+            "5": 200
+          },
+          "name": "W 基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "ashe_w",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-07T14:29:22.984968Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:23.708622Z",
+          "description": "Volley.TotalDamage 的 mStat=2、mStatFormula=2、ADRatio=1；额外攻击力口径与冻结 Wiki 及同版本星蚀公式旁证一致。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "W 额外攻击力比例",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "ashe_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T14:35:23.708622Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:24.081799Z",
+          "description": "采用当前说明绑定的 NumberOfArrowsTooltip；同一目标只受一次伤害，不能将箭数当作伤害次数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7,
+            "2": 8,
+            "3": 9,
+            "4": 10,
+            "5": 11
+          },
+          "name": "W 箭矢数量",
+          "parameterKey": "arrow_count",
+          "skillKey": "ashe_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T14:35:24.081799Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:24.429976Z",
+          "description": "客户端 cooldownTime 索引 1～5，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 18000,
+            "2": 14500,
+            "3": 11000,
+            "4": 7500,
+            "5": 4000
+          },
+          "name": "W 冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ashe_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T14:35:24.429976Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:24.812076Z",
+          "description": "客户端六位 mana 数组取索引 0～4；与 DDragon 16.17.1 一致，不套用冷却数组的偏移。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 75,
+            "2": 70,
+            "3": 65,
+            "4": 60,
+            "5": 55
+          },
+          "name": "W 法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ashe_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T14:35:24.812076Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:25.159728Z",
+          "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "W 施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ashe_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T14:35:25.159728Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-09-07T14:35:25.474672Z",
+          "description": "基础伤害 + 100%额外攻击力。当前 Volley 主对象，不使用旧 VolleyRank2～5 子对象。",
+          "formulaKey": "hit_damage",
+          "gameId": "lol",
+          "name": "W 一次命中物理伤害",
+          "skillKey": "ashe_w",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-07T14:35:25.474672Z"
+        }
+      ],
+      "effects": [
+        {
+          "createdAt": "2026-09-07T14:35:25.973805Z",
+          "description": "仅一次实际命中的伤害；多箭同目标去重、英雄强化减速和命中事件接线待补，不能按箭数重复执行。",
+          "effectKey": "hit_damage",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "W 一次命中物理伤害",
+          "resultCount": 1,
+          "skillKey": "ashe_w",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-07T14:35:25.973805Z"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:26.335812Z",
+          "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "W 施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ashe_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T14:35:26.335812Z"
+        }
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    }
+  },
+  "ashe_r": {
+    "publicOnly": false,
+    "subject": {
+      "createdAt": "2026-09-06T17:14:17.927699Z",
+      "description": "来源：官方静态资料16.17.1。原始说明：艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。 数值、机制及图片尚待录入与核对。",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "艾希·魔法水晶箭",
+      "skillCategoryKeys": [],
+      "skillKey": "ashe_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T17:14:17.927699Z"
+    },
+    "representativeImagePresent": true,
+    "components": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-07T14:35:26.731135Z",
+          "description": "客户端 RBaseDamage 索引 1～3，与冻结 Wiki 一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 200,
+            "2": 400,
+            "3": 600
+          },
+          "name": "R 基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "ashe_r",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-07T14:35:26.731135Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:27.155772Z",
+          "description": "客户端 RMainDamage.APRatio 原浮点 1.2000000476837158 按 1.2 归一，与冻结 Wiki 120%一致。",
+          "fixedValue": 1.2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "R 法术强度比例",
+          "parameterKey": "ap_ratio",
+          "skillKey": "ashe_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T14:35:27.155772Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:27.851876Z",
+          "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100000,
+            "2": 80000,
+            "3": 60000
+          },
+          "name": "R 冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ashe_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T14:35:27.851876Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:28.216248Z",
+          "description": "客户端 mana 索引 0～2 均为 100；与 DDragon 16.17.1 一致。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "R 法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ashe_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T14:35:28.216248Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:28.611689Z",
+          "description": "客户端 MinStunDuration=1 秒；仅上下界参数，不表示已有眩晕效果。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "R 最短眩晕时间（毫秒）",
+          "parameterKey": "min_stun_duration_ms",
+          "skillKey": "ashe_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T14:35:28.611689Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:28.987787Z",
+          "description": "客户端 MaxStunDuration=3.5 秒；距离换算与控制行为待接线。",
+          "fixedValue": 3500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "R 最长眩晕时间（毫秒）",
+          "parameterKey": "max_stun_duration_ms",
+          "skillKey": "ashe_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T14:35:28.987787Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:29.317405Z",
+          "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "R 施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ashe_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T14:35:29.317405Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-09-07T14:35:29.71371Z",
+          "description": "基础伤害 + 120%法术强度；对应 RMainDamage，未建立附近目标选择。",
+          "formulaKey": "hit_damage",
+          "gameId": "lol",
+          "name": "R 命中英雄魔法伤害",
+          "skillKey": "ashe_r",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-07T14:35:29.71371Z"
+        }
+      ],
+      "effects": [
+        {
+          "createdAt": "2026-09-07T14:35:30.04621Z",
+          "description": "仅直接命中英雄的伤害组成；眩晕、附近目标伤害及减速、视野和弹道待补，不默认命中。",
+          "effectKey": "hit_damage",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "R 命中英雄魔法伤害",
+          "resultCount": 1,
+          "skillKey": "ashe_r",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-07T14:35:30.04621Z"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:30.429327Z",
+          "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "R 施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ashe_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T14:35:30.429327Z"
+        }
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    }
+  },
+  "ez_p": {
+    "publicOnly": false,
+    "subject": {
+      "createdAt": "2026-08-30T16:28:32.783884Z",
+      "description": "伊泽瑞尔的技能每命中一个敌人获得 1 层，持续 6 秒并在后续命中时刷新，最多 5 层；每层提供 10% 额外攻击速度。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "咒能高涨",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "ez_p",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:28:32.783884Z"
+    },
+    "representativeImagePresent": true,
+    "components": {
+      "parameters": [
+        {
+          "createdAt": "2026-08-30T16:30:15.464565Z",
+          "description": "以 1 表示 100%",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层额外攻速比例",
+          "parameterKey": "stack_attack_speed_ratio",
+          "skillKey": "ez_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:30:15.464565Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:15.585788Z",
+          "description": null,
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大层数",
+          "parameterKey": "max_stacks",
+          "skillKey": "ez_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-08-30T16:30:15.585788Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:15.692795Z",
+          "description": null,
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每次获得层数",
+          "parameterKey": "application_stacks",
+          "skillKey": "ez_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-08-30T16:30:15.692795Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:15.800803Z",
+          "description": null,
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "持续时间（毫秒）",
+          "parameterKey": "duration_ms",
+          "skillKey": "ez_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-08-30T16:30:15.800803Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [],
+      "effects": [
+        {
+          "createdAt": "2026-08-30T16:31:37.019648Z",
+          "description": "技能命中获得一层，持续 6 秒，后续命中刷新，最多 5 层；每层增加 10% 额外攻击速度。",
+          "effectKey": "rising_spell_force",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "咒能高涨攻速层数",
+          "resultCount": 1,
+          "skillKey": "ez_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T13:06:01.24004Z"
+        }
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "对应技能命中敌人时执行咒能高涨攻速层数效果。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "奥术跃迁命中获得咒能高涨",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "stack_on_ez_e_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:34:01.379101Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "对应技能命中敌人时执行咒能高涨攻速层数效果。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "秘术射击命中获得咒能高涨",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "stack_on_ez_q_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:33:59.441937Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "对应技能命中敌人时执行咒能高涨攻速层数效果。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "精准弹幕命中获得咒能高涨",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "stack_on_ez_r_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:34:02.361906Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "对应技能命中敌人时执行咒能高涨攻速层数效果。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "精华跃动命中获得咒能高涨",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "stack_on_ez_w_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:34:00.458526Z"
+        }
+      ]
+    }
+  },
+  "ez_q": {
+    "publicOnly": false,
+    "subject": {
+      "createdAt": "2026-08-26T09:47:05.656539Z",
+      "description": "向目标方向发射能量弹，对命中的第一个敌人造成物理伤害并施加攻击命中与攻击触发效果；命中后使伊泽瑞尔全部当前技能冷却缩短 1.5 秒。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "秘术射击",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ez_q",
+      "sortOrder": 20,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:28:32.927164Z"
+    },
+    "representativeImagePresent": true,
+    "components": {
+      "parameters": [
+        {
+          "createdAt": "2026-08-26T15:19:19.136062Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 45,
+            "3": 70,
+            "4": 95,
+            "5": 120
+          },
+          "name": "基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "ez_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:30:15.952836Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-26T15:19:19.400253Z",
+          "description": null,
+          "fixedValue": 1.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "总攻击力倍率",
+          "parameterKey": "total_ad_ratio",
+          "skillKey": "ez_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-08-30T16:30:16.049935Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:16.15138Z",
+          "description": null,
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "ez_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-08-30T16:30:16.15138Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:16.247072Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5500,
+            "2": 5250,
+            "3": 5000,
+            "4": 4750,
+            "5": 4500
+          },
+          "name": "冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ez_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-08-30T16:30:16.247072Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:16.603092Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 28,
+            "2": 31,
+            "3": 34,
+            "4": 37,
+            "5": 40
+          },
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ez_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-08-30T16:30:16.603092Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:16.715655Z",
+          "description": null,
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "命中冷却缩短（毫秒）",
+          "parameterKey": "cooldown_reduction_ms",
+          "skillKey": "ez_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-08-30T16:30:16.715655Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:16.822992Z",
+          "description": null,
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ez_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-08-30T16:30:16.822992Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:16.920791Z",
+          "description": null,
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法队列窗口（毫秒）",
+          "parameterKey": "queue_window_ms",
+          "skillKey": "ez_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-08-30T16:30:16.920791Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:17.050663Z",
+          "description": null,
+          "fixedValue": 1200,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "目标距离",
+          "parameterKey": "target_range",
+          "skillKey": "ez_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-08-30T16:30:17.050663Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:17.135317Z",
+          "description": null,
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹体速度",
+          "parameterKey": "projectile_speed",
+          "skillKey": "ez_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-08-30T16:30:17.135317Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:17.224627Z",
+          "description": null,
+          "fixedValue": 120,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹体宽度",
+          "parameterKey": "projectile_width",
+          "skillKey": "ez_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-08-30T16:30:17.224627Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:17.329743Z",
+          "description": "用于允许的吸血类型",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完整效率",
+          "parameterKey": "full_efficiency",
+          "skillKey": "ez_q",
+          "sortOrder": 120,
+          "updatedAt": "2026-08-30T16:30:17.329743Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-08-30T16:31:03.629984Z",
+          "description": null,
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "秘术射击物理伤害",
+          "skillKey": "ez_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:31:03.629984Z"
+        }
+      ],
+      "effects": [
+        {
+          "createdAt": "2026-08-30T16:31:58.943587Z",
+          "description": "施放时消耗对应技能等级的法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ez_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T13:06:02.211668Z"
+        },
+        {
+          "createdAt": "2026-08-30T16:31:59.301418Z",
+          "description": "主目标单次命中：物理伤害并使伊泽瑞尔四个主动技能的当前冷却缩短 1.5 秒。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "首个敌人命中",
+          "resultCount": 2,
+          "skillKey": "ez_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-06T13:06:05.656619Z"
+        }
+      ],
+      "processes": [
+        {
+          "activationType": "ACTIVE",
+          "createdAt": "2026-08-30T16:33:17.202394Z",
+          "description": "施法过程负责法力消耗、施法延迟和冷却；命中效果由秘术射击实际命中事件触发。方向、弹体飞行、碰撞与落空仍待运行层提供。",
+          "effectBindingCount": 1,
+          "gameId": "lol",
+          "name": "施放秘术射击",
+          "processKey": "cast",
+          "skillKey": "ez_q",
+          "sortOrder": 10,
+          "stateOperationCount": 0,
+          "stepCount": 1,
+          "updatedAt": "2026-09-06T12:24:06.051264Z"
+        }
+      ],
+      "internal-states": [],
+      "trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "仅监听原始 Q 弹体实际命中，执行伤害及全技能冷却缩减。法术护盾不阻止命中事件和冷却缩减；伤害是否被阻挡由伤害结算处理。伤害结果不得反向重复生成弹体命中事件。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "秘术射击实际命中结算",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "resolve_on_q_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T12:27:38.859285Z"
+        }
+      ]
+    }
+  },
+  "ez_w": {
+    "publicOnly": false,
+    "subject": {
+      "createdAt": "2026-08-30T16:28:33.063917Z",
+      "description": "向目标方向发射法球，为命中的第一个敌方英雄、史诗级野怪或建筑附加 4 秒印记；伊泽瑞尔下一次普通攻击或技能命中会引爆印记并造成额外魔法伤害，技能引爆时还会回复法力。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "精华跃动",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ez_w",
+      "sortOrder": 30,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:28:33.063917Z"
+    },
+    "representativeImagePresent": true,
+    "components": {
+      "parameters": [
+        {
+          "createdAt": "2026-08-30T16:30:17.472315Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 135,
+            "3": 190,
+            "4": 245,
+            "5": 300
+          },
+          "name": "引爆基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "ez_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:30:17.472315Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:17.572498Z",
+          "description": null,
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力倍率",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "ez_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-08-30T16:30:17.572498Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:17.71349Z",
+          "description": null,
+          "fixedValue": 0.9,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "ez_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-08-30T16:30:17.71349Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:17.817079Z",
+          "description": null,
+          "fixedValue": 8000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ez_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-08-30T16:30:17.817079Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:17.911844Z",
+          "description": null,
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ez_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-08-30T16:30:17.911844Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.005277Z",
+          "description": null,
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "印记持续时间（毫秒）",
+          "parameterKey": "mark_duration_ms",
+          "skillKey": "ez_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-08-30T16:30:18.005277Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.10252Z",
+          "description": null,
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "技能引爆基础法力回复",
+          "parameterKey": "mana_restore_base",
+          "skillKey": "ez_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-08-30T16:30:18.10252Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.199387Z",
+          "description": null,
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ez_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-08-30T16:30:18.199387Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.316103Z",
+          "description": null,
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法队列窗口（毫秒）",
+          "parameterKey": "queue_window_ms",
+          "skillKey": "ez_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-08-30T16:30:18.316103Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.417496Z",
+          "description": null,
+          "fixedValue": 1200,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "目标距离",
+          "parameterKey": "target_range",
+          "skillKey": "ez_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-08-30T16:30:18.417496Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.513606Z",
+          "description": null,
+          "fixedValue": 1700,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹体速度",
+          "parameterKey": "projectile_speed",
+          "skillKey": "ez_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-08-30T16:30:18.513606Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.607785Z",
+          "description": null,
+          "fixedValue": 160,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹体宽度",
+          "parameterKey": "projectile_width",
+          "skillKey": "ez_w",
+          "sortOrder": 120,
+          "updatedAt": "2026-08-30T16:30:18.607785Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.703634Z",
+          "description": null,
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "印记最大层数",
+          "parameterKey": "max_stacks",
+          "skillKey": "ez_w",
+          "sortOrder": 130,
+          "updatedAt": "2026-08-30T16:30:18.703634Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:18.81302Z",
+          "description": null,
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每次施加层数",
+          "parameterKey": "application_stacks",
+          "skillKey": "ez_w",
+          "sortOrder": 140,
+          "updatedAt": "2026-08-30T16:30:18.81302Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-06T11:12:42.976683Z",
+          "description": "由引爆技能命中事件提供该次施放的法力消耗快照；真实零消耗显式传入零，缺失不可补零。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "引爆技能本次施放法力消耗",
+          "parameterKey": "source_cast_mana_cost",
+          "skillKey": "ez_w",
+          "sortOrder": 160,
+          "updatedAt": "2026-09-06T11:12:42.976683Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-08-30T16:31:04.598429Z",
+          "description": null,
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "精华跃动引爆伤害",
+          "skillKey": "ez_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:31:04.598429Z"
+        },
+        {
+          "createdAt": "2026-09-06T11:14:09.96612Z",
+          "description": "基础回复60加引爆技能该次施放的法力消耗；消耗修正与额外消耗的游戏口径仍待验证。",
+          "formulaKey": "mana_restore_total",
+          "gameId": "lol",
+          "name": "技能引爆法力回复总量",
+          "skillKey": "ez_w",
+          "sortOrder": 75,
+          "updatedAt": "2026-09-06T11:14:09.96612Z"
+        }
+      ],
+      "effects": [
+        {
+          "createdAt": "2026-08-30T16:32:31.442263Z",
+          "description": "施放时消耗 50 法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ez_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T13:06:03.007735Z"
+        },
+        {
+          "createdAt": "2026-09-06T06:54:15.405555Z",
+          "description": "W实际命中后施加，按施法者与目标分别保存，持续4秒；重新施加刷新时限。被普攻或技能引爆时提前移除并造成伤害，自然到期不造成伤害。来源：本地 Ezreal/W 修订4013234。",
+          "effectKey": "essence_flux_mark",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "精华跃动印记",
+          "resultCount": 1,
+          "skillKey": "ez_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-06T13:06:08.024655Z"
+        },
+        {
+          "createdAt": "2026-08-30T16:32:32.226254Z",
+          "description": "普通攻击实际命中且存在自身来源的 W 印记时，移除该印记并由提前移除结果结算一次伤害；普攻路径不回复法力。",
+          "effectKey": "detonate_by_attack",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "普通攻击引爆",
+          "resultCount": 1,
+          "skillKey": "ez_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-06T10:52:15.245018Z"
+        },
+        {
+          "createdAt": "2026-09-06T11:15:07.979912Z",
+          "description": "Q/E/R 实际命中且未被法术护盾阻挡，同时存在自身来源的 W 印记时，移除印记并结算一次提前移除伤害，回复60加来源施放法力消耗。前置条件由对应触发规则同时检查。",
+          "effectKey": "detonate_with_mana_refund",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "技能引爆并回复法力",
+          "resultCount": 2,
+          "skillKey": "ez_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-06T12:49:19.820999Z"
+        }
+      ],
+      "processes": [
+        {
+          "activationType": "ACTIVE",
+          "createdAt": "2026-08-30T16:33:36.58324Z",
+          "description": "施放开始消耗法力并进入冷却，仅保存0.25秒施法时间。实际命中由W命中事件施加私有印记生命周期；本过程不假定命中、不承担印记计时。",
+          "effectBindingCount": 1,
+          "gameId": "lol",
+          "name": "施放精华跃动",
+          "processKey": "cast",
+          "skillKey": "ez_w",
+          "sortOrder": 10,
+          "stateOperationCount": 0,
+          "stepCount": 1,
+          "updatedAt": "2026-09-06T13:06:06.370195Z"
+        }
+      ],
+      "internal-states": [],
+      "trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "监听原始W弹体实际命中英雄、史诗野怪或建筑，施加或刷新私有印记生命周期。技能伤害结果不得再次伪造W弹体命中事件；缺少目标类别不能默认放行。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "精华跃动实际命中后挂标",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "apply_mark_on_w_hit",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-06T11:37:33.337493Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "普通攻击实际命中当前目标且存在自身来源的 W 印记时，移除该印记并结算一次引爆伤害；普攻路径不回复法力。",
+          "eventType": "BASIC_ATTACK_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "普通攻击命中引爆印记",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "detonate_private_mark_on_basic_attack_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T10:41:42.262157Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "来源技能实际命中且未被法术护盾阻挡，同时当前目标存在自身来源的 W 印记时，消费印记并结算一次引爆伤害，回复60加该次来源施放法力消耗。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "秘术射击命中引爆印记",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "detonate_private_mark_on_ez_q_hit",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-06T12:02:31.351358Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "来源技能实际命中且未被法术护盾阻挡，同时当前目标存在自身来源的 W 印记时，消费印记并结算一次引爆伤害，回复60加该次来源施放法力消耗。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "奥术跃迁命中引爆印记",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "detonate_private_mark_on_ez_e_hit",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-06T12:05:57.508148Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "来源技能实际命中且未被法术护盾阻挡，同时当前目标存在自身来源的 W 印记时，消费印记并结算一次引爆伤害，回复60加该次来源施放法力消耗。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "精准弹幕命中引爆印记",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "detonate_private_mark_on_ez_r_hit",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-06T12:07:17.83979Z"
+        }
+      ]
+    }
+  },
+  "ez_e": {
+    "publicOnly": false,
+    "subject": {
+      "createdAt": "2026-08-30T16:28:33.179615Z",
+      "description": "向目标位置闪烁最多 475 距离，并向最近敌人发射自动寻敌的魔法弹；优先选择带有精华跃动印记的目标。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "奥术跃迁",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ez_e",
+      "sortOrder": 40,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:28:33.179615Z"
+    },
+    "representativeImagePresent": true,
+    "components": {
+      "parameters": [
+        {
+          "createdAt": "2026-08-30T16:30:18.993944Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 130,
+            "3": 180,
+            "4": 230,
+            "5": 280
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "ez_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:30:18.993944Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:19.107786Z",
+          "description": null,
+          "fixedValue": 0.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力倍率",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "ez_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-08-30T16:30:19.107786Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:19.224416Z",
+          "description": null,
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "ez_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-08-30T16:30:19.224416Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:19.322807Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 26000,
+            "2": 23000,
+            "3": 20000,
+            "4": 17000,
+            "5": 14000
+          },
+          "name": "冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ez_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-08-30T16:30:19.322807Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:19.424173Z",
+          "description": null,
+          "fixedValue": 70,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ez_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-08-30T16:30:19.424173Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:19.518096Z",
+          "description": null,
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ez_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-08-30T16:30:19.518096Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:19.63677Z",
+          "description": null,
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法队列窗口（毫秒）",
+          "parameterKey": "queue_window_ms",
+          "skillKey": "ez_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-08-30T16:30:19.63677Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:19.736267Z",
+          "description": null,
+          "fixedValue": 475,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大闪烁距离",
+          "parameterKey": "blink_range",
+          "skillKey": "ez_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-08-30T16:30:19.736267Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:19.841669Z",
+          "description": null,
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "自动寻敌弹体速度",
+          "parameterKey": "projectile_speed",
+          "skillKey": "ez_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-08-30T16:30:19.841669Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-06T06:47:29.900783Z",
+          "description": "以闪烁后位置为中心的寻敌半径；优先选择范围内最近的自身精华跃动印记目标，否则选择最近敌人。来源：本地 Ezreal/E 修订 3989862。",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "寻敌半径",
+          "parameterKey": "target_search_radius",
+          "skillKey": "ez_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-06T06:47:29.900783Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-06T06:47:49.011913Z",
+          "description": "自动寻敌弹体发射时开始使目标显形，持续1秒；不可见目标仍可被选中。来源：本地 Ezreal/E 修订 3989862。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "目标显形时间（毫秒）",
+          "parameterKey": "reveal_duration_ms",
+          "skillKey": "ez_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-06T06:47:49.011913Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-08-30T16:31:05.806971Z",
+          "description": null,
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "奥术跃迁魔法伤害",
+          "skillKey": "ez_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:31:05.806971Z"
+        }
+      ],
+      "effects": [
+        {
+          "createdAt": "2026-08-30T16:32:59.014901Z",
+          "description": "施放时消耗 70 法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ez_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T13:06:03.972851Z"
+        },
+        {
+          "createdAt": "2026-08-30T16:32:59.426071Z",
+          "description": "记录奥术跃迁自动寻敌弹对一个目标造成的魔法伤害；闪烁、选敌和印记优先级另行记录为未支持。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "自动寻敌弹命中",
+          "resultCount": 1,
+          "skillKey": "ez_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-06T13:00:36.541772Z"
+        }
+      ],
+      "processes": [
+        {
+          "activationType": "ACTIVE",
+          "createdAt": "2026-08-30T16:33:36.889137Z",
+          "description": "施法过程负责法力消耗、施法延迟和冷却；伤害由奥术跃迁弹体实际命中事件触发。闪烁、最近目标选择、不可见目标和印记优先级仍待运行层提供。",
+          "effectBindingCount": 1,
+          "gameId": "lol",
+          "name": "施放奥术跃迁",
+          "processKey": "cast",
+          "skillKey": "ez_e",
+          "sortOrder": 10,
+          "stateOperationCount": 0,
+          "stepCount": 1,
+          "updatedAt": "2026-09-06T13:06:06.933143Z"
+        }
+      ],
+      "internal-states": [],
+      "trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "仅监听原始 E 弹体实际命中并执行伤害。寻敌和命中事件由运行层提供，伤害结果不得反向重复生成弹体命中事件。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "奥术跃迁实际命中结算",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "resolve_on_e_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T12:36:24.399334Z"
+        }
+      ]
+    }
+  },
+  "ez_r": {
+    "publicOnly": false,
+    "subject": {
+      "createdAt": "2026-08-30T16:28:33.325266Z",
+      "description": "向目标方向发射全图能量波并短暂提供周围视野，对命中的敌人造成魔法伤害；小兵和非史诗级野怪承受较低伤害。",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "精准弹幕",
+      "skillCategoryKeys": [],
+      "skillKey": "ez_r",
+      "sortOrder": 50,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-07T18:19:58.296126Z"
+    },
+    "representativeImagePresent": true,
+    "components": {
+      "parameters": [
+        {
+          "createdAt": "2026-08-30T16:30:19.979326Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 350,
+            "2": 550,
+            "3": 750
+          },
+          "name": "英雄目标基础魔法伤害",
+          "parameterKey": "champion_base_damage",
+          "skillKey": "ez_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:30:19.979326Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:20.077349Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 150,
+            "2": 225,
+            "3": 300
+          },
+          "name": "小兵与非史诗野怪基础魔法伤害",
+          "parameterKey": "minion_monster_base_damage",
+          "skillKey": "ez_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-08-30T16:30:20.077349Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:20.224249Z",
+          "description": null,
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力倍率",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "ez_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-08-30T16:30:20.224249Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:20.322361Z",
+          "description": null,
+          "fixedValue": 1.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "ez_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-08-30T16:30:20.322361Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:20.425641Z",
+          "description": null,
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 105000,
+            "3": 90000
+          },
+          "name": "冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ez_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-08-30T16:30:20.425641Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:20.522283Z",
+          "description": null,
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ez_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-08-30T16:30:20.522283Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:20.61913Z",
+          "description": null,
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ez_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-08-30T16:30:20.61913Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:20.712177Z",
+          "description": null,
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法队列窗口（毫秒）",
+          "parameterKey": "queue_window_ms",
+          "skillKey": "ez_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-08-30T16:30:20.712177Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:20.940787Z",
+          "description": null,
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹体速度",
+          "parameterKey": "projectile_speed",
+          "skillKey": "ez_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-08-30T16:30:20.940787Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-08-30T16:30:21.0334Z",
+          "description": null,
+          "fixedValue": 320,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹体宽度",
+          "parameterKey": "projectile_width",
+          "skillKey": "ez_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-08-30T16:30:21.0334Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "formulas": [
+        {
+          "createdAt": "2026-08-30T16:31:06.446733Z",
+          "description": null,
+          "formulaKey": "champion_damage",
+          "gameId": "lol",
+          "name": "精准弹幕英雄目标伤害",
+          "skillKey": "ez_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-08-30T16:31:06.446733Z"
+        },
+        {
+          "createdAt": "2026-08-30T16:31:06.580309Z",
+          "description": null,
+          "formulaKey": "minion_monster_damage",
+          "gameId": "lol",
+          "name": "精准弹幕小兵与非史诗野怪伤害",
+          "skillKey": "ez_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-08-30T16:31:06.580309Z"
+        }
+      ],
+      "effects": [
+        {
+          "createdAt": "2026-08-30T16:32:59.804808Z",
+          "description": "施放时消耗 100 法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ez_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T13:06:04.796416Z"
+        },
+        {
+          "createdAt": "2026-08-30T16:33:00.133597Z",
+          "description": "对英雄与史诗野怪造成的魔法伤害。",
+          "effectKey": "champion_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "英雄与史诗野怪命中",
+          "resultCount": 1,
+          "skillKey": "ez_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-06T13:00:37.39551Z"
+        },
+        {
+          "createdAt": "2026-08-30T16:33:00.534505Z",
+          "description": "对小兵和非史诗级野怪使用的较低魔法伤害；当前条件体系没有目标类别筛选，因此仅保存为独立效果。",
+          "effectKey": "minion_monster_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "小兵与非史诗野怪命中",
+          "resultCount": 1,
+          "skillKey": "ez_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-06T13:00:38.181797Z"
+        }
+      ],
+      "processes": [
+        {
+          "activationType": "ACTIVE",
+          "createdAt": "2026-08-30T16:33:37.174259Z",
+          "description": "施法过程负责法力消耗、1 秒施法延迟和冷却；实际命中按英雄与史诗野怪、小兵与非史诗野怪分别结算。全图弹道、沿途多目标命中和视野仍待运行层提供。",
+          "effectBindingCount": 1,
+          "gameId": "lol",
+          "name": "施放精准弹幕",
+          "processKey": "cast",
+          "skillKey": "ez_r",
+          "sortOrder": 10,
+          "stateOperationCount": 0,
+          "stepCount": 1,
+          "updatedAt": "2026-09-06T13:06:07.497466Z"
+        }
+      ],
+      "internal-states": [],
+      "trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "原始 R 弹体实际命中英雄或史诗野怪时执行通常伤害。每个实际目标独立判断；缺少目标类别不能默认放行，伤害结果不得重复生成弹体命中事件。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "精准弹幕命中英雄与史诗野怪",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "resolve_on_r_champion_epic_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-06T12:42:30.205099Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "原始 R 弹体实际命中小兵或非史诗野怪时执行对应伤害。与英雄、史诗野怪分支互斥；缺少目标类别不能默认放行，伤害结果不得重复生成弹体命中事件。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "精准弹幕命中小兵与非史诗野怪",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "resolve_on_r_minion_monster_hit",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-06T12:45:30.749158Z"
+        }
+      ]
+    }
+  }
+}

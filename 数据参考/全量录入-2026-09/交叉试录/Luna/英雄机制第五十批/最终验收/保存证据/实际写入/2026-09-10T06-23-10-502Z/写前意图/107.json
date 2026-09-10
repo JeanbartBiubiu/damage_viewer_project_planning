@@ -1,0 +1,24 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/storm_ap_ratio",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "storm_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "storm_ap_ratio",
+      "name": "风暴法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.00035,
+      "levelValues": null,
+      "description": "仅对应觉醒PercentHPBlast的最大生命百分比法强项0.00035；普通StormDamage每秒法强项由storm_damage_ap_ratio=0.35独立读取。",
+      "sortOrder": 50
+    }
+  }
+}

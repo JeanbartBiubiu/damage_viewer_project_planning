@@ -1,0 +1,31 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/attack_speed_ratio",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "普通姿态攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.200000003,
+        "2": 0.319999993,
+        "3": 0.439999998,
+        "4": 0.560000002,
+        "5": 0.680000007,
+        "6": 0.800000012
+      },
+      "description": "AttackSpeedBase按技能等级1至6取0.20至0.80；1表示100%。",
+      "sortOrder": 10
+    }
+  }
+}

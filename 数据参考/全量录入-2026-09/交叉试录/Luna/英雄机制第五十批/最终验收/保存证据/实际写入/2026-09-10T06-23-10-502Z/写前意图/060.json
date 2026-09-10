@@ -1,0 +1,24 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/awakened_heal_attack_multiplier",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "awakened_heal_attack_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "awakened_heal_attack_multiplier",
+      "name": "觉醒攻击治疗倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "HealAttackMult=2；觉醒命中治疗和生命偷取各翻倍。",
+      "sortOrder": 80
+    }
+  }
+}

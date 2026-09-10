@@ -1,0 +1,31 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/parameters",
+    "detailRoute": "/skills/udyr_q/parameters/on_hit_bonus_hp_ratio",
+    "skillKey": "udyr_q",
+    "kind": "parameters",
+    "stableKey": "on_hit_bonus_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_bonus_hp_ratio",
+      "name": "普攻附伤自身额外生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.01,
+        "2": 0.012,
+        "3": 0.014,
+        "4": 0.016000001,
+        "5": 0.017999999,
+        "6": 0.02
+      },
+      "description": "OnHitDamage第三分支按技能等级1至6取0.01至0.02×来源额外生命。",
+      "sortOrder": 60
+    }
+  }
+}

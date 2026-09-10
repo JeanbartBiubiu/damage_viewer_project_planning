@@ -1,0 +1,31 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/parameters",
+    "detailRoute": "/skills/udyr_e/parameters/target_icd_ms",
+    "skillKey": "udyr_e",
+    "kind": "parameters",
+    "stableKey": "target_icd_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_icd_ms",
+      "name": "单目标攻击眩晕冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6000,
+        "2": 5600,
+        "3": 5200,
+        "4": 4800,
+        "5": 4400,
+        "6": 4000
+      },
+      "description": "ICD按技能等级1至6取6/5.6/5.2/4.8/4.4/4秒，精确换算为整数毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,7322 @@
+{
+  "generatedAt": "2026-09-10T05:06:40.769Z",
+  "batch": "第五十批乌迪尔阿兹尔艾希伊泽瑞尔",
+  "revision": "hero50-source-v2-luna-revision-1",
+  "status": "PASS",
+  "sourcePolicy": "固定客户端16.17、官方16.17.1；期望侧每公式直接读取冻结原始DataValues、字段和计算树，不使用候选公式反推。",
+  "candidateSha256": "14905a98ad4be773283bb740e7a5a98ff6ce41eeed7014c4428a053c697471ec",
+  "planSha256": "15c841da9bda7dd8b9fc1c4fcb19ec71f97d4a2baec7431a7961dbb21a20c485",
+  "scopeSha256": "c5edbe571cef81c9be3652cfe716249f2f365de39fbfbbc9636ba9f2b8537e52",
+  "sourceValuesSha256": "eec7f401013775c68f01cbfec843a0d0472d074cc606e822ae88c5ebb8e063df",
+  "inputGETs": 292,
+  "reusedPublicParameters": 26,
+  "protectedCurrentCompositionLists": 120,
+  "protectedExistingTotals": {
+    "parameters": 65,
+    "formulas": 8,
+    "effects": 16,
+    "processes": 4,
+    "internal-states": 0,
+    "trigger-rules": 13
+  },
+  "cursor": {
+    "verdict": "READY",
+    "runId": "run-ed849cd5-4d3e-4f20-82eb-27f45d82cf50",
+    "events": 3550,
+    "uniqueTools": 63,
+    "inputsChecked": 27,
+    "apiWrites": 0,
+    "gitDelta": 0
+  },
+  "counts": {
+    "newParameters": 120,
+    "newFormulas": 24,
+    "newEffects": 30,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 174,
+    "reusedPublicParameters": 26,
+    "plannedTotalIncludingReused": 200
+  },
+  "parameterChecks": {
+    "total": 120,
+    "pass": 120,
+    "sourceMappings": 120,
+    "sourceMappingsPass": 120,
+    "integerChecks": 120,
+    "integerPass": 120,
+    "integerParameterCount": 57,
+    "integerParameterPass": 57,
+    "integerValueCount": 92,
+    "integerValuePass": 92,
+    "millisecondsChecked": 120
+  },
+  "levelChecks": [
+    {
+      "skillKey": "udyr_p",
+      "maxLevel": 1,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "udyr_q",
+      "maxLevel": 6,
+      "skillLevelParameters": [
+        {
+          "parameterKey": "attack_speed_ratio",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "parameterKey": "max_hp_on_hit_ratio",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "parameterKey": "on_hit_bonus_hp_ratio",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "udyr_w",
+      "maxLevel": 6,
+      "skillLevelParameters": [
+        {
+          "parameterKey": "shield_base",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "parameterKey": "shield_hp_ratio",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "parameterKey": "life_steal_ratio",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "parameterKey": "awakened_shield_base_from_skill",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "udyr_e",
+      "maxLevel": 6,
+      "skillLevelParameters": [
+        {
+          "parameterKey": "target_icd_ms",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "parameterKey": "base_move_speed_ratio",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "udyr_r",
+      "maxLevel": 6,
+      "skillLevelParameters": [
+        {
+          "parameterKey": "slow_ratio",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        },
+        {
+          "parameterKey": "storm_base_damage",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "azir_p",
+      "maxLevel": 1,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "azir_q",
+      "maxLevel": 5,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "azir_w",
+      "maxLevel": 5,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "azir_e",
+      "maxLevel": 5,
+      "skillLevelParameters": [
+        {
+          "parameterKey": "base_damage",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        },
+        {
+          "parameterKey": "base_shield",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "azir_r",
+      "maxLevel": 3,
+      "skillLevelParameters": [
+        {
+          "parameterKey": "base_damage",
+          "keys": [
+            "1",
+            "2",
+            "3"
+          ]
+        },
+        {
+          "parameterKey": "wall_construct_count",
+          "keys": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "ashe_p",
+      "maxLevel": 1,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "ashe_q",
+      "maxLevel": 5,
+      "skillLevelParameters": [
+        {
+          "parameterKey": "damage_per_strike",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        },
+        {
+          "parameterKey": "bonus_attack_speed_ratio",
+          "keys": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "ashe_w",
+      "maxLevel": 5,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "ashe_e",
+      "maxLevel": 5,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "ashe_r",
+      "maxLevel": 3,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "ez_p",
+      "maxLevel": 1,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "ez_q",
+      "maxLevel": 5,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "ez_w",
+      "maxLevel": 5,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "ez_e",
+      "maxLevel": 5,
+      "skillLevelParameters": []
+    },
+    {
+      "skillKey": "ez_r",
+      "maxLevel": 3,
+      "skillLevelParameters": []
+    }
+  ],
+  "formulaChecks": {
+    "definitions": [
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "on_hit_physical_damage",
+        "source": "Udyr/Q/OnHitDamage",
+        "sourceTreeSha256": "7c1a1cba922bfa65d0aab087b4c4a6e9db07d9446d6bc59083d77696f00eeede",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "standard_max_health_physical_damage",
+        "source": "Udyr/Q/MaxHPOnHit1",
+        "sourceTreeSha256": "92f25b935f0d4d996bf3a5f3f99029bcc887fb92e169345ed2c8b18154a168cf",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_max_health_physical_damage",
+        "source": "Udyr/Q/Q2TotalOnHitHPDamage",
+        "sourceTreeSha256": "101fbf5b76641a44256136369ca09705e24bc80d4f26e0a73cf4385f3b4ec5e6",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_total_attack_speed_ratio",
+        "source": "Udyr/Q/EmpoweredTotalAS",
+        "sourceTreeSha256": "329ffaa9605ffab8cf4230f5e41afded42f7b78a9c9465fa9fe4670d732157c1",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_single_magic_damage",
+        "source": "Udyr/Q/EmpoweredLightningBonus",
+        "sourceTreeSha256": "1551f5403168a59f5645c8bd64991b3024942e81d2e55b5cdc710aa976695e71",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "lightning_bounce_multiplier",
+        "source": "Udyr/Q/EmpoweredLightningBonusMax",
+        "sourceTreeSha256": "6f52e4384a70b4c85a094853a454109c7fa71e65c350bfe682f7d76225b2f46b",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_total_magic_damage",
+        "source": "Udyr/Q/EmpoweredLightningBonusMax",
+        "sourceTreeSha256": "6f52e4384a70b4c85a094853a454109c7fa71e65c350bfe682f7d76225b2f46b",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "normal_shield",
+        "source": "Udyr/W/TotalShield",
+        "sourceTreeSha256": "ffb3d7964afd118b57ce3ed77f4ad33b9d097f9011d9b76c19adadc6c9ec7496",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "life_on_hit_heal",
+        "source": "Udyr/W/LifeOnHit",
+        "sourceTreeSha256": "a8a2d03e333ce5cd121fc92d2a1c2aec26770f70774272ddf96e697fc0a9414d",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_shield",
+        "source": "Udyr/W/RecastShield",
+        "sourceTreeSha256": "93c99be546c2b33d8618ab67230044e0ec78f77195484839997b1d0363ff8251",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_total_heal",
+        "source": "Udyr/W/RecastHeal",
+        "sourceTreeSha256": "8f644671bc649ff0701af65941d10afb8e2eb8782924ddd232da5e063c921f05",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_on_hit_heal",
+        "source": "Udyr/W/LifeOnHitAwakened",
+        "sourceTreeSha256": "5e49316a1603604724e9bb74b376690038fe2beb191c436e0bb64efb63d4c861",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_life_steal_ratio",
+        "source": "Udyr/W/{5fcd3b84}",
+        "sourceTreeSha256": "fd9b10fa652b11bf4ac1d80646588382011e03a9520bc2fcf1420dea07a7ed8f",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "base_move_speed_ratio",
+        "source": "Udyr/E/MoveSpeed",
+        "sourceTreeSha256": "6687db496b8da2647dd9b6395832c43d38e7639275ba9e86207f991606a034b1",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "empowered_move_speed_ratio",
+        "source": "Udyr/E/MoveSpeedBonus",
+        "sourceTreeSha256": "71350ce1eba9a85424bf93387c5489dfdf182d13e09dc49ec6b7e86b96039194",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "storm_damage_per_second",
+        "source": "Udyr/R/StormDamage",
+        "sourceTreeSha256": "0666b2527af28758bfa57402a54493c7a4c2a40951eb7b5e965ffbd7276a3f42",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "pulse_damage",
+        "source": "Udyr/R/PulseDamage",
+        "sourceTreeSha256": "a65e844e4cad783cf01b3353e340f1851dba1cab44258bff67202bec9a93cf9d",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "empowered_percent_hp_damage",
+        "source": "Udyr/R/PercentHPBlast",
+        "sourceTreeSha256": "c4108cdacee8de10f8c106585e3e4f7f924d358bc3224500f9a5429b5da0e9c4",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "shield",
+        "source": "Azir/E/TotalShield",
+        "sourceTreeSha256": "16c4e34e74765a3f1d1d8b9a3132b15286a2f1463ce6f44b4b2bdb17b3363667",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "magic_damage",
+        "source": "Azir/E/TotalDamage",
+        "sourceTreeSha256": "5bb1c56197648620bdc47ec00eb8a6bf33d781f8d695bbb575c404e1d2f62aa6",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "formulaKey": "magic_damage",
+        "source": "Azir/R/TotalDamage",
+        "sourceTreeSha256": "e3bf0554fc21291ae86bf9fad5d8c7771d808061afe20ab6f6c8e2237cc85f2d",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "damage_bonus_multiplier",
+        "source": "Ashe/P/DamageBonus",
+        "sourceTreeSha256": "3917da84ed3fd8d2aea63bd0860cbb9fe32e36c4a2d37c1c97d43280a002e3a8",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "modified_attack_damage",
+        "source": "Ashe/P/{da9201cc}",
+        "sourceTreeSha256": "9ce2f09de4b73617a15da652179c8ae46a298a2791772422a43ad26ddc278fd6",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "formulaKey": "empowered_attack_damage",
+        "source": "Ashe/Q/EmpoweredDamage",
+        "sourceTreeSha256": "17964b45d0a93cac944c92fd0c36aaba517462bfad43a5b8d9569cbaec5b6009",
+        "candidateFormula": true,
+        "sourceTreePresent": true,
+        "pass": true
+      }
+    ],
+    "structures": [
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "on_hit_physical_damage",
+        "parameterRefs": [
+          "base_damage",
+          "bonus_ad_ratio",
+          "on_hit_bonus_hp_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "standard_max_health_physical_damage",
+        "parameterRefs": [
+          "max_hp_on_hit_ratio",
+          "max_hp_ad_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_max_health_physical_damage",
+        "parameterRefs": [
+          "max_hp_on_hit_ratio",
+          "empowered_percent_hp_level_actual",
+          "empowered_max_hp_ad_ratio",
+          "empowered_source_hp_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_total_attack_speed_ratio",
+        "parameterRefs": [
+          "attack_speed_ratio",
+          "empowered_bonus_as_actual"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_single_magic_damage",
+        "parameterRefs": [
+          "lightning_level_ratio_actual",
+          "lightning_ap_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "lightning_bounce_multiplier",
+        "parameterRefs": [
+          "bounce_multiplier_base",
+          "lightning_bounce_count",
+          "bounce_count_subtract_one",
+          "repeat_bounce_penalty"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_total_magic_damage",
+        "parameterRefs": [
+          "lightning_level_ratio_actual",
+          "lightning_ap_ratio",
+          "bounce_multiplier_base",
+          "lightning_bounce_count",
+          "bounce_count_subtract_one",
+          "repeat_bounce_penalty"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "normal_shield",
+        "parameterRefs": [
+          "shield_base",
+          "shield_hp_ratio",
+          "shield_ap_ratio",
+          "shield_bonus_ad_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "life_on_hit_heal",
+        "parameterRefs": [
+          "life_on_hit_hp_ratio",
+          "life_on_hit_ap_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_shield",
+        "parameterRefs": [
+          "awakened_shield_level_actual",
+          "awakened_shield_base_from_skill",
+          "awakened_shield_ap_ratio",
+          "awakened_shield_hp_ratio",
+          "awakened_shield_bonus_ad_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_total_heal",
+        "parameterRefs": [
+          "awakened_shield_level_actual",
+          "awakened_shield_base_from_skill",
+          "awakened_shield_ap_ratio",
+          "awakened_shield_hp_ratio",
+          "awakened_shield_bonus_ad_ratio",
+          "awakened_total_heal_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_on_hit_heal",
+        "parameterRefs": [
+          "life_on_hit_hp_ratio",
+          "life_on_hit_ap_ratio",
+          "awakened_heal_attack_multiplier"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_life_steal_ratio",
+        "parameterRefs": [
+          "life_steal_ratio",
+          "awakened_heal_attack_multiplier"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "base_move_speed_ratio",
+        "parameterRefs": [
+          "base_move_speed_ratio",
+          "move_speed_bonus_ad_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "empowered_move_speed_ratio",
+        "parameterRefs": [
+          "empowered_move_speed_level_actual",
+          "empowered_move_speed_ad_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "storm_damage_per_second",
+        "parameterRefs": [
+          "storm_base_damage",
+          "storm_damage_ap_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "pulse_damage",
+        "parameterRefs": [
+          "pulse_level_actual",
+          "pulse_ap_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "empowered_percent_hp_damage",
+        "parameterRefs": [
+          "percent_hp_level_actual_ratio",
+          "storm_ap_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "shield",
+        "parameterRefs": [
+          "base_shield",
+          "shield_ap_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "magic_damage",
+        "parameterRefs": [
+          "base_damage",
+          "damage_ap_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "formulaKey": "magic_damage",
+        "parameterRefs": [
+          "base_damage",
+          "ap_ratio"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "damage_bonus_multiplier",
+        "parameterRefs": [
+          "crit_base_multiplier",
+          "crit_subpart_base",
+          "crit_subpart_coefficient"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "modified_attack_damage",
+        "parameterRefs": [
+          "crit_base_multiplier",
+          "crit_subpart_base",
+          "crit_subpart_coefficient"
+        ],
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "formulaKey": "empowered_attack_damage",
+        "parameterRefs": [
+          "damage_per_strike"
+        ],
+        "pass": true
+      }
+    ],
+    "scenarios": [
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "on_hit_physical_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 32,
+        "expected": 32.000000164,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "on_hit_physical_damage",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 112,
+        "expected": 112.000000089,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "standard_max_health_physical_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 90.9999986,
+        "expected": 90.999997314,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "standard_max_health_physical_damage",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 426.3999948,
+        "expected": 426.399987563,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_max_health_physical_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 148.3999986,
+        "expected": 148.400002174,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_max_health_physical_damage",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 660.3999948,
+        "expected": 660.400009251,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_total_attack_speed_ratio",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 0.400000003,
+        "expected": 0.400000003,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_total_attack_speed_ratio",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 1.500000012,
+        "expected": 1.500000012,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_single_magic_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 31.92,
+        "expected": 31.919999724,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_single_magic_damage",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 152.88,
+        "expected": 152.879998108,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "lightning_bounce_multiplier",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 6,
+        "expected": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "lightning_bounce_multiplier",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 6,
+        "expected": 6,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_total_magic_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 191.52,
+        "expected": 191.519998345,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_total_magic_damage",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 917.28,
+        "expected": 917.27998865,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "normal_shield",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 199.00000078,
+        "expected": 198.999999613,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "normal_shield",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 590.00000288,
+        "expected": 590.000003427,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "life_on_hit_heal",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 41.59999974,
+        "expected": 41.600000039,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "life_on_hit_heal",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 83.99999904,
+        "expected": 83.999999538,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_shield",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 457.49999168,
+        "expected": 457.499992251,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_shield",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 1150.99998088,
+        "expected": 1150.999981761,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_total_heal",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 228.74999584,
+        "expected": 228.749996126,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_total_heal",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 575.49999044,
+        "expected": 575.49999088,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_on_hit_heal",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 83.19999948,
+        "expected": 83.200000077,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_on_hit_heal",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 167.99999808,
+        "expected": 167.999999076,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_life_steal_ratio",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 0.300000012,
+        "expected": 0.300000012,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_life_steal_ratio",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 0.400000006,
+        "expected": 0.400000006,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "base_move_speed_ratio",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 0.3,
+        "expected": 0.300000002,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "base_move_speed_ratio",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 0.670000012,
+        "expected": 0.670000018,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "empowered_move_speed_ratio",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 0.4,
+        "expected": 0.400000005,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "empowered_move_speed_ratio",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 0.64,
+        "expected": 0.640000011,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "storm_damage_per_second",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 65.49999922,
+        "expected": 65.499999225,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "storm_damage_per_second",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 267.99999712,
+        "expected": 267.999997139,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "pulse_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 55.49999922,
+        "expected": 55.499999225,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "pulse_damage",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 207.99999712,
+        "expected": 207.999997139,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "empowered_percent_hp_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 175.7,
+        "expected": 175.699997729,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "empowered_percent_hp_damage",
+        "scene": "强化场景",
+        "rank": 6,
+        "characterLevel": 18,
+        "actual": 800.8,
+        "expected": 800.799984425,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "shield",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 148.00000312,
+        "expected": 148.000003099,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "shield",
+        "scene": "强化场景",
+        "rank": 5,
+        "characterLevel": 18,
+        "actual": 518.00001152,
+        "expected": 518.000011444,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "magic_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 148.00000312,
+        "expected": 148.000003099,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "magic_damage",
+        "scene": "强化场景",
+        "rank": 5,
+        "characterLevel": 18,
+        "actual": 518.00001152,
+        "expected": 518.000011444,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "formulaKey": "magic_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 297.5,
+        "expected": 297.5,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "formulaKey": "magic_damage",
+        "scene": "强化场景",
+        "rank": 3,
+        "characterLevel": 18,
+        "actual": 960,
+        "expected": 960,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "damage_bonus_multiplier",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 1.35,
+        "expected": 1.35,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "damage_bonus_multiplier",
+        "scene": "强化场景",
+        "rank": 1,
+        "characterLevel": 18,
+        "actual": 2.04,
+        "expected": 2.04,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "modified_attack_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 297,
+        "expected": 297,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "modified_attack_damage",
+        "scene": "强化场景",
+        "rank": 1,
+        "characterLevel": 18,
+        "actual": 856.8,
+        "expected": 856.8,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "formulaKey": "empowered_attack_damage",
+        "scene": "基础场景",
+        "rank": 1,
+        "characterLevel": 1,
+        "actual": 242.00000528,
+        "expected": 242.000005245,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "formulaKey": "empowered_attack_damage",
+        "scene": "强化场景",
+        "rank": 5,
+        "characterLevel": 18,
+        "actual": 545.99997984,
+        "expected": 545.999979973,
+        "pass": true
+      }
+    ],
+    "scenarioCount": 48,
+    "formulaCount": 24,
+    "allTwoScenes": true,
+    "missingReferenceCases": [
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "on_hit_physical_damage",
+        "missingParameterKey": "base_damage",
+        "rejected": true,
+        "error": "缺少公式参数base_damage"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "standard_max_health_physical_damage",
+        "missingParameterKey": "max_hp_on_hit_ratio",
+        "rejected": true,
+        "error": "缺少公式参数max_hp_on_hit_ratio"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_max_health_physical_damage",
+        "missingParameterKey": "max_hp_on_hit_ratio",
+        "rejected": true,
+        "error": "缺少公式参数max_hp_on_hit_ratio"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_total_attack_speed_ratio",
+        "missingParameterKey": "attack_speed_ratio",
+        "rejected": true,
+        "error": "缺少公式参数attack_speed_ratio"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_single_magic_damage",
+        "missingParameterKey": "lightning_level_ratio_actual",
+        "rejected": true,
+        "error": "缺少公式参数lightning_level_ratio_actual"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "lightning_bounce_multiplier",
+        "missingParameterKey": "bounce_multiplier_base",
+        "rejected": true,
+        "error": "缺少公式参数bounce_multiplier_base"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_total_magic_damage",
+        "missingParameterKey": "lightning_level_ratio_actual",
+        "rejected": true,
+        "error": "缺少公式参数lightning_level_ratio_actual"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "normal_shield",
+        "missingParameterKey": "shield_base",
+        "rejected": true,
+        "error": "缺少公式参数shield_base"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "life_on_hit_heal",
+        "missingParameterKey": "life_on_hit_hp_ratio",
+        "rejected": true,
+        "error": "缺少公式参数life_on_hit_hp_ratio"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_shield",
+        "missingParameterKey": "awakened_shield_level_actual",
+        "rejected": true,
+        "error": "缺少公式参数awakened_shield_level_actual"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_total_heal",
+        "missingParameterKey": "awakened_shield_level_actual",
+        "rejected": true,
+        "error": "缺少公式参数awakened_shield_level_actual"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_on_hit_heal",
+        "missingParameterKey": "life_on_hit_hp_ratio",
+        "rejected": true,
+        "error": "缺少公式参数life_on_hit_hp_ratio"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_life_steal_ratio",
+        "missingParameterKey": "life_steal_ratio",
+        "rejected": true,
+        "error": "缺少公式参数life_steal_ratio"
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "base_move_speed_ratio",
+        "missingParameterKey": "base_move_speed_ratio",
+        "rejected": true,
+        "error": "缺少公式参数base_move_speed_ratio"
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "empowered_move_speed_ratio",
+        "missingParameterKey": "empowered_move_speed_level_actual",
+        "rejected": true,
+        "error": "缺少公式参数empowered_move_speed_level_actual"
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "storm_damage_per_second",
+        "missingParameterKey": "storm_base_damage",
+        "rejected": true,
+        "error": "缺少公式参数storm_base_damage"
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "pulse_damage",
+        "missingParameterKey": "pulse_level_actual",
+        "rejected": true,
+        "error": "缺少公式参数pulse_level_actual"
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "empowered_percent_hp_damage",
+        "missingParameterKey": "percent_hp_level_actual_ratio",
+        "rejected": true,
+        "error": "缺少公式参数percent_hp_level_actual_ratio"
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "shield",
+        "missingParameterKey": "base_shield",
+        "rejected": true,
+        "error": "缺少公式参数base_shield"
+      },
+      {
+        "skillKey": "azir_e",
+        "formulaKey": "magic_damage",
+        "missingParameterKey": "base_damage",
+        "rejected": true,
+        "error": "缺少公式参数base_damage"
+      },
+      {
+        "skillKey": "azir_r",
+        "formulaKey": "magic_damage",
+        "missingParameterKey": "base_damage",
+        "rejected": true,
+        "error": "缺少公式参数base_damage"
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "damage_bonus_multiplier",
+        "missingParameterKey": "crit_base_multiplier",
+        "rejected": true,
+        "error": "缺少公式参数crit_base_multiplier"
+      },
+      {
+        "skillKey": "ashe_p",
+        "formulaKey": "modified_attack_damage",
+        "missingParameterKey": "crit_base_multiplier",
+        "rejected": true,
+        "error": "缺少公式参数crit_base_multiplier"
+      },
+      {
+        "skillKey": "ashe_q",
+        "formulaKey": "empowered_attack_damage",
+        "missingParameterKey": "damage_per_strike",
+        "rejected": true,
+        "error": "缺少公式参数damage_per_strike"
+      }
+    ],
+    "runtimeMissingCases": [
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_max_health_physical_damage",
+        "missingParameterKey": "empowered_percent_hp_level_actual",
+        "rejected": true,
+        "error": "缺少运行输入udyr_q/empowered_percent_hp_level_actual"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_total_attack_speed_ratio",
+        "missingParameterKey": "empowered_bonus_as_actual",
+        "rejected": true,
+        "error": "缺少运行输入udyr_q/empowered_bonus_as_actual"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_single_magic_damage",
+        "missingParameterKey": "lightning_level_ratio_actual",
+        "rejected": true,
+        "error": "缺少运行输入udyr_q/lightning_level_ratio_actual"
+      },
+      {
+        "skillKey": "udyr_q",
+        "formulaKey": "empowered_lightning_total_magic_damage",
+        "missingParameterKey": "lightning_level_ratio_actual",
+        "rejected": true,
+        "error": "缺少运行输入udyr_q/lightning_level_ratio_actual"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_shield",
+        "missingParameterKey": "awakened_shield_level_actual",
+        "rejected": true,
+        "error": "缺少运行输入udyr_w/awakened_shield_level_actual"
+      },
+      {
+        "skillKey": "udyr_w",
+        "formulaKey": "awakened_total_heal",
+        "missingParameterKey": "awakened_shield_level_actual",
+        "rejected": true,
+        "error": "缺少运行输入udyr_w/awakened_shield_level_actual"
+      },
+      {
+        "skillKey": "udyr_e",
+        "formulaKey": "empowered_move_speed_ratio",
+        "missingParameterKey": "empowered_move_speed_level_actual",
+        "rejected": true,
+        "error": "缺少运行输入udyr_e/empowered_move_speed_level_actual"
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "pulse_damage",
+        "missingParameterKey": "pulse_level_actual",
+        "rejected": true,
+        "error": "缺少运行输入udyr_r/pulse_level_actual"
+      },
+      {
+        "skillKey": "udyr_r",
+        "formulaKey": "empowered_percent_hp_damage",
+        "missingParameterKey": "percent_hp_level_actual_ratio",
+        "rejected": true,
+        "error": "缺少运行输入udyr_r/percent_hp_level_actual_ratio"
+      }
+    ],
+    "allMissingRejected": true
+  },
+  "effectChecks": {
+    "enumChecks": [
+      {
+        "skillKey": "udyr_p",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_attack_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_on_hit",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "physics",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_max_health_hit",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "physics",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_attack_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_max_health_hit",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "physics",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_lightning",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "magic",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "attack_range",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_shield",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_life_steal",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_on_hit_heal",
+        "resultKey": "heal",
+        "resultType": "DIRECT_HEAL",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_shield",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_life_steal",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_on_hit_heal",
+        "resultKey": "heal",
+        "resultType": "DIRECT_HEAL",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "base_move_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "empowered_move_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "storm_damage",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "magic",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "pulse_damage",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "magic",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "self_shield",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "dash_damage",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "magic",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "effectKey": "charge_damage",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "magic",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "empowered_attack",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "damageTypeKey": "physics",
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": "attribute_flat_add",
+        "statusKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "damageTypeKey": null,
+        "absorbedDamageTypeKey": null,
+        "modifierZoneKey": null,
+        "statusKey": null,
+        "pass": true
+      }
+    ],
+    "dictionaryRefChecks": [
+      {
+        "field": "modifierZoneKey",
+        "path": "udyr_p.write.effects.0.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "modifierZoneKey",
+        "path": "udyr_q.write.effects.0.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "udyr_q.write.effects.1.results.0.detail.damageTypeKey",
+        "value": "physics",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "udyr_q.write.effects.2.results.0.detail.damageTypeKey",
+        "value": "physics",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "modifierZoneKey",
+        "path": "udyr_q.write.effects.3.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "udyr_q.write.effects.4.results.0.detail.damageTypeKey",
+        "value": "physics",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "udyr_q.write.effects.5.results.0.detail.damageTypeKey",
+        "value": "magic",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "modifierZoneKey",
+        "path": "udyr_q.write.effects.6.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "modifierZoneKey",
+        "path": "udyr_w.write.effects.1.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "modifierZoneKey",
+        "path": "udyr_w.write.effects.4.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "modifierZoneKey",
+        "path": "udyr_e.write.effects.0.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "modifierZoneKey",
+        "path": "udyr_e.write.effects.1.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "udyr_r.write.effects.0.results.0.detail.damageTypeKey",
+        "value": "magic",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "udyr_r.write.effects.1.results.0.detail.damageTypeKey",
+        "value": "magic",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "azir_e.write.effects.1.results.0.detail.damageTypeKey",
+        "value": "magic",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "azir_r.write.effects.0.results.0.detail.damageTypeKey",
+        "value": "magic",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "damageTypeKey",
+        "path": "ashe_q.write.effects.0.results.0.detail.damageTypeKey",
+        "value": "physics",
+        "dictionaryAvailable": true,
+        "pass": true
+      },
+      {
+        "field": "modifierZoneKey",
+        "path": "ashe_q.write.effects.1.results.0.detail.modifierZoneKey",
+        "value": "attribute_flat_add",
+        "dictionaryAvailable": true,
+        "pass": true
+      }
+    ],
+    "attributeRefs": [
+      {
+        "path": "udyr_q.write.formulas.0.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.0.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "hp",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.1.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.1.expression.operands.1",
+        "owner": "TARGET",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.2.expression.operands.0.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.2.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "hp",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.2.expression.operands.1",
+        "owner": "TARGET",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.4.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.4.expression.operands.1",
+        "owner": "TARGET",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.6.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_q.write.formulas.6.expression.operands.1.operands.0",
+        "owner": "TARGET",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.0.expression.operands.0.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.0.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.0.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.1.expression.operands.0.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.1.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.2.expression.operands.0.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.2.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.2.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.3.expression.operands.0.operands.0.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.3.expression.operands.0.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.3.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.4.expression.operands.0.operands.0.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_w.write.formulas.4.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_e.write.formulas.0.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_e.write.formulas.1.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "BONUS",
+        "pass": true
+      },
+      {
+        "path": "udyr_r.write.formulas.0.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_r.write.formulas.1.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_r.write.formulas.2.expression.operands.0.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "udyr_r.write.formulas.2.expression.operands.1",
+        "owner": "TARGET",
+        "attributeKey": "hp",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "azir_e.write.formulas.0.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "azir_e.write.formulas.1.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "azir_r.write.formulas.0.expression.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "ability_power",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "ashe_p.write.formulas.0.expression.operands.1.operands.0",
+        "owner": "SOURCE",
+        "attributeKey": "critical_strike_chance",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "ashe_p.write.formulas.0.expression.operands.1.operands.1.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "critical_strike_damage_bonus_percent",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "ashe_p.write.formulas.1.expression.operands.0",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "ashe_p.write.formulas.1.expression.operands.1.operands.1.operands.0",
+        "owner": "SOURCE",
+        "attributeKey": "critical_strike_chance",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "ashe_p.write.formulas.1.expression.operands.1.operands.1.operands.1.operands.1.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "critical_strike_damage_bonus_percent",
+        "valueKind": "TOTAL",
+        "pass": true
+      },
+      {
+        "path": "ashe_q.write.formulas.0.expression.operands.1",
+        "owner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "valueKind": "TOTAL",
+        "pass": true
+      }
+    ],
+    "structures": [
+      {
+        "skillKey": "udyr_p",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "attack_speed_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_attack_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "attack_speed_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_on_hit",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "on_hit_physical_damage"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_max_health_hit",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "standard_max_health_physical_damage"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_attack_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "empowered_total_attack_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "empowered_attack_speed_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_max_health_hit",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "empowered_max_health_physical_damage"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_lightning",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "empowered_lightning_total_magic_damage"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "attack_range",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_range_bonus"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "actual_remaining_two_attack_range_qualification_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_shield",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "normal_shield"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "shield_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_life_steal",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "life_steal_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "actual_remaining_two_attack_qualification_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_on_hit_heal",
+        "resultKey": "heal",
+        "resultType": "DIRECT_HEAL",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "life_on_hit_heal"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_shield",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "awakened_shield"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "shield_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_life_steal",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "awakened_life_steal_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "actual_remaining_two_attack_qualification_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_on_hit_heal",
+        "resultKey": "heal",
+        "resultType": "DIRECT_HEAL",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "awakened_on_hit_heal"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "base_move_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "base_move_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "move_speed_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "empowered_move_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "empowered_move_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "unstoppable_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "storm_damage",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "storm_damage_per_second"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "pulse_damage",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "pulse_damage"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "self_shield",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "shield"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "shield_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "dash_damage",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "magic_damage"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "effectKey": "charge_damage",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "magic_damage"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "empowered_attack",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "empowered_attack_damage"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "bonus_attack_speed_ratio"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": "buff_duration_ms",
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "resultType": "RESOURCE_CHANGE",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "durationKey": null,
+        "pass": true
+      }
+    ],
+    "finalValues": [
+      {
+        "skillKey": "udyr_p",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 0.300000012,
+        "sourceExpected": 0.300000012,
+        "multiplier": 1,
+        "finalValue": 0.300000012,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_p",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 0.300000012,
+        "sourceExpected": 0.300000012,
+        "multiplier": 1,
+        "finalValue": 0.300000012,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_attack_speed",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 0.200000003,
+        "sourceExpected": 0.200000003,
+        "multiplier": 1,
+        "finalValue": 0.200000003,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_attack_speed",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 0.800000012,
+        "sourceExpected": 0.800000012,
+        "multiplier": 1,
+        "finalValue": 0.800000012,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_on_hit",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 32,
+        "sourceExpected": 32.000000164,
+        "multiplier": 1,
+        "finalValue": 32,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_on_hit",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 112,
+        "sourceExpected": 112.000000089,
+        "multiplier": 1,
+        "finalValue": 112,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_max_health_hit",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 90.9999986,
+        "sourceExpected": 90.999997314,
+        "multiplier": 1,
+        "finalValue": 90.9999986,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_max_health_hit",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 426.3999948,
+        "sourceExpected": 426.399987563,
+        "multiplier": 1,
+        "finalValue": 426.3999948,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_attack_speed",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 0.400000003,
+        "sourceExpected": 0.400000003,
+        "multiplier": 1,
+        "finalValue": 0.400000003,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_attack_speed",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 1.500000012,
+        "sourceExpected": 1.500000012,
+        "multiplier": 1,
+        "finalValue": 1.500000012,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_max_health_hit",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 148.3999986,
+        "sourceExpected": 148.400002174,
+        "multiplier": 1,
+        "finalValue": 148.3999986,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_max_health_hit",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 660.3999948,
+        "sourceExpected": 660.400009251,
+        "multiplier": 1,
+        "finalValue": 660.3999948,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_lightning",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 191.52,
+        "sourceExpected": 191.519998345,
+        "multiplier": 1,
+        "finalValue": 191.52,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_lightning",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 917.28,
+        "sourceExpected": 917.27998865,
+        "multiplier": 1,
+        "finalValue": 917.28,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "attack_range",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 50,
+        "sourceExpected": 50,
+        "multiplier": 1,
+        "finalValue": 50,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "attack_range",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 50,
+        "sourceExpected": 50,
+        "multiplier": 1,
+        "finalValue": 50,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "基础场景",
+        "base": 20,
+        "sourceExpected": 20,
+        "multiplier": 1,
+        "finalValue": 20,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "强化场景",
+        "base": 20,
+        "sourceExpected": 20,
+        "multiplier": 1,
+        "finalValue": 20,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_shield",
+        "resultKey": "shield",
+        "scene": "基础场景",
+        "base": 199.00000078,
+        "sourceExpected": 198.999999613,
+        "multiplier": 1,
+        "finalValue": 199.00000078,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_shield",
+        "resultKey": "shield",
+        "scene": "强化场景",
+        "base": 590.00000288,
+        "sourceExpected": 590.000003427,
+        "multiplier": 1,
+        "finalValue": 590.00000288,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_life_steal",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 0.150000006,
+        "sourceExpected": 0.150000006,
+        "multiplier": 1,
+        "finalValue": 0.150000006,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_life_steal",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 0.200000003,
+        "sourceExpected": 0.200000003,
+        "multiplier": 1,
+        "finalValue": 0.200000003,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_on_hit_heal",
+        "resultKey": "heal",
+        "scene": "基础场景",
+        "base": 41.59999974,
+        "sourceExpected": 41.600000039,
+        "multiplier": 1,
+        "finalValue": 41.59999974,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_on_hit_heal",
+        "resultKey": "heal",
+        "scene": "强化场景",
+        "base": 83.99999904,
+        "sourceExpected": 83.999999538,
+        "multiplier": 1,
+        "finalValue": 83.99999904,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_shield",
+        "resultKey": "shield",
+        "scene": "基础场景",
+        "base": 457.49999168,
+        "sourceExpected": 457.499992251,
+        "multiplier": 1,
+        "finalValue": 457.49999168,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_shield",
+        "resultKey": "shield",
+        "scene": "强化场景",
+        "base": 1150.99998088,
+        "sourceExpected": 1150.999981761,
+        "multiplier": 1,
+        "finalValue": 1150.99998088,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_life_steal",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 0.300000012,
+        "sourceExpected": 0.300000012,
+        "multiplier": 1,
+        "finalValue": 0.300000012,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_life_steal",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 0.400000006,
+        "sourceExpected": 0.400000006,
+        "multiplier": 1,
+        "finalValue": 0.400000006,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_on_hit_heal",
+        "resultKey": "heal",
+        "scene": "基础场景",
+        "base": 83.19999948,
+        "sourceExpected": 83.200000077,
+        "multiplier": 1,
+        "finalValue": 83.19999948,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_on_hit_heal",
+        "resultKey": "heal",
+        "scene": "强化场景",
+        "base": 167.99999808,
+        "sourceExpected": 167.999999076,
+        "multiplier": 1,
+        "finalValue": 167.99999808,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "基础场景",
+        "base": 40,
+        "sourceExpected": 40,
+        "multiplier": 1,
+        "finalValue": 40,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "强化场景",
+        "base": 40,
+        "sourceExpected": 40,
+        "multiplier": 1,
+        "finalValue": 40,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "base_move_speed",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 0.3,
+        "sourceExpected": 0.300000002,
+        "multiplier": 1,
+        "finalValue": 0.3,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "base_move_speed",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 0.670000012,
+        "sourceExpected": 0.670000018,
+        "multiplier": 1,
+        "finalValue": 0.670000012,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "empowered_move_speed",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 0.4,
+        "sourceExpected": 0.400000005,
+        "multiplier": 1,
+        "finalValue": 0.4,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "empowered_move_speed",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 0.64,
+        "sourceExpected": 0.640000011,
+        "multiplier": 1,
+        "finalValue": 0.64,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "基础场景",
+        "base": 40,
+        "sourceExpected": 40,
+        "multiplier": 1,
+        "finalValue": 40,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "强化场景",
+        "base": 40,
+        "sourceExpected": 40,
+        "multiplier": 1,
+        "finalValue": 40,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "storm_damage",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 65.49999922,
+        "sourceExpected": 65.499999225,
+        "multiplier": 1,
+        "finalValue": 65.49999922,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "storm_damage",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 267.99999712,
+        "sourceExpected": 267.999997139,
+        "multiplier": 1,
+        "finalValue": 267.99999712,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "pulse_damage",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 55.49999922,
+        "sourceExpected": 55.499999225,
+        "multiplier": 1,
+        "finalValue": 55.49999922,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "pulse_damage",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 207.99999712,
+        "sourceExpected": 207.999997139,
+        "multiplier": 1,
+        "finalValue": 207.99999712,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "基础场景",
+        "base": 40,
+        "sourceExpected": 40,
+        "multiplier": 1,
+        "finalValue": 40,
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_r",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "强化场景",
+        "base": 40,
+        "sourceExpected": 40,
+        "multiplier": 1,
+        "finalValue": 40,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "self_shield",
+        "resultKey": "shield",
+        "scene": "基础场景",
+        "base": 148.00000312,
+        "sourceExpected": 148.000003099,
+        "multiplier": 1,
+        "finalValue": 148.00000312,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "self_shield",
+        "resultKey": "shield",
+        "scene": "强化场景",
+        "base": 518.00001152,
+        "sourceExpected": 518.000011444,
+        "multiplier": 1,
+        "finalValue": 518.00001152,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "dash_damage",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 148.00000312,
+        "sourceExpected": 148.000003099,
+        "multiplier": 1,
+        "finalValue": 148.00000312,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "dash_damage",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 518.00001152,
+        "sourceExpected": 518.000011444,
+        "multiplier": 1,
+        "finalValue": 518.00001152,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "基础场景",
+        "base": 60,
+        "sourceExpected": 60,
+        "multiplier": 1,
+        "finalValue": 60,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_e",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "强化场景",
+        "base": 60,
+        "sourceExpected": 60,
+        "multiplier": 1,
+        "finalValue": 60,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "effectKey": "charge_damage",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 297.5,
+        "sourceExpected": 297.5,
+        "multiplier": 1,
+        "finalValue": 297.5,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "effectKey": "charge_damage",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 960,
+        "sourceExpected": 960,
+        "multiplier": 1,
+        "finalValue": 960,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "基础场景",
+        "base": 100,
+        "sourceExpected": 100,
+        "multiplier": 1,
+        "finalValue": 100,
+        "pass": true
+      },
+      {
+        "skillKey": "azir_r",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "强化场景",
+        "base": 100,
+        "sourceExpected": 100,
+        "multiplier": 1,
+        "finalValue": 100,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "empowered_attack",
+        "resultKey": "damage",
+        "scene": "基础场景",
+        "base": 242.00000528,
+        "sourceExpected": 242.000005245,
+        "multiplier": 1,
+        "finalValue": 242.00000528,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "empowered_attack",
+        "resultKey": "damage",
+        "scene": "强化场景",
+        "base": 545.99997984,
+        "sourceExpected": 545.999979973,
+        "multiplier": 1,
+        "finalValue": 545.99997984,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "scene": "基础场景",
+        "base": 0.2,
+        "sourceExpected": 0.2,
+        "multiplier": 1,
+        "finalValue": 0.2,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "scene": "强化场景",
+        "base": 0.6,
+        "sourceExpected": 0.6,
+        "multiplier": 1,
+        "finalValue": 0.6,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "基础场景",
+        "base": 30,
+        "sourceExpected": 30,
+        "multiplier": 1,
+        "finalValue": 30,
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "mana_cost",
+        "resultKey": "consume_mana",
+        "scene": "强化场景",
+        "base": 30,
+        "sourceExpected": 30,
+        "multiplier": 1,
+        "finalValue": 30,
+        "pass": true
+      }
+    ],
+    "finalValueCount": 60,
+    "allMultiplierOne": true,
+    "ratioAttributes": [
+      {
+        "skillKey": "udyr_p",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "attributeKey": "bonus_attack_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "standard_attack_speed",
+        "resultKey": "attribute",
+        "attributeKey": "bonus_attack_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_q",
+        "effectKey": "empowered_attack_speed",
+        "resultKey": "attribute",
+        "attributeKey": "bonus_attack_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "normal_life_steal",
+        "resultKey": "attribute",
+        "attributeKey": "life_steal_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_w",
+        "effectKey": "awakened_life_steal",
+        "resultKey": "attribute",
+        "attributeKey": "life_steal_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "base_move_speed",
+        "resultKey": "attribute",
+        "attributeKey": "move_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "pass": true
+      },
+      {
+        "skillKey": "udyr_e",
+        "effectKey": "empowered_move_speed",
+        "resultKey": "attribute",
+        "attributeKey": "move_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "pass": true
+      },
+      {
+        "skillKey": "ashe_q",
+        "effectKey": "attack_speed_buff",
+        "resultKey": "attribute",
+        "attributeKey": "bonus_attack_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "pass": true
+      }
+    ]
+  },
+  "sourceFormulaChecks": [
+    {
+      "skillKey": "udyr_q",
+      "formulaKey": "on_hit_physical_damage",
+      "source": "Udyr/Q/OnHitDamage",
+      "sourceTreeSha256": "7c1a1cba922bfa65d0aab087b4c4a6e9db07d9446d6bc59083d77696f00eeede",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "formulaKey": "standard_max_health_physical_damage",
+      "source": "Udyr/Q/MaxHPOnHit1",
+      "sourceTreeSha256": "92f25b935f0d4d996bf3a5f3f99029bcc887fb92e169345ed2c8b18154a168cf",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "formulaKey": "empowered_max_health_physical_damage",
+      "source": "Udyr/Q/Q2TotalOnHitHPDamage",
+      "sourceTreeSha256": "101fbf5b76641a44256136369ca09705e24bc80d4f26e0a73cf4385f3b4ec5e6",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "formulaKey": "empowered_total_attack_speed_ratio",
+      "source": "Udyr/Q/EmpoweredTotalAS",
+      "sourceTreeSha256": "329ffaa9605ffab8cf4230f5e41afded42f7b78a9c9465fa9fe4670d732157c1",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "formulaKey": "empowered_lightning_single_magic_damage",
+      "source": "Udyr/Q/EmpoweredLightningBonus",
+      "sourceTreeSha256": "1551f5403168a59f5645c8bd64991b3024942e81d2e55b5cdc710aa976695e71",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "formulaKey": "lightning_bounce_multiplier",
+      "source": "Udyr/Q/EmpoweredLightningBonusMax",
+      "sourceTreeSha256": "6f52e4384a70b4c85a094853a454109c7fa71e65c350bfe682f7d76225b2f46b",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "formulaKey": "empowered_lightning_total_magic_damage",
+      "source": "Udyr/Q/EmpoweredLightningBonusMax",
+      "sourceTreeSha256": "6f52e4384a70b4c85a094853a454109c7fa71e65c350bfe682f7d76225b2f46b",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "formulaKey": "normal_shield",
+      "source": "Udyr/W/TotalShield",
+      "sourceTreeSha256": "ffb3d7964afd118b57ce3ed77f4ad33b9d097f9011d9b76c19adadc6c9ec7496",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "formulaKey": "life_on_hit_heal",
+      "source": "Udyr/W/LifeOnHit",
+      "sourceTreeSha256": "a8a2d03e333ce5cd121fc92d2a1c2aec26770f70774272ddf96e697fc0a9414d",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "formulaKey": "awakened_shield",
+      "source": "Udyr/W/RecastShield",
+      "sourceTreeSha256": "93c99be546c2b33d8618ab67230044e0ec78f77195484839997b1d0363ff8251",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "formulaKey": "awakened_total_heal",
+      "source": "Udyr/W/RecastHeal",
+      "sourceTreeSha256": "8f644671bc649ff0701af65941d10afb8e2eb8782924ddd232da5e063c921f05",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "formulaKey": "awakened_on_hit_heal",
+      "source": "Udyr/W/LifeOnHitAwakened",
+      "sourceTreeSha256": "5e49316a1603604724e9bb74b376690038fe2beb191c436e0bb64efb63d4c861",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "formulaKey": "awakened_life_steal_ratio",
+      "source": "Udyr/W/{5fcd3b84}",
+      "sourceTreeSha256": "fd9b10fa652b11bf4ac1d80646588382011e03a9520bc2fcf1420dea07a7ed8f",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "formulaKey": "base_move_speed_ratio",
+      "source": "Udyr/E/MoveSpeed",
+      "sourceTreeSha256": "6687db496b8da2647dd9b6395832c43d38e7639275ba9e86207f991606a034b1",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "formulaKey": "empowered_move_speed_ratio",
+      "source": "Udyr/E/MoveSpeedBonus",
+      "sourceTreeSha256": "71350ce1eba9a85424bf93387c5489dfdf182d13e09dc49ec6b7e86b96039194",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "formulaKey": "storm_damage_per_second",
+      "source": "Udyr/R/StormDamage",
+      "sourceTreeSha256": "0666b2527af28758bfa57402a54493c7a4c2a40951eb7b5e965ffbd7276a3f42",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "formulaKey": "pulse_damage",
+      "source": "Udyr/R/PulseDamage",
+      "sourceTreeSha256": "a65e844e4cad783cf01b3353e340f1851dba1cab44258bff67202bec9a93cf9d",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "formulaKey": "empowered_percent_hp_damage",
+      "source": "Udyr/R/PercentHPBlast",
+      "sourceTreeSha256": "c4108cdacee8de10f8c106585e3e4f7f924d358bc3224500f9a5429b5da0e9c4",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "formulaKey": "shield",
+      "source": "Azir/E/TotalShield",
+      "sourceTreeSha256": "16c4e34e74765a3f1d1d8b9a3132b15286a2f1463ce6f44b4b2bdb17b3363667",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "formulaKey": "magic_damage",
+      "source": "Azir/E/TotalDamage",
+      "sourceTreeSha256": "5bb1c56197648620bdc47ec00eb8a6bf33d781f8d695bbb575c404e1d2f62aa6",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "formulaKey": "magic_damage",
+      "source": "Azir/R/TotalDamage",
+      "sourceTreeSha256": "e3bf0554fc21291ae86bf9fad5d8c7771d808061afe20ab6f6c8e2237cc85f2d",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "formulaKey": "damage_bonus_multiplier",
+      "source": "Ashe/P/DamageBonus",
+      "sourceTreeSha256": "3917da84ed3fd8d2aea63bd0860cbb9fe32e36c4a2d37c1c97d43280a002e3a8",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "formulaKey": "modified_attack_damage",
+      "source": "Ashe/P/{da9201cc}",
+      "sourceTreeSha256": "9ce2f09de4b73617a15da652179c8ae46a298a2791772422a43ad26ddc278fd6",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "formulaKey": "empowered_attack_damage",
+      "source": "Ashe/Q/EmpoweredDamage",
+      "sourceTreeSha256": "17964b45d0a93cac944c92fd0c36aaba517462bfad43a5b8d9569cbaec5b6009",
+      "candidateFormula": true,
+      "sourceTreePresent": true,
+      "pass": true
+    }
+  ],
+  "fixedSourceArrayChecks": [
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "attack_speed_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/P/AttackSpeedDuration",
+      "rawValues": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "transformed": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "candidate": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "awakened_cooldown_return_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/P/UltCDReduction",
+      "rawValues": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806
+      ],
+      "transformed": [
+        0.050000001,
+        0.050000001,
+        0.050000001,
+        0.050000001,
+        0.050000001,
+        0.050000001,
+        0.050000001
+      ],
+      "candidate": 0.050000001,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "awakened_cooldown_multiplier",
+      "sourceKind": "DataValue",
+      "source": "Udyr/P/UltCDMultiplier",
+      "rawValues": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "transformed": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "stance_global_cooldown_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/P/GlobalCD",
+      "rawValues": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ],
+      "transformed": [
+        1500,
+        1500,
+        1500,
+        1500,
+        1500,
+        1500,
+        1500
+      ],
+      "candidate": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "awakened_global_cooldown_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/P/GlobalCDEmpowered",
+      "rawValues": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "transformed": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500
+      ],
+      "candidate": 500,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "attack_speed_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/AttackSpeedDurationBase",
+      "rawValues": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "transformed": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "candidate": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_attack_speed_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/AttackSpeedDurationEmpowered",
+      "rawValues": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "transformed": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "candidate": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "max_hp_ad_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/MaxHPADRatio",
+      "rawValues": [
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775
+      ],
+      "transformed": [
+        0.00035,
+        0.00035,
+        0.00035,
+        0.00035,
+        0.00035,
+        0.00035,
+        0.00035
+      ],
+      "candidate": 0.00035,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_max_hp_ad_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/Q2MaxHPADRatio",
+      "rawValues": [
+        0.0005000000237487257,
+        0.0005000000237487257,
+        0.0005000000237487257,
+        0.0005000000237487257,
+        0.0005000000237487257,
+        0.0005000000237487257,
+        0.0005000000237487257
+      ],
+      "transformed": [
+        0.0005,
+        0.0005,
+        0.0005,
+        0.0005,
+        0.0005,
+        0.0005,
+        0.0005
+      ],
+      "candidate": 0.0005,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_ap_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/LightningAPRatio",
+      "rawValues": [
+        0.00005999999848427251,
+        0.00005999999848427251,
+        0.00005999999848427251,
+        0.00005999999848427251,
+        0.00005999999848427251,
+        0.00005999999848427251,
+        0.00005999999848427251
+      ],
+      "transformed": [
+        0.00006,
+        0.00006,
+        0.00006,
+        0.00006,
+        0.00006,
+        0.00006,
+        0.00006
+      ],
+      "candidate": 0.00006,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_bounce_count",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/Bounces",
+      "rawValues": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "transformed": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "candidate": 6,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_bounce_range",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/BounceRange",
+      "rawValues": [
+        450,
+        450,
+        450,
+        450,
+        450,
+        450,
+        450
+      ],
+      "transformed": [
+        450,
+        450,
+        450,
+        450,
+        450,
+        450,
+        450
+      ],
+      "candidate": 450,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "repeat_bounce_penalty",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/RepeatBouncePenalty",
+      "rawValues": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "transformed": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_level_ratio_start",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/LightningDamageLevel1",
+      "rawValues": [
+        0.014999999664723873,
+        0.014999999664723873,
+        0.014999999664723873,
+        0.014999999664723873,
+        0.014999999664723873,
+        0.014999999664723873,
+        0.014999999664723873
+      ],
+      "transformed": [
+        0.015,
+        0.015,
+        0.015,
+        0.015,
+        0.015,
+        0.015,
+        0.015
+      ],
+      "candidate": 0.015,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_level_ratio_end",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/LightningDamageLevel18",
+      "rawValues": [
+        0.029999999329447746,
+        0.029999999329447746,
+        0.029999999329447746,
+        0.029999999329447746,
+        0.029999999329447746,
+        0.029999999329447746,
+        0.029999999329447746
+      ],
+      "transformed": [
+        0.029999999,
+        0.029999999,
+        0.029999999,
+        0.029999999,
+        0.029999999,
+        0.029999999,
+        0.029999999
+      ],
+      "candidate": 0.029999999,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_bonus_as_start",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/EmpoweredBonusASLevel1",
+      "rawValues": [
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224
+      ],
+      "transformed": [
+        0.200000003,
+        0.200000003,
+        0.200000003,
+        0.200000003,
+        0.200000003,
+        0.200000003,
+        0.200000003
+      ],
+      "candidate": 0.200000003,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_bonus_as_end",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/EmpoweredBonusASLevel18",
+      "rawValues": [
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071
+      ],
+      "transformed": [
+        0.699999988,
+        0.699999988,
+        0.699999988,
+        0.699999988,
+        0.699999988,
+        0.699999988,
+        0.699999988
+      ],
+      "candidate": 0.699999988,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "attack_range_bonus",
+      "sourceKind": "DataValue",
+      "source": "Udyr/Q/AttackRange",
+      "rawValues": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "transformed": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "candidate": 50,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "source": "Udyr/Q/spellCastTime",
+      "rawValues": [
+        0.25
+      ],
+      "transformed": [
+        250
+      ],
+      "candidate": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/W/ShieldDuration",
+      "rawValues": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "transformed": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "candidate": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_ap_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/W/ShieldAPRatio",
+      "rawValues": [
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645
+      ],
+      "transformed": [
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.400000006,
+        0.400000006
+      ],
+      "candidate": 0.400000006,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "life_on_hit_hp_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/W/LifeOnHitHPRatio",
+      "rawValues": [
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128,
+        0.012000000104308128
+      ],
+      "transformed": [
+        0.012,
+        0.012,
+        0.012,
+        0.012,
+        0.012,
+        0.012,
+        0.012
+      ],
+      "candidate": 0.012,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "life_on_hit_ap_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/W/OnHitHealAPRatio",
+      "rawValues": [
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066
+      ],
+      "transformed": [
+        0.079999998,
+        0.079999998,
+        0.079999998,
+        0.079999998,
+        0.079999998,
+        0.079999998,
+        0.079999998
+      ],
+      "candidate": 0.079999998,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_heal_attack_multiplier",
+      "sourceKind": "DataValue",
+      "source": "Udyr/W/HealAttackMult",
+      "rawValues": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "transformed": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "candidate": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_total_heal_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/W/PercentOfShieldHealAmount",
+      "rawValues": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "transformed": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "candidate": 0.5,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "source": "Udyr/W/spellCastTime",
+      "rawValues": [
+        0.25
+      ],
+      "transformed": [
+        250
+      ],
+      "candidate": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "move_speed_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/E/MoveSpeedDuration",
+      "rawValues": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "transformed": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "candidate": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "stun_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/E/StunDuration",
+      "rawValues": [
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ],
+      "transformed": [
+        750,
+        750,
+        750,
+        750,
+        750,
+        750,
+        750
+      ],
+      "candidate": 750,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "unstoppable_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/E/UnstoppableDuration",
+      "rawValues": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ],
+      "transformed": [
+        1500,
+        1500,
+        1500,
+        1500,
+        1500,
+        1500,
+        1500
+      ],
+      "candidate": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "source": "Udyr/E/spellCastTime",
+      "rawValues": [
+        0.25
+      ],
+      "transformed": [
+        250
+      ],
+      "candidate": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/R/BuffDuration",
+      "rawValues": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "transformed": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "candidate": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "slow_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Udyr/R/SlowDuration",
+      "rawValues": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "transformed": [
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        2000
+      ],
+      "candidate": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_ap_ratio",
+      "sourceKind": "DataValue",
+      "source": "Udyr/R/StormAPRatio",
+      "rawValues": [
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775,
+        0.0003499999875202775
+      ],
+      "transformed": [
+        0.00035,
+        0.00035,
+        0.00035,
+        0.00035,
+        0.00035,
+        0.00035,
+        0.00035
+      ],
+      "candidate": 0.00035,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "m_cast_time_ms",
+      "sourceKind": "field",
+      "source": "Udyr/R/mCastTime",
+      "rawValues": [
+        0.10000000149011612
+      ],
+      "transformed": [
+        100
+      ],
+      "candidate": 100,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "source": "Udyr/R/spellCastTime",
+      "rawValues": [
+        0.25
+      ],
+      "transformed": [
+        250
+      ],
+      "candidate": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "damage_ap_ratio",
+      "sourceKind": "DataValue",
+      "source": "Azir/E/DamageRatio",
+      "rawValues": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579
+      ],
+      "transformed": [
+        0.600000024,
+        0.600000024,
+        0.600000024,
+        0.600000024,
+        0.600000024,
+        0.600000024,
+        0.600000024
+      ],
+      "candidate": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "shield_ap_ratio",
+      "sourceKind": "DataValue",
+      "source": "Azir/E/ShieldAPRatio",
+      "rawValues": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579
+      ],
+      "transformed": [
+        0.600000024,
+        0.600000024,
+        0.600000024,
+        0.600000024,
+        0.600000024,
+        0.600000024,
+        0.600000024
+      ],
+      "candidate": 0.600000024,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "dash_speed",
+      "sourceKind": "DataValue",
+      "source": "Azir/E/DashSpeed",
+      "rawValues": [
+        1700,
+        1700,
+        1700,
+        1700,
+        1700,
+        1700,
+        1700
+      ],
+      "transformed": [
+        1700,
+        1700,
+        1700,
+        1700,
+        1700,
+        1700,
+        1700
+      ],
+      "candidate": 1700,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "shield_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Azir/E/ShieldDuration",
+      "rawValues": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ],
+      "transformed": [
+        1500,
+        1500,
+        1500,
+        1500,
+        1500,
+        1500,
+        1500
+      ],
+      "candidate": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "soldier_qualification_range",
+      "sourceKind": "DataValue",
+      "source": "Azir/E/CastRange",
+      "rawValues": [
+        1100,
+        1100,
+        1100,
+        1100,
+        1100,
+        1100,
+        1100
+      ],
+      "transformed": [
+        1100,
+        1100,
+        1100,
+        1100,
+        1100,
+        1100,
+        1100
+      ],
+      "candidate": 1100,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "display_range",
+      "sourceKind": "field",
+      "source": "Azir/E/castRangeDisplayOverride",
+      "rawValues": [
+        1100,
+        1100,
+        1100,
+        1100,
+        1100,
+        1100,
+        1100
+      ],
+      "transformed": [
+        1100,
+        1100,
+        1100,
+        1100,
+        1100,
+        1100,
+        1100
+      ],
+      "candidate": 1100,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "wall_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Azir/R/WallDuration",
+      "rawValues": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "transformed": [
+        5000,
+        5000,
+        5000,
+        5000,
+        5000,
+        5000,
+        5000
+      ],
+      "candidate": 5000,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "cast_time_ms",
+      "sourceKind": "field",
+      "source": "Azir/R/mCastTime",
+      "rawValues": [
+        0.5
+      ],
+      "transformed": [
+        500
+      ],
+      "candidate": 500,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "display_range",
+      "sourceKind": "field",
+      "source": "Azir/R/castRangeDisplayOverride",
+      "rawValues": [
+        250,
+        250,
+        250,
+        250,
+        250,
+        250,
+        250
+      ],
+      "transformed": [
+        250,
+        250,
+        250,
+        250,
+        250,
+        250,
+        250
+      ],
+      "candidate": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "slow_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Ashe/P/SlowDuration",
+      "rawValues": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "transformed": [
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        2000,
+        2000
+      ],
+      "candidate": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "shots_per_strike",
+      "sourceKind": "DataValue",
+      "source": "Ashe/Q/ShotsPerStrike",
+      "rawValues": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "transformed": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "candidate": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "stack_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Ashe/Q/StackDuration",
+      "rawValues": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "transformed": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "candidate": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "max_stacks",
+      "sourceKind": "DataValue",
+      "source": "Ashe/Q/MaxStacks",
+      "rawValues": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "transformed": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "candidate": 4,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "buff_duration_ms",
+      "sourceKind": "DataValue",
+      "source": "Ashe/Q/BuffDuration",
+      "rawValues": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "transformed": [
+        6000,
+        6000,
+        6000,
+        6000,
+        6000,
+        6000,
+        6000
+      ],
+      "candidate": 6000,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "source": "Ashe/Q/spellCastTime",
+      "rawValues": [
+        0.25
+      ],
+      "transformed": [
+        250
+      ],
+      "candidate": 250,
+      "pass": true
+    }
+  ],
+  "asheQAttackSpeedAssertions": {
+    "source": [
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6
+    ],
+    "candidate": {
+      "1": 0.2,
+      "2": 0.3,
+      "3": 0.4,
+      "4": 0.5,
+      "5": 0.6
+    },
+    "keys": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "pass": true
+  },
+  "udyrWLifeStealScenarios": [
+    {
+      "scene": "普通W1+外部10%",
+      "mode": "normal",
+      "external": 0.1,
+      "contribution": 0.150000006,
+      "expected": 0.250000006,
+      "actual": 0.250000006,
+      "pass": true
+    },
+    {
+      "scene": "觉醒W1+外部10%",
+      "mode": "awakened",
+      "external": 0.1,
+      "contribution": 0.300000012,
+      "expected": 0.400000012,
+      "actual": 0.400000012,
+      "pass": true
+    }
+  ],
+  "udyrWQualificationChecks": [
+    {
+      "effectKey": "normal_life_steal",
+      "parameterKey": "actual_remaining_two_attack_qualification_duration_ms",
+      "rejected": true,
+      "error": "缺少运行输入actual_remaining_two_attack_qualification_duration_ms"
+    },
+    {
+      "effectKey": "awakened_life_steal",
+      "parameterKey": "actual_remaining_two_attack_qualification_duration_ms",
+      "rejected": true,
+      "error": "缺少运行输入actual_remaining_two_attack_qualification_duration_ms"
+    },
+    {
+      "effectKey": "udyr_q/attack_range",
+      "parameterKey": "actual_remaining_two_attack_range_qualification_duration_ms",
+      "rejected": true
+    }
+  ],
+  "fractionalRuntimeScenarios": [
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_level_actual",
+      "value": 73.25,
+      "actual": 510.74999168,
+      "expected": 510.749992251,
+      "pass": true
+    }
+  ],
+  "protectedCounts": {
+    "parameters": 65,
+    "formulas": 8,
+    "effects": 16,
+    "processes": 4,
+    "internal-states": 0,
+    "trigger-rules": 13
+  },
+  "overlapRoutes": [],
+  "publicOverlapRoutes": [],
+  "integerValueChecks": [
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "attack_speed_duration_ms",
+      "index": 0,
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "stance_global_cooldown_ms",
+      "index": 0,
+      "value": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "awakened_global_cooldown_ms",
+      "index": 0,
+      "value": 500,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "attack_count",
+      "index": 0,
+      "value": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "ult_cd_base_ms",
+      "index": 0,
+      "value": 50000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "ult_cd_breakpoint_6_ms",
+      "index": 0,
+      "value": -10000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "ult_cd_breakpoint_11_ms",
+      "index": 0,
+      "value": -10000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "ult_cd_breakpoint_16_ms",
+      "index": 0,
+      "value": -10000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "attack_speed_duration_ms",
+      "index": 0,
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_attack_speed_duration_ms",
+      "index": 0,
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "base_damage",
+      "index": 0,
+      "value": 6,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "base_damage",
+      "index": 1,
+      "value": 12,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "base_damage",
+      "index": 2,
+      "value": 18,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "base_damage",
+      "index": 3,
+      "value": 24,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "base_damage",
+      "index": 4,
+      "value": 30,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "base_damage",
+      "index": 5,
+      "value": 36,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_bounce_count",
+      "index": 0,
+      "value": 6,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_bounce_range",
+      "index": 0,
+      "value": 450,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "bounce_count_subtract_one",
+      "index": 0,
+      "value": -1,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "attack_range_bonus",
+      "index": 0,
+      "value": 50,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "spell_cast_time_ms",
+      "index": 0,
+      "value": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_duration_ms",
+      "index": 0,
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_base",
+      "index": 0,
+      "value": 45,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_base",
+      "index": 1,
+      "value": 65,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_base",
+      "index": 2,
+      "value": 85,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_base",
+      "index": 3,
+      "value": 105,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_base",
+      "index": 4,
+      "value": 125,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_base",
+      "index": 5,
+      "value": 145,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_level_start",
+      "index": 0,
+      "value": 20,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_level_end",
+      "index": 0,
+      "value": 150,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_base_from_skill",
+      "index": 0,
+      "value": 45,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_base_from_skill",
+      "index": 1,
+      "value": 65,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_base_from_skill",
+      "index": 2,
+      "value": 85,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_base_from_skill",
+      "index": 3,
+      "value": 105,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_base_from_skill",
+      "index": 4,
+      "value": 125,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_base_from_skill",
+      "index": 5,
+      "value": 145,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "spell_cast_time_ms",
+      "index": 0,
+      "value": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "attack_count",
+      "index": 0,
+      "value": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "target_icd_ms",
+      "index": 0,
+      "value": 6000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "target_icd_ms",
+      "index": 1,
+      "value": 5600,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "target_icd_ms",
+      "index": 2,
+      "value": 5200,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "target_icd_ms",
+      "index": 3,
+      "value": 4800,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "target_icd_ms",
+      "index": 4,
+      "value": 4400,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "target_icd_ms",
+      "index": 5,
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "move_speed_duration_ms",
+      "index": 0,
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "stun_duration_ms",
+      "index": 0,
+      "value": 750,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "unstoppable_duration_ms",
+      "index": 0,
+      "value": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "attack_count_per_target",
+      "index": 0,
+      "value": 1,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "spell_cast_time_ms",
+      "index": 0,
+      "value": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_duration_ms",
+      "index": 0,
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "slow_duration_ms",
+      "index": 0,
+      "value": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_base_damage",
+      "index": 0,
+      "value": 20,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_base_damage",
+      "index": 1,
+      "value": 36,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_base_damage",
+      "index": 2,
+      "value": 52,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_base_damage",
+      "index": 3,
+      "value": 68,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_base_damage",
+      "index": 4,
+      "value": 84,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_base_damage",
+      "index": 5,
+      "value": 100,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "pulse_level_start",
+      "index": 0,
+      "value": 10,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "pulse_level_end",
+      "index": 0,
+      "value": 40,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_tick_interval_ms",
+      "index": 0,
+      "value": 1000,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "pulse_attack_count",
+      "index": 0,
+      "value": 2,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "m_cast_time_ms",
+      "index": 0,
+      "value": 100,
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "spell_cast_time_ms",
+      "index": 0,
+      "value": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_damage",
+      "index": 0,
+      "value": 70,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_damage",
+      "index": 1,
+      "value": 110,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_damage",
+      "index": 2,
+      "value": 150,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_damage",
+      "index": 3,
+      "value": 190,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_damage",
+      "index": 4,
+      "value": 230,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_shield",
+      "index": 0,
+      "value": 70,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_shield",
+      "index": 1,
+      "value": 110,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_shield",
+      "index": 2,
+      "value": 150,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_shield",
+      "index": 3,
+      "value": 190,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_shield",
+      "index": 4,
+      "value": 230,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "dash_speed",
+      "index": 0,
+      "value": 1700,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "shield_duration_ms",
+      "index": 0,
+      "value": 1500,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "soldier_qualification_range",
+      "index": 0,
+      "value": 1100,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "display_range",
+      "index": 0,
+      "value": 1100,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "base_damage",
+      "index": 0,
+      "value": 200,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "base_damage",
+      "index": 1,
+      "value": 400,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "base_damage",
+      "index": 2,
+      "value": 600,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "wall_duration_ms",
+      "index": 0,
+      "value": 5000,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "wall_construct_count",
+      "index": 0,
+      "value": 6,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "wall_construct_count",
+      "index": 1,
+      "value": 7,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "wall_construct_count",
+      "index": 2,
+      "value": 8,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "cast_time_ms",
+      "index": 0,
+      "value": 500,
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "display_range",
+      "index": 0,
+      "value": 250,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "slow_duration_ms",
+      "index": 0,
+      "value": 2000,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "shots_per_strike",
+      "index": 0,
+      "value": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "stack_duration_ms",
+      "index": 0,
+      "value": 4000,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "max_stacks",
+      "index": 0,
+      "value": 4,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "buff_duration_ms",
+      "index": 0,
+      "value": 6000,
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "spell_cast_time_ms",
+      "index": 0,
+      "value": 250,
+      "pass": true
+    }
+  ],
+  "sourceParameterChecks": [
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "attack_speed_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "P",
+      "name": "AttackSpeedDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 4,
+      "candidateValue": 4000,
+      "expected": 4000
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "awakened_cooldown_return_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "P",
+      "name": "UltCDReduction",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.05000000074505806,
+      "candidateValue": 0.050000001,
+      "expected": 0.050000001
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "awakened_cooldown_multiplier",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "P",
+      "name": "UltCDMultiplier",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 1,
+      "candidateValue": 1,
+      "expected": 1
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "stance_global_cooldown_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "P",
+      "name": "GlobalCD",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 1.5,
+      "candidateValue": 1500,
+      "expected": 1500
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "awakened_global_cooldown_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "P",
+      "name": "GlobalCDEmpowered",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.5,
+      "candidateValue": 500,
+      "expected": 500
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "attack_speed_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/P/AttackSpeed mNumber",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "attack_count",
+      "sourceKind": "explicit",
+      "source": "当前中文正文下两次攻击",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "ult_cd_base_ms",
+      "sourceKind": "explicit",
+      "source": "Udyr/P/UltCD mLevel1Value",
+      "mode": "FIXED",
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "ult_cd_breakpoint_6_ms",
+      "sourceKind": "explicit",
+      "source": "Udyr/P/UltCD 6级断点",
+      "mode": "FIXED",
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "ult_cd_breakpoint_11_ms",
+      "sourceKind": "explicit",
+      "source": "Udyr/P/UltCD 11级断点",
+      "mode": "FIXED",
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_p",
+      "parameterKey": "ult_cd_breakpoint_16_ms",
+      "sourceKind": "explicit",
+      "source": "Udyr/P/UltCD 16级断点",
+      "mode": "FIXED",
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "attack_speed_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "AttackSpeedBase",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 0.200000003,
+      "candidateLast": 0.800000012,
+      "expectedLevel1": 0.200000003,
+      "expectedLast": 0.800000012
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "attack_speed_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "AttackSpeedDurationBase",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 4,
+      "candidateValue": 4000,
+      "expected": 4000
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_attack_speed_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "AttackSpeedDurationEmpowered",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 4,
+      "candidateValue": 4000,
+      "expected": 4000
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "max_hp_on_hit_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "MaxHPOnHitBase",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 0.029999999,
+      "candidateLast": 0.079999998,
+      "expectedLevel1": 0.029999999,
+      "expectedLast": 0.079999998
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "base_damage",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "BaseDamage",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 6,
+      "candidateLast": 36,
+      "expectedLevel1": 6,
+      "expectedLast": 36
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "on_hit_bonus_hp_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "OnHitBonusHPRatio",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 0.01,
+      "candidateLast": 0.02,
+      "expectedLevel1": 0.01,
+      "expectedLast": 0.02
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "max_hp_ad_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "MaxHPADRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.0003499999875202775,
+      "candidateValue": 0.00035,
+      "expected": 0.00035
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_max_hp_ad_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "Q2MaxHPADRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.0005000000237487257,
+      "candidateValue": 0.0005,
+      "expected": 0.0005
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_ap_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "LightningAPRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.00005999999848427251,
+      "candidateValue": 0.00006,
+      "expected": 0.00006
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_bounce_count",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "Bounces",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 6,
+      "candidateValue": 6,
+      "expected": 6
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_bounce_range",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "BounceRange",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 450,
+      "candidateValue": 450,
+      "expected": 450
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "repeat_bounce_penalty",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "RepeatBouncePenalty",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 1,
+      "candidateValue": 1,
+      "expected": 1
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "bounce_multiplier_base",
+      "sourceKind": "explicit",
+      "source": "Udyr/Q/EmpoweredLightningBonusMax树",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "bounce_count_subtract_one",
+      "sourceKind": "explicit",
+      "source": "Udyr/Q/EmpoweredLightningBonusMax树",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_level_ratio_start",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "LightningDamageLevel1",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.014999999664723873,
+      "candidateValue": 0.015,
+      "expected": 0.015
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_level_ratio_end",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "LightningDamageLevel18",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.029999999329447746,
+      "candidateValue": 0.029999999,
+      "expected": 0.029999999
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_bonus_as_start",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "EmpoweredBonusASLevel1",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.20000000298023224,
+      "candidateValue": 0.200000003,
+      "expected": 0.200000003
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_bonus_as_end",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "EmpoweredBonusASLevel18",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.699999988079071,
+      "candidateValue": 0.699999988,
+      "expected": 0.699999988
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_percent_hp_level_start",
+      "sourceKind": "explicit",
+      "source": "Udyr/Q/Q2TotalOnHitHPDamage start",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_percent_hp_level_end",
+      "sourceKind": "explicit",
+      "source": "Udyr/Q/Q2TotalOnHitHPDamage end",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_source_hp_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/Q/Q2TotalOnHitHPDamage第四分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "attack_range_bonus",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "AttackRange",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 50,
+      "candidateValue": 50,
+      "expected": 50
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "heroId": "Udyr",
+      "slot": "Q",
+      "name": "spellCastTime",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.25,
+      "candidateValue": 250,
+      "expected": 250
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "lightning_level_ratio_actual",
+      "sourceKind": "runtime",
+      "source": "Udyr/Q/EmpoweredLightningBonus角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_bonus_as_actual",
+      "sourceKind": "runtime",
+      "source": "Udyr/Q/EmpoweredTotalAS角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "empowered_percent_hp_level_actual",
+      "sourceKind": "runtime",
+      "source": "Udyr/Q/Q2TotalOnHitHPDamage角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "actual_remaining_two_attack_range_qualification_duration_ms",
+      "sourceKind": "runtime",
+      "source": "Udyr/Q/下两次攻击实际剩余攻击距离资格时长",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_q",
+      "parameterKey": "bonus_ad_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/Q/OnHitDamage额外攻击力分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "ShieldDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 4,
+      "candidateValue": 4000,
+      "expected": 4000
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_base",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "ShieldBase",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 45,
+      "candidateLast": 145,
+      "expectedLevel1": 45,
+      "expectedLast": 145
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_hp_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "ShieldPercentHealth",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 0.02,
+      "candidateLast": 0.035,
+      "expectedLevel1": 0.02,
+      "expectedLast": 0.035
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_ap_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "ShieldAPRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.4000000059604645,
+      "candidateValue": 0.400000006,
+      "expected": 0.400000006
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "life_on_hit_hp_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "LifeOnHitHPRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.012000000104308128,
+      "candidateValue": 0.012,
+      "expected": 0.012
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "life_on_hit_ap_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "OnHitHealAPRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.07999999821186066,
+      "candidateValue": 0.079999998,
+      "expected": 0.079999998
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "life_steal_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "LifeSteal",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 0.150000006,
+      "candidateLast": 0.200000003,
+      "expectedLevel1": 0.150000006,
+      "expectedLast": 0.200000003
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_heal_attack_multiplier",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "HealAttackMult",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 2,
+      "candidateValue": 2,
+      "expected": 2
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_total_heal_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "PercentOfShieldHealAmount",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.5,
+      "candidateValue": 0.5,
+      "expected": 0.5
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "shield_bonus_ad_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/W/TotalShield额外攻击力分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_ap_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/W/RecastShield法强分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_hp_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/W/RecastShield生命分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_bonus_ad_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/W/RecastShield额外攻击力分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_level_start",
+      "sourceKind": "explicit",
+      "source": "Udyr/W/RecastShield start",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_level_end",
+      "sourceKind": "explicit",
+      "source": "Udyr/W/RecastShield end",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_base_from_skill",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "ShieldBase",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 45,
+      "candidateLast": 145,
+      "expectedLevel1": 45,
+      "expectedLast": 145
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "heroId": "Udyr",
+      "slot": "W",
+      "name": "spellCastTime",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.25,
+      "candidateValue": 250,
+      "expected": 250
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "awakened_shield_level_actual",
+      "sourceKind": "runtime",
+      "source": "Udyr/W/RecastShield角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "attack_count",
+      "sourceKind": "explicit",
+      "source": "当前中文正文下两次攻击",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_w",
+      "parameterKey": "actual_remaining_two_attack_qualification_duration_ms",
+      "sourceKind": "runtime",
+      "source": "Udyr/W/下两次攻击实际剩余资格时长",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "target_icd_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "E",
+      "name": "ICD",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 6000,
+      "candidateLast": 4000,
+      "expectedLevel1": 6000,
+      "expectedLast": 4000
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "base_move_speed_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "E",
+      "name": "BaseMoveSpeed",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 0.25,
+      "candidateLast": 0.550000012,
+      "expectedLevel1": 0.25,
+      "expectedLast": 0.550000012
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "move_speed_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "E",
+      "name": "MoveSpeedDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 4,
+      "candidateValue": 4000,
+      "expected": 4000
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "stun_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "E",
+      "name": "StunDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.75,
+      "candidateValue": 750,
+      "expected": 750
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "unstoppable_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "E",
+      "name": "UnstoppableDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 1.5,
+      "candidateValue": 1500,
+      "expected": 1500
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "move_speed_bonus_ad_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/E/MoveSpeed额外攻击力分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "empowered_move_speed_ad_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/E/MoveSpeedBonus额外攻击力分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "empowered_move_speed_start_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/E/MoveSpeedBonus start",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "empowered_move_speed_end_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/E/MoveSpeedBonus end",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "attack_count_per_target",
+      "sourceKind": "explicit",
+      "source": "当前中文正文每目标首次攻击",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "heroId": "Udyr",
+      "slot": "E",
+      "name": "spellCastTime",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.25,
+      "candidateValue": 250,
+      "expected": 250
+    },
+    {
+      "skillKey": "udyr_e",
+      "parameterKey": "empowered_move_speed_level_actual",
+      "sourceKind": "runtime",
+      "source": "Udyr/E/MoveSpeedBonus角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "R",
+      "name": "BuffDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 4,
+      "candidateValue": 4000,
+      "expected": 4000
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "slow_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "R",
+      "name": "SlowPotency",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 0.150000006,
+      "candidateLast": 0.300000012,
+      "expectedLevel1": 0.150000006,
+      "expectedLast": 0.300000012
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "slow_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "R",
+      "name": "SlowDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 2,
+      "candidateValue": 2000,
+      "expected": 2000
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_base_damage",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "R",
+      "name": "StormBaseDamage",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 6,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 20,
+      "candidateLast": 100,
+      "expectedLevel1": 20,
+      "expectedLast": 100
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_ap_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Udyr",
+      "slot": "R",
+      "name": "StormAPRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.0003499999875202775,
+      "candidateValue": 0.00035,
+      "expected": 0.00035
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_damage_ap_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/R/StormDamage法强分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "pulse_ap_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/R/PulseDamage法强分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "pulse_level_start",
+      "sourceKind": "explicit",
+      "source": "Udyr/R/PulseDamage start",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "pulse_level_end",
+      "sourceKind": "explicit",
+      "source": "Udyr/R/PulseDamage end",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "percent_hp_level_start_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/R/PercentHPBlast start",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "percent_hp_level_end_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/R/PercentHPBlast end",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "empowered_slow_ratio",
+      "sourceKind": "explicit",
+      "source": "Udyr/R/EmpoweredSlow固定数值",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "storm_tick_interval_ms",
+      "sourceKind": "explicit",
+      "source": "当前中文正文每秒伤害",
+      "mode": "FIXED",
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "pulse_attack_count",
+      "sourceKind": "explicit",
+      "source": "当前中文正文下两次攻击",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "m_cast_time_ms",
+      "sourceKind": "field",
+      "heroId": "Udyr",
+      "slot": "R",
+      "name": "mCastTime",
+      "mode": "FIXED",
+      "sourceIndex": 0,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.10000000149011612,
+      "candidateValue": 100,
+      "expected": 100
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "heroId": "Udyr",
+      "slot": "R",
+      "name": "spellCastTime",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.25,
+      "candidateValue": 250,
+      "expected": 250
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "pulse_level_actual",
+      "sourceKind": "runtime",
+      "source": "Udyr/R/PulseDamage角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "udyr_r",
+      "parameterKey": "percent_hp_level_actual_ratio",
+      "sourceKind": "runtime",
+      "source": "Udyr/R/PercentHPBlast角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_damage",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "E",
+      "name": "BaseDamage",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 5,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 70,
+      "candidateLast": 230,
+      "expectedLevel1": 70,
+      "expectedLast": 230
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "damage_ap_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "E",
+      "name": "DamageRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.6000000238418579,
+      "candidateValue": 0.600000024,
+      "expected": 0.600000024
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "base_shield",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "E",
+      "name": "BaseShield",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 5,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 70,
+      "candidateLast": 230,
+      "expectedLevel1": 70,
+      "expectedLast": 230
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "shield_ap_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "E",
+      "name": "ShieldAPRatio",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.6000000238418579,
+      "candidateValue": 0.600000024,
+      "expected": 0.600000024
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "dash_speed",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "E",
+      "name": "DashSpeed",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 1700,
+      "candidateValue": 1700,
+      "expected": 1700
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "shield_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "E",
+      "name": "ShieldDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 1.5,
+      "candidateValue": 1500,
+      "expected": 1500
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "soldier_qualification_range",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "E",
+      "name": "CastRange",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 1100,
+      "candidateValue": 1100,
+      "expected": 1100
+    },
+    {
+      "skillKey": "azir_e",
+      "parameterKey": "display_range",
+      "sourceKind": "field",
+      "heroId": "Azir",
+      "slot": "E",
+      "name": "castRangeDisplayOverride",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 1100,
+      "candidateValue": 1100,
+      "expected": 1100
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "base_damage",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "R",
+      "name": "BaseDamage",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 3,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 200,
+      "candidateLast": 600,
+      "expectedLevel1": 200,
+      "expectedLast": 600
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "ap_ratio",
+      "sourceKind": "explicit",
+      "source": "Azir/R/TotalDamage法强分支",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "wall_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "R",
+      "name": "WallDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 5,
+      "candidateValue": 5000,
+      "expected": 5000
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "wall_construct_count",
+      "sourceKind": "DataValue",
+      "heroId": "Azir",
+      "slot": "R",
+      "name": "NumberOfSoldiers",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 3,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 6,
+      "candidateLast": 8,
+      "expectedLevel1": 6,
+      "expectedLast": 8
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "cast_time_ms",
+      "sourceKind": "field",
+      "heroId": "Azir",
+      "slot": "R",
+      "name": "mCastTime",
+      "mode": "FIXED",
+      "sourceIndex": 0,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.5,
+      "candidateValue": 500,
+      "expected": 500
+    },
+    {
+      "skillKey": "azir_r",
+      "parameterKey": "display_range",
+      "sourceKind": "field",
+      "heroId": "Azir",
+      "slot": "R",
+      "name": "castRangeDisplayOverride",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 250,
+      "candidateValue": 250,
+      "expected": 250
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "slow_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Ashe",
+      "slot": "P",
+      "name": "SlowDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 2,
+      "candidateValue": 2000,
+      "expected": 2000
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "slow_start_ratio",
+      "sourceKind": "explicit",
+      "source": "Ashe/P/SlowAmount角色等级起点",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "slow_end_ratio",
+      "sourceKind": "explicit",
+      "source": "Ashe/P/SlowAmount角色等级终点",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "empowered_slow_start_ratio",
+      "sourceKind": "explicit",
+      "source": "Ashe/P/EmpoweredSlowAmount角色等级起点",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "empowered_slow_end_ratio",
+      "sourceKind": "explicit",
+      "source": "Ashe/P/EmpoweredSlowAmount角色等级终点",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "slow_ratio_actual",
+      "sourceKind": "runtime",
+      "source": "Ashe/P/SlowAmount角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "empowered_slow_ratio_actual",
+      "sourceKind": "runtime",
+      "source": "Ashe/P/EmpoweredSlowAmount角色等级曲线",
+      "mode": "RUNTIME_INPUT",
+      "candidateMode": "RUNTIME_INPUT",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "crit_base_multiplier",
+      "sourceKind": "explicit",
+      "source": "Ashe/P/DamageBonus前导1",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "crit_subpart_base",
+      "sourceKind": "explicit",
+      "source": "Ashe/P/DamageBonus子树",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_p",
+      "parameterKey": "crit_subpart_coefficient",
+      "sourceKind": "explicit",
+      "source": "Ashe/P/DamageBonus子树",
+      "mode": "FIXED",
+      "transformName": "明确文本或树常量",
+      "candidateMode": "FIXED",
+      "pass": true
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "damage_per_strike",
+      "sourceKind": "DataValue",
+      "heroId": "Ashe",
+      "slot": "Q",
+      "name": "DamagePerStrike",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 5,
+      "transformName": "原值",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 1.100000024,
+      "candidateLast": 1.299999952,
+      "expectedLevel1": 1.100000024,
+      "expectedLast": 1.299999952
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "shots_per_strike",
+      "sourceKind": "DataValue",
+      "heroId": "Ashe",
+      "slot": "Q",
+      "name": "ShotsPerStrike",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 5,
+      "candidateValue": 5,
+      "expected": 5
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "stack_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Ashe",
+      "slot": "Q",
+      "name": "StackDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 4,
+      "candidateValue": 4000,
+      "expected": 4000
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "max_stacks",
+      "sourceKind": "DataValue",
+      "heroId": "Ashe",
+      "slot": "Q",
+      "name": "MaxStacks",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "原值",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 4,
+      "candidateValue": 4,
+      "expected": 4
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "buff_duration_ms",
+      "sourceKind": "DataValue",
+      "heroId": "Ashe",
+      "slot": "Q",
+      "name": "BuffDuration",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 6,
+      "candidateValue": 6000,
+      "expected": 6000
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "bonus_attack_speed_ratio",
+      "sourceKind": "DataValue",
+      "heroId": "Ashe",
+      "slot": "Q",
+      "name": "BonusAS",
+      "mode": "SKILL_LEVEL",
+      "sourceStart": 1,
+      "sourceEnd": 5,
+      "transformName": "百分数点转比例",
+      "candidateMode": "SKILL_LEVEL",
+      "pass": true,
+      "candidateLevel1": 0.2,
+      "candidateLast": 0.6,
+      "expectedLevel1": 0.2,
+      "expectedLast": 0.6
+    },
+    {
+      "skillKey": "ashe_q",
+      "parameterKey": "spell_cast_time_ms",
+      "sourceKind": "field",
+      "heroId": "Ashe",
+      "slot": "Q",
+      "name": "spellCastTime",
+      "mode": "FIXED",
+      "sourceIndex": 1,
+      "transformName": "秒转整数毫秒",
+      "candidateMode": "FIXED",
+      "pass": true,
+      "sourceValue": 0.25,
+      "candidateValue": 250,
+      "expected": 250
+    }
+  ],
+  "noBusinessApiCalls": true,
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "gitWrites": 0,
+  "planOnly": true,
+  "notes": [
+    "目标最大生命乘法按正文目标语义在数学展开式中记录，不假称原始树自带TARGET.hp。",
+    "艾希被动前导1与一次总攻击力展开只保留公式，不另建普攻附伤效果。",
+    "未知角色等级曲线、触发次数、状态键和寿命不补默认；运行输入缺值严格拒绝。",
+    "阿兹尔R NumberOfSoldiers只作墙构成数量，不乘一次冲锋伤害；阿兹尔P/Q/W完整士兵链与艾希E纯视野保持排除。",
+    "修订一核对所有非空伤害类型、吸收类型、乘区和状态字典引用；固定源数组按全数组检查，整数参数和整数值分开计数。"
+  ]
+}

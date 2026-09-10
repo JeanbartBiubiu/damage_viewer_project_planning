@@ -1,0 +1,46 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_e/formulas",
+    "detailRoute": "/skills/udyr_e/formulas/empowered_move_speed_ratio",
+    "skillKey": "udyr_e",
+    "kind": "formulas",
+    "stableKey": "empowered_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_move_speed_ratio",
+      "name": "踏火蛮冲觉醒额外移动速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_move_speed_level_actual"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_move_speed_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MoveSpeedBonus=角色等级实际端点值+0.001×来源额外攻击力；觉醒段是额外移速。",
+      "sortOrder": 20
+    }
+  }
+}

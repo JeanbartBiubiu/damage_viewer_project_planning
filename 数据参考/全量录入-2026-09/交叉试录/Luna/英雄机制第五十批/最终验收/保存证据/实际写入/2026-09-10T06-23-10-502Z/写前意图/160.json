@@ -1,0 +1,30 @@
+{
+  "i": 159,
+  "intent": {
+    "sequence": 160,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_q/parameters",
+    "detailRoute": "/skills/ashe_q/parameters/damage_per_strike",
+    "skillKey": "ashe_q",
+    "kind": "parameters",
+    "stableKey": "damage_per_strike",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_strike",
+      "name": "强化攻击总攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1.100000024,
+        "2": 1.149999976,
+        "3": 1.200000048,
+        "4": 1.25,
+        "5": 1.299999952
+      },
+      "description": "DamagePerStrike按技能等级1至5取1.10/1.15/1.20/1.25/1.30。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "i": 166,
+  "intent": {
+    "sequence": 167,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ashe_q/formulas",
+    "detailRoute": "/skills/ashe_q/formulas/empowered_attack_damage",
+    "skillKey": "ashe_q",
+    "kind": "formulas",
+    "stableKey": "empowered_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_attack_damage",
+      "name": "射手的专注强化攻击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_per_strike"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "EmpoweredDamage=DamagePerStrike×来源总攻击力；这是一次强化攻击整段伤害，ShotsPerStrike=5不再乘入。",
+      "sortOrder": 10
+    }
+  }
+}

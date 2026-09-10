@@ -1,0 +1,24 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_p/parameters",
+    "detailRoute": "/skills/udyr_p/parameters/ult_cd_base_ms",
+    "skillKey": "udyr_p",
+    "kind": "parameters",
+    "stableKey": "ult_cd_base_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ult_cd_base_ms",
+      "name": "觉醒冷却起始值（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 50000,
+      "levelValues": null,
+      "description": "UltCD计算树起始值50秒；6/11/16级断点另独立记录。",
+      "sortOrder": 80
+    }
+  }
+}

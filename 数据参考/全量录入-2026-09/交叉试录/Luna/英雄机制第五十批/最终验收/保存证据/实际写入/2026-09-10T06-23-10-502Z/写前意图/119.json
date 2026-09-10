@@ -1,0 +1,24 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_r/parameters",
+    "detailRoute": "/skills/udyr_r/parameters/pulse_level_actual",
+    "skillKey": "udyr_r",
+    "kind": "parameters",
+    "stableKey": "pulse_level_actual",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "pulse_level_actual",
+      "name": "实际角色等级脉冲基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "由运行层提供PulseDamage在10至40端点之间的实际角色等级值；源曲线未知且无默认。",
+      "sortOrder": 170
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/attack_count",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "attack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_count",
+      "name": "命中治疗与吸血的攻击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前中文正文明确下两次攻击；事件次数待接线。",
+      "sortOrder": 190
+    }
+  }
+}

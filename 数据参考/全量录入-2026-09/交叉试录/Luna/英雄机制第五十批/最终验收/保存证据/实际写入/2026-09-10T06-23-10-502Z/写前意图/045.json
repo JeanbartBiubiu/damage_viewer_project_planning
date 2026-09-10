@@ -1,0 +1,58 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_q/formulas",
+    "detailRoute": "/skills/udyr_q/formulas/empowered_lightning_single_magic_damage",
+    "skillKey": "udyr_q",
+    "kind": "formulas",
+    "stableKey": "empowered_lightning_single_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_lightning_single_magic_damage",
+      "name": "狂暴爪击单次闪电魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lightning_level_ratio_actual"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "lightning_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "EmpoweredLightningBonus是目标最大生命百分比；这里按正文目标语义展开为单次比例×目标最大生命。",
+      "sortOrder": 50
+    }
+  }
+}

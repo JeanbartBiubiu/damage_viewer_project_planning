@@ -1,0 +1,24 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/parameters",
+    "detailRoute": "/skills/udyr_w/parameters/life_on_hit_hp_ratio",
+    "skillKey": "udyr_w",
+    "kind": "parameters",
+    "stableKey": "life_on_hit_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "life_on_hit_hp_ratio",
+      "name": "命中治疗自身最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.012,
+      "levelValues": null,
+      "description": "LifeOnHit第一分支读取1.2%来源最大生命。",
+      "sortOrder": 50
+    }
+  }
+}

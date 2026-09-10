@@ -1,0 +1,34 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/udyr_w/formulas",
+    "detailRoute": "/skills/udyr_w/formulas/awakened_life_steal_ratio",
+    "skillKey": "udyr_w",
+    "kind": "formulas",
+    "stableKey": "awakened_life_steal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "awakened_life_steal_ratio",
+      "name": "坚铁甲胄觉醒生命偷取比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "life_steal_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "awakened_heal_attack_multiplier"
+          }
+        ]
+      },
+      "description": "觉醒生命偷取=LifeSteal×HealAttackMult；替代普通生命偷取段。",
+      "sortOrder": 60
+    }
+  }
+}

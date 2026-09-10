@@ -1,0 +1,24 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/azir_r/parameters",
+    "detailRoute": "/skills/azir_r/parameters/wall_duration_ms",
+    "skillKey": "azir_r",
+    "kind": "parameters",
+    "stableKey": "wall_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_duration_ms",
+      "name": "墙体持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "WallDuration=5秒，精确换算为5000毫秒；墙是地形寿命，不是伤害持续。",
+      "sortOrder": 30
+    }
+  }
+}
