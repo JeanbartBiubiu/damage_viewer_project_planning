@@ -1,0 +1,153 @@
+{
+  "at": "2026-09-09T20:11:41.139Z",
+  "status": "完成，所有工具均为read/glob/grep，冻结来源与隔离Git零变化",
+  "readonlyAuditPassed": true,
+  "agentId": "agent-aa8bdd0a-d100-4596-8152-662260ef58db",
+  "runId": "run-e3ec5079-87fd-498f-852f-3772fdaeff74",
+  "requestId": "2be8315c-6946-4108-8d0a-544753da9463",
+  "resultStatus": "finished",
+  "events": 3290,
+  "uniqueTools": 70,
+  "toolNames": {
+    "glob": 2,
+    "read": 51,
+    "grep": 17
+  },
+  "inputsChecked": 23,
+  "inputs": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "98b11ee90bc7b80716658ad3f1417654bc4678f893a2ade9d6b8f81947a9c704",
+      "actualSha256": "98b11ee90bc7b80716658ad3f1417654bc4678f893a2ade9d6b8f81947a9c704"
+    },
+    {
+      "path": "README.md",
+      "sha256": "315404982b8b0115a35597bfe75121d942c484e843a40eb36a5783a13bc65948",
+      "actualSha256": "315404982b8b0115a35597bfe75121d942c484e843a40eb36a5783a13bc65948"
+    },
+    {
+      "path": "主负责人范围与核对要求.md",
+      "sha256": "7b670102143752bd615f85322ebaec78b526788c171800ffec24f1651e9fc1ea",
+      "actualSha256": "7b670102143752bd615f85322ebaec78b526788c171800ffec24f1651e9fc1ea"
+    },
+    {
+      "path": "参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "actualSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "path": "参考资料/公共参数复用清单.json",
+      "sha256": "0cbed01f75cc366225137689825570a1c05b64472eefd23bbadf8ef4bc4b5b2c",
+      "actualSha256": "0cbed01f75cc366225137689825570a1c05b64472eefd23bbadf8ef4bc4b5b2c"
+    },
+    {
+      "path": "参考资料/官方中文/Bard.json",
+      "sha256": "b99ed05aa8778626db6b2fc2400ea65dedb509e85f6827f95d76e1482061056f",
+      "actualSha256": "b99ed05aa8778626db6b2fc2400ea65dedb509e85f6827f95d76e1482061056f"
+    },
+    {
+      "path": "参考资料/官方中文/Milio.json",
+      "sha256": "f0333388c0313145ff2531d17054ce52fba7ef0e95418567f79a46bcb127d50f",
+      "actualSha256": "f0333388c0313145ff2531d17054ce52fba7ef0e95418567f79a46bcb127d50f"
+    },
+    {
+      "path": "参考资料/官方中文/Rakan.json",
+      "sha256": "ee00126200d230363ab0b6be3af06821a53f00547c2f96c40c3c3589a82e7db0",
+      "actualSha256": "ee00126200d230363ab0b6be3af06821a53f00547c2f96c40c3c3589a82e7db0"
+    },
+    {
+      "path": "参考资料/官方中文/Renata.json",
+      "sha256": "38b170969fbfdbc48ed2bfbbab1aee9579aa59fee117522b78da90c75580bb4c",
+      "actualSha256": "38b170969fbfdbc48ed2bfbbab1aee9579aa59fee117522b78da90c75580bb4c"
+    },
+    {
+      "path": "参考资料/官方英文/Bard.json",
+      "sha256": "1e8569f484eefca6757e1fe42a168201279c30ebae9691fe27ae0d2e797aac4e",
+      "actualSha256": "1e8569f484eefca6757e1fe42a168201279c30ebae9691fe27ae0d2e797aac4e"
+    },
+    {
+      "path": "参考资料/官方英文/Milio.json",
+      "sha256": "ffb052eb89af3ebb6cb548e8d7a9d81f927dedaee96584ee1bb8fcc460bd24db",
+      "actualSha256": "ffb052eb89af3ebb6cb548e8d7a9d81f927dedaee96584ee1bb8fcc460bd24db"
+    },
+    {
+      "path": "参考资料/官方英文/Rakan.json",
+      "sha256": "a47afbca1632092d6456efb7ea0cc04c86c6ab30c3a5834bd953d8fcb3a90124",
+      "actualSha256": "a47afbca1632092d6456efb7ea0cc04c86c6ab30c3a5834bd953d8fcb3a90124"
+    },
+    {
+      "path": "参考资料/官方英文/Renata.json",
+      "sha256": "81aec72b91cb368b3e72a0de6782d173da8da556b719a1067c7ac6acd6b3b088",
+      "actualSha256": "81aec72b91cb368b3e72a0de6782d173da8da556b719a1067c7ac6acd6b3b088"
+    },
+    {
+      "path": "参考资料/客户端原文/Bard.json.gz",
+      "sha256": "3f49ac21817c493a6ba62949773e3c193982c7df8d2c132efe37a8a36e72dbb3",
+      "actualSha256": "3f49ac21817c493a6ba62949773e3c193982c7df8d2c132efe37a8a36e72dbb3"
+    },
+    {
+      "path": "参考资料/客户端原文/Milio.json.gz",
+      "sha256": "e813834afa6a979b1c92cbc9f79a8f6ed272c4b61d7490a6d399f432dd64d7c8",
+      "actualSha256": "e813834afa6a979b1c92cbc9f79a8f6ed272c4b61d7490a6d399f432dd64d7c8"
+    },
+    {
+      "path": "参考资料/客户端原文/Rakan.json.gz",
+      "sha256": "1fc13024757ef9b3c78159e8fbedcd3301cb0dae3d15c861f47c63d56b9cf885",
+      "actualSha256": "1fc13024757ef9b3c78159e8fbedcd3301cb0dae3d15c861f47c63d56b9cf885"
+    },
+    {
+      "path": "参考资料/客户端原文/Renata.json.gz",
+      "sha256": "a1b36dee30a14cd8ebd10796c48ba707d1c609884424d45d8a07d358126670ea",
+      "actualSha256": "a1b36dee30a14cd8ebd10796c48ba707d1c609884424d45d8a07d358126670ea"
+    },
+    {
+      "path": "参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "actualSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "path": "参考资料/当前20槽保护快照.json",
+      "sha256": "5919877cfd4b70072467a8192046d18084cb2f0ec68b53b27065f78f1a8d0be6",
+      "actualSha256": "5919877cfd4b70072467a8192046d18084cb2f0ec68b53b27065f78f1a8d0be6"
+    },
+    {
+      "path": "参考资料/接口载荷样例.json",
+      "sha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "actualSha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02"
+    },
+    {
+      "path": "来源绑定与当前文本.json",
+      "sha256": "f99655834a838eae99a4d96678e287c5e07030cb0ba3d80ea62edbd44c1499ff",
+      "actualSha256": "f99655834a838eae99a4d96678e287c5e07030cb0ba3d80ea62edbd44c1499ff"
+    },
+    {
+      "path": "评审任务.md",
+      "sha256": "074a3a1db1faca007bb51523daf00f8434f0f0f9d3697b66a7d7ef8f5eb81a56",
+      "actualSha256": "074a3a1db1faca007bb51523daf00f8434f0f0f9d3697b66a7d7ef8f5eb81a56"
+    },
+    {
+      "path": "输入版本.json",
+      "sha256": "34cf3cf8d1954053ca21ba2ee654995dfdc049feb1f3e64647e0af28d2e2f432",
+      "actualSha256": "34cf3cf8d1954053ca21ba2ee654995dfdc049feb1f3e64647e0af28d2e2f432"
+    }
+  ],
+  "gitDelta": [],
+  "apiWrites": 0,
+  "reviewedPlanRev": "hero41-source-v1",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "reviewSha256": "799a41d4b0d034d7dabe652e9bde1b6e8008c022f37ff5b5ff6256102ef1c8d0",
+  "eventsSha256": "becce85b6116f34305d2c41c763aae7427aedf131a4e6e0147ef454872117d1d",
+  "summarySha256": "f6f1a142935a399add92e2fc298354c5d2acfb63077db8bba5bcc3ba15350665"
+}

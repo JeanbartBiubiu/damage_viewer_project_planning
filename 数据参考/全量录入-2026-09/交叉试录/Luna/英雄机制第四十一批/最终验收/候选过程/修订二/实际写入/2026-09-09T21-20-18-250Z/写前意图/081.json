@@ -1,0 +1,29 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 81,
+    "method": "POST",
+    "route": "/skills/milio_e/parameters",
+    "detailRoute": "/skills/milio_e/parameters/shield_base",
+    "skillKey": "milio_e",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "护盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 75,
+        "3": 105,
+        "4": 135,
+        "5": 165
+      },
+      "description": "ShieldCalc第一项取等级索引1至5。",
+      "sortOrder": 30
+    }
+  }
+}

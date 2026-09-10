@@ -1,0 +1,45 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/bard_w/formulas",
+    "detailRoute": "/skills/bard_w/formulas/move_speed",
+    "skillKey": "bard_w",
+    "kind": "formulas",
+    "stableKey": "move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "move_speed",
+      "name": "圣坛移动速度加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应Calc_MoveSpeed，输出比例。",
+      "sortOrder": 30
+    }
+  }
+}

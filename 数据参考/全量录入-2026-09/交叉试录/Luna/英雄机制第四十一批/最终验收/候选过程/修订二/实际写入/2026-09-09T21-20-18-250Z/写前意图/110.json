@@ -1,0 +1,45 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "method": "POST",
+    "route": "/skills/rakan_q/formulas",
+    "detailRoute": "/skills/rakan_q/formulas/total_heal",
+    "skillKey": "rakan_q",
+    "kind": "formulas",
+    "stableKey": "total_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_heal",
+      "name": "微光飞翎自身治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_heal_base_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应TotalHeal，保留自己自然到时分支。",
+      "sortOrder": 20
+    }
+  }
+}

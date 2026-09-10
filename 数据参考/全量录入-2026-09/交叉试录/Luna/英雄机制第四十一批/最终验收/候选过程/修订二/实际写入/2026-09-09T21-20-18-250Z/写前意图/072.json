@@ -1,0 +1,29 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "method": "POST",
+    "route": "/skills/milio_w/parameters",
+    "detailRoute": "/skills/milio_w/parameters/range_increase_ratio",
+    "skillKey": "milio_w",
+    "kind": "parameters",
+    "stableKey": "range_increase_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "range_increase_ratio",
+      "name": "攻击距离提升比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1000000015,
+        "2": 0.125,
+        "3": 0.150000006,
+        "4": 0.174999997,
+        "5": 0.200000003
+      },
+      "description": "RangePercent取等级索引1至5。",
+      "sortOrder": 30
+    }
+  }
+}

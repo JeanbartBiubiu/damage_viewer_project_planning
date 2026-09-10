@@ -1,0 +1,23 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/milio_p/parameters",
+    "detailRoute": "/skills/milio_p/parameters/burn_ap_ratio",
+    "skillKey": "milio_p",
+    "kind": "parameters",
+    "stableKey": "burn_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "burn_ap_ratio",
+      "name": "灼烧法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.200000003,
+      "levelValues": null,
+      "description": "当前BurnDamage系数0.2，按来源总法强。",
+      "sortOrder": 30
+    }
+  }
+}

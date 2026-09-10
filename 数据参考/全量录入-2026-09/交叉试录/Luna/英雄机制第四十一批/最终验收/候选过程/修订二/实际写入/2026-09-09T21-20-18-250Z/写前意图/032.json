@@ -1,0 +1,29 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/bard_w/parameters",
+    "detailRoute": "/skills/bard_w/parameters/maximum_heal",
+    "skillKey": "bard_w",
+    "kind": "parameters",
+    "stableKey": "maximum_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "maximum_heal",
+      "name": "满额治疗基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 87.5,
+        "3": 125,
+        "4": 162.5,
+        "5": 200
+      },
+      "description": "等级索引1至5。",
+      "sortOrder": 100
+    }
+  }
+}

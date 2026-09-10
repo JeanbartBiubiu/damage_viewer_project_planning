@@ -1,0 +1,35 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "method": "POST",
+    "route": "/skills/milio_p/formulas",
+    "detailRoute": "/skills/milio_p/formulas/ad_burst_damage",
+    "skillKey": "milio_p",
+    "kind": "formulas",
+    "stableKey": "ad_burst_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ad_burst_damage",
+      "name": "附加攻击力伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ad_burst_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "角色等级比例×被附加英雄来源总攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

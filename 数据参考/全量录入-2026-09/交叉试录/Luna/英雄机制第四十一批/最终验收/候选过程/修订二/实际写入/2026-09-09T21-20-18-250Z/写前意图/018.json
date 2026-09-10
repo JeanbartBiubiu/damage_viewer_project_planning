@@ -1,0 +1,29 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "method": "POST",
+    "route": "/skills/bard_q/parameters",
+    "detailRoute": "/skills/bard_q/parameters/slow_duration_ms",
+    "skillKey": "bard_q",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1200,
+        "3": 1400,
+        "4": 1600,
+        "5": 1800
+      },
+      "description": "等级索引1至5，秒转毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/bard_e/parameters",
+    "detailRoute": "/skills/bard_e/parameters/door_duration_ms",
+    "skillKey": "bard_e",
+    "kind": "parameters",
+    "stableKey": "door_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "door_duration_ms",
+      "name": "传送门持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 10000,
+        "3": 10000,
+        "4": 10000,
+        "5": 10000
+      },
+      "description": "10秒转毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/bard_e/parameters",
+    "detailRoute": "/skills/bard_e/parameters/friendly_move_speed_bonus_percent",
+    "skillKey": "bard_e",
+    "kind": "parameters",
+    "stableKey": "friendly_move_speed_bonus_percent",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "friendly_move_speed_bonus_percent",
+      "name": "友军传送速度加成（百分数点）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 33,
+        "2": 33,
+        "3": 33,
+        "4": 33,
+        "5": 33
+      },
+      "description": "当前正文33%。",
+      "sortOrder": 40
+    }
+  }
+}

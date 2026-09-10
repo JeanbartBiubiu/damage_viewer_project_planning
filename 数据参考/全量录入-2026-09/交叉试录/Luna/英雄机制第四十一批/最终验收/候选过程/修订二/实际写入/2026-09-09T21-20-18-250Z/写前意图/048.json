@@ -1,0 +1,23 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "method": "POST",
+    "route": "/skills/bard_r/parameters",
+    "detailRoute": "/skills/bard_r/parameters/cast_time_ms",
+    "skillKey": "bard_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前根字段时间转为毫秒；不表示命中时点。",
+      "sortOrder": 999
+    }
+  }
+}

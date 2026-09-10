@@ -1,0 +1,29 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 85,
+    "method": "POST",
+    "route": "/skills/milio_e/parameters",
+    "detailRoute": "/skills/milio_e/parameters/cooldown_ms",
+    "skillKey": "milio_e",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "独立施放间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 500,
+        "2": 500,
+        "3": 500,
+        "4": 500,
+        "5": 500
+      },
+      "description": "当前cooldownTime=0.5秒，区别于充能回复。",
+      "sortOrder": 70
+    }
+  }
+}

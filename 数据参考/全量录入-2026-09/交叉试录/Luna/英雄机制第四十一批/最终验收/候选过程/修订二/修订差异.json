@@ -1,0 +1,31 @@
+{
+  "at": "2026-09-09T21:18:50.863Z",
+  "reason": "比例属性本身按数值平加，不对该比例再施百分比乘区；修订一遗漏三处统一纠正。",
+  "changes": [
+    {
+      "skillKey": "milio_e",
+      "effectKey": "self_move_speed",
+      "resultKey": "attribute",
+      "before": "attribute_percent_bonus",
+      "after": "attribute_flat_add"
+    },
+    {
+      "skillKey": "renata_w",
+      "effectKey": "self_attack_speed",
+      "resultKey": "attribute",
+      "before": "attribute_percent_bonus",
+      "after": "attribute_flat_add"
+    },
+    {
+      "skillKey": "renata_w",
+      "effectKey": "self_move_speed",
+      "resultKey": "attribute",
+      "before": "attribute_percent_bonus",
+      "after": "attribute_flat_add"
+    }
+  ],
+  "priorCandidateSha256": "469f1f2f659ab7e542aa94820bae7f4908b9c4a098181af3b5af096396440f2b",
+  "countsUnchanged": true,
+  "numbersUnchanged": true,
+  "apiWrites": 0
+}

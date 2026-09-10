@@ -1,0 +1,23 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "method": "POST",
+    "route": "/skills/bard_p/parameters",
+    "detailRoute": "/skills/bard_p/parameters/chimes_per_upgrade",
+    "skillKey": "bard_p",
+    "kind": "parameters",
+    "stableKey": "chimes_per_upgrade",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "chimes_per_upgrade",
+      "name": "升级所需调和之音层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "技能数组有效索引1为5，索引0的0不作门槛。",
+      "sortOrder": 80
+    }
+  }
+}

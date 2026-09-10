@@ -1,0 +1,29 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 144,
+    "method": "POST",
+    "route": "/skills/renata_w/parameters",
+    "detailRoute": "/skills/renata_w/parameters/bonus_attack_speed_points",
+    "skillKey": "renata_w",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_speed_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_speed_points",
+      "name": "初始攻击速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "description": "等级索引1至5；外层0.01转比例。",
+      "sortOrder": 20
+    }
+  }
+}

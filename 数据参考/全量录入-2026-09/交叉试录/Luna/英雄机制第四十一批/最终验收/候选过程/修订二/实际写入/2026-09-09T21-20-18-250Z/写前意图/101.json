@@ -1,0 +1,45 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/rakan_p/formulas",
+    "detailRoute": "/skills/rakan_p/formulas/total_shield",
+    "skillKey": "rakan_p",
+    "kind": "formulas",
+    "stableKey": "total_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_shield",
+      "name": "异色羽裳护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应TotalShield，基础值由角色等级实际输入提供。",
+      "sortOrder": 10
+    }
+  }
+}

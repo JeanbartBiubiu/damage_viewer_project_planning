@@ -1,0 +1,23 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "method": "POST",
+    "route": "/skills/rakan_r/parameters",
+    "detailRoute": "/skills/rakan_r/parameters/self_speed_duration_ms",
+    "skillKey": "rakan_r",
+    "kind": "parameters",
+    "stableKey": "self_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_speed_duration_ms",
+      "name": "自身移速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "4秒转毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

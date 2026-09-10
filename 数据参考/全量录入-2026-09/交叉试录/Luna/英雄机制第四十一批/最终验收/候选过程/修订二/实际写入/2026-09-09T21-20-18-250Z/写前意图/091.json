@@ -1,0 +1,23 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/milio_r/parameters",
+    "detailRoute": "/skills/milio_r/parameters/heal_ap_ratio",
+    "skillKey": "milio_r",
+    "kind": "parameters",
+    "stableKey": "heal_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_ap_ratio",
+      "name": "治疗法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前系数0.5。",
+      "sortOrder": 20
+    }
+  }
+}

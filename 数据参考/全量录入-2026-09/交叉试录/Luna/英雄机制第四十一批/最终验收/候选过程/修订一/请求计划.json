@@ -1,0 +1,5491 @@
+{
+  "generatedAt": "2026-09-09T21:12:36.534Z",
+  "status": "修订一仅写入意图，未调用业务接口；候选等待主负责人审查",
+  "batch": "第四十一批巴德米利欧洛烈娜塔",
+  "revision": "hero41-source-v1-luna-revision-1",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "469f1f2f659ab7e542aa94820bae7f4908b9c4a098181af3b5af096396440f2b",
+  "sourceInputSha256": "34cf3cf8d1954053ca21ba2ee654995dfdc049feb1f3e64647e0af28d2e2f432",
+  "sourceBindingSha256": "f99655834a838eae99a4d96678e287c5e07030cb0ba3d80ea62edbd44c1499ff",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero41-cursor-review-run-20260910/Cursor来源复核结论.md",
+    "conclusionSha256": "799a41d4b0d034d7dabe652e9bde1b6e8008c022f37ff5b5ff6256102ef1c8d0",
+    "auditFile": ".agents/artifacts/hero41-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "4722f3b2b575bf277d33793fa8a5cd14f6dae525b84711166b443aca95f85672",
+    "inputManifestFile": ".agents/artifacts/hero41-cursor-review-run-20260910/path-signatures-before.json",
+    "inputManifestSha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "verdict": "READY",
+    "runId": "run-e3ec5079-87fd-498f-852f-3772fdaeff74",
+    "requestId": "2be8315c-6946-4108-8d0a-544753da9463",
+    "events": 3290,
+    "uniqueTools": 70,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "protectionSnapshotSha256": "5919877cfd4b70072467a8192046d18084cb2f0ec68b53b27065f78f1a8d0be6",
+  "publicReuseSha256": "0cbed01f75cc366225137689825570a1c05b64472eefd23bbadf8ef4bc4b5b2c",
+  "requestCount": 175,
+  "requestCounts": {
+    "parameters": 123,
+    "formulas": 29,
+    "effects": 23,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "currentTotalComponents": 200,
+  "currentCompositionListsProtected": 120,
+  "reusedPublicParameters": [
+    {
+      "skillKey": "bard_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "bard_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "bard_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "bard_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "bard_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "milio_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "milio_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "milio_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "milio_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "milio_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "milio_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "rakan_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "rakan_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "rakan_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "rakan_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "rakan_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "rakan_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "renata_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "renata_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "renata_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "renata_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "renata_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "renata_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "renata_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "renata_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    }
+  ],
+  "protectedSkills": [
+    "bard_p",
+    "bard_q",
+    "bard_w",
+    "bard_e",
+    "bard_r",
+    "milio_p",
+    "milio_q",
+    "milio_w",
+    "milio_e",
+    "milio_r",
+    "rakan_p",
+    "rakan_q",
+    "rakan_w",
+    "rakan_e",
+    "rakan_r",
+    "renata_p",
+    "renata_q",
+    "renata_w",
+    "renata_e",
+    "renata_r"
+  ],
+  "protectedCounts": {
+    "GETs": 197,
+    "subjects": 20,
+    "currentCompositionSkillSlots": 20,
+    "currentCompositionLists": 120,
+    "reusedPublicParameters": 25,
+    "images": 20,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "dictionaries": 4
+  },
+  "protectedRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_bard",
+    "/character-skill-relations?characterKey=champion_bard",
+    "/characters/champion_milio",
+    "/character-skill-relations?characterKey=champion_milio",
+    "/characters/champion_rakan",
+    "/character-skill-relations?characterKey=champion_rakan",
+    "/characters/champion_renata",
+    "/character-skill-relations?characterKey=champion_renata",
+    "/skills/bard_p",
+    "/skills/bard_p/representative-image",
+    "/skills/bard_p/parameters",
+    "/skills/bard_p/formulas",
+    "/skills/bard_p/effects",
+    "/skills/bard_p/processes",
+    "/skills/bard_p/internal-states",
+    "/skills/bard_p/trigger-rules",
+    "/skills/bard_q",
+    "/skills/bard_q/representative-image",
+    "/skills/bard_q/parameters",
+    "/skills/bard_q/parameters/cooldown_ms",
+    "/skills/bard_q/parameters/mana_cost",
+    "/skills/bard_q/formulas",
+    "/skills/bard_q/effects",
+    "/skills/bard_q/processes",
+    "/skills/bard_q/internal-states",
+    "/skills/bard_q/trigger-rules",
+    "/skills/bard_w",
+    "/skills/bard_w/representative-image",
+    "/skills/bard_w/parameters",
+    "/skills/bard_w/parameters/mana_cost",
+    "/skills/bard_w/formulas",
+    "/skills/bard_w/effects",
+    "/skills/bard_w/processes",
+    "/skills/bard_w/internal-states",
+    "/skills/bard_w/trigger-rules",
+    "/skills/bard_e",
+    "/skills/bard_e/representative-image",
+    "/skills/bard_e/parameters",
+    "/skills/bard_e/formulas",
+    "/skills/bard_e/effects",
+    "/skills/bard_e/processes",
+    "/skills/bard_e/internal-states",
+    "/skills/bard_e/trigger-rules",
+    "/skills/bard_r",
+    "/skills/bard_r/representative-image",
+    "/skills/bard_r/parameters",
+    "/skills/bard_r/parameters/cooldown_ms",
+    "/skills/bard_r/parameters/mana_cost",
+    "/skills/bard_r/formulas",
+    "/skills/bard_r/effects",
+    "/skills/bard_r/processes",
+    "/skills/bard_r/internal-states",
+    "/skills/bard_r/trigger-rules",
+    "/skills/milio_p",
+    "/skills/milio_p/representative-image",
+    "/skills/milio_p/parameters",
+    "/skills/milio_p/formulas",
+    "/skills/milio_p/effects",
+    "/skills/milio_p/processes",
+    "/skills/milio_p/internal-states",
+    "/skills/milio_p/trigger-rules",
+    "/skills/milio_q",
+    "/skills/milio_q/representative-image",
+    "/skills/milio_q/parameters",
+    "/skills/milio_q/parameters/mana_cost",
+    "/skills/milio_q/formulas",
+    "/skills/milio_q/effects",
+    "/skills/milio_q/processes",
+    "/skills/milio_q/internal-states",
+    "/skills/milio_q/trigger-rules",
+    "/skills/milio_w",
+    "/skills/milio_w/representative-image",
+    "/skills/milio_w/parameters",
+    "/skills/milio_w/parameters/cooldown_ms",
+    "/skills/milio_w/parameters/mana_cost",
+    "/skills/milio_w/formulas",
+    "/skills/milio_w/effects",
+    "/skills/milio_w/processes",
+    "/skills/milio_w/internal-states",
+    "/skills/milio_w/trigger-rules",
+    "/skills/milio_e",
+    "/skills/milio_e/representative-image",
+    "/skills/milio_e/parameters",
+    "/skills/milio_e/parameters/mana_cost",
+    "/skills/milio_e/formulas",
+    "/skills/milio_e/effects",
+    "/skills/milio_e/processes",
+    "/skills/milio_e/internal-states",
+    "/skills/milio_e/trigger-rules",
+    "/skills/milio_r",
+    "/skills/milio_r/representative-image",
+    "/skills/milio_r/parameters",
+    "/skills/milio_r/parameters/cooldown_ms",
+    "/skills/milio_r/parameters/mana_cost",
+    "/skills/milio_r/formulas",
+    "/skills/milio_r/effects",
+    "/skills/milio_r/processes",
+    "/skills/milio_r/internal-states",
+    "/skills/milio_r/trigger-rules",
+    "/skills/rakan_p",
+    "/skills/rakan_p/representative-image",
+    "/skills/rakan_p/parameters",
+    "/skills/rakan_p/formulas",
+    "/skills/rakan_p/effects",
+    "/skills/rakan_p/processes",
+    "/skills/rakan_p/internal-states",
+    "/skills/rakan_p/trigger-rules",
+    "/skills/rakan_q",
+    "/skills/rakan_q/representative-image",
+    "/skills/rakan_q/parameters",
+    "/skills/rakan_q/parameters/cooldown_ms",
+    "/skills/rakan_q/parameters/mana_cost",
+    "/skills/rakan_q/formulas",
+    "/skills/rakan_q/effects",
+    "/skills/rakan_q/processes",
+    "/skills/rakan_q/internal-states",
+    "/skills/rakan_q/trigger-rules",
+    "/skills/rakan_w",
+    "/skills/rakan_w/representative-image",
+    "/skills/rakan_w/parameters",
+    "/skills/rakan_w/parameters/cooldown_ms",
+    "/skills/rakan_w/parameters/mana_cost",
+    "/skills/rakan_w/formulas",
+    "/skills/rakan_w/effects",
+    "/skills/rakan_w/processes",
+    "/skills/rakan_w/internal-states",
+    "/skills/rakan_w/trigger-rules",
+    "/skills/rakan_e",
+    "/skills/rakan_e/representative-image",
+    "/skills/rakan_e/parameters",
+    "/skills/rakan_e/formulas",
+    "/skills/rakan_e/effects",
+    "/skills/rakan_e/processes",
+    "/skills/rakan_e/internal-states",
+    "/skills/rakan_e/trigger-rules",
+    "/skills/rakan_r",
+    "/skills/rakan_r/representative-image",
+    "/skills/rakan_r/parameters",
+    "/skills/rakan_r/parameters/cooldown_ms",
+    "/skills/rakan_r/parameters/mana_cost",
+    "/skills/rakan_r/formulas",
+    "/skills/rakan_r/effects",
+    "/skills/rakan_r/processes",
+    "/skills/rakan_r/internal-states",
+    "/skills/rakan_r/trigger-rules",
+    "/skills/renata_p",
+    "/skills/renata_p/representative-image",
+    "/skills/renata_p/parameters",
+    "/skills/renata_p/formulas",
+    "/skills/renata_p/effects",
+    "/skills/renata_p/processes",
+    "/skills/renata_p/internal-states",
+    "/skills/renata_p/trigger-rules",
+    "/skills/renata_q",
+    "/skills/renata_q/representative-image",
+    "/skills/renata_q/parameters",
+    "/skills/renata_q/parameters/cooldown_ms",
+    "/skills/renata_q/parameters/mana_cost",
+    "/skills/renata_q/formulas",
+    "/skills/renata_q/effects",
+    "/skills/renata_q/processes",
+    "/skills/renata_q/internal-states",
+    "/skills/renata_q/trigger-rules",
+    "/skills/renata_w",
+    "/skills/renata_w/representative-image",
+    "/skills/renata_w/parameters",
+    "/skills/renata_w/parameters/cooldown_ms",
+    "/skills/renata_w/parameters/mana_cost",
+    "/skills/renata_w/formulas",
+    "/skills/renata_w/effects",
+    "/skills/renata_w/processes",
+    "/skills/renata_w/internal-states",
+    "/skills/renata_w/trigger-rules",
+    "/skills/renata_e",
+    "/skills/renata_e/representative-image",
+    "/skills/renata_e/parameters",
+    "/skills/renata_e/parameters/cooldown_ms",
+    "/skills/renata_e/parameters/mana_cost",
+    "/skills/renata_e/formulas",
+    "/skills/renata_e/effects",
+    "/skills/renata_e/processes",
+    "/skills/renata_e/internal-states",
+    "/skills/renata_e/trigger-rules",
+    "/skills/renata_r",
+    "/skills/renata_r/representative-image",
+    "/skills/renata_r/parameters",
+    "/skills/renata_r/parameters/cooldown_ms",
+    "/skills/renata_r/parameters/mana_cost",
+    "/skills/renata_r/formulas",
+    "/skills/renata_r/effects",
+    "/skills/renata_r/processes",
+    "/skills/renata_r/internal-states",
+    "/skills/renata_r/trigger-rules"
+  ],
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/tooltip_ms_per_stack_percent",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "tooltip_ms_per_stack_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tooltip_ms_per_stack_percent",
+        "name": "每层非战斗移动速度（百分数点）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 24,
+        "levelValues": null,
+        "description": "当前正文直接显示24%。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/tooltip_ms_max_percent",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "tooltip_ms_max_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tooltip_ms_max_percent",
+        "name": "非战斗移动速度上限（百分数点）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 150,
+        "levelValues": null,
+        "description": "当前正文直接显示150%。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/tooltip_mana_restore_percent",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "tooltip_mana_restore_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tooltip_mana_restore_percent",
+        "name": "最大法力回复（百分数点）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12,
+        "levelValues": null,
+        "description": "当前正文直接显示12%；经验奖励排除。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/meep_base_damage",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "meep_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "meep_base_damage",
+        "name": "木灵基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "当前树取索引0的30。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/chime_damage_checkpoint",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "chime_damage_checkpoint",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "chime_damage_checkpoint",
+        "name": "木灵伤害层数间隔",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前正文每5层增加一次。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/damage_per_checkpoint",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "damage_per_checkpoint",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_per_checkpoint",
+        "name": "每个层数间隔伤害增加",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前正文直接消费6。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/slow_duration_ms",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "木灵减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "1秒转毫秒；f2幅度未展开。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/chimes_per_upgrade",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "chimes_per_upgrade",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "chimes_per_upgrade",
+        "name": "升级所需调和之音层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "技能数组有效索引1为5，索引0的0不作门槛。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/meep_ap_ratio",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "meep_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "meep_ap_ratio",
+        "name": "木灵法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.400000006,
+        "levelValues": null,
+        "description": "当前树第二项按来源总法强。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/max_speed_stacks",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "max_speed_stacks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_speed_stacks",
+        "name": "非战斗移速最大层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "当前正文直接消费10。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 11,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/speed_stack_duration_ms",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "speed_stack_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "speed_stack_duration_ms",
+        "name": "非战斗移速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20000,
+        "levelValues": null,
+        "description": "20秒转毫秒。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 12,
+      "method": "POST",
+      "route": "/skills/bard_p/parameters",
+      "detailRoute": "/skills/bard_p/parameters/chimes_slow_multiplier",
+      "skillKey": "bard_p",
+      "kind": "parameters",
+      "stableKey": "chimes_slow_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "chimes_slow_multiplier",
+        "name": "减速升级树乘数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前树NumberCalculationPart=1。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "route": "/skills/bard_p/formulas",
+      "detailRoute": "/skills/bard_p/formulas/meep_damage_no_chime",
+      "skillKey": "bard_p",
+      "kind": "formulas",
+      "stableKey": "meep_damage_no_chime",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "meep_damage_no_chime",
+        "name": "无调和之音木灵伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "meep_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "meep_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应MeepDamageNoChime。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "route": "/skills/bard_p/formulas",
+      "detailRoute": "/skills/bard_p/formulas/chimes_for_slow_upgrade",
+      "skillKey": "bard_p",
+      "kind": "formulas",
+      "stableKey": "chimes_for_slow_upgrade",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "chimes_for_slow_upgrade",
+        "name": "减速升级所需调和之音",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "chimes_per_upgrade"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "chimes_slow_multiplier"
+            }
+          ]
+        },
+        "description": "对应ChimesForSlowUpgrade。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "route": "/skills/bard_q/parameters",
+      "detailRoute": "/skills/bard_q/parameters/base_damage",
+      "skillKey": "bard_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "技能等级取DataValues索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "route": "/skills/bard_q/parameters",
+      "detailRoute": "/skills/bard_q/parameters/ap_ratio",
+      "skillKey": "bard_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8000000119,
+        "levelValues": null,
+        "description": "TotalDamage树第二项按来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "route": "/skills/bard_q/parameters",
+      "detailRoute": "/skills/bard_q/parameters/slow_percent",
+      "skillKey": "bard_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent",
+        "name": "减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "description": "当前正文显示60%。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "route": "/skills/bard_q/parameters",
+      "detailRoute": "/skills/bard_q/parameters/slow_duration_ms",
+      "skillKey": "bard_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1200,
+          "3": 1400,
+          "4": 1600,
+          "5": 1800
+        },
+        "description": "等级索引1至5，秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "route": "/skills/bard_q/parameters",
+      "detailRoute": "/skills/bard_q/parameters/stun_duration_ms",
+      "skillKey": "bard_q",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "晕眩持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1200,
+          "3": 1400,
+          "4": 1600,
+          "5": 1800
+        },
+        "description": "等级索引1至5，秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "route": "/skills/bard_q/parameters",
+      "detailRoute": "/skills/bard_q/parameters/cast_time_ms",
+      "skillKey": "bard_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根字段时间转为毫秒；不表示命中时点。",
+        "sortOrder": 999
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "route": "/skills/bard_q/formulas",
+      "detailRoute": "/skills/bard_q/formulas/total_damage",
+      "skillKey": "bard_q",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "星界束缚魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "route": "/skills/bard_q/effects",
+      "detailRoute": "/skills/bard_q/effects/mana_cost",
+      "skillKey": "bard_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/chargeup_time_ms",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "chargeup_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "chargeup_time_ms",
+        "name": "充能时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "5秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 24,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/max_packs",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "max_packs",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_packs",
+        "name": "同时存在数量上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "正文上限3座。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 25,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/healing_multiplier",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "healing_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "healing_multiplier",
+        "name": "治疗倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "InitialHeal/MaxHeal共同使用1。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 26,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/ammo_limit",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "ammo_limit",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ammo_limit",
+        "name": "充能层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "正文显示2层。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 27,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/ammo_recharge_ms",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "ammo_recharge_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ammo_recharge_ms",
+        "name": "充能回复时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 18000,
+        "levelValues": null,
+        "description": "18秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 28,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/move_speed_duration_ms",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_duration_ms",
+        "name": "移速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "1.5秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 29,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/move_speed_base_ratio",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_base_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_base_ratio",
+        "name": "移速基础比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.200000003,
+          "2": 0.224999994,
+          "3": 0.25,
+          "4": 0.275000006,
+          "5": 0.3000000119
+        },
+        "description": "等级索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 30,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/move_speed_ap_ratio",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "move_speed_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_ap_ratio",
+        "name": "移速法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0006,
+        "levelValues": null,
+        "description": "Calc_MoveSpeed第二项。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 31,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/minimum_heal",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "minimum_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_heal",
+        "name": "最低治疗基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 50,
+          "3": 75,
+          "4": 100,
+          "5": 125
+        },
+        "description": "等级索引1至5。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 32,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/maximum_heal",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "maximum_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_heal",
+        "name": "满额治疗基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 87.5,
+          "3": 125,
+          "4": 162.5,
+          "5": 200
+        },
+        "description": "等级索引1至5。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 33,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/minimum_heal_ap_ratio",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "minimum_heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_heal_ap_ratio",
+        "name": "最低治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.400000006,
+        "levelValues": null,
+        "description": "InitialHeal第二项。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 34,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/maximum_heal_ap_ratio",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "maximum_heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_heal_ap_ratio",
+        "name": "满额治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6999999881,
+        "levelValues": null,
+        "description": "MaxHeal第二项。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 35,
+      "method": "POST",
+      "route": "/skills/bard_w/parameters",
+      "detailRoute": "/skills/bard_w/parameters/cast_time_ms",
+      "skillKey": "bard_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根字段时间转为毫秒；不表示命中时点。",
+        "sortOrder": 999
+      }
+    },
+    {
+      "sequence": 36,
+      "method": "POST",
+      "route": "/skills/bard_w/formulas",
+      "detailRoute": "/skills/bard_w/formulas/initial_heal",
+      "skillKey": "bard_w",
+      "kind": "formulas",
+      "stableKey": "initial_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_heal",
+        "name": "圣坛最低治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "healing_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "minimum_heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应InitialHeal。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 37,
+      "method": "POST",
+      "route": "/skills/bard_w/formulas",
+      "detailRoute": "/skills/bard_w/formulas/maximum_heal",
+      "skillKey": "bard_w",
+      "kind": "formulas",
+      "stableKey": "maximum_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "maximum_heal",
+        "name": "圣坛满额治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "healing_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "maximum_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "maximum_heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应MaxHeal。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 38,
+      "method": "POST",
+      "route": "/skills/bard_w/formulas",
+      "detailRoute": "/skills/bard_w/formulas/move_speed",
+      "skillKey": "bard_w",
+      "kind": "formulas",
+      "stableKey": "move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "move_speed",
+        "name": "圣坛移动速度加成",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "move_speed_base_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "move_speed_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应Calc_MoveSpeed，输出比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 39,
+      "method": "POST",
+      "route": "/skills/bard_w/effects",
+      "detailRoute": "/skills/bard_w/effects/mana_cost",
+      "skillKey": "bard_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 40,
+      "method": "POST",
+      "route": "/skills/bard_e/parameters",
+      "detailRoute": "/skills/bard_e/parameters/cooldown_ms",
+      "skillKey": "bard_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 22000,
+          "2": 20500,
+          "3": 19000,
+          "4": 17500,
+          "5": 16000
+        },
+        "description": "当前根技能等级冷却，单位毫秒；本项不在公共复用清单。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 41,
+      "method": "POST",
+      "route": "/skills/bard_e/parameters",
+      "detailRoute": "/skills/bard_e/parameters/mana_cost",
+      "skillKey": "bard_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 30,
+          "3": 30,
+          "4": 30,
+          "5": 30
+        },
+        "description": "当前根技能等级法力；本项不在公共复用清单。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 42,
+      "method": "POST",
+      "route": "/skills/bard_e/parameters",
+      "detailRoute": "/skills/bard_e/parameters/door_duration_ms",
+      "skillKey": "bard_e",
+      "kind": "parameters",
+      "stableKey": "door_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "door_duration_ms",
+        "name": "传送门持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10000,
+          "2": 10000,
+          "3": 10000,
+          "4": 10000,
+          "5": 10000
+        },
+        "description": "10秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 43,
+      "method": "POST",
+      "route": "/skills/bard_e/parameters",
+      "detailRoute": "/skills/bard_e/parameters/friendly_move_speed_bonus_percent",
+      "skillKey": "bard_e",
+      "kind": "parameters",
+      "stableKey": "friendly_move_speed_bonus_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "friendly_move_speed_bonus_percent",
+        "name": "友军传送速度加成（百分数点）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 33,
+          "2": 33,
+          "3": 33,
+          "4": 33,
+          "5": 33
+        },
+        "description": "当前正文33%。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 44,
+      "method": "POST",
+      "route": "/skills/bard_e/parameters",
+      "detailRoute": "/skills/bard_e/parameters/base_travel_speed",
+      "skillKey": "bard_e",
+      "kind": "parameters",
+      "stableKey": "base_travel_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_travel_speed",
+        "name": "基础传送速度",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 900,
+          "2": 900,
+          "3": 900,
+          "4": 900,
+          "5": 900
+        },
+        "description": "保存原始速度，不作普通移动速度属性。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 45,
+      "method": "POST",
+      "route": "/skills/bard_e/parameters",
+      "detailRoute": "/skills/bard_e/parameters/cast_time_ms",
+      "skillKey": "bard_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根字段时间转为毫秒；不表示命中时点。",
+        "sortOrder": 999
+      }
+    },
+    {
+      "sequence": 46,
+      "method": "POST",
+      "route": "/skills/bard_e/effects",
+      "detailRoute": "/skills/bard_e/effects/mana_cost",
+      "skillKey": "bard_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能使用候选新增法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 47,
+      "method": "POST",
+      "route": "/skills/bard_r/parameters",
+      "detailRoute": "/skills/bard_r/parameters/stasis_duration_ms",
+      "skillKey": "bard_r",
+      "kind": "parameters",
+      "stableKey": "stasis_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stasis_duration_ms",
+        "name": "凝滞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2500,
+          "2": 2500,
+          "3": 2500
+        },
+        "description": "2.5秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 48,
+      "method": "POST",
+      "route": "/skills/bard_r/parameters",
+      "detailRoute": "/skills/bard_r/parameters/cast_time_ms",
+      "skillKey": "bard_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "当前根字段时间转为毫秒；不表示命中时点。",
+        "sortOrder": 999
+      }
+    },
+    {
+      "sequence": 49,
+      "method": "POST",
+      "route": "/skills/bard_r/effects",
+      "detailRoute": "/skills/bard_r/effects/mana_cost",
+      "skillKey": "bard_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 50,
+      "method": "POST",
+      "route": "/skills/milio_p/parameters",
+      "detailRoute": "/skills/milio_p/parameters/ad_burst_ratio",
+      "skillKey": "milio_p",
+      "kind": "parameters",
+      "stableKey": "ad_burst_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ad_burst_ratio",
+        "name": "附加攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.0700000003,
+          "2": 0.0700000003,
+          "3": 0.0700000003,
+          "4": 0.0700000003,
+          "5": 0.0700000003,
+          "6": 0.1099999994,
+          "7": 0.1099999994,
+          "8": 0.1099999994,
+          "9": 0.1499999985,
+          "10": 0.1499999985,
+          "11": 0.1499999985,
+          "12": 0.1499999985,
+          "13": 0.1499999985,
+          "14": 0.1499999985,
+          "15": 0.1499999985,
+          "16": 0.1499999985,
+          "17": 0.1499999985,
+          "18": 0.1499999985
+        },
+        "description": "1至5级7%，6级起加4个百分点，9级起再加4个百分点；保留明确断点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 51,
+      "method": "POST",
+      "route": "/skills/milio_p/parameters",
+      "detailRoute": "/skills/milio_p/parameters/burn_base_damage_at_character_level",
+      "skillKey": "milio_p",
+      "kind": "parameters",
+      "stableKey": "burn_base_damage_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "burn_base_damage_at_character_level",
+        "name": "灼烧角色等级基础伤害（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "BurnDamage的匿名等级插值端点为10至50，中间曲线未知，实际值无默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 52,
+      "method": "POST",
+      "route": "/skills/milio_p/parameters",
+      "detailRoute": "/skills/milio_p/parameters/burn_ap_ratio",
+      "skillKey": "milio_p",
+      "kind": "parameters",
+      "stableKey": "burn_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "burn_ap_ratio",
+        "name": "灼烧法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.200000003,
+        "levelValues": null,
+        "description": "当前BurnDamage系数0.2，按来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 53,
+      "method": "POST",
+      "route": "/skills/milio_p/parameters",
+      "detailRoute": "/skills/milio_p/parameters/burn_duration_ms",
+      "skillKey": "milio_p",
+      "kind": "parameters",
+      "stableKey": "burn_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "burn_duration_ms",
+        "name": "灼烧持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "1.5秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 54,
+      "method": "POST",
+      "route": "/skills/milio_p/formulas",
+      "detailRoute": "/skills/milio_p/formulas/ad_burst_damage",
+      "skillKey": "milio_p",
+      "kind": "formulas",
+      "stableKey": "ad_burst_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "ad_burst_damage",
+        "name": "附加攻击力伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ad_burst_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "角色等级比例×被附加英雄来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 55,
+      "method": "POST",
+      "route": "/skills/milio_p/formulas",
+      "detailRoute": "/skills/milio_p/formulas/burn_damage",
+      "skillKey": "milio_p",
+      "kind": "formulas",
+      "stableKey": "burn_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "burn_damage",
+        "name": "灼烧魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "burn_base_damage_at_character_level"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "burn_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "匿名等级基础实际输入+0.2×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 56,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/cooldown_ms",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10000,
+          "2": 10000,
+          "3": 10000,
+          "4": 10000,
+          "5": 10000
+        },
+        "description": "官方16.17.1冷却10秒；客户端未提供cooldownTime，转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 57,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/damage_base",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "落地基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 140,
+          "3": 200,
+          "4": 260,
+          "5": 320
+        },
+        "description": "Damage第一项，等级索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 58,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/damage_ap_ratio",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.2000000477,
+        "levelValues": null,
+        "description": "当前系数1.2。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 59,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/slow_base_ratio",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "slow_base_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_base_ratio",
+        "name": "减速基础比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.400000006,
+          "2": 0.4499999881,
+          "3": 0.5,
+          "4": 0.5500000119,
+          "5": 0.6000000238
+        },
+        "description": "等级索引1至5，保存0.40至0.60比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 60,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/slow_ap_ratio",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "slow_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ap_ratio",
+        "name": "减速法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0005,
+        "levelValues": null,
+        "description": "当前系数0.0005，输出比例。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 61,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/slow_duration_ms",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "1.5秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 62,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/knockback_distance",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "knockback_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockback_distance",
+        "name": "英雄击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 140,
+        "levelValues": null,
+        "description": "英雄击退140。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 63,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/fall_time_ms",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "fall_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "fall_time_ms",
+        "name": "落地时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 800,
+        "levelValues": null,
+        "description": "0.8秒转毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 64,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/fall_radius",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "fall_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "fall_radius",
+        "name": "落地范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "英雄范围250。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 65,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/impact_adjustment",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "impact_adjustment",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "impact_adjustment",
+        "name": "落点调整距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "description": "当前值50。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 66,
+      "method": "POST",
+      "route": "/skills/milio_q/parameters",
+      "detailRoute": "/skills/milio_q/parameters/refund_ratio",
+      "skillKey": "milio_q",
+      "kind": "parameters",
+      "stableKey": "refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "refund_ratio",
+        "name": "命中英雄返还法力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前正文50%。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 67,
+      "method": "POST",
+      "route": "/skills/milio_q/formulas",
+      "detailRoute": "/skills/milio_q/formulas/damage",
+      "skillKey": "milio_q",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage",
+        "name": "火爆飞踢魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应Damage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 68,
+      "method": "POST",
+      "route": "/skills/milio_q/formulas",
+      "detailRoute": "/skills/milio_q/formulas/slow_amount",
+      "skillKey": "milio_q",
+      "kind": "formulas",
+      "stableKey": "slow_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "slow_amount",
+        "name": "火爆飞踢减速比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "slow_base_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "slow_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应SlowAmountPercent。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 69,
+      "method": "POST",
+      "route": "/skills/milio_q/effects",
+      "detailRoute": "/skills/milio_q/effects/mana_cost",
+      "skillKey": "milio_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 70,
+      "method": "POST",
+      "route": "/skills/milio_w/parameters",
+      "detailRoute": "/skills/milio_w/parameters/zone_duration_ms",
+      "skillKey": "milio_w",
+      "kind": "parameters",
+      "stableKey": "zone_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "zone_duration_ms",
+        "name": "炉火持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "6秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 71,
+      "method": "POST",
+      "route": "/skills/milio_w/parameters",
+      "detailRoute": "/skills/milio_w/parameters/zone_radius",
+      "skillKey": "milio_w",
+      "kind": "parameters",
+      "stableKey": "zone_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "zone_radius",
+        "name": "炉火范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "当前值350。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 72,
+      "method": "POST",
+      "route": "/skills/milio_w/parameters",
+      "detailRoute": "/skills/milio_w/parameters/range_increase_ratio",
+      "skillKey": "milio_w",
+      "kind": "parameters",
+      "stableKey": "range_increase_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "range_increase_ratio",
+        "name": "攻击距离提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.1000000015,
+          "2": 0.125,
+          "3": 0.150000006,
+          "4": 0.174999997,
+          "5": 0.200000003
+        },
+        "description": "RangePercent取等级索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 73,
+      "method": "POST",
+      "route": "/skills/milio_w/parameters",
+      "detailRoute": "/skills/milio_w/parameters/passive_interval_ms",
+      "skillKey": "milio_w",
+      "kind": "parameters",
+      "stableKey": "passive_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_interval_ms",
+        "name": "施加被动间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "3秒转毫秒，不当作治疗跳数。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 74,
+      "method": "POST",
+      "route": "/skills/milio_w/parameters",
+      "detailRoute": "/skills/milio_w/parameters/total_heal_base",
+      "skillKey": "milio_w",
+      "kind": "parameters",
+      "stableKey": "total_heal_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "total_heal_base",
+        "name": "总治疗基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 90,
+          "3": 110,
+          "4": 130,
+          "5": 150
+        },
+        "description": "HealingOverTime取等级索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 75,
+      "method": "POST",
+      "route": "/skills/milio_w/parameters",
+      "detailRoute": "/skills/milio_w/parameters/heal_ap_ratio",
+      "skillKey": "milio_w",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.150000006,
+        "levelValues": null,
+        "description": "当前系数0.15。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 76,
+      "method": "POST",
+      "route": "/skills/milio_w/formulas",
+      "detailRoute": "/skills/milio_w/formulas/range_percent",
+      "skillKey": "milio_w",
+      "kind": "formulas",
+      "stableKey": "range_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "range_percent",
+        "name": "攻击距离提升",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "range_increase_ratio"
+        },
+        "description": "对应RangePercent，输出比例。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 77,
+      "method": "POST",
+      "route": "/skills/milio_w/formulas",
+      "detailRoute": "/skills/milio_w/formulas/healing_over_time",
+      "skillKey": "milio_w",
+      "kind": "formulas",
+      "stableKey": "healing_over_time",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "healing_over_time",
+        "name": "总治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "total_heal_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应HealingOverTime，总量不拆成逐跳直接结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 78,
+      "method": "POST",
+      "route": "/skills/milio_w/effects",
+      "detailRoute": "/skills/milio_w/effects/mana_cost",
+      "skillKey": "milio_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 79,
+      "method": "POST",
+      "route": "/skills/milio_e/parameters",
+      "detailRoute": "/skills/milio_e/parameters/move_speed_ratio",
+      "skillKey": "milio_e",
+      "kind": "parameters",
+      "stableKey": "move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_ratio",
+        "name": "移动速度提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.1199999973,
+          "2": 0.1400000006,
+          "3": 0.1599999964,
+          "4": 0.1800000072,
+          "5": 0.200000003
+        },
+        "description": "取等级索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 80,
+      "method": "POST",
+      "route": "/skills/milio_e/parameters",
+      "detailRoute": "/skills/milio_e/parameters/move_speed_duration_ms",
+      "skillKey": "milio_e",
+      "kind": "parameters",
+      "stableKey": "move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "move_speed_duration_ms",
+        "name": "移动速度持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "2.5秒转毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 81,
+      "method": "POST",
+      "route": "/skills/milio_e/parameters",
+      "detailRoute": "/skills/milio_e/parameters/shield_base",
+      "skillKey": "milio_e",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "护盾基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45,
+          "2": 75,
+          "3": 105,
+          "4": 135,
+          "5": 165
+        },
+        "description": "ShieldCalc第一项取等级索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 82,
+      "method": "POST",
+      "route": "/skills/milio_e/parameters",
+      "detailRoute": "/skills/milio_e/parameters/shield_ap_ratio",
+      "skillKey": "milio_e",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4499999881,
+        "levelValues": null,
+        "description": "当前系数0.45。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 83,
+      "method": "POST",
+      "route": "/skills/milio_e/parameters",
+      "detailRoute": "/skills/milio_e/parameters/max_ammo",
+      "skillKey": "milio_e",
+      "kind": "parameters",
+      "stableKey": "max_ammo",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_ammo",
+        "name": "护盾充能层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前mMaxAmmo有效技能等级值均为2。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 84,
+      "method": "POST",
+      "route": "/skills/milio_e/parameters",
+      "detailRoute": "/skills/milio_e/parameters/ammo_recharge_ms",
+      "skillKey": "milio_e",
+      "kind": "parameters",
+      "stableKey": "ammo_recharge_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ammo_recharge_ms",
+        "name": "护盾充能回复时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 17000,
+          "2": 16000,
+          "3": 15000,
+          "4": 14000,
+          "5": 13000
+        },
+        "description": "当前mAmmoRechargeTime索引1至5，17/16/15/14/13秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 85,
+      "method": "POST",
+      "route": "/skills/milio_e/parameters",
+      "detailRoute": "/skills/milio_e/parameters/cooldown_ms",
+      "skillKey": "milio_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "独立施放间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 500,
+          "2": 500,
+          "3": 500,
+          "4": 500,
+          "5": 500
+        },
+        "description": "当前cooldownTime=0.5秒，区别于充能回复。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 86,
+      "method": "POST",
+      "route": "/skills/milio_e/formulas",
+      "detailRoute": "/skills/milio_e/formulas/shield_value",
+      "skillKey": "milio_e",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "融融情谊护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应ShieldCalc。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 87,
+      "method": "POST",
+      "route": "/skills/milio_e/effects",
+      "detailRoute": "/skills/milio_e/effects/mana_cost",
+      "skillKey": "milio_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 88,
+      "method": "POST",
+      "route": "/skills/milio_e/effects",
+      "detailRoute": "/skills/milio_e/effects/self_shield",
+      "skillKey": "milio_e",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "融融情谊自身普通护盾",
+        "description": "补证支持自身护盾；叠加事件待接。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "融融情谊自身普通护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "普通护盾，触发和移除事件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 89,
+      "method": "POST",
+      "route": "/skills/milio_e/effects",
+      "detailRoute": "/skills/milio_e/effects/self_move_speed",
+      "skillKey": "milio_e",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "融融情谊自身移动速度提升",
+        "description": "补证支持自身目标；持续时间来自正文。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "融融情谊自身移动速度提升",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_percent_bonus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 90,
+      "method": "POST",
+      "route": "/skills/milio_r/parameters",
+      "detailRoute": "/skills/milio_r/parameters/heal_base",
+      "skillKey": "milio_r",
+      "kind": "parameters",
+      "stableKey": "heal_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_base",
+        "name": "治疗基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "HealCalc取等级索引1至3。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 91,
+      "method": "POST",
+      "route": "/skills/milio_r/parameters",
+      "detailRoute": "/skills/milio_r/parameters/heal_ap_ratio",
+      "skillKey": "milio_r",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前系数0.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 92,
+      "method": "POST",
+      "route": "/skills/milio_r/parameters",
+      "detailRoute": "/skills/milio_r/parameters/tenacity_duration_ms",
+      "skillKey": "milio_r",
+      "kind": "parameters",
+      "stableKey": "tenacity_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tenacity_duration_ms",
+        "name": "韧性持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "3秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 93,
+      "method": "POST",
+      "route": "/skills/milio_r/parameters",
+      "detailRoute": "/skills/milio_r/parameters/tenacity_ratio",
+      "skillKey": "milio_r",
+      "kind": "parameters",
+      "stableKey": "tenacity_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tenacity_ratio",
+        "name": "韧性比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6499999762,
+        "levelValues": null,
+        "description": "当前65%。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 94,
+      "method": "POST",
+      "route": "/skills/milio_r/parameters",
+      "detailRoute": "/skills/milio_r/parameters/cast_time_ms",
+      "skillKey": "milio_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 713,
+        "levelValues": null,
+        "description": "当前根字段时间转为毫秒；不表示命中时点。",
+        "sortOrder": 999
+      }
+    },
+    {
+      "sequence": 95,
+      "method": "POST",
+      "route": "/skills/milio_r/formulas",
+      "detailRoute": "/skills/milio_r/formulas/heal_value",
+      "skillKey": "milio_r",
+      "kind": "formulas",
+      "stableKey": "heal_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "heal_value",
+        "name": "生生不息治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应HealCalc；不创建直接治疗结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 96,
+      "method": "POST",
+      "route": "/skills/milio_r/effects",
+      "detailRoute": "/skills/milio_r/effects/mana_cost",
+      "skillKey": "milio_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 97,
+      "method": "POST",
+      "route": "/skills/rakan_p/parameters",
+      "detailRoute": "/skills/rakan_p/parameters/shield_base_at_character_level",
+      "skillKey": "rakan_p",
+      "kind": "parameters",
+      "stableKey": "shield_base_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_base_at_character_level",
+        "name": "护盾角色等级基础值（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalShield第一项为30至225角色等级插值，算法未证；实际值无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 98,
+      "method": "POST",
+      "route": "/skills/rakan_p/parameters",
+      "detailRoute": "/skills/rakan_p/parameters/shield_ap_ratio",
+      "skillKey": "rakan_p",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.9499999881,
+        "levelValues": null,
+        "description": "当前系数0.95。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 99,
+      "method": "POST",
+      "route": "/skills/rakan_p/parameters",
+      "detailRoute": "/skills/rakan_p/parameters/shield_cooldown_at_character_level",
+      "skillKey": "rakan_p",
+      "kind": "parameters",
+      "stableKey": "shield_cooldown_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_cooldown_at_character_level",
+        "name": "护盾角色等级冷却（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "ShieldCooldown树40起点、初始每级-1.5、19级后-0.875；算法未证。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 100,
+      "method": "POST",
+      "route": "/skills/rakan_p/parameters",
+      "detailRoute": "/skills/rakan_p/parameters/hit_cooldown_seconds",
+      "skillKey": "rakan_p",
+      "kind": "parameters",
+      "stableKey": "hit_cooldown_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "hit_cooldown_seconds",
+        "name": "命中英雄缩短冷却（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前正文直接消费1秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 101,
+      "method": "POST",
+      "route": "/skills/rakan_p/formulas",
+      "detailRoute": "/skills/rakan_p/formulas/total_shield",
+      "skillKey": "rakan_p",
+      "kind": "formulas",
+      "stableKey": "total_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_shield",
+        "name": "异色羽裳护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base_at_character_level"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalShield，基础值由角色等级实际输入提供。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 102,
+      "method": "POST",
+      "route": "/skills/rakan_p/formulas",
+      "detailRoute": "/skills/rakan_p/formulas/shield_cooldown",
+      "skillKey": "rakan_p",
+      "kind": "formulas",
+      "stableKey": "shield_cooldown",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_cooldown",
+        "name": "异色羽裳护盾冷却",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "shield_cooldown_at_character_level"
+        },
+        "description": "对应ShieldCooldown的实际角色等级值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 103,
+      "method": "POST",
+      "route": "/skills/rakan_p/effects",
+      "detailRoute": "/skills/rakan_p/effects/self_shield",
+      "skillKey": "rakan_p",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "异色羽裳自身普通护盾",
+        "description": "当前正文明确自身周期性护盾。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "异色羽裳自身普通护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "普通护盾，触发和移除事件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "total_shield"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 104,
+      "method": "POST",
+      "route": "/skills/rakan_q/parameters",
+      "detailRoute": "/skills/rakan_q/parameters/damage_base",
+      "skillKey": "rakan_q",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 115,
+          "3": 160,
+          "4": 205,
+          "5": 250
+        },
+        "description": "等级索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 105,
+      "method": "POST",
+      "route": "/skills/rakan_q/parameters",
+      "detailRoute": "/skills/rakan_q/parameters/damage_ap_ratio",
+      "skillKey": "rakan_q",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6999999881,
+        "levelValues": null,
+        "description": "当前系数0.7。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 106,
+      "method": "POST",
+      "route": "/skills/rakan_q/parameters",
+      "detailRoute": "/skills/rakan_q/parameters/heal_delay_ms",
+      "skillKey": "rakan_q",
+      "kind": "parameters",
+      "stableKey": "heal_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_delay_ms",
+        "name": "命中后治疗延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "3秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 107,
+      "method": "POST",
+      "route": "/skills/rakan_q/parameters",
+      "detailRoute": "/skills/rakan_q/parameters/self_heal_base_at_character_level",
+      "skillKey": "rakan_q",
+      "kind": "parameters",
+      "stableKey": "self_heal_base_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_heal_base_at_character_level",
+        "name": "自身治疗角色等级基础值（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalHeal第一项为40至210插值，实际值无默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 108,
+      "method": "POST",
+      "route": "/skills/rakan_q/parameters",
+      "detailRoute": "/skills/rakan_q/parameters/heal_ap_ratio",
+      "skillKey": "rakan_q",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "自身治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5500000119,
+        "levelValues": null,
+        "description": "当前系数0.55。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 109,
+      "method": "POST",
+      "route": "/skills/rakan_q/formulas",
+      "detailRoute": "/skills/rakan_q/formulas/total_damage",
+      "skillKey": "rakan_q",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "微光飞翎魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 110,
+      "method": "POST",
+      "route": "/skills/rakan_q/formulas",
+      "detailRoute": "/skills/rakan_q/formulas/total_heal",
+      "skillKey": "rakan_q",
+      "kind": "formulas",
+      "stableKey": "total_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_heal",
+        "name": "微光飞翎自身治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_heal_base_at_character_level"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalHeal，保留自己自然到时分支。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 111,
+      "method": "POST",
+      "route": "/skills/rakan_q/effects",
+      "detailRoute": "/skills/rakan_q/effects/mana_cost",
+      "skillKey": "rakan_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 112,
+      "method": "POST",
+      "route": "/skills/rakan_w/parameters",
+      "detailRoute": "/skills/rakan_w/parameters/damage_base",
+      "skillKey": "rakan_w",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 120,
+          "3": 170,
+          "4": 220,
+          "5": 270
+        },
+        "description": "等级索引1至5，避免mEffectAmount索引0占位。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 113,
+      "method": "POST",
+      "route": "/skills/rakan_w/parameters",
+      "detailRoute": "/skills/rakan_w/parameters/damage_ap_ratio",
+      "skillKey": "rakan_w",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8000000119,
+        "levelValues": null,
+        "description": "当前系数0.8。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 114,
+      "method": "POST",
+      "route": "/skills/rakan_w/parameters",
+      "detailRoute": "/skills/rakan_w/parameters/knockup_duration_ms",
+      "skillKey": "rakan_w",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1000,
+          "3": 1000,
+          "4": 1000,
+          "5": 1000
+        },
+        "description": "1秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 115,
+      "method": "POST",
+      "route": "/skills/rakan_w/parameters",
+      "detailRoute": "/skills/rakan_w/parameters/base_dash_speed",
+      "skillKey": "rakan_w",
+      "kind": "parameters",
+      "stableKey": "base_dash_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_dash_speed",
+        "name": "基础冲刺速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1700,
+        "levelValues": null,
+        "description": "保存原始速度。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 116,
+      "method": "POST",
+      "route": "/skills/rakan_w/parameters",
+      "detailRoute": "/skills/rakan_w/parameters/cast_time_ms",
+      "skillKey": "rakan_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前spellCastTime=0；不表示命中时序。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 117,
+      "method": "POST",
+      "route": "/skills/rakan_w/formulas",
+      "detailRoute": "/skills/rakan_w/formulas/total_damage",
+      "skillKey": "rakan_w",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "盛大登场魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 118,
+      "method": "POST",
+      "route": "/skills/rakan_w/effects",
+      "detailRoute": "/skills/rakan_w/effects/mana_cost",
+      "skillKey": "rakan_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 119,
+      "method": "POST",
+      "route": "/skills/rakan_r/parameters",
+      "detailRoute": "/skills/rakan_r/parameters/damage_base",
+      "skillKey": "rakan_r",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "触碰基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 200,
+          "3": 300
+        },
+        "description": "等级索引1至3。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 120,
+      "method": "POST",
+      "route": "/skills/rakan_r/parameters",
+      "detailRoute": "/skills/rakan_r/parameters/damage_ap_ratio",
+      "skillKey": "rakan_r",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前系数0.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 121,
+      "method": "POST",
+      "route": "/skills/rakan_r/parameters",
+      "detailRoute": "/skills/rakan_r/parameters/self_speed_duration_ms",
+      "skillKey": "rakan_r",
+      "kind": "parameters",
+      "stableKey": "self_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_speed_duration_ms",
+        "name": "自身移速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "4秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 122,
+      "method": "POST",
+      "route": "/skills/rakan_r/parameters",
+      "detailRoute": "/skills/rakan_r/parameters/initial_move_speed_percent",
+      "skillKey": "rakan_r",
+      "kind": "parameters",
+      "stableKey": "initial_move_speed_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_move_speed_percent",
+        "name": "初始移速加成（百分数点）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 75,
+        "levelValues": null,
+        "description": "当前正文75%。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 123,
+      "method": "POST",
+      "route": "/skills/rakan_r/parameters",
+      "detailRoute": "/skills/rakan_r/parameters/charm_duration_ms",
+      "skillKey": "rakan_r",
+      "kind": "parameters",
+      "stableKey": "charm_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charm_duration_ms",
+        "name": "魅惑持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1250,
+          "3": 1500
+        },
+        "description": "等级索引1至3，秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 124,
+      "method": "POST",
+      "route": "/skills/rakan_r/parameters",
+      "detailRoute": "/skills/rakan_r/parameters/touch_move_speed_percent",
+      "skillKey": "rakan_r",
+      "kind": "parameters",
+      "stableKey": "touch_move_speed_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "touch_move_speed_percent",
+        "name": "首次触敌移速加成（百分数点）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 150,
+        "levelValues": null,
+        "description": "当前正文150%，衰减函数待接。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 125,
+      "method": "POST",
+      "route": "/skills/rakan_r/parameters",
+      "detailRoute": "/skills/rakan_r/parameters/cast_time_ms",
+      "skillKey": "rakan_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前spellCastTime=0.25秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 126,
+      "method": "POST",
+      "route": "/skills/rakan_r/formulas",
+      "detailRoute": "/skills/rakan_r/formulas/total_damage",
+      "skillKey": "rakan_r",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "惊鸿过隙魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalDamageTooltip。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 127,
+      "method": "POST",
+      "route": "/skills/rakan_r/effects",
+      "detailRoute": "/skills/rakan_r/effects/mana_cost",
+      "skillKey": "rakan_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 128,
+      "method": "POST",
+      "route": "/skills/rakan_r/effects",
+      "detailRoute": "/skills/rakan_r/effects/self_initial_move_speed",
+      "skillKey": "rakan_r",
+      "kind": "effects",
+      "stableKey": "self_initial_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_initial_move_speed",
+        "name": "惊鸿过隙自身初始移动速度",
+        "description": "正文明确自身4秒75%移速。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "self_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "惊鸿过隙自身初始移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "initial_move_speed_percent"
+              },
+              "fixedMultiplier": 0.01,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 129,
+      "method": "POST",
+      "route": "/skills/rakan_r/effects",
+      "detailRoute": "/skills/rakan_r/effects/self_touch_move_speed",
+      "skillKey": "rakan_r",
+      "kind": "effects",
+      "stableKey": "self_touch_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_touch_move_speed",
+        "name": "惊鸿过隙首次触敌自身移动速度",
+        "description": "正文明确首次敌方英雄触碰后的自身衰减移速。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "惊鸿过隙首次触敌自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "touch_move_speed_percent"
+              },
+              "fixedMultiplier": 0.01,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 130,
+      "method": "POST",
+      "route": "/skills/renata_p/parameters",
+      "detailRoute": "/skills/renata_p/parameters/self_amp_base_at_character_level",
+      "skillKey": "renata_p",
+      "kind": "parameters",
+      "stableKey": "self_amp_base_at_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_amp_base_at_character_level",
+        "name": "自身标记伤害角色等级基础比例（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原树1级0.01、6/9级断点，但完整求值算法未证；实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 131,
+      "method": "POST",
+      "route": "/skills/renata_p/parameters",
+      "detailRoute": "/skills/renata_p/parameters/ap_to_percent_ratio",
+      "skillKey": "renata_p",
+      "kind": "parameters",
+      "stableKey": "ap_to_percent_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_to_percent_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0002,
+        "levelValues": null,
+        "description": "当前自身树系数0.0002。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 132,
+      "method": "POST",
+      "route": "/skills/renata_p/parameters",
+      "detailRoute": "/skills/renata_p/parameters/mark_duration_ms",
+      "skillKey": "renata_p",
+      "kind": "parameters",
+      "stableKey": "mark_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mark_duration_ms",
+        "name": "标记持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "6秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 133,
+      "method": "POST",
+      "route": "/skills/renata_p/parameters",
+      "detailRoute": "/skills/renata_p/parameters/max_marked_targets",
+      "skillKey": "renata_p",
+      "kind": "parameters",
+      "stableKey": "max_marked_targets",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_marked_targets",
+        "name": "同时标记目标上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "正文明确同时只能一个目标。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 134,
+      "method": "POST",
+      "route": "/skills/renata_p/formulas",
+      "detailRoute": "/skills/renata_p/formulas/self_percent_amp",
+      "skillKey": "renata_p",
+      "kind": "formulas",
+      "stableKey": "self_percent_amp",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_percent_amp",
+        "name": "自身标记伤害比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_amp_base_at_character_level"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_to_percent_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应PercentAmpCalcSelf。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 135,
+      "method": "POST",
+      "route": "/skills/renata_p/formulas",
+      "detailRoute": "/skills/renata_p/formulas/self_mark_damage",
+      "skillKey": "renata_p",
+      "kind": "formulas",
+      "stableKey": "self_mark_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "self_mark_damage",
+        "name": "自身标记目标生命值伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_amp_base_at_character_level"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_to_percent_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "当前正文比例乘目标最大生命值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 136,
+      "method": "POST",
+      "route": "/skills/renata_q/parameters",
+      "detailRoute": "/skills/renata_q/parameters/damage_base",
+      "skillKey": "renata_q",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "description": "等级索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 137,
+      "method": "POST",
+      "route": "/skills/renata_q/parameters",
+      "detailRoute": "/skills/renata_q/parameters/damage_ap_ratio",
+      "skillKey": "renata_q",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8000000119,
+        "levelValues": null,
+        "description": "当前系数0.8。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 138,
+      "method": "POST",
+      "route": "/skills/renata_q/parameters",
+      "detailRoute": "/skills/renata_q/parameters/root_duration_ms",
+      "skillKey": "renata_q",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "1秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 139,
+      "method": "POST",
+      "route": "/skills/renata_q/parameters",
+      "detailRoute": "/skills/renata_q/parameters/pull_distance",
+      "skillKey": "renata_q",
+      "kind": "parameters",
+      "stableKey": "pull_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "pull_distance",
+        "name": "拉拽距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 275,
+        "levelValues": null,
+        "description": "当前值275。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 140,
+      "method": "POST",
+      "route": "/skills/renata_q/parameters",
+      "detailRoute": "/skills/renata_q/parameters/self_slow_ratio",
+      "skillKey": "renata_q",
+      "kind": "parameters",
+      "stableKey": "self_slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_slow_ratio",
+        "name": "自身减速比例（来源待核）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -0.3000000119,
+        "levelValues": null,
+        "description": "保留-0.3原值，不猜单位和时序。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 141,
+      "method": "POST",
+      "route": "/skills/renata_q/formulas",
+      "detailRoute": "/skills/renata_q/formulas/total_damage",
+      "skillKey": "renata_q",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "铁腕竞合魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalDamage，首段/再施放同一当前敌人可复用。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 142,
+      "method": "POST",
+      "route": "/skills/renata_q/effects",
+      "detailRoute": "/skills/renata_q/effects/mana_cost",
+      "skillKey": "renata_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 143,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/duration_ms",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "增益持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 5000,
+          "2": 5000,
+          "3": 5000,
+          "4": 5000,
+          "5": 5000
+        },
+        "description": "5秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 144,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/bonus_attack_speed_points",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "bonus_attack_speed_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_attack_speed_points",
+        "name": "初始攻击速度百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "description": "等级索引1至5；外层0.01转比例。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 145,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/bonus_move_speed_points",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "bonus_move_speed_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_move_speed_points",
+        "name": "朝敌移动速度百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 12.5,
+          "3": 15,
+          "4": 17.5,
+          "5": 20
+        },
+        "description": "等级索引1至5；外层0.01转比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 146,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/ap_to_percent_ratio",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "ap_to_percent_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_to_percent_ratio",
+        "name": "法强转百分数点比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0099999998,
+        "levelValues": null,
+        "description": "原值0.01。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 147,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/stat_output_scale",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "stat_output_scale",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stat_output_scale",
+        "name": "初始属性输出缩放",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "对应AS/MS树NumberCalculationPart。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 148,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/final_stat_output_scale",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "final_stat_output_scale",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "final_stat_output_scale",
+        "name": "满额属性输出缩放",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.02,
+        "levelValues": null,
+        "description": "对应FinalAS/MS树，初始值两倍。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 149,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/triumph_percent",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "triumph_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "triumph_percent",
+        "name": "参与击杀回复最大生命百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "正文直接显示20%。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 150,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/max_stat_multiplier",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "max_stat_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_stat_multiplier",
+        "name": "满额属性倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "来源显示2倍，与0.02缩放对应。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 151,
+      "method": "POST",
+      "route": "/skills/renata_w/parameters",
+      "detailRoute": "/skills/renata_w/parameters/death_decay_duration_ms",
+      "skillKey": "renata_w",
+      "kind": "parameters",
+      "stableKey": "death_decay_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "death_decay_duration_ms",
+        "name": "复活后生命衰减持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前中文/英文正文明确3秒；不采用匿名2.5秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 152,
+      "method": "POST",
+      "route": "/skills/renata_w/formulas",
+      "detailRoute": "/skills/renata_w/formulas/initial_attack_speed",
+      "skillKey": "renata_w",
+      "kind": "formulas",
+      "stableKey": "initial_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_attack_speed",
+        "name": "初始攻击速度",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "stat_output_scale"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_attack_speed_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_to_percent_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应ASCalc。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 153,
+      "method": "POST",
+      "route": "/skills/renata_w/formulas",
+      "detailRoute": "/skills/renata_w/formulas/initial_move_speed",
+      "skillKey": "renata_w",
+      "kind": "formulas",
+      "stableKey": "initial_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_move_speed",
+        "name": "初始移动速度",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "stat_output_scale"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_move_speed_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_to_percent_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应MSCalc。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 154,
+      "method": "POST",
+      "route": "/skills/renata_w/formulas",
+      "detailRoute": "/skills/renata_w/formulas/final_attack_speed",
+      "skillKey": "renata_w",
+      "kind": "formulas",
+      "stableKey": "final_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "final_attack_speed",
+        "name": "满额攻击速度",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "final_stat_output_scale"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_attack_speed_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_to_percent_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应FinalASCalc。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 155,
+      "method": "POST",
+      "route": "/skills/renata_w/formulas",
+      "detailRoute": "/skills/renata_w/formulas/final_move_speed",
+      "skillKey": "renata_w",
+      "kind": "formulas",
+      "stableKey": "final_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "final_move_speed",
+        "name": "满额移动速度",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "final_stat_output_scale"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_move_speed_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_to_percent_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应FinalMSCalc。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 156,
+      "method": "POST",
+      "route": "/skills/renata_w/effects",
+      "detailRoute": "/skills/renata_w/effects/mana_cost",
+      "skillKey": "renata_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 157,
+      "method": "POST",
+      "route": "/skills/renata_w/effects",
+      "detailRoute": "/skills/renata_w/effects/self_attack_speed",
+      "skillKey": "renata_w",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_attack_speed",
+        "name": "及时救难自身攻击速度",
+        "description": "补证支持自身可被选中；中间提升待接。",
+        "sortOrder": 100,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "及时救难自身攻击速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "initial_attack_speed"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_percent_bonus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 158,
+      "method": "POST",
+      "route": "/skills/renata_w/effects",
+      "detailRoute": "/skills/renata_w/effects/self_move_speed",
+      "skillKey": "renata_w",
+      "kind": "effects",
+      "stableKey": "self_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_move_speed",
+        "name": "及时救难自身移动速度",
+        "description": "补证支持自身可被选中；朝敌方向。",
+        "sortOrder": 110,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "及时救难自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "initial_move_speed"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_percent_bonus"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 159,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/damage_base",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "单敌基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 65,
+          "2": 95,
+          "3": 125,
+          "4": 155,
+          "5": 185
+        },
+        "description": "等级索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 160,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/damage_ap_ratio",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5500000119,
+        "levelValues": null,
+        "description": "当前系数0.55。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 161,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/slow_percent",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent",
+        "name": "减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "正文直接显示30%。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 162,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/slow_duration_ms",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "2秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 163,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/shield_base",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "护盾基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 65,
+          "3": 80,
+          "4": 95,
+          "5": 110
+        },
+        "description": "等级索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 164,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/shield_ap_ratio",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前系数0.5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 165,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/shield_duration_ms",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "3秒转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 166,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/initial_aoe",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "initial_aoe",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_aoe",
+        "name": "初始范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 325,
+        "levelValues": null,
+        "description": "当前值325，额外敌人结果排除。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 167,
+      "method": "POST",
+      "route": "/skills/renata_e/parameters",
+      "detailRoute": "/skills/renata_e/parameters/end_aoe",
+      "skillKey": "renata_e",
+      "kind": "parameters",
+      "stableKey": "end_aoe",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "end_aoe",
+        "name": "终点范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 225,
+        "levelValues": null,
+        "description": "当前值225，额外敌人结果排除。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 168,
+      "method": "POST",
+      "route": "/skills/renata_e/formulas",
+      "detailRoute": "/skills/renata_e/formulas/total_damage",
+      "skillKey": "renata_e",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_damage",
+        "name": "忠诚激励单敌魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应TotalDamage。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 169,
+      "method": "POST",
+      "route": "/skills/renata_e/formulas",
+      "detailRoute": "/skills/renata_e/formulas/shield_value",
+      "skillKey": "renata_e",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "忠诚激励自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "对应ShieldCalc。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 170,
+      "method": "POST",
+      "route": "/skills/renata_e/effects",
+      "detailRoute": "/skills/renata_e/effects/mana_cost",
+      "skillKey": "renata_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 171,
+      "method": "POST",
+      "route": "/skills/renata_e/effects",
+      "detailRoute": "/skills/renata_e/effects/self_shield",
+      "skillKey": "renata_e",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "忠诚激励自身普通护盾",
+        "description": "补证保留自身护盾资格。",
+        "sortOrder": 100,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "忠诚激励自身普通护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": "普通护盾，触发和移除事件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 172,
+      "method": "POST",
+      "route": "/skills/renata_r/parameters",
+      "detailRoute": "/skills/renata_r/parameters/berserk_duration_ms",
+      "skillKey": "renata_r",
+      "kind": "parameters",
+      "stableKey": "berserk_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "berserk_duration_ms",
+        "name": "狂暴持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1250,
+          "2": 1750,
+          "3": 2250
+        },
+        "description": "等级索引1至3，秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 173,
+      "method": "POST",
+      "route": "/skills/renata_r/parameters",
+      "detailRoute": "/skills/renata_r/parameters/bonus_attack_speed_ratio",
+      "skillKey": "renata_r",
+      "kind": "parameters",
+      "stableKey": "bonus_attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_attack_speed_ratio",
+        "name": "狂暴攻击速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "源值1，对应100%。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 174,
+      "method": "POST",
+      "route": "/skills/renata_r/parameters",
+      "detailRoute": "/skills/renata_r/parameters/cast_time_ms",
+      "skillKey": "renata_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前根字段时间转为毫秒；不表示命中时点。",
+        "sortOrder": 999
+      }
+    },
+    {
+      "sequence": 175,
+      "method": "POST",
+      "route": "/skills/renata_r/effects",
+      "detailRoute": "/skills/renata_r/effects/mana_cost",
+      "skillKey": "renata_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "noApiCalls": true,
+  "apiWrites": 0,
+  "apiCalls": 0
+}

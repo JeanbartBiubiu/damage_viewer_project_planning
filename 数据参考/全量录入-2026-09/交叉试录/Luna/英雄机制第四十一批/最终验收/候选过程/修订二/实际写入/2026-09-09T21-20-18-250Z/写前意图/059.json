@@ -1,0 +1,29 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "method": "POST",
+    "route": "/skills/milio_q/parameters",
+    "detailRoute": "/skills/milio_q/parameters/slow_base_ratio",
+    "skillKey": "milio_q",
+    "kind": "parameters",
+    "stableKey": "slow_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_base_ratio",
+      "name": "减速基础比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.400000006,
+        "2": 0.4499999881,
+        "3": 0.5,
+        "4": 0.5500000119,
+        "5": 0.6000000238
+      },
+      "description": "等级索引1至5，保存0.40至0.60比例。",
+      "sortOrder": 40
+    }
+  }
+}

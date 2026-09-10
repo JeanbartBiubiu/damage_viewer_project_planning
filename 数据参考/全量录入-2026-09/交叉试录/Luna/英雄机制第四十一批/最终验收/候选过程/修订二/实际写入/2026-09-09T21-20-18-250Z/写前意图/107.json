@@ -1,0 +1,23 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "method": "POST",
+    "route": "/skills/rakan_q/parameters",
+    "detailRoute": "/skills/rakan_q/parameters/self_heal_base_at_character_level",
+    "skillKey": "rakan_q",
+    "kind": "parameters",
+    "stableKey": "self_heal_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_heal_base_at_character_level",
+      "name": "自身治疗角色等级基础值（实际值外供）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalHeal第一项为40至210插值，实际值无默认。",
+      "sortOrder": 40
+    }
+  }
+}

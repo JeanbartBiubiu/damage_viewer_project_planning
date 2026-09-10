@@ -1,0 +1,23 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "method": "POST",
+    "route": "/skills/rakan_p/parameters",
+    "detailRoute": "/skills/rakan_p/parameters/hit_cooldown_seconds",
+    "skillKey": "rakan_p",
+    "kind": "parameters",
+    "stableKey": "hit_cooldown_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "hit_cooldown_seconds",
+      "name": "命中英雄缩短冷却（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文直接消费1秒。",
+      "sortOrder": 40
+    }
+  }
+}

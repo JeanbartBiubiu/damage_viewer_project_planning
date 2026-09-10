@@ -1,0 +1,23 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "method": "POST",
+    "route": "/skills/bard_q/parameters",
+    "detailRoute": "/skills/bard_q/parameters/ap_ratio",
+    "skillKey": "bard_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.8000000119,
+      "levelValues": null,
+      "description": "TotalDamage树第二项按来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

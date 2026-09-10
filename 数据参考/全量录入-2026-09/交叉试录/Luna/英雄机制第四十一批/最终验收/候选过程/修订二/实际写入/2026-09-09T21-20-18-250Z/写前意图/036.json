@@ -1,0 +1,55 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "method": "POST",
+    "route": "/skills/bard_w/formulas",
+    "detailRoute": "/skills/bard_w/formulas/initial_heal",
+    "skillKey": "bard_w",
+    "kind": "formulas",
+    "stableKey": "initial_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_heal",
+      "name": "圣坛最低治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "healing_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minimum_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "minimum_heal_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应InitialHeal。",
+      "sortOrder": 10
+    }
+  }
+}

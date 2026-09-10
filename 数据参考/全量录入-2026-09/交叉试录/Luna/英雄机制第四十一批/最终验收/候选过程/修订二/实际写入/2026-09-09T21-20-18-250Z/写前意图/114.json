@@ -1,0 +1,29 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/rakan_w/parameters",
+    "detailRoute": "/skills/rakan_w/parameters/knockup_duration_ms",
+    "skillKey": "rakan_w",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "击飞持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1000,
+        "3": 1000,
+        "4": 1000,
+        "5": 1000
+      },
+      "description": "1秒转毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

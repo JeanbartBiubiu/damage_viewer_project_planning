@@ -1,0 +1,33 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "method": "POST",
+    "route": "/skills/bard_p/formulas",
+    "detailRoute": "/skills/bard_p/formulas/chimes_for_slow_upgrade",
+    "skillKey": "bard_p",
+    "kind": "formulas",
+    "stableKey": "chimes_for_slow_upgrade",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "chimes_for_slow_upgrade",
+      "name": "减速升级所需调和之音",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "chimes_per_upgrade"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "chimes_slow_multiplier"
+          }
+        ]
+      },
+      "description": "对应ChimesForSlowUpgrade。",
+      "sortOrder": 20
+    }
+  }
+}
