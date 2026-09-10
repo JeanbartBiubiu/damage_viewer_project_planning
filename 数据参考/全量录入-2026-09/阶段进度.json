@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T02:55:33.627Z",
+  "generatedAt": "2026-09-10T03:24:36.069Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -4264,6 +4264,106 @@
         {
           "issue": "已排除技能不应遗留新增专用消耗",
           "detail": "保存前移除萨科W法力及效果、黑默丁格Q炮台套件和法力及效果五项。"
+        }
+      ],
+      "runtimeValidation": "未执行"
+    },
+    "heroFortySixthBatch": {
+      "skills": [
+        "belveth_p",
+        "belveth_q",
+        "belveth_w",
+        "belveth_e",
+        "belveth_r",
+        "hwei_p",
+        "hwei_q",
+        "hwei_w",
+        "hwei_e",
+        "hwei_r",
+        "locke_p",
+        "locke_q",
+        "locke_w",
+        "locke_e",
+        "locke_r",
+        "zaahen_p",
+        "zaahen_q",
+        "zaahen_w",
+        "zaahen_e",
+        "zaahen_r"
+      ],
+      "heroes": [
+        "Belveth",
+        "Hwei",
+        "Locke",
+        "Zaahen"
+      ],
+      "parameters": 256,
+      "formulas": 65,
+      "effects": 9,
+      "newCounts": {
+        "parameters": 230,
+        "formulas": 65,
+        "effects": 9
+      },
+      "created": 304,
+      "businessWrites": 304,
+      "reusedParameters": 26,
+      "currentTotalComponents": 330,
+      "saveGETs": 1664,
+      "independentGets": 528,
+      "protectedPaths": 198,
+      "detailChecks": 330,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 65,
+      "independentSourceCases": 130,
+      "independentMissingRejects": 25,
+      "independentBinaryChecks": 115,
+      "completeParameterArrays": 48,
+      "completeArrayValues": 239,
+      "typedReferences": 151,
+      "finiteChecks": 743,
+      "independentIntegerValues": 269,
+      "integerParameters": 155,
+      "millisecondParameters": 78,
+      "representativePages": 4,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
+      "planSha256": "2fa7baea9230558c74030516d7e9873bdf6c15f1dc6dd6a2682c7369a8ec93b2",
+      "executor": "Cursor来源复核、Luna Max候选和独立快照数学检查、主负责人修订保存与页面验收",
+      "status": "本轮来源明确组成已保存，独立回读、实际源值数学与四个代表页面通过；方向冷却、未知曲线和事件接线单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十六批/当前实录状态.json",
+        "sha256": "5c6618bae37731f7c1fa6837cf57ba95e95464b4bdb3a9af669939acc71e9aab",
+        "commit": "58a92089d7a57fea6ec817db840ba53340b04862"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十六批/最终验收/候选过程/修订一/页面验收.json",
+        "commit": "58a92089d7a57fea6ec817db840ba53340b04862"
+      },
+      "experienceIssues": [
+        {
+          "issue": "每次值与多次合计容易混用",
+          "detail": "彗WE效果使用单次参数，三次总公式仅作汇总参考。"
+        },
+        {
+          "issue": "公式与参数引用必须按真实类型选择",
+          "detail": "洛克W持续时间是两参数求和公式；当前UI正确显示公式来源。"
+        },
+        {
+          "issue": "生命取值方式必须可见",
+          "detail": "洛克W自伤为每秒当时当前生命，不能使用总量或在起始时固定整段。"
+        },
+        {
+          "issue": "原始动作总时间不能推断位移耗时",
+          "detail": "亚恒E分别保留距离、速度和原始总时间，原始0施法字段不证明瞬达。"
+        },
+        {
+          "issue": "持续移速衰减需要事件接线",
+          "detail": "当前保存初始值、下限和时段证据，未验证完整随时间衰减。"
         }
       ],
       "runtimeValidation": "未执行"
