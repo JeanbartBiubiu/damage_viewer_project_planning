@@ -4668,6 +4668,111 @@
       ],
       "runtimeValidation": "未执行"
     },
+    "heroFiftiethBatch": {
+      "skills": [
+        "udyr_p",
+        "udyr_q",
+        "udyr_w",
+        "udyr_e",
+        "udyr_r",
+        "azir_p",
+        "azir_q",
+        "azir_w",
+        "azir_e",
+        "azir_r",
+        "ashe_p",
+        "ashe_q",
+        "ashe_w",
+        "ashe_e",
+        "ashe_r",
+        "ez_p",
+        "ez_q",
+        "ez_w",
+        "ez_e",
+        "ez_r"
+      ],
+      "heroes": [
+        "Udyr",
+        "Azir",
+        "Ashe",
+        "Ezreal"
+      ],
+      "parameters": 199,
+      "formulas": 32,
+      "effects": 42,
+      "processes": 4,
+      "internalStates": 0,
+      "triggerRules": 13,
+      "newCounts": {
+        "parameters": 120,
+        "formulas": 24,
+        "effects": 26
+      },
+      "created": 170,
+      "businessWrites": 170,
+      "protectedExistingComponents": 120,
+      "currentTotalComponents": 290,
+      "saveGETs": 1504,
+      "independentGets": 582,
+      "protectedPaths": 292,
+      "detailChecks": 290,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 24,
+      "independentSourceCases": 48,
+      "independentEffectChecks": 26,
+      "independentEffectValueCases": 52,
+      "independentMissingParameterRejects": 24,
+      "independentMissingRuntimeRejects": 9,
+      "independentIntegerParameters": 57,
+      "independentIntegerValues": 92,
+      "representativePages": 4,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba",
+      "planSha256": "403cf72c8dc50c1e203d1a5fdf1fccb8b0b4a6253e9c19865095909af12ba69f",
+      "executor": "Cursor来源复核、Luna Max候选和独立快照数学检查、主负责人修订保存与页面验收",
+      "status": "来源明确组成已保存；受保护写入、独立回读、实际数学和四个代表页面通过；未证事件与四个乌迪尔效果继续单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第五十批/当前实录状态.json",
+        "sha256": "f77c0d77ea6611b407d335c3cbbf912af1e67fc6b0066b3c4b2c4faa20d11c27",
+        "commit": "728b0da02d5b081d200e40df0d2bea91e24d474e"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第五十批/最终验收/保存证据/页面验收.json",
+        "sha256": "6c8d5efe47436459852466658f33249e4fdbf21b4fedcd4135bf1932afd6ea92",
+        "commit": "728b0da02d5b081d200e40df0d2bea91e24d474e"
+      },
+      "cursorAudit": {
+        "verdict": "READY",
+        "events": 3550,
+        "uniqueTools": 63,
+        "inputsChecked": 27,
+        "apiWrites": 0
+      },
+      "experienceIssues": [
+        {
+          "issue": "新参数规则不能倒查旧参数类型",
+          "detail": "初版写入器把本批新增的毫秒整数规则误用于14个受保护旧小数参数，静态检查在任何接口请求前终止；修订后只检查新增参数，旧对象仍按保护快照逐项回读。"
+        },
+        {
+          "issue": "稳定标识必须按真实对象使用",
+          "detail": "伊泽瑞尔角色与技能沿用现有ez、ez_p至ez_r，不能凭英雄英文名猜成ezreal_r；页面验收按实际稳定标识完成。"
+        },
+        {
+          "issue": "可证明公式不等于可证明效果资格",
+          "detail": "乌迪尔Q三项普攻伤害与R脉冲已有参数和公式，但缺逐效果法术护盾证据，因此四个效果未进入正常保存集。"
+        }
+      ],
+      "pending": [
+        "乌迪尔Q的standard_on_hit、standard_max_health_hit、empowered_max_health_hit与乌迪尔R的pulse_damage等待逐效果法术护盾证据；参数和公式已经保存。",
+        "未知等级曲线、触发次数、事件阶段与完整姿态切换不填默认值。",
+        "阿兹尔太阳圆盘与持续士兵链、艾希E视野、伊泽瑞尔R沿途多目标衰减按本轮1V1范围排除。"
+      ],
+      "runtimeValidation": "未执行"
+    },
     "veigarPersistentStatusRepair": {
       "status": "管理配置修复、页面补录与独立回读通过",
       "skill": "veigar_e",
