@@ -1,0 +1,24 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_e/parameters",
+    "detailRoute": "/skills/shaco_e/parameters/bonus_ad_ratio",
+    "skillKey": "shaco_e",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.800000012,
+      "levelValues": null,
+      "description": "TotalDamage的mStat=2、mStatFormula=2对应额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

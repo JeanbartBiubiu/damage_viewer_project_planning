@@ -1,0 +1,46 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/formulas",
+    "detailRoute": "/skills/heimerdinger_r/formulas/rw_initial_magic_damage",
+    "skillKey": "heimerdinger_r",
+    "kind": "formulas",
+    "stableKey": "rw_initial_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "rw_initial_magic_damage",
+      "name": "升级导弹集群首段魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "rw_initial_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rw_initial_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前WUltDamage=强化W首段基础值+0.45×法强。",
+      "sortOrder": 10
+    }
+  }
+}

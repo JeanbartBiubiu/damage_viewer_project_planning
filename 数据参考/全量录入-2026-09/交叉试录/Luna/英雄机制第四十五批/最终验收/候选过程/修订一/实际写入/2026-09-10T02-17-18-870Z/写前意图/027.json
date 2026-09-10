@@ -1,0 +1,24 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_e/parameters",
+    "detailRoute": "/skills/teemo_e/parameters/poison_tick_count",
+    "skillKey": "teemo_e",
+    "kind": "parameters",
+    "stableKey": "poison_tick_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "poison_tick_count",
+      "name": "毒性跳动次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "当前正文持续4秒且每秒一跳；TotalDotDamage等于每秒整段×4。",
+      "sortOrder": 90
+    }
+  }
+}

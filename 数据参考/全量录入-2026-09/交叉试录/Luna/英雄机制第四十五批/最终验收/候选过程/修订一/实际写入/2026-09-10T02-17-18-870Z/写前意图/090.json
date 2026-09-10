@@ -1,0 +1,28 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/parameters",
+    "detailRoute": "/skills/heimerdinger_r/parameters/rw_initial_base_damage",
+    "skillKey": "heimerdinger_r",
+    "kind": "parameters",
+    "stableKey": "rw_initial_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_initial_base_damage",
+      "name": "强化W首段基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 135,
+        "2": 180,
+        "3": 225
+      },
+      "description": "WUltDamage消费WUltBaseDamage索引1至3为135/180/225；不是每波总值。",
+      "sortOrder": 20
+    }
+  }
+}

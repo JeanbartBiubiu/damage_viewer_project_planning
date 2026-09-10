@@ -1,0 +1,24 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_w/parameters",
+    "detailRoute": "/skills/heimerdinger_w/parameters/cast_time_ms",
+    "skillKey": "heimerdinger_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0.25秒。",
+      "sortOrder": 80
+    }
+  }
+}

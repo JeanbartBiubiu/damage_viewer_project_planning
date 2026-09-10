@@ -1,0 +1,46 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_w/formulas",
+    "detailRoute": "/skills/heimerdinger_w/formulas/initial_magic_damage",
+    "skillKey": "heimerdinger_w",
+    "kind": "formulas",
+    "stableKey": "initial_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_magic_damage",
+      "name": "微型导弹首颗魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "initial_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "initial_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage=首颗基础值+0.55×法强。",
+      "sortOrder": 10
+    }
+  }
+}

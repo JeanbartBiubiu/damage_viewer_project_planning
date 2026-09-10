@@ -1,0 +1,46 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_e/formulas",
+    "detailRoute": "/skills/heimerdinger_e/formulas/magic_damage",
+    "skillKey": "heimerdinger_e",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "电子风暴手雷魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage=基础值+0.6×法强。",
+      "sortOrder": 10
+    }
+  }
+}

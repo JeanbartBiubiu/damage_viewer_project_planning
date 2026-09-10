@@ -1,0 +1,24 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_e/parameters",
+    "detailRoute": "/skills/shaco_e/parameters/active_slow_duration_ms",
+    "skillKey": "shaco_e",
+    "kind": "parameters",
+    "stableKey": "active_slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_slow_duration_ms",
+      "name": "主动减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "主动慢速持续3秒。",
+      "sortOrder": 80
+    }
+  }
+}

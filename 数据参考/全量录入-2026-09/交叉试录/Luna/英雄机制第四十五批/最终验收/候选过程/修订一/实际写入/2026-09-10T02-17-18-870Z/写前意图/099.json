@@ -1,0 +1,46 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/formulas",
+    "detailRoute": "/skills/heimerdinger_r/formulas/rw_total_magic_damage",
+    "skillKey": "heimerdinger_r",
+    "kind": "formulas",
+    "stableKey": "rw_total_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "rw_total_magic_damage",
+      "name": "升级导弹集群当前最大魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "rw_total_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rw_total_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前WUltTotalDamage=已消费最大值基础段+1.83×法强；不把旧次段拼入。",
+      "sortOrder": 20
+    }
+  }
+}

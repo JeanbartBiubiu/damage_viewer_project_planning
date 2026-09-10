@@ -1,0 +1,46 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/formulas",
+    "detailRoute": "/skills/heimerdinger_r/formulas/re_single_discharge_magic_damage",
+    "skillKey": "heimerdinger_r",
+    "kind": "formulas",
+    "stableKey": "re_single_discharge_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "re_single_discharge_magic_damage",
+      "name": "强化闪电手雷单次放电魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "re_discharge_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "re_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前EUltDamage=单次放电基础值+0.6×法强。",
+      "sortOrder": 30
+    }
+  }
+}

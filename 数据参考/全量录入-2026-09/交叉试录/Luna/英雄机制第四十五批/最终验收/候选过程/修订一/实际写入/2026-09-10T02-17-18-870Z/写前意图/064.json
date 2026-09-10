@@ -1,0 +1,24 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_r/parameters",
+    "detailRoute": "/skills/shaco_r/parameters/teleport_range",
+    "skillKey": "shaco_r",
+    "kind": "parameters",
+    "stableKey": "teleport_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "teleport_range",
+      "name": "本体传送范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 150,
+      "levelValues": null,
+      "description": "TeleportRange=150，仅作为位移范围证据，不推断伤害免疫。",
+      "sortOrder": 10
+    }
+  }
+}

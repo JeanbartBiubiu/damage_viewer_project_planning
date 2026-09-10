@@ -1,0 +1,5352 @@
+{
+  "generatedAt": "2026-09-10T01:26:52.356Z",
+  "status": "仅写入意图，未调用业务接口",
+  "batch": "英雄机制第四十五批提莫萨科黑默丁格婕拉",
+  "revision": "hero45-source-v1-luna-candidate-revision-1",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
+  "sourceBindingSha256": "c3a084eaa66df5c6cc9477423d6ac6a4ae4e47214ce1c2440b15ebd66c4122ab",
+  "sourceRangeSha256": "f29755341edd05384d408f141fcd6858990b6d6e43d1590011f2c50bdd6fa339",
+  "inputSourceRangeSha256": "47458ba2d5b686e1cfd6c7e37f0f7ae306f15df9b447a43a2132f6e95aba6f08",
+  "sourceAuditSha256": "9c851b5fd7182f6a8f1e01067ecfd16e46b6afd2ee5ea80dc6e5c4bad01ac892",
+  "cursorConclusionSha256": "9dda44cc79082f6e6d38869cdccd154cc154e528fea3ee3a7d0b519fead9bfae",
+  "cursorAuditSha256": "955a4d7e84332b91fdecc5c699ab62687eea530f9f32cb602d2f2a0025c0f8c7",
+  "protectionSnapshotSha256": "cf0d74b77b0b3eb1c7c1e40fc73d59744c39637ae3ecf44370ce88b10ca5634a",
+  "publicReuseSha256": "be9d93ce893d3d6ef3757b27625cbc2289df85287ef8688b30a1ec5b956c2dca",
+  "requestCount": 120,
+  "counts": {
+    "newParameters": 82,
+    "newFormulas": 23,
+    "newEffects": 15,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 120,
+    "reusedPublicParameters": 22,
+    "plannedTotalIncludingReused": 142,
+    "protectedCurrentCompositionLists": 120
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/teemo_q/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:05:04.810383Z",
+        "description": "DDragon16.17.1 Teemo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "teemo_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:04.810383Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "f2ccf42a0ced21df79d8d52a991c489fb21d42c3596274faa8c49ec22136d218"
+    },
+    {
+      "skillKey": "teemo_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/teemo_q/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:05:06.170466Z",
+        "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "teemo_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:06.170466Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "e43b34b6b7f61dfdb459e1c01c622e63c3404b3de5f686e4cd154b4099ca498f"
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/teemo_w/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:05:07.218819Z",
+        "description": "DDragon16.17.1 Teemo.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "teemo_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:07.218819Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "bb2d8c10325102256808cdbdc0d1415ba58d3d41c9f78505ca2c208773f5c64e"
+    },
+    {
+      "skillKey": "teemo_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/teemo_w/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:05:07.958467Z",
+        "description": "DDragon16.17.1 Teemo.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "teemo_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:07.958467Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "406f6fdfd6f62ad6f672e08b772a81debe70d079819dc3215aa80ec02fcbc4e0"
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shaco_q/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:05.739632Z",
+        "description": "DDragon16.17.1 Shaco.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12500,
+          "3": 12000,
+          "4": 11500,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shaco_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:05.739632Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "8cf0f842183a6d5a0294f5a31213eb38295e5fbaa7ad5ae80b0a6fc854b5123f"
+    },
+    {
+      "skillKey": "shaco_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shaco_q/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:06.273041Z",
+        "description": "DDragon16.17.1 Shaco.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "shaco_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:06.273041Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "17fff8fa6e4fad872a0490ab51d31b73c31576c40081163c8caf155c30a30f91"
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shaco_e/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:06.764466Z",
+        "description": "DDragon16.17.1 Shaco.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shaco_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:06.764466Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "ce82c8e76d6ce6a37cc4e4610af6cd149fbc1c06949ea5df8c89321730864369"
+    },
+    {
+      "skillKey": "shaco_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shaco_e/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:07.214615Z",
+        "description": "DDragon16.17.1 Shaco.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "shaco_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:07.214615Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "cd6523917152f4c94b8c355e5b488fadfb14644dfde4b8e7062e752ca53c981c"
+    },
+    {
+      "skillKey": "shaco_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shaco_r/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:07.710441Z",
+        "description": "DDragon16.17.1 Shaco.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体短暂消失与弹道销毁依赖，独立分身及盒子后置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 90000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "shaco_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:07.710441Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "3035de89344ea5db7466bbc814a1fff530ba4ff42d7671005cc5a14540598d93"
+    },
+    {
+      "skillKey": "shaco_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/shaco_r/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:08.19044Z",
+        "description": "DDragon16.17.1 Shaco.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体短暂消失与弹道销毁依赖，独立分身及盒子后置。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "shaco_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:08.19044Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "a122783e3bf995d684b5c1d0bbce17ac55b12dc283fddbdfbc226f007041f083"
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/heimerdinger_w/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-07T18:36:32.381395Z",
+        "description": "DDragon16.17.1 Heimerdinger.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "heimerdinger_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:32.381395Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "c96b04d2f0e80aa75b05d2475e1bb8da5f27990e8beb0b177a6c7e8009834ac5"
+    },
+    {
+      "skillKey": "heimerdinger_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/heimerdinger_w/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-07T18:36:32.788004Z",
+        "description": "DDragon16.17.1 Heimerdinger.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "heimerdinger_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:32.788004Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "076c388d81a588161045e36dd03a7d33b0d564dfda59947a9bfb5e1d84b5e028"
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/heimerdinger_e/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-07T18:36:33.468064Z",
+        "description": "DDragon16.17.1 Heimerdinger.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": 11000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "heimerdinger_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:33.468064Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "9afbd9e4b2588a012af1c253ebfd74e5093226637cba819f518ea0b33313192f"
+    },
+    {
+      "skillKey": "heimerdinger_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/heimerdinger_e/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-07T18:36:33.951899Z",
+        "description": "DDragon16.17.1 Heimerdinger.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 85,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "heimerdinger_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:33.951899Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "c76292b9c314507a732c9f970767d17e3903fe95ac5abb4cc3350e3d415afe27"
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/heimerdinger_r/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-07T18:36:34.454662Z",
+        "description": "DDragon16.17.1 Heimerdinger.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留升级W/E依赖，独立炮台分支跳过。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 85000,
+          "3": 70000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "heimerdinger_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:34.454662Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "71d779e9565c0a9ca1bb1cf7ccff0c6707ec4cf731550ef0e220baead5f42a03"
+    },
+    {
+      "skillKey": "heimerdinger_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/heimerdinger_r/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-07T18:36:34.959235Z",
+        "description": "DDragon16.17.1 Heimerdinger.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留升级W/E依赖，独立炮台分支跳过。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "heimerdinger_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:34.959235Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "078dcc5d48ff5dba8afb3daa7cfb5b5141a6a9198d5c3d1966dd186e42724e91"
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/zyra_q/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:41.556451Z",
+        "description": "DDragon16.17.1 Zyra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6500,
+          "3": 6000,
+          "4": 5500,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zyra_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:41.556451Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "55f1f7a19f989b97b4b8db38bff8eb67161ed148d26f871847a993af97a85f80"
+    },
+    {
+      "skillKey": "zyra_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/zyra_q/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:42.069075Z",
+        "description": "DDragon16.17.1 Zyra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zyra_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:42.069075Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "5bbc0c314e68099d5051a5c74207d8b6ca48b5cbc0f0e9e93597b7bf9af02218"
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/zyra_e/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:42.542567Z",
+        "description": "DDragon16.17.1 Zyra.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 11000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zyra_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:42.542567Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "befeaafde3650ca7cfb6a87b62de680241af601839abd4401c9df578141dfb1a"
+    },
+    {
+      "skillKey": "zyra_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/zyra_e/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:43.077188Z",
+        "description": "DDragon16.17.1 Zyra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zyra_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:43.077188Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "326aa76094b8892eca23f2de9161ac21114df227f85ef3ea6443158567d4d1f2"
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/zyra_r/parameters/cooldown_ms",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:43.641605Z",
+        "description": "DDragon16.17.1 Zyra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 100000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zyra_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:43.641605Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "6ed2e64bd99ba800f14b7f32bbb10fb7eb914747a13e0cb2d219327d36060dfa"
+    },
+    {
+      "skillKey": "zyra_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false,
+      "detailRoute": "/skills/zyra_r/parameters/mana_cost",
+      "expected": {
+        "createdAt": "2026-09-08T02:41:44.157189Z",
+        "description": "DDragon16.17.1 Zyra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zyra_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:44.157189Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "expectedSha256": "2060cd6af2749872cf9d1139c922d5d999bf7336b5c3f61e9c92cb1c9c50dd0c"
+    }
+  ],
+  "protectedRoutes": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "dataSha256": "e070aad70597ed317cae63798298ddeda692f0238fd6a3c0b5da4bc97c063116"
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "dataSha256": "90a4c5203870cc8dd6c534d3f9e13158e4267f61c957841f4d21c75ae16b2951"
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "dataSha256": "31edcb54ce724e0590b67e1ebf74ac723b7c0e7d8cc9013a8b49018f01d21fb0"
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "dataSha256": "1fe633fc5953d80471179fa630139be72ae12faa017285974ea53112b62fa177"
+    },
+    {
+      "route": "/characters/champion_teemo",
+      "status": 200,
+      "dataSha256": "b97aeb5cf4420efb5b1107bdafd5a4a1373502597922fab51f6ea7c328ce2517"
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_teemo",
+      "status": 200,
+      "dataSha256": "8352d99a288467a29bd210cd5ac4c31e552dbc65cd6464cb17c62cfd8c7ed14f"
+    },
+    {
+      "route": "/characters/champion_shaco",
+      "status": 200,
+      "dataSha256": "74191d250205724bd3a5172cfe022c33bff985fe961d673fec2f1f849cf28a2a"
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_shaco",
+      "status": 200,
+      "dataSha256": "4f7e1d445e728d646e9e1bf3b1191995e0935869ca883387706b51314f7824dc"
+    },
+    {
+      "route": "/characters/champion_heimerdinger",
+      "status": 200,
+      "dataSha256": "d90e4ecbc4999eab72998bfadca8d2fc686654cca5bc52b629422bb0b9b92279"
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_heimerdinger",
+      "status": 200,
+      "dataSha256": "7bb659a45fb7d937a7a154da0759dd7644317f1974db4db6a4669914b3055220"
+    },
+    {
+      "route": "/characters/champion_zyra",
+      "status": 200,
+      "dataSha256": "148843e4b372d254f7aecd95fa881359e394c9483ee46d473bf6fccf0c0f06c8"
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_zyra",
+      "status": 200,
+      "dataSha256": "0ed8c02cfdffb56eedf505a0842402668462b89c55abf135b84374ec145e9974"
+    },
+    {
+      "route": "/skills/teemo_p",
+      "status": 200,
+      "dataSha256": "9075818cab908aca71a201832af3269465fbe48f12e5ffa8d9b9c6e6be5b967a"
+    },
+    {
+      "route": "/skills/teemo_p/representative-image",
+      "status": 200,
+      "dataSha256": "f2bbdcc676f1a68a71f2104a8c6270bac47932c2a4805d3baecdfd9de5eded7a"
+    },
+    {
+      "route": "/skills/teemo_p/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_p/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_p/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_p/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_p/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_p/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_q",
+      "status": 200,
+      "dataSha256": "6b0c3e39f2bf03db7f2e7f8b80340b51a753dcbc2daea42ceb59aa634d5f3b1d"
+    },
+    {
+      "route": "/skills/teemo_q/representative-image",
+      "status": 200,
+      "dataSha256": "190c853a02d0161f1a72aeab385d1955a60bf12c405650a2ad03a42f8e2c3dba"
+    },
+    {
+      "route": "/skills/teemo_q/parameters",
+      "status": 200,
+      "dataSha256": "f3ead8c7a76c89f52a0f5dcad52256b08648e416c2f6d7e98b6b8a632dcb4bed"
+    },
+    {
+      "route": "/skills/teemo_q/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "f2ccf42a0ced21df79d8d52a991c489fb21d42c3596274faa8c49ec22136d218"
+    },
+    {
+      "route": "/skills/teemo_q/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "e43b34b6b7f61dfdb459e1c01c622e63c3404b3de5f686e4cd154b4099ca498f"
+    },
+    {
+      "route": "/skills/teemo_q/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_q/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_q/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_q/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_q/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_w",
+      "status": 200,
+      "dataSha256": "db841fb380ea50b0f14ac6a3d18fcf826769ace373676c0305d2295a3fb711cc"
+    },
+    {
+      "route": "/skills/teemo_w/representative-image",
+      "status": 200,
+      "dataSha256": "c202d52b4f6a524a5759dc2d1d131062720016e9958b6a30f0a208267654ca38"
+    },
+    {
+      "route": "/skills/teemo_w/parameters",
+      "status": 200,
+      "dataSha256": "14a30577dc6dd5f4b8a20ae352ac368b34450c3490846b1edd3a858796e31231"
+    },
+    {
+      "route": "/skills/teemo_w/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "bb2d8c10325102256808cdbdc0d1415ba58d3d41c9f78505ca2c208773f5c64e"
+    },
+    {
+      "route": "/skills/teemo_w/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "406f6fdfd6f62ad6f672e08b772a81debe70d079819dc3215aa80ec02fcbc4e0"
+    },
+    {
+      "route": "/skills/teemo_w/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_w/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_w/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_w/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_w/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_e",
+      "status": 200,
+      "dataSha256": "1475ed2f110f2e1b260af7b55e9de2cf206477061e4ef18684a267fb4e445d46"
+    },
+    {
+      "route": "/skills/teemo_e/representative-image",
+      "status": 200,
+      "dataSha256": "d187b11a27092409485666dd42e86c626c2e9e0dd9b1a7709174774c7d8bc531"
+    },
+    {
+      "route": "/skills/teemo_e/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_e/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_e/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_e/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_e/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_e/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_r",
+      "status": 200,
+      "dataSha256": "7f4e4bd1f55ff8e1f5e21e3ae4eebe72a8b51a0484c0e7749eef05ef746c103f"
+    },
+    {
+      "route": "/skills/teemo_r/representative-image",
+      "status": 200,
+      "dataSha256": "b4da7f135ecca41a8b8c2a4ec2da349929a5e22972bc691b58f76280e0b72fbc"
+    },
+    {
+      "route": "/skills/teemo_r/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_r/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_r/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_r/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_r/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/teemo_r/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_p",
+      "status": 200,
+      "dataSha256": "5c86dba1e432a1ec1550d624b54e1b9bcd9f21f066b1e4679b4d25a2f6121544"
+    },
+    {
+      "route": "/skills/shaco_p/representative-image",
+      "status": 200,
+      "dataSha256": "0698de12c2ce119d1c82c08e585e586f5fca7372faf575f78d1848848acb674b"
+    },
+    {
+      "route": "/skills/shaco_p/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_p/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_p/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_p/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_p/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_p/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_q",
+      "status": 200,
+      "dataSha256": "78964c44bd9da71a043cf3010a97eabc2e2ebfb7e2b441c3dfb17302591f168f"
+    },
+    {
+      "route": "/skills/shaco_q/representative-image",
+      "status": 200,
+      "dataSha256": "63a52e98d91af95d5a6ff6305b00ee4dd358163032fa133fa49c0c427643f0f3"
+    },
+    {
+      "route": "/skills/shaco_q/parameters",
+      "status": 200,
+      "dataSha256": "fb9ad8a9bcd366ae5b81d82631ccb8519647cf2de3205ab8f1aa33c1de439dd5"
+    },
+    {
+      "route": "/skills/shaco_q/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "8cf0f842183a6d5a0294f5a31213eb38295e5fbaa7ad5ae80b0a6fc854b5123f"
+    },
+    {
+      "route": "/skills/shaco_q/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "17fff8fa6e4fad872a0490ab51d31b73c31576c40081163c8caf155c30a30f91"
+    },
+    {
+      "route": "/skills/shaco_q/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_q/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_q/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_q/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_q/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_w",
+      "status": 200,
+      "dataSha256": "56b3272ff61bf14b2e36afea4a0da50e78229223b6914d684cf758be886d20bc"
+    },
+    {
+      "route": "/skills/shaco_w/representative-image",
+      "status": 200,
+      "dataSha256": "627ee7a770ce7b4c150c90f1d409377d0ef3f393979f99de011dd2749877b7d1"
+    },
+    {
+      "route": "/skills/shaco_w/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_w/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_w/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_w/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_w/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_w/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_e",
+      "status": 200,
+      "dataSha256": "db53ca4c6a981f042242096952342905161a9488097e5a0a8e0c10f3f115e079"
+    },
+    {
+      "route": "/skills/shaco_e/representative-image",
+      "status": 200,
+      "dataSha256": "b0879364a0183fce6f0a358478323ad4a494ca30ea3f2a8b4f92f5a7db0eca33"
+    },
+    {
+      "route": "/skills/shaco_e/parameters",
+      "status": 200,
+      "dataSha256": "ba109826f52ec714c531ab9422d64fd3e3867d162abccba20d2596e64c32fea6"
+    },
+    {
+      "route": "/skills/shaco_e/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "ce82c8e76d6ce6a37cc4e4610af6cd149fbc1c06949ea5df8c89321730864369"
+    },
+    {
+      "route": "/skills/shaco_e/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "cd6523917152f4c94b8c355e5b488fadfb14644dfde4b8e7062e752ca53c981c"
+    },
+    {
+      "route": "/skills/shaco_e/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_e/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_e/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_e/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_e/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_r",
+      "status": 200,
+      "dataSha256": "84778b32d9290a905e57ab5fa332357f6e53151ba35079f128c21d77fa9b95fc"
+    },
+    {
+      "route": "/skills/shaco_r/representative-image",
+      "status": 200,
+      "dataSha256": "14a61b85beaccbb9754d0ddac67ea791b07943c8ab511632aee139182400d065"
+    },
+    {
+      "route": "/skills/shaco_r/parameters",
+      "status": 200,
+      "dataSha256": "ddd6f75703d839c6d75afca3eacaa2e5eb2a594840c8c851817440f49ad39a7d"
+    },
+    {
+      "route": "/skills/shaco_r/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "3035de89344ea5db7466bbc814a1fff530ba4ff42d7671005cc5a14540598d93"
+    },
+    {
+      "route": "/skills/shaco_r/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "a122783e3bf995d684b5c1d0bbce17ac55b12dc283fddbdfbc226f007041f083"
+    },
+    {
+      "route": "/skills/shaco_r/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_r/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_r/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_r/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/shaco_r/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_p",
+      "status": 200,
+      "dataSha256": "5f1f42521c2b331c8204927e75a3ffbebc81264d9ff8b9852eeaec614cea86e5"
+    },
+    {
+      "route": "/skills/heimerdinger_p/representative-image",
+      "status": 200,
+      "dataSha256": "1af9b1dc98efad012b9c8ada25421fd2e51c8373a6d0810e855853854c758dd5"
+    },
+    {
+      "route": "/skills/heimerdinger_p/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_p/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_p/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_p/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_p/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_p/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_q",
+      "status": 200,
+      "dataSha256": "9f27d18a090c943e0d7e14774088bcff5c081cb7505a06bf84255c17213dc903"
+    },
+    {
+      "route": "/skills/heimerdinger_q/representative-image",
+      "status": 200,
+      "dataSha256": "115aa753ad71a747ad586dd6da496177e1a12256a1f75c21970a89281caa4649"
+    },
+    {
+      "route": "/skills/heimerdinger_q/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_q/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_q/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_q/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_q/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_q/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_w",
+      "status": 200,
+      "dataSha256": "a514fe60b1d25b8449958aad14eafc2787b170a7ee41a40eb9265dc2357a4b55"
+    },
+    {
+      "route": "/skills/heimerdinger_w/representative-image",
+      "status": 200,
+      "dataSha256": "21dc89bc74eb9d6f9bc59abd2f44e359ef917755f2e3a259c250633fbe0f7b7f"
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters",
+      "status": 200,
+      "dataSha256": "4b9b7d6f8ec69394bb7dec4fb0ed59cf31109636c8e2bc0ea6d46f0dcfb2c9a7"
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "c96b04d2f0e80aa75b05d2475e1bb8da5f27990e8beb0b177a6c7e8009834ac5"
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "076c388d81a588161045e36dd03a7d33b0d564dfda59947a9bfb5e1d84b5e028"
+    },
+    {
+      "route": "/skills/heimerdinger_w/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_w/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_w/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_w/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_w/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_e",
+      "status": 200,
+      "dataSha256": "8e5f6b6cfe0d2ce4b1b45c1fe5c0e70bcf202ca0a5ab4b788c223648fc70faa8"
+    },
+    {
+      "route": "/skills/heimerdinger_e/representative-image",
+      "status": 200,
+      "dataSha256": "8610de16265aa5bbc4eec0c6fa2afdaf2df8b11c055fa0d46a2d4ed261ee63d0"
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters",
+      "status": 200,
+      "dataSha256": "edbd6dddfd30ef13851941f13178770096d72126cd0545193d18411bcb48c9b6"
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "9afbd9e4b2588a012af1c253ebfd74e5093226637cba819f518ea0b33313192f"
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "c76292b9c314507a732c9f970767d17e3903fe95ac5abb4cc3350e3d415afe27"
+    },
+    {
+      "route": "/skills/heimerdinger_e/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_e/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_e/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_e/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_e/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_r",
+      "status": 200,
+      "dataSha256": "3e643106feba983d78c5fe8126efe22da73b551617e7064943d89d92a0a72bd7"
+    },
+    {
+      "route": "/skills/heimerdinger_r/representative-image",
+      "status": 200,
+      "dataSha256": "6b2a1538fd1f361ad59f0add277d97bae239da6c884119b92e2f5c9683c77741"
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters",
+      "status": 200,
+      "dataSha256": "1d766c2b54d8dce70e0c34b745ac2aab3c3d05cc31b04158165a2557cedeb312"
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "71d779e9565c0a9ca1bb1cf7ccff0c6707ec4cf731550ef0e220baead5f42a03"
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "078dcc5d48ff5dba8afb3daa7cfb5b5141a6a9198d5c3d1966dd186e42724e91"
+    },
+    {
+      "route": "/skills/heimerdinger_r/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_r/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_r/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_r/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/heimerdinger_r/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_p",
+      "status": 200,
+      "dataSha256": "d50067219bf1fbb00c43b93e0c9e7c9173e2b8cf4848b868e8d01366ac57eda0"
+    },
+    {
+      "route": "/skills/zyra_p/representative-image",
+      "status": 200,
+      "dataSha256": "710afd8f3eb37eef53e01430df29fb4f7c428b33880f4285cca0323406978aa5"
+    },
+    {
+      "route": "/skills/zyra_p/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_p/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_p/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_p/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_p/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_p/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_q",
+      "status": 200,
+      "dataSha256": "dcab0403744f6e8c63e66e5d95c7b142390b62356bddcab5ed82d1e8dd2e894d"
+    },
+    {
+      "route": "/skills/zyra_q/representative-image",
+      "status": 200,
+      "dataSha256": "a1186c4e853236ba2d88b57134a7d9703310f624350dee091f2a4f94d456f50f"
+    },
+    {
+      "route": "/skills/zyra_q/parameters",
+      "status": 200,
+      "dataSha256": "ea3ee0dbc1e07e52154ccf87c99d1fe810deec251a8dff9308706ab59cd2d310"
+    },
+    {
+      "route": "/skills/zyra_q/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "55f1f7a19f989b97b4b8db38bff8eb67161ed148d26f871847a993af97a85f80"
+    },
+    {
+      "route": "/skills/zyra_q/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "5bbc0c314e68099d5051a5c74207d8b6ca48b5cbc0f0e9e93597b7bf9af02218"
+    },
+    {
+      "route": "/skills/zyra_q/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_q/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_q/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_q/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_q/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_w",
+      "status": 200,
+      "dataSha256": "6ff11138983c9a38ec06de95a03626bf755740efe3a96d7abedc30a533e88615"
+    },
+    {
+      "route": "/skills/zyra_w/representative-image",
+      "status": 200,
+      "dataSha256": "594af2e14f0d4575eb028abd59c5268f0e6254215e07e5851872c31df77d7064"
+    },
+    {
+      "route": "/skills/zyra_w/parameters",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_w/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_w/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_w/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_w/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_w/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_e",
+      "status": 200,
+      "dataSha256": "cb6a61295bfdbd42d47eda0331c12c11369dd76bb0d321fb6bd3dec167742937"
+    },
+    {
+      "route": "/skills/zyra_e/representative-image",
+      "status": 200,
+      "dataSha256": "05274212e65be4a67d29778382c81acc15af39cd6466c67e12acf9d26585b5c7"
+    },
+    {
+      "route": "/skills/zyra_e/parameters",
+      "status": 200,
+      "dataSha256": "74722b03b4e91353787a902fd031f75ba0f6c7cc5c41b4ac6873af327079acfc"
+    },
+    {
+      "route": "/skills/zyra_e/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "befeaafde3650ca7cfb6a87b62de680241af601839abd4401c9df578141dfb1a"
+    },
+    {
+      "route": "/skills/zyra_e/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "326aa76094b8892eca23f2de9161ac21114df227f85ef3ea6443158567d4d1f2"
+    },
+    {
+      "route": "/skills/zyra_e/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_e/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_e/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_e/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_e/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_r",
+      "status": 200,
+      "dataSha256": "24a0854d2e05c2491c374242d6b7e2e58ecfeb5f0ebec1103c451713c5300302"
+    },
+    {
+      "route": "/skills/zyra_r/representative-image",
+      "status": 200,
+      "dataSha256": "bf83799751636dfd3f1dec51590998d7a754c8f9ef519fddc38cd7000fe8d8aa"
+    },
+    {
+      "route": "/skills/zyra_r/parameters",
+      "status": 200,
+      "dataSha256": "bb5e7abd9e85bf7a97207f743f4d9f8c1376829807501e48ed34617de49d59aa"
+    },
+    {
+      "route": "/skills/zyra_r/parameters/cooldown_ms",
+      "status": 200,
+      "dataSha256": "6ed2e64bd99ba800f14b7f32bbb10fb7eb914747a13e0cb2d219327d36060dfa"
+    },
+    {
+      "route": "/skills/zyra_r/parameters/mana_cost",
+      "status": 200,
+      "dataSha256": "2060cd6af2749872cf9d1139c922d5d999bf7336b5c3f61e9c92cb1c9c50dd0c"
+    },
+    {
+      "route": "/skills/zyra_r/formulas",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_r/effects",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_r/processes",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_r/internal-states",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "route": "/skills/zyra_r/trigger-rules",
+      "status": 200,
+      "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "protectedSummary": {
+    "inputGETs": 194,
+    "inputRequestCount": 194,
+    "currentCompositionLists": 120,
+    "note": "写入前逐条只读保护；本计划不覆盖已有主体和组成。"
+  },
+  "requests": [
+    {
+      "sequence": 1,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_p/parameters",
+      "detailRoute": "/skills/teemo_p/parameters/stealth_stationary_duration_ms",
+      "skillKey": "teemo_p",
+      "kind": "parameters",
+      "stableKey": "stealth_stationary_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stealth_stationary_duration_ms",
+        "name": "进入隐形所需静止时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前正文@StealthCooldownDuration@为1.5秒；转换为整数毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_p/parameters",
+      "detailRoute": "/skills/teemo_p/parameters/attack_speed_duration_ms",
+      "skillKey": "teemo_p",
+      "kind": "parameters",
+      "stableKey": "attack_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_duration_ms",
+        "name": "离开隐形后攻速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前DataValue为5秒；不采用摘要中的旧3秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_p/parameters",
+      "detailRoute": "/skills/teemo_p/parameters/attack_speed_ratio",
+      "skillKey": "teemo_p",
+      "kind": "parameters",
+      "stableKey": "attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_ratio",
+        "name": "离开隐形后的额外攻击速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.200000003,
+          "2": 0.200000003,
+          "3": 0.200000003,
+          "4": 0.200000003,
+          "5": 0.400000006,
+          "6": 0.400000006,
+          "7": 0.400000006,
+          "8": 0.400000006,
+          "9": 0.400000006,
+          "10": 0.600000009,
+          "11": 0.600000009,
+          "12": 0.600000009,
+          "13": 0.600000009,
+          "14": 0.600000009,
+          "15": 0.800000012,
+          "16": 0.800000012,
+          "17": 0.800000012,
+          "18": 0.800000012
+        },
+        "description": "BonusAttackSpeed为角色等级断点：1至4级0.2、5至9级0.4、10至14级0.6、15至18级0.8；比例属性用attribute_flat_add。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_p/effects",
+      "detailRoute": "/skills/teemo_p/effects/self_attack_speed",
+      "skillKey": "teemo_p",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_attack_speed",
+        "name": "游击队军备自身额外攻击速度",
+        "description": "只定义离开隐形后的自身攻速比例；进入隐形和离开隐形条件由事件层接线。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "游击队军备自身额外攻击速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 5,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_q/parameters",
+      "detailRoute": "/skills/teemo_q/parameters/base_damage",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "description": "BaseDamage索引1至5为80/125/170/215/260；索引0=35不作1级。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 6,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_q/parameters",
+      "detailRoute": "/skills/teemo_q/parameters/ap_ratio",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.699999988,
+        "levelValues": null,
+        "description": "来自CalculatedDamage第二个分支APRatio。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 7,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_q/parameters",
+      "detailRoute": "/skills/teemo_q/parameters/blind_duration_ms",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "blind_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "blind_duration_ms",
+        "name": "致盲持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2000,
+          "2": 2250,
+          "3": 2500,
+          "4": 2750,
+          "5": 3000
+        },
+        "description": "BlindDuration索引1至5为2/2.25/2.5/2.75/3秒；转换为整数毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 8,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_q/parameters",
+      "detailRoute": "/skills/teemo_q/parameters/cast_time_ms",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 9,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_q/formulas",
+      "detailRoute": "/skills/teemo_q/formulas/magic_damage",
+      "skillKey": "teemo_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "致盲吹箭魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "CalculatedDamage=BaseDamage+APRatio×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 10,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_q/effects",
+      "detailRoute": "/skills/teemo_q/effects/mana_cost",
+      "skillKey": "teemo_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 11,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_w/parameters",
+      "detailRoute": "/skills/teemo_w/parameters/passive_move_speed_ratio",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "passive_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_move_speed_ratio",
+        "name": "被动移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.119999997,
+          "2": 0.159999996,
+          "3": 0.200000003,
+          "4": 0.239999995,
+          "5": 0.280000001
+        },
+        "description": "PassiveMoveSpeedBonus索引1至5为0.12/0.16/0.20/0.24/0.28；比例属性用attribute_flat_add。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 12,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_w/parameters",
+      "detailRoute": "/skills/teemo_w/parameters/passive_no_hero_damage_window_ms",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "passive_no_hero_damage_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_no_hero_damage_window_ms",
+        "name": "被动未受伤窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "正文当前@PassiveCooldownOnDamageTaken@为5秒；英雄或防御塔伤害资格由事件层接线，塔伤害专用分支不录。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 13,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_w/parameters",
+      "detailRoute": "/skills/teemo_w/parameters/active_move_speed_ratio",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "active_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_move_speed_ratio",
+        "name": "主动移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.239999995,
+          "2": 0.319999993,
+          "3": 0.400000006,
+          "4": 0.479999989,
+          "5": 0.560000002
+        },
+        "description": "ActiveMoveSpeedBonus索引1至5为0.24/0.32/0.40/0.48/0.56；比例属性用attribute_flat_add。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 14,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_w/parameters",
+      "detailRoute": "/skills/teemo_w/parameters/active_move_speed_duration_ms",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "active_move_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_move_speed_duration_ms",
+        "name": "主动移动速度持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前正文持续3秒；转换为整数毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 15,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_w/parameters",
+      "detailRoute": "/skills/teemo_w/parameters/cast_time_seconds",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_seconds",
+        "name": "施法时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.528699994,
+        "levelValues": null,
+        "description": "源spellCastTime=0.5286999940872192秒，毫秒值不是整数，保留原始秒值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 16,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_w/effects",
+      "detailRoute": "/skills/teemo_w/effects/passive_move_speed",
+      "skillKey": "teemo_w",
+      "kind": "effects",
+      "stableKey": "passive_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "passive_move_speed",
+        "name": "小莫快跑被动移动速度",
+        "description": "只定义被动自身比例；进入主动状态时必须先移除被动，主动结束后按未受伤资格恢复；状态切换由事件层接线。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "小莫快跑被动移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义被动自身属性变化；主动状态与被动状态不可同时生效，移除/恢复由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 17,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_w/effects",
+      "detailRoute": "/skills/teemo_w/effects/active_move_speed",
+      "skillKey": "teemo_w",
+      "kind": "effects",
+      "stableKey": "active_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "active_move_speed",
+        "name": "小莫快跑主动移动速度",
+        "description": "只定义主动3秒自身总移动速度比例；主动值是被动值的翻倍态，不与被动叠加；主动结束后按资格恢复被动，状态切换由事件层接线。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "active_move_speed_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "小莫快跑主动移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义主动自身属性变化；施放时替代被动值，不能与被动相加成0.36等叠加值；移除/恢复由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "active_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 18,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_w/effects",
+      "detailRoute": "/skills/teemo_w/effects/mana_cost",
+      "skillKey": "teemo_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 19,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/impact_base_damage",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "impact_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "impact_base_damage",
+        "name": "命中附加基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 9,
+          "2": 23,
+          "3": 37,
+          "4": 51,
+          "5": 65
+        },
+        "description": "ImpactBaseDamage索引1至5为9/23/37/51/65；索引0为-5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 20,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/impact_ap_ratio",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "impact_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "impact_ap_ratio",
+        "name": "命中法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.300000012,
+        "levelValues": null,
+        "description": "ImpactCalculatedDamage中的ImpactAPRatio。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 21,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/impact_bonus_ad_ratio",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "impact_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "impact_bonus_ad_ratio",
+        "name": "命中额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.050000001,
+        "levelValues": null,
+        "description": "ImpactCalculatedDamage的mStat=2、mStatFormula=2对应额外攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 22,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/tick_base_damage",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "tick_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tick_base_damage",
+        "name": "每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 6,
+          "2": 12,
+          "3": 18,
+          "4": 24,
+          "5": 30
+        },
+        "description": "TickBaseDamage索引1至5为6/12/18/24/30。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 23,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/tick_ap_ratio",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "tick_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tick_ap_ratio",
+        "name": "每秒法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.100000001,
+        "levelValues": null,
+        "description": "TickCalculatedDamage中的TickAPRatio。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 24,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/tick_bonus_ad_ratio",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "tick_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tick_bonus_ad_ratio",
+        "name": "每秒额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.025,
+        "levelValues": null,
+        "description": "TickCalculatedDamage的mStat=2、mStatFormula=2对应额外攻击力。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 25,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/poison_duration_ms",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "poison_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "poison_duration_ms",
+        "name": "毒性持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "PoisonDuration=4秒，转换为整数毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 26,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/tick_interval_ms",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "tick_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tick_interval_ms",
+        "name": "毒性跳动间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "TickFrequency=1秒，转换为整数毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 27,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/parameters",
+      "detailRoute": "/skills/teemo_e/parameters/poison_tick_count",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "poison_tick_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "poison_tick_count",
+        "name": "毒性跳动次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "当前正文持续4秒且每秒一跳；TotalDotDamage等于每秒整段×4。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 28,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/formulas",
+      "detailRoute": "/skills/teemo_e/formulas/impact_magic_damage",
+      "skillKey": "teemo_e",
+      "kind": "formulas",
+      "stableKey": "impact_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "impact_magic_damage",
+        "name": "毒性射击命中附加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "impact_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "impact_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "impact_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ImpactCalculatedDamage=基础值+法强段+额外攻击力段。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 29,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/formulas",
+      "detailRoute": "/skills/teemo_e/formulas/poison_tick_magic_damage",
+      "skillKey": "teemo_e",
+      "kind": "formulas",
+      "stableKey": "poison_tick_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "poison_tick_magic_damage",
+        "name": "毒性射击每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tick_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "tick_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tick_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TickCalculatedDamage=基础值+法强段+额外攻击力段。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 30,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/teemo_e/formulas",
+      "detailRoute": "/skills/teemo_e/formulas/total_poison_magic_damage",
+      "skillKey": "teemo_e",
+      "kind": "formulas",
+      "stableKey": "total_poison_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_poison_magic_damage",
+        "name": "毒性射击全程魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "tick_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "tick_ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "tick_bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "poison_tick_count"
+            }
+          ]
+        },
+        "description": "当前消费TotalDotDamage=TickCalculatedDamage×PoisonDuration；按4秒每秒一跳表达为每秒整段×4，重命中不凭空叠加。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 31,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/parameters",
+      "detailRoute": "/skills/shaco_p/parameters/backstab_base_damage",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "backstab_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "backstab_base_damage",
+        "name": "背刺普攻基础伤害（实际角色等级输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "BasicAttackDamage的20至35角色等级插值曲线未证，运行层必须提供实际值，不设默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 32,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/parameters",
+      "detailRoute": "/skills/shaco_p/parameters/backstab_bonus_ad_ratio",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "backstab_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "backstab_bonus_ad_ratio",
+        "name": "背刺普攻额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.200000003,
+        "levelValues": null,
+        "description": "BasicAttackDamage中mStat=2、mStatFormula=2的AttackBonusADRatio。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 33,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/parameters",
+      "detailRoute": "/skills/shaco_p/parameters/shivs_base_damage",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "shivs_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shivs_base_damage",
+        "name": "背刺E额外基础伤害（实际角色等级输入）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "ShivDamage的15至50角色等级插值曲线未证，运行层必须提供实际值，不设默认。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 34,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/parameters",
+      "detailRoute": "/skills/shaco_p/parameters/shivs_ap_ratio",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "shivs_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shivs_ap_ratio",
+        "name": "背刺E法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.100000001,
+        "levelValues": null,
+        "description": "ShivDamage第二个分支为mCoefficient=0.1法强；沿窄证命名为法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 35,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/parameters",
+      "detailRoute": "/skills/shaco_p/parameters/shivs_execute_multiplier",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "shivs_execute_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shivs_execute_multiplier",
+        "name": "背刺E斩杀倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "ShivDamageExecute完整树将ShivDamage乘以1.5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 36,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/parameters",
+      "detailRoute": "/skills/shaco_p/parameters/execute_health_threshold_ratio",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "execute_health_threshold_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "execute_health_threshold_ratio",
+        "name": "背刺E斩杀生命阈值比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "当前被动正文明确目标低于30%生命值；阈值条件由事件层接线。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 37,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/formulas",
+      "detailRoute": "/skills/shaco_p/formulas/backstab_basic_attack_physical_damage",
+      "skillKey": "shaco_p",
+      "kind": "formulas",
+      "stableKey": "backstab_basic_attack_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "backstab_basic_attack_physical_damage",
+        "name": "背刺普攻附加物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "backstab_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "backstab_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BasicAttackDamage=角色等级插值基础值+0.2×额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 38,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/formulas",
+      "detailRoute": "/skills/shaco_p/formulas/backstab_shiv_magic_damage",
+      "skillKey": "shaco_p",
+      "kind": "formulas",
+      "stableKey": "backstab_shiv_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "backstab_shiv_magic_damage",
+        "name": "背刺E附加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shivs_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shivs_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ShivDamage=角色等级插值基础值+0.1×法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 39,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_p/formulas",
+      "detailRoute": "/skills/shaco_p/formulas/backstab_shiv_execute_magic_damage",
+      "skillKey": "shaco_p",
+      "kind": "formulas",
+      "stableKey": "backstab_shiv_execute_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "backstab_shiv_execute_magic_damage",
+        "name": "背刺E斩杀附加魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shivs_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shivs_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shivs_execute_multiplier"
+            }
+          ]
+        },
+        "description": "ShivDamageExecute=完整ShivDamage×1.5；不是只乘基础段。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 40,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/parameters",
+      "detailRoute": "/skills/shaco_q/parameters/stealth_duration_ms",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "stealth_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stealth_duration_ms",
+        "name": "隐形持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2500,
+          "2": 2750,
+          "3": 3000,
+          "4": 3250,
+          "5": 3500
+        },
+        "description": "StealthDuration索引1至5为2.5/2.75/3/3.25/3.5秒；转换为整数毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 41,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/parameters",
+      "detailRoute": "/skills/shaco_q/parameters/enhanced_attack_base_damage",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_attack_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "enhanced_attack_base_damage",
+        "name": "强化攻击附加基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 35,
+          "3": 45,
+          "4": 55,
+          "5": 65
+        },
+        "description": "TotalDamage的BaseDamage索引1至5为25/35/45/55/65；索引0=15不作1级。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 42,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/parameters",
+      "detailRoute": "/skills/shaco_q/parameters/enhanced_attack_bonus_ad_ratio",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_attack_bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "enhanced_attack_bonus_ad_ratio",
+        "name": "强化攻击额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.600000024,
+        "levelValues": null,
+        "description": "TotalDamage的mStat=2、mStatFormula=2对应额外攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 43,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/parameters",
+      "detailRoute": "/skills/shaco_q/parameters/backstab_crit_coefficient",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "backstab_crit_coefficient",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "backstab_crit_coefficient",
+        "name": "背刺暴击修正系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.600000024,
+        "levelValues": null,
+        "description": "QCritDamageMod完整树中的NonCritBackstabMod=0.6。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 44,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/parameters",
+      "detailRoute": "/skills/shaco_q/parameters/crit_baseline",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "crit_baseline",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "crit_baseline",
+        "name": "暴击倍率基准",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "QCritDamageMod树中的固定1。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 45,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/parameters",
+      "detailRoute": "/skills/shaco_q/parameters/crit_minus_one",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "crit_minus_one",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "crit_minus_one",
+        "name": "暴击统计减一",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "QCritDamageMod树中的固定-1。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 46,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/parameters",
+      "detailRoute": "/skills/shaco_q/parameters/actual_critical_damage_multiplier",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "actual_critical_damage_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_critical_damage_multiplier",
+        "name": "实际总暴击倍率（mStat9）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "QCritDamageMod的mStat9未扩展为属性枚举；运行层提供实际总暴击倍率，不设默认。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 47,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/parameters",
+      "detailRoute": "/skills/shaco_q/parameters/cast_time_ms",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 48,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/formulas",
+      "detailRoute": "/skills/shaco_q/formulas/enhanced_attack_physical_damage",
+      "skillKey": "shaco_q",
+      "kind": "formulas",
+      "stableKey": "enhanced_attack_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "enhanced_attack_physical_damage",
+        "name": "欺诈魔术强化攻击附加物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "enhanced_attack_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "enhanced_attack_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=基础值+0.6×额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 49,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/formulas",
+      "detailRoute": "/skills/shaco_q/formulas/backstab_critical_multiplier",
+      "skillKey": "shaco_q",
+      "kind": "formulas",
+      "stableKey": "backstab_critical_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "backstab_critical_multiplier",
+        "name": "欺诈魔术背刺暴击倍率",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "crit_baseline"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "backstab_crit_coefficient"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_critical_damage_multiplier"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "crit_minus_one"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QCritDamageMod=1+0.6×(实际mStat9总暴击倍率−1)。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 50,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/formulas",
+      "detailRoute": "/skills/shaco_q/formulas/backstab_critical_full_attack_physical_damage",
+      "skillKey": "shaco_q",
+      "kind": "formulas",
+      "stableKey": "backstab_critical_full_attack_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "backstab_critical_full_attack_physical_damage",
+        "name": "欺诈魔术背刺暴击整段物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "crit_baseline"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "backstab_crit_coefficient"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_critical_damage_multiplier"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "crit_minus_one"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "enhanced_attack_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "enhanced_attack_bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "背后首次攻击会暴击；本公式包含本次基础普攻总攻击力一次和Q强化附加伤害，Q公式不自动包含P背刺或其他附伤；接线时避免再次叠加总攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 51,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_q/effects",
+      "detailRoute": "/skills/shaco_q/effects/mana_cost",
+      "skillKey": "shaco_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 52,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/base_damage",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "主动魔法伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 95,
+          "3": 120,
+          "4": 145,
+          "5": 170
+        },
+        "description": "TotalDamage的BaseDamage索引1至5为70/95/120/145/170；索引0=45。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 53,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/bonus_ad_ratio",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.800000012,
+        "levelValues": null,
+        "description": "TotalDamage的mStat=2、mStatFormula=2对应额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 54,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/ap_ratio",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.600000024,
+        "levelValues": null,
+        "description": "TotalDamage中的APRatio。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 55,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/execute_health_threshold_ratio",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "execute_health_threshold_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "execute_health_threshold_ratio",
+        "name": "斩杀生命阈值比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.300000012,
+        "levelValues": null,
+        "description": "ExecuteHealthThreshold索引1为0.3；作为低于30%条件输入。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 56,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/execute_multiplier",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "execute_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "execute_multiplier",
+        "name": "斩杀整段倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "TotalExecuteDamage完整树将TotalDamage乘以1.5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 57,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/slow_percent_points",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20.000000298,
+          "2": 22.499999404,
+          "3": 25,
+          "4": 27.500000596,
+          "5": 30.000001192
+        },
+        "description": "SlowAmount为负的内部减速比例，取绝对值后记录20/22.5/25/27.5/30百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 58,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/passive_slow_duration_ms",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "passive_slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_slow_duration_ms",
+        "name": "被动减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "被动慢速持续2秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 59,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/active_slow_duration_ms",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "active_slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "active_slow_duration_ms",
+        "name": "主动减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "主动慢速持续3秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 60,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/parameters",
+      "detailRoute": "/skills/shaco_e/parameters/cast_time_ms",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 61,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/formulas",
+      "detailRoute": "/skills/shaco_e/formulas/magic_damage",
+      "skillKey": "shaco_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "双面毒刃主动魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=基础值+0.8×额外攻击力+0.6×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 62,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/formulas",
+      "detailRoute": "/skills/shaco_e/formulas/execute_magic_damage",
+      "skillKey": "shaco_e",
+      "kind": "formulas",
+      "stableKey": "execute_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "execute_magic_damage",
+        "name": "双面毒刃斩杀魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "execute_multiplier"
+            }
+          ]
+        },
+        "description": "TotalExecuteDamage=完整TotalDamage×1.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 63,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_e/effects",
+      "detailRoute": "/skills/shaco_e/effects/mana_cost",
+      "skillKey": "shaco_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 64,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_r/parameters",
+      "detailRoute": "/skills/shaco_r/parameters/teleport_range",
+      "skillKey": "shaco_r",
+      "kind": "parameters",
+      "stableKey": "teleport_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "teleport_range",
+        "name": "本体传送范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 150,
+        "levelValues": null,
+        "description": "TeleportRange=150，仅作为位移范围证据，不推断伤害免疫。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 65,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_r/parameters",
+      "detailRoute": "/skills/shaco_r/parameters/cast_time_ms",
+      "skillKey": "shaco_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒；不替代暂时消失持续。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 66,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/shaco_r/effects",
+      "detailRoute": "/skills/shaco_r/effects/mana_cost",
+      "skillKey": "shaco_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 67,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_p/parameters",
+      "detailRoute": "/skills/heimerdinger_p/parameters/near_turret_move_speed_ratio",
+      "skillKey": "heimerdinger_p",
+      "kind": "parameters",
+      "stableKey": "near_turret_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "near_turret_move_speed_ratio",
+        "name": "炮台或友方防御塔附近移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.200000003,
+        "levelValues": null,
+        "description": "MovementSpeed=0.2；比例属性使用attribute_flat_add。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 68,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_p/effects",
+      "detailRoute": "/skills/heimerdinger_p/effects/near_turret_move_speed",
+      "skillKey": "heimerdinger_p",
+      "kind": "effects",
+      "stableKey": "near_turret_move_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "near_turret_move_speed",
+        "name": "海克斯科技亲和自身移动速度",
+        "description": "只定义自身20%移动速度比例；进入或离开自身炮台/友方防御塔近距资格由事件层接线，离开合资格近距时必须移除。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "海克斯科技亲和自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "只定义自身属性变化；近距资格成立时施加，离开合资格近距时移除，条件由事件层接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "near_turret_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 69,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/parameters",
+      "detailRoute": "/skills/heimerdinger_w/parameters/initial_base_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "initial_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_base_damage",
+        "name": "首颗导弹基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "description": "Damage的BaseDamage索引1至5为50/75/100/125/150；首颗命中。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 70,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/parameters",
+      "detailRoute": "/skills/heimerdinger_w/parameters/initial_ap_ratio",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "initial_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_ap_ratio",
+        "name": "首颗导弹法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.550000012,
+        "levelValues": null,
+        "description": "Damage中的InitialDamageAPRatio=0.55。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 71,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/parameters",
+      "detailRoute": "/skills/heimerdinger_w/parameters/following_base_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "following_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "following_base_damage",
+        "name": "同一目标后续每颗基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "description": "ExtraHitDamage的ExtraHitBaseDamage索引1至5为10/15/20/25/30；同一目标连续命中。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 72,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/parameters",
+      "detailRoute": "/skills/heimerdinger_w/parameters/following_ap_ratio",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "following_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "following_ap_ratio",
+        "name": "后续导弹法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.119999997,
+        "levelValues": null,
+        "description": "ExtraHitDamage的mCoefficient=0.12。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 73,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/parameters",
+      "detailRoute": "/skills/heimerdinger_w/parameters/all_five_base_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "all_five_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "all_five_base_damage",
+        "name": "五颗全部命中基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 90,
+          "2": 135,
+          "3": 180,
+          "4": 225,
+          "5": 270
+        },
+        "description": "当前TotalDamage消费TotalBaseDamage索引1至5为90/135/180/225/270；不从未消费字段任意拼接。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 74,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/parameters",
+      "detailRoute": "/skills/heimerdinger_w/parameters/all_five_ap_ratio",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "all_five_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "all_five_ap_ratio",
+        "name": "五颗全部命中法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.029999971,
+        "levelValues": null,
+        "description": "当前TotalDamage消费的mCoefficient=1.03。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 75,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/parameters",
+      "detailRoute": "/skills/heimerdinger_w/parameters/missile_count",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "missile_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missile_count",
+        "name": "导弹数量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前正文明确5颗；仅用于同一技能重复命中边界。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 76,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/parameters",
+      "detailRoute": "/skills/heimerdinger_w/parameters/cast_time_ms",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 77,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/formulas",
+      "detailRoute": "/skills/heimerdinger_w/formulas/initial_magic_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "formulas",
+      "stableKey": "initial_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_magic_damage",
+        "name": "微型导弹首颗魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "initial_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "initial_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage=首颗基础值+0.55×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 78,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/formulas",
+      "detailRoute": "/skills/heimerdinger_w/formulas/following_magic_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "formulas",
+      "stableKey": "following_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "following_magic_damage",
+        "name": "微型导弹同目标后续魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "following_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "following_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ExtraHitDamage=同一目标后续每颗基础值+0.12×法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 79,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/formulas",
+      "detailRoute": "/skills/heimerdinger_w/formulas/all_five_magic_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "formulas",
+      "stableKey": "all_five_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "all_five_magic_damage",
+        "name": "微型导弹五颗全部命中魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "all_five_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "all_five_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalDamage=五颗全部命中基础值+1.03×法强；首颗与后续命中资格由事件层接线。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 80,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_w/effects",
+      "detailRoute": "/skills/heimerdinger_w/effects/mana_cost",
+      "skillKey": "heimerdinger_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 81,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_e/parameters",
+      "detailRoute": "/skills/heimerdinger_e/parameters/base_damage",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "魔法伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 100,
+          "3": 140,
+          "4": 180,
+          "5": 220
+        },
+        "description": "Damage的BaseDamage索引1至5为60/100/140/180/220；索引0=20。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 82,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_e/parameters",
+      "detailRoute": "/skills/heimerdinger_e/parameters/ap_ratio",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.600000024,
+        "levelValues": null,
+        "description": "Damage的mCoefficient=0.6。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 83,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_e/parameters",
+      "detailRoute": "/skills/heimerdinger_e/parameters/slow_percent_points",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 34.999999404,
+        "levelValues": null,
+        "description": "SlowPercent=0.35，转换为35百分数点。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 84,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_e/parameters",
+      "detailRoute": "/skills/heimerdinger_e/parameters/slow_duration_ms",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "SlowDuration=2秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 85,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_e/parameters",
+      "detailRoute": "/skills/heimerdinger_e/parameters/stun_duration_ms",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "中心眩晕持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "StunDuration=1.5秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 86,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_e/parameters",
+      "detailRoute": "/skills/heimerdinger_e/parameters/cast_time_ms",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 87,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_e/formulas",
+      "detailRoute": "/skills/heimerdinger_e/formulas/magic_damage",
+      "skillKey": "heimerdinger_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "电子风暴手雷魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage=基础值+0.6×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 88,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_e/effects",
+      "detailRoute": "/skills/heimerdinger_e/effects/mana_cost",
+      "skillKey": "heimerdinger_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 89,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/cast_time_seconds",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_seconds",
+        "name": "施法时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.381249994,
+        "levelValues": null,
+        "description": "源spellCastTime=0.3812499940395355秒，毫秒值不是整数，保留原始秒值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 90,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/rw_initial_base_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_initial_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_initial_base_damage",
+        "name": "强化W首段基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 135,
+          "2": 180,
+          "3": 225
+        },
+        "description": "WUltDamage消费WUltBaseDamage索引1至3为135/180/225；不是每波总值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 91,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/rw_initial_ap_ratio",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_initial_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_initial_ap_ratio",
+        "name": "强化W首段法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.449999988,
+        "levelValues": null,
+        "description": "WUltDamage当前消费的mCoefficient=0.45。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 92,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/rw_total_base_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_total_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_total_base_damage",
+        "name": "强化W当前最大伤害基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 503,
+          "2": 697.5,
+          "3": 892
+        },
+        "description": "WUltTotalDamage消费WUltTotalBaseDamage索引1至3为503/697.5/892。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 93,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/rw_total_ap_ratio",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_total_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_total_ap_ratio",
+        "name": "强化W当前最大伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.830000043,
+        "levelValues": null,
+        "description": "WUltTotalDamage当前消费的mCoefficient=1.83。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 94,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/rw_wave_count",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_wave_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_wave_count",
+        "name": "强化W波数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "当前正文明确发射4波；额外导弹减伤和兵野分支不录。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 95,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/re_discharge_base_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "re_discharge_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "re_discharge_base_damage",
+        "name": "强化E单次放电基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 200,
+          "3": 300
+        },
+        "description": "EUltDamage消费EUltBaseDamage索引1至3为100/200/300；同一目标命中次数未证。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 96,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/re_ap_ratio",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "re_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "re_ap_ratio",
+        "name": "强化E单次放电法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.600000024,
+        "levelValues": null,
+        "description": "EUltDamage当前消费的mCoefficient=0.6。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 97,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/parameters",
+      "detailRoute": "/skills/heimerdinger_r/parameters/re_same_target_discharge_count",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "re_same_target_discharge_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "re_same_target_discharge_count",
+        "name": "强化E同一目标放电命中次数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "正文虽写放电3次，但同一目标实际可命中次数未证；运行层必须提供实际次数，不默认3。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 98,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/formulas",
+      "detailRoute": "/skills/heimerdinger_r/formulas/rw_initial_magic_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "formulas",
+      "stableKey": "rw_initial_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "rw_initial_magic_damage",
+        "name": "升级导弹集群首段魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rw_initial_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rw_initial_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前WUltDamage=强化W首段基础值+0.45×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 99,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/formulas",
+      "detailRoute": "/skills/heimerdinger_r/formulas/rw_total_magic_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "formulas",
+      "stableKey": "rw_total_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "rw_total_magic_damage",
+        "name": "升级导弹集群当前最大魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rw_total_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rw_total_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前WUltTotalDamage=已消费最大值基础段+1.83×法强；不把旧次段拼入。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 100,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/formulas",
+      "detailRoute": "/skills/heimerdinger_r/formulas/re_single_discharge_magic_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "formulas",
+      "stableKey": "re_single_discharge_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "re_single_discharge_magic_damage",
+        "name": "强化闪电手雷单次放电魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "re_discharge_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "re_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前EUltDamage=单次放电基础值+0.6×法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 101,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/formulas",
+      "detailRoute": "/skills/heimerdinger_r/formulas/re_same_target_total_magic_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "formulas",
+      "stableKey": "re_same_target_total_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "re_same_target_total_magic_damage",
+        "name": "强化闪电手雷同一目标总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "re_discharge_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "re_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "re_same_target_discharge_count"
+            }
+          ]
+        },
+        "description": "按运行层提供的同一目标实际放电命中次数计算；不把正文3次直接当同目标总次数。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 102,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/heimerdinger_r/effects",
+      "detailRoute": "/skills/heimerdinger_r/effects/mana_cost",
+      "skillKey": "heimerdinger_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；升级技能无消耗由资格说明保留。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 103,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_q/parameters",
+      "detailRoute": "/skills/zyra_q/parameters/base_damage",
+      "skillKey": "zyra_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "本体魔法伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 100,
+          "3": 140,
+          "4": 180,
+          "5": 220
+        },
+        "description": "InitialDamage当前消费BaseDamage索引1至5为60/100/140/180/220；索引0虽为60但不作1级。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 104,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_q/parameters",
+      "detailRoute": "/skills/zyra_q/parameters/ap_ratio",
+      "skillKey": "zyra_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.649999976,
+        "levelValues": null,
+        "description": "InitialDamage当前消费的mCoefficient=0.65。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 105,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_q/parameters",
+      "detailRoute": "/skills/zyra_q/parameters/cast_time_ms",
+      "skillKey": "zyra_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 106,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_q/formulas",
+      "detailRoute": "/skills/zyra_q/formulas/magic_damage",
+      "skillKey": "zyra_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "致命棘刺本体魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前正文消费tooltipOnly的InitialDamage=基础值+0.65×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 107,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_q/effects",
+      "detailRoute": "/skills/zyra_q/effects/mana_cost",
+      "skillKey": "zyra_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 108,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_e/parameters",
+      "detailRoute": "/skills/zyra_e/parameters/base_damage",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "本体魔法伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "description": "TotalDamage当前消费BaseDamage索引1至5为60/95/130/165/200；索引0=25。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 109,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_e/parameters",
+      "detailRoute": "/skills/zyra_e/parameters/ap_ratio",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.600000024,
+        "levelValues": null,
+        "description": "TotalDamage当前消费的mCoefficient=0.6。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 110,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_e/parameters",
+      "detailRoute": "/skills/zyra_e/parameters/root_duration_ms",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "禁锢持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1250,
+          "3": 1500,
+          "4": 1750,
+          "5": 2000
+        },
+        "description": "RootDuration索引1至5为1/1.25/1.5/1.75/2秒；索引0=0.75不作1级。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 111,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_e/parameters",
+      "detailRoute": "/skills/zyra_e/parameters/cast_time_ms",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 112,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_e/formulas",
+      "detailRoute": "/skills/zyra_e/formulas/magic_damage",
+      "skillKey": "zyra_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "缠绕之根本体魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前正文消费TotalDamage=基础值+0.6×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 113,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_e/effects",
+      "detailRoute": "/skills/zyra_e/effects/mana_cost",
+      "skillKey": "zyra_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 114,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_r/parameters",
+      "detailRoute": "/skills/zyra_r/parameters/base_damage",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "密林本体基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "description": "TotalDamage当前消费BaseDamage索引1至3为200/300/400；索引0亦为200但不作未学R默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 115,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_r/parameters",
+      "detailRoute": "/skills/zyra_r/parameters/ap_ratio",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.699999988,
+        "levelValues": null,
+        "description": "TotalDamage当前消费的mCoefficient=0.7。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 116,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_r/parameters",
+      "detailRoute": "/skills/zyra_r/parameters/knockup_delay_ms",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "knockup_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_delay_ms",
+        "name": "击飞前延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前正文明确2秒后击飞；这是命中后延迟，不是施法时间。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 117,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_r/parameters",
+      "detailRoute": "/skills/zyra_r/parameters/knockup_duration_ms",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "击飞持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "KnockupDuration=1秒，转换为整数毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 118,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_r/parameters",
+      "detailRoute": "/skills/zyra_r/parameters/cast_time_ms",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒；不与击飞延迟混淆。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 119,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_r/formulas",
+      "detailRoute": "/skills/zyra_r/formulas/magic_damage",
+      "skillKey": "zyra_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "绞杀之藤本体魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前正文消费tooltipOnly的TotalDamage=基础值+0.7×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 120,
+      "operation": "POST",
+      "method": "POST",
+      "route": "/skills/zyra_r/effects",
+      "detailRoute": "/skills/zyra_r/effects/mana_cost",
+      "skillKey": "zyra_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "sortOrder": 900,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_resource",
+            "name": "施放资源消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": "不表示战斗事件已经接线。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "noApiCalls": true,
+  "apiWrites": 0,
+  "businessWrites": 0
+}

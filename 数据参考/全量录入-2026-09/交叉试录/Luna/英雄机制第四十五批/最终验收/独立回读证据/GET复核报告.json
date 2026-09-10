@@ -1,0 +1,79 @@
+{
+  "generatedAt": "2026-09-10T02:35:46.740Z",
+  "reportType": "第45批独立GET复核",
+  "batch": "英雄机制第四十五批提莫萨科黑默丁格婕拉",
+  "revision": "hero45-source-v1-luna-candidate-revision-1",
+  "sourcePolicy": "固定客户端16.17、官方资料16.17.1；只读本地8080接口；不执行POST、PUT、DELETE、数据库、浏览器或Git。",
+  "frozenEvidence": {
+    "candidateFile": "hero45-luna-candidate\\修订一\\完整候选.json",
+    "candidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
+    "expectedCandidateSha256": "db51da6ae6ba0ab2e5008be49cf667642313e8d56e6499c42e4224bca0130ecb",
+    "planFile": "hero45-luna-candidate\\修订一\\写前请求计划.json",
+    "planSha256": "e416d8b6bedadf3bfccaf51a3c68052e4361fe88f8be64661f1dc989dfdf1b05",
+    "expectedPlanSha256": "e416d8b6bedadf3bfccaf51a3c68052e4361fe88f8be64661f1dc989dfdf1b05",
+    "actualWriteFile": "hero45-luna-candidate\\修订一\\实际写入\\2026-09-10T02-17-18-870Z\\执行结果.json",
+    "actualWriteSha256": "6e47851f9cb2e8e1fffc0400d555eb9051a2b7d339c5323cfe08c118b7b82ab5",
+    "actualWriteCounts": {
+      "GET": 912,
+      "POST": 120
+    },
+    "actualWriteSuccess": true,
+    "protectionSha256": "cf0d74b77b0b3eb1c7c1e40fc73d59744c39637ae3ecf44370ce88b10ca5634a"
+  },
+  "counts": {
+    "newItems": 120,
+    "newParameters": 82,
+    "newFormulas": 23,
+    "newEffects": 15,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "reusedPublic": 22,
+    "protectedBaselineGETs": 194,
+    "finalDetailGETs": 142,
+    "totalGETs": 336
+  },
+  "protectedBaseline": {
+    "statusCounts": {
+      "200": 194
+    },
+    "checked": 194,
+    "collectionCount": 120,
+    "failureCount": 0,
+    "mismatchCount": 0,
+    "failures": [],
+    "mismatches": []
+  },
+  "finalDetails": {
+    "statusCounts": {
+      "200": 142
+    },
+    "checked": 142,
+    "failureCount": 0,
+    "mismatchCount": 0,
+    "failures": [],
+    "mismatches": []
+  },
+  "candidateReplacement": {
+    "sourceCandidateWasNotModified": true,
+    "overlayFile": "hero45-independent-review\\GET覆盖候选.json",
+    "overlaySha256": "487e2981ee142dc608848025d71cf9393637fad7e036fecf6c87074a95579d5e",
+    "newItemsExpected": 120,
+    "newItemsReplacedFromFinalGET": 120,
+    "missingReplacementCount": 0,
+    "publicDetailsUsedFromFinalGET": 22
+  },
+  "restrictions": {
+    "getOnlyCalls": 336,
+    "postCalls": 0,
+    "putCalls": 0,
+    "deleteCalls": 0,
+    "extraMathGETs": 0,
+    "browserCalls": 0,
+    "databaseCalls": 0,
+    "gitWrites": 0
+  },
+  "snapshotFile": "hero45-independent-review\\GET复核快照.json",
+  "routePlanFile": "hero45-independent-review\\GET复核请求清单.json",
+  "statusPass": true
+}

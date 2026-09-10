@@ -1,0 +1,30 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/teemo_w/parameters",
+    "detailRoute": "/skills/teemo_w/parameters/passive_move_speed_ratio",
+    "skillKey": "teemo_w",
+    "kind": "parameters",
+    "stableKey": "passive_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_move_speed_ratio",
+      "name": "被动移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.119999997,
+        "2": 0.159999996,
+        "3": 0.200000003,
+        "4": 0.239999995,
+        "5": 0.280000001
+      },
+      "description": "PassiveMoveSpeedBonus索引1至5为0.12/0.16/0.20/0.24/0.28；比例属性用attribute_flat_add。",
+      "sortOrder": 10
+    }
+  }
+}

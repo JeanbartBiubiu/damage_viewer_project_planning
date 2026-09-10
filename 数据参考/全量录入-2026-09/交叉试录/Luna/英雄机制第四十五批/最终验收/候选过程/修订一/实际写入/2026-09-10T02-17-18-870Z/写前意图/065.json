@@ -1,0 +1,24 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_r/parameters",
+    "detailRoute": "/skills/shaco_r/parameters/cast_time_ms",
+    "skillKey": "shaco_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0.25秒；不替代暂时消失持续。",
+      "sortOrder": 20
+    }
+  }
+}

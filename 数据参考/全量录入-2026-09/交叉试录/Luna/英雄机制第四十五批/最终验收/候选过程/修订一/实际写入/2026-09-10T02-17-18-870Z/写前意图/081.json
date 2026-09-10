@@ -1,0 +1,30 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 81,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_e/parameters",
+    "detailRoute": "/skills/heimerdinger_e/parameters/base_damage",
+    "skillKey": "heimerdinger_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "魔法伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "description": "Damage的BaseDamage索引1至5为60/100/140/180/220；索引0=20。",
+      "sortOrder": 10
+    }
+  }
+}

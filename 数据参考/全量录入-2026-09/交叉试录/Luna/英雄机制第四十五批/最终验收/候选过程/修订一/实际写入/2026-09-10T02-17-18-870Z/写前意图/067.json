@@ -1,0 +1,24 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 67,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_p/parameters",
+    "detailRoute": "/skills/heimerdinger_p/parameters/near_turret_move_speed_ratio",
+    "skillKey": "heimerdinger_p",
+    "kind": "parameters",
+    "stableKey": "near_turret_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "near_turret_move_speed_ratio",
+      "name": "炮台或友方防御塔附近移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.200000003,
+      "levelValues": null,
+      "description": "MovementSpeed=0.2；比例属性使用attribute_flat_add。",
+      "sortOrder": 10
+    }
+  }
+}

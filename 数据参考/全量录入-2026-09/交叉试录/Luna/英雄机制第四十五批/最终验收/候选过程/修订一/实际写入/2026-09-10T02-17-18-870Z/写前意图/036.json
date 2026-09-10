@@ -1,0 +1,24 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_p/parameters",
+    "detailRoute": "/skills/shaco_p/parameters/execute_health_threshold_ratio",
+    "skillKey": "shaco_p",
+    "kind": "parameters",
+    "stableKey": "execute_health_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_health_threshold_ratio",
+      "name": "背刺E斩杀生命阈值比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "当前被动正文明确目标低于30%生命值；阈值条件由事件层接线。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/heimerdinger_r/parameters",
+    "detailRoute": "/skills/heimerdinger_r/parameters/rw_wave_count",
+    "skillKey": "heimerdinger_r",
+    "kind": "parameters",
+    "stableKey": "rw_wave_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_wave_count",
+      "name": "强化W波数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "当前正文明确发射4波；额外导弹减伤和兵野分支不录。",
+      "sortOrder": 60
+    }
+  }
+}

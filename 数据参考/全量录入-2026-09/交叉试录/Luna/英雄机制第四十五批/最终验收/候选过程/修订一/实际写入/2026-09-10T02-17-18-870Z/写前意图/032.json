@@ -1,0 +1,24 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 32,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_p/parameters",
+    "detailRoute": "/skills/shaco_p/parameters/backstab_bonus_ad_ratio",
+    "skillKey": "shaco_p",
+    "kind": "parameters",
+    "stableKey": "backstab_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "backstab_bonus_ad_ratio",
+      "name": "背刺普攻额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.200000003,
+      "levelValues": null,
+      "description": "BasicAttackDamage中mStat=2、mStatFormula=2的AttackBonusADRatio。",
+      "sortOrder": 20
+    }
+  }
+}

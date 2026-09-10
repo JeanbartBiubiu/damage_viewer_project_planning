@@ -1,0 +1,1200 @@
+{
+  "generatedAt": "2026-09-10T02:35:46.740Z",
+  "method": "GET",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "protectedBaselineCount": 194,
+  "finalDetailCount": 142,
+  "totalCount": 336,
+  "protectedBaselineRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_teemo",
+    "/character-skill-relations?characterKey=champion_teemo",
+    "/characters/champion_shaco",
+    "/character-skill-relations?characterKey=champion_shaco",
+    "/characters/champion_heimerdinger",
+    "/character-skill-relations?characterKey=champion_heimerdinger",
+    "/characters/champion_zyra",
+    "/character-skill-relations?characterKey=champion_zyra",
+    "/skills/teemo_p",
+    "/skills/teemo_p/representative-image",
+    "/skills/teemo_p/parameters",
+    "/skills/teemo_p/formulas",
+    "/skills/teemo_p/effects",
+    "/skills/teemo_p/processes",
+    "/skills/teemo_p/internal-states",
+    "/skills/teemo_p/trigger-rules",
+    "/skills/teemo_q",
+    "/skills/teemo_q/representative-image",
+    "/skills/teemo_q/parameters",
+    "/skills/teemo_q/parameters/cooldown_ms",
+    "/skills/teemo_q/parameters/mana_cost",
+    "/skills/teemo_q/formulas",
+    "/skills/teemo_q/effects",
+    "/skills/teemo_q/processes",
+    "/skills/teemo_q/internal-states",
+    "/skills/teemo_q/trigger-rules",
+    "/skills/teemo_w",
+    "/skills/teemo_w/representative-image",
+    "/skills/teemo_w/parameters",
+    "/skills/teemo_w/parameters/cooldown_ms",
+    "/skills/teemo_w/parameters/mana_cost",
+    "/skills/teemo_w/formulas",
+    "/skills/teemo_w/effects",
+    "/skills/teemo_w/processes",
+    "/skills/teemo_w/internal-states",
+    "/skills/teemo_w/trigger-rules",
+    "/skills/teemo_e",
+    "/skills/teemo_e/representative-image",
+    "/skills/teemo_e/parameters",
+    "/skills/teemo_e/formulas",
+    "/skills/teemo_e/effects",
+    "/skills/teemo_e/processes",
+    "/skills/teemo_e/internal-states",
+    "/skills/teemo_e/trigger-rules",
+    "/skills/teemo_r",
+    "/skills/teemo_r/representative-image",
+    "/skills/teemo_r/parameters",
+    "/skills/teemo_r/formulas",
+    "/skills/teemo_r/effects",
+    "/skills/teemo_r/processes",
+    "/skills/teemo_r/internal-states",
+    "/skills/teemo_r/trigger-rules",
+    "/skills/shaco_p",
+    "/skills/shaco_p/representative-image",
+    "/skills/shaco_p/parameters",
+    "/skills/shaco_p/formulas",
+    "/skills/shaco_p/effects",
+    "/skills/shaco_p/processes",
+    "/skills/shaco_p/internal-states",
+    "/skills/shaco_p/trigger-rules",
+    "/skills/shaco_q",
+    "/skills/shaco_q/representative-image",
+    "/skills/shaco_q/parameters",
+    "/skills/shaco_q/parameters/cooldown_ms",
+    "/skills/shaco_q/parameters/mana_cost",
+    "/skills/shaco_q/formulas",
+    "/skills/shaco_q/effects",
+    "/skills/shaco_q/processes",
+    "/skills/shaco_q/internal-states",
+    "/skills/shaco_q/trigger-rules",
+    "/skills/shaco_w",
+    "/skills/shaco_w/representative-image",
+    "/skills/shaco_w/parameters",
+    "/skills/shaco_w/formulas",
+    "/skills/shaco_w/effects",
+    "/skills/shaco_w/processes",
+    "/skills/shaco_w/internal-states",
+    "/skills/shaco_w/trigger-rules",
+    "/skills/shaco_e",
+    "/skills/shaco_e/representative-image",
+    "/skills/shaco_e/parameters",
+    "/skills/shaco_e/parameters/cooldown_ms",
+    "/skills/shaco_e/parameters/mana_cost",
+    "/skills/shaco_e/formulas",
+    "/skills/shaco_e/effects",
+    "/skills/shaco_e/processes",
+    "/skills/shaco_e/internal-states",
+    "/skills/shaco_e/trigger-rules",
+    "/skills/shaco_r",
+    "/skills/shaco_r/representative-image",
+    "/skills/shaco_r/parameters",
+    "/skills/shaco_r/parameters/cooldown_ms",
+    "/skills/shaco_r/parameters/mana_cost",
+    "/skills/shaco_r/formulas",
+    "/skills/shaco_r/effects",
+    "/skills/shaco_r/processes",
+    "/skills/shaco_r/internal-states",
+    "/skills/shaco_r/trigger-rules",
+    "/skills/heimerdinger_p",
+    "/skills/heimerdinger_p/representative-image",
+    "/skills/heimerdinger_p/parameters",
+    "/skills/heimerdinger_p/formulas",
+    "/skills/heimerdinger_p/effects",
+    "/skills/heimerdinger_p/processes",
+    "/skills/heimerdinger_p/internal-states",
+    "/skills/heimerdinger_p/trigger-rules",
+    "/skills/heimerdinger_q",
+    "/skills/heimerdinger_q/representative-image",
+    "/skills/heimerdinger_q/parameters",
+    "/skills/heimerdinger_q/formulas",
+    "/skills/heimerdinger_q/effects",
+    "/skills/heimerdinger_q/processes",
+    "/skills/heimerdinger_q/internal-states",
+    "/skills/heimerdinger_q/trigger-rules",
+    "/skills/heimerdinger_w",
+    "/skills/heimerdinger_w/representative-image",
+    "/skills/heimerdinger_w/parameters",
+    "/skills/heimerdinger_w/parameters/cooldown_ms",
+    "/skills/heimerdinger_w/parameters/mana_cost",
+    "/skills/heimerdinger_w/formulas",
+    "/skills/heimerdinger_w/effects",
+    "/skills/heimerdinger_w/processes",
+    "/skills/heimerdinger_w/internal-states",
+    "/skills/heimerdinger_w/trigger-rules",
+    "/skills/heimerdinger_e",
+    "/skills/heimerdinger_e/representative-image",
+    "/skills/heimerdinger_e/parameters",
+    "/skills/heimerdinger_e/parameters/cooldown_ms",
+    "/skills/heimerdinger_e/parameters/mana_cost",
+    "/skills/heimerdinger_e/formulas",
+    "/skills/heimerdinger_e/effects",
+    "/skills/heimerdinger_e/processes",
+    "/skills/heimerdinger_e/internal-states",
+    "/skills/heimerdinger_e/trigger-rules",
+    "/skills/heimerdinger_r",
+    "/skills/heimerdinger_r/representative-image",
+    "/skills/heimerdinger_r/parameters",
+    "/skills/heimerdinger_r/parameters/cooldown_ms",
+    "/skills/heimerdinger_r/parameters/mana_cost",
+    "/skills/heimerdinger_r/formulas",
+    "/skills/heimerdinger_r/effects",
+    "/skills/heimerdinger_r/processes",
+    "/skills/heimerdinger_r/internal-states",
+    "/skills/heimerdinger_r/trigger-rules",
+    "/skills/zyra_p",
+    "/skills/zyra_p/representative-image",
+    "/skills/zyra_p/parameters",
+    "/skills/zyra_p/formulas",
+    "/skills/zyra_p/effects",
+    "/skills/zyra_p/processes",
+    "/skills/zyra_p/internal-states",
+    "/skills/zyra_p/trigger-rules",
+    "/skills/zyra_q",
+    "/skills/zyra_q/representative-image",
+    "/skills/zyra_q/parameters",
+    "/skills/zyra_q/parameters/cooldown_ms",
+    "/skills/zyra_q/parameters/mana_cost",
+    "/skills/zyra_q/formulas",
+    "/skills/zyra_q/effects",
+    "/skills/zyra_q/processes",
+    "/skills/zyra_q/internal-states",
+    "/skills/zyra_q/trigger-rules",
+    "/skills/zyra_w",
+    "/skills/zyra_w/representative-image",
+    "/skills/zyra_w/parameters",
+    "/skills/zyra_w/formulas",
+    "/skills/zyra_w/effects",
+    "/skills/zyra_w/processes",
+    "/skills/zyra_w/internal-states",
+    "/skills/zyra_w/trigger-rules",
+    "/skills/zyra_e",
+    "/skills/zyra_e/representative-image",
+    "/skills/zyra_e/parameters",
+    "/skills/zyra_e/parameters/cooldown_ms",
+    "/skills/zyra_e/parameters/mana_cost",
+    "/skills/zyra_e/formulas",
+    "/skills/zyra_e/effects",
+    "/skills/zyra_e/processes",
+    "/skills/zyra_e/internal-states",
+    "/skills/zyra_e/trigger-rules",
+    "/skills/zyra_r",
+    "/skills/zyra_r/representative-image",
+    "/skills/zyra_r/parameters",
+    "/skills/zyra_r/parameters/cooldown_ms",
+    "/skills/zyra_r/parameters/mana_cost",
+    "/skills/zyra_r/formulas",
+    "/skills/zyra_r/effects",
+    "/skills/zyra_r/processes",
+    "/skills/zyra_r/internal-states",
+    "/skills/zyra_r/trigger-rules"
+  ],
+  "finalDetailRoutes": [
+    {
+      "route": "/skills/teemo_p/parameters/stealth_stationary_duration_ms",
+      "skillKey": "teemo_p",
+      "kind": "parameters",
+      "stableKey": "stealth_stationary_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_p/parameters/attack_speed_duration_ms",
+      "skillKey": "teemo_p",
+      "kind": "parameters",
+      "stableKey": "attack_speed_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_p/parameters/attack_speed_ratio",
+      "skillKey": "teemo_p",
+      "kind": "parameters",
+      "stableKey": "attack_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_p/effects/self_attack_speed",
+      "skillKey": "teemo_p",
+      "kind": "effects",
+      "stableKey": "self_attack_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_q/parameters/base_damage",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_q/parameters/ap_ratio",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_q/parameters/blind_duration_ms",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "blind_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_q/parameters/cast_time_ms",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_q/formulas/magic_damage",
+      "skillKey": "teemo_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_q/effects/mana_cost",
+      "skillKey": "teemo_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_w/parameters/passive_move_speed_ratio",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "passive_move_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_w/parameters/passive_no_hero_damage_window_ms",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "passive_no_hero_damage_window_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_w/parameters/active_move_speed_ratio",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "active_move_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_w/parameters/active_move_speed_duration_ms",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "active_move_speed_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_w/parameters/cast_time_seconds",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_seconds",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_w/effects/passive_move_speed",
+      "skillKey": "teemo_w",
+      "kind": "effects",
+      "stableKey": "passive_move_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_w/effects/active_move_speed",
+      "skillKey": "teemo_w",
+      "kind": "effects",
+      "stableKey": "active_move_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_w/effects/mana_cost",
+      "skillKey": "teemo_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/impact_base_damage",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "impact_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/impact_ap_ratio",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "impact_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/impact_bonus_ad_ratio",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "impact_bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/tick_base_damage",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "tick_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/tick_ap_ratio",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "tick_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/tick_bonus_ad_ratio",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "tick_bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/poison_duration_ms",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "poison_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/tick_interval_ms",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "tick_interval_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/parameters/poison_tick_count",
+      "skillKey": "teemo_e",
+      "kind": "parameters",
+      "stableKey": "poison_tick_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/formulas/impact_magic_damage",
+      "skillKey": "teemo_e",
+      "kind": "formulas",
+      "stableKey": "impact_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/formulas/poison_tick_magic_damage",
+      "skillKey": "teemo_e",
+      "kind": "formulas",
+      "stableKey": "poison_tick_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_e/formulas/total_poison_magic_damage",
+      "skillKey": "teemo_e",
+      "kind": "formulas",
+      "stableKey": "total_poison_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/parameters/backstab_base_damage",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "backstab_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/parameters/backstab_bonus_ad_ratio",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "backstab_bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/parameters/shivs_base_damage",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "shivs_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/parameters/shivs_ap_ratio",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "shivs_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/parameters/shivs_execute_multiplier",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "shivs_execute_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/parameters/execute_health_threshold_ratio",
+      "skillKey": "shaco_p",
+      "kind": "parameters",
+      "stableKey": "execute_health_threshold_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/formulas/backstab_basic_attack_physical_damage",
+      "skillKey": "shaco_p",
+      "kind": "formulas",
+      "stableKey": "backstab_basic_attack_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/formulas/backstab_shiv_magic_damage",
+      "skillKey": "shaco_p",
+      "kind": "formulas",
+      "stableKey": "backstab_shiv_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_p/formulas/backstab_shiv_execute_magic_damage",
+      "skillKey": "shaco_p",
+      "kind": "formulas",
+      "stableKey": "backstab_shiv_execute_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/parameters/stealth_duration_ms",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "stealth_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/parameters/enhanced_attack_base_damage",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_attack_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/parameters/enhanced_attack_bonus_ad_ratio",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_attack_bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/parameters/backstab_crit_coefficient",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "backstab_crit_coefficient",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/parameters/crit_baseline",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "crit_baseline",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/parameters/crit_minus_one",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "crit_minus_one",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/parameters/actual_critical_damage_multiplier",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "actual_critical_damage_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/parameters/cast_time_ms",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/formulas/enhanced_attack_physical_damage",
+      "skillKey": "shaco_q",
+      "kind": "formulas",
+      "stableKey": "enhanced_attack_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/formulas/backstab_critical_multiplier",
+      "skillKey": "shaco_q",
+      "kind": "formulas",
+      "stableKey": "backstab_critical_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/formulas/backstab_critical_full_attack_physical_damage",
+      "skillKey": "shaco_q",
+      "kind": "formulas",
+      "stableKey": "backstab_critical_full_attack_physical_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_q/effects/mana_cost",
+      "skillKey": "shaco_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/base_damage",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/bonus_ad_ratio",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/ap_ratio",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/execute_health_threshold_ratio",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "execute_health_threshold_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/execute_multiplier",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "execute_multiplier",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/slow_percent_points",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/passive_slow_duration_ms",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "passive_slow_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/active_slow_duration_ms",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "active_slow_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/parameters/cast_time_ms",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/formulas/magic_damage",
+      "skillKey": "shaco_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/formulas/execute_magic_damage",
+      "skillKey": "shaco_e",
+      "kind": "formulas",
+      "stableKey": "execute_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_e/effects/mana_cost",
+      "skillKey": "shaco_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_r/parameters/teleport_range",
+      "skillKey": "shaco_r",
+      "kind": "parameters",
+      "stableKey": "teleport_range",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_r/parameters/cast_time_ms",
+      "skillKey": "shaco_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/shaco_r/effects/mana_cost",
+      "skillKey": "shaco_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_p/parameters/near_turret_move_speed_ratio",
+      "skillKey": "heimerdinger_p",
+      "kind": "parameters",
+      "stableKey": "near_turret_move_speed_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_p/effects/near_turret_move_speed",
+      "skillKey": "heimerdinger_p",
+      "kind": "effects",
+      "stableKey": "near_turret_move_speed",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/initial_base_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "initial_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/initial_ap_ratio",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "initial_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/following_base_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "following_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/following_ap_ratio",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "following_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/all_five_base_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "all_five_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/all_five_ap_ratio",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "all_five_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/missile_count",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "missile_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/cast_time_ms",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/formulas/initial_magic_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "formulas",
+      "stableKey": "initial_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/formulas/following_magic_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "formulas",
+      "stableKey": "following_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/formulas/all_five_magic_damage",
+      "skillKey": "heimerdinger_w",
+      "kind": "formulas",
+      "stableKey": "all_five_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_w/effects/mana_cost",
+      "skillKey": "heimerdinger_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/base_damage",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/ap_ratio",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/slow_percent_points",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/slow_duration_ms",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/stun_duration_ms",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/cast_time_ms",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_e/formulas/magic_damage",
+      "skillKey": "heimerdinger_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_e/effects/mana_cost",
+      "skillKey": "heimerdinger_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/cast_time_seconds",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_seconds",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/rw_initial_base_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_initial_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/rw_initial_ap_ratio",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_initial_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/rw_total_base_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_total_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/rw_total_ap_ratio",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_total_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/rw_wave_count",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "rw_wave_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/re_discharge_base_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "re_discharge_base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/re_ap_ratio",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "re_ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/re_same_target_discharge_count",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "re_same_target_discharge_count",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/formulas/rw_initial_magic_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "formulas",
+      "stableKey": "rw_initial_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/formulas/rw_total_magic_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "formulas",
+      "stableKey": "rw_total_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/formulas/re_single_discharge_magic_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "formulas",
+      "stableKey": "re_single_discharge_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/formulas/re_same_target_total_magic_damage",
+      "skillKey": "heimerdinger_r",
+      "kind": "formulas",
+      "stableKey": "re_same_target_total_magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/heimerdinger_r/effects/mana_cost",
+      "skillKey": "heimerdinger_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_q/parameters/base_damage",
+      "skillKey": "zyra_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_q/parameters/ap_ratio",
+      "skillKey": "zyra_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_q/parameters/cast_time_ms",
+      "skillKey": "zyra_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_q/formulas/magic_damage",
+      "skillKey": "zyra_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_q/effects/mana_cost",
+      "skillKey": "zyra_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_e/parameters/base_damage",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_e/parameters/ap_ratio",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_e/parameters/root_duration_ms",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_e/parameters/cast_time_ms",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_e/formulas/magic_damage",
+      "skillKey": "zyra_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_e/effects/mana_cost",
+      "skillKey": "zyra_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_r/parameters/base_damage",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_r/parameters/ap_ratio",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_r/parameters/knockup_delay_ms",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "knockup_delay_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_r/parameters/knockup_duration_ms",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_r/parameters/cast_time_ms",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_r/formulas/magic_damage",
+      "skillKey": "zyra_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "reused": false
+    },
+    {
+      "route": "/skills/zyra_r/effects/mana_cost",
+      "skillKey": "zyra_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "reused": false
+    },
+    {
+      "route": "/skills/teemo_q/parameters/cooldown_ms",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/teemo_q/parameters/mana_cost",
+      "skillKey": "teemo_q",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/teemo_w/parameters/cooldown_ms",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/teemo_w/parameters/mana_cost",
+      "skillKey": "teemo_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/shaco_q/parameters/cooldown_ms",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/shaco_q/parameters/mana_cost",
+      "skillKey": "shaco_q",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/shaco_e/parameters/cooldown_ms",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/shaco_e/parameters/mana_cost",
+      "skillKey": "shaco_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/shaco_r/parameters/cooldown_ms",
+      "skillKey": "shaco_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/shaco_r/parameters/mana_cost",
+      "skillKey": "shaco_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/cooldown_ms",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/heimerdinger_w/parameters/mana_cost",
+      "skillKey": "heimerdinger_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/cooldown_ms",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/heimerdinger_e/parameters/mana_cost",
+      "skillKey": "heimerdinger_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/cooldown_ms",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/heimerdinger_r/parameters/mana_cost",
+      "skillKey": "heimerdinger_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/zyra_q/parameters/cooldown_ms",
+      "skillKey": "zyra_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/zyra_q/parameters/mana_cost",
+      "skillKey": "zyra_q",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/zyra_e/parameters/cooldown_ms",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/zyra_e/parameters/mana_cost",
+      "skillKey": "zyra_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    },
+    {
+      "route": "/skills/zyra_r/parameters/cooldown_ms",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "reused": true
+    },
+    {
+      "route": "/skills/zyra_r/parameters/mana_cost",
+      "skillKey": "zyra_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "reused": true
+    }
+  ]
+}

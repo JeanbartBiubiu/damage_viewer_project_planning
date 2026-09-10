@@ -1,0 +1,46 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shaco_q/formulas",
+    "detailRoute": "/skills/shaco_q/formulas/enhanced_attack_physical_damage",
+    "skillKey": "shaco_q",
+    "kind": "formulas",
+    "stableKey": "enhanced_attack_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "enhanced_attack_physical_damage",
+      "name": "欺诈魔术强化攻击附加物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "enhanced_attack_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "enhanced_attack_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=基础值+0.6×额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}
