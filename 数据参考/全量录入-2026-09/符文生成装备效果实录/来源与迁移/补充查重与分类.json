@@ -1,0 +1,111 @@
+{
+  "at": "2026-09-10T04:14:48.778Z",
+  "GETs": 6,
+  "businessWrites": 0,
+  "requests": [
+    {
+      "at": "2026-09-10T04:14:48.491Z",
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "at": "2026-09-10T04:14:48.581Z",
+      "route": "/skills/item_2010_consume",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_NOT_FOUND",
+          "details": {
+            "skillKey": "item_2010_consume"
+          },
+          "message": "技能不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-10T04:14:48.623Z",
+      "route": "/skills/item_2150_consume",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_NOT_FOUND",
+          "details": {
+            "skillKey": "item_2150_consume"
+          },
+          "message": "技能不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-10T04:14:48.656Z",
+      "route": "/skills/item_2152_consume",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_NOT_FOUND",
+          "details": {
+            "skillKey": "item_2152_consume"
+          },
+          "message": "技能不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-10T04:14:48.689Z",
+      "route": "/skills/item_2422_passive",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_NOT_FOUND",
+          "details": {
+            "skillKey": "item_2422_passive"
+          },
+          "message": "技能不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-10T04:14:48.777Z",
+      "route": "/skills/rune_8304_passive/effects/magical_footwear_additional_speed/representative-image",
+      "status": 200,
+      "data": {
+        "image": null
+      }
+    }
+  ]
+}

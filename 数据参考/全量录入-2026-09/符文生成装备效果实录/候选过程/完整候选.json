@@ -1,0 +1,1390 @@
+{
+  "generatedAt": "2026-09-10T04:46:04.469Z",
+  "stage": "Luna独立候选·符文衍生装备最小补录",
+  "candidateStatus": "FINAL_CANDIDATE_PENDING_ROOT_EXECUTION",
+  "gameId": "lol",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "nodeRuntime": "C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node.exe",
+  "boundary": {
+    "allowedWriteDirectory": ".agents/artifacts/rune-equipment-ownership-luna-candidate/**",
+    "durableDirectory": "数据参考/全量录入-2026-09/交叉试录/Luna/符文衍生装备补录/**",
+    "durableDirectoryStatus": "本轮不写，等待主负责人审查归档",
+    "businessApiCalled": false,
+    "databaseCalled": false,
+    "browserUsed": false,
+    "gitUsed": false,
+    "fixedVersionsOnly": true,
+    "sourceScope": "四件装备主体/直接属性/图片已存在；生成对应装备技能的最小新增候选，神奇之鞋效果按修订三另列迁移意图，不挂载三套符文技能。"
+  },
+  "sourceFiles": [
+    {
+      "key": "inputIndex",
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/输入索引.json",
+      "sha256": "159ef95f0394e0dd1477cf31227e5b6b4070c457b089ce149dd8c30a63320ed6",
+      "expectedSha256": null,
+      "role": "固定输入索引"
+    },
+    {
+      "key": "protectedSnapshot",
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/当前保护快照.json",
+      "sha256": "293b263cac1da4aad9d8e06f2d1c565fbcd12acd19aa2a748d5eb76796059304",
+      "expectedSha256": "293b263cac1da4aad9d8e06f2d1c565fbcd12acd19aa2a748d5eb76796059304",
+      "role": "72次GET保护快照"
+    },
+    {
+      "key": "equipmentSource",
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/四装备固定来源.json",
+      "sha256": "d8f769c5c407406bd38d1154115334403e92141001b5c5a39e2b049c45e3f92f",
+      "expectedSha256": "d8f769c5c407406bd38d1154115334403e92141001b5c5a39e2b049c45e3f92f",
+      "role": "四件装备固定来源"
+    },
+    {
+      "key": "biscuitProof",
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/饼干当前具名来源补证.json",
+      "sha256": "b7ecdc756cdc1e00b4b2b5ffb8a4a5e879d0d176599575724714b255b6c41b66",
+      "expectedSha256": "b7ecdc756cdc1e00b4b2b5ffb8a4a5e879d0d176599575724714b255b6c41b66",
+      "role": "饼干具名计算补证"
+    },
+    {
+      "key": "duplicateCheck",
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/补充查重与分类.json",
+      "sha256": "f270f6179322e797fa92b40fc67a26ed12104f1e544e418a63b5c5e0f7b782f1",
+      "expectedSha256": null,
+      "role": "新增技能查重与技能类别只读结果"
+    },
+    {
+      "key": "oldEffectReference",
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/旧鞋效果真实引用只读核对.json",
+      "sha256": "71003cd779663be9e148b078af28684fb8528364b2921928203742219ac4f9f8",
+      "expectedSha256": null,
+      "role": "旧鞋效果数据库入引用只读结果"
+    },
+    {
+      "key": "revisedScheme",
+      "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/最小补录方案-修订三.md",
+      "sha256": "80702af5beb837c7770949d166db0a3f82fc98706c70e06e2968fec754e188b4",
+      "expectedSha256": null,
+      "role": "修订三迁移顺序与范围"
+    },
+    {
+      "key": "cursorReview",
+      "path": ".agents/artifacts/rune-equipment-ownership-cursor-review-run-20260910/review.md",
+      "sha256": "a795c329d99bd17b5dd10ebf0d78ea2ea47f76d8a0efee6c9a2d73a993db8f5f",
+      "expectedSha256": null,
+      "role": "Cursor独立只读复核结论"
+    },
+    {
+      "key": "cursorSummary",
+      "path": ".agents/artifacts/rune-equipment-ownership-cursor-review-run-20260910/summary.json",
+      "sha256": "df0b4092bb30dd632dc5a2cbbe43931d2177c0fb5cd76488716a1557500f4e5b",
+      "expectedSha256": null,
+      "role": "Cursor复核运行摘要（只读取结论，不复制密钥字段）"
+    },
+    {
+      "key": "cursorV2Review",
+      "path": ".agents/artifacts/rune-equipment-ownership-v2-cursor-review-run-20260910/review.md",
+      "sha256": "3d2e0d2c961d02c4d4dfb837243bcddef82cacfdbd851ab9ece43c710c5ce59c",
+      "expectedSha256": null,
+      "role": "Cursor v2迁移顺序复核结论"
+    },
+    {
+      "key": "cursorV2Summary",
+      "path": ".agents/artifacts/rune-equipment-ownership-v2-cursor-review-run-20260910/summary.json",
+      "sha256": "d9c822a3f1d6bf302caede8f0a8786c635ef9614fe6f029cd865e84072c2d4ec",
+      "expectedSha256": null,
+      "role": "Cursor v2复核运行摘要（只读取结论，不复制密钥字段）"
+    },
+    {
+      "key": "cursorV3Conclusion",
+      "path": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/Cursor来源复核结论.md",
+      "sha256": "d1cec1483504f62bcab560bd881a58fe0c39209cb4991eb274e28c2690998a15",
+      "expectedSha256": null,
+      "role": "Cursor v3最终迁移顺序复核结论"
+    },
+    {
+      "key": "cursorV3Review",
+      "path": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/review.md",
+      "sha256": "363e90c6ac5b5197c6728776e5af3efd5aef5cd23e1f3f07d2cc26cc73738848",
+      "expectedSha256": null,
+      "role": "Cursor v3审计摘要"
+    },
+    {
+      "key": "cursorV3Summary",
+      "path": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/summary.json",
+      "sha256": "793145792ea7efc3d0c20124f812272468c13b133d6803b284bad78854a972b9",
+      "expectedSha256": null,
+      "role": "Cursor v3复核运行摘要（只读取结论，不复制密钥字段）"
+    },
+    {
+      "key": "skillEffectType",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "39118d82c1383d2546e206b55b9026e06190281cbb83269e1a8d3f8b5c430876",
+      "expectedSha256": null,
+      "role": "技能效果联合类型代码证据"
+    },
+    {
+      "key": "skillParameterType",
+      "path": "web/src/types/skillParameter.ts",
+      "sha256": "35de9ac58d29e440ac65ac03184f34ecd18507894bd146e801c807d63a5f3fa8",
+      "expectedSha256": null,
+      "role": "技能参数联合类型代码证据"
+    }
+  ],
+  "sourceFreeze": {
+    "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/四装备固定来源.json",
+    "sha256": "d8f769c5c407406bd38d1154115334403e92141001b5c5a39e2b049c45e3f92f",
+    "expectedSha256": "d8f769c5c407406bd38d1154115334403e92141001b5c5a39e2b049c45e3f92f",
+    "version": {
+      "client": "16.17",
+      "official": "16.17.1"
+    }
+  },
+  "currentSnapshot": {
+    "path": ".agents/artifacts/rune-equipment-ownership-root-20260910/当前保护快照.json",
+    "sha256": "293b263cac1da4aad9d8e06f2d1c565fbcd12acd19aa2a748d5eb76796059304",
+    "expectedSha256": "293b263cac1da4aad9d8e06f2d1c565fbcd12acd19aa2a748d5eb76796059304",
+    "GETs": 72,
+    "businessWrites": 0
+  },
+  "cursorReview": {
+    "path": ".agents/artifacts/rune-equipment-ownership-cursor-review-run-20260910/review.md",
+    "sha256": "a795c329d99bd17b5dd10ebf0d78ea2ea47f76d8a0efee6c9a2d73a993db8f5f",
+    "verdict": "REVISE",
+    "reviewedPlanRevision": "rune-equipment-ownership-v1",
+    "absorbedCorrections": [
+      "当前保护组成按19参数+2公式+1效果=22记录。",
+      "item_2422直接移速25保持不变。",
+      "item_2422候选只生成一条等价新效果；与旧效果的删除和最终挂载严格由单独迁移意图控制。",
+      "符文8304/8313/8345除迁移意图唯一删除旧鞋效果外，其余历史组成均保护。"
+    ],
+    "notCopied": [
+      "复核运行摘要中的密钥存在性、长度和环境敏感字段"
+    ]
+  },
+  "cursorV2Review": {
+    "directory": ".agents/artifacts/rune-equipment-ownership-v2-cursor-review-run-20260910",
+    "reviewPath": ".agents/artifacts/rune-equipment-ownership-v2-cursor-review-run-20260910/review.md",
+    "summaryPath": ".agents/artifacts/rune-equipment-ownership-v2-cursor-review-run-20260910/summary.json",
+    "reviewSha256": "3d2e0d2c961d02c4d4dfb837243bcddef82cacfdbd851ab9ece43c710c5ce59c",
+    "verdict": "REVISE",
+    "reviewedPlanRevision": "rune-equipment-ownership-v2",
+    "status": "已完成，根负责人按修订三收敛",
+    "findingsAbsorbed": [
+      "四个equipment-skill-relations从保护快照空列表变为本批四条新挂载是计划内允许变化；符文挂载仍必须不变。",
+      "旧效果已DELETE204后，续跑只需GET旧详情404且旧效果列表为空，不重复DELETE；新装备已挂载后禁止恢复旧效果。"
+    ],
+    "note": "候选已吸收REVISE中的核对和恢复门禁，但仍不代表业务接口已执行。"
+  },
+  "cursorV3Review": {
+    "directory": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910",
+    "conclusionPath": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/Cursor来源复核结论.md",
+    "reviewPath": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/review.md",
+    "summaryPath": ".agents/artifacts/rune-equipment-ownership-v3-cursor-review-run-20260910/summary.json",
+    "conclusionSha256": "d1cec1483504f62bcab560bd881a58fe0c39209cb4991eb274e28c2690998a15",
+    "reviewSha256": "363e90c6ac5b5197c6728776e5af3efd5aef5cd23e1f3f07d2cc26cc73738848",
+    "summarySha256": "793145792ea7efc3d0c20124f812272468c13b133d6803b284bad78854a972b9",
+    "verdict": "READY",
+    "reviewedPlanRevision": "rune-equipment-ownership-v3",
+    "findingsAbsorbed": [
+      "四条装备技能关系从空到各自一个计划内挂载，符文挂载和其余保护对象保持不变。",
+      "删除后中断以旧效果GET404且效果列表为空续跑，不重复DELETE；item_2422挂载后禁止恢复旧效果。",
+      "新技能、参数、效果先逐次GET，再删除旧效果，最后挂载装备；已存在的正确对象或关系跳过重复POST。",
+      "旧效果代表图由200且image=null变为404属于迁移计划内变化。"
+    ],
+    "note": "READY仅表示修订三设计复核通过，不代表业务接口已执行。"
+  },
+  "protectedObjects": {
+    "snapshot": ".agents/artifacts/rune-equipment-ownership-root-20260910/当前保护快照.json",
+    "snapshotSha256": "293b263cac1da4aad9d8e06f2d1c565fbcd12acd19aa2a748d5eb76796059304",
+    "inputGETs": 72,
+    "businessWrites": 0,
+    "componentCounts": {
+      "parameters": 19,
+      "formulas": 2,
+      "effects": 1,
+      "total": 22
+    },
+    "skills": [
+      {
+        "skillKey": "rune_8304_passive",
+        "parameterKeys": [
+          "additional_move_speed",
+          "base_grant_time_ms",
+          "earlier_per_takedown_ms"
+        ],
+        "formulaKeys": [],
+        "effectKeys": [
+          "magical_footwear_additional_speed"
+        ]
+      },
+      {
+        "skillKey": "rune_8313_passive",
+        "parameterKeys": [
+          "force_elixir_adaptive_force",
+          "force_elixir_duration_ms",
+          "force_elixir_grant_level",
+          "skill_elixir_grant_level",
+          "skill_elixir_skill_points"
+        ],
+        "formulaKeys": [],
+        "effectKeys": []
+      },
+      {
+        "skillKey": "rune_8345_passive",
+        "parameterKeys": [
+          "actual_consumed_or_sold_count",
+          "actual_missing_health_boost_ratio",
+          "biscuit_interval_ms",
+          "client_health_recovery_ratio",
+          "delivery_end_minute",
+          "flat_recovery",
+          "health_ratio_at_maximum_recovery",
+          "maximum_recovery_increase_ratio",
+          "official_health_recovery_ratio",
+          "permanent_health_per_cookie",
+          "recovery_effect_duration_ms"
+        ],
+        "formulaKeys": [
+          "base_biscuit_recovery",
+          "permanent_health_gain"
+        ],
+        "effectKeys": []
+      }
+    ],
+    "existingMagicalFootwearEffect": {
+      "skillKey": "rune_8304_passive",
+      "effectKey": "magical_footwear_additional_speed",
+      "parameterKey": "additional_move_speed",
+      "value": {
+        "kind": "PARAMETER",
+        "parameterKey": "additional_move_speed"
+      },
+      "detail": {
+        "attributeKey": "move_speed",
+        "modifierZoneKey": "attribute_flat_add",
+        "operation": "INCREASE"
+      },
+      "lifecycleEnabled": true,
+      "protection": "迁移完成前不删、不更新；候选的新效果只作为待迁移等价对象，不与旧效果同时挂载执行。"
+    },
+    "equipmentBeforeState": {
+      "item_2010": {
+        "equipmentKey": "item_2010",
+        "name": "永续意志夹心饼干",
+        "directAttributes": {},
+        "representativeImage": {
+          "enabled": true,
+          "imageKey": "item_2010",
+          "name": "永续意志夹心饼干（16.17.1）"
+        },
+        "relationCount": 0,
+        "sourceDirectAttributes": {}
+      },
+      "item_2150": {
+        "equipmentKey": "item_2150",
+        "name": "技能合剂",
+        "directAttributes": {},
+        "representativeImage": {
+          "enabled": true,
+          "imageKey": "item_2150",
+          "name": "技能合剂（16.17.1）"
+        },
+        "relationCount": 0,
+        "sourceDirectAttributes": {}
+      },
+      "item_2152": {
+        "equipmentKey": "item_2152",
+        "name": "原力合剂",
+        "directAttributes": {},
+        "representativeImage": {
+          "enabled": true,
+          "imageKey": "item_2152",
+          "name": "原力合剂（16.17.1）"
+        },
+        "relationCount": 0,
+        "sourceDirectAttributes": {}
+      },
+      "item_2422": {
+        "equipmentKey": "item_2422",
+        "name": "有点神奇之鞋",
+        "directAttributes": {
+          "move_speed": 25
+        },
+        "representativeImage": {
+          "enabled": true,
+          "imageKey": "item_2422",
+          "name": "item_2422"
+        },
+        "relationCount": 0,
+        "sourceDirectAttributes": {
+          "move_speed": 25
+        }
+      }
+    },
+    "allowedEquipmentRelationChanges": [
+      {
+        "equipmentKey": "item_2010",
+        "before": {
+          "total": 0,
+          "items": []
+        },
+        "after": {
+          "total": 1,
+          "items": [
+            {
+              "equipmentKey": "item_2010",
+              "skillKey": "item_2010_consume",
+              "sortOrder": 10
+            }
+          ]
+        },
+        "reason": "本批四个新装备技能的计划内挂载；原72快照的空关系只作为基线，不作为挂载后的不变条件。"
+      },
+      {
+        "equipmentKey": "item_2150",
+        "before": {
+          "total": 0,
+          "items": []
+        },
+        "after": {
+          "total": 1,
+          "items": [
+            {
+              "equipmentKey": "item_2150",
+              "skillKey": "item_2150_consume",
+              "sortOrder": 10
+            }
+          ]
+        },
+        "reason": "本批四个新装备技能的计划内挂载；原72快照的空关系只作为基线，不作为挂载后的不变条件。"
+      },
+      {
+        "equipmentKey": "item_2152",
+        "before": {
+          "total": 0,
+          "items": []
+        },
+        "after": {
+          "total": 1,
+          "items": [
+            {
+              "equipmentKey": "item_2152",
+              "skillKey": "item_2152_consume",
+              "sortOrder": 10
+            }
+          ]
+        },
+        "reason": "本批四个新装备技能的计划内挂载；原72快照的空关系只作为基线，不作为挂载后的不变条件。"
+      },
+      {
+        "equipmentKey": "item_2422",
+        "before": {
+          "total": 0,
+          "items": []
+        },
+        "after": {
+          "total": 1,
+          "items": [
+            {
+              "equipmentKey": "item_2422",
+              "skillKey": "item_2422_passive",
+              "sortOrder": 10
+            }
+          ]
+        },
+        "reason": "本批四个新装备技能的计划内挂载；原72快照的空关系只作为基线，不作为挂载后的不变条件。"
+      }
+    ],
+    "protectedAfterMigration": {
+      "runeComponentCountsBefore": {
+        "parameters": 19,
+        "formulas": 2,
+        "effects": 1,
+        "total": 22
+      },
+      "runeComponentCountsAfter": {
+        "parameters": 19,
+        "formulas": 2,
+        "effects": 0,
+        "total": 21
+      },
+      "runeRelationsUnchanged": true,
+      "equipmentDirectAttributesUnchanged": true,
+      "equipmentImagesUnchanged": true,
+      "equipmentRelations": "允许上述四条从空到各自新技能的变化",
+      "oldEffectRepresentativeImage": "原状态200且image=null；删除旧效果后的计划内状态为404"
+    },
+    "attributes": [
+      "move_speed",
+      "move_speed_percent",
+      "armor_pen_flat",
+      "armor_pen_percent",
+      "magic_pen_flat",
+      "magic_pen_percent",
+      "hp",
+      "hp_regen",
+      "base_hp_regen_percent",
+      "mana",
+      "mana_regen",
+      "base_mana_regen_percent",
+      "energy",
+      "armor",
+      "magic_resistance",
+      "tenacity_percent",
+      "slow_resist_percent",
+      "attack_damage",
+      "ability_power",
+      "attack_speed",
+      "bonus_attack_speed_percent",
+      "critical_strike_chance",
+      "critical_strike_damage_bonus_percent",
+      "attack_range",
+      "ability_haste",
+      "life_steal_percent",
+      "omnivamp_percent",
+      "heal_shield_power_percent"
+    ],
+    "modifierZones": [
+      "attribute_percent_bonus",
+      "attribute_flat_add",
+      "item_3071_armor_reduction",
+      "item_8010_magic_resistance_reduction"
+    ]
+  },
+  "objects": [
+    {
+      "equipmentKey": "item_2010",
+      "equipmentName": "永续意志夹心饼干",
+      "skillKey": "item_2010_consume",
+      "source": {
+        "sourceFile": "四装备固定来源.json",
+        "sourcePointer": "/objects[item_2010]/source/object",
+        "itemId": 2010,
+        "clientDataValues": {
+          "PotionDurationTOOLTIP": 5,
+          "BonusMaxHealthTOOLTIP": 30,
+          "FlatHealTOOLTIP": 20,
+          "MaxHPMultiplierTOOLTIP": 0.014999999664723873,
+          "MaxHealIncreaseTOOLTIP": 100,
+          "MinHPThresholdTOOLTIP": 0.30000001192092896
+        },
+        "clientCalculation": {
+          "calculationKey": "TotalHealCalcTOOLTIP",
+          "meaning": "最大生命乘MaxHPMultiplierTOOLTIP，再加FlatHealTOOLTIP；当前绑定用于5秒内持续恢复总量。",
+          "sourceParts": [
+            {
+              "mStat": 12,
+              "mDataValue": "MaxHPMultiplierTOOLTIP",
+              "meaning": "SOURCE.hp.TOTAL × 客户端最大生命比例"
+            },
+            {
+              "mDataValue": "FlatHealTOOLTIP",
+              "meaning": "固定恢复量"
+            }
+          ]
+        },
+        "officialDescription": "<mainText><stats></stats><br><br><active>主动 - 消耗：</active>食用饼干，以在5秒里持续回复<healing>生命值</healing>，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供<healing>30最大生命值</healing>。 </mainText>",
+        "officialDisplayedRatio": 0.02,
+        "officialRatioNote": "官方16.17.1长说明的2%只作为来源差异留证；当前同构建物品树和符文8345已有0.015实际候选，不建立第二套实际恢复。",
+        "supplement": {
+          "itemPath": "Items/2010",
+          "sourceInterpretation": "同一客户端构建的物品2010与符文8345均保存0.015最大生命系数；当前物品中文绑定将计算式用于5秒恢复。该具名计算可进一步独立审查12/缺省0为最大生命值的窄映射。客户端数值与官方显示2%的差异不能单独当成两套实际机制，显示舍入算法本次未证。",
+          "bindingPointers": [
+            {
+              "field": "keyName",
+              "sourceKey": "Item_2010_Name",
+              "text": "永续意志夹心饼干"
+            },
+            {
+              "field": "keyActive",
+              "sourceKey": "Item_2010_Active",
+              "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复共<healing>@TotalHealCalcTOOLTIP@生命值</healing>，基于你的已损失生命值至多提升至@MaxHealIncreaseTOOLTIP@%。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。 "
+            },
+            {
+              "field": "keyActiveExternal",
+              "sourceKey": "Item_2010_ActiveExternal",
+              "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复<healing>生命值</healing>，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。 "
+            },
+            {
+              "field": "keyActiveExtended",
+              "sourceKey": "Item_2010_ActiveExtended",
+              "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复共<healing>@TotalHealCalcTOOLTIP@生命值</healing>，基于你的已损失生命值获得提升，至多至@MaxHealIncreaseTOOLTIP@%。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。<br><br><rules>最大治疗效果会在@MinHPThresholdTOOLTIP*100@%生命值时达成。</rules>"
+            }
+          ]
+        },
+        "ignoredRawFields": [
+          {
+            "field": "mEffectAmount[0]",
+            "value": 10,
+            "reason": "没有战斗语义证明，不能变成治疗或永久属性。"
+          },
+          {
+            "field": "BotData",
+            "value": 0.11999999731779099,
+            "reason": "机器人数据旁支，不作为玩家实际治疗。"
+          }
+        ]
+      },
+      "directAttributesProtected": {},
+      "valueSemantics": {
+        "flat_recovery": {
+          "unit": "生命值点数",
+          "sourceValue": 20
+        },
+        "client_health_recovery_ratio": {
+          "unit": "比例",
+          "representation": "1=100%",
+          "sourceValue": 0.015
+        },
+        "maximum_recovery_increase_ratio": {
+          "unit": "比例",
+          "representation": "1=100%",
+          "sourceValue": 1
+        },
+        "health_ratio_at_maximum_recovery": {
+          "unit": "生命比例",
+          "representation": "1=100%",
+          "sourceValue": 0.3
+        },
+        "recovery_duration_ms": {
+          "unit": "毫秒",
+          "sourceValue": 5000
+        },
+        "permanent_health_per_cookie": {
+          "unit": "最大生命值点数/实际消耗或出售1块",
+          "sourceValue": 30
+        },
+        "actual_missing_health_boost_ratio": {
+          "unit": "运行时比例",
+          "representation": "1=100%",
+          "default": null
+        },
+        "actual_consumed_or_sold_count": {
+          "unit": "实际块数",
+          "default": null
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_2010_consume",
+          "name": "永续意志夹心饼干·消耗",
+          "description": "保存消费后的5秒恢复总量基数、已损生命提升上限和每实际消耗或出售一块永久增加30最大生命值。恢复节拍、首跳、最大生命读取时点与出售是否回血未证；不把总量当单次治疗，也不挂符文8345整套。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "common"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "recovery_duration_ms",
+            "name": "恢复窗口",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "客户端PotionDurationTOOLTIP=5秒；转换为5000毫秒。只表示恢复窗口，不表示跳数或首跳。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "flat_recovery",
+            "name": "饼干固定恢复量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 20,
+            "levelValues": null,
+            "description": "客户端FlatHealTOOLTIP=20；单位为生命值点数。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "client_health_recovery_ratio",
+            "name": "客户端最大生命恢复比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.015,
+            "levelValues": null,
+            "description": "客户端MaxHPMultiplierTOOLTIP=0.014999999664723873，按当前构建归一化为0.015；1表示100%。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "maximum_recovery_increase_ratio",
+            "name": "已损生命恢复提升上限",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端MaxHealIncreaseTOOLTIP=100%，参数采用比例1表示100%；没有另建100点参数。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "health_ratio_at_maximum_recovery",
+            "name": "达到最大恢复提升的生命比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端MinHPThresholdTOOLTIP=0.30000001192092896，按来源归一化为0.3；中间曲线和边界时点未证。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "permanent_health_per_cookie",
+            "name": "每块永久最大生命",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "客户端BonusMaxHealthTOOLTIP=30；只对真实消耗或出售事件计数。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "actual_consumed_or_sold_count",
+            "name": "实际已消耗或出售饼干数",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "无默认值；由实际消耗或出售事件提供，不能用取得数、背包数或满堆数代替。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "actual_missing_health_boost_ratio",
+            "name": "实际已损生命恢复提升比例",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "无默认值；由运行时已损生命曲线提供，不能用0或自行假设线性曲线。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "base_biscuit_recovery",
+            "name": "饼干恢复基数",
+            "description": "来源计算式为20+0.015×SOURCE.hp.TOTAL；来源只证明数值组成，尚未证明治疗节拍。",
+            "sortOrder": 10,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_recovery"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "client_health_recovery_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "formulaKey": "biscuit_recovery_total",
+            "name": "饼干5秒恢复总量",
+            "description": "在恢复基数上乘以1+MIN(实际已损生命提升,100%上限)。这是5秒总量，不能作为单次治疗结果。",
+            "sortOrder": 20,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "flat_recovery"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "client_health_recovery_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "flat_recovery"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "client_health_recovery_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "hp",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MIN",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_missing_health_boost_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "maximum_recovery_increase_ratio"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "formulaKey": "permanent_health_gain",
+            "name": "饼干永久最大生命增量",
+            "description": "30×实际已消耗或出售饼干数；实际计数缺失时拒绝计算。",
+            "sortOrder": 30,
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "permanent_health_per_cookie"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_consumed_or_sold_count"
+                }
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "permanent_health_gain",
+            "name": "饼干永久最大生命",
+            "description": "消费或出售事件每确认一块时增加30最大生命；当前只保存可表达结果，消费事件触发尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute_bonus",
+                "name": "永久最大生命增加",
+                "target": "SOURCE",
+                "description": "属性单位为最大生命值点数，使用属性固定加算乘区。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "MOMENT_EVALUATION",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "ADD",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "permanent_health_gain"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "resultType": "ATTRIBUTE_CHANGE",
+                "detail": {
+                  "attributeKey": "hp",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "relation": {
+        "equipmentKey": "item_2010",
+        "skillKey": "item_2010_consume",
+        "sortOrder": 10
+      },
+      "representativeImage": {
+        "imageKey": "item_2010"
+      },
+      "omittedComponents": [
+        {
+          "component": "治疗每跳/首跳/跳数",
+          "reason": "来源只证明5秒持续窗口与总量，未证明节拍，不能拆成五跳。"
+        },
+        {
+          "component": "出售金币",
+          "reason": "纯经济分支不属于本批战斗和成长候选。"
+        },
+        {
+          "component": "符文8345取得间隔与截止时间",
+          "reason": "属于符文生成资格，不是物品消费条件。"
+        },
+        {
+          "component": "官方0.02实际恢复比例",
+          "reason": "与当前物品树/符文候选0.015存在来源差异，不能并行创建两套实际治疗。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "恢复触发与节拍",
+          "reason": "当前无物品消耗事件契约；本候选不声称已接线。"
+        },
+        {
+          "component": "已损生命中间曲线和最大生命读取时点",
+          "reason": "仅保留实际运行输入和来源阈值，不填默认或线性曲线。"
+        },
+        {
+          "component": "与符文8345的唯一有效恢复/永久生命来源",
+          "reason": "装备候选保留消费侧组成，执行时需保证符文资料对象不再重复结算。"
+        }
+      ],
+      "scope": "保留消费/出售后的永久最大生命与消费恢复资料；排除符文发放节奏、纯经济和未知治疗节拍。",
+      "safeguards": {
+        "equipmentKey": "item_2010",
+        "beforeRelationCount": 0,
+        "directAttributesProtected": true,
+        "representativeImageReused": "item_2010",
+        "equipmentBodyNotRebuilt": true,
+        "referencesRuneSkillKeys": [],
+        "sourceOnlyUntilEventContract": true
+      }
+    },
+    {
+      "equipmentKey": "item_2150",
+      "equipmentName": "技能合剂",
+      "skillKey": "item_2150_consume",
+      "source": {
+        "sourceFile": "四装备固定来源.json",
+        "sourcePointer": "/objects[item_2150]/source/object",
+        "itemId": 2150,
+        "client": {
+          "consumed": true,
+          "clickable": true,
+          "spellName": "ItemElixirOfSkill",
+          "restrictedBuffName": "HeroPassive"
+        },
+        "officialDescription": "<mainText><stats></stats><br><br><active>消耗</active><br>提供1技能点数。<br><br><rules>这个装备不会提升你的等级或允许对那些已经升满的技能投入技能点数。</rules></mainText>",
+        "confirmed": {
+          "skillPoints": 1,
+          "increasesCharacterLevel": false,
+          "canInvestInMaxedSkill": false
+        }
+      },
+      "directAttributesProtected": {},
+      "valueSemantics": {
+        "skill_points_granted": {
+          "unit": "技能点数",
+          "sourceValue": 1
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_2150_consume",
+          "name": "技能合剂·消耗",
+          "description": "保存消费后提供1技能点，以及不提升角色等级、不能投入已升满技能的来源限制。现有结果类型没有技能点分配结果，因此不伪造成属性或等级变化。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "common"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "skill_points_granted",
+            "name": "技能合剂提供技能点数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "官方与客户端主动说明均为提供1技能点数；消费事件与战前分配接口尚未接线。",
+            "sortOrder": 10
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "relation": {
+        "equipmentKey": "item_2150",
+        "skillKey": "item_2150_consume",
+        "sortOrder": 10
+      },
+      "representativeImage": {
+        "imageKey": "item_2150"
+      },
+      "omittedComponents": [
+        {
+          "component": "角色等级增加",
+          "reason": "官方明确不会提升角色等级。"
+        },
+        {
+          "component": "属性变化",
+          "reason": "技能点不是攻击力、法强、生命等属性，不能凭空映射。"
+        },
+        {
+          "component": "符文8313的9级获得资格",
+          "reason": "属于符文生成资格，不是消费最低等级。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "技能点分配与满级限制的运行接口",
+          "reason": "现有结果类型没有技能点分配类型；保留参数和两条来源限制，不声称已接线。"
+        },
+        {
+          "component": "消费触发",
+          "reason": "当前没有物品消费事件契约。"
+        }
+      ],
+      "scope": "保留1技能点及官方两条限制；排除角色等级、属性伪映射、符文生成等级和经济分支。",
+      "codeEvidence": {
+        "skillEffectType": {
+          "path": "web/src/types/skillEffect.ts",
+          "sha256": "39118d82c1383d2546e206b55b9026e06190281cbb83269e1a8d3f8b5c430876",
+          "lines": {
+            "resultTypes": 2,
+            "attributeChangeDetail": 168,
+            "resourceChangeDetail": 174
+          },
+          "finding": "现有结果类型有属性变化和资源变化，资源变化要求已有属性键；没有技能点结果类型。"
+        },
+        "skillParameterType": {
+          "path": "web/src/types/skillParameter.ts",
+          "sha256": "35de9ac58d29e440ac65ac03184f34ecd18507894bd146e801c807d63a5f3fa8",
+          "lines": {
+            "valueType": 1,
+            "valueMode": 3
+          },
+          "finding": "参数只有INTEGER/DECIMAL和固定、技能等级、角色等级、运行输入四种值模式。"
+        }
+      },
+      "safeguards": {
+        "equipmentKey": "item_2150",
+        "beforeRelationCount": 0,
+        "directAttributesProtected": true,
+        "representativeImageReused": "item_2150",
+        "equipmentBodyNotRebuilt": true,
+        "referencesRuneSkillKeys": [],
+        "noFakeAttributeEffect": true
+      }
+    },
+    {
+      "equipmentKey": "item_2152",
+      "equipmentName": "原力合剂",
+      "skillKey": "item_2152_consume",
+      "source": {
+        "sourceFile": "四装备固定来源.json",
+        "sourcePointer": "/objects[item_2152]/source/object",
+        "itemId": 2152,
+        "clientDataValues": {
+          "AdaptiveAmount": 25,
+          "Duration": 60
+        },
+        "clientCategory": [
+          "Consumable",
+          "Tenacity"
+        ],
+        "officialDescription": "<mainText><stats></stats><br><br><active>消耗</active><br>提供25适应之力，持续60秒。 </mainText>",
+        "confirmed": {
+          "adaptiveForce": 25,
+          "duration_ms": 60000
+        }
+      },
+      "directAttributesProtected": {},
+      "valueSemantics": {
+        "adaptive_force_amount": {
+          "unit": "适应之力原始点数",
+          "sourceValue": 25,
+          "conversion": "未指定"
+        },
+        "duration_ms": {
+          "unit": "毫秒",
+          "sourceValue": 60000
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_2152_consume",
+          "name": "原力合剂·消耗",
+          "description": "保存消费后25适应之力、持续60000毫秒及适应选择互斥边界。转换到攻击力或法术强度的方向、比例和判定时点未证，不同时创建两种属性效果。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "common"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "adaptive_force_amount",
+            "name": "原力合剂适应之力",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 25,
+            "levelValues": null,
+            "description": "客户端AdaptiveAmount=25；保存为原始适应之力，不默认转换成攻击力或法术强度。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "duration_ms",
+            "name": "原力合剂持续时间",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 60000,
+            "levelValues": null,
+            "description": "客户端Duration=60秒，转换为60000毫秒；不是生成等级或消费等级。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "relation": {
+        "equipmentKey": "item_2152",
+        "skillKey": "item_2152_consume",
+        "sortOrder": 10
+      },
+      "representativeImage": {
+        "imageKey": "item_2152"
+      },
+      "omittedComponents": [
+        {
+          "component": "同时增加攻击力和法术强度",
+          "reason": "适应选择必须互斥，转换方向与比例未证。"
+        },
+        {
+          "component": "韧性",
+          "reason": "客户端分类Tenacity不是本人增益数值证明。"
+        },
+        {
+          "component": "符文8313的6级获得资格",
+          "reason": "属于符文生成资格，不是消费最低等级。"
+        },
+        {
+          "component": "出售金币和额外目标",
+          "reason": "纯经济与额外目标分支不属于本批。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "适应力转换与选择",
+          "reason": "当前属性快照没有适应之力属性；保存原始量，不凭空选择攻击力或法术强度，也不声称系统不能保存。"
+        },
+        {
+          "component": "消费触发与持续效果寿命",
+          "reason": "当前没有物品消费事件契约；参数可保存但效果不伪造。"
+        }
+      ],
+      "scope": "保留25适应之力和60000毫秒；排除双修、韧性分类误读、符文生成等级和经济分支。",
+      "safeguards": {
+        "equipmentKey": "item_2152",
+        "beforeRelationCount": 0,
+        "directAttributesProtected": true,
+        "representativeImageReused": "item_2152",
+        "equipmentBodyNotRebuilt": true,
+        "referencesRuneSkillKeys": [],
+        "adaptiveChoiceHasNoDefault": true
+      }
+    },
+    {
+      "equipmentKey": "item_2422",
+      "equipmentName": "有点神奇之鞋",
+      "skillKey": "item_2422_passive",
+      "source": {
+        "sourceFile": "四装备固定来源.json",
+        "sourcePointer": "/objects[item_2422]/source/object",
+        "itemId": 2422,
+        "directMovementSpeed": {
+          "value": 25,
+          "pointer": "/Items~12422/mFlatMovementSpeedMod"
+        },
+        "additionalMovementSpeed": {
+          "value": 10,
+          "sourceText": "额外的10移动速度",
+          "ownerPlan": "修订三拟迁移到本装备技能；必须先完成新效果逐次GET，再删除旧效果并确认404，最后挂载本装备技能。"
+        },
+        "upgradeLinks": [
+          "Items/3006",
+          "Items/3047",
+          "Items/3020",
+          "Items/3158",
+          "Items/3111",
+          "Items/3117",
+          "Items/3009",
+          "Items/3008"
+        ],
+        "officialDescription": "<mainText><stats><attention>25</attention>移动速度</stats><br><br>提供额外的<speed>10移动速度</speed>。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。</mainText>",
+        "protectedRuneEffect": {
+          "skillKey": "rune_8304_passive",
+          "effectKey": "magical_footwear_additional_speed",
+          "parameterKey": "additional_move_speed",
+          "value": 10,
+          "currentLifecycleEnabled": true,
+          "currentEffectNotDeletedOrUpdated": true
+        }
+      },
+      "directAttributesProtected": {
+        "move_speed": 25
+      },
+      "valueSemantics": {
+        "direct_move_speed": {
+          "unit": "移动速度点数",
+          "sourceValue": 25,
+          "directAttribute": true
+        },
+        "additional_move_speed": {
+          "unit": "移动速度点数",
+          "sourceValue": 10,
+          "directAttribute": false,
+          "modifierZone": "attribute_flat_add",
+          "status": "新装备效果候选，待迁移顺序完成"
+        },
+        "prospective_total_move_speed": {
+          "unit": "移动速度点数",
+          "expression": "25+10=35",
+          "status": "唯一归属迁移完成后的数学边界，不是本轮业务执行证据"
+        }
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_2422_passive",
+          "name": "有点神奇之鞋·额外移速",
+          "description": "保存有点神奇之鞋额外10移动速度的物品归属参数和等价属性效果；直接属性25保持在装备主体。按修订三顺序先核对新效果，再删除旧符文效果，最后挂载本装备技能，避免两份可执行来源并存。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "additional_move_speed",
+            "name": "有点神奇之鞋额外移速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10,
+            "levelValues": null,
+            "description": "官方与客户端均证明额外10移动速度；效果迁移前先保存参数，迁移完成后只保留一个有效来源。",
+            "sortOrder": 10
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "magical_footwear_additional_speed",
+            "name": "有点神奇之鞋额外移速",
+            "description": "将旧符文效果的等价结果保存到item_2422技能；自身固定增加10移动速度，单层同来源替换，外部显式移除。创建和旧效果删除之间不挂载新技能。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": null,
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": null,
+              "expiryMode": "EXPLICIT_ONLY",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute_bonus",
+                "name": "额外移动速度",
+                "target": "SOURCE",
+                "description": "固定增加10移动速度点数；不改主体直接移速25。",
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "additional_move_speed"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "resultType": "ATTRIBUTE_CHANGE",
+                "detail": {
+                  "attributeKey": "move_speed",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "relation": {
+        "equipmentKey": "item_2422",
+        "skillKey": "item_2422_passive",
+        "sortOrder": 10
+      },
+      "representativeImage": {
+        "imageKey": "item_2422"
+      },
+      "omittedComponents": [
+        {
+          "component": "直接移速35或45",
+          "reason": "主体直接属性25必须保持；额外10不能先写进35再叠效果。"
+        },
+        {
+          "component": "符文8304整套挂载",
+          "reason": "生成时间和参与击杀提前属于符文资格，整套挂载会混淆消费/持有归属。"
+        },
+        {
+          "component": "对所有升级鞋无条件加10",
+          "reason": "只保留经本鞋合成的升级继承资格，未建全鞋类执行效果。"
+        },
+        {
+          "component": "旧符文效果与新装备效果并存",
+          "reason": "修订三要求先保存新效果、确认旧效果可删除，再按顺序完成单源迁移；不把两份同时挂载。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "已有符文效果到装备技能的唯一归属迁移",
+          "reason": "候选提供等价新效果和删除意图；删除旧效果必须在新效果逐次GET确认、旧效果DELETE204并GET404后才能挂载新装备技能，当前尚未执行。"
+        },
+        {
+          "component": "升级继承资格",
+          "reason": "来源列出升级链，但当前类型没有本装备生成/继承专用结果，不能伪造成已对全部升级鞋生效。"
+        }
+      ],
+      "scope": "保留主体25与额外10来源及升级资格边界；候选提供等价新效果和单独迁移意图，当前不改符文历史对象。",
+      "safeguards": {
+        "equipmentKey": "item_2422",
+        "beforeRelationCount": 0,
+        "directAttributesProtected": true,
+        "directMoveSpeedMustRemain": 25,
+        "representativeImageReused": "item_2422",
+        "equipmentBodyNotRebuilt": true,
+        "referencesRuneSkillKeys": [],
+        "newEffects": 1,
+        "protectedRuneEffectPreserved": true,
+        "uniqueOwnershipPending": true
+      }
+    }
+  ],
+  "totals": {
+    "equipmentCount": 4,
+    "newSkills": 4,
+    "newParameters": 12,
+    "newFormulas": 3,
+    "newEffects": 2,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "relations": 4,
+    "representativeImages": 4,
+    "protectedParameters": 19,
+    "protectedFormulas": 2,
+    "protectedEffects": 1,
+    "protectedTotal": 22
+  },
+  "apiWrites": {
+    "executed": false,
+    "executedCount": 0,
+    "plannedWriteCount": 30,
+    "plannedCreateAttachCount": 29,
+    "plannedMigrationDeleteCount": 1,
+    "plannedPostCount": 25,
+    "plannedPutCount": 4,
+    "onlyAllowedExistingRuneOperation": "删除rune_8304_passive/magical_footwear_additional_speed，且仅按神奇之鞋迁移意图顺序执行",
+    "note": "这里只是候选和迁移意图；没有调用业务接口。Cursor v3已给出READY设计复核，仍须由主负责人按逐次GET和失败停止检查执行。"
+  },
+  "artifactFiles": {
+    "candidate": "完整候选.json",
+    "writePlan": "写前请求计划.json",
+    "postPlan": "POST请求计划.json",
+    "sourceScope": "源值范围清单.json",
+    "migrationIntent": "神奇之鞋迁移意图.json",
+    "mathScript": "独立数学核算.mjs",
+    "mathReport": "独立数学报告.json",
+    "experience": "体验报告.md",
+    "hashScript": "生成文件散列.mjs",
+    "hashes": "文件散列.json"
+  }
+}

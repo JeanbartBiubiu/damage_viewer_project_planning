@@ -1,0 +1,78 @@
+{
+  "at": "2026-09-10T05:58:17.488Z",
+  "status": "四装备来源明确组成、挂载及图片保存；旧鞋重复效果迁移完成，独立回读、数学与页面通过",
+  "equipmentKeys": [
+    "item_2010",
+    "item_2150",
+    "item_2152",
+    "item_2422"
+  ],
+  "skillKeys": [
+    "item_2010_consume",
+    "item_2150_consume",
+    "item_2152_consume",
+    "item_2422_passive"
+  ],
+  "sourceVersion": "16.17 / 16.17.1",
+  "counts": {
+    "newSkills": 4,
+    "newParameters": 12,
+    "newFormulas": 3,
+    "newEffects": 2,
+    "newRelations": 4,
+    "representativeImages": 4,
+    "deletedOldEffects": 1
+  },
+  "businessWrites": 30,
+  "methods": {
+    "POST": 25,
+    "PUT": 4,
+    "DELETE": 1
+  },
+  "writerGETs": 364,
+  "independentGETs": 102,
+  "math": {
+    "parametersChecked": 12,
+    "formulasChecked": 3,
+    "effectsChecked": 2,
+    "formulaScenarioCount": 6
+  },
+  "missingInputChecks": {
+    "totalWithoutBoostRejected": true,
+    "permanentWithoutCountRejected": true
+  },
+  "extraMathGETs": 0,
+  "browser": {
+    "passed": true,
+    "file": "执行证据/真实页面验收.json",
+    "checkedEquipmentSkillCount": 4,
+    "oldRuneEffectListEmpty": true
+  },
+  "protected": {
+    "baselineGETs": 72,
+    "supplementOldImage": true,
+    "oldParameters": 19,
+    "oldFormulas": 2,
+    "oldRuneRelationsUnchanged": true,
+    "equipmentDirectAttributesUnchanged": true
+  },
+  "candidateSha256": "81f13a8676254cd7db18d40e5fffe9c54bea98ea45651963a112e7f3b55a460a",
+  "planSha256": "8d63f461adff0fe79803a5422e2177f67e66c0b6856de1fad05d1d457380cce0",
+  "mathSha256": "f9e6659b7d90df39a347e6484de2cbfe2c93e4617a97e1436b57225d9adbdc97",
+  "getReportSha256": "8a02524d8ca96482eb85c1078e55561fdfeb6da8c8241fbf039ca5b27c30bc37",
+  "actualGetSnapshotSha256": "f80324d082711f4172fbe5382dcc3559085dd072a4bb6c90f169833b7abcbc2c",
+  "experienceIssues": [
+    "旧效果代表图来自6项补充快照，不能误从72项主快照读取；初次只读预检失败，零写入，保留原件后补齐",
+    "中间迁移保护允许前三件已经正确挂载，鞋子自身须在旧效果删除后挂载；最终四关系必须精确齐全",
+    "饼干累计贡献使用施加时快照和覆盖，不能将完整累计数再次相加",
+    "装备和符文技能归属按实际持有/消耗对象区分，保留原符文参数和关系",
+    "装备关联弹窗可以核对挂载，当前查看技能组成仍需进入技能页按稳定标识查询"
+  ],
+  "pending": [
+    "饼干中间低血提升曲线、恢复跳数和消费事件未证；保存无默认实际输入与恢复总量公式",
+    "技能合剂的技能点消费、最高等级资格仍待真实事件；不能当角色经验等级",
+    "原力合剂适应之力方向和换算未证，未同时添加攻击力与法强",
+    "神奇之鞋升级继承只在确实来自该鞋时适用，升级来源事件未接；不自动作用全部鞋类"
+  ],
+  "runtimeValidation": "未执行，不把公式算例、保存或页面回显视为战斗执行"
+}

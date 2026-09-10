@@ -1,0 +1,616 @@
+{
+  "generatedAt": "2026-09-10T05:54:20.989Z",
+  "status": "通过",
+  "scope": "四件符文衍生装备实际GET来源数学复核",
+  "sourceFiles": {
+    "fixedSource": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\rune-equipment-ownership-root-20260910\\四装备固定来源.json",
+      "sha256": "d8f769c5c407406bd38d1154115334403e92141001b5c5a39e2b049c45e3f92f"
+    },
+    "biscuitSource": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\rune-equipment-ownership-root-20260910\\饼干当前具名来源补证.json",
+      "sha256": "b7ecdc756cdc1e00b4b2b5ffb8a4a5e879d0d176599575724714b255b6c41b66"
+    },
+    "actualGetReport": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\rune-equipment-ownership-execution\\独立GET核对\\2026-09-10T05-49-54-307Z\\GET复核报告.json",
+      "sha256": "8a02524d8ca96482eb85c1078e55561fdfeb6da8c8241fbf039ca5b27c30bc37"
+    },
+    "actualGetSnapshot": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\rune-equipment-ownership-execution\\独立GET核对\\2026-09-10T05-49-54-307Z\\最终GET快照.json",
+      "sha256": "f80324d082711f4172fbe5382dcc3559085dd072a4bb6c90f169833b7abcbc2c"
+    }
+  },
+  "sourceSide": {
+    "item2010": {
+      "durationMs": 5000,
+      "flatRecovery": 20,
+      "ratio": 0.015,
+      "rawRatio": 0.014999999664723873,
+      "maxIncreaseRatio": 1,
+      "maxAtHealthRatio": 0.3,
+      "permanentPerCookie": 30,
+      "additionalMoveSpeed": 10
+    },
+    "item2150": {
+      "skillPoints": 1
+    },
+    "item2152": {
+      "adaptiveForce": 25,
+      "durationMs": 60000
+    },
+    "item2422": {
+      "directMoveSpeed": 25,
+      "additionalMoveSpeed": 10,
+      "finalMoveSpeed": 35
+    },
+    "evidence": {
+      "clientRatioRaw": 0.014999999664723873,
+      "clientRatioNormalized": 0.015,
+      "mStat": 12,
+      "officialRatioText": "官方说明中的2%仅记录差异，不替换客户端0.015"
+    }
+  },
+  "actualSide": {
+    "getReportStatus": "GET_REVIEW_PASS",
+    "getCalls": 102,
+    "observedRoutes": 102,
+    "snapshotObservationCount": 102
+  },
+  "checks": [
+    {
+      "name": "实际12参数与源值/类型/缺省",
+      "status": "通过",
+      "value": {
+        "item_2010_consume/recovery_duration_ms": {
+          "createdAt": "2026-09-10T05:48:38.697065Z",
+          "description": "客户端PotionDurationTOOLTIP=5秒；转换为5000毫秒。只表示恢复窗口，不表示跳数或首跳。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "恢复窗口",
+          "parameterKey": "recovery_duration_ms",
+          "skillKey": "item_2010_consume",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-10T05:48:38.697065Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "item_2010_consume/flat_recovery": {
+          "createdAt": "2026-09-10T05:48:40.625265Z",
+          "description": "客户端FlatHealTOOLTIP=20；单位为生命值点数。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "饼干固定恢复量",
+          "parameterKey": "flat_recovery",
+          "skillKey": "item_2010_consume",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-10T05:48:40.625265Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "item_2010_consume/client_health_recovery_ratio": {
+          "createdAt": "2026-09-10T05:48:42.611258Z",
+          "description": "客户端MaxHPMultiplierTOOLTIP=0.014999999664723873，按当前构建归一化为0.015；1表示100%。",
+          "fixedValue": 0.015,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "客户端最大生命恢复比例",
+          "parameterKey": "client_health_recovery_ratio",
+          "skillKey": "item_2010_consume",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-10T05:48:42.611258Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "item_2010_consume/maximum_recovery_increase_ratio": {
+          "createdAt": "2026-09-10T05:48:44.489691Z",
+          "description": "客户端MaxHealIncreaseTOOLTIP=100%，参数采用比例1表示100%；没有另建100点参数。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已损生命恢复提升上限",
+          "parameterKey": "maximum_recovery_increase_ratio",
+          "skillKey": "item_2010_consume",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-10T05:48:44.489691Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "item_2010_consume/health_ratio_at_maximum_recovery": {
+          "createdAt": "2026-09-10T05:48:46.310366Z",
+          "description": "客户端MinHPThresholdTOOLTIP=0.30000001192092896，按来源归一化为0.3；中间曲线和边界时点未证。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "达到最大恢复提升的生命比例",
+          "parameterKey": "health_ratio_at_maximum_recovery",
+          "skillKey": "item_2010_consume",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-10T05:48:46.310366Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "item_2010_consume/permanent_health_per_cookie": {
+          "createdAt": "2026-09-10T05:48:48.001705Z",
+          "description": "客户端BonusMaxHealthTOOLTIP=30；只对真实消耗或出售事件计数。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每块永久最大生命",
+          "parameterKey": "permanent_health_per_cookie",
+          "skillKey": "item_2010_consume",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-10T05:48:48.001705Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "item_2010_consume/actual_consumed_or_sold_count": {
+          "createdAt": "2026-09-10T05:48:49.793794Z",
+          "description": "无默认值；由实际消耗或出售事件提供，不能用取得数、背包数或满堆数代替。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际已消耗或出售饼干数",
+          "parameterKey": "actual_consumed_or_sold_count",
+          "skillKey": "item_2010_consume",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-10T05:48:49.793794Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        "item_2010_consume/actual_missing_health_boost_ratio": {
+          "createdAt": "2026-09-10T05:48:51.63663Z",
+          "description": "无默认值；由运行时已损生命曲线提供，不能用0或自行假设线性曲线。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际已损生命恢复提升比例",
+          "parameterKey": "actual_missing_health_boost_ratio",
+          "skillKey": "item_2010_consume",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-10T05:48:51.63663Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "item_2150_consume/skill_points_granted": {
+          "createdAt": "2026-09-10T05:49:06.823532Z",
+          "description": "官方与客户端主动说明均为提供1技能点数；消费事件与战前分配接口尚未接线。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "技能合剂提供技能点数",
+          "parameterKey": "skill_points_granted",
+          "skillKey": "item_2150_consume",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-10T05:49:06.823532Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "item_2152_consume/adaptive_force_amount": {
+          "createdAt": "2026-09-10T05:49:14.839205Z",
+          "description": "客户端AdaptiveAmount=25；保存为原始适应之力，不默认转换成攻击力或法术强度。",
+          "fixedValue": 25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "原力合剂适应之力",
+          "parameterKey": "adaptive_force_amount",
+          "skillKey": "item_2152_consume",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-10T05:49:14.839205Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "item_2152_consume/duration_ms": {
+          "createdAt": "2026-09-10T05:49:16.711231Z",
+          "description": "客户端Duration=60秒，转换为60000毫秒；不是生成等级或消费等级。",
+          "fixedValue": 60000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "原力合剂持续时间",
+          "parameterKey": "duration_ms",
+          "skillKey": "item_2152_consume",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-10T05:49:16.711231Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "item_2422_passive/additional_move_speed": {
+          "createdAt": "2026-09-10T05:49:24.618627Z",
+          "description": "官方与客户端均证明额外10移动速度；效果迁移前先保存参数，迁移完成后只保留一个有效来源。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "有点神奇之鞋额外移速",
+          "parameterKey": "additional_move_speed",
+          "skillKey": "item_2422_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-10T05:49:24.618627Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "实际3公式节点与引用",
+      "status": "通过",
+      "value": {
+        "base_biscuit_recovery": {
+          "data": {
+            "createdAt": "2026-09-10T05:48:53.57191Z",
+            "description": "来源计算式为20+0.015×SOURCE.hp.TOTAL；来源只证明数值组成，尚未证明治疗节拍。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_recovery"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "client_health_recovery_ratio"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "base_biscuit_recovery",
+            "gameId": "lol",
+            "name": "饼干恢复基数",
+            "skillKey": "item_2010_consume",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-10T05:48:53.57191Z"
+          },
+          "references": {
+            "parameters": [
+              "flat_recovery",
+              "client_health_recovery_ratio"
+            ],
+            "attributes": [
+              "hp"
+            ],
+            "operations": [
+              "ADD",
+              "MULTIPLY"
+            ]
+          }
+        },
+        "biscuit_recovery_total": {
+          "data": {
+            "createdAt": "2026-09-10T05:48:55.308791Z",
+            "description": "在恢复基数上乘以1+MIN(实际已损生命提升,100%上限)。这是5秒总量，不能作为单次治疗结果。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "flat_recovery"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "client_health_recovery_ratio"
+                        },
+                        {
+                          "attributeKey": "hp",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "flat_recovery"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "client_health_recovery_ratio"
+                            },
+                            {
+                              "attributeKey": "hp",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_missing_health_boost_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "maximum_recovery_increase_ratio"
+                        }
+                      ],
+                      "operation": "MIN"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "formulaKey": "biscuit_recovery_total",
+            "gameId": "lol",
+            "name": "饼干5秒恢复总量",
+            "skillKey": "item_2010_consume",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-10T05:48:55.308791Z"
+          },
+          "references": {
+            "parameters": [
+              "flat_recovery",
+              "client_health_recovery_ratio",
+              "flat_recovery",
+              "client_health_recovery_ratio",
+              "actual_missing_health_boost_ratio",
+              "maximum_recovery_increase_ratio"
+            ],
+            "attributes": [
+              "hp",
+              "hp"
+            ],
+            "operations": [
+              "ADD",
+              "ADD",
+              "MULTIPLY",
+              "MULTIPLY",
+              "ADD",
+              "MULTIPLY",
+              "MIN"
+            ]
+          }
+        },
+        "permanent_health_gain": {
+          "data": {
+            "createdAt": "2026-09-10T05:48:57.080768Z",
+            "description": "30×实际已消耗或出售饼干数；实际计数缺失时拒绝计算。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "permanent_health_per_cookie"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_consumed_or_sold_count"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "permanent_health_gain",
+            "gameId": "lol",
+            "name": "饼干永久最大生命增量",
+            "skillKey": "item_2010_consume",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-10T05:48:57.080768Z"
+          },
+          "references": {
+            "parameters": [
+              "permanent_health_per_cookie",
+              "actual_consumed_or_sold_count"
+            ],
+            "attributes": [],
+            "operations": [
+              "MULTIPLY"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "实际3公式两场景/缺值拒绝",
+      "status": "通过",
+      "value": {
+        "base_biscuit_recovery": [
+          {
+            "name": "基数场景A",
+            "inputs": {
+              "hp": 1000,
+              "runtime": {}
+            },
+            "expected": 35,
+            "actual": 35,
+            "delta": 0
+          },
+          {
+            "name": "基数场景B",
+            "inputs": {
+              "hp": 2000,
+              "runtime": {}
+            },
+            "expected": 50,
+            "actual": 50,
+            "delta": 0
+          }
+        ],
+        "biscuit_recovery_total": [
+          {
+            "name": "总量场景A",
+            "inputs": {
+              "hp": 1000,
+              "runtime": {
+                "actual_missing_health_boost_ratio": 0
+              }
+            },
+            "expected": 35,
+            "actual": 35,
+            "delta": 0
+          },
+          {
+            "name": "总量场景B上限",
+            "inputs": {
+              "hp": 2000,
+              "runtime": {
+                "actual_missing_health_boost_ratio": 1.2
+              }
+            },
+            "expected": 100,
+            "actual": 100,
+            "delta": 0
+          }
+        ],
+        "permanent_health_gain": [
+          {
+            "name": "永久场景A",
+            "inputs": {
+              "hp": 0,
+              "runtime": {
+                "actual_consumed_or_sold_count": 1
+              }
+            },
+            "expected": 30,
+            "actual": 30,
+            "delta": 0
+          },
+          {
+            "name": "永久场景B",
+            "inputs": {
+              "hp": 0,
+              "runtime": {
+                "actual_consumed_or_sold_count": 2
+              }
+            },
+            "expected": 60,
+            "actual": 60,
+            "delta": 0
+          }
+        ],
+        "missingInputChecks": {
+          "totalWithoutBoostRejected": true,
+          "permanentWithoutCountRejected": true
+        }
+      }
+    },
+    {
+      "name": "实际2效果最终倍率/属性单位/REPLACE",
+      "status": "通过",
+      "value": {
+        "biscuit": {
+          "effectKey": "permanent_health_gain",
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "finalContributions": [
+            {
+              "step": 1,
+              "consumedOrSoldCount": 1,
+              "contribution": 30
+            },
+            {
+              "step": 2,
+              "consumedOrSoldCount": 2,
+              "contribution": 60
+            },
+            {
+              "step": 3,
+              "consumedOrSoldCount": 3,
+              "contribution": 90
+            },
+            {
+              "step": 4,
+              "consumedOrSoldCount": 3,
+              "contribution": 90
+            }
+          ],
+          "attributeUnit": "hp点数",
+          "modifierZone": "attribute_flat_add"
+        },
+        "shoe": {
+          "effectKey": "magical_footwear_additional_speed",
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "directMoveSpeed": 25,
+          "additionalMoveSpeed": 10,
+          "finalMoveSpeed": 35,
+          "attributeUnit": "move_speed点数",
+          "modifierZone": "attribute_flat_add"
+        }
+      }
+    },
+    {
+      "name": "技能合剂/原力合剂边界",
+      "status": "通过",
+      "value": {
+        "skillElixir": {
+          "grantedSkillPoints": 1,
+          "schemaMaxLevel": 1,
+          "roleLevelUnchanged": true,
+          "noAttributeConversion": true
+        },
+        "forceElixir": {
+          "adaptiveForce": 25,
+          "durationMs": 60000,
+          "conversionDirection": "未知，拒绝同时转攻击力和法术强度"
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "missingInputChecks": {
+    "totalWithoutBoostRejected": true,
+    "permanentWithoutCountRejected": true
+  },
+  "evidenceBoundary": {
+    "businessWrites": 0,
+    "apiWritesByMathScript": 0,
+    "databaseAccessed": false,
+    "browserAccessed": false,
+    "gitAccessed": false,
+    "runtimeExecuted": false
+  },
+  "actualMath": {
+    "parametersChecked": 12,
+    "formulasChecked": 3,
+    "effectsChecked": 2,
+    "formulaScenarioCount": 6
+  }
+}
