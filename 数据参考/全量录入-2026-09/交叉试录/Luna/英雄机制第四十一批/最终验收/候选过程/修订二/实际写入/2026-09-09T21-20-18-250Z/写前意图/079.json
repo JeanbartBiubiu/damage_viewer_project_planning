@@ -1,0 +1,29 @@
+{
+  "i": 78,
+  "intent": {
+    "sequence": 79,
+    "method": "POST",
+    "route": "/skills/milio_e/parameters",
+    "detailRoute": "/skills/milio_e/parameters/move_speed_ratio",
+    "skillKey": "milio_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_ratio",
+      "name": "移动速度提升比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1199999973,
+        "2": 0.1400000006,
+        "3": 0.1599999964,
+        "4": 0.1800000072,
+        "5": 0.200000003
+      },
+      "description": "取等级索引1至5。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,13 @@
+import fs from'node:fs';import assert from'node:assert/strict';const a='C:/project/damage_web_dev/.agents/artifacts',r=a+'/hero41-independent-review',m=a+'/hero41-independent-source-math';assert(!fs.existsSync(r));assert(!fs.existsSync(m));fs.mkdirSync(r);fs.mkdirSync(m);
+let s=fs.readFileSync(a+'/hero39-independent-review/独立回读-实际GET.mjs','utf8').replaceAll('hero39','hero41').replaceAll('HERO39','HERO41').replace("|| '修订一'","|| '修订二'");
+for(const[x,y]of [['215','175'],['245','200'],['202','197'],['447','397']])s=s.replaceAll(x,y);
+s=s.replaceAll('hero41-root-entry-19760910','hero41-root-entry-20260910');
+s=s.replaceAll('b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8','d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5').replaceAll('a0e64ff436968bad1fd401054b7fb6090638c378dde0da9659f52f58ba1b44b7','0c64a1743c870a1e7d7a9b8cdfddd9bdc9a0fccb0b0cf5bebc5af8f70399d740');
+s=s.replaceAll('!== 30','!== 25').replaceAll('reusedDetails: 30','reusedDetails: 25').replaceAll('为30项','为25项').replaceAll('增加30项','增加25项');fs.writeFileSync(r+'/独立回读-实际GET.mjs',s,{flag:'wx'});
+let t=fs.readFileSync(a+'/hero41-luna-candidate/修订二/独立数学核算.mjs','utf8').replace('const INPUT = path.resolve(HERE, "..", "..", "hero41-root-entry-20260910");','const INPUT = "C:/project/damage_web_dev/.agents/artifacts/hero41-root-entry-20260910";').replace('const CANDIDATE_FILE = path.join(HERE, "完整候选.json");','const CANDIDATE_FILE = "C:/project/damage_web_dev/.agents/artifacts/hero41-luna-candidate/修订二/完整候选.json";');
+const hydrate=[
+"const getPath=process.env.HERO41_GET_REPORT;if(!getPath)throw new Error('必须指定同次真实GET快照');const getReport=readJson(getPath);assert(getReport.status==='PASS'&&getReport.actual.calls===397,'独立GET未通过');assert(getReport.candidateSha256===shaFile(CANDIDATE_FILE),'散列不符');",
+"const actual=new Map(getReport.rawResponses.map(x=>[x.route,x.data]));let actualHydrated=0;for(const[k,sk]of Object.entries(candidate.skills))for(const[kind,id]of [['parameters','parameterKey'],['formulas','formulaKey'],['effects','effectKey']])sk.write[kind]=sk.write[kind].map(p=>{const route='/skills/'+k+'/'+kind+'/'+p[id];assert(actual.has(route),'缺少真实详情 '+route);actualHydrated++;return actual.get(route);});assert(actualHydrated===175,'组成数不符');",
+"const binding = readJson("
+].join('\n');t=t.replace('const binding = readJson(',hydrate).replace('const report = {','const report = {\n  actualHydrated,actualGETFile:getPath,actualGETSha256:shaFile(getPath),').replace('businessMathReady: false','businessMathReady: true').replace('候选阶段独立数学；未调用业务接口，实际业务回读后才能标记业务数学通过。','真实独立397GET快照的参数、公式和效果进行源值核算；本脚本零额外GET，不表示战斗运行。');
+fs.writeFileSync(m+'/实际公式数学.mjs',t,{flag:'wx'});console.log(JSON.stringify({prepared:true,GETs:397,mathGETs:0}));

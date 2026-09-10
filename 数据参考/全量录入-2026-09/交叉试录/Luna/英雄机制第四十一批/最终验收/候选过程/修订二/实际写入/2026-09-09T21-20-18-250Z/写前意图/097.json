@@ -1,0 +1,23 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "method": "POST",
+    "route": "/skills/rakan_p/parameters",
+    "detailRoute": "/skills/rakan_p/parameters/shield_base_at_character_level",
+    "skillKey": "rakan_p",
+    "kind": "parameters",
+    "stableKey": "shield_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base_at_character_level",
+      "name": "护盾角色等级基础值（实际值外供）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalShield第一项为30至225角色等级插值，算法未证；实际值无默认。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/bard_w/parameters",
+    "detailRoute": "/skills/bard_w/parameters/move_speed_ap_ratio",
+    "skillKey": "bard_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_ap_ratio",
+      "name": "移速法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0006,
+      "levelValues": null,
+      "description": "Calc_MoveSpeed第二项。",
+      "sortOrder": 80
+    }
+  }
+}

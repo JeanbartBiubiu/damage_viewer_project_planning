@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/bard_p/parameters",
+    "detailRoute": "/skills/bard_p/parameters/tooltip_ms_per_stack_percent",
+    "skillKey": "bard_p",
+    "kind": "parameters",
+    "stableKey": "tooltip_ms_per_stack_percent",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tooltip_ms_per_stack_percent",
+      "name": "每层非战斗移动速度（百分数点）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 24,
+      "levelValues": null,
+      "description": "当前正文直接显示24%。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "method": "POST",
+    "route": "/skills/bard_w/parameters",
+    "detailRoute": "/skills/bard_w/parameters/max_packs",
+    "skillKey": "bard_w",
+    "kind": "parameters",
+    "stableKey": "max_packs",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_packs",
+      "name": "同时存在数量上限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "正文上限3座。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 159,
+    "method": "POST",
+    "route": "/skills/renata_e/parameters",
+    "detailRoute": "/skills/renata_e/parameters/damage_base",
+    "skillKey": "renata_e",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "单敌基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 65,
+        "2": 95,
+        "3": 125,
+        "4": 155,
+        "5": 185
+      },
+      "description": "等级索引1至5。",
+      "sortOrder": 10
+    }
+  }
+}

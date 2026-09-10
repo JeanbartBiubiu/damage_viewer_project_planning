@@ -1,0 +1,23 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/milio_e/parameters",
+    "detailRoute": "/skills/milio_e/parameters/max_ammo",
+    "skillKey": "milio_e",
+    "kind": "parameters",
+    "stableKey": "max_ammo",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_ammo",
+      "name": "护盾充能层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前mMaxAmmo有效技能等级值均为2。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "method": "POST",
+    "route": "/skills/rakan_w/parameters",
+    "detailRoute": "/skills/rakan_w/parameters/damage_base",
+    "skillKey": "rakan_w",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 120,
+        "3": 170,
+        "4": 220,
+        "5": 270
+      },
+      "description": "等级索引1至5，避免mEffectAmount索引0占位。",
+      "sortOrder": 10
+    }
+  }
+}

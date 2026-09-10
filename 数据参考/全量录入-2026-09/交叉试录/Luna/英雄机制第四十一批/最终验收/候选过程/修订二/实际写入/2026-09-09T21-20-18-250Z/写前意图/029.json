@@ -1,0 +1,29 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "method": "POST",
+    "route": "/skills/bard_w/parameters",
+    "detailRoute": "/skills/bard_w/parameters/move_speed_base_ratio",
+    "skillKey": "bard_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_base_ratio",
+      "name": "移速基础比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.200000003,
+        "2": 0.224999994,
+        "3": 0.25,
+        "4": 0.275000006,
+        "5": 0.3000000119
+      },
+      "description": "等级索引1至5。",
+      "sortOrder": 70
+    }
+  }
+}

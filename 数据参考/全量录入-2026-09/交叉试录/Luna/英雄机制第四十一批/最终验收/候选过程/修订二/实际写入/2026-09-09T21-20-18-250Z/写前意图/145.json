@@ -1,0 +1,29 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "method": "POST",
+    "route": "/skills/renata_w/parameters",
+    "detailRoute": "/skills/renata_w/parameters/bonus_move_speed_points",
+    "skillKey": "renata_w",
+    "kind": "parameters",
+    "stableKey": "bonus_move_speed_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_move_speed_points",
+      "name": "朝敌移动速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 12.5,
+        "3": 15,
+        "4": 17.5,
+        "5": 20
+      },
+      "description": "等级索引1至5；外层0.01转比例。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 95,
+    "method": "POST",
+    "route": "/skills/milio_r/formulas",
+    "detailRoute": "/skills/milio_r/formulas/heal_value",
+    "skillKey": "milio_r",
+    "kind": "formulas",
+    "stableKey": "heal_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "heal_value",
+      "name": "生生不息治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "heal_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应HealCalc；不创建直接治疗结果。",
+      "sortOrder": 10
+    }
+  }
+}

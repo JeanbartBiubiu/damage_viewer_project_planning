@@ -1,0 +1,124 @@
+{
+  "at": "2026-09-10T00:44:02.231Z",
+  "batch": "英雄机制第四十一批",
+  "status": "本轮来源明确组成已保存，独立回读、源值数学与四个代表页面通过；事件和未知曲线单列",
+  "heroes": [
+    "Bard",
+    "Milio",
+    "Rakan",
+    "Renata"
+  ],
+  "skills": [
+    "bard_p",
+    "bard_q",
+    "bard_w",
+    "bard_e",
+    "bard_r",
+    "milio_p",
+    "milio_q",
+    "milio_w",
+    "milio_e",
+    "milio_r",
+    "rakan_p",
+    "rakan_q",
+    "rakan_w",
+    "rakan_e",
+    "rakan_r",
+    "renata_p",
+    "renata_q",
+    "renata_w",
+    "renata_e",
+    "renata_r"
+  ],
+  "newCounts": {
+    "parameters": 123,
+    "formulas": 29,
+    "effects": 23
+  },
+  "counts": {
+    "parameters": 148,
+    "formulas": 29,
+    "effects": 23
+  },
+  "created": 175,
+  "businessWrites": 175,
+  "reusedParameters": 25,
+  "currentTotalComponents": 200,
+  "candidateFile": "最终验收/候选过程/修订二/完整候选.json",
+  "candidateFileSha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
+  "writePlan": "最终验收/候选过程/修订二/写前请求计划.json",
+  "writePlanSha256": "0c64a1743c870a1e7d7a9b8cdfddd9bdc9a0fccb0b0cf5bebc5af8f70399d740",
+  "save": {
+    "GETs": 1144,
+    "POSTs": 175,
+    "confirmed": 175,
+    "file": "最终验收/候选过程/修订二/实际写入/2026-09-09T21-20-18-250Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 397,
+    "protectedPaths": 197,
+    "details": 200,
+    "reused": 25,
+    "new": 175,
+    "file": "最终验收/独立回读证据/实际回读/2026-09-09T21-26-15-764Z/独立全量GET.json"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 29,
+    "cases": 58,
+    "missing": 6,
+    "binaryNodes": 59,
+    "sourceArrays": 29,
+    "characterBreakpoints": 4,
+    "rawFormulaCoefficients": 23,
+    "integerValues": 173,
+    "integerParameters": 104,
+    "millisecondsParameters": 50,
+    "effectValueCases": 10,
+    "file": "最终验收/实际数学证据/独立数学核算.json",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "最终验收/候选过程/修订二/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 3290,
+    "uniqueTools": 70,
+    "inputs": 23,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "洛R百分数点到比例的最终倍率修正为0.01；本批五个比例属性效果统一为属性固定加算",
+    "米利欧W射程基准未知的效果移出，来源比例仍保留；巴德额外敌人范围升级和烈娜塔Q碰撞另一敌人分支排除",
+    "施法源值逐一核对，米利欧R明确十进制0.713秒换算为713毫秒；洛W零施法不等于零位移总时长",
+    "独立回读脚本生成时发现机械数字替换污染日期路径，在任何GET前纠正；最终独立397GET未重复执行"
+  ],
+  "experienceIssues": [
+    {
+      "issue": "百分数点与比例属性容易发生百倍换算或错误乘区",
+      "detail": "洛参数是75/150，结果需乘0.01；米利欧参数已是0.12至0.2，结果倍率1。二者都作用于比例属性自身，均使用属性固定加算。标准流程需把源值、公式、结果最终倍率三层分别验收。"
+    },
+    {
+      "issue": "效果列表只显示结果数量，关键单位需要继续进入结果详情",
+      "detail": "列表目前不足以辨认百分数点换算及乘区，后续可增加只读摘要，避免反复打开多层详情。"
+    },
+    {
+      "issue": "独立施放间隔、充能回复与增益持续容易混淆",
+      "detail": "米利欧E三类时间各有独立参数，不能以单一冷却或统一持续代替。"
+    }
+  ],
+  "pending": [
+    "历史比例属性与乘区映射需要集中统一，本批已纠正",
+    "米利欧E允许堆叠的刷新/到期规则、洛触敌速度衰减和烈娜塔W递增/复活资格仍待事件接线",
+    "巴德每5钟+6伤害的整数整组计数和未知技能等级曲线待统一补接",
+    "巴德R双边停滞、米利欧净化和烈娜塔R狂暴目标选择不假装已有控制运行机制"
+  ],
+  "runtimeValidation": "未执行"
+}

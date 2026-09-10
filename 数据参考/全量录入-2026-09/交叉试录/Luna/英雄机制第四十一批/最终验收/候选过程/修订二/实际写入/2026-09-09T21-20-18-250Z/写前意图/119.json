@@ -1,0 +1,27 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "method": "POST",
+    "route": "/skills/rakan_r/parameters",
+    "detailRoute": "/skills/rakan_r/parameters/damage_base",
+    "skillKey": "rakan_r",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "触碰基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 200,
+        "3": 300
+      },
+      "description": "等级索引1至3。",
+      "sortOrder": 10
+    }
+  }
+}

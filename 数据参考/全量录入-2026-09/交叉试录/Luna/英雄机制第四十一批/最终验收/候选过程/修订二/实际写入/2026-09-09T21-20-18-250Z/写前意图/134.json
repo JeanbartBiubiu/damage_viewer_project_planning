@@ -1,0 +1,45 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "method": "POST",
+    "route": "/skills/renata_p/formulas",
+    "detailRoute": "/skills/renata_p/formulas/self_percent_amp",
+    "skillKey": "renata_p",
+    "kind": "formulas",
+    "stableKey": "self_percent_amp",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_percent_amp",
+      "name": "自身标记伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_amp_base_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_to_percent_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应PercentAmpCalcSelf。",
+      "sortOrder": 10
+    }
+  }
+}

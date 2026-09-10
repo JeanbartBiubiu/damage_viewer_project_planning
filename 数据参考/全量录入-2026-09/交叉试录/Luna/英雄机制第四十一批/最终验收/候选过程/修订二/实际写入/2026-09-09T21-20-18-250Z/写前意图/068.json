@@ -1,0 +1,45 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/milio_q/formulas",
+    "detailRoute": "/skills/milio_q/formulas/slow_amount",
+    "skillKey": "milio_q",
+    "kind": "formulas",
+    "stableKey": "slow_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "slow_amount",
+      "name": "火爆飞踢减速比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "slow_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "slow_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应SlowAmountPercent。",
+      "sortOrder": 20
+    }
+  }
+}

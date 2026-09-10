@@ -1,0 +1,45 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "method": "POST",
+    "route": "/skills/renata_q/formulas",
+    "detailRoute": "/skills/renata_q/formulas/total_damage",
+    "skillKey": "renata_q",
+    "kind": "formulas",
+    "stableKey": "total_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_damage",
+      "name": "铁腕竞合魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应TotalDamage，首段/再施放同一当前敌人可复用。",
+      "sortOrder": 10
+    }
+  }
+}

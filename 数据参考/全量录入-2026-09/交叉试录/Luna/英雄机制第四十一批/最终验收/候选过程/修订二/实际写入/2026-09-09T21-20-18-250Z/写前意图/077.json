@@ -1,0 +1,45 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "method": "POST",
+    "route": "/skills/milio_w/formulas",
+    "detailRoute": "/skills/milio_w/formulas/healing_over_time",
+    "skillKey": "milio_w",
+    "kind": "formulas",
+    "stableKey": "healing_over_time",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "healing_over_time",
+      "name": "总治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "total_heal_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应HealingOverTime，总量不拆成逐跳直接结果。",
+      "sortOrder": 20
+    }
+  }
+}

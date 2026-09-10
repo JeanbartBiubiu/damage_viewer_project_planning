@@ -1,0 +1,29 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/milio_w/parameters",
+    "detailRoute": "/skills/milio_w/parameters/total_heal_base",
+    "skillKey": "milio_w",
+    "kind": "parameters",
+    "stableKey": "total_heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_heal_base",
+      "name": "总治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 90,
+        "3": 110,
+        "4": 130,
+        "5": 150
+      },
+      "description": "HealingOverTime取等级索引1至5。",
+      "sortOrder": 50
+    }
+  }
+}

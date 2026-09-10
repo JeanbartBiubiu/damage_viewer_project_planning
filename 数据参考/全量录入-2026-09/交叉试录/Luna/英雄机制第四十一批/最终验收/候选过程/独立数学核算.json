@@ -1,0 +1,697 @@
+{
+  "generatedAt": "2026-09-09T20:59:02.845Z",
+  "status": "通过",
+  "candidateMathReady": true,
+  "businessMathReady": false,
+  "note": "候选阶段独立数学；未调用业务接口，实际业务回读后才能标记业务数学通过。",
+  "candidateSha256": "ac19d3599c215cbc33d12aef0be0b324ab60898908c466148ee45a05408d8be7",
+  "revision": "hero41-source-v1-luna-candidate",
+  "formulaCount": 31,
+  "caseCount": 62,
+  "expectedCasesPerFormula": 2,
+  "results": [
+    {
+      "skillKey": "bard_p",
+      "formulaKey": "meep_damage_no_chime",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 46.000000240000006,
+      "expected": 46.00000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_p",
+      "formulaKey": "meep_damage_no_chime",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 190.0000024,
+      "expected": 190.0000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_p",
+      "formulaKey": "chimes_for_slow_upgrade",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 5,
+      "expected": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_p",
+      "formulaKey": "chimes_for_slow_upgrade",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 5,
+      "expected": 5,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_p",
+      "formulaKey": "chimes_for_splash_damage_upgrade",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 15,
+      "expected": 15,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_p",
+      "formulaKey": "chimes_for_splash_damage_upgrade",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 15,
+      "expected": 15,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_p",
+      "formulaKey": "chimes_for_splash_area_upgrade",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 35,
+      "expected": 35,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_p",
+      "formulaKey": "chimes_for_splash_area_upgrade",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 35,
+      "expected": 35,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_q",
+      "formulaKey": "total_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 120.000000595,
+      "expected": 120.00000059604645,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_q",
+      "formulaKey": "total_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 520.0000041650001,
+      "expected": 520.0000041723251,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_w",
+      "formulaKey": "initial_heal",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 45.000000299999996,
+      "expected": 45.000000298023224,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_w",
+      "formulaKey": "initial_heal",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 265.0000021,
+      "expected": 265.00000208616257,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_w",
+      "formulaKey": "maximum_heal",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 84.999999405,
+      "expected": 84.99999940395355,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_w",
+      "formulaKey": "maximum_heal",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 444.999995835,
+      "expected": 444.99999582767487,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_w",
+      "formulaKey": "move_speed",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.230000003,
+      "expected": 0.23000000440515578,
+      "pass": true
+    },
+    {
+      "skillKey": "bard_w",
+      "formulaKey": "move_speed",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 0.5100000119,
+      "expected": 0.5100000218953937,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_p",
+      "formulaKey": "ad_burst_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 5.600000024,
+      "expected": 5.600000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_p",
+      "formulaKey": "ad_burst_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 44.999999550000005,
+      "expected": 44.999999552965164,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_p",
+      "formulaKey": "burn_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 20.000000149999998,
+      "expected": 20.000000149011612,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_p",
+      "formulaKey": "burn_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 130.00000119999999,
+      "expected": 130.0000011920929,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_q",
+      "formulaKey": "damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 140.000002385,
+      "expected": 140.0000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_q",
+      "formulaKey": "damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 800.0000190799999,
+      "expected": 800.0000190734863,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_q",
+      "formulaKey": "slow_amount",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.42500000600000004,
+      "expected": 0.42500000714790076,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_q",
+      "formulaKey": "slow_amount",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 0.8000000238,
+      "expected": 0.8000000333413482,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_w",
+      "formulaKey": "range_percent",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.1000000015,
+      "expected": 0.10000000149011612,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_w",
+      "formulaKey": "range_percent",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 0.200000003,
+      "expected": 0.20000000298023224,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_w",
+      "formulaKey": "healing_over_time",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 77.5000003,
+      "expected": 77.50000029802322,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_w",
+      "formulaKey": "healing_over_time",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 210.0000024,
+      "expected": 210.0000023841858,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_e",
+      "formulaKey": "shield_value",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 67.499999405,
+      "expected": 67.49999940395355,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_e",
+      "formulaKey": "shield_value",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 344.99999524,
+      "expected": 344.9999952316284,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_r",
+      "formulaKey": "heal_value",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 175,
+      "expected": 175,
+      "pass": true
+    },
+    {
+      "skillKey": "milio_r",
+      "formulaKey": "heal_value",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 550,
+      "expected": 550,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_p",
+      "formulaKey": "total_shield",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 77.499999405,
+      "expected": 77.49999940395355,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_p",
+      "formulaKey": "total_shield",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 604.99999524,
+      "expected": 604.9999952316284,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_p",
+      "formulaKey": "shield_cooldown",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 40,
+      "expected": 40,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_p",
+      "formulaKey": "shield_cooldown",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 14.5,
+      "expected": 14.5,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_q",
+      "formulaKey": "total_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 104.999999405,
+      "expected": 104.99999940395355,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_q",
+      "formulaKey": "total_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 529.99999524,
+      "expected": 529.9999952316284,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_q",
+      "formulaKey": "total_heal",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 67.500000595,
+      "expected": 67.50000059604645,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_q",
+      "formulaKey": "total_heal",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 430.00000476,
+      "expected": 430.0000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_w",
+      "formulaKey": "total_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 110.000000595,
+      "expected": 110.00000059604645,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_w",
+      "formulaKey": "total_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 590.00000476,
+      "expected": 590.0000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_r",
+      "formulaKey": "total_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 125,
+      "expected": 125,
+      "pass": true
+    },
+    {
+      "skillKey": "rakan_r",
+      "formulaKey": "total_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 500,
+      "expected": 500,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_p",
+      "formulaKey": "self_percent_amp",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.019999999776482584,
+      "expected": 0.019999999523861334,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_p",
+      "formulaKey": "self_percent_amp",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 0.11290000010747463,
+      "expected": 0.11289999808650464,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_p",
+      "formulaKey": "self_mark_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 9.999999888241293,
+      "expected": 9.999999761930667,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_p",
+      "formulaKey": "self_mark_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 282.25000026868656,
+      "expected": 282.2499952162616,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_q",
+      "formulaKey": "total_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 120.000000595,
+      "expected": 120.00000059604645,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_q",
+      "formulaKey": "total_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 580.00000476,
+      "expected": 580.0000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_w",
+      "formulaKey": "initial_attack_speed",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.10499999989999999,
+      "expected": 0.1049999975413084,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_w",
+      "formulaKey": "initial_attack_speed",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 0.3399999992,
+      "expected": 0.33999999150633814,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_w",
+      "formulaKey": "initial_move_speed",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.10499999989999999,
+      "expected": 0.1049999975413084,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_w",
+      "formulaKey": "initial_move_speed",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 0.2399999992,
+      "expected": 0.23999999374151232,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_w",
+      "formulaKey": "final_attack_speed",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.20999999979999998,
+      "expected": 0.2099999950826168,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_w",
+      "formulaKey": "final_attack_speed",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 0.6799999984,
+      "expected": 0.6799999830126763,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_w",
+      "formulaKey": "final_move_speed",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.20999999979999998,
+      "expected": 0.2099999950826168,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_w",
+      "formulaKey": "final_move_speed",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 0.4799999984,
+      "expected": 0.47999998748302464,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_e",
+      "formulaKey": "total_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 92.500000595,
+      "expected": 92.50000059604645,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_e",
+      "formulaKey": "total_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 405.00000476,
+      "expected": 405.0000047683716,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_e",
+      "formulaKey": "shield_value",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 75,
+      "expected": 75,
+      "pass": true
+    },
+    {
+      "skillKey": "renata_e",
+      "formulaKey": "shield_value",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 310,
+      "expected": 310,
+      "pass": true
+    }
+  ],
+  "missingInputCases": [
+    {
+      "key": "milio_p",
+      "formulaKey": "burn_damage",
+      "parameterKey": "burn_base_damage_at_character_level",
+      "rejected": true
+    },
+    {
+      "key": "rakan_p",
+      "formulaKey": "total_shield",
+      "parameterKey": "shield_base_at_character_level",
+      "rejected": true
+    },
+    {
+      "key": "rakan_p",
+      "formulaKey": "shield_cooldown",
+      "parameterKey": "shield_cooldown_at_character_level",
+      "rejected": true
+    },
+    {
+      "key": "rakan_q",
+      "formulaKey": "total_heal",
+      "parameterKey": "self_heal_base_at_character_level",
+      "rejected": true
+    },
+    {
+      "key": "renata_p",
+      "formulaKey": "self_percent_amp",
+      "parameterKey": "self_amp_base_at_character_level",
+      "rejected": true
+    },
+    {
+      "key": "renata_p",
+      "formulaKey": "self_mark_damage",
+      "parameterKey": "self_amp_base_at_character_level",
+      "rejected": true
+    }
+  ],
+  "missingInputCaseCount": 6,
+  "sourceChecks": {
+    "levelArrays": 29,
+    "levelArrayFailures": [],
+    "characterBreakpoints": 4,
+    "characterBreakpointFailures": [],
+    "rawFormulaCoefficients": 23
+  },
+  "structural": {
+    "formulaCount": 31,
+    "binaryOperations": 61,
+    "invalidOperations": 0,
+    "missingReferences": 0,
+    "forbiddenResults": 0,
+    "runtimeWithoutDefault": 6,
+    "integerValues": 176,
+    "invalidIntegerValues": 0
+  },
+  "sourceFiles": {
+    "inputBinding": "f99655834a838eae99a4d96678e287c5e07030cb0ba3d80ea62edbd44c1499ff",
+    "inputVersion": "34cf3cf8d1954053ca21ba2ee654995dfdc049feb1f3e64647e0af28d2e2f432",
+    "candidate": "ac19d3599c215cbc33d12aef0be0b324ab60898908c466148ee45a05408d8be7"
+  },
+  "apiCalls": 0,
+  "apiWrites": 0
+}

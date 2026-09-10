@@ -1,0 +1,23 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "method": "POST",
+    "route": "/skills/renata_w/parameters",
+    "detailRoute": "/skills/renata_w/parameters/final_stat_output_scale",
+    "skillKey": "renata_w",
+    "kind": "parameters",
+    "stableKey": "final_stat_output_scale",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "final_stat_output_scale",
+      "name": "满额属性输出缩放",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.02,
+      "levelValues": null,
+      "description": "对应FinalAS/MS树，初始值两倍。",
+      "sortOrder": 60
+    }
+  }
+}

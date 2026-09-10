@@ -1,0 +1,27 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "method": "POST",
+    "route": "/skills/bard_r/parameters",
+    "detailRoute": "/skills/bard_r/parameters/stasis_duration_ms",
+    "skillKey": "bard_r",
+    "kind": "parameters",
+    "stableKey": "stasis_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stasis_duration_ms",
+      "name": "凝滞持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2500,
+        "2": 2500,
+        "3": 2500
+      },
+      "description": "2.5秒转毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

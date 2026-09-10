@@ -1,0 +1,67 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "method": "POST",
+    "route": "/skills/milio_e/effects",
+    "detailRoute": "/skills/milio_e/effects/self_shield",
+    "skillKey": "milio_e",
+    "kind": "effects",
+    "stableKey": "self_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_shield",
+      "name": "融融情谊自身普通护盾",
+      "description": "补证支持自身护盾；叠加事件待接。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "融融情谊自身普通护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": "普通护盾，触发和移除事件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "shield_value"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

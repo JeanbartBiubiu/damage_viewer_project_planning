@@ -1,0 +1,45 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "method": "POST",
+    "route": "/skills/rakan_r/formulas",
+    "detailRoute": "/skills/rakan_r/formulas/total_damage",
+    "skillKey": "rakan_r",
+    "kind": "formulas",
+    "stableKey": "total_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_damage",
+      "name": "惊鸿过隙魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应TotalDamageTooltip。",
+      "sortOrder": 10
+    }
+  }
+}

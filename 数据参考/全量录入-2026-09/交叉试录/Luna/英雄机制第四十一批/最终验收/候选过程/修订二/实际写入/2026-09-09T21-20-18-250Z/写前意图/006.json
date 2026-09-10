@@ -1,0 +1,23 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "method": "POST",
+    "route": "/skills/bard_p/parameters",
+    "detailRoute": "/skills/bard_p/parameters/damage_per_checkpoint",
+    "skillKey": "bard_p",
+    "kind": "parameters",
+    "stableKey": "damage_per_checkpoint",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_checkpoint",
+      "name": "每个层数间隔伤害增加",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "当前正文直接消费6。",
+      "sortOrder": 60
+    }
+  }
+}

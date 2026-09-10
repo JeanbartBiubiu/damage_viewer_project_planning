@@ -1,0 +1,29 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/milio_e/parameters",
+    "detailRoute": "/skills/milio_e/parameters/ammo_recharge_ms",
+    "skillKey": "milio_e",
+    "kind": "parameters",
+    "stableKey": "ammo_recharge_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ammo_recharge_ms",
+      "name": "护盾充能回复时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 17000,
+        "2": 16000,
+        "3": 15000,
+        "4": 14000,
+        "5": 13000
+      },
+      "description": "当前mAmmoRechargeTime索引1至5，17/16/15/14/13秒转毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

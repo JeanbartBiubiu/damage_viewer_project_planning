@@ -1,0 +1,29 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/bard_e/parameters",
+    "detailRoute": "/skills/bard_e/parameters/cooldown_ms",
+    "skillKey": "bard_e",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "基础冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 22000,
+        "2": 20500,
+        "3": 19000,
+        "4": 17500,
+        "5": 16000
+      },
+      "description": "当前根技能等级冷却，单位毫秒；本项不在公共复用清单。",
+      "sortOrder": 10
+    }
+  }
+}

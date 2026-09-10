@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/milio_q/parameters",
+    "detailRoute": "/skills/milio_q/parameters/refund_ratio",
+    "skillKey": "milio_q",
+    "kind": "parameters",
+    "stableKey": "refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "refund_ratio",
+      "name": "命中英雄返还法力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前正文50%。",
+      "sortOrder": 110
+    }
+  }
+}

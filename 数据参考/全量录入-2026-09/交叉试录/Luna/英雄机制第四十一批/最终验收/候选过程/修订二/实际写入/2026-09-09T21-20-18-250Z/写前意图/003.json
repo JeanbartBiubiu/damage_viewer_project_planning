@@ -1,0 +1,23 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/bard_p/parameters",
+    "detailRoute": "/skills/bard_p/parameters/tooltip_mana_restore_percent",
+    "skillKey": "bard_p",
+    "kind": "parameters",
+    "stableKey": "tooltip_mana_restore_percent",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tooltip_mana_restore_percent",
+      "name": "最大法力回复（百分数点）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 12,
+      "levelValues": null,
+      "description": "当前正文直接显示12%；经验奖励排除。",
+      "sortOrder": 30
+    }
+  }
+}
