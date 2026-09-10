@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T00:44:22.541Z",
+  "generatedAt": "2026-09-10T01:28:33.103Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -3920,6 +3920,83 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十一批/最终验收/候选过程/修订二/页面验收.json",
         "commit": "aedef5150609912f88b184114496c7a6f5398280"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroFortySecondBatch": {
+      "skills": [
+        "qiyana_p",
+        "qiyana_q",
+        "qiyana_w",
+        "qiyana_e",
+        "qiyana_r",
+        "ksante_p",
+        "ksante_q",
+        "ksante_w",
+        "ksante_e",
+        "ksante_r",
+        "mel_p",
+        "mel_q",
+        "mel_w",
+        "mel_e",
+        "mel_r",
+        "yunara_p",
+        "yunara_q",
+        "yunara_w",
+        "yunara_e",
+        "yunara_r"
+      ],
+      "heroes": [
+        "Qiyana",
+        "KSante",
+        "Mel",
+        "Yunara"
+      ],
+      "parameters": 180,
+      "formulas": 35,
+      "effects": 0,
+      "newCounts": {
+        "parameters": 149,
+        "formulas": 35,
+        "effects": 0
+      },
+      "created": 184,
+      "businessWrites": 184,
+      "reusedParameters": 31,
+      "currentTotalComponents": 215,
+      "saveGETs": 1204,
+      "independentGets": 418,
+      "protectedPaths": 203,
+      "detailChecks": 215,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 35,
+      "independentSourceCases": 70,
+      "independentMissingRejects": 14,
+      "independentBinaryChecks": 100,
+      "independentSourceArrays": 27,
+      "independentSourceArrayValues": 121,
+      "independentFixedSourceValues": 111,
+      "independentIntegerValues": 153,
+      "integerParameters": 115,
+      "millisecondParameters": 53,
+      "representativePages": 4,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "71a75a0bc1f94fc7f85656db90fa4096eb1d7ad7b228179db0b7000c085fa989",
+      "planSha256": "e2e51821cab70bf68800831c20110f8cdfd930b1e35bdef929d92b9806ae5a05",
+      "executor": "Cursor来源复核、Luna Max候选与数学检查、主负责人修订保存和独立回读页面验收",
+      "status": "本轮来源明确组成已保存，独立回读、源值数学与四个代表页面通过；未知曲线和触发资格单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十二批/当前实录状态.json",
+        "sha256": "f59d155a6d9023d7f14b174843f9f759e917e6753121331ba7ceacf895686cba",
+        "commit": "a35556bf695adafeec63bb81272ffc7c73747bba"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十二批/最终验收/候选过程/修订二/页面验收.json",
+        "commit": "a35556bf695adafeec63bb81272ffc7c73747bba"
       },
       "runtimeValidation": "未执行"
     }
