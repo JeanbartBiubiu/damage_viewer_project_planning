@@ -1,0 +1,58 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/formulas",
+    "detailRoute": "/skills/viego_q/formulas/second_attack_physical_damage",
+    "skillKey": "viego_q",
+    "kind": "formulas",
+    "stableKey": "second_attack_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "second_attack_physical_damage",
+      "name": "破败王剑二次打击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "second_attack_total_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "second_attack_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "SecondAttackDamage=0.2×来源总攻击力+0.15×来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

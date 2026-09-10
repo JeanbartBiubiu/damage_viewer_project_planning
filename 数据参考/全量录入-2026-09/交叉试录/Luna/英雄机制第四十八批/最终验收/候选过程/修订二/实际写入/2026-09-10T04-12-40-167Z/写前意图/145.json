@@ -1,0 +1,52 @@
+{
+  "i": 144,
+  "intent": {
+    "sequence": 145,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/effects",
+    "detailRoute": "/skills/viego_q/effects/second_attack_damage",
+    "skillKey": "viego_q",
+    "kind": "effects",
+    "stableKey": "second_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "second_attack_damage",
+      "name": "破败王剑二次打击物理伤害",
+      "description": "技能命中标记后的同一敌人二次打击；攻击特效与暴击资格待运行层接线。",
+      "sortOrder": 50,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "破败王剑二次打击物理伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "second_attack_physical_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

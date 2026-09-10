@@ -1,0 +1,24 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 159,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_w/parameters",
+    "detailRoute": "/skills/viego_w/parameters/charge_duration_ms",
+    "skillKey": "viego_w",
+    "kind": "parameters",
+    "stableKey": "charge_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_duration_ms",
+      "name": "实际蓄力持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "自身减速效果的实际蓄力窗口未由源值曲线给出，必须由运行层提供，不设默认。",
+      "sortOrder": 125
+    }
+  }
+}

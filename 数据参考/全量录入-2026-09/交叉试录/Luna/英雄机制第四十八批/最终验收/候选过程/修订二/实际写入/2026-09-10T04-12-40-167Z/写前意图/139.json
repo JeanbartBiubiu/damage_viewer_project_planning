@@ -1,0 +1,96 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 139,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/formulas",
+    "detailRoute": "/skills/viego_q/formulas/critical_on_hit_current_health_damage",
+    "skillKey": "viego_q",
+    "kind": "formulas",
+    "stableKey": "critical_on_hit_current_health_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "critical_on_hit_current_health_damage",
+      "name": "破败王剑暴击攻击特效当前生命伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MAX",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "on_hit_min_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "percent_point_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "on_hit_current_health_percent_points"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_base_multiplier"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "health_crit_ratio"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operation": "ADD",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "on_hit_crit_mstat9"
+                              },
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "crit_subtract_one"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "暴击攻击特效=MAX(MinDamageOnHit, 0.01×PercentHealthOnHit×[1+0.7×(实际mStat9−1)]×每次命中时目标当前生命)；普通与暴击效果互斥，不使用mStat8。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_e/parameters",
+    "detailRoute": "/skills/kayn_e/parameters/heal_bonus_ad_ratio",
+    "skillKey": "kayn_e",
+    "kind": "parameters",
+    "stableKey": "heal_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_bonus_ad_ratio",
+      "name": "额外攻击力治疗倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.449999988,
+      "levelValues": null,
+      "description": "TotalHealing读取0.45×来源额外攻击力。",
+      "sortOrder": 60
+    }
+  }
+}

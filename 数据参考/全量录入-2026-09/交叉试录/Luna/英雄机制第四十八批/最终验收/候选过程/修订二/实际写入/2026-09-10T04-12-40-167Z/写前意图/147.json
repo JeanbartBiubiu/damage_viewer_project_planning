@@ -1,0 +1,30 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 147,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_w/parameters",
+    "detailRoute": "/skills/viego_w/parameters/base_damage",
+    "skillKey": "viego_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "千载幽咽基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 135,
+        "3": 190,
+        "4": 245,
+        "5": 300
+      },
+      "description": "Damage按W保护最高等级取索引1至最高等级。",
+      "sortOrder": 10
+    }
+  }
+}

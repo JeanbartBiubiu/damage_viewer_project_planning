@@ -1,0 +1,24 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 132,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/qualified_actual_damage_for_heal",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "qualified_actual_damage_for_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qualified_actual_damage_for_heal",
+      "name": "合资格实际伤害输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "治疗只读取运行层判定后的合资格实际伤害；不以理论公式或候选伤害代替。",
+      "sortOrder": 160
+    }
+  }
+}

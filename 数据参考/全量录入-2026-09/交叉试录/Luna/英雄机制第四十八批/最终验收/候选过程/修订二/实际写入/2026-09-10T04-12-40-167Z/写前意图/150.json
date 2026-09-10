@@ -1,0 +1,24 @@
+{
+  "i": 149,
+  "intent": {
+    "sequence": 150,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_w/parameters",
+    "detailRoute": "/skills/viego_w/parameters/max_stun_duration_ms",
+    "skillKey": "viego_w",
+    "kind": "parameters",
+    "stableKey": "max_stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_stun_duration_ms",
+      "name": "最长眩晕持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1250,
+      "levelValues": null,
+      "description": "MaxStunTT=1.25秒，精确转换为1250毫秒；不当作蓄力时间。",
+      "sortOrder": 40
+    }
+  }
+}

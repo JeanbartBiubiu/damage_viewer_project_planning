@@ -1,0 +1,24 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_r/parameters",
+    "detailRoute": "/skills/kayn_r/parameters/bonus_ad_ratio",
+    "skillKey": "kayn_r",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "新Damage计算树第二分支mStat=2、mStatFormula=2、系数1.5。",
+      "sortOrder": 20
+    }
+  }
+}

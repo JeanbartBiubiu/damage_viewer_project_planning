@@ -1,0 +1,30 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_e/parameters",
+    "detailRoute": "/skills/kayn_e/parameters/heal_base",
+    "skillKey": "kayn_e",
+    "kind": "parameters",
+    "stableKey": "heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_base",
+      "name": "首次进入地形基础治疗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 90,
+        "2": 100,
+        "3": 110,
+        "4": 120,
+        "5": 130
+      },
+      "description": "HealAmount按保护最高等级取索引1至最高等级。",
+      "sortOrder": 50
+    }
+  }
+}

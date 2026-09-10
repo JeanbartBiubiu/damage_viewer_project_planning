@@ -1,0 +1,56 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 138,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/formulas",
+    "detailRoute": "/skills/viego_q/formulas/on_hit_current_health_damage",
+    "skillKey": "viego_q",
+    "kind": "formulas",
+    "stableKey": "on_hit_current_health_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "on_hit_current_health_damage",
+      "name": "破败王剑普通攻击特效当前生命伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MAX",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "on_hit_min_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_point_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "on_hit_current_health_percent_points"
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "普通攻击特效=MAX(MinDamageOnHit, 0.01×PercentHealthOnHit×每次命中时目标当前生命)；当前生命由每次命中重新读取。",
+      "sortOrder": 20
+    }
+  }
+}

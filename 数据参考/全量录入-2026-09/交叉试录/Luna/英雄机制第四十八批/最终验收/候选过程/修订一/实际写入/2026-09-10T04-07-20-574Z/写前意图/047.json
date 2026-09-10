@@ -1,0 +1,24 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/parameters",
+    "detailRoute": "/skills/yorick_q/parameters/total_ad_ratio",
+    "skillKey": "yorick_q",
+    "kind": "parameters",
+    "stableKey": "total_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_ad_ratio",
+      "name": "总攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "BonusDamage第二分支mStat=2且省略mStatFormula，按总攻击力读取0.5。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_e/parameters",
+    "detailRoute": "/skills/yorick_e/parameters/slow_ratio",
+    "skillKey": "yorick_e",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.300000012,
+        "2": 0.300000012,
+        "3": 0.300000012,
+        "4": 0.300000012,
+        "5": 0.300000012
+      },
+      "description": "SlowAmount已是0.3比例，正文按百分比显示。",
+      "sortOrder": 40
+    }
+  }
+}

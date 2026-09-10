@@ -1,0 +1,46 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_q/formulas",
+    "detailRoute": "/skills/ivern_q/formulas/magic_damage",
+    "skillKey": "ivern_q",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "根深敌固魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+APRatio×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

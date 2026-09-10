@@ -1,0 +1,30 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_w/parameters",
+    "detailRoute": "/skills/kayn_w/parameters/base_damage",
+    "skillKey": "kayn_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "利刃纵贯基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 85,
+        "2": 130,
+        "3": 175,
+        "4": 220,
+        "5": 265
+      },
+      "description": "TotalDamage按W保护最高等级取BaseDamage索引1至最高等级。",
+      "sortOrder": 10
+    }
+  }
+}

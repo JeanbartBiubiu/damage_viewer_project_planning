@@ -1,0 +1,72 @@
+{
+  "i": 175,
+  "intent": {
+    "sequence": 176,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_e/effects",
+    "detailRoute": "/skills/viego_e/effects/attack_speed",
+    "skillKey": "viego_e",
+    "kind": "effects",
+    "stableKey": "attack_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "attack_speed",
+      "name": "茫茫焦土自身攻击速度",
+      "description": "只记录黑雾内自身额外攻击速度；冻结属性为bonus_attack_speed_percent，比例属性使用attribute_flat_add，寿命使用本次实际连续雾内资格时长。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "actual_mist_qualified_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "茫茫焦土自身攻击速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义属性变化，触发条件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

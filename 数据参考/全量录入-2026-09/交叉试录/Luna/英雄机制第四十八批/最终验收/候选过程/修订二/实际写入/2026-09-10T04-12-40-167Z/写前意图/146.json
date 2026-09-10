@@ -1,0 +1,43 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 146,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/effects",
+    "detailRoute": "/skills/viego_q/effects/second_attack_heal",
+    "skillKey": "viego_q",
+    "kind": "effects",
+    "stableKey": "second_attack_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "second_attack_heal",
+      "name": "破败王剑二次打击自身治疗",
+      "description": "只保留英雄场景自身治疗；合资格实际伤害、占据期间保留和命中时点由运行层接线。",
+      "sortOrder": 60,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "heal",
+          "name": "破败王剑二次打击自身治疗",
+          "resultType": "DIRECT_HEAL",
+          "target": "SOURCE",
+          "description": "只记录自身直接治疗，目标与触发事件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "second_attack_heal"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {}
+        }
+      ]
+    }
+  }
+}

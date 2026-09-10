@@ -1,0 +1,24 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/parameters",
+    "detailRoute": "/skills/ivern_w/parameters/ap_ratio",
+    "skillKey": "ivern_w",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.200000003,
+      "levelValues": null,
+      "description": "TotalDamage第二分支mCoefficient=0.2，读取来源总法强。",
+      "sortOrder": 140
+    }
+  }
+}

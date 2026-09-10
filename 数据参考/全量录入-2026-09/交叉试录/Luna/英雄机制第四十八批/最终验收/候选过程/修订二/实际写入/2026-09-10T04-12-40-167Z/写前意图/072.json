@@ -1,0 +1,24 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_r/parameters",
+    "detailRoute": "/skills/yorick_r/parameters/percent_point_ratio",
+    "skillKey": "yorick_r",
+    "kind": "parameters",
+    "stableKey": "percent_point_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_point_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "RMarkDamagePercent正文为百分数点，目标取最大生命；不使用RMarkMaxDamage英雄上限。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 115,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_r/effects",
+    "detailRoute": "/skills/kayn_r/effects/damage",
+    "skillKey": "kayn_r",
+    "kind": "effects",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "damage",
+      "name": "裂舍影破体物理伤害",
+      "description": "未变形主体破体伤害；标记/侵入时序和唯一敌人事件待接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "裂舍影破体物理伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "physical_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

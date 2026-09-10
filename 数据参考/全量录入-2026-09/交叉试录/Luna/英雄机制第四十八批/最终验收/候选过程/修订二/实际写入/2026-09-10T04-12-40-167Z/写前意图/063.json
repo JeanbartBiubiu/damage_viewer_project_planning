@@ -1,0 +1,30 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_e/parameters",
+    "detailRoute": "/skills/yorick_e/parameters/armor_shred_ratio",
+    "skillKey": "yorick_e",
+    "kind": "parameters",
+    "stableKey": "armor_shred_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "armor_shred_ratio",
+      "name": "护甲削减比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.129999995,
+        "2": 0.159999996,
+        "3": 0.189999998,
+        "4": 0.219999999,
+        "5": 0.25
+      },
+      "description": "ArmorShred已是0.13至0.25比例，目标属性枚举与减益接线保持运行层处理。",
+      "sortOrder": 80
+    }
+  }
+}

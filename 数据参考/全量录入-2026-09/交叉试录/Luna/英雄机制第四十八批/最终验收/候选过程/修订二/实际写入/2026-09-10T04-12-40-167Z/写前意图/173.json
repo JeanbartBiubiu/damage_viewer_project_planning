@@ -1,0 +1,24 @@
+{
+  "i": 172,
+  "intent": {
+    "sequence": 173,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_e/parameters",
+    "detailRoute": "/skills/viego_e/parameters/actual_mist_qualified_duration_ms",
+    "skillKey": "viego_e",
+    "kind": "parameters",
+    "stableKey": "actual_mist_qualified_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_mist_qualified_duration_ms",
+      "name": "本次自身雾内资格持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "仅表示本次连续位于黑雾内且未离雾时的自身资格时长，实际由运行层按离雾移除、再入和区域到期计算，未知不设默认。",
+      "sortOrder": 95
+    }
+  }
+}

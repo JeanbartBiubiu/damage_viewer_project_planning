@@ -1,0 +1,24 @@
+{
+  "i": 178,
+  "intent": {
+    "sequence": 179,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/parameters",
+    "detailRoute": "/skills/viego_r/parameters/missing_health_bonus_ad_ratio",
+    "skillKey": "viego_r",
+    "kind": "parameters",
+    "stableKey": "missing_health_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_bonus_ad_ratio",
+      "name": "已损生命额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.050000001,
+      "levelValues": null,
+      "description": "TotalPercentHealth第二分支mStat=2、mStatFormula=2、系数0.05读取来源额外攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

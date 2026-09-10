@@ -1,0 +1,46 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_e/formulas",
+    "detailRoute": "/skills/ivern_e/formulas/shield",
+    "skillKey": "ivern_e",
+    "kind": "formulas",
+    "stableKey": "shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield",
+      "name": "种豆得瓜护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalShield=BaseShield+0.5×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

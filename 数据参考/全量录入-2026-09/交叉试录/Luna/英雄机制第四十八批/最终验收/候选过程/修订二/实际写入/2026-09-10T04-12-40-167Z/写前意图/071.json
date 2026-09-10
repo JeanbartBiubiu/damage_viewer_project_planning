@@ -1,0 +1,28 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_r/parameters",
+    "detailRoute": "/skills/yorick_r/parameters/r_mark_damage_percent_points",
+    "skillKey": "yorick_r",
+    "kind": "parameters",
+    "stableKey": "r_mark_damage_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "r_mark_damage_percent_points",
+      "name": "室女标记目标最大生命伤害百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2,
+        "2": 2.5,
+        "3": 3
+      },
+      "description": "RMarkDamagePercent按R保护最高等级取索引1至最高等级；仅记录约里克本人打室女标记目标的附伤。",
+      "sortOrder": 10
+    }
+  }
+}

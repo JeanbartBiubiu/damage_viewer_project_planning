@@ -1,0 +1,52 @@
+{
+  "i": 191,
+  "intent": {
+    "sequence": 192,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/effects",
+    "detailRoute": "/skills/viego_r/effects/main_target_damage",
+    "skillKey": "viego_r",
+    "kind": "effects",
+    "stableKey": "main_target_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "main_target_damage",
+      "name": "痛贯天灵主目标完整物理伤害",
+      "description": "主目标基础攻击力段与已损生命段合并；攻击特效、99%减速和目标选择由运行层接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "痛贯天灵主目标完整物理伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "physical_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/heal_mod_vs_champs",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "heal_mod_vs_champs",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_mod_vs_champs",
+      "name": "英雄治疗倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "HealModVsChamps=1.5；野怪/小兵治疗倍率排除。",
+      "sortOrder": 180
+    }
+  }
+}

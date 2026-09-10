@@ -1,0 +1,28 @@
+{
+  "i": 176,
+  "intent": {
+    "sequence": 177,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/parameters",
+    "detailRoute": "/skills/viego_r/parameters/missing_health_percent_points",
+    "skillKey": "viego_r",
+    "kind": "parameters",
+    "stableKey": "missing_health_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_percent_points",
+      "name": "目标已损生命伤害百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 12,
+        "2": 16,
+        "3": 20
+      },
+      "description": "TotalPercentHealth第一分支MaxHealthDamage按R保护最高等级取索引1至最高等级；字段名不改变正文已损生命语义。",
+      "sortOrder": 10
+    }
+  }
+}

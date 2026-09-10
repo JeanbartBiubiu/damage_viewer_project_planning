@@ -1,0 +1,43 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/effects",
+    "detailRoute": "/skills/yorick_q/effects/self_heal",
+    "skillKey": "yorick_q",
+    "kind": "effects",
+    "stableKey": "self_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_heal",
+      "name": "临终仪式自身治疗",
+      "description": "本轮仅记录自身治疗；非英雄减半、墓地唤醒和雾行者分支排除，QHeal实际值必须由运行层输入。",
+      "sortOrder": 30,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "heal",
+          "name": "临终仪式自身治疗",
+          "resultType": "DIRECT_HEAL",
+          "target": "SOURCE",
+          "description": "只记录自身直接治疗，目标与触发事件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "self_heal"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {}
+        }
+      ]
+    }
+  }
+}

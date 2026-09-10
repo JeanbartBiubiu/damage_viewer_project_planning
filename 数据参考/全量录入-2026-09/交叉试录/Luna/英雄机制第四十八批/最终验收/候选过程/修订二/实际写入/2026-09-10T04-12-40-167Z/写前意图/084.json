@@ -1,0 +1,52 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_q/effects",
+    "detailRoute": "/skills/kayn_q/effects/single_damage",
+    "skillKey": "kayn_q",
+    "kind": "effects",
+    "stableKey": "single_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "single_damage",
+      "name": "巨镰横扫单段物理伤害",
+      "description": "当前未变形本体单次伤害；两次真实命中可在同一敌人事件中重复应用此效果，不另挂双段总伤害效果。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "巨镰横扫单段物理伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "single_physical_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

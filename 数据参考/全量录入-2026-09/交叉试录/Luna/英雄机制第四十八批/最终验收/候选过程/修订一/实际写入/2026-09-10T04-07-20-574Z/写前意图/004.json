@@ -1,0 +1,24 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_q/parameters",
+    "detailRoute": "/skills/ivern_q/parameters/dash_speed",
+    "skillKey": "ivern_q",
+    "kind": "parameters",
+    "stableKey": "dash_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dash_speed",
+      "name": "再次施放冲刺速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "再次施放冲向同一被禁锢敌人，DashSpeed固定1500。",
+      "sortOrder": 40
+    }
+  }
+}

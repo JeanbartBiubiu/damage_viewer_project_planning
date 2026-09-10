@@ -1,0 +1,30 @@
+{
+  "i": 119,
+  "intent": {
+    "sequence": 120,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/on_hit_current_health_percent_points",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "on_hit_current_health_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_current_health_percent_points",
+      "name": "攻击特效当前生命百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2,
+        "2": 3,
+        "3": 4,
+        "4": 5,
+        "5": 6
+      },
+      "description": "PercentHealthOnHit按Q保护最高等级取索引1至最高等级，正文读攻击发生时目标当前生命。",
+      "sortOrder": 40
+    }
+  }
+}

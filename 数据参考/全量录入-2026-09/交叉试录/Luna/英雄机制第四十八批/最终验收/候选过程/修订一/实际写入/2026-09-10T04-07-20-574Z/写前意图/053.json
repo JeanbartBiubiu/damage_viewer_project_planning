@@ -1,0 +1,52 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_q/effects",
+    "detailRoute": "/skills/yorick_q/effects/bonus_damage",
+    "skillKey": "yorick_q",
+    "kind": "effects",
+    "stableKey": "bonus_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "bonus_damage",
+      "name": "临终仪式额外物理伤害",
+      "description": "只记录Q额外物理段；基础普攻本体由运行层另行处理。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "临终仪式额外物理伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "bonus_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physical",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

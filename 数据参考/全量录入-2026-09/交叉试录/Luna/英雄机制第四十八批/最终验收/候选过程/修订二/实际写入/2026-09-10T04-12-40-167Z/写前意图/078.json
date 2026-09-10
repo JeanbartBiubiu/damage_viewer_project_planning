@@ -1,0 +1,24 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_q/parameters",
+    "detailRoute": "/skills/kayn_q/parameters/aoe_radius",
+    "skillKey": "kayn_q",
+    "kind": "parameters",
+    "stableKey": "aoe_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "aoe_radius",
+      "name": "旋转范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 300,
+      "levelValues": null,
+      "description": "AoERadius=300；不把旧25000施法距离当实际范围。",
+      "sortOrder": 30
+    }
+  }
+}

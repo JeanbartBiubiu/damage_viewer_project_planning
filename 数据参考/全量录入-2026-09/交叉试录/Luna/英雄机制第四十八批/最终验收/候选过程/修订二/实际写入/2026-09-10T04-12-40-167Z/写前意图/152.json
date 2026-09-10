@@ -1,0 +1,30 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 152,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_w/parameters",
+    "detailRoute": "/skills/viego_w/parameters/max_charge_time_ms",
+    "skillKey": "viego_w",
+    "kind": "parameters",
+    "stableKey": "max_charge_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_charge_time_ms",
+      "name": "最长蓄力时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3000,
+        "2": 3000,
+        "3": 3000,
+        "4": 3000,
+        "5": 3000
+      },
+      "description": "MaxChargeTime=3秒，精确转换为3000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

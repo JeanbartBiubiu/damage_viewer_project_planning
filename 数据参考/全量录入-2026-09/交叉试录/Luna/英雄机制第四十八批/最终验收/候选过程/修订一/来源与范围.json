@@ -1,0 +1,537 @@
+{
+  "generatedAt": "2026-09-10T03:47:52.693Z",
+  "batch": "第四十八批艾翁约里克凯隐佛耶戈",
+  "revision": "hero48-source-v1-luna-candidate-revision-1",
+  "status": "来源值与录入范围清单；未调用业务接口",
+  "inputGETs": 193,
+  "reusedPublicParameters": 21,
+  "sourceBindingSha256": "a136cc45cb66b7854d09a30978a6f3496eca4bb092619b816bb602244d499419",
+  "sourceRangeSha256": "2b4b730cc9b3d6e3d62cc278c975b3f34ed08bdbba085deff45400eaf4526b4a",
+  "sourceAuditSha256": "b9a30713b93537faf9b8f5ebe52e15f3a87e396beeb1f6e3db01232c21161ef7",
+  "dynamicTextSha256": "1950eb1d4b7903862cfb66fb16d290e40cb35ba8a6da9a9150726f446a7a6142",
+  "cursorConclusionSha256": "12db661197391c22ff8bdb0f494c357e8c7b6d2d5371776f41d556df8cf130c9",
+  "cursorAuditSha256": "aa1ddf664caf7833bd1427d666612dda80f06c12d371943c36f3d1721ea87084",
+  "cursorSummarySha256": "ca2c0b450e34fafb401aa09c9b890b1af87e4648c8ce0d4a21f7772622985747",
+  "sourceReviewVerdict": "READY",
+  "fixedVersions": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "globalScope": {
+    "included": [
+      "当前根本体伤害与控制",
+      "同一敌人的连续命中",
+      "自身属性与基础资源",
+      "当前消费的匿名或tooltipOnly计算树",
+      "唯一敌方英雄场景"
+    ],
+    "excluded": [
+      "完整变形与替换技能套装",
+      "独立召唤物、灵墙和陷阱",
+      "兵野与建筑专用分支",
+      "额外敌人分配",
+      "纯视野",
+      "未证实际插值或距离曲线"
+    ],
+    "unknownPolicy": "未知曲线、实际命中次数、未证属性和事件时序用无默认运行输入或待接线说明，不用0占位；艾翁E自身资格保持输入补证的有限范围，不扩友方或小菊。"
+  },
+  "skills": {
+    "ivern_p": {
+      "maxLevel": 1,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "非史诗野怪放生、营地经济、生命/法力消耗和经验金币均按范围排除。"
+      ],
+      "pending": [
+        "不创建野怪、营地或独立单位接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ivern_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "root_duration_ms",
+        "ap_ratio",
+        "dash_speed",
+        "m_cast_time_ms",
+        "spell_cast_time_ms",
+        "cast_range",
+        "display_range",
+        "cast_radius",
+        "missile_speed"
+      ],
+      "recordableFormulas": [
+        "magic_damage",
+        "root_duration"
+      ],
+      "recordableEffects": [
+        "damage",
+        "mana_cost"
+      ],
+      "excluded": [
+        "友军突进、非史诗野怪冷却减半和其他目标分支排除。"
+      ],
+      "pending": [
+        "命中第一个敌人、禁锢、再次施放冲向同一目标的时序待运行层接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ivern_w": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "buff_duration_ms",
+        "max_brush_duration_ms",
+        "brush_radius",
+        "brush_spacing",
+        "max_ammo",
+        "ammo_recharge_ms",
+        "cooldown_interval_ms",
+        "spell_cast_time_ms",
+        "cast_range",
+        "display_range",
+        "missile_speed",
+        "ap_ratio"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "passive_damage",
+        "mana_cost"
+      ],
+      "excluded": [
+        "友军10–30+0.1法强附伤、1.5秒友军效果、纯视野显形效果和独立地形单位均排除。"
+      ],
+      "pending": [
+        "本人草丛创建、失去草丛视野、离开草丛后的3秒窗口、3充能和充能时序待运行层接线；MaxBrushDuration、BrushRadius和BrushSpacing只记录本人资格地形。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ivern_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_shield",
+        "shield_ap_ratio",
+        "base_damage",
+        "damage_ap_ratio",
+        "slow_ratio",
+        "slow_duration_ms",
+        "shield_duration_ms",
+        "cast_range",
+        "missile_speed"
+      ],
+      "recordableFormulas": [
+        "shield",
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "shield",
+        "explosion_damage",
+        "refresh_shield"
+      ],
+      "excluded": [
+        "友方第三者、小菊、友军分配和模式覆盖分支排除。"
+      ],
+      "pending": [
+        "自身目标资格仅来自输入包资格补证摘要，官方正文未直接证明；原盾仍存、爆裂未命中敌方英雄、减速和二次护盾事件待运行层接线。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "ivern_r": {
+      "maxLevel": 3,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "小菊独立生命、攻击、冲击波、击飞与指挥链全部按召唤单位范围排除。"
+      ],
+      "pending": [
+        "不把小菊的移速、减伤、抗性或伤害映射给艾翁自身。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "yorick_p": {
+      "maxLevel": 1,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "坟墓、雾行者生成、属性、攻击和野怪/小兵分支均按独立召唤物范围排除。"
+      ],
+      "pending": [
+        "不创建雾行者生命、伤害或数量的本体效果。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "yorick_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "missing_health_percent_points",
+        "total_ad_ratio",
+        "buff_duration_ms",
+        "percent_point_ratio",
+        "q_heal_base_actual"
+      ],
+      "recordableFormulas": [
+        "bonus_damage",
+        "self_heal"
+      ],
+      "recordableEffects": [
+        "bonus_damage",
+        "self_heal",
+        "mana_cost"
+      ],
+      "excluded": [
+        "非英雄治疗倍率、墓地/雾行者生成和基础普攻伤害本体排除。"
+      ],
+      "pending": [
+        "QHeal角色等级断点当级语义、基础普攻与额外段的攻击事件待运行层接线；未知实际QHeal不以0或线性曲线代替。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "yorick_w": {
+      "maxLevel": 5,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "可阻挡、独立生命、碰撞和4秒寿命的灵墙属于独立单位链，本轮完全排除。"
+      ],
+      "pending": [
+        "不创建灵墙生命、延迟或碰撞效果，不添加空伤害。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "yorick_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "health_damage_percent_points",
+        "health_ap_ratio",
+        "percent_point_ratio",
+        "slow_ratio",
+        "slow_duration_ms",
+        "mark_duration_ms",
+        "mark_range",
+        "armor_shred_ratio",
+        "move_speed_ratio",
+        "cast_range",
+        "spell_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "max_health_magic_damage"
+      ],
+      "recordableEffects": [
+        "max_health_damage",
+        "self_move_speed",
+        "mana_cost"
+      ],
+      "excluded": [
+        "灵墙、雾行者、兵野最低/上限伤害排除。"
+      ],
+      "pending": [
+        "命中、唯一敌人、减速、护甲削减、标记及自身朝标记目标移动事件待运行层接线；不把未知属性枚举写成默认值。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "yorick_r": {
+      "maxLevel": 3,
+      "recordableParameters": [
+        "r_mark_damage_percent_points",
+        "percent_point_ratio",
+        "cast_range"
+      ],
+      "recordableFormulas": [
+        "marked_target_magic_damage"
+      ],
+      "recordableEffects": [
+        "marked_target_damage"
+      ],
+      "excluded": [
+        "室女、雾行者自主输出和属性整链、RMarkMaxDamage非英雄上限排除。"
+      ],
+      "pending": [
+        "目标是否具备室女标记以及约里克本人攻击事件待运行层接线；本体附伤不可因室女链排除而删除。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "kayn_p": {
+      "maxLevel": 1,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "变形竞争、暗裔治疗、影流附魔和形态专用被动整链排除。"
+      ],
+      "pending": [
+        "动态正文只作为未变形/形态分支排除证据，不把形态效果并入本轮。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "kayn_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "aoe_radius",
+        "double_hit_multiplier",
+        "cast_time_ms",
+        "display_range"
+      ],
+      "recordableFormulas": [
+        "single_physical_damage",
+        "double_physical_damage"
+      ],
+      "recordableEffects": [
+        "single_damage",
+        "mana_cost"
+      ],
+      "excluded": [
+        "暗裔最大生命/总攻击力分支、兵野上限与额外野怪伤害排除。"
+      ],
+      "pending": [
+        "两次真实命中和同一敌人重复应用单段效果的事件接线待运行层核对；动态正文必须使用game_spell_kayn_q_main_0。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "kayn_w": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "slow_ratio",
+        "slow_duration_ms",
+        "box_width",
+        "cast_time_ms",
+        "cast_range",
+        "bonus_ad_ratio"
+      ],
+      "recordableFormulas": [
+        "physical_damage"
+      ],
+      "recordableEffects": [
+        "damage",
+        "mana_cost"
+      ],
+      "excluded": [
+        "影流移动施法距离、暗裔击飞及变形套装排除。"
+      ],
+      "pending": [
+        "唯一第一个敌人、90%减速衰减和命中事件待运行层接线；动态正文使用game_spell_kayn_w_maintext_0。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "kayn_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "wall_walk_duration_ms",
+        "move_speed_ratio",
+        "out_of_terrain_end_ms",
+        "max_in_combat_ms",
+        "heal_base",
+        "heal_bonus_ad_ratio"
+      ],
+      "recordableFormulas": [
+        "self_healing"
+      ],
+      "recordableEffects": [
+        "move_speed",
+        "terrain_heal",
+        "mana_cost"
+      ],
+      "excluded": [
+        "影流70%移速、免疫减速、缩短冷却和变形分支排除。"
+      ],
+      "pending": [
+        "地形内/外、首次进入、定身、英雄战斗1.5秒上限和移除事件待运行层接线；动态正文使用game_spell_kayn_e_main_0。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "kayn_r": {
+      "maxLevel": 3,
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "minimum_infest_ms",
+        "max_infest_ms",
+        "jump_out_distance",
+        "base_cast_range",
+        "mark_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "physical_damage"
+      ],
+      "recordableEffects": [
+        "damage",
+        "mana_cost"
+      ],
+      "excluded": [
+        "影流额外距离/刷新Q、暗裔最大生命伤害和治疗、变形专用分支排除。"
+      ],
+      "pending": [
+        "新动态正文要求标记3.15秒、最短0.5秒/最长2.5秒侵入；提前再次施放、标记资格、不可选取与破体时点待运行层接线。不得使用旧game_spell_kayn_r_main_0。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "viego_p": {
+      "maxLevel": 1,
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        "占据、复制技能装备、免费R和灵魂链全部按范围排除。"
+      ],
+      "pending": [
+        "不新增占据消耗或空伤害。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "viego_q": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "active_base_damage",
+        "active_ad_ratio",
+        "active_crit_ratio",
+        "on_hit_current_health_percent_points",
+        "on_hit_min_damage",
+        "mark_duration_ms",
+        "health_crit_ratio",
+        "second_attack_ap_ratio",
+        "second_attack_total_ad_ratio",
+        "percent_point_ratio",
+        "crit_base_multiplier",
+        "crit_subtract_one",
+        "active_mstat8",
+        "active_mstat9",
+        "on_hit_crit_mstat9",
+        "qualified_actual_damage_for_heal",
+        "heal_mod_vs_champs",
+        "cast_time_ms",
+        "cast_range",
+        "rectangle_width"
+      ],
+      "recordableFormulas": [
+        "active_physical_damage",
+        "on_hit_current_health_damage",
+        "critical_on_hit_current_health_damage",
+        "second_attack_physical_damage",
+        "second_attack_heal"
+      ],
+      "recordableEffects": [
+        "active_damage",
+        "on_hit_damage",
+        "critical_on_hit_damage",
+        "second_attack_damage",
+        "second_attack_heal"
+      ],
+      "excluded": [
+        "野怪/小兵治疗倍率、野怪上限、空BonusDamageVsMonsters和占据分支排除。"
+      ],
+      "pending": [
+        "mStat8/mStat9实际枚举、普通与暴击攻击特效互斥资格、标记4秒、两次攻击事件和治疗资格待运行层接线；每次命中重新读取目标当前生命，独立快照不含mStat8。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "viego_w": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "base_damage",
+        "ap_ratio",
+        "min_stun_duration_ms",
+        "max_stun_duration_ms",
+        "self_slow_ratio",
+        "max_charge_time_ms",
+        "channel_duration_ms",
+        "interrupted_cooldown_ms",
+        "dash_distance",
+        "dash_speed",
+        "min_missile_range",
+        "max_bonus_missile_range",
+        "charge_duration_ms",
+        "spell_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "magic_damage"
+      ],
+      "recordableEffects": [
+        "damage",
+        "self_slow"
+      ],
+      "excluded": [
+        "无消耗、其他敌人、形态击飞和额外目标分支排除。"
+      ],
+      "pending": [
+        "实际蓄力时间、首次命中、晕眩随蓄力插值、打断、冲刺和spellCastTime=0阶段语义待运行层接线；不把1秒通道当最长晕眩。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "viego_e": {
+      "maxLevel": 5,
+      "recordableParameters": [
+        "mist_duration_ms",
+        "move_speed_ratio",
+        "attack_speed_ratio",
+        "camo_radius",
+        "restealth_time_ms",
+        "ms_ap_ratio",
+        "display_range",
+        "missile_speed",
+        "spell_cast_time_ms",
+        "actual_mist_qualified_duration_ms"
+      ],
+      "recordableFormulas": [
+        "total_move_speed"
+      ],
+      "recordableEffects": [
+        "move_speed",
+        "attack_speed"
+      ],
+      "excluded": [
+        "25000实际施法范围、野怪1.5秒显形、占据与其他单位分支排除。"
+      ],
+      "pending": [
+        "幽鬼命中第一个地形、黑雾覆盖、伪装、攻击/技能显形、离雾移除、再入重新计算和0.6秒重新伪装事件待运行层接线；8秒只记录黑雾区域持续时间。"
+      ],
+      "currentSubjectProtected": true
+    },
+    "viego_r": {
+      "maxLevel": 3,
+      "recordableParameters": [
+        "missing_health_percent_points",
+        "total_ad_ratio",
+        "missing_health_bonus_ad_ratio",
+        "slow_ratio",
+        "slow_duration_ms",
+        "crit_ratio",
+        "percent_point_ratio",
+        "crit_base_multiplier",
+        "crit_subtract_one",
+        "mstat8_actual",
+        "mstat9_actual",
+        "display_range"
+      ],
+      "recordableFormulas": [
+        "base_physical_damage",
+        "missing_health_physical_damage",
+        "physical_damage"
+      ],
+      "recordableEffects": [
+        "main_target_damage"
+      ],
+      "excluded": [
+        "其他敌人击退/伤害、占据释放和直接处决事件排除；不为主目标之外新增效果。"
+      ],
+      "pending": [
+        "主目标选择、目标当时已损生命、攻击特效、暴击触发、99%减速和传送时点待运行层接线；R的mStat8/mStat9无默认输入。"
+      ],
+      "currentSubjectProtected": true
+    }
+  },
+  "noApiCalls": true,
+  "apiWrites": 0
+}

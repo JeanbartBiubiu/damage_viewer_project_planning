@@ -1,0 +1,68 @@
+{
+  "i": 189,
+  "intent": {
+    "sequence": 190,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_r/formulas",
+    "detailRoute": "/skills/viego_r/formulas/missing_health_physical_damage",
+    "skillKey": "viego_r",
+    "kind": "formulas",
+    "stableKey": "missing_health_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "missing_health_physical_damage",
+      "name": "痛贯天灵目标已损生命物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "missing_health_percent_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "missing_health_bonus_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "MISSING"
+          }
+        ]
+      },
+      "description": "TotalPercentHealth=0.01×(MaxHealthDamage+0.05×来源额外攻击力)×目标已损生命；不乘基础段暴击因子。",
+      "sortOrder": 20
+    }
+  }
+}

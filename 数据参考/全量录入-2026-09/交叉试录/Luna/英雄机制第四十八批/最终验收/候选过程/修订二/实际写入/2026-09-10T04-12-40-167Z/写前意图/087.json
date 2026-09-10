@@ -1,0 +1,24 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_w/parameters",
+    "detailRoute": "/skills/kayn_w/parameters/slow_ratio",
+    "skillKey": "kayn_w",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.8999999761581421,
+      "levelValues": null,
+      "description": "源值-0.9配合正文*-100显示90%；候选保留正的减速比例0.9。",
+      "sortOrder": 20
+    }
+  }
+}

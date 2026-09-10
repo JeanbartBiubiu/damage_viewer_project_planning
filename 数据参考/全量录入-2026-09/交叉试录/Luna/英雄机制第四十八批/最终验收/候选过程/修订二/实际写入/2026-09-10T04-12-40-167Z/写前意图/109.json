@@ -1,0 +1,24 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 109,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_r/parameters",
+    "detailRoute": "/skills/kayn_r/parameters/max_infest_ms",
+    "skillKey": "kayn_r",
+    "kind": "parameters",
+    "stableKey": "max_infest_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_infest_ms",
+      "name": "最长侵入时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "InfestDuration=2.5秒，精确转换为2500毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

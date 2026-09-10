@@ -1,0 +1,24 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_w/parameters",
+    "detailRoute": "/skills/ivern_w/parameters/max_brush_duration_ms",
+    "skillKey": "ivern_w",
+    "kind": "parameters",
+    "stableKey": "max_brush_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_brush_duration_ms",
+      "name": "本人资格草丛最长寿命（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 45000,
+      "levelValues": null,
+      "description": "MaxBrushDuration=45秒，只记录艾翁本人草丛资格地形上限，不表示自主单位寿命。",
+      "sortOrder": 30
+    }
+  }
+}

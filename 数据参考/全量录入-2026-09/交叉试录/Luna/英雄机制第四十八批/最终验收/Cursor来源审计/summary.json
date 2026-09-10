@@ -1,0 +1,1136 @@
+{
+  "startedAt": "2026-09-10T02:08:42.818Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-20260910",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-run-20260910",
+  "promptSource": "hero48-cursor-prompt.txt",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-20260910",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 1,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-08afecc9-f31b-4548-aae0-bf73b6763cce",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "ef24cbc1-de8e-4a4d-9b8a-a93714220802",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-20260910",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 782,
+    "assistant": 3552,
+    "tool_call": 148,
+    "usage": 1
+  },
+  "assistantText": "开始只读核对第48批冻结来源与录入边界，先定位主负责人文档、绑定文本和保护快照。已定位冻结包文件，接着读取主核对要求、绑定文本、保护快照和资格补证。主文档已读完。接下来核对来源绑定、保护快照、公共参数和凯隐动态正文。快照过大，改为分段读取来源绑定与各槽消费者、等级数组和关键字段。发现绑定文件很大，接下来按槽位读取消费者、数据值和计算树。继续逐槽读取绑定对象、当前文本和官方中文，核对等级数组与消费者。艾翁E官方正文未写可对自己施放。继续核对约里克、凯隐、佛耶戈的计算树与当前消费者。继续核对凯隐消费者与动态正文、佛耶戈Q/R计算树，以及保护参数与客户端数组是否对齐。凯隐动态占位符已确认。继续读取凯隐R、佛耶戈Q/R计算树，以及官方正文对照。再核对佛耶戈E显示射程、凯隐R冷却尾零，以及保护快照里其余冷却是否与客户端索引1对齐。**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero48-source-v1**\n\n固定口径成立：客户端 16.17、官方 16.17.1；保护快照 `GETs: 193`；公共参数复用清单恰好 21 项；`apiWrites: 0`。冻结包无候选代码，20 槽公式/效果均为空，不能声称候选已保存、页面或战斗通过。压缩原文只核了对账散列，未解压、未跑构造器或战斗。\n\n等级数组约定（与已保护冷却描述一致）：7 槽冷却/伤害取**索引 1–5**（R 取 1–3）；6 槽法力取**索引 0–4**。索引 0 的 rank-0 占位不得当 1 级。\n\n---\n\n## 逐槽简评\n\n**艾翁 P**  \n范围外。正文是非史诗野怪放生、生命/法力换营地经济。无消耗可复用。不新增专用消耗或效果。\n\n**艾翁 Q**  \n当前键 `Spell_IvernQ_Tooltip`。伤害 `BaseDamage` 索引 1–5 = 80/125/170/215/260，`APRatio` 省略 `mStat` → 总法强 0.7。禁锢 1.6–2.0s。`mCastTime` 250ms。原射程 1150 / 显示 1125 / 弹速 1300 分开。再施放是本人冲向**同一被禁锢敌人**，`DashSpeed` 1500；友军突进与兵野减半冷却排除。已保护冷却 14000–10000、法力 60 与根绑定一致。\n\n**艾翁 W**  \n被动附伤 `BaseDamage` 20/27.5/35/42.5/50 + 0.2 法强；寿命是草内及离草 `BuffDuration` 3s，不是 `MaxBrushDuration` 45s。45s 与失视终止是地形状态。友军 10–30+0.1 法强与 1.5s、纯 8s 显形排除。3 充能 / 20s 充能 / 0.5s 间隔要分开。无 `mCastTime`，有 `spellCastTime` 0.25；未知不得补 0，250ms 只能标为 `spellCastTime`。已保护仅法力 30，正确未把 0.5s 当成普通冷却复用。\n\n**艾翁 E**  \n护盾 75–235+0.5 法强、2s；爆裂 70–150+0.8 法强；减速 40–60%（`SlowAmount` 已是 0.40–0.60，正文 `*100`）。二次护盾仅当原盾仍在且爆裂未命中敌方英雄。无施法字段，不填 0。官方 16.17.1 写「友方英雄或小菊」，**未写自己**；自身资格仅 `资格补证.md` 外部检索摘要。1v1 只录自身，不扩第三友方或小菊。Cherry/SWIFTPLAY 覆盖不用。已保护冷却 11000–7000、法力 70。\n\n**艾翁 R**  \n整链排除（小菊生命/攻击/冲击波/指挥）。不要把小菊移速、减伤、抗性录给艾翁。不新增 R 消耗。\n\n**约里克 P**  \n墓地/雾行者整链排除。不新增消耗。\n\n**约里克 Q**  \n额外段 `BonusDamage`：30/50/70/90/110 + `mStat` 2 且省略 `mStatFormula` → **总攻击力** 0.5，不含那次基础普攻。治疗 = `QHeal` + `MissingHealthRatio`% **已损生命**（6/7/8/9/10，正文 `@MissingHealthRatio@%`，是百分数点）。`QHeal`：`mLevel1Value` 10、初始 +2、7 级斜率 3、13 级斜率 5；断点当级计入未证，**只保留源字段，不编 18 级曲线、不填默认实际基础值**。窗口 5s。无 `mCastTime`，不补 0。非英雄治疗减半、墓地/唤醒排除。已保护冷却 6000–4000、法力 20。\n\n**约里克 W**  \n排除成立，且符合本轮独立单位边界：正文为可阻挡、有独立生命的灵墙；`WallHealthTooltip` 2/2/3/3/4、寿命 4s、延迟 0.75s，需独立生命与碰撞链。源值只作排除证据，不写空效果或伤害 0，不新增专用消耗。\n\n**约里克 E**  \n`Calc_HealthDamage` = `0.01 × (HealthDamage + 0.03 法强)`，正文是**目标最大生命**，不是当前生命。1 级起 6/6.5/7/7.5/8。减速 30%/1.5s，标记 4s，护甲削减 13–25%，本人朝标记 18–30% 移速。原标记范围 1500 / 施法 700 分开。`spellCastTime` 0.25，无 `mCastTime`。兵野最低/上限不套英雄。已保护冷却 12000–8000、法力 50–70。\n\n**约里克 R**  \n室女/雾行者自主输出与属性整链排除。混合本体输出必须留：约里克打室女标记目标造成 `RMarkDamagePercent` **2/2.5/3% 目标最大生命**魔伤（索引 1–3）。标记资格待输入，不生成虚拟室女，不宣称接线完成。`RMarkMaxDamage` 30 不作英雄伤害上限。不新增室女专用消耗。\n\n**凯隐 P**  \n动态 0 是变形竞争与两形态专用被动，整套排除。根正文是 `{{ game_spell_Kayn_P_main_@f1@ }}`，必须改读 `game_spell_kayn_p_main_0`。不能把暗裔治疗或刺客 3s 附魔当未变形被动。\n\n**凯隐 Q**  \n动态 0：冲刺一次、旋转再一次等额，`@TotalDamage@`。`TotalDamage` 为 `tooltipOnly`，必须保留。单次 75/105/135/165/195 + 0.85 **额外**攻击力（`mStat` 2 / `mStatFormula` 2）。双中总量 ×2。`mCastTime` 150ms。显示 350 / 范围 300，不用原 25000。暗裔最大生命与 0.65 总攻击力、兵野 +40/上限排除。已保护冷却 7000–5000、法力 40。\n\n**凯隐 W**  \n85/130/175/220/265 + 1.1 额外攻击力。减速数据 -0.9，正文 `Effect3Amount*-100` → 90%，1.5s 衰减。`mCastTime` 550ms。原范围 700、宽度 160。影流 900 与移动施法、暗裔击飞 1s 排除。已保护冷却 13000–9000、法力 40–60。\n\n**凯隐 E**  \n移速数据值 40，正文 `@Effect1Amount@%` → 40% 须按 1=100% 收成 0.4。持续 7/7.5/8/8.5/9s。首次入地形治疗 90–130+0.45 额外攻击力。地形外连续 1.5s 或定身提前结束；英雄战斗最多 1.5s，不能按满级 9s 固定。无 `mCastTime`，不补 0。影流 70%/免慢/10s CD 排除。已保护冷却 21000–13000、法力 90。\n\n**凯隐 R**  \n当前消费者是 `{{ spell_Kayn_R_main_@f1@ }}` → **`spell_kayn_r_main_0`**，与旧 `game_spell_kayn_r_main_0` 不同：新文有 3.15s 标记、`@InfestDuration@`、`@Damage@`；旧文是「近期伤害过」、`@Effect1Amount@ + @CharBonusPhysical@`，且无 3.15s。侵入最多 2.5s、最早 0.5s 可结束。出来 150/250/350+1.5 额外攻击力。基础范围 550、离开 300、`mCastTime` 100ms。冷却数组 `[120,120,100,80,0,0,0]` 只取 120/100/80，尾零不是真实冷却。变形额外距离/刷新/百分比伤害治疗排除。主体 R 可施放，不整项跳过。已保护冷却 120000/100000/80000、法力 100。\n\n**佛耶戈 P**  \n占据/复制技能装备/免费 R 整链排除。不新增占据消耗或空伤害。\n\n**佛耶戈 Q**  \n主动 `(25/40/55/70/85 + 0.7 总攻击力) × [1 + 0.6 × 实际 mStat8 × (实际 mStat9 − 1)]`，乘数罩整段。普攻附 2–6% **当时当前生命**，最低 10–30。暴击分支是 `1 + 0.7×(mStat9−1)`，**没有 mStat8**。两次攻击的当前 HP 不能共用同一快照。二次打击 0.2 总攻击力 + 0.15 法强；治疗 150% 合资格实际伤害，基准具名无默认。`BonusDamageVsMonsters` 空值，不补 0。`mCastTime` 0.25 会受攻速缩短。兵野上限 80 与非英雄治疗倍率排除。已保护冷却 5000–3000。\n\n**佛耶戈 W**  \n80/135/190/245/300 + 1 法强。蓄力自减速 10%。眩晕 0.25–1.25s；`mChannelDuration` 1s、`MaxChargeTime` 3s 不是最大眩晕。打断冷却 3s。突进 300、速度 1000、最短飞弹 500+额外 400。`spellCastTime` 0 是阶段字段。已保护冷却固定 8000。\n\n**佛耶戈 E**  \n区域 8s；雾内 25–35% 移速 + 0.0004 法强、30–50% 攻速与伪装。个人收益随「在雾内」资格，8s 不是离雾后的个人寿命。显形距离 450、攻击/技能后 0.6s；野怪 1.5s 排除。显示 750、弹速 1200，不用 25000。`spellCastTime` 0 只保留字段含义。已保护冷却 14000–6000。\n\n**佛耶戈 R**  \n本体可直接施放。基础段 `1.2 总攻击力 × [1 + 0.7 × mStat8 × (mStat9 − 1)]`；另加 `(12/16/20 + 0.05 额外攻击力)%` **已损生命**。字段名 `MaxHealthDamage` 不改变正文已损语义。暴击乘数只在 `TotalDamage`（攻击力段），不乘 `TotalPercentHealth`。99% 慢 0.25s，显示 500。主目标攻击特效保留；其他敌人击退/伤害排除。无 `mCastTime`，不补 0。已保护冷却 120000/100000/80000。\n\n---\n\n## 有证据的实质问题\n\n无冻包级源冲突，不要求改冻。写入时下列边界已由冻结文本钉死，违反即数据错误：\n\n1. **凯隐动态 0**：根 `@f1@` 不可当正文。Q/W/E/P 走 `game_spell_kayn_*_0`；R 必须走 **`spell_kayn_r_main_0`**，禁止用 `game_spell_kayn_r_main_0`。  \n2. **佛耶戈 HP 与暴击**：Q 读当前生命；R 读已损生命。Q 全段含 mStat8；R 仅攻击力段含 mStat8。数学场景必须 `总AD ≠ 额外AD`，且 `当前HP ≠ 最大HP ≠ 已损HP`。  \n3. **约里克 Q 治疗**：断点当级未知，不得生成曲线或填 0。  \n4. **约里克 R**：室女排除不能删掉本体 `RMarkDamagePercent` 附伤。  \n5. **百分数点**：`@x@%` 的 6/40/2 是百分数点；`SlowAmount`/`ArmorShred`/`HasteAmount`/`MoveSpeed` 已是 0.x；凯隐 E 的 40 与 W 的 -0.9 编码不同，禁止混用。  \n6. **范围外技能**（四英雄 P、艾翁 R、约里克 W 及室女链）不新增专用消耗。\n\n---\n\n## 非阻塞事项\n\n- 压缩 `*.json.gz` 只作为散列证据；`来源绑定` 的 `stringTableSha256`（未压缩）与 gzip 散列不同，属预期。未解压故不能证明抽出正文与 gz 字节级一致，也未验证计算函数/断点求值器。  \n- 艾翁 E 自身目标：官方 16.17.1 未写自己；仅外部检索摘要。保持「事实未证、限自身、不扩友方」。  \n- `mStat` 8/9 不在本包已证枚举内，保持「实际输入、无默认」。  \n- 接口样例只供字段形状，数值不得复制。  \n- 模式覆盖（cherry / SWIFTPLAY / ARAM）一律不用。  \n- 凯隐 R 冷却尾部三个 0、佛耶戈 Q 空 `BonusDamageVsMonsters`、未知施法字段，均不得填 0 冒充已证。",
+  "toolCalls": [
+    {
+      "callId": "call-e86745c0-ba04-4508-82ec-05541a68438c-0\nfc_d30f5443-d32c-9e67-bb0c-c819662fef8d_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e86745c0-ba04-4508-82ec-05541a68438c-1\nfc_d30f5443-d32c-9e67-bb0c-c819662fef8d_1",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e86745c0-ba04-4508-82ec-05541a68438c-1\nfc_d30f5443-d32c-9e67-bb0c-c819662fef8d_1",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e86745c0-ba04-4508-82ec-05541a68438c-0\nfc_d30f5443-d32c-9e67-bb0c-c819662fef8d_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-2\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-2\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-3\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-3\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-4\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-4\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-5\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-5\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-6\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-6\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-7\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-8\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_6",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-7\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-63c43ac3-2448-406c-86ba-bf441278393a-8\nfc_4f1b9e6f-1134-95db-a53b-62af80389c5a_6",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-9\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-10\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-11\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-9\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-10\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-11\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-12\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-13\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-12\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b3633233-d144-4a84-99e9-1379ffcb0321-13\nfc_7520ae4c-ba31-965f-afc5-f9d865490a66_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37a9674e-10b4-4201-8aa2-fc0924ac0914-14\nfc_09f4f17c-a2aa-961f-9da6-9c381e183648_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37a9674e-10b4-4201-8aa2-fc0924ac0914-14\nfc_09f4f17c-a2aa-961f-9da6-9c381e183648_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37a9674e-10b4-4201-8aa2-fc0924ac0914-15\nfc_09f4f17c-a2aa-961f-9da6-9c381e183648_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37a9674e-10b4-4201-8aa2-fc0924ac0914-15\nfc_09f4f17c-a2aa-961f-9da6-9c381e183648_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37a9674e-10b4-4201-8aa2-fc0924ac0914-16\nfc_09f4f17c-a2aa-961f-9da6-9c381e183648_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37a9674e-10b4-4201-8aa2-fc0924ac0914-17\nfc_09f4f17c-a2aa-961f-9da6-9c381e183648_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37a9674e-10b4-4201-8aa2-fc0924ac0914-16\nfc_09f4f17c-a2aa-961f-9da6-9c381e183648_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37a9674e-10b4-4201-8aa2-fc0924ac0914-17\nfc_09f4f17c-a2aa-961f-9da6-9c381e183648_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e0b8cf95-f6a5-4dad-8db4-a8bd55ebca82-18\nfc_e157fab8-976d-93e4-81ee-50982e158081_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e0b8cf95-f6a5-4dad-8db4-a8bd55ebca82-18\nfc_e157fab8-976d-93e4-81ee-50982e158081_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e0b8cf95-f6a5-4dad-8db4-a8bd55ebca82-19\nfc_e157fab8-976d-93e4-81ee-50982e158081_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e0b8cf95-f6a5-4dad-8db4-a8bd55ebca82-20\nfc_e157fab8-976d-93e4-81ee-50982e158081_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e0b8cf95-f6a5-4dad-8db4-a8bd55ebca82-19\nfc_e157fab8-976d-93e4-81ee-50982e158081_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e0b8cf95-f6a5-4dad-8db4-a8bd55ebca82-20\nfc_e157fab8-976d-93e4-81ee-50982e158081_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-facaeaea-db17-43c2-953e-583c04dc409c-21\nfc_35266ca7-1fd2-97cd-b03a-eea1a2984df4_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-facaeaea-db17-43c2-953e-583c04dc409c-21\nfc_35266ca7-1fd2-97cd-b03a-eea1a2984df4_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-facaeaea-db17-43c2-953e-583c04dc409c-22\nfc_35266ca7-1fd2-97cd-b03a-eea1a2984df4_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-facaeaea-db17-43c2-953e-583c04dc409c-23\nfc_35266ca7-1fd2-97cd-b03a-eea1a2984df4_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-facaeaea-db17-43c2-953e-583c04dc409c-22\nfc_35266ca7-1fd2-97cd-b03a-eea1a2984df4_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-facaeaea-db17-43c2-953e-583c04dc409c-23\nfc_35266ca7-1fd2-97cd-b03a-eea1a2984df4_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8f9cf0dc-2583-498f-8b2e-1ea76c23a984-24\nfc_a95032de-276e-9982-bc17-8e505ac51384_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8f9cf0dc-2583-498f-8b2e-1ea76c23a984-24\nfc_a95032de-276e-9982-bc17-8e505ac51384_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8f9cf0dc-2583-498f-8b2e-1ea76c23a984-25\nfc_a95032de-276e-9982-bc17-8e505ac51384_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8f9cf0dc-2583-498f-8b2e-1ea76c23a984-26\nfc_a95032de-276e-9982-bc17-8e505ac51384_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8f9cf0dc-2583-498f-8b2e-1ea76c23a984-25\nfc_a95032de-276e-9982-bc17-8e505ac51384_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8f9cf0dc-2583-498f-8b2e-1ea76c23a984-26\nfc_a95032de-276e-9982-bc17-8e505ac51384_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f5110278-4b80-4d92-9c3b-1782f6c986cc-27\nfc_e6507bc2-b75e-9b26-b264-abe4735758cb_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f5110278-4b80-4d92-9c3b-1782f6c986cc-28\nfc_e6507bc2-b75e-9b26-b264-abe4735758cb_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f5110278-4b80-4d92-9c3b-1782f6c986cc-29\nfc_e6507bc2-b75e-9b26-b264-abe4735758cb_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f5110278-4b80-4d92-9c3b-1782f6c986cc-27\nfc_e6507bc2-b75e-9b26-b264-abe4735758cb_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f5110278-4b80-4d92-9c3b-1782f6c986cc-29\nfc_e6507bc2-b75e-9b26-b264-abe4735758cb_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f5110278-4b80-4d92-9c3b-1782f6c986cc-28\nfc_e6507bc2-b75e-9b26-b264-abe4735758cb_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-4405b9ef-229d-45ad-bdd0-9e79cb3a1c48-30\nfc_9fd0a764-e2c3-9e6b-814d-23fe53c57234_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-4405b9ef-229d-45ad-bdd0-9e79cb3a1c48-31\nfc_9fd0a764-e2c3-9e6b-814d-23fe53c57234_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-4405b9ef-229d-45ad-bdd0-9e79cb3a1c48-32\nfc_9fd0a764-e2c3-9e6b-814d-23fe53c57234_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-4405b9ef-229d-45ad-bdd0-9e79cb3a1c48-33\nfc_9fd0a764-e2c3-9e6b-814d-23fe53c57234_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-4405b9ef-229d-45ad-bdd0-9e79cb3a1c48-30\nfc_9fd0a764-e2c3-9e6b-814d-23fe53c57234_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-4405b9ef-229d-45ad-bdd0-9e79cb3a1c48-33\nfc_9fd0a764-e2c3-9e6b-814d-23fe53c57234_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-4405b9ef-229d-45ad-bdd0-9e79cb3a1c48-32\nfc_9fd0a764-e2c3-9e6b-814d-23fe53c57234_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-4405b9ef-229d-45ad-bdd0-9e79cb3a1c48-31\nfc_9fd0a764-e2c3-9e6b-814d-23fe53c57234_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-34\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-35\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-36\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-34\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-35\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-36\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-37\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-38\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-37\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-88d1a195-c582-488a-b1a3-691e432f848d-38\nfc_293efac4-7237-9bfe-a89d-b19afd001a9e_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-53e032da-3020-4dd3-a691-2ee40d4ed8ad-39\nfc_54c41464-dc3a-9e1a-a9ff-6707da49f0ca_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-53e032da-3020-4dd3-a691-2ee40d4ed8ad-40\nfc_54c41464-dc3a-9e1a-a9ff-6707da49f0ca_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-53e032da-3020-4dd3-a691-2ee40d4ed8ad-39\nfc_54c41464-dc3a-9e1a-a9ff-6707da49f0ca_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-53e032da-3020-4dd3-a691-2ee40d4ed8ad-40\nfc_54c41464-dc3a-9e1a-a9ff-6707da49f0ca_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-53e032da-3020-4dd3-a691-2ee40d4ed8ad-41\nfc_54c41464-dc3a-9e1a-a9ff-6707da49f0ca_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-53e032da-3020-4dd3-a691-2ee40d4ed8ad-42\nfc_54c41464-dc3a-9e1a-a9ff-6707da49f0ca_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-53e032da-3020-4dd3-a691-2ee40d4ed8ad-41\nfc_54c41464-dc3a-9e1a-a9ff-6707da49f0ca_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-53e032da-3020-4dd3-a691-2ee40d4ed8ad-42\nfc_54c41464-dc3a-9e1a-a9ff-6707da49f0ca_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-43\nfc_40744883-961a-99ea-b078-e1d909ea72be_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-44\nfc_40744883-961a-99ea-b078-e1d909ea72be_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-45\nfc_40744883-961a-99ea-b078-e1d909ea72be_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-46\nfc_40744883-961a-99ea-b078-e1d909ea72be_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-47\nfc_40744883-961a-99ea-b078-e1d909ea72be_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-43\nfc_40744883-961a-99ea-b078-e1d909ea72be_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-46\nfc_40744883-961a-99ea-b078-e1d909ea72be_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-47\nfc_40744883-961a-99ea-b078-e1d909ea72be_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-44\nfc_40744883-961a-99ea-b078-e1d909ea72be_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-daa36016-ff15-4df9-a2c8-b405e6245765-45\nfc_40744883-961a-99ea-b078-e1d909ea72be_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-48\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-49\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-50\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-51\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-52\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_4",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-49\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-48\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-50\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-51\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6071443f-051f-443f-b670-030c522a8536-52\nfc_b1d33fcf-4e4c-9ae9-a508-3499bf4fdd5d_4",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-53\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-54\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-55\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-56\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-57\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-53\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-55\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-54\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-56\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-57\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-58\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-58\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-59\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_6",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-60\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_7",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-59\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_6",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1845a295-1581-4cfe-8c85-32c1b09b3e02-60\nfc_cc5bcab0-b31a-9e21-88ef-c730bc755190_7",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-61\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-62\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-63\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-64\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-64\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-61\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-62\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-63\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-65\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-65\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-66\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_5",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-66\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_5",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-67\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_6",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-68\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_7",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-67\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_6",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7f8799ad-462d-48dc-8257-835f85fca2af-68\nfc_0433889a-f046-9aa3-b3a5-ed6d662690f8_7",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-69\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-69\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-70\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-71\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-70\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-71\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-72\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-73\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-72\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-7e32ee2e-54c2-4133-b23b-664b0e5bb144-73\nfc_0b83a9e3-5928-9c1a-ba30-bc7718d08106_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-run-20260910\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-run-20260910\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-run-20260910\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-run-20260910\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-run-20260910\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-run-20260910\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero48-cursor-review-run-20260910\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-08afecc9-f31b-4548-aae0-bf73b6763cce",
+  "runId": "run-11377753-2ce7-49b1-8cce-cc5070d0cd39",
+  "result": {
+    "id": "run-11377753-2ce7-49b1-8cce-cc5070d0cd39",
+    "requestId": "ef24cbc1-de8e-4a4d-9b8a-a93714220802",
+    "status": "finished",
+    "result": "**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero48-source-v1**\n\n固定口径成立：客户端 16.17、官方 16.17.1；保护快照 `GETs: 193`；公共参数复用清单恰好 21 项；`apiWrites: 0`。冻结包无候选代码，20 槽公式/效果均为空，不能声称候选已保存、页面或战斗通过。压缩原文只核了对账散列，未解压、未跑构造器或战斗。\n\n等级数组约定（与已保护冷却描述一致）：7 槽冷却/伤害取**索引 1–5**（R 取 1–3）；6 槽法力取**索引 0–4**。索引 0 的 rank-0 占位不得当 1 级。\n\n---\n\n## 逐槽简评\n\n**艾翁 P**  \n范围外。正文是非史诗野怪放生、生命/法力换营地经济。无消耗可复用。不新增专用消耗或效果。\n\n**艾翁 Q**  \n当前键 `Spell_IvernQ_Tooltip`。伤害 `BaseDamage` 索引 1–5 = 80/125/170/215/260，`APRatio` 省略 `mStat` → 总法强 0.7。禁锢 1.6–2.0s。`mCastTime` 250ms。原射程 1150 / 显示 1125 / 弹速 1300 分开。再施放是本人冲向**同一被禁锢敌人**，`DashSpeed` 1500；友军突进与兵野减半冷却排除。已保护冷却 14000–10000、法力 60 与根绑定一致。\n\n**艾翁 W**  \n被动附伤 `BaseDamage` 20/27.5/35/42.5/50 + 0.2 法强；寿命是草内及离草 `BuffDuration` 3s，不是 `MaxBrushDuration` 45s。45s 与失视终止是地形状态。友军 10–30+0.1 法强与 1.5s、纯 8s 显形排除。3 充能 / 20s 充能 / 0.5s 间隔要分开。无 `mCastTime`，有 `spellCastTime` 0.25；未知不得补 0，250ms 只能标为 `spellCastTime`。已保护仅法力 30，正确未把 0.5s 当成普通冷却复用。\n\n**艾翁 E**  \n护盾 75–235+0.5 法强、2s；爆裂 70–150+0.8 法强；减速 40–60%（`SlowAmount` 已是 0.40–0.60，正文 `*100`）。二次护盾仅当原盾仍在且爆裂未命中敌方英雄。无施法字段，不填 0。官方 16.17.1 写「友方英雄或小菊」，**未写自己**；自身资格仅 `资格补证.md` 外部检索摘要。1v1 只录自身，不扩第三友方或小菊。Cherry/SWIFTPLAY 覆盖不用。已保护冷却 11000–7000、法力 70。\n\n**艾翁 R**  \n整链排除（小菊生命/攻击/冲击波/指挥）。不要把小菊移速、减伤、抗性录给艾翁。不新增 R 消耗。\n\n**约里克 P**  \n墓地/雾行者整链排除。不新增消耗。\n\n**约里克 Q**  \n额外段 `BonusDamage`：30/50/70/90/110 + `mStat` 2 且省略 `mStatFormula` → **总攻击力** 0.5，不含那次基础普攻。治疗 = `QHeal` + `MissingHealthRatio`% **已损生命**（6/7/8/9/10，正文 `@MissingHealthRatio@%`，是百分数点）。`QHeal`：`mLevel1Value` 10、初始 +2、7 级斜率 3、13 级斜率 5；断点当级计入未证，**只保留源字段，不编 18 级曲线、不填默认实际基础值**。窗口 5s。无 `mCastTime`，不补 0。非英雄治疗减半、墓地/唤醒排除。已保护冷却 6000–4000、法力 20。\n\n**约里克 W**  \n排除成立，且符合本轮独立单位边界：正文为可阻挡、有独立生命的灵墙；`WallHealthTooltip` 2/2/3/3/4、寿命 4s、延迟 0.75s，需独立生命与碰撞链。源值只作排除证据，不写空效果或伤害 0，不新增专用消耗。\n\n**约里克 E**  \n`Calc_HealthDamage` = `0.01 × (HealthDamage + 0.03 法强)`，正文是**目标最大生命**，不是当前生命。1 级起 6/6.5/7/7.5/8。减速 30%/1.5s，标记 4s，护甲削减 13–25%，本人朝标记 18–30% 移速。原标记范围 1500 / 施法 700 分开。`spellCastTime` 0.25，无 `mCastTime`。兵野最低/上限不套英雄。已保护冷却 12000–8000、法力 50–70。\n\n**约里克 R**  \n室女/雾行者自主输出与属性整链排除。混合本体输出必须留：约里克打室女标记目标造成 `RMarkDamagePercent` **2/2.5/3% 目标最大生命**魔伤（索引 1–3）。标记资格待输入，不生成虚拟室女，不宣称接线完成。`RMarkMaxDamage` 30 不作英雄伤害上限。不新增室女专用消耗。\n\n**凯隐 P**  \n动态 0 是变形竞争与两形态专用被动，整套排除。根正文是 `{{ game_spell_Kayn_P_main_@f1@ }}`，必须改读 `game_spell_kayn_p_main_0`。不能把暗裔治疗或刺客 3s 附魔当未变形被动。\n\n**凯隐 Q**  \n动态 0：冲刺一次、旋转再一次等额，`@TotalDamage@`。`TotalDamage` 为 `tooltipOnly`，必须保留。单次 75/105/135/165/195 + 0.85 **额外**攻击力（`mStat` 2 / `mStatFormula` 2）。双中总量 ×2。`mCastTime` 150ms。显示 350 / 范围 300，不用原 25000。暗裔最大生命与 0.65 总攻击力、兵野 +40/上限排除。已保护冷却 7000–5000、法力 40。\n\n**凯隐 W**  \n85/130/175/220/265 + 1.1 额外攻击力。减速数据 -0.9，正文 `Effect3Amount*-100` → 90%，1.5s 衰减。`mCastTime` 550ms。原范围 700、宽度 160。影流 900 与移动施法、暗裔击飞 1s 排除。已保护冷却 13000–9000、法力 40–60。\n\n**凯隐 E**  \n移速数据值 40，正文 `@Effect1Amount@%` → 40% 须按 1=100% 收成 0.4。持续 7/7.5/8/8.5/9s。首次入地形治疗 90–130+0.45 额外攻击力。地形外连续 1.5s 或定身提前结束；英雄战斗最多 1.5s，不能按满级 9s 固定。无 `mCastTime`，不补 0。影流 70%/免慢/10s CD 排除。已保护冷却 21000–13000、法力 90。\n\n**凯隐 R**  \n当前消费者是 `{{ spell_Kayn_R_main_@f1@ }}` → **`spell_kayn_r_main_0`**，与旧 `game_spell_kayn_r_main_0` 不同：新文有 3.15s 标记、`@InfestDuration@`、`@Damage@`；旧文是「近期伤害过」、`@Effect1Amount@ + @CharBonusPhysical@`，且无 3.15s。侵入最多 2.5s、最早 0.5s 可结束。出来 150/250/350+1.5 额外攻击力。基础范围 550、离开 300、`mCastTime` 100ms。冷却数组 `[120,120,100,80,0,0,0]` 只取 120/100/80，尾零不是真实冷却。变形额外距离/刷新/百分比伤害治疗排除。主体 R 可施放，不整项跳过。已保护冷却 120000/100000/80000、法力 100。\n\n**佛耶戈 P**  \n占据/复制技能装备/免费 R 整链排除。不新增占据消耗或空伤害。\n\n**佛耶戈 Q**  \n主动 `(25/40/55/70/85 + 0.7 总攻击力) × [1 + 0.6 × 实际 mStat8 × (实际 mStat9 − 1)]`，乘数罩整段。普攻附 2–6% **当时当前生命**，最低 10–30。暴击分支是 `1 + 0.7×(mStat9−1)`，**没有 mStat8**。两次攻击的当前 HP 不能共用同一快照。二次打击 0.2 总攻击力 + 0.15 法强；治疗 150% 合资格实际伤害，基准具名无默认。`BonusDamageVsMonsters` 空值，不补 0。`mCastTime` 0.25 会受攻速缩短。兵野上限 80 与非英雄治疗倍率排除。已保护冷却 5000–3000。\n\n**佛耶戈 W**  \n80/135/190/245/300 + 1 法强。蓄力自减速 10%。眩晕 0.25–1.25s；`mChannelDuration` 1s、`MaxChargeTime` 3s 不是最大眩晕。打断冷却 3s。突进 300、速度 1000、最短飞弹 500+额外 400。`spellCastTime` 0 是阶段字段。已保护冷却固定 8000。\n\n**佛耶戈 E**  \n区域 8s；雾内 25–35% 移速 + 0.0004 法强、30–50% 攻速与伪装。个人收益随「在雾内」资格，8s 不是离雾后的个人寿命。显形距离 450、攻击/技能后 0.6s；野怪 1.5s 排除。显示 750、弹速 1200，不用 25000。`spellCastTime` 0 只保留字段含义。已保护冷却 14000–6000。\n\n**佛耶戈 R**  \n本体可直接施放。基础段 `1.2 总攻击力 × [1 + 0.7 × mStat8 × (mStat9 − 1)]`；另加 `(12/16/20 + 0.05 额外攻击力)%` **已损生命**。字段名 `MaxHealthDamage` 不改变正文已损语义。暴击乘数只在 `TotalDamage`（攻击力段），不乘 `TotalPercentHealth`。99% 慢 0.25s，显示 500。主目标攻击特效保留；其他敌人击退/伤害排除。无 `mCastTime`，不补 0。已保护冷却 120000/100000/80000。\n\n---\n\n## 有证据的实质问题\n\n无冻包级源冲突，不要求改冻。写入时下列边界已由冻结文本钉死，违反即数据错误：\n\n1. **凯隐动态 0**：根 `@f1@` 不可当正文。Q/W/E/P 走 `game_spell_kayn_*_0`；R 必须走 **`spell_kayn_r_main_0`**，禁止用 `game_spell_kayn_r_main_0`。  \n2. **佛耶戈 HP 与暴击**：Q 读当前生命；R 读已损生命。Q 全段含 mStat8；R 仅攻击力段含 mStat8。数学场景必须 `总AD ≠ 额外AD`，且 `当前HP ≠ 最大HP ≠ 已损HP`。  \n3. **约里克 Q 治疗**：断点当级未知，不得生成曲线或填 0。  \n4. **约里克 R**：室女排除不能删掉本体 `RMarkDamagePercent` 附伤。  \n5. **百分数点**：`@x@%` 的 6/40/2 是百分数点；`SlowAmount`/`ArmorShred`/`HasteAmount`/`MoveSpeed` 已是 0.x；凯隐 E 的 40 与 W 的 -0.9 编码不同，禁止混用。  \n6. **范围外技能**（四英雄 P、艾翁 R、约里克 W 及室女链）不新增专用消耗。\n\n---\n\n## 非阻塞事项\n\n- 压缩 `*.json.gz` 只作为散列证据；`来源绑定` 的 `stringTableSha256`（未压缩）与 gzip 散列不同，属预期。未解压故不能证明抽出正文与 gz 字节级一致，也未验证计算函数/断点求值器。  \n- 艾翁 E 自身目标：官方 16.17.1 未写自己；仅外部检索摘要。保持「事实未证、限自身、不扩友方」。  \n- `mStat` 8/9 不在本包已证枚举内，保持「实际输入、无默认」。  \n- 接口样例只供字段形状，数值不得复制。  \n- 模式覆盖（cherry / SWIFTPLAY / ARAM）一律不用。  \n- 凯隐 R 冷却尾部三个 0、佛耶戈 Q 空 `BonusDamageVsMonsters`、未知施法字段，均不得填 0 冒充已证。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 746122,
+    "usage": {
+      "inputTokens": 1348826,
+      "outputTokens": 45189,
+      "cacheReadTokens": 887936,
+      "cacheWriteTokens": 0,
+      "totalTokens": 2281951,
+      "reasoningTokens": 37677
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 746122,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-10T02:21:16.014Z"
+}

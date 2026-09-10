@@ -1,0 +1,3663 @@
+{
+  "at": "2026-09-10T02:02:31.307Z",
+  "GETs": 193,
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_ivern",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_ivern",
+        "createdAt": "2026-09-06T17:14:19.529604Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "艾翁",
+        "updatedAt": "2026-09-06T17:14:19.529604Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_ivern",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_ivern",
+            "characterName": "艾翁",
+            "gameId": "lol",
+            "skillKey": "ivern_p",
+            "skillName": "艾翁·森林之友",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_ivern",
+            "characterName": "艾翁",
+            "gameId": "lol",
+            "skillKey": "ivern_q",
+            "skillName": "艾翁·根深敌固",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_ivern",
+            "characterName": "艾翁",
+            "gameId": "lol",
+            "skillKey": "ivern_w",
+            "skillName": "艾翁·揠苗助攻",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_ivern",
+            "characterName": "艾翁",
+            "gameId": "lol",
+            "skillKey": "ivern_e",
+            "skillName": "艾翁·种豆得瓜",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_ivern",
+            "characterName": "艾翁",
+            "gameId": "lol",
+            "skillKey": "ivern_r",
+            "skillName": "艾翁·小菊！",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_yorick",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_yorick",
+        "createdAt": "2026-09-06T18:09:49.706412Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "约里克",
+        "updatedAt": "2026-09-06T18:09:49.706412Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_yorick",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_yorick",
+            "characterName": "约里克",
+            "gameId": "lol",
+            "skillKey": "yorick_p",
+            "skillName": "约里克·牧魂人",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_yorick",
+            "characterName": "约里克",
+            "gameId": "lol",
+            "skillKey": "yorick_q",
+            "skillName": "约里克·临终仪式",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_yorick",
+            "characterName": "约里克",
+            "gameId": "lol",
+            "skillKey": "yorick_w",
+            "skillName": "约里克·暗灵缠身",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_yorick",
+            "characterName": "约里克",
+            "gameId": "lol",
+            "skillKey": "yorick_e",
+            "skillName": "约里克·哀伤之雾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_yorick",
+            "characterName": "约里克",
+            "gameId": "lol",
+            "skillKey": "yorick_r",
+            "skillName": "约里克·海屿悼词",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_kayn",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_kayn",
+        "createdAt": "2026-09-06T17:18:44.333541Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "凯隐",
+        "updatedAt": "2026-09-06T17:18:44.333541Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_kayn",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_kayn",
+            "characterName": "凯隐",
+            "gameId": "lol",
+            "skillKey": "kayn_p",
+            "skillName": "凯隐·暗裔魔镰",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_kayn",
+            "characterName": "凯隐",
+            "gameId": "lol",
+            "skillKey": "kayn_q",
+            "skillName": "凯隐·巨镰横扫",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_kayn",
+            "characterName": "凯隐",
+            "gameId": "lol",
+            "skillKey": "kayn_w",
+            "skillName": "凯隐·利刃纵贯",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_kayn",
+            "characterName": "凯隐",
+            "gameId": "lol",
+            "skillKey": "kayn_e",
+            "skillName": "凯隐·掠影步",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_kayn",
+            "characterName": "凯隐",
+            "gameId": "lol",
+            "skillKey": "kayn_r",
+            "skillName": "凯隐·裂舍影",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_viego",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_viego",
+        "createdAt": "2026-09-06T18:04:35.440082Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "佛耶戈",
+        "updatedAt": "2026-09-06T18:04:35.440082Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_viego",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_viego",
+            "characterName": "佛耶戈",
+            "gameId": "lol",
+            "skillKey": "viego_p",
+            "skillName": "佛耶戈·君命已决",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_viego",
+            "characterName": "佛耶戈",
+            "gameId": "lol",
+            "skillKey": "viego_q",
+            "skillName": "佛耶戈·破败王剑",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_viego",
+            "characterName": "佛耶戈",
+            "gameId": "lol",
+            "skillKey": "viego_w",
+            "skillName": "佛耶戈·千载幽咽",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_viego",
+            "characterName": "佛耶戈",
+            "gameId": "lol",
+            "skillKey": "viego_e",
+            "skillName": "佛耶戈·茫茫焦土",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_viego",
+            "characterName": "佛耶戈",
+            "gameId": "lol",
+            "skillKey": "viego_r",
+            "skillName": "佛耶戈·痛贯天灵",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/ivern_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:37.142698Z",
+        "description": "艾翁无法攻击非史诗野怪，也无法被非史诗野怪攻击。艾翁可以在野怪营地创造神奇的小植被，小植被可以持续成长。当小植被完全成长后，艾翁就可以送走野怪来获得金币和经验。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "艾翁·森林之友",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ivern_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:37.142698Z"
+      }
+    },
+    {
+      "route": "/skills/ivern_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ivern_p",
+          "name": "ivern_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/ivern_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:37.484312Z",
+        "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾翁·根深敌固",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ivern_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:37.484312Z"
+      }
+    },
+    {
+      "route": "/skills/ivern_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ivern_q",
+          "name": "ivern_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/ivern_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:35.397393Z",
+          "description": "DDragon16.17.1 Ivern.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ivern_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:35.397393Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:35.806769Z",
+          "description": "DDragon16.17.1 Ivern.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ivern_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:35.806769Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ivern_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:35.397393Z",
+        "description": "DDragon16.17.1 Ivern.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:35.397393Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ivern_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:35.806769Z",
+        "description": "DDragon16.17.1 Ivern.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ivern_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:35.806769Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ivern_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:37.749128Z",
+        "description": "在草丛中，艾翁和他附近友军们的攻击将造成额外魔法伤害。艾翁可以激活这个技能来创造一块草丛。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾翁·揠苗助攻",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ivern_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:37.749128Z"
+      }
+    },
+    {
+      "route": "/skills/ivern_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ivern_w",
+          "name": "ivern_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/ivern_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:36.316516Z",
+          "description": "DDragon16.17.1 Ivern.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留30法力；主动草丛与自身额外攻击伤害存在1V1依赖，纯视野组成跳过。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ivern_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:36.316516Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ivern_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:36.316516Z",
+        "description": "DDragon16.17.1 Ivern.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留30法力；主动草丛与自身额外攻击伤害存在1V1依赖，纯视野组成跳过。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ivern_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:36.316516Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ivern_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:38.035605Z",
+        "description": "艾翁在一个友军身上放置一个护盾，护盾会在短暂延迟后爆炸，减速并伤害敌人。护盾值会在没有命中敌人时刷新。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾翁·种豆得瓜",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ivern_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:38.035605Z"
+      }
+    },
+    {
+      "route": "/skills/ivern_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ivern_e",
+          "name": "ivern_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/ivern_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:36.783248Z",
+          "description": "DDragon16.17.1 Ivern.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 11000,
+            "2": 10000,
+            "3": 9000,
+            "4": 8000,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ivern_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:36.783248Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:37.203683Z",
+          "description": "DDragon16.17.1 Ivern.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 70,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ivern_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:37.203683Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ivern_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:36.783248Z",
+        "description": "DDragon16.17.1 Ivern.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ivern_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:36.783248Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ivern_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:37.203683Z",
+        "description": "DDragon16.17.1 Ivern.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ivern_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:37.203683Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ivern_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:38.293655Z",
+        "description": "艾翁召唤他的护卫好友小菊来与他并肩战斗。再次施放即可指挥小菊进行攻击或移动。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾翁·小菊！",
+        "skillCategoryKeys": [],
+        "skillKey": "ivern_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:38.293655Z"
+      }
+    },
+    {
+      "route": "/skills/ivern_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ivern_r",
+          "name": "ivern_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/ivern_r/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ivern_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:13.610471Z",
+        "description": "<font color='#FF9900'>受诅咒的部落：</font>约里克可以召唤雾行者来蜂拥并攻击附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "约里克·牧魂人",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yorick_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.610471Z"
+      }
+    },
+    {
+      "route": "/skills/yorick_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yorick_p",
+          "name": "yorick_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/yorick_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:13.860791Z",
+        "description": "约里克的下次攻击造成额外伤害并治疗自身。如果目标是一个英雄或大型野怪或如果目标死亡，则会留下一个坟墓。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "约里克·临终仪式",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yorick_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.860791Z"
+      }
+    },
+    {
+      "route": "/skills/yorick_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yorick_q",
+          "name": "yorick_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/yorick_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:15.536774Z",
+          "description": "DDragon16.17.1 Yorick.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 6000,
+            "2": 5500,
+            "3": 5000,
+            "4": 4500,
+            "5": 4000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yorick_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:15.536774Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:16.131086Z",
+          "description": "DDragon16.17.1 Yorick.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yorick_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:16.131086Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yorick_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:15.536774Z",
+        "description": "DDragon16.17.1 Yorick.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6000,
+          "2": 5500,
+          "3": 5000,
+          "4": 4500,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yorick_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:15.536774Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yorick_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:16.131086Z",
+        "description": "DDragon16.17.1 Yorick.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yorick_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:16.131086Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yorick_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:14.134519Z",
+        "description": "约里克在目标区域召唤一圈可破坏的暗灵之墙来阻挡敌方移动。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "约里克·暗灵缠身",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yorick_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.134519Z"
+      }
+    },
+    {
+      "route": "/skills/yorick_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yorick_w",
+          "name": "yorick_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/yorick_w/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:14.37324Z",
+        "description": "约里克扔出一小团黑雾，对敌人造成护甲削减、伤害、减速效果并标记敌人。召唤物在朝着被标记的目标移动时会获得移动速度。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "约里克·哀伤之雾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yorick_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.37324Z"
+      }
+    },
+    {
+      "route": "/skills/yorick_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yorick_e",
+          "name": "yorick_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/yorick_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:16.669577Z",
+          "description": "DDragon16.17.1 Yorick.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yorick_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:16.669577Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:17.15296Z",
+          "description": "DDragon16.17.1 Yorick.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yorick_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:17.15296Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yorick_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:16.669577Z",
+        "description": "DDragon16.17.1 Yorick.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yorick_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:16.669577Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yorick_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:17.15296Z",
+        "description": "DDragon16.17.1 Yorick.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yorick_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:17.15296Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yorick_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:14.614094Z",
+        "description": "约里克召唤迷雾室女，来让约里克的攻击对室女锁定的目标造成额外伤害。室女也会自动从死亡的敌人身上唤起雾行者。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "约里克·海屿悼词",
+        "skillCategoryKeys": [],
+        "skillKey": "yorick_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.614094Z"
+      }
+    },
+    {
+      "route": "/skills/yorick_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yorick_r",
+          "name": "yorick_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/yorick_r/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yorick_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:56.963366Z",
+        "description": "凯隐使用的是一把上古神兵，并且一直都在与附在武器上的暗裔灵体拉亚斯特为了身体的控制权而战斗着。要么<font color='#fe5c50'>暗裔杀手</font>将获胜，要么凯隐将统御拉亚斯特并变为<font color='#8484fb'>影流刺客</font>。<br><hr><font color='#fe5c50'>暗裔杀手：</font>治疗自身，数额相当于一部分对敌方英雄造成的技能伤害值。<br><br><font color='#8484fb'>影流刺客：</font>在与敌方英雄作战的最初几秒里，造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "凯隐·暗裔魔镰",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "kayn_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:56.963366Z"
+      }
+    },
+    {
+      "route": "/skills/kayn_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kayn_p",
+          "name": "kayn_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/kayn_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:57.22911Z",
+        "description": "凯隐向前冲刺并打击附近的敌人。冲刺和打击都会造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯隐·巨镰横扫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kayn_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:57.22911Z"
+      }
+    },
+    {
+      "route": "/skills/kayn_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kayn_q",
+          "name": "kayn_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/kayn_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:27.314083Z",
+          "description": "DDragon16.17.1 Kayn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6500,
+            "3": 6000,
+            "4": 5500,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kayn_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:27.314083Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:27.792195Z",
+          "description": "DDragon16.17.1 Kayn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kayn_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:27.792195Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kayn_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:27.314083Z",
+        "description": "DDragon16.17.1 Kayn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6500,
+          "3": 6000,
+          "4": 5500,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayn_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:27.314083Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kayn_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:27.792195Z",
+        "description": "DDragon16.17.1 Kayn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kayn_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:27.792195Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kayn_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:57.493673Z",
+        "description": "凯隐伤害并减速一条直线上的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯隐·利刃纵贯",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kayn_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:57.493673Z"
+      }
+    },
+    {
+      "route": "/skills/kayn_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kayn_w",
+          "name": "kayn_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/kayn_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:28.233405Z",
+          "description": "DDragon16.17.1 Kayn.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 13000,
+            "2": 12000,
+            "3": 11000,
+            "4": 10000,
+            "5": 9000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kayn_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:28.233405Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:29.004635Z",
+          "description": "DDragon16.17.1 Kayn.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kayn_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:29.004635Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kayn_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:28.233405Z",
+        "description": "DDragon16.17.1 Kayn.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12000,
+          "3": 11000,
+          "4": 10000,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayn_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:28.233405Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kayn_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:29.004635Z",
+        "description": "DDragon16.17.1 Kayn.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kayn_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:29.004635Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kayn_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:57.824425Z",
+        "description": "凯隐可以穿越地形。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯隐·掠影步",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kayn_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:57.824425Z"
+      }
+    },
+    {
+      "route": "/skills/kayn_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kayn_e",
+          "name": "kayn_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/kayn_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:29.403255Z",
+          "description": "DDragon16.17.1 Kayn.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 21000,
+            "2": 19000,
+            "3": 17000,
+            "4": 15000,
+            "5": 13000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kayn_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:29.403255Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:29.898443Z",
+          "description": "DDragon16.17.1 Kayn.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kayn_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:29.898443Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kayn_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:29.403255Z",
+        "description": "DDragon16.17.1 Kayn.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 21000,
+          "2": 19000,
+          "3": 17000,
+          "4": 15000,
+          "5": 13000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayn_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:29.403255Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kayn_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:29.898443Z",
+        "description": "DDragon16.17.1 Kayn.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 90,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kayn_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:29.898443Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kayn_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:58.108276Z",
+        "description": "凯隐隐藏在敌方身体内，在他破膛而出时造成巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "凯隐·裂舍影",
+        "skillCategoryKeys": [],
+        "skillKey": "kayn_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:58.108276Z"
+      }
+    },
+    {
+      "route": "/skills/kayn_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kayn_r",
+          "name": "kayn_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/kayn_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:30.411593Z",
+          "description": "DDragon16.17.1 Kayn.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kayn_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:30.411593Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:30.927658Z",
+          "description": "DDragon16.17.1 Kayn.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kayn_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:30.927658Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kayn_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:30.411593Z",
+        "description": "DDragon16.17.1 Kayn.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kayn_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:30.411593Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kayn_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:30.927658Z",
+        "description": "DDragon16.17.1 Kayn.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kayn_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:30.927658Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kayn_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kayn_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:00.017907Z",
+        "description": "倒在佛耶戈面前的敌方英雄们会变为幽魂。通过攻击一个幽魂，佛耶戈可以暂时夺取该英雄躯体的控制权，获得相当于他目标一部分最大生命值的治疗效果并获得该英雄的基础技能和装备的使用权。他会将其终极技能替换为他自己终极技能的一次免费施放。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "佛耶戈·君命已决",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "viego_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:00.017907Z"
+      }
+    },
+    {
+      "route": "/skills/viego_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viego_p",
+          "name": "viego_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/viego_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:00.272565Z",
+        "description": "佛耶戈的鬼魅之刃会在被动地在命中时造成额外的百分比当前生命值伤害<OnHit>攻击特效</OnHit>，并对近期被他用一个技能袭击过的敌人进行两次打击，同时窃取生命值。<br><br>佛耶戈可以激活这个技能来向前刺出他的双手巨剑，穿刺他前方的所有敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "佛耶戈·破败王剑",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "viego_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:00.272565Z"
+      }
+    },
+    {
+      "route": "/skills/viego_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viego_q",
+          "name": "viego_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/viego_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:45.458391Z",
+          "description": "DDragon16.17.1 Viego.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5000,
+            "2": 4500,
+            "3": 4000,
+            "4": 3500,
+            "5": 3000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "viego_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:45.458391Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/viego_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:45.458391Z",
+        "description": "DDragon16.17.1 Viego.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 5000,
+          "2": 4500,
+          "3": 4000,
+          "4": 3500,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "viego_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:45.458391Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/viego_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:00.535417Z",
+        "description": "佛耶戈蓄力然后向前冲刺，并释放一个浓缩黑雾之球，来使命中的第一个敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "佛耶戈·千载幽咽",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "viego_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:00.535417Z"
+      }
+    },
+    {
+      "route": "/skills/viego_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viego_w",
+          "name": "viego_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/viego_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:45.85768Z",
+          "description": "DDragon16.17.1 Viego.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 8000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "viego_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:45.85768Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/viego_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:45.85768Z",
+        "description": "DDragon16.17.1 Viego.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "viego_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:45.85768Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/viego_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:00.839236Z",
+        "description": "佛耶戈命令黑雾去萦绕并笼罩一块地形。佛耶戈可以如幽魂一般隐藏在黑雾中，获得【伪装】状态、移动速度和攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "佛耶戈·茫茫焦土",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "viego_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:00.839236Z"
+      }
+    },
+    {
+      "route": "/skills/viego_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viego_e",
+          "name": "viego_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/viego_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:46.299094Z",
+          "description": "DDragon16.17.1 Viego.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 12000,
+            "3": 10000,
+            "4": 8000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "viego_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:46.299094Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/viego_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:46.299094Z",
+        "description": "DDragon16.17.1 Viego.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 12000,
+          "3": 10000,
+          "4": 8000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "viego_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:46.299094Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/viego_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:01.128917Z",
+        "description": "佛耶戈传送到一个附近的位置并在抵达时处决一名敌方英雄，将其心脏击碎并在其周围引发一阵毁灭性的冲击波来击退其友军。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "佛耶戈·痛贯天灵",
+        "skillCategoryKeys": [],
+        "skillKey": "viego_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:01.128917Z"
+      }
+    },
+    {
+      "route": "/skills/viego_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_viego_r",
+          "name": "viego_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/viego_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:46.769972Z",
+          "description": "DDragon16.17.1 Viego.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "viego_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:46.769972Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/viego_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:46.769972Z",
+        "description": "DDragon16.17.1 Viego.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "viego_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:46.769972Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/viego_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/viego_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "summary": {
+    "ivern_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:37.142698Z",
+        "description": "艾翁无法攻击非史诗野怪，也无法被非史诗野怪攻击。艾翁可以在野怪营地创造神奇的小植被，小植被可以持续成长。当小植被完全成长后，艾翁就可以送走野怪来获得金币和经验。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "艾翁·森林之友",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ivern_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:37.142698Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ivern_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:37.484312Z",
+        "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾翁·根深敌固",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ivern_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:37.484312Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:35.397393Z",
+            "description": "DDragon16.17.1 Ivern.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 14000,
+              "2": 13000,
+              "3": 12000,
+              "4": 11000,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ivern_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:35.397393Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:35.806769Z",
+            "description": "DDragon16.17.1 Ivern.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 60,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ivern_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:35.806769Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ivern_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:37.749128Z",
+        "description": "在草丛中，艾翁和他附近友军们的攻击将造成额外魔法伤害。艾翁可以激活这个技能来创造一块草丛。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾翁·揠苗助攻",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ivern_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:37.749128Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:36.316516Z",
+            "description": "DDragon16.17.1 Ivern.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留30法力；主动草丛与自身额外攻击伤害存在1V1依赖，纯视野组成跳过。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ivern_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:36.316516Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ivern_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:38.035605Z",
+        "description": "艾翁在一个友军身上放置一个护盾，护盾会在短暂延迟后爆炸，减速并伤害敌人。护盾值会在没有命中敌人时刷新。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾翁·种豆得瓜",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ivern_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:38.035605Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:36.783248Z",
+            "description": "DDragon16.17.1 Ivern.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 11000,
+              "2": 10000,
+              "3": 9000,
+              "4": 8000,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "ivern_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:36.783248Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:37.203683Z",
+            "description": "DDragon16.17.1 Ivern.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 70,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "ivern_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:37.203683Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "ivern_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:38.293655Z",
+        "description": "艾翁召唤他的护卫好友小菊来与他并肩战斗。再次施放即可指挥小菊进行攻击或移动。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾翁·小菊！",
+        "skillCategoryKeys": [],
+        "skillKey": "ivern_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:38.293655Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yorick_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:13.610471Z",
+        "description": "<font color='#FF9900'>受诅咒的部落：</font>约里克可以召唤雾行者来蜂拥并攻击附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "约里克·牧魂人",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yorick_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.610471Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yorick_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:13.860791Z",
+        "description": "约里克的下次攻击造成额外伤害并治疗自身。如果目标是一个英雄或大型野怪或如果目标死亡，则会留下一个坟墓。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "约里克·临终仪式",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yorick_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.860791Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:15.536774Z",
+            "description": "DDragon16.17.1 Yorick.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 6000,
+              "2": 5500,
+              "3": 5000,
+              "4": 4500,
+              "5": 4000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yorick_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:15.536774Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:16.131086Z",
+            "description": "DDragon16.17.1 Yorick.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 20,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yorick_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:16.131086Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yorick_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:14.134519Z",
+        "description": "约里克在目标区域召唤一圈可破坏的暗灵之墙来阻挡敌方移动。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "约里克·暗灵缠身",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yorick_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.134519Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yorick_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:14.37324Z",
+        "description": "约里克扔出一小团黑雾，对敌人造成护甲削减、伤害、减速效果并标记敌人。召唤物在朝着被标记的目标移动时会获得移动速度。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "约里克·哀伤之雾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yorick_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.37324Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:16.669577Z",
+            "description": "DDragon16.17.1 Yorick.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 11000,
+              "3": 10000,
+              "4": 9000,
+              "5": 8000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yorick_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:16.669577Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:17.15296Z",
+            "description": "DDragon16.17.1 Yorick.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yorick_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:17.15296Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yorick_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:14.614094Z",
+        "description": "约里克召唤迷雾室女，来让约里克的攻击对室女锁定的目标造成额外伤害。室女也会自动从死亡的敌人身上唤起雾行者。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "约里克·海屿悼词",
+        "skillCategoryKeys": [],
+        "skillKey": "yorick_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:14.614094Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kayn_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:56.963366Z",
+        "description": "凯隐使用的是一把上古神兵，并且一直都在与附在武器上的暗裔灵体拉亚斯特为了身体的控制权而战斗着。要么<font color='#fe5c50'>暗裔杀手</font>将获胜，要么凯隐将统御拉亚斯特并变为<font color='#8484fb'>影流刺客</font>。<br><hr><font color='#fe5c50'>暗裔杀手：</font>治疗自身，数额相当于一部分对敌方英雄造成的技能伤害值。<br><br><font color='#8484fb'>影流刺客：</font>在与敌方英雄作战的最初几秒里，造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "凯隐·暗裔魔镰",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "kayn_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:56.963366Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kayn_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:57.22911Z",
+        "description": "凯隐向前冲刺并打击附近的敌人。冲刺和打击都会造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯隐·巨镰横扫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kayn_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:57.22911Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:27.314083Z",
+            "description": "DDragon16.17.1 Kayn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 7000,
+              "2": 6500,
+              "3": 6000,
+              "4": 5500,
+              "5": 5000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kayn_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:27.314083Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:27.792195Z",
+            "description": "DDragon16.17.1 Kayn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "kayn_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:27.792195Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kayn_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:57.493673Z",
+        "description": "凯隐伤害并减速一条直线上的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯隐·利刃纵贯",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kayn_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:57.493673Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:28.233405Z",
+            "description": "DDragon16.17.1 Kayn.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 13000,
+              "2": 12000,
+              "3": 11000,
+              "4": 10000,
+              "5": 9000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kayn_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:28.233405Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:29.004635Z",
+            "description": "DDragon16.17.1 Kayn.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "kayn_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:29.004635Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kayn_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:57.824425Z",
+        "description": "凯隐可以穿越地形。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯隐·掠影步",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kayn_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:57.824425Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:29.403255Z",
+            "description": "DDragon16.17.1 Kayn.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 21000,
+              "2": 19000,
+              "3": 17000,
+              "4": 15000,
+              "5": 13000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kayn_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:29.403255Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:29.898443Z",
+            "description": "DDragon16.17.1 Kayn.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 90,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "kayn_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:29.898443Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kayn_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:58.108276Z",
+        "description": "凯隐隐藏在敌方身体内，在他破膛而出时造成巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "凯隐·裂舍影",
+        "skillCategoryKeys": [],
+        "skillKey": "kayn_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:58.108276Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:30.411593Z",
+            "description": "DDragon16.17.1 Kayn.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 100000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kayn_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:30.411593Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:30.927658Z",
+            "description": "DDragon16.17.1 Kayn.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "kayn_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:30.927658Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "viego_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:00.017907Z",
+        "description": "倒在佛耶戈面前的敌方英雄们会变为幽魂。通过攻击一个幽魂，佛耶戈可以暂时夺取该英雄躯体的控制权，获得相当于他目标一部分最大生命值的治疗效果并获得该英雄的基础技能和装备的使用权。他会将其终极技能替换为他自己终极技能的一次免费施放。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "佛耶戈·君命已决",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "viego_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:00.017907Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "viego_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:00.272565Z",
+        "description": "佛耶戈的鬼魅之刃会在被动地在命中时造成额外的百分比当前生命值伤害<OnHit>攻击特效</OnHit>，并对近期被他用一个技能袭击过的敌人进行两次打击，同时窃取生命值。<br><br>佛耶戈可以激活这个技能来向前刺出他的双手巨剑，穿刺他前方的所有敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "佛耶戈·破败王剑",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "viego_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:00.272565Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:45.458391Z",
+            "description": "DDragon16.17.1 Viego.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 5000,
+              "2": 4500,
+              "3": 4000,
+              "4": 3500,
+              "5": 3000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "viego_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:45.458391Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "viego_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:00.535417Z",
+        "description": "佛耶戈蓄力然后向前冲刺，并释放一个浓缩黑雾之球，来使命中的第一个敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "佛耶戈·千载幽咽",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "viego_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:00.535417Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:45.85768Z",
+            "description": "DDragon16.17.1 Viego.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 8000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "viego_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:45.85768Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "viego_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:00.839236Z",
+        "description": "佛耶戈命令黑雾去萦绕并笼罩一块地形。佛耶戈可以如幽魂一般隐藏在黑雾中，获得【伪装】状态、移动速度和攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "佛耶戈·茫茫焦土",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "viego_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:00.839236Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:46.299094Z",
+            "description": "DDragon16.17.1 Viego.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 14000,
+              "2": 12000,
+              "3": 10000,
+              "4": 8000,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "viego_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:46.299094Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "viego_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:01.128917Z",
+        "description": "佛耶戈传送到一个附近的位置并在抵达时处决一名敌方英雄，将其心脏击碎并在其周围引发一阵毁灭性的冲击波来击退其友军。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "佛耶戈·痛贯天灵",
+        "skillCategoryKeys": [],
+        "skillKey": "viego_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:01.128917Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:46.769972Z",
+            "description": "DDragon16.17.1 Viego.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 100000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "viego_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:46.769972Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  },
+  "apiWrites": 0
+}

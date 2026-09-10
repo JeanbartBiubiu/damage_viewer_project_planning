@@ -1,0 +1,24 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/active_ad_ratio",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "active_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_ad_ratio",
+      "name": "主动总攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.699999988,
+      "levelValues": null,
+      "description": "TotalDamage第二分支mStat=2，读取总攻击力0.7。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 165,
+  "intent": {
+    "sequence": 166,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_e/parameters",
+    "detailRoute": "/skills/viego_e/parameters/attack_speed_ratio",
+    "skillKey": "viego_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "黑雾内攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.300000012,
+        "2": 0.349999994,
+        "3": 0.400000006,
+        "4": 0.449999988,
+        "5": 0.5
+      },
+      "description": "AttackSpeed已是0.30至0.50比例；按1=100%记录。",
+      "sortOrder": 30
+    }
+  }
+}

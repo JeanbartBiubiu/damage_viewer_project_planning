@@ -1,0 +1,24 @@
+{
+  "i": 78,
+  "intent": {
+    "sequence": 79,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_q/parameters",
+    "detailRoute": "/skills/kayn_q/parameters/double_hit_multiplier",
+    "skillKey": "kayn_q",
+    "kind": "parameters",
+    "stableKey": "double_hit_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "double_hit_multiplier",
+      "name": "双段伤害倍率",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "动态正文写明第二次造成等额伤害，完整双段为一次伤害×2。",
+      "sortOrder": 40
+    }
+  }
+}

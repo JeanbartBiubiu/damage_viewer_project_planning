@@ -1,0 +1,24 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kayn_e/parameters",
+    "detailRoute": "/skills/kayn_e/parameters/max_in_combat_ms",
+    "skillKey": "kayn_e",
+    "kind": "parameters",
+    "stableKey": "max_in_combat_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_in_combat_ms",
+      "name": "战斗中最长持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "英雄战斗最多1.5秒，不能用满级WallWalkDuration替代。",
+      "sortOrder": 40
+    }
+  }
+}

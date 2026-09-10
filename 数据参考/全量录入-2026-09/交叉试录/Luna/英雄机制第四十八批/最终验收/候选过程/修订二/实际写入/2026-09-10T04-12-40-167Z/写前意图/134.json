@@ -1,0 +1,24 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/parameters",
+    "detailRoute": "/skills/viego_q/parameters/cast_time_ms",
+    "skillKey": "viego_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "mCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "mCastTime=0.25秒，精确转换为250毫秒；受攻击速度缩短的时序待运行层。",
+      "sortOrder": 190
+    }
+  }
+}

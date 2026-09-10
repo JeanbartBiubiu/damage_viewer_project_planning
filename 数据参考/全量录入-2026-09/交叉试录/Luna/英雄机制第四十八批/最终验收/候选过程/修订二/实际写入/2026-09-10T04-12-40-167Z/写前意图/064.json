@@ -1,0 +1,30 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/yorick_e/parameters",
+    "detailRoute": "/skills/yorick_e/parameters/move_speed_ratio",
+    "skillKey": "yorick_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_ratio",
+      "name": "自身朝标记目标移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.180000007,
+        "2": 0.209999993,
+        "3": 0.239999995,
+        "4": 0.270000011,
+        "5": 0.300000012
+      },
+      "description": "HasteAmount已是0.18至0.30比例；比例属性按attribute_flat_add。",
+      "sortOrder": 90
+    }
+  }
+}

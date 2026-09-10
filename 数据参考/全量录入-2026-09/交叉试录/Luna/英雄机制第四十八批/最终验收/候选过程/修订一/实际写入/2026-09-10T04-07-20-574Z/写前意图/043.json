@@ -1,0 +1,52 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/ivern_e/effects",
+    "detailRoute": "/skills/ivern_e/effects/explosion_damage",
+    "skillKey": "ivern_e",
+    "kind": "effects",
+    "stableKey": "explosion_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "explosion_damage",
+      "name": "种豆得瓜爆裂魔法伤害",
+      "description": "唯一敌人爆裂伤害；减速、二次护盾条件和爆裂时点由事件层接线。",
+      "sortOrder": 30,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "种豆得瓜爆裂魔法伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "magic_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}

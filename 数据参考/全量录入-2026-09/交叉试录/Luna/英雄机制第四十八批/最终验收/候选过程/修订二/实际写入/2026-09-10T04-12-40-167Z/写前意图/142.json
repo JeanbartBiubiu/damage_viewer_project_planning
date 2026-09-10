@@ -1,0 +1,52 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/viego_q/effects",
+    "detailRoute": "/skills/viego_q/effects/active_damage",
+    "skillKey": "viego_q",
+    "kind": "effects",
+    "stableKey": "active_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "active_damage",
+      "name": "破败王剑主动物理伤害",
+      "description": "主动段实际暴击因子已内联；触发策略与攻击速度时序待运行层接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "破败王剑主动物理伤害",
+          "resultType": "DAMAGE",
+          "target": "TARGET",
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": "RESULT",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "active_physical_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    }
+  }
+}
