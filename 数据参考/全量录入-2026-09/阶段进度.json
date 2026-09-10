@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T04:29:32.006Z",
+  "generatedAt": "2026-09-10T05:06:45.185Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -4564,6 +4564,106 @@
         {
           "issue": "区域寿命不能替代自身资格寿命",
           "detail": "佛耶戈E用无默认实际雾内资格输入；艾翁W把地形与离草窗口分开。"
+        }
+      ],
+      "runtimeValidation": "未执行"
+    },
+    "heroFortyNinthBatch": {
+      "skills": [
+        "gnar_p",
+        "gnar_q",
+        "gnar_w",
+        "gnar_e",
+        "gnar_r",
+        "kled_p",
+        "kled_q",
+        "kled_w",
+        "kled_e",
+        "kled_r",
+        "quinn_p",
+        "quinn_q",
+        "quinn_w",
+        "quinn_e",
+        "quinn_r",
+        "reksai_p",
+        "reksai_q",
+        "reksai_w",
+        "reksai_e",
+        "reksai_r"
+      ],
+      "heroes": [
+        "Gnar",
+        "Kled",
+        "Quinn",
+        "RekSai"
+      ],
+      "parameters": 162,
+      "formulas": 30,
+      "effects": 12,
+      "newCounts": {
+        "parameters": 148,
+        "formulas": 30,
+        "effects": 12
+      },
+      "created": 190,
+      "businessWrites": 190,
+      "reusedParameters": 14,
+      "currentTotalComponents": 204,
+      "saveGETs": 1551,
+      "independentGets": 390,
+      "protectedPaths": 186,
+      "detailChecks": 204,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 30,
+      "independentSourceCases": 60,
+      "independentMissingRejects": 10,
+      "independentBinaryChecks": 154,
+      "completeParameterArrays": 29,
+      "completeArrayValues": 123,
+      "typedReferences": 84,
+      "finiteChecks": 229,
+      "independentIntegerValues": 133,
+      "integerParameters": 99,
+      "millisecondParameters": 48,
+      "representativePages": 4,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "259e4ac0b29cd92c3b0dc2597c3ad794fbdc00ae74498971b53c2fa7d0d1c35c",
+      "planSha256": "39fa7defd5a33f5eef36652f13f99288ec6c287b2ed7bad1cf288c0cd70373db",
+      "executor": "Cursor来源复核、Luna Max候选和独立快照数学检查、主负责人修订保存与页面验收",
+      "status": "本轮来源明确组成已保存；请求节点及必填字段修正后断点续录，独立回读、实际数学和四个代表页面通过；未知曲线与事件单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十九批/当前实录状态.json",
+        "sha256": "20b2531a73cdb3f3a450206dae769cea6afb70a847804c82bb8c5b2c1727b8ca",
+        "commit": "885bd31a0710f0965205f35b768e73d828749a3b"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十九批/最终验收/候选过程/修订三/页面验收.json",
+        "commit": "885bd31a0710f0965205f35b768e73d828749a3b"
+      },
+      "experienceIssues": [
+        {
+          "issue": "来源辅助节点不能进入业务请求",
+          "detail": "克烈R修订一的四个SOURCE_ATTRIBUTE节点在静态写前检查被拦下，修正为真实ATTRIBUTE后保存。公式数学与请求节点合法性分开核对。"
+        },
+        {
+          "issue": "全等级与跨槽等级必须单独核对",
+          "detail": "纳尔W移速对应未学R与R1/2/3，不能直接按W等级套错索引。"
+        },
+        {
+          "issue": "百分数点与最终比例不能重复转换",
+          "detail": "克烈R源倍率0.01/0.03已经完成转换，去掉额外0.01。"
+        },
+        {
+          "issue": "来源字段名字和单位必须对应",
+          "detail": "纳尔Q与奎因Q的1200/1550是飞弹速度，不是范围；奎因P纯显形参数排除。"
+        },
+        {
+          "issue": "请求必填字段与数学检查分离",
+          "detail": "奎因R移速参数缺sortOrder导致第141次POST被400拒绝；补齐排序10，前140项保持不变，续录50项。"
         }
       ],
       "runtimeValidation": "未执行"
