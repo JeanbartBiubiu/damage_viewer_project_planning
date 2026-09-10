@@ -1,0 +1,564 @@
+{
+  "startedAt": "2026-09-10T15:28:50.042Z",
+  "finishedAt": "2026-09-10T15:28:53.93Z",
+  "scope": "tristana_w/trigger-rules/own_kill_reset",
+  "apiWrites": 1,
+  "resumedFromExistingExactRule": false,
+  "assertions": {
+    "protectedGetCount": 10,
+    "preflightNewRuleStatus": 404,
+    "writeStatus": 201,
+    "readbackGetCount": 11,
+    "existingRuleUnchanged": true,
+    "newRuleUnique": true,
+    "newRuleExact": true
+  },
+  "body": {
+    "ruleKey": "own_kill_reset",
+    "name": "本人击杀英雄重置火箭跳跃",
+    "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+    "sortOrder": 20,
+    "eventSource": {
+      "eventType": "KILL",
+      "detail": {}
+    },
+    "conditionGroups": [
+      {
+        "groupKey": "killed_target",
+        "name": "被击杀对象",
+        "sortOrder": 10,
+        "conditions": [
+          {
+            "conditionKey": "champion_only",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "sortOrder": 10,
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "reset_jump",
+        "name": "重置火箭跳跃冷却",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "reset_jump"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null
+  },
+  "write": {
+    "route": "/skills/tristana_w/trigger-rules",
+    "method": "POST",
+    "status": 201,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "reset_jump",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "reset_jump"
+          },
+          "name": "重置火箭跳跃冷却",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_only",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "killed_target",
+          "name": "被击杀对象",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "KILL"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "本人击杀英雄重置火箭跳跃",
+      "perTargetCooldown": null,
+      "ruleKey": "own_kill_reset",
+      "sortOrder": 20
+    }
+  },
+  "readback": [
+    {
+      "route": "/skills/tristana_w",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:41.015015Z",
+        "description": "崔丝塔娜朝地面开火，跳跃至目标区域，落地造成伤害并减速附近敌人一小段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔丝塔娜·火箭跳跃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:41.015015Z"
+      }
+    },
+    {
+      "route": "/skills/tristana_w/parameters",
+      "method": "GET",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T17:59:35.789253Z",
+          "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 20000,
+            "3": 18000,
+            "4": 16000,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tristana_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:59:35.789253Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:36.259261Z",
+          "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 35,
+            "3": 40,
+            "4": 45,
+            "5": 50
+          },
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "tristana_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T17:59:36.259261Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:36.70796Z",
+          "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "tristana_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T17:59:36.70796Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:37.128269Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 105,
+            "3": 140,
+            "4": 175,
+            "5": 210
+          },
+          "name": "基础伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "tristana_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T17:59:37.128269Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:37.577961Z",
+          "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "攻击力倍率",
+          "parameterKey": "ad_ratio",
+          "skillKey": "tristana_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T17:59:37.577961Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:38.094506Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "tristana_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T17:59:38.094506Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:38.513185Z",
+          "description": "客户端当前根绑定 DataValues.SlowMod 取索引1至5。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速比例",
+          "parameterKey": "slow_ratio",
+          "skillKey": "tristana_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-07T17:59:38.513185Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:38.898819Z",
+          "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "tristana_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-07T17:59:38.898819Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tristana_w/formulas",
+      "method": "GET",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T17:59:39.378528Z",
+          "description": "当前LandingDamage明确魔法伤害，基础+1额外AD+0.5AP。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "火箭跳跃落地伤害",
+          "skillKey": "tristana_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:59:39.378528Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tristana_w/effects",
+      "method": "GET",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T17:59:39.81282Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "tristana_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:59:39.81282Z"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:40.2229Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "landing_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "落地命中伤害",
+          "resultCount": 1,
+          "skillKey": "tristana_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T17:59:40.2229Z"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:40.679569Z",
+          "description": null,
+          "effectKey": "reset_jump",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "参与击杀或满层炸弹重置跳跃",
+          "resultCount": 1,
+          "skillKey": "tristana_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T17:59:40.679569Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tristana_w/effects/reset_jump",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T17:59:40.679569Z",
+        "description": null,
+        "effectKey": "reset_jump",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "参与击杀或满层炸弹重置跳跃",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "tristana_w"
+                ]
+              },
+              "operation": "RESET"
+            },
+            "lifecycleBehavior": null,
+            "name": "参与击杀或满层炸弹重置跳跃",
+            "resultKey": "cooldown",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:59:40.679569Z"
+      }
+    },
+    {
+      "route": "/skills/tristana_w/processes",
+      "method": "GET",
+      "status": 200,
+      "data": [
+        {
+          "activationType": "ACTIVE",
+          "createdAt": "2026-09-07T17:59:41.161228Z",
+          "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+          "effectBindingCount": 1,
+          "gameId": "lol",
+          "name": "施放火箭跳跃",
+          "processKey": "cast",
+          "skillKey": "tristana_w",
+          "sortOrder": 10,
+          "stateOperationCount": 0,
+          "stepCount": 1,
+          "updatedAt": "2026-09-07T17:59:41.161228Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tristana_w/processes/cast",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T17:59:41.161228Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放火箭跳跃",
+        "processKey": "cast",
+        "skillKey": "tristana_w",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能已核对的施法时间。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-07T17:59:41.161228Z"
+      }
+    },
+    {
+      "route": "/skills/tristana_w/internal-states",
+      "method": "GET",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tristana_w/trigger-rules",
+      "method": "GET",
+      "status": 200,
+      "data": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "火箭跳跃实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:59:41.639823Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+          "eventType": "KILL",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "本人击杀英雄重置火箭跳跃",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "own_kill_reset",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-10T15:28:51.484924Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tristana_w/trigger-rules/actual_hit",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "landing_hit"
+            },
+            "name": "执行命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "tristana_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "火箭跳跃实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/skills/tristana_w/trigger-rules/own_kill_reset",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "reset_jump",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "reset_jump"
+            },
+            "name": "重置火箭跳跃冷却",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_only",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "killed_target",
+            "name": "被击杀对象",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "KILL"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "本人击杀英雄重置火箭跳跃",
+        "perTargetCooldown": null,
+        "ruleKey": "own_kill_reset",
+        "sortOrder": 20
+      }
+    }
+  ]
+}

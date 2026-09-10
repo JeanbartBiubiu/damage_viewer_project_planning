@@ -1,0 +1,39 @@
+{
+  "capturedAt": "2026-09-10T23:30:00+08:00",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "filter": "tristana_w",
+  "beforeWrite": {
+    "representativeImageVisible": true,
+    "eventSelected": "来源对象完成击杀",
+    "conditionOptionVisible": "事件目标类别",
+    "categoriesVisible": [
+      "英雄",
+      "史诗野怪",
+      "小兵",
+      "非史诗野怪",
+      "建筑"
+    ],
+    "helpTextVisible": "命中事件读取本次实际命中对象，击杀事件读取本次被击杀对象；匹配所选任一类别。",
+    "draftSaved": false
+  },
+  "afterWrite": {
+    "ruleRowVisible": {
+      "name": "本人击杀英雄重置火箭跳跃",
+      "ruleKey": "own_kill_reset",
+      "event": "来源对象完成击杀",
+      "conditionGroupCount": 1,
+      "actionCount": 1,
+      "sortOrder": 20
+    },
+    "reopenedRule": {
+      "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+      "conditionSummary": "事件目标类别 / 英雄",
+      "selectedCategories": [
+        "英雄"
+      ],
+      "actionSummary": "执行效果 / 当前目标 / reset_jump / 绑定 0 / 修正 0",
+      "perTargetCooldownEnabled": false
+    }
+  },
+  "boundary": "证明真实管理页面可见、可选择并能重开接口已保存的数据；不证明战斗运行时事件生产或执行。"
+}
