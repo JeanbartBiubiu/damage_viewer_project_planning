@@ -1,0 +1,24 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_q/parameters",
+    "detailRoute": "/skills/gangplank_q/parameters/crit_baseline",
+    "skillKey": "gangplank_q",
+    "kind": "parameters",
+    "stableKey": "crit_baseline",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_baseline",
+      "name": "暴击统计基准",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "ShotCrit树中的固定1。",
+      "sortOrder": 60
+    }
+  }
+}

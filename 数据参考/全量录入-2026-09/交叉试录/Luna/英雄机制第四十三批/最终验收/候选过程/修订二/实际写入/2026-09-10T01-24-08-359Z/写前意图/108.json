@@ -1,0 +1,24 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_r/parameters",
+    "detailRoute": "/skills/kindred_r/parameters/health_floor_ratio",
+    "skillKey": "kindred_r",
+    "kind": "parameters",
+    "stableKey": "health_floor_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_floor_ratio",
+      "name": "停止伤害和治疗生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "官方正文明确降至10%生命时停止接受伤害或治疗。",
+      "sortOrder": 30
+    }
+  }
+}

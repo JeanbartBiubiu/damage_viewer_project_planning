@@ -1,0 +1,3809 @@
+{
+  "at": "2026-09-09T20:47:47.816Z",
+  "GETs": 196,
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_gangplank",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_gangplank",
+        "createdAt": "2026-09-06T16:47:19.267133Z",
+        "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+        "gameId": "lol",
+        "name": "普朗克",
+        "updatedAt": "2026-09-06T16:47:19.267133Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_gangplank",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_gangplank",
+            "characterName": "普朗克",
+            "gameId": "lol",
+            "skillKey": "gangplank_p",
+            "skillName": "普朗克·烈火审讯",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_gangplank",
+            "characterName": "普朗克",
+            "gameId": "lol",
+            "skillKey": "gangplank_q",
+            "skillName": "普朗克·枪火谈判",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_gangplank",
+            "characterName": "普朗克",
+            "gameId": "lol",
+            "skillKey": "gangplank_w",
+            "skillName": "普朗克·坏血病疗法",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_gangplank",
+            "characterName": "普朗克",
+            "gameId": "lol",
+            "skillKey": "gangplank_e",
+            "skillName": "普朗克·火药桶",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_gangplank",
+            "characterName": "普朗克",
+            "gameId": "lol",
+            "skillKey": "gangplank_r",
+            "skillName": "普朗克·加农炮幕",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_kindred",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_kindred",
+        "createdAt": "2026-09-06T17:25:21.847472Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "千珏",
+        "updatedAt": "2026-09-06T17:25:21.847472Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_kindred",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_kindred",
+            "characterName": "千珏",
+            "gameId": "lol",
+            "skillKey": "kindred_p",
+            "skillName": "千珏·千珏之印",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_kindred",
+            "characterName": "千珏",
+            "gameId": "lol",
+            "skillKey": "kindred_q",
+            "skillName": "千珏·乱箭之舞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_kindred",
+            "characterName": "千珏",
+            "gameId": "lol",
+            "skillKey": "kindred_w",
+            "skillName": "千珏·狼灵狂热",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_kindred",
+            "characterName": "千珏",
+            "gameId": "lol",
+            "skillKey": "kindred_e",
+            "skillName": "千珏·横生惧意",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_kindred",
+            "characterName": "千珏",
+            "gameId": "lol",
+            "skillKey": "kindred_r",
+            "skillName": "千珏·羊灵生息",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_naafiri",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_naafiri",
+        "createdAt": "2026-09-06T17:16:17.06188Z",
+        "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+        "gameId": "lol",
+        "name": "纳亚菲利",
+        "updatedAt": "2026-09-06T17:16:17.06188Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_naafiri",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_naafiri",
+            "characterName": "纳亚菲利",
+            "gameId": "lol",
+            "skillKey": "naafiri_p",
+            "skillName": "纳亚菲利·狂烈种群",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_naafiri",
+            "characterName": "纳亚菲利",
+            "gameId": "lol",
+            "skillKey": "naafiri_q",
+            "skillName": "纳亚菲利·暗裔犬牙",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_naafiri",
+            "characterName": "纳亚菲利",
+            "gameId": "lol",
+            "skillKey": "naafiri_w",
+            "skillName": "纳亚菲利·暴吼",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_naafiri",
+            "characterName": "纳亚菲利",
+            "gameId": "lol",
+            "skillKey": "naafiri_e",
+            "skillName": "纳亚菲利·剔骨本能",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_naafiri",
+            "characterName": "纳亚菲利",
+            "gameId": "lol",
+            "skillKey": "naafiri_r",
+            "skillName": "纳亚菲利·猎狗血性",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_zed",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_zed",
+        "createdAt": "2026-09-06T18:12:31.612837Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "劫",
+        "updatedAt": "2026-09-06T18:12:31.612837Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_zed",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_zed",
+            "characterName": "劫",
+            "gameId": "lol",
+            "skillKey": "zed_p",
+            "skillName": "劫·影忍法！灭魂劫",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_zed",
+            "characterName": "劫",
+            "gameId": "lol",
+            "skillKey": "zed_q",
+            "skillName": "劫·影奥义！诸刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_zed",
+            "characterName": "劫",
+            "gameId": "lol",
+            "skillKey": "zed_w",
+            "skillName": "劫·影奥义！分身",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_zed",
+            "characterName": "劫",
+            "gameId": "lol",
+            "skillKey": "zed_e",
+            "skillName": "劫·影奥义！鬼斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_zed",
+            "characterName": "劫",
+            "gameId": "lol",
+            "skillKey": "zed_r",
+            "skillName": "劫·禁奥义！瞬狱影杀阵",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/gangplank_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:22.719396Z",
+        "description": "每过几秒，普朗克的近战攻击就会让他的对手着火。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "普朗克·烈火审讯",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "gangplank_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:22.719396Z"
+      }
+    },
+    {
+      "route": "/skills/gangplank_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gangplank_p",
+          "name": "gangplank_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/gangplank_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:23.038148Z",
+        "description": "攻击目标，每击杀一个敌方单位时都会掠夺金币。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "普朗克·枪火谈判",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gangplank_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.038148Z"
+      }
+    },
+    {
+      "route": "/skills/gangplank_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gangplank_q",
+          "name": "gangplank_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/gangplank_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:27.799409Z",
+          "description": "DDragon16.17.1 Gangplank.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "gangplank_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:27.799409Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:28.301038Z",
+          "description": "DDragon16.17.1 Gangplank.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 45,
+            "3": 40,
+            "4": 35,
+            "5": 30
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "gangplank_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:28.301038Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/gangplank_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:27.799409Z",
+        "description": "DDragon16.17.1 Gangplank.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gangplank_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:27.799409Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gangplank_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:28.301038Z",
+        "description": "DDragon16.17.1 Gangplank.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 45,
+          "3": 40,
+          "4": 35,
+          "5": 30
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gangplank_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:28.301038Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gangplank_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:23.371392Z",
+        "description": "吃掉柑橘类水果，来移除控制效果并回复生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "普朗克·坏血病疗法",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gangplank_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.371392Z"
+      }
+    },
+    {
+      "route": "/skills/gangplank_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gangplank_w",
+          "name": "gangplank_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/gangplank_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:28.781414Z",
+          "description": "DDragon16.17.1 Gangplank.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 20000,
+            "3": 18000,
+            "4": 16000,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "gangplank_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:28.781414Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:29.275871Z",
+          "description": "DDragon16.17.1 Gangplank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 70,
+            "3": 80,
+            "4": 90,
+            "5": 100
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "gangplank_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:29.275871Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/gangplank_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:28.781414Z",
+        "description": "DDragon16.17.1 Gangplank.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 22000,
+          "2": 20000,
+          "3": 18000,
+          "4": 16000,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gangplank_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:28.781414Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gangplank_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:29.275871Z",
+        "description": "DDragon16.17.1 Gangplank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gangplank_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:29.275871Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gangplank_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:23.634709Z",
+        "description": "普朗克在目标区域为一个火药桶开盖。如果他攻击火药桶，那么火药桶会爆炸，将这次攻击的伤害传播到范围内的敌人身上，并将他们减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "普朗克·火药桶",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gangplank_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.634709Z"
+      }
+    },
+    {
+      "route": "/skills/gangplank_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gangplank_e",
+          "name": "gangplank_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/gangplank_e/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:23.958334Z",
+        "description": "普朗克给他的船发信号，来轰炸一个区域，伤害并减速敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "普朗克·加农炮幕",
+        "skillCategoryKeys": [],
+        "skillKey": "gangplank_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.958334Z"
+      }
+    },
+    {
+      "route": "/skills/gangplank_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gangplank_r",
+          "name": "gangplank_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/gangplank_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:29.781928Z",
+          "description": "DDragon16.17.1 Gangplank.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 160000,
+            "2": 140000,
+            "3": 120000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "gangplank_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:29.781928Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:30.219199Z",
+          "description": "DDragon16.17.1 Gangplank.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "gangplank_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:30.219199Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/gangplank_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:29.781928Z",
+        "description": "DDragon16.17.1 Gangplank.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 160000,
+          "2": 140000,
+          "3": 120000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gangplank_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:29.781928Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gangplank_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:30.219199Z",
+        "description": "DDragon16.17.1 Gangplank.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gangplank_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:30.219199Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/gangplank_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/gangplank_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:01.105Z",
+        "description": "千珏可以标记敌人进行狩猎。成功完成一次狩猎，将永久强化千珏的基础技能。每完成4次狩猎，还会提升千珏的普攻距离。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "千珏·千珏之印",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "kindred_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:01.105Z"
+      }
+    },
+    {
+      "route": "/skills/kindred_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kindred_p",
+          "name": "kindred_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/kindred_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:01.373753Z",
+        "description": "千珏进行翻滚并朝附近的敌人射出最多三支箭矢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "千珏·乱箭之舞",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kindred_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:01.373753Z"
+      }
+    },
+    {
+      "route": "/skills/kindred_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kindred_q",
+          "name": "kindred_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/kindred_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:36.656698Z",
+          "description": "DDragon16.17.1 Kindred.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 9000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kindred_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:36.656698Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:37.305626Z",
+          "description": "DDragon16.17.1 Kindred.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 35,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kindred_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:37.305626Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kindred_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:36.656698Z",
+        "description": "DDragon16.17.1 Kindred.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 9000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kindred_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:36.656698Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kindred_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:37.305626Z",
+        "description": "DDragon16.17.1 Kindred.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kindred_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:37.305626Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kindred_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:01.695054Z",
+        "description": "狼灵狂化并攻击在他附近的敌人。羊灵通过攻击和移动来被动地积攒层数。当层数攒满时，羊灵的下次攻击将治愈生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "千珏·狼灵狂热",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kindred_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:01.695054Z"
+      }
+    },
+    {
+      "route": "/skills/kindred_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kindred_w",
+          "name": "kindred_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/kindred_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:39.386827Z",
+          "description": "DDragon16.17.1 Kindred.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留自用治疗、Q冷却依赖；独立狼灵攻击支路另按范围处理。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 18000,
+            "2": 17000,
+            "3": 16000,
+            "4": 15000,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kindred_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:39.386827Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:39.991312Z",
+          "description": "DDragon16.17.1 Kindred.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留自用治疗、Q冷却依赖；独立狼灵攻击支路另按范围处理。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kindred_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:39.991312Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kindred_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:39.386827Z",
+        "description": "DDragon16.17.1 Kindred.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留自用治疗、Q冷却依赖；独立狼灵攻击支路另按范围处理。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 18000,
+          "2": 17000,
+          "3": 16000,
+          "4": 15000,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kindred_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:39.386827Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kindred_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:39.991312Z",
+        "description": "DDragon16.17.1 Kindred.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留自用治疗、Q冷却依赖；独立狼灵攻击支路另按范围处理。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kindred_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:39.991312Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kindred_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:01.973031Z",
+        "description": "羊灵进行一发谨慎的定位射击，来使目标减速。如果羊灵又进行了两次攻击，那么她的第三次攻击会指挥狼灵扑向目标，对目标造成巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "千珏·横生惧意",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kindred_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:01.973031Z"
+      }
+    },
+    {
+      "route": "/skills/kindred_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kindred_e",
+          "name": "kindred_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/kindred_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:40.458614Z",
+          "description": "DDragon16.17.1 Kindred.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 12500,
+            "3": 11000,
+            "4": 9500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kindred_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:40.458614Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kindred_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:40.458614Z",
+        "description": "DDragon16.17.1 Kindred.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 12500,
+          "3": 11000,
+          "4": 9500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kindred_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:40.458614Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kindred_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:02.256914Z",
+        "description": "羊灵让一块区域内的所有生灵都免受死亡。效果结束之前，谁都不会死去。效果结束时，所有单位都会获得治疗。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "千珏·羊灵生息",
+        "skillCategoryKeys": [],
+        "skillKey": "kindred_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:02.256914Z"
+      }
+    },
+    {
+      "route": "/skills/kindred_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kindred_r",
+          "name": "kindred_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/kindred_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:40.981283Z",
+          "description": "DDragon16.17.1 Kindred.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 160000,
+            "2": 140000,
+            "3": 120000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kindred_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:40.981283Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:41.457303Z",
+          "description": "DDragon16.17.1 Kindred.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kindred_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:41.457303Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kindred_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:40.981283Z",
+        "description": "DDragon16.17.1 Kindred.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 160000,
+          "2": 140000,
+          "3": 120000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kindred_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:40.981283Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kindred_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:41.457303Z",
+        "description": "DDragon16.17.1 Kindred.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kindred_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:41.457303Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kindred_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kindred_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:31.533794Z",
+        "description": "纳亚菲利生成狗群伙伴，它们会在她攻击或施放技能时攻击目标。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "纳亚菲利·狂烈种群",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "naafiri_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:31.533794Z"
+      }
+    },
+    {
+      "route": "/skills/naafiri_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_naafiri_p",
+          "name": "naafiri_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/naafiri_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:31.79177Z",
+        "description": "纳亚菲利猛投出两根犬牙，每根都会施加流血效果，或在目标已经流血时施加额外伤害。<br><br>狗群伙伴们会跃向并攻击被这个技能命中的英雄或野怪。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "纳亚菲利·暗裔犬牙",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "naafiri_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:31.79177Z"
+      }
+    },
+    {
+      "route": "/skills/naafiri_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_naafiri_q",
+          "name": "naafiri_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/naafiri_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:51.88281Z",
+          "description": "DDragon16.17.1 Naafiri.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8500,
+            "3": 8000,
+            "4": 7500,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "naafiri_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:51.88281Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:52.374839Z",
+          "description": "DDragon16.17.1 Naafiri.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "naafiri_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:52.374839Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/naafiri_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:51.88281Z",
+        "description": "DDragon16.17.1 Naafiri.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8500,
+          "3": 8000,
+          "4": 7500,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "naafiri_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:51.88281Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/naafiri_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:52.374839Z",
+        "description": "DDragon16.17.1 Naafiri.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "naafiri_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:52.374839Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/naafiri_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:32.039346Z",
+        "description": "纳亚菲利变为不可被选取状态并强化她的狗群，生成额外的狗群伙伴并获得移动速度和攻击力提升。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "纳亚菲利·暴吼",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "naafiri_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:32.039346Z"
+      }
+    },
+    {
+      "route": "/skills/naafiri_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_naafiri_w",
+          "name": "naafiri_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/naafiri_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:52.896217Z",
+          "description": "DDragon16.17.1 Naafiri.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 26000,
+            "2": 24000,
+            "3": 22000,
+            "4": 20000,
+            "5": 18000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "naafiri_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:52.896217Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:53.386588Z",
+          "description": "DDragon16.17.1 Naafiri.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "naafiri_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:53.386588Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/naafiri_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:52.896217Z",
+        "description": "DDragon16.17.1 Naafiri.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 26000,
+          "2": 24000,
+          "3": 22000,
+          "4": 20000,
+          "5": 18000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "naafiri_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:52.896217Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/naafiri_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:53.386588Z",
+        "description": "DDragon16.17.1 Naafiri.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "naafiri_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:53.386588Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/naafiri_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:32.348286Z",
+        "description": "纳亚菲利冲刺并伤害她附近一个区域内的敌人们，唤回她的狗群并完全回复它们的生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "纳亚菲利·剔骨本能",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "naafiri_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:32.348286Z"
+      }
+    },
+    {
+      "route": "/skills/naafiri_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_naafiri_e",
+          "name": "naafiri_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/naafiri_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:53.82798Z",
+          "description": "DDragon16.17.1 Naafiri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 11000,
+            "2": 10000,
+            "3": 9000,
+            "4": 8000,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "naafiri_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:53.82798Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:54.296867Z",
+          "description": "DDragon16.17.1 Naafiri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "naafiri_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:54.296867Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/naafiri_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:53.82798Z",
+        "description": "DDragon16.17.1 Naafiri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "naafiri_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:53.82798Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/naafiri_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:54.296867Z",
+        "description": "DDragon16.17.1 Naafiri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "naafiri_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:54.296867Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/naafiri_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:32.59867Z",
+        "description": "纳亚菲利与她的狗群伙伴们一起向一个英雄冲刺，然后造成伤害。如果纳亚菲利参与了一次击杀，那么她会显形附近的敌方英雄们并且可以再次施放这个技能一次。第二次施放会提供一个护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "纳亚菲利·猎狗血性",
+        "skillCategoryKeys": [],
+        "skillKey": "naafiri_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:32.59867Z"
+      }
+    },
+    {
+      "route": "/skills/naafiri_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_naafiri_r",
+          "name": "naafiri_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/naafiri_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:54.75438Z",
+          "description": "DDragon16.17.1 Naafiri.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 110000,
+            "2": 95000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "naafiri_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:54.75438Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:55.226986Z",
+          "description": "DDragon16.17.1 Naafiri.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "naafiri_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:55.226986Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/naafiri_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:54.75438Z",
+        "description": "DDragon16.17.1 Naafiri.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 95000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "naafiri_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:54.75438Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/naafiri_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:55.226986Z",
+        "description": "DDragon16.17.1 Naafiri.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "naafiri_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:55.226986Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/naafiri_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/naafiri_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:20.301822Z",
+        "description": "劫的普通攻击会对低生命值的目标造成额外魔法伤害。这个特效在数秒内只能对相同的敌方英雄生效一次。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "劫·影忍法！灭魂劫",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "zed_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:20.301822Z"
+      }
+    },
+    {
+      "route": "/skills/zed_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zed_p",
+          "name": "zed_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/zed_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:20.574103Z",
+        "description": "劫和他的影分身一起将他们的手里剑向前方掷出。<br><br>每支手里剑都会对命中的每个敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "劫·影奥义！诸刃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zed_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:20.574103Z"
+      }
+    },
+    {
+      "route": "/skills/zed_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zed_q",
+          "name": "zed_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/zed_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:20.003138Z",
+          "description": "DDragon16.17.1 Zed.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体伤害，独立影分身复制分支后置。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zed_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:20.003138Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/zed_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:20.003138Z",
+        "description": "DDragon16.17.1 Zed.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体伤害，独立影分身复制分支后置。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zed_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:20.003138Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/zed_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:20.838976Z",
+        "description": "<font color='#FF9900'>被动：</font>当劫和他的影分身用相同技能击中一名敌方英雄时，劫会回复能量。每次施放技能只会回复一次能量。<br><br><font color='#FF9900'>主动：</font>劫的影分身向前突进，并在一个地方维持若干秒。再次激活此技能会让劫与这个影分身互换位置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "劫·影奥义！分身",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zed_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:20.838976Z"
+      }
+    },
+    {
+      "route": "/skills/zed_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zed_w",
+          "name": "zed_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/zed_w/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:21.160959Z",
+        "description": "劫和他的影分身进行斩击，对附近的敌人造成伤害。被一个影分身的斩击命中的敌人们会被减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "劫·影奥义！鬼斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zed_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:21.160959Z"
+      }
+    },
+    {
+      "route": "/skills/zed_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zed_e",
+          "name": "zed_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/zed_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:20.432846Z",
+          "description": "DDragon16.17.1 Zed.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体伤害，独立影分身复制分支后置。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5000,
+            "2": 4500,
+            "3": 4000,
+            "4": 3500,
+            "5": 3000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zed_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:20.432846Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/zed_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:20.432846Z",
+        "description": "DDragon16.17.1 Zed.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体伤害，独立影分身复制分支后置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 5000,
+          "2": 4500,
+          "3": 4000,
+          "4": 3500,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zed_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:20.432846Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/zed_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:21.438666Z",
+        "description": "劫变为不可被选取状态并突进至一名敌方英雄，同时为目标施加死亡印记。在3秒后，印记将会爆炸，同时造成额外伤害，劫在印记激活期间造成的伤害越多，则此额外伤害越高。如果该英雄死于此技能期间，那么劫可以获得该英雄的一部分攻击力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "劫·禁奥义！瞬狱影杀阵",
+        "skillCategoryKeys": [],
+        "skillKey": "zed_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:21.438666Z"
+      }
+    },
+    {
+      "route": "/skills/zed_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zed_r",
+          "name": "zed_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/zed_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:21.007692Z",
+          "description": "DDragon16.17.1 Zed.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留本体不可选取、突进与印记伤害；独立分身与换位分支后置。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 110000,
+            "3": 100000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zed_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:21.007692Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/zed_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:21.007692Z",
+        "description": "DDragon16.17.1 Zed.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留本体不可选取、突进与印记伤害；独立分身与换位分支后置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 110000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zed_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:21.007692Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/zed_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/zed_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "summary": {
+    "gangplank_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:22.719396Z",
+        "description": "每过几秒，普朗克的近战攻击就会让他的对手着火。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "普朗克·烈火审讯",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "gangplank_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:22.719396Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "gangplank_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:23.038148Z",
+        "description": "攻击目标，每击杀一个敌方单位时都会掠夺金币。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "普朗克·枪火谈判",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gangplank_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.038148Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:02:27.799409Z",
+            "description": "DDragon16.17.1 Gangplank.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 4500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "gangplank_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:02:27.799409Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:02:28.301038Z",
+            "description": "DDragon16.17.1 Gangplank.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 45,
+              "3": 40,
+              "4": 35,
+              "5": 30
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "gangplank_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:02:28.301038Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "gangplank_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:23.371392Z",
+        "description": "吃掉柑橘类水果，来移除控制效果并回复生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "普朗克·坏血病疗法",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gangplank_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.371392Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:02:28.781414Z",
+            "description": "DDragon16.17.1 Gangplank.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 22000,
+              "2": 20000,
+              "3": 18000,
+              "4": 16000,
+              "5": 14000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "gangplank_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:02:28.781414Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:02:29.275871Z",
+            "description": "DDragon16.17.1 Gangplank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 70,
+              "3": 80,
+              "4": 90,
+              "5": 100
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "gangplank_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:02:29.275871Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "gangplank_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:23.634709Z",
+        "description": "普朗克在目标区域为一个火药桶开盖。如果他攻击火药桶，那么火药桶会爆炸，将这次攻击的伤害传播到范围内的敌人身上，并将他们减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "普朗克·火药桶",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gangplank_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.634709Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "gangplank_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:23.958334Z",
+        "description": "普朗克给他的船发信号，来轰炸一个区域，伤害并减速敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "普朗克·加农炮幕",
+        "skillCategoryKeys": [],
+        "skillKey": "gangplank_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:23.958334Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:02:29.781928Z",
+            "description": "DDragon16.17.1 Gangplank.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 160000,
+              "2": 140000,
+              "3": 120000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "gangplank_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:02:29.781928Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:02:30.219199Z",
+            "description": "DDragon16.17.1 Gangplank.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "gangplank_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:02:30.219199Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kindred_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:01.105Z",
+        "description": "千珏可以标记敌人进行狩猎。成功完成一次狩猎，将永久强化千珏的基础技能。每完成4次狩猎，还会提升千珏的普攻距离。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "千珏·千珏之印",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "kindred_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:01.105Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kindred_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:01.373753Z",
+        "description": "千珏进行翻滚并朝附近的敌人射出最多三支箭矢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "千珏·乱箭之舞",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kindred_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:01.373753Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:02:36.656698Z",
+            "description": "DDragon16.17.1 Kindred.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 9000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kindred_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:02:36.656698Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:02:37.305626Z",
+            "description": "DDragon16.17.1 Kindred.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 35,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "kindred_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:02:37.305626Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kindred_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:01.695054Z",
+        "description": "狼灵狂化并攻击在他附近的敌人。羊灵通过攻击和移动来被动地积攒层数。当层数攒满时，羊灵的下次攻击将治愈生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "千珏·狼灵狂热",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kindred_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:01.695054Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:02:39.386827Z",
+            "description": "DDragon16.17.1 Kindred.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留自用治疗、Q冷却依赖；独立狼灵攻击支路另按范围处理。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 18000,
+              "2": 17000,
+              "3": 16000,
+              "4": 15000,
+              "5": 14000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kindred_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:02:39.386827Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:02:39.991312Z",
+            "description": "DDragon16.17.1 Kindred.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留自用治疗、Q冷却依赖；独立狼灵攻击支路另按范围处理。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "kindred_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:02:39.991312Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kindred_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:01.973031Z",
+        "description": "羊灵进行一发谨慎的定位射击，来使目标减速。如果羊灵又进行了两次攻击，那么她的第三次攻击会指挥狼灵扑向目标，对目标造成巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "千珏·横生惧意",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kindred_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:01.973031Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:02:40.458614Z",
+            "description": "DDragon16.17.1 Kindred.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 14000,
+              "2": 12500,
+              "3": 11000,
+              "4": 9500,
+              "5": 8000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kindred_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:02:40.458614Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "kindred_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:02.256914Z",
+        "description": "羊灵让一块区域内的所有生灵都免受死亡。效果结束之前，谁都不会死去。效果结束时，所有单位都会获得治疗。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "千珏·羊灵生息",
+        "skillCategoryKeys": [],
+        "skillKey": "kindred_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:02.256914Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:02:40.981283Z",
+            "description": "DDragon16.17.1 Kindred.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 160000,
+              "2": 140000,
+              "3": 120000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "kindred_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:02:40.981283Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:02:41.457303Z",
+            "description": "DDragon16.17.1 Kindred.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "kindred_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:02:41.457303Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "naafiri_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:31.533794Z",
+        "description": "纳亚菲利生成狗群伙伴，它们会在她攻击或施放技能时攻击目标。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "纳亚菲利·狂烈种群",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "naafiri_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:31.533794Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "naafiri_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:31.79177Z",
+        "description": "纳亚菲利猛投出两根犬牙，每根都会施加流血效果，或在目标已经流血时施加额外伤害。<br><br>狗群伙伴们会跃向并攻击被这个技能命中的英雄或野怪。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "纳亚菲利·暗裔犬牙",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "naafiri_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:31.79177Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:51.88281Z",
+            "description": "DDragon16.17.1 Naafiri.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 9000,
+              "2": 8500,
+              "3": 8000,
+              "4": 7500,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "naafiri_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:51.88281Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:52.374839Z",
+            "description": "DDragon16.17.1 Naafiri.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 60,
+              "3": 70,
+              "4": 80,
+              "5": 90
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "naafiri_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:52.374839Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "naafiri_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:32.039346Z",
+        "description": "纳亚菲利变为不可被选取状态并强化她的狗群，生成额外的狗群伙伴并获得移动速度和攻击力提升。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "纳亚菲利·暴吼",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "naafiri_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:32.039346Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:52.896217Z",
+            "description": "DDragon16.17.1 Naafiri.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 26000,
+              "2": 24000,
+              "3": 22000,
+              "4": 20000,
+              "5": 18000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "naafiri_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:52.896217Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:53.386588Z",
+            "description": "DDragon16.17.1 Naafiri.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 60,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "naafiri_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:53.386588Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "naafiri_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:32.348286Z",
+        "description": "纳亚菲利冲刺并伤害她附近一个区域内的敌人们，唤回她的狗群并完全回复它们的生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "纳亚菲利·剔骨本能",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "naafiri_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:32.348286Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:53.82798Z",
+            "description": "DDragon16.17.1 Naafiri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 11000,
+              "2": 10000,
+              "3": 9000,
+              "4": 8000,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "naafiri_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:53.82798Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:54.296867Z",
+            "description": "DDragon16.17.1 Naafiri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "naafiri_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:54.296867Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "naafiri_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:32.59867Z",
+        "description": "纳亚菲利与她的狗群伙伴们一起向一个英雄冲刺，然后造成伤害。如果纳亚菲利参与了一次击杀，那么她会显形附近的敌方英雄们并且可以再次施放这个技能一次。第二次施放会提供一个护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "纳亚菲利·猎狗血性",
+        "skillCategoryKeys": [],
+        "skillKey": "naafiri_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:32.59867Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:54.75438Z",
+            "description": "DDragon16.17.1 Naafiri.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 110000,
+              "2": 95000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "naafiri_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:54.75438Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:55.226986Z",
+            "description": "DDragon16.17.1 Naafiri.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "naafiri_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:55.226986Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "zed_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:20.301822Z",
+        "description": "劫的普通攻击会对低生命值的目标造成额外魔法伤害。这个特效在数秒内只能对相同的敌方英雄生效一次。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "劫·影忍法！灭魂劫",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "zed_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:20.301822Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "zed_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:20.574103Z",
+        "description": "劫和他的影分身一起将他们的手里剑向前方掷出。<br><br>每支手里剑都会对命中的每个敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "劫·影奥义！诸刃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zed_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:20.574103Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:20.003138Z",
+            "description": "DDragon16.17.1 Zed.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体伤害，独立影分身复制分支后置。",
+            "fixedValue": 6000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "zed_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:20.003138Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "zed_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:20.838976Z",
+        "description": "<font color='#FF9900'>被动：</font>当劫和他的影分身用相同技能击中一名敌方英雄时，劫会回复能量。每次施放技能只会回复一次能量。<br><br><font color='#FF9900'>主动：</font>劫的影分身向前突进，并在一个地方维持若干秒。再次激活此技能会让劫与这个影分身互换位置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "劫·影奥义！分身",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zed_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:20.838976Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "zed_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:21.160959Z",
+        "description": "劫和他的影分身进行斩击，对附近的敌人造成伤害。被一个影分身的斩击命中的敌人们会被减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "劫·影奥义！鬼斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zed_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:21.160959Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:20.432846Z",
+            "description": "DDragon16.17.1 Zed.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体伤害，独立影分身复制分支后置。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 5000,
+              "2": 4500,
+              "3": 4000,
+              "4": 3500,
+              "5": 3000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "zed_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:20.432846Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "zed_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:21.438666Z",
+        "description": "劫变为不可被选取状态并突进至一名敌方英雄，同时为目标施加死亡印记。在3秒后，印记将会爆炸，同时造成额外伤害，劫在印记激活期间造成的伤害越多，则此额外伤害越高。如果该英雄死于此技能期间，那么劫可以获得该英雄的一部分攻击力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "劫·禁奥义！瞬狱影杀阵",
+        "skillCategoryKeys": [],
+        "skillKey": "zed_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:21.438666Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:21.007692Z",
+            "description": "DDragon16.17.1 Zed.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留本体不可选取、突进与印记伤害；独立分身与换位分支后置。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 110000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "zed_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:21.007692Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  },
+  "apiWrites": 0
+}

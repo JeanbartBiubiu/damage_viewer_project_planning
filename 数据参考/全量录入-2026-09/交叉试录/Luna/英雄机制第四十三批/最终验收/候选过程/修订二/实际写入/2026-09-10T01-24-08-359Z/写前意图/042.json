@@ -1,0 +1,24 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/parameters",
+    "detailRoute": "/skills/gangplank_r/parameters/raise_morale_move_speed_ratio",
+    "skillKey": "gangplank_r",
+    "kind": "parameters",
+    "stableKey": "raise_morale_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "raise_morale_move_speed_ratio",
+      "name": "鼓舞士气自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "正文40%移动速度，比例属性以0.4记录，效果使用attribute_flat_add。",
+      "sortOrder": 120
+    }
+  }
+}

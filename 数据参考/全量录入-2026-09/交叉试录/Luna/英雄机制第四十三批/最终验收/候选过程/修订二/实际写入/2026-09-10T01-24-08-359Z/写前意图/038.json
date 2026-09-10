@@ -1,0 +1,28 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/parameters",
+    "detailRoute": "/skills/gangplank_r/parameters/deaths_daughter_base_damage",
+    "skillKey": "gangplank_r",
+    "kind": "parameters",
+    "stableKey": "deaths_daughter_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "deaths_daughter_base_damage",
+      "name": "死亡之女真实伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120,
+        "2": 210,
+        "3": 300
+      },
+      "description": "DeathsDaughterDamage使用索引1至3：120/210/300。",
+      "sortOrder": 80
+    }
+  }
+}

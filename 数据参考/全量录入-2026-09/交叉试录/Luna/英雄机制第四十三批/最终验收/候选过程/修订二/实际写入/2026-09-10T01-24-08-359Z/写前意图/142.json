@@ -1,0 +1,30 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_e/parameters",
+    "detailRoute": "/skills/naafiri_e/parameters/first_slash_base_damage",
+    "skillKey": "naafiri_e",
+    "kind": "parameters",
+    "stableKey": "first_slash_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "first_slash_base_damage",
+      "name": "剔骨本能第一段基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15,
+        "2": 25,
+        "3": 35,
+        "4": 45,
+        "5": 55
+      },
+      "description": "第一段基础值索引1至5：15/25/35/45/55。",
+      "sortOrder": 10
+    }
+  }
+}

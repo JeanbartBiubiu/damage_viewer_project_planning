@@ -1,0 +1,24 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/parameters",
+    "detailRoute": "/skills/kindred_q/parameters/mark_count",
+    "skillKey": "kindred_q",
+    "kind": "parameters",
+    "stableKey": "mark_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_count",
+      "name": "当前战斗印记层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "Q攻速加成需要战斗层提供当前印记数，不设默认。",
+      "sortOrder": 40
+    }
+  }
+}

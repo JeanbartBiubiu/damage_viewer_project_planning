@@ -1,0 +1,24 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/recast_window_ms",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "recast_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_window_ms",
+      "name": "额外再施窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 12000,
+      "levelValues": null,
+      "description": "正文明确可再次施放的12秒窗口。",
+      "sortOrder": 60
+    }
+  }
+}

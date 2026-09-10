@@ -1,0 +1,30 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/parameters",
+    "detailRoute": "/skills/kindred_q/parameters/base_damage",
+    "skillKey": "kindred_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "乱箭之舞单箭物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 65,
+        "3": 90,
+        "4": 115,
+        "5": 140
+      },
+      "description": "TotalDamage使用DataValues.BaseDamage索引1至5：40/65/90/115/140；唯一目标只取一支箭。",
+      "sortOrder": 10
+    }
+  }
+}

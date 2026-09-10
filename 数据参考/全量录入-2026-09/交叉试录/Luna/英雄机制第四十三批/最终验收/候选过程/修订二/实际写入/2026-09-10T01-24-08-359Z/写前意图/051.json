@@ -1,0 +1,24 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/parameters",
+    "detailRoute": "/skills/kindred_p/parameters/initial_mark_threshold",
+    "skillKey": "kindred_p",
+    "kind": "parameters",
+    "stableKey": "initial_mark_threshold",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_mark_threshold",
+      "name": "首段射程奖励所需印记",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "正文优先明确4层。",
+      "sortOrder": 20
+    }
+  }
+}

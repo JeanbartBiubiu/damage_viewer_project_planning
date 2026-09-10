@@ -1,0 +1,24 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_w/parameters",
+    "detailRoute": "/skills/gangplank_w/parameters/heal_ap_ratio",
+    "skillKey": "gangplank_w",
+    "kind": "parameters",
+    "stableKey": "heal_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_ap_ratio",
+      "name": "基础治疗法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.899999976,
+      "levelValues": null,
+      "description": "BaseHealth计算树系数0.9，读取来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

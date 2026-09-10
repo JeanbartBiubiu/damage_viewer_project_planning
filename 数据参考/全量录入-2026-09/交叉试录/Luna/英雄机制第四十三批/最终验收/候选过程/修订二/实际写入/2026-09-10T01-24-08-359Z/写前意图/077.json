@@ -1,0 +1,24 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_w/parameters",
+    "detailRoute": "/skills/kindred_w/parameters/actual_attack_heal",
+    "skillKey": "kindred_w",
+    "kind": "parameters",
+    "stableKey": "actual_attack_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_attack_heal",
+      "name": "当前角色等级自身最大治疗",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "原树提供1级47和每级初始增量2，但补核明确不把推断的47至81直接固化；运行层提供当前实际值，不设默认。",
+      "sortOrder": 30
+    }
+  }
+}

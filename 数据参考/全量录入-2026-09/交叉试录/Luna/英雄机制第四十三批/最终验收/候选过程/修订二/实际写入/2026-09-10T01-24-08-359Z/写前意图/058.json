@@ -1,0 +1,34 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/formulas",
+    "detailRoute": "/skills/kindred_p/formulas/q_mark_attack_speed_bonus",
+    "skillKey": "kindred_p",
+    "kind": "formulas",
+    "stableKey": "q_mark_attack_speed_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "q_mark_attack_speed_bonus",
+      "name": "千珏之印对Q的攻速加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mark_count"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "q_attack_speed_per_mark_ratio"
+          }
+        ]
+      },
+      "description": "Q每层印记增加0.05比例。",
+      "sortOrder": 30
+    }
+  }
+}

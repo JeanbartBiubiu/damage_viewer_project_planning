@@ -1,0 +1,28 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/parameters",
+    "detailRoute": "/skills/gangplank_r/parameters/damage_per_wave",
+    "skillKey": "gangplank_r",
+    "kind": "parameters",
+    "stableKey": "damage_per_wave",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_wave",
+      "name": "加农炮幕每波魔法伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 70,
+        "3": 100
+      },
+      "description": "OneWaveDamage使用DataValues.DamagePerWave索引1至3：40/70/100。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_w/parameters",
+    "detailRoute": "/skills/kindred_w/parameters/full_stack_count",
+    "skillKey": "kindred_w",
+    "kind": "parameters",
+    "stableKey": "full_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "full_stack_count",
+      "name": "自身治疗触发层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 100,
+      "levelValues": null,
+      "description": "官方中文正文明确100层。",
+      "sortOrder": 40
+    }
+  }
+}

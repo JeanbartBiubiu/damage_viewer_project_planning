@@ -1,0 +1,24 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_q/parameters",
+    "detailRoute": "/skills/gangplank_q/parameters/current_game_mode",
+    "skillKey": "gangplank_q",
+    "kind": "parameters",
+    "stableKey": "current_game_mode",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_game_mode",
+      "name": "当前技能文本模式",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前绑定文本使用模式1；不引入翡翠旧模式。",
+      "sortOrder": 30
+    }
+  }
+}

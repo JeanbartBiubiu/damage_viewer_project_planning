@@ -1,0 +1,30 @@
+{
+  "i": 187,
+  "intent": {
+    "sequence": 188,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_e/parameters",
+    "detailRoute": "/skills/zed_e/parameters/base_damage",
+    "skillKey": "zed_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "鬼斩本体基础物理伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 92.5,
+        "3": 115,
+        "4": 137.5,
+        "5": 160
+      },
+      "description": "TotalDamage使用DataValues.BaseDamage索引1至5：70/92.5/115/137.5/160。",
+      "sortOrder": 10
+    }
+  }
+}

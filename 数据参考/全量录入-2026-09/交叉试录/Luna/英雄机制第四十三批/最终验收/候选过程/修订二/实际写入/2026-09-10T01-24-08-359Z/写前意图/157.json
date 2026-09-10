@@ -1,0 +1,28 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/shield_base",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "第二次施放护盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 150,
+        "3": 200
+      },
+      "description": "ShieldTotal使用索引1至3：100/150/200；索引0的50不作技能1级。",
+      "sortOrder": 70
+    }
+  }
+}

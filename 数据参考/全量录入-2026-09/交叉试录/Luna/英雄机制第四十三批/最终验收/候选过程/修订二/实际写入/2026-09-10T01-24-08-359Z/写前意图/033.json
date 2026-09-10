@@ -1,0 +1,24 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/parameters",
+    "detailRoute": "/skills/gangplank_r/parameters/total_waves",
+    "skillKey": "gangplank_r",
+    "kind": "parameters",
+    "stableKey": "total_waves",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_waves",
+      "name": "基础炮弹波数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 12,
+      "levelValues": null,
+      "description": "正文明确8秒内12波。",
+      "sortOrder": 30
+    }
+  }
+}

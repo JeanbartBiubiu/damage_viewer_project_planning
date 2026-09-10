@@ -1,0 +1,729 @@
+{
+  "generatedAt": "2026-09-10T01:04:15.990Z",
+  "batch": "英雄机制第四十三批",
+  "revision": "hero43-luna-candidate-v1",
+  "status": "来源值与录入范围清单；未调用业务接口",
+  "inputGETs": 196,
+  "reusedPublicParameters": 24,
+  "sourceBindingSha256": "86024719f70fc702d80351b495a0a0946c2b7e9643207fa16c52ca6be307368f",
+  "sourceRangeSha256": "8f27f9502d617e4c303d87f5a0020ca04968ae4d55568898031bc3cfc81acf50",
+  "sourceAuditSha256": "f13d58f8898235689c25434c2bd92d3be2f1b8e43e860f993a3b37204e8fd69c",
+  "cursorConclusionSha256": "fa91a720b473f98f9987011c99b567d497aa5283d90dd2b192d9f1506dc3bcff",
+  "sourceReviewVerdict": "READY",
+  "fixedVersions": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "skills": {
+    "gangplank_p": {
+      "recordableParameters": [
+        "cooldown_ms",
+        "actual_damage_base",
+        "damage_base_lower",
+        "damage_base_upper",
+        "bonus_ad_ratio",
+        "damage_duration_ms",
+        "actual_move_speed_ratio",
+        "move_speed_lower_ratio",
+        "move_speed_upper_ratio",
+        "move_speed_duration_ms"
+      ],
+      "recordableFormulas": [
+        "passive_true_damage"
+      ],
+      "recordableEffects": [
+        "self_move_speed"
+      ],
+      "excluded": [
+        {
+          "item": "火药桶摧毁刷新被动冷却",
+          "reason": "跨技能资格明确但本轮火药桶陷阱系统跳过，不宣称刷新已接。"
+        },
+        {
+          "item": "防御塔伤害倍率",
+          "reason": "目标类型为建筑物，非唯一敌方英雄范围。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "角色等级基础伤害和移动速度插值",
+          "reason": "仅有起止值，没有可靠中间算法；改用无默认实际输入。"
+        },
+        {
+          "item": "被动触发和每目标时序",
+          "reason": "当前候选只保留数值与生命周期。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "gangplank_q": {
+      "recordableParameters": [
+        "base_damage",
+        "total_ad_ratio",
+        "current_game_mode",
+        "crit_damage_mod",
+        "critical_stat",
+        "crit_baseline",
+        "minus_one"
+      ],
+      "recordableFormulas": [
+        "shot_physical_damage",
+        "shot_crit_multiplier",
+        "shot_crit_physical_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "item": "金币和银蛇币",
+          "reason": "纯经济收益。"
+        },
+        {
+          "item": "翡翠模式返还法力",
+          "reason": "当前模式1已展开，不采用旧特殊模式文本。"
+        },
+        {
+          "item": "烈火审讯附加攻击特效",
+          "reason": "当前正文明确排除普朗克P。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "暴击统计量mStat9",
+          "reason": "保留无默认运行输入。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "gangplank_w": {
+      "recordableParameters": [
+        "base_heal",
+        "heal_ap_ratio",
+        "missing_health_heal_ratio",
+        "actual_missing_health",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "self_heal"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "item": "HasteAmount和未消费Steroid/BuffDuration",
+          "reason": "当前行为不消费旧提示字段。"
+        },
+        {
+          "item": "控制清除具体免疫资格",
+          "reason": "保留官方清除限制效果边界，不伪造绝对免疫。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "已损生命读取时点",
+          "reason": "数值式已保留，事件时点待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "gangplank_e": {
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        {
+          "item": "火药桶放置、血量、充能、连锁爆炸和桶内伤害",
+          "reason": "陷阱及放置物系统本轮跳过。"
+        },
+        {
+          "item": "桶爆炸刷新被动",
+          "reason": "跨技能刷新资格保留在普朗克P范围记录，本槽不制造零伤害占位。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "陷阱系统",
+          "reason": "不把桶技能清空误当作本体技能没有根绑定；完整原文仍在source中。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "gangplank_r": {
+      "recordableParameters": [
+        "damage_per_wave",
+        "ap_ratio",
+        "total_waves",
+        "additional_waves",
+        "zone_duration_ms",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "deaths_daughter_base_damage",
+        "deaths_daughter_ap_ratio",
+        "deaths_daughter_slow_percent_points",
+        "deaths_daughter_slow_duration_ms",
+        "raise_morale_move_speed_ratio",
+        "raise_morale_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "one_wave_magic_damage",
+        "full_magic_damage",
+        "full_magic_damage_with_extra_waves",
+        "deaths_daughter_true_damage"
+      ],
+      "recordableEffects": [
+        "self_raise_morale_move_speed",
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "item": "商店购买方式、金币和银蛇币",
+          "reason": "纯经济或外部升级操作，不生成技能效果。"
+        },
+        {
+          "item": "炮幕对第三友方的普遍效果",
+          "reason": "本轮只保留自身可能收益，额外友方分配排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "鼓舞士气自身资格",
+          "reason": "不能只按友军字样排除自身，先保留自身效果，资格待核。"
+        },
+        {
+          "item": "CannonDelay、CannonInterval与每波命中时钟",
+          "reason": "原始时序保留在source，不把0.5秒和2秒编成每跳时间。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "kindred_p": {
+      "recordableParameters": [
+        "mark_count",
+        "initial_mark_threshold",
+        "additional_mark_threshold",
+        "range_increase",
+        "first_tier_multiplier",
+        "additional_range_tier_count",
+        "q_attack_speed_per_mark_ratio",
+        "w_current_health_per_mark_ratio",
+        "e_missing_health_per_mark_ratio"
+      ],
+      "recordableFormulas": [
+        "first_tier_range_increase",
+        "additional_range_increase",
+        "q_mark_attack_speed_bonus",
+        "w_mark_current_health_damage_ratio",
+        "e_mark_missing_health_damage_ratio"
+      ],
+      "recordableEffects": [],
+      "excluded": [
+        {
+          "item": "狩猎目标选择、野怪地图标记和纯视野",
+          "reason": "状态展示或野怪专用。"
+        },
+        {
+          "item": "狼灵自主攻击与W每层狼伤",
+          "reason": "自主召唤输出跳过，不夹入本体。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "首段匿名树与FirstTierRangeIncreaseTT别名",
+          "reason": "首段数值25×3保留，别名和触发事件待核。"
+        },
+        {
+          "item": "印记战斗输入",
+          "reason": "层数由运行状态提供。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "kindred_q": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "base_attack_speed_ratio",
+        "mark_count",
+        "attack_speed_per_mark_ratio",
+        "attack_speed_duration_ms",
+        "w_zone_cooldown_ms",
+        "dash_speed",
+        "dash_speed_scaling",
+        "m_cast_time_ms",
+        "spell_cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "arrow_physical_damage",
+        "total_attack_speed_ratio"
+      ],
+      "recordableEffects": [
+        "self_attack_speed",
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "item": "最多三名目标的额外箭矢",
+          "reason": "本轮唯一敌人只保留当前目标一支箭。"
+        },
+        {
+          "item": "狼灵区域内狼伤",
+          "reason": "自主召唤输出跳过。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "W区域Q冷却资格",
+          "reason": "冷却数值和技能范围已记录，区域事件待接。"
+        },
+        {
+          "item": "DashSpeedScaling算法与两个施法时间字段冲突",
+          "reason": "不编移速曲线，不任取0.01或0.25作为唯一结论。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "kindred_w": {
+      "recordableParameters": [
+        "attack_heal_level1",
+        "attack_heal_per_character_level",
+        "actual_attack_heal",
+        "full_stack_count",
+        "zone_duration_ms",
+        "ring_range",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "self_attack_heal"
+      ],
+      "recordableEffects": [],
+      "excluded": [
+        {
+          "item": "狼灵自主攻击、攻速换算和野怪修正",
+          "reason": "自主召唤输出或野怪专用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "AttackHeal角色等级中间算法",
+          "reason": "只记录47起点和每级2增量，使用无默认实际输入。"
+        },
+        {
+          "item": "100层积攒、已损生命比例和W区域事件",
+          "reason": "数值及边界保留，状态时点待接。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "kindred_e": {
+      "recordableParameters": [
+        "base_bite_damage",
+        "bonus_ad_ratio",
+        "base_missing_health_ratio",
+        "mark_count",
+        "missing_health_per_mark_ratio",
+        "actual_target_missing_health",
+        "crit_mod",
+        "critical_stat8",
+        "critical_stat9",
+        "crit_baseline",
+        "minus_one",
+        "slow_base_percent_points",
+        "slow_ap_ratio",
+        "slow_duration_ms",
+        "total_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "raw_bite_damage",
+        "critical_multiplier",
+        "corrected_bite_damage",
+        "raw_missing_health_ratio",
+        "corrected_missing_health_ratio",
+        "wolf_lunge_physical_damage",
+        "slow_percent_points"
+      ],
+      "recordableEffects": [],
+      "excluded": [
+        {
+          "item": "野怪已损生命伤害上限",
+          "reason": "野怪专用。"
+        },
+        {
+          "item": "未消费CritDamage旧树",
+          "reason": "不叠加到当前两条消费树。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "mStat8、mStat9及第三次攻击事件",
+          "reason": "两条修正树和窗口已保留，暴击统计与命中事件待接。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "kindred_r": {
+      "recordableParameters": [
+        "zone_duration_ms",
+        "ending_heal",
+        "health_floor_ratio",
+        "aoe_radius",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "ending_heal"
+      ],
+      "recordableEffects": [],
+      "excluded": [
+        {
+          "item": "区域内额外敌人和友方分配",
+          "reason": "本轮只保留自身与唯一敌人边界。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "双方目标资格、10%生命地板和结束时点",
+          "reason": "不能简化为全程无敌或只有自身治疗，事件待接。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "naafiri_p": {
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "recordableEffects": [],
+      "excluded": [
+        {
+          "item": "犬群生成、攻击、狂暴、召回、防护和野怪修正",
+          "reason": "自主召唤物系统跳过，不当作本体生命回复或本体伤害。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "本体与犬群事件",
+          "reason": "根绑定和完整原文保留在source，六类写入数组为空。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "naafiri_q": {
+      "recordableParameters": [
+        "first_cast_base_damage",
+        "first_cast_bonus_ad_ratio",
+        "bleed_base_damage",
+        "bleed_bonus_ad_ratio",
+        "bleed_duration_ms",
+        "bleed_interval_ms",
+        "second_cast_min_base_damage",
+        "second_cast_bonus_ad_ratio",
+        "second_cast_max_bonus_ad_ratio",
+        "execute_multiplier",
+        "second_cast_heal_base",
+        "second_cast_heal_bonus_ad_ratio",
+        "recast_window_ms",
+        "recast_lockout_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "first_cast_physical_damage",
+        "bleed_total_physical_damage",
+        "second_cast_min_physical_damage",
+        "second_cast_max_physical_damage",
+        "second_cast_self_heal"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "item": "犬群跃击和小兵处决",
+          "reason": "自主召唤输出或兵线专用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "已流血条件、剩余流血结算与治疗资格",
+          "reason": "基础式和窗口已保留，条件事件待接。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "naafiri_w": {
+      "recordableParameters": [
+        "untargetable_duration_ms",
+        "bonus_ad_ratio",
+        "move_speed_ratio",
+        "duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "self_attack_damage_bonus"
+      ],
+      "recordableEffects": [
+        "self_attack_damage",
+        "self_move_speed",
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "item": "额外犬群、犬群不可选取和召回",
+          "reason": "自主召唤物系统跳过。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "根槽换名",
+          "reason": "当前NaafiriR根绑定对应本槽暴吼，按当前根而非旧槽名处理。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "naafiri_e": {
+      "recordableParameters": [
+        "first_slash_base_damage",
+        "first_slash_bonus_ad_ratio",
+        "second_hit_base_damage",
+        "second_hit_bonus_ad_ratio",
+        "dash_distance",
+        "dash_speed"
+      ],
+      "recordableFormulas": [
+        "first_slash_physical_damage",
+        "second_hit_physical_damage"
+      ],
+      "recordableEffects": [
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "item": "犬群100%治疗",
+          "reason": "明确是犬群恢复，不录为自身回复。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "两段同敌碰撞顺序",
+          "reason": "同一敌人两段伤害均保留，但不默认必全中；距离450和速度900分开记录。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "naafiri_r": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "takedown_window_ms",
+        "recast_window_ms",
+        "shield_base",
+        "shield_bonus_ad_ratio",
+        "shield_duration_ms",
+        "w_refresh_extension_ms",
+        "channel_duration_ms"
+      ],
+      "recordableFormulas": [
+        "body_physical_damage",
+        "second_cast_shield"
+      ],
+      "recordableEffects": [
+        "self_shield",
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "item": "犬群额外伤害和纯视野显形",
+          "reason": "自主召唤输出或纯视野。"
+        },
+        {
+          "item": "ArmorShred旧树",
+          "reason": "当前正文和消费树未消费。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "99%短暂减速实际资格",
+          "reason": "原始数值和正文边界保留，命中执行待接。"
+        },
+        {
+          "item": "WRefreshOnCast延长算法",
+          "reason": "保留1.75秒原始值，不把它伪装成已接刷新。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zed_p": {
+      "recordableParameters": [
+        "target_current_health_threshold_ratio",
+        "actual_target_current_health_ratio",
+        "per_target_cooldown_ms",
+        "max_health_damage_ratio",
+        "shen_zed_quest_bonus_cap_ratio",
+        "actual_shen_zed_quest_bonus_ratio"
+      ],
+      "recordableFormulas": [
+        "base_max_health_magic_damage",
+        "quest_max_health_magic_damage"
+      ],
+      "recordableEffects": [],
+      "excluded": [
+        {
+          "item": "野怪修正和史诗野怪上限",
+          "reason": "野怪专用。"
+        },
+        {
+          "item": "任务剧情、击杀计数和常驻2%",
+          "reason": "保留具名无默认实际增益，不实现任务剧情或常驻加成。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "低于50%当前生命、同敌冷却和慎劫条件",
+          "reason": "阈值、冷却和条件输入已记录，触发事件待接。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zed_q": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "energy_cost",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "body_physical_damage"
+      ],
+      "recordableEffects": [
+        "energy_cost"
+      ],
+      "excluded": [
+        {
+          "item": "后续目标60%衰减",
+          "reason": "本轮唯一敌人只取首目标。"
+        },
+        {
+          "item": "影分身复制输出",
+          "reason": "完整影分身输出链跳过。"
+        }
+      ],
+      "pending": [],
+      "currentSubjectProtected": true
+    },
+    "zed_w": {
+      "recordableParameters": [
+        "recast_range",
+        "shadow_duration_tooltip_ms",
+        "shadow_duration_internal_ms",
+        "swap_window_ms",
+        "energy_cost",
+        "energy_restore_double_hit",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [],
+      "recordableEffects": [
+        "energy_cost"
+      ],
+      "excluded": [
+        {
+          "item": "分身额外攻击主体与复制输出",
+          "reason": "影分身输出链跳过。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "本体换位和双命中返能资格",
+          "reason": "距离、显示/内部持续和能量返还数值保留；双命中事件待接。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zed_e": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "energy_cost",
+        "shadow_hit_cdr_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "body_physical_damage"
+      ],
+      "recordableEffects": [
+        "reduce_w_cooldown",
+        "energy_cost"
+      ],
+      "excluded": [
+        {
+          "item": "分身20至40%减速、叠加减速和分身伤害",
+          "reason": "只属于影分身复制链；本体不带分身减速。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "本体命中当前敌方英雄的W冷却修正事件",
+          "reason": "效果作用范围已写为指定zed_w，命中事件待接。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "zed_r": {
+      "recordableParameters": [
+        "damage_amp",
+        "total_ad_ratio",
+        "mark_duration_ms",
+        "recast_lock_ms",
+        "swap_window_ms",
+        "shadow_duration_displayed_ms",
+        "delayed_shadow_linger_ms",
+        "cast_time_ms",
+        "qualified_body_damage"
+      ],
+      "recordableFormulas": [
+        "mark_base_physical_damage",
+        "detonation_physical_damage"
+      ],
+      "recordableEffects": [],
+      "excluded": [
+        {
+          "item": "影分身复制输出、匿名加0.5旧树和偷取攻击力",
+          "reason": "分身链、未消费匿名树和当前不消费的永久收益排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "合格标记期本体伤害阶段",
+          "reason": "使用无默认运行输入，等待折前折后和伤害种类边界。"
+        },
+        {
+          "item": "延后分身存在与匿名树冲突",
+          "reason": "1.5秒官方文本保留，匿名7.5+0.5旧树不消费。"
+        }
+      ],
+      "currentSubjectProtected": true
+    }
+  },
+  "globalScope": {
+    "included": [
+      "本体和唯一敌人的伤害",
+      "自身治疗与护盾",
+      "自身移动和比例属性",
+      "本体资源消耗",
+      "明确指定技能冷却变化"
+    ],
+    "excluded": [
+      "纯经验金币",
+      "纯视野",
+      "兵野专用",
+      "第三友方分配",
+      "额外敌人分配",
+      "桶/犬群/影分身自主输出"
+    ],
+    "unknownPolicy": "未知等级曲线、实际伤害阶段、目标资格和事件时序用无默认运行输入或pending记录，不以0占位。"
+  },
+  "noApiCalls": true,
+  "apiWrites": 0
+}

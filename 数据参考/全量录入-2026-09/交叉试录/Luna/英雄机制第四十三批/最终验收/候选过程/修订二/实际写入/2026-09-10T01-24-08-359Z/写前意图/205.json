@@ -1,0 +1,36 @@
+{
+  "i": 204,
+  "intent": {
+    "sequence": 205,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_r/formulas",
+    "detailRoute": "/skills/zed_r/formulas/mark_base_physical_damage",
+    "skillKey": "zed_r",
+    "kind": "formulas",
+    "stableKey": "mark_base_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "mark_base_physical_damage",
+      "name": "死亡印记基础物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "total_ad_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "RCalculatedDamage=来源总攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

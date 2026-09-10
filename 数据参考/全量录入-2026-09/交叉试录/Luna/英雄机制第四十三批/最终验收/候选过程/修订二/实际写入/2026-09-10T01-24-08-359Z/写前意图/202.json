@@ -1,0 +1,24 @@
+{
+  "i": 201,
+  "intent": {
+    "sequence": 202,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_r/parameters",
+    "detailRoute": "/skills/zed_r/parameters/delayed_shadow_linger_ms",
+    "skillKey": "zed_r",
+    "kind": "parameters",
+    "stableKey": "delayed_shadow_linger_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "delayed_shadow_linger_ms",
+      "name": "换位窗口后分身额外存在（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "官方中文当前文本明确换位时间窗口结束后额外存留1.5秒。",
+      "sortOrder": 70
+    }
+  }
+}

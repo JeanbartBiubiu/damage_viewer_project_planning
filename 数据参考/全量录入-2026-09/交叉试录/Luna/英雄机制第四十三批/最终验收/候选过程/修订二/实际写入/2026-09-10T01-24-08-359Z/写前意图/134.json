@@ -1,0 +1,24 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_w/parameters",
+    "detailRoute": "/skills/naafiri_w/parameters/bonus_ad_ratio",
+    "skillKey": "naafiri_w",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "自身总攻击力增益比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.20000000298023224,
+      "levelValues": null,
+      "description": "正文明确获得20%总攻击力，属性点效果使用attribute_flat_add。",
+      "sortOrder": 20
+    }
+  }
+}

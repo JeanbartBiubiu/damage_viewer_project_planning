@@ -1,0 +1,24 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 170,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_p/parameters",
+    "detailRoute": "/skills/zed_p/parameters/shen_zed_quest_bonus_cap_ratio",
+    "skillKey": "zed_p",
+    "kind": "parameters",
+    "stableKey": "shen_zed_quest_bonus_cap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shen_zed_quest_bonus_cap_ratio",
+      "name": "慎劫任务增益上限比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.02,
+      "levelValues": null,
+      "description": "ShenZedQuestBonus原始值约0.02；这是已知战斗增益上限。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_p/formulas",
+    "detailRoute": "/skills/gangplank_p/formulas/passive_true_damage",
+    "skillKey": "gangplank_p",
+    "kind": "formulas",
+    "stableKey": "passive_true_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_true_damage",
+      "name": "烈火审讯全程真实伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=当前角色等级基础项+1.0×来源额外攻击力；这是2.5秒全程值。",
+      "sortOrder": 10
+    }
+  }
+}

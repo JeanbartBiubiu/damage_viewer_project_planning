@@ -1,0 +1,24 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/parameters",
+    "detailRoute": "/skills/kindred_e/parameters/mark_count",
+    "skillKey": "kindred_e",
+    "kind": "parameters",
+    "stableKey": "mark_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_count",
+      "name": "当前战斗印记层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "E的印记强化需要战斗层提供当前印记数，不设默认。",
+      "sortOrder": 40
+    }
+  }
+}

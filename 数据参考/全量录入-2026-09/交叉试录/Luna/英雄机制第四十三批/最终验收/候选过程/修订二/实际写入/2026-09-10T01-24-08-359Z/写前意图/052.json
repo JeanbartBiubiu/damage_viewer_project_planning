@@ -1,0 +1,24 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/parameters",
+    "detailRoute": "/skills/kindred_p/parameters/additional_mark_threshold",
+    "skillKey": "kindred_p",
+    "kind": "parameters",
+    "stableKey": "additional_mark_threshold",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "additional_mark_threshold",
+      "name": "后续射程奖励间隔印记",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文明确之后每3层。",
+      "sortOrder": 30
+    }
+  }
+}

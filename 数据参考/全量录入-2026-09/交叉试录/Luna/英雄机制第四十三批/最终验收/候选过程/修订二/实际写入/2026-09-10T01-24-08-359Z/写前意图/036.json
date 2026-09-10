@@ -1,0 +1,24 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_r/parameters",
+    "detailRoute": "/skills/gangplank_r/parameters/slow_percent_points",
+    "skillKey": "gangplank_r",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "炮幕减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 30,
+      "levelValues": null,
+      "description": "原始值30，当前正文以百分号显示，保存为30百分数点。",
+      "sortOrder": 60
+    }
+  }
+}

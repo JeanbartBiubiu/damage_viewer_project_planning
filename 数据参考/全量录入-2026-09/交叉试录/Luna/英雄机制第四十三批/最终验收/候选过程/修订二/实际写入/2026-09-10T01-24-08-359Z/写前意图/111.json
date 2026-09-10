@@ -1,0 +1,24 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_r/formulas",
+    "detailRoute": "/skills/kindred_r/formulas/ending_heal",
+    "skillKey": "kindred_r",
+    "kind": "formulas",
+    "stableKey": "ending_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ending_heal",
+      "name": "羊灵生息结束治疗",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "ending_heal"
+      },
+      "description": "区域结束时对仍在区域内、满足目标资格的单位治疗225/300/375。",
+      "sortOrder": 10
+    }
+  }
+}

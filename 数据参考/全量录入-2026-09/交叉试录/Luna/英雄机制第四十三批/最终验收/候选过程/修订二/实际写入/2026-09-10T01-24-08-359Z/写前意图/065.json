@@ -1,0 +1,24 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_q/parameters",
+    "detailRoute": "/skills/kindred_q/parameters/attack_speed_duration_ms",
+    "skillKey": "kindred_q",
+    "kind": "parameters",
+    "stableKey": "attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_duration_ms",
+      "name": "Q攻击速度持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "正文明确4秒。",
+      "sortOrder": 60
+    }
+  }
+}

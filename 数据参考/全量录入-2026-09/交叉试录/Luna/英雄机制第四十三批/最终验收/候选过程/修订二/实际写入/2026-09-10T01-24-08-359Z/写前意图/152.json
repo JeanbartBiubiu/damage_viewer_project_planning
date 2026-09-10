@@ -1,0 +1,24 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 152,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_r/parameters",
+    "detailRoute": "/skills/naafiri_r/parameters/bonus_ad_ratio",
+    "skillKey": "naafiri_r",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "本体额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "TotalDamage当前根mStat=2系数1，读取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

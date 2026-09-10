@@ -1,0 +1,46 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/formulas",
+    "detailRoute": "/skills/kindred_e/formulas/slow_percent_points",
+    "skillKey": "kindred_e",
+    "kind": "formulas",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "slow_percent_points",
+      "name": "横生惧意减速百分数点",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "slow_base_percent_points"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "slow_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalSlow=30+0.05×来源总法强，结果保持百分数点单位。",
+      "sortOrder": 70
+    }
+  }
+}

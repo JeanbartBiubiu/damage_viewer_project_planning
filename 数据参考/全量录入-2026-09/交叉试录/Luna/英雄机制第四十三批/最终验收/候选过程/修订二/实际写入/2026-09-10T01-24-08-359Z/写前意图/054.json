@@ -1,0 +1,24 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_p/parameters",
+    "detailRoute": "/skills/kindred_p/parameters/additional_range_tier_count",
+    "skillKey": "kindred_p",
+    "kind": "parameters",
+    "stableKey": "additional_range_tier_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "additional_range_tier_count",
+      "name": "当前已满足的后续射程档数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "后续每3层的整档数需要战斗层提供，不用除法或默认值猜测。",
+      "sortOrder": 60
+    }
+  }
+}

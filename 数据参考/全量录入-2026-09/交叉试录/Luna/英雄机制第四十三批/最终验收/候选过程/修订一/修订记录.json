@@ -1,0 +1,171 @@
+{
+  "at": "2026-09-10T01:17:20.106Z",
+  "originalCandidateSha256": "0dab64bff698c0abdc6c73a492c0ab8bc6d89b7d6093403e12fa58b84c4b6842",
+  "changes": [
+    {
+      "skillKey": "kindred_p",
+      "kind": "parameters",
+      "key": "w_current_health_per_mark_ratio",
+      "original": {
+        "parameterKey": "w_current_health_per_mark_ratio",
+        "name": "W每层当前生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "WMarkBonus原始显示比例0.01；狼灵自主攻击式本轮跳过。",
+        "sortOrder": 80
+      },
+      "reason": "自主狼灵输出已排除，此参数仅供该输出消费，移至排除证据。"
+    },
+    {
+      "skillKey": "kindred_p",
+      "kind": "formulas",
+      "key": "w_mark_current_health_damage_ratio",
+      "original": {
+        "formulaKey": "w_mark_current_health_damage_ratio",
+        "name": "千珏之印对W的当前生命伤害加成",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mark_count"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "w_current_health_per_mark_ratio"
+            }
+          ]
+        },
+        "description": "W每层印记增加0.01比例；对应狼灵自主输出的消费由范围排除。",
+        "sortOrder": 40
+      },
+      "reason": "自主狼灵输出已排除，不能因印记共享继续录入其伤害式。"
+    },
+    {
+      "skillKey": "kindred_p",
+      "kind": "parameters",
+      "key": "first_tier_multiplier",
+      "original": {
+        "parameterKey": "first_tier_multiplier",
+        "name": "首段射程乘数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前匿名树首段为RangeIncrease×3。",
+        "sortOrder": 50
+      },
+      "reason": "匿名首段与当前FirstTierRangeIncreaseTT别名对应尚未证实，先留源值边界。"
+    },
+    {
+      "skillKey": "kindred_p",
+      "kind": "formulas",
+      "key": "first_tier_range_increase",
+      "original": {
+        "formulaKey": "first_tier_range_increase",
+        "name": "千珏之印首段射程增加",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "range_increase"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "first_tier_multiplier"
+            }
+          ]
+        },
+        "description": "首段匿名树=25×3；别名与触发阈值仍由战斗状态接线。",
+        "sortOrder": 10
+      },
+      "reason": "未证消费别名不能直接作为首段射程公式保存。"
+    },
+    {
+      "skillKey": "zed_w",
+      "kind": "parameters",
+      "key": "swap_window_ms",
+      "original": {
+        "parameterKey": "swap_window_ms",
+        "name": "换位窗口原始持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5250,
+        "levelValues": null,
+        "description": "当前根原始5.25秒；不擅自与显示存在值同义。",
+        "sortOrder": 40
+      },
+      "reason": "5.25秒原始分身存在不能自动等同换位窗口；保留原始与显示存在字段，窗口待证。"
+    },
+    {
+      "skillKey": "gangplank_r",
+      "kind": "effects",
+      "key": "self_raise_morale_move_speed",
+      "original": {
+        "effectKey": "self_raise_morale_move_speed",
+        "name": "鼓舞士气自身移动速度",
+        "description": "自身是否属于炮幕友军资格待核；若成立，增量按比例属性和attribute_flat_add处理。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "raise_morale_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "鼓舞士气自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": "自身是否属于炮幕友军资格待核；若成立，增量按比例属性和attribute_flat_add处理。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "raise_morale_move_speed_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      },
+      "reason": "鼓舞士气自身目标资格尚待证；保留40%/2秒源参数，不先定义确定的自身效果。"
+    }
+  ],
+  "apiWrites": 0
+}

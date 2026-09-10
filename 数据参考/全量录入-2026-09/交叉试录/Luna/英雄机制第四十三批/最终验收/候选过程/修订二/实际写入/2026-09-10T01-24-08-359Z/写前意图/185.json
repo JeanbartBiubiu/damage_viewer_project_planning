@@ -1,0 +1,30 @@
+{
+  "i": 184,
+  "intent": {
+    "sequence": 185,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_w/parameters",
+    "detailRoute": "/skills/zed_w/parameters/energy_restore_double_hit",
+    "skillKey": "zed_w",
+    "kind": "parameters",
+    "stableKey": "energy_restore_double_hit",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "energy_restore_double_hit",
+      "name": "同技能双命中能量返还",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 35,
+        "3": 40,
+        "4": 45,
+        "5": 50
+      },
+      "description": "当前正文双命中返还30/35/40/45/50；依赖本体与分身同技能命中一次。",
+      "sortOrder": 60
+    }
+  }
+}

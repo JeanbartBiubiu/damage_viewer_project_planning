@@ -1,0 +1,24 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/naafiri_q/parameters",
+    "detailRoute": "/skills/naafiri_q/parameters/cast_time_ms",
+    "skillKey": "naafiri_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前根正文补核明确250毫秒。",
+      "sortOrder": 150
+    }
+  }
+}

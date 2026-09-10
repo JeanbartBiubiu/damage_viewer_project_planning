@@ -1,0 +1,30 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/parameters",
+    "detailRoute": "/skills/kindred_e/parameters/base_bite_damage",
+    "skillKey": "kindred_e",
+    "kind": "parameters",
+    "stableKey": "base_bite_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_bite_damage",
+      "name": "狼跃基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 110,
+        "3": 140,
+        "4": 170,
+        "5": 200
+      },
+      "description": "BaseBiteDamage使用索引1至5：80/110/140/170/200。",
+      "sortOrder": 10
+    }
+  }
+}

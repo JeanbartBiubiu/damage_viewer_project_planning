@@ -1,0 +1,24 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_p/parameters",
+    "detailRoute": "/skills/gangplank_p/parameters/damage_base_lower",
+    "skillKey": "gangplank_p",
+    "kind": "parameters",
+    "stableKey": "damage_base_lower",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base_lower",
+      "name": "被动基础真实伤害下界",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 50,
+      "levelValues": null,
+      "description": "TotalDamage角色等级插值下界。",
+      "sortOrder": 30
+    }
+  }
+}

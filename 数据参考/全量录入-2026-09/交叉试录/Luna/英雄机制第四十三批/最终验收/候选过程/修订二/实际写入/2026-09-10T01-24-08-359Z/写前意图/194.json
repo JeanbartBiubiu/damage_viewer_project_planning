@@ -1,0 +1,52 @@
+{
+  "i": 193,
+  "intent": {
+    "sequence": 194,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_e/effects",
+    "detailRoute": "/skills/zed_e/effects/reduce_w_cooldown",
+    "skillKey": "zed_e",
+    "kind": "effects",
+    "stableKey": "reduce_w_cooldown",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "reduce_w_cooldown",
+      "name": "鬼斩本体命中缩短分身冷却",
+      "description": "仅记录来源明确的指定技能冷却缩短；命中资格和实际扣减时点由事件层接线。",
+      "sortOrder": 20,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "reduce_cooldown",
+          "name": "鬼斩本体命中缩短分身冷却",
+          "resultType": "COOLDOWN_CHANGE",
+          "target": "SOURCE",
+          "description": "只影响指定技能。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "shadow_hit_cdr_ms"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillKeys": [
+                "zed_w"
+              ],
+              "skillCategoryKeys": []
+            },
+            "operation": "REDUCE"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/parameters",
+    "detailRoute": "/skills/kindred_e/parameters/actual_target_missing_health",
+    "skillKey": "kindred_e",
+    "kind": "parameters",
+    "stableKey": "actual_target_missing_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_target_missing_health",
+      "name": "当前目标已损生命值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "最终狼跃伤害需要命中时目标已损生命值，运行层提供实际值，不设默认。",
+      "sortOrder": 60
+    }
+  }
+}

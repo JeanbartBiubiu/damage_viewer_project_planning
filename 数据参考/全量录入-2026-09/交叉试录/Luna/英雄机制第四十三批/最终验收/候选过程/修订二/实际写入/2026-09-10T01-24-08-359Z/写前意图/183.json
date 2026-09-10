@@ -1,0 +1,24 @@
+{
+  "i": 182,
+  "intent": {
+    "sequence": 183,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_w/parameters",
+    "detailRoute": "/skills/zed_w/parameters/swap_window_ms",
+    "skillKey": "zed_w",
+    "kind": "parameters",
+    "stableKey": "swap_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "swap_window_ms",
+      "name": "换位窗口原始持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5250,
+      "levelValues": null,
+      "description": "当前根独立字段SwapTimeLimit=5.25秒，换算5250毫秒；与ShadowDuration同值但来源独立，不能以显示存在5秒替代。",
+      "sortOrder": 40
+    }
+  }
+}

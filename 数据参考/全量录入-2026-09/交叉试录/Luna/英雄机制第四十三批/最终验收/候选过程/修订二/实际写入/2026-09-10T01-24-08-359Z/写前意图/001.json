@@ -1,0 +1,24 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_p/parameters",
+    "detailRoute": "/skills/gangplank_p/parameters/cooldown_ms",
+    "skillKey": "gangplank_p",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "被动冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 15000,
+      "levelValues": null,
+      "description": "客户端DataValues.Cooldown=15秒，转换为整数毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

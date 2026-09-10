@@ -1,0 +1,24 @@
+{
+  "i": 167,
+  "intent": {
+    "sequence": 168,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zed_p/parameters",
+    "detailRoute": "/skills/zed_p/parameters/per_target_cooldown_ms",
+    "skillKey": "zed_p",
+    "kind": "parameters",
+    "stableKey": "per_target_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "per_target_cooldown_ms",
+      "name": "同一目标被动冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10000,
+      "levelValues": null,
+      "description": "正文明确同一敌方英雄10秒内只触发一次。",
+      "sortOrder": 30
+    }
+  }
+}

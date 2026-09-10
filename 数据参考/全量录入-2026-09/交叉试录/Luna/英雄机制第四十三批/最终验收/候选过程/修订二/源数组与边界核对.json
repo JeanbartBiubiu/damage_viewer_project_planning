@@ -1,0 +1,1402 @@
+{
+  "at": "2026-09-10T01:23:00.479Z",
+  "candidateSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
+  "actualHydrated": 0,
+  "actualGETSha256": null,
+  "sourceArrays": 24,
+  "sourceValues": 121,
+  "checks": [
+    {
+      "skillKey": "gangplank_q",
+      "key": "base_damage",
+      "source": "DataValues.SpellDamage[1..5]",
+      "actual": [
+        10,
+        40,
+        70,
+        100,
+        130
+      ],
+      "expected": [
+        10,
+        40,
+        70,
+        100,
+        130
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "key": "base_heal",
+      "source": "DataValues.BaseHeal[1..5]",
+      "actual": [
+        45,
+        70,
+        95,
+        120,
+        145
+      ],
+      "expected": [
+        45,
+        70,
+        95,
+        120,
+        145
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "damage_per_wave",
+      "source": "DataValues.DamagePerWave[1..3]",
+      "actual": [
+        40,
+        70,
+        100
+      ],
+      "expected": [
+        40,
+        70,
+        100
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "deaths_daughter_base_damage",
+      "source": "DataValues.DeathsDaughterBaseDamage[1..3]",
+      "actual": [
+        120,
+        210,
+        300
+      ],
+      "expected": [
+        120,
+        210,
+        300
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "base_damage",
+      "source": "DataValues.BaseDamage[1..5]",
+      "actual": [
+        40,
+        65,
+        90,
+        115,
+        140
+      ],
+      "expected": [
+        40,
+        65,
+        90,
+        115,
+        140
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "base_bite_damage",
+      "source": "DataValues.BaseDamage[1..5]",
+      "actual": [
+        80,
+        110,
+        140,
+        170,
+        200
+      ],
+      "expected": [
+        80,
+        110,
+        140,
+        170,
+        200
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "key": "ending_heal",
+      "source": "DataValues.HealFlat[1..3]",
+      "actual": [
+        225,
+        300,
+        375
+      ],
+      "expected": [
+        225,
+        300,
+        375
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "first_cast_base_damage",
+      "source": "DataValues.BaseDamageFirstCast[1..5]",
+      "actual": [
+        35,
+        40,
+        45,
+        50,
+        55
+      ],
+      "expected": [
+        35,
+        40,
+        45,
+        50,
+        55
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "bleed_base_damage",
+      "source": "DataValues.BleedBaseDamage[1..5]",
+      "actual": [
+        35,
+        60,
+        85,
+        110,
+        135
+      ],
+      "expected": [
+        35,
+        60,
+        85,
+        110,
+        135
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "second_cast_min_base_damage",
+      "source": "DataValues.BaseDamageSecondCast[1..5]",
+      "actual": [
+        30,
+        42.5,
+        55,
+        67.5,
+        80
+      ],
+      "expected": [
+        30,
+        42.5,
+        55,
+        67.5,
+        80
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "second_cast_heal_base",
+      "source": "DataValues.BaseHealSecondCast[1..5]",
+      "actual": [
+        45,
+        60,
+        75,
+        90,
+        105
+      ],
+      "expected": [
+        45,
+        60,
+        75,
+        90,
+        105
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "key": "move_speed_ratio",
+      "source": "DataValues.MoveSpeedAmount[1..5]",
+      "actual": [
+        0.20000000298023224,
+        0.22499999403953552,
+        0.25,
+        0.2750000059604645,
+        0.30000001192092896
+      ],
+      "expected": [
+        0.20000000298023224,
+        0.22499999403953552,
+        0.25,
+        0.2750000059604645,
+        0.30000001192092896
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "key": "first_slash_base_damage",
+      "source": "DataValues.BaseDamageFirstSlash[1..5]",
+      "actual": [
+        15,
+        25,
+        35,
+        45,
+        55
+      ],
+      "expected": [
+        15,
+        25,
+        35,
+        45,
+        55
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "key": "second_hit_base_damage",
+      "source": "DataValues.BaseDamageSecondHit[1..5]",
+      "actual": [
+        60,
+        85,
+        110,
+        135,
+        160
+      ],
+      "expected": [
+        60,
+        85,
+        110,
+        135,
+        160
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "base_damage",
+      "source": "DataValues.BaseDamage[1..3]",
+      "actual": [
+        125,
+        200,
+        275
+      ],
+      "expected": [
+        125,
+        200,
+        275
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "shield_base",
+      "source": "DataValues.ShieldSize[1..3]",
+      "actual": [
+        100,
+        150,
+        200
+      ],
+      "expected": [
+        100,
+        150,
+        200
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zed_q",
+      "key": "base_damage",
+      "source": "DataValues.BaseDamage[1..5]",
+      "actual": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "expected": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "energy_restore_double_hit",
+      "source": "DataValues.EnergyRestoreDoubleHit[1..5]",
+      "actual": [
+        30,
+        35,
+        40,
+        45,
+        50
+      ],
+      "expected": [
+        30,
+        35,
+        40,
+        45,
+        50
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zed_e",
+      "key": "base_damage",
+      "source": "DataValues.BaseDamage[1..5]",
+      "actual": [
+        70,
+        92.5,
+        115,
+        137.5,
+        160
+      ],
+      "expected": [
+        70,
+        92.5,
+        115,
+        137.5,
+        160
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "damage_amp",
+      "source": "DataValues.RDamageAmp[1..3]",
+      "actual": [
+        0.25,
+        0.4000000059604645,
+        0.550000011920929
+      ],
+      "expected": [
+        0.25,
+        0.4000000059604645,
+        0.550000011920929
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zed_q",
+      "key": "energy_cost",
+      "source": "根mana[0..4]，能量",
+      "actual": [
+        75,
+        70,
+        65,
+        60,
+        55
+      ],
+      "expected": [
+        75,
+        70,
+        65,
+        60,
+        55
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "energy_cost",
+      "source": "根mana[0..4]，能量",
+      "actual": [
+        40,
+        35,
+        30,
+        25,
+        20
+      ],
+      "expected": [
+        40,
+        35,
+        30,
+        25,
+        20
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "w_zone_cooldown_ms",
+      "source": "当前正文5档冷却，零基索引CDNewValue[1..5]秒转毫秒",
+      "actual": [
+        4000,
+        3500,
+        3000,
+        2500,
+        2000
+      ],
+      "expected": [
+        4000,
+        3500,
+        3000,
+        2500,
+        2000
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "zed_p",
+      "key": "max_health_damage_ratio",
+      "source": "当前已证明7级和17级纯加法断点",
+      "actual": [
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.1,
+        0.1
+      ],
+      "expected": [
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.05,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.075,
+        0.1,
+        0.1
+      ],
+      "passed": true
+    }
+  ],
+  "fixed": 111,
+  "integerParameters": 95,
+  "integerValues": 157,
+  "milliseconds": 48,
+  "binaryNodes": 106,
+  "modes": [
+    {
+      "skillKey": "gangplank_p",
+      "key": "cooldown_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "actual_damage_base",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "damage_base_lower",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "damage_base_upper",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "damage_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "actual_move_speed_ratio",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "move_speed_lower_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "move_speed_upper_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_p",
+      "key": "move_speed_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "key": "base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "key": "total_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "key": "current_game_mode",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "key": "crit_damage_mod",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "key": "critical_stat",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "key": "crit_baseline",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_q",
+      "key": "minus_one",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "key": "base_heal",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "key": "heal_ap_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "key": "missing_health_heal_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "key": "actual_missing_health",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_w",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "damage_per_wave",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "ap_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "total_waves",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "additional_waves",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "zone_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "slow_percent_points",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "slow_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "deaths_daughter_base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "deaths_daughter_ap_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "deaths_daughter_slow_percent_points",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "deaths_daughter_slow_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "raise_morale_move_speed_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "raise_morale_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "gangplank_r",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "key": "mark_count",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "key": "initial_mark_threshold",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "key": "additional_mark_threshold",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "key": "range_increase",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "key": "additional_range_tier_count",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "key": "q_attack_speed_per_mark_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_p",
+      "key": "e_missing_health_per_mark_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "base_attack_speed_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "mark_count",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "attack_speed_per_mark_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "attack_speed_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "w_zone_cooldown_ms",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "dash_speed",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "dash_speed_scaling",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "m_cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_q",
+      "key": "spell_cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "key": "attack_heal_level1",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "key": "attack_heal_per_character_level",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "key": "actual_attack_heal",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "key": "full_stack_count",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "key": "zone_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "key": "ring_range",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_w",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "base_bite_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "base_missing_health_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "mark_count",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "missing_health_per_mark_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "actual_target_missing_health",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "crit_mod",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "critical_stat8",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "critical_stat9",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "crit_baseline",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "minus_one",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "slow_base_percent_points",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "slow_ap_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "slow_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "total_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_e",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "key": "zone_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "key": "ending_heal",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "key": "health_floor_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "key": "aoe_radius",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "kindred_r",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "first_cast_base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "first_cast_bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "bleed_base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "bleed_bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "bleed_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "bleed_interval_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "second_cast_min_base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "second_cast_bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "second_cast_max_bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "execute_multiplier",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "second_cast_heal_base",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "second_cast_heal_bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "recast_window_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "recast_lockout_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_q",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "key": "untargetable_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "key": "bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "key": "move_speed_ratio",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "key": "duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_w",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "key": "first_slash_base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "key": "first_slash_bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "key": "second_hit_base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "key": "second_hit_bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "key": "dash_distance",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_e",
+      "key": "dash_speed",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "slow_percent_points",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "slow_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "takedown_window_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "recast_window_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "shield_base",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "shield_bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "shield_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "w_refresh_extension_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "naafiri_r",
+      "key": "channel_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_p",
+      "key": "target_current_health_threshold_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_p",
+      "key": "actual_target_current_health_ratio",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_p",
+      "key": "per_target_cooldown_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_p",
+      "key": "max_health_damage_ratio",
+      "mode": "CHARACTER_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_p",
+      "key": "shen_zed_quest_bonus_cap_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_p",
+      "key": "actual_shen_zed_quest_bonus_ratio",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_q",
+      "key": "base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_q",
+      "key": "bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_q",
+      "key": "energy_cost",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_q",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "recast_range",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "shadow_duration_tooltip_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "shadow_duration_internal_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "swap_window_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "energy_cost",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "energy_restore_double_hit",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_w",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_e",
+      "key": "base_damage",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_e",
+      "key": "bonus_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_e",
+      "key": "energy_cost",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_e",
+      "key": "shadow_hit_cdr_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_e",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "damage_amp",
+      "mode": "SKILL_LEVEL",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "total_ad_ratio",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "mark_duration_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "recast_lock_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "swap_window_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "shadow_duration_displayed_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "delayed_shadow_linger_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "cast_time_ms",
+      "mode": "FIXED",
+      "passed": true
+    },
+    {
+      "skillKey": "zed_r",
+      "key": "qualified_body_damage",
+      "mode": "RUNTIME_INPUT",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "apiCalls": 0,
+  "apiWrites": 0
+}

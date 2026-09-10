@@ -1,0 +1,64 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kindred_e/formulas",
+    "detailRoute": "/skills/kindred_e/formulas/critical_multiplier",
+    "skillKey": "kindred_e",
+    "kind": "formulas",
+    "stableKey": "critical_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "critical_multiplier",
+      "name": "横生惧意暴击修正倍率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crit_baseline"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "critical_stat8"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "crit_mod"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "critical_stat9"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "minus_one"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前两条消费树共同使用1+mStat8×0.5×(mStat9−1)。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gangplank_p/parameters",
+    "detailRoute": "/skills/gangplank_p/parameters/actual_damage_base",
+    "skillKey": "gangplank_p",
+    "kind": "parameters",
+    "stableKey": "actual_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_damage_base",
+      "name": "当前角色等级被动基础真实伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "客户端TotalDamage为角色等级50至250的插值；中间等级算法未证，运行层提供当前实际基础项，不设默认。",
+      "sortOrder": 20
+    }
+  }
+}
