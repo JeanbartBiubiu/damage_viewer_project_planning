@@ -1,0 +1,23 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/shield_duration_ms",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "暗影燎原护盾持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前ShieldDuration=3秒。",
+      "sortOrder": 30
+    }
+  }
+}

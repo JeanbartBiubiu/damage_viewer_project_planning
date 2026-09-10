@@ -1,0 +1,23 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 115,
+    "method": "POST",
+    "route": "/skills/thresh_r/parameters",
+    "detailRoute": "/skills/thresh_r/parameters/wall_duration_ms",
+    "skillKey": "thresh_r",
+    "kind": "parameters",
+    "stableKey": "wall_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_duration_ms",
+      "name": "幽冥监牢墙体持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前WallDuration=4秒。",
+      "sortOrder": 60
+    }
+  }
+}

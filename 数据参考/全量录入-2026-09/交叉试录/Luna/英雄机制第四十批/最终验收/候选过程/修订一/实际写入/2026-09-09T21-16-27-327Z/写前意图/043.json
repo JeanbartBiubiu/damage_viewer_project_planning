@@ -1,0 +1,29 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/senna_w/parameters",
+    "detailRoute": "/skills/senna_w/parameters/root_duration_ms",
+    "skillKey": "senna_w",
+    "kind": "parameters",
+    "stableKey": "root_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "root_duration_ms",
+      "name": "无尽厮守禁锢持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1250,
+        "2": 1500,
+        "3": 1750,
+        "4": 2000,
+        "5": 2250
+      },
+      "description": "当前RootDuration技能等级1至5为1.25/1.5/1.75/2/2.25秒。",
+      "sortOrder": 30
+    }
+  }
+}

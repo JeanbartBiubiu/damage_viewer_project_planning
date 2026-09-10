@@ -1,0 +1,29 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/base_damage",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "黑暗洞灭基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 55,
+        "3": 80,
+        "4": 105,
+        "5": 130
+      },
+      "description": "当前DataValues.BaseDamage技能等级1至5为30/55/80/105/130；索引0的5不是一级。",
+      "sortOrder": 10
+    }
+  }
+}

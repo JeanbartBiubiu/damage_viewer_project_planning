@@ -1,0 +1,29 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/thresh_q/parameters",
+    "detailRoute": "/skills/thresh_q/parameters/base_damage",
+    "skillKey": "thresh_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "死亡判决基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 150,
+        "3": 200,
+        "4": 250,
+        "5": 300
+      },
+      "description": "当前DataValues.BaseDamage技能等级1至5为100/150/200/250/300；索引0的50不是一级。",
+      "sortOrder": 10
+    }
+  }
+}

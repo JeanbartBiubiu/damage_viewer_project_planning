@@ -1,0 +1,29 @@
+{
+  "i": 127,
+  "intent": {
+    "sequence": 128,
+    "method": "POST",
+    "route": "/skills/pyke_q/parameters",
+    "detailRoute": "/skills/pyke_q/parameters/base_damage",
+    "skillKey": "pyke_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "透骨尖钉基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 150,
+        "3": 200,
+        "4": 250,
+        "5": 300
+      },
+      "description": "当前DataValues.BaseDamage技能等级1至5为100/150/200/250/300；索引0的50不是一级。",
+      "sortOrder": 10
+    }
+  }
+}

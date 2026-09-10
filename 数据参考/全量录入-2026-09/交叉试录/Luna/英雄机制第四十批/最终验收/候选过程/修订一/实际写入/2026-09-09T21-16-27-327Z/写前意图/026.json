@@ -1,0 +1,29 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 26,
+    "method": "POST",
+    "route": "/skills/senna_q/parameters",
+    "detailRoute": "/skills/senna_q/parameters/base_heal",
+    "skillKey": "senna_q",
+    "kind": "parameters",
+    "stableKey": "base_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_heal",
+      "name": "黑暗洞灭自身治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 60,
+        "3": 80,
+        "4": 100,
+        "5": 120
+      },
+      "description": "当前DataValues.BaseHeal技能等级1至5为40/60/80/100/120；索引0的20不是一级。",
+      "sortOrder": 20
+    }
+  }
+}

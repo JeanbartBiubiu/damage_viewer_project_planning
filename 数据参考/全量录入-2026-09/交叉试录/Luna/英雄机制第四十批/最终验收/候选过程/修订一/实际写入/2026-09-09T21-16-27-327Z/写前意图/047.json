@@ -1,0 +1,45 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "method": "POST",
+    "route": "/skills/senna_w/formulas",
+    "detailRoute": "/skills/senna_w/formulas/enemy_physical_damage",
+    "skillKey": "senna_w",
+    "kind": "formulas",
+    "stableKey": "enemy_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "enemy_physical_damage",
+      "name": "无尽厮守单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Damage=BaseDamage+0.9×来源额外攻击力；只保留第一个命中的当前敌人。",
+      "sortOrder": 10
+    }
+  }
+}

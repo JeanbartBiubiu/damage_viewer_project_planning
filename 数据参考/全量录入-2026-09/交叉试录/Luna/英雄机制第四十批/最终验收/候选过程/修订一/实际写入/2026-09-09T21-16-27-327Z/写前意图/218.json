@@ -1,0 +1,23 @@
+{
+  "i": 217,
+  "intent": {
+    "sequence": 218,
+    "method": "POST",
+    "route": "/skills/twistedfate_r/parameters",
+    "detailRoute": "/skills/twistedfate_r/parameters/teleport_distance",
+    "skillKey": "twistedfate_r",
+    "kind": "parameters",
+    "stableKey": "teleport_distance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "teleport_distance",
+      "name": "命运传送距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5500,
+      "levelValues": null,
+      "description": "当前castRange=5500；传送是自身位移，不能随纯视野整槽排除。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/move_speed_steal_duration_ms",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_steal_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_steal_duration_ms",
+      "name": "目标移速偷取持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前MSStealDuration=0.5秒，转换为500毫秒。",
+      "sortOrder": 120
+    }
+  }
+}

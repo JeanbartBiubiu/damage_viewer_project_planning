@@ -1,0 +1,23 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 97,
+    "method": "POST",
+    "route": "/skills/thresh_e/parameters",
+    "detailRoute": "/skills/thresh_e/parameters/passive_damage_per_soul",
+    "skillKey": "thresh_e",
+    "kind": "parameters",
+    "stableKey": "passive_damage_per_soul",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_damage_per_soul",
+      "name": "厄运钟摆每魂被动伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.70000005,
+      "levelValues": null,
+      "description": "当前PAttackDamageMin只消费1.7×魂层；旧PassiveDmgPerSoul=1.5未进入当前树。",
+      "sortOrder": 10
+    }
+  }
+}

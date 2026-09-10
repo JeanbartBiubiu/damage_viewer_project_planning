@@ -1,0 +1,23 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/move_speed_steal_level_1_5_ratio",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_steal_level_1_5_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_steal_level_1_5_ratio",
+      "name": "1至5级目标移速偷取比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "MSSteal角色等级树1级起为0.10，按正文百分数转比例。",
+      "sortOrder": 90
+    }
+  }
+}

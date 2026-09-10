@@ -1,0 +1,29 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/senna_e/parameters",
+    "detailRoute": "/skills/senna_e/parameters/buff_duration_ms",
+    "skillKey": "senna_e",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "黑雾咒附自身持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6000,
+        "2": 6500,
+        "3": 7000,
+        "4": 7500,
+        "5": 8000
+      },
+      "description": "当前BuffDuration技能等级1至5为6/6.5/7/7.5/8秒；索引0的5.5不是一级。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "method": "POST",
+    "route": "/skills/thresh_w/formulas",
+    "detailRoute": "/skills/thresh_w/formulas/self_shield",
+    "skillKey": "thresh_w",
+    "kind": "formulas",
+    "stableKey": "self_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_shield",
+      "name": "魂引之灯自身护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_per_soul"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "soul_count"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalShield=BaseShieldValue+2×魂层；第三友方护盾和点击位移不写入。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "i": 177,
+  "intent": {
+    "sequence": 178,
+    "method": "POST",
+    "route": "/skills/pyke_r/formulas",
+    "detailRoute": "/skills/pyke_r/formulas/execute_threshold_damage",
+    "skillKey": "pyke_r",
+    "kind": "formulas",
+    "stableKey": "execute_threshold_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "execute_threshold_damage",
+      "name": "涌泉之恨单一敌人斩杀阈值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "r_base_damage_at_character_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lethality_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "lethality_points_input"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前RDamage=角色等级基础值+0.8×来源额外攻击力+1.5×mStat29；基础值不按未证曲线猜测。",
+      "sortOrder": 10
+    }
+  }
+}

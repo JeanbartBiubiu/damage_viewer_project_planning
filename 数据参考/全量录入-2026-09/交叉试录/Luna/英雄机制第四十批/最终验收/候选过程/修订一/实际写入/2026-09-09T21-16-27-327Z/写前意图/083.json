@@ -1,0 +1,23 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/thresh_q/parameters",
+    "detailRoute": "/skills/thresh_q/parameters/slow_ratio",
+    "skillKey": "thresh_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "死亡判决原始减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.75,
+      "levelValues": null,
+      "description": "当前SlowPercent=75是百分数点；当前事件是否使用该字段待核。",
+      "sortOrder": 40
+    }
+  }
+}

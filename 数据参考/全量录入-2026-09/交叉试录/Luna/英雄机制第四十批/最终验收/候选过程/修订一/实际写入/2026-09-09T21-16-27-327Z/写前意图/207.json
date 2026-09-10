@@ -1,0 +1,45 @@
+{
+  "i": 206,
+  "intent": {
+    "sequence": 207,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/effects",
+    "detailRoute": "/skills/twistedfate_w/effects/mana_restore",
+    "skillKey": "twistedfate_w",
+    "kind": "effects",
+    "stableKey": "mana_restore",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "mana_restore",
+      "name": "蓝牌自身法力回复",
+      "description": "只在蓝牌触发时回复当前Effect6Amount；三牌互斥，实际选择事件待接。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "resource",
+          "name": "蓝牌自身法力回复",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "blue_mana_restore"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "RESTORE"
+          }
+        }
+      ]
+    }
+  }
+}

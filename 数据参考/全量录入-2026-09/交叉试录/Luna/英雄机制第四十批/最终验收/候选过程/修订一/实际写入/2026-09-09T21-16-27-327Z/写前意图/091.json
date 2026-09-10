@@ -1,0 +1,23 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/thresh_w/parameters",
+    "detailRoute": "/skills/thresh_w/parameters/shield_duration_ms",
+    "skillKey": "thresh_w",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "魂引之灯自身护盾持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前ShieldDuration=4秒。",
+      "sortOrder": 30
+    }
+  }
+}

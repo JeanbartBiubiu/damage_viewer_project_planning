@@ -1,0 +1,45 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "method": "POST",
+    "route": "/skills/thresh_e/formulas",
+    "detailRoute": "/skills/thresh_e/formulas/active_magic_damage",
+    "skillKey": "thresh_e",
+    "kind": "formulas",
+    "stableKey": "active_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "active_magic_damage",
+      "name": "厄运钟摆主动单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=ActiveBaseDamage+0.6×来源总法强；只保留命中当前敌人。",
+      "sortOrder": 30
+    }
+  }
+}

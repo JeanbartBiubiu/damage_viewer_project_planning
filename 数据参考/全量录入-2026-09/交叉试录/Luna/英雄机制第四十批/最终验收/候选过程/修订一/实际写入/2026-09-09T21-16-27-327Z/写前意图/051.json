@@ -1,0 +1,23 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/senna_e/parameters",
+    "detailRoute": "/skills/senna_e/parameters/ms_ap_ratio",
+    "skillKey": "senna_e",
+    "kind": "parameters",
+    "stableKey": "ms_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ms_ap_ratio",
+      "name": "黑雾咒附法强移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0005,
+      "levelValues": null,
+      "description": "当前TotalMS消费MSAPRatio×来源总法强。",
+      "sortOrder": 30
+    }
+  }
+}

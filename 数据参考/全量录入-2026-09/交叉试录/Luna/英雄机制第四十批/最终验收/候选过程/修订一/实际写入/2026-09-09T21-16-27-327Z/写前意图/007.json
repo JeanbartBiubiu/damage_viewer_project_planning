@@ -1,0 +1,23 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/soul_count",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "soul_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "soul_count",
+      "name": "战前黑雾层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前技能树由BuffCounter消费魂层；由战前状态外供，不默认填0。",
+      "sortOrder": 70
+    }
+  }
+}

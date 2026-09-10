@@ -1,0 +1,23 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/current_health_damage_breakpoint_level",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "current_health_damage_breakpoint_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_damage_breakpoint_level",
+      "name": "当前生命伤害断点等级",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 11,
+      "levelValues": null,
+      "description": "当前树有11级空断点；只记录断点事实，不线性展开18级。",
+      "sortOrder": 150
+    }
+  }
+}

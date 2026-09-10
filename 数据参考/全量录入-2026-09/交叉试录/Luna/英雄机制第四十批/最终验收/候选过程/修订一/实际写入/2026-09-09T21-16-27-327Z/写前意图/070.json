@@ -1,0 +1,23 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/spell_cast_time_ms",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_ms",
+      "name": "暗影燎原根施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前spellCastTime=1秒。",
+      "sortOrder": 90
+    }
+  }
+}

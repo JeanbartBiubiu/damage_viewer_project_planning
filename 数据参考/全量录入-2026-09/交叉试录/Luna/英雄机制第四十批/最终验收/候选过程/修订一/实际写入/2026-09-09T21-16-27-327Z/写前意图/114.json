@@ -1,0 +1,23 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/thresh_r/parameters",
+    "detailRoute": "/skills/thresh_r/parameters/remaining_wall_slow_duration_ms",
+    "skillKey": "thresh_r",
+    "kind": "parameters",
+    "stableKey": "remaining_wall_slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "remaining_wall_slow_duration_ms",
+      "name": "幽冥监牢剩余墙同一敌人减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "正文明确剩余墙减半为1秒；只保留同一敌人可再次碰墙的当前路径。",
+      "sortOrder": 50
+    }
+  }
+}

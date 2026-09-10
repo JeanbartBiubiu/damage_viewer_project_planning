@@ -1,0 +1,29 @@
+{
+  "i": 208,
+  "intent": {
+    "sequence": 209,
+    "method": "POST",
+    "route": "/skills/twistedfate_e/parameters",
+    "detailRoute": "/skills/twistedfate_e/parameters/bonus_damage",
+    "skillKey": "twistedfate_e",
+    "kind": "parameters",
+    "stableKey": "bonus_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_damage",
+      "name": "卡牌骗术第四次攻击基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 65,
+        "2": 90,
+        "3": 115,
+        "4": 140,
+        "5": 165
+      },
+      "description": "当前Damage技能等级1至5为65/90/115/140/165；索引0的40不是一级。",
+      "sortOrder": 20
+    }
+  }
+}

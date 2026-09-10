@@ -1,0 +1,23 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/senna_e/parameters",
+    "detailRoute": "/skills/senna_e/parameters/defense_radius",
+    "skillKey": "senna_e",
+    "kind": "parameters",
+    "stableKey": "defense_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "defense_radius",
+      "name": "黑雾咒附敌人接近判定半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "当前正文以附近敌人决定是否隐藏身份；只保存原始半径，不把它变成无条件无敌。",
+      "sortOrder": 40
+    }
+  }
+}

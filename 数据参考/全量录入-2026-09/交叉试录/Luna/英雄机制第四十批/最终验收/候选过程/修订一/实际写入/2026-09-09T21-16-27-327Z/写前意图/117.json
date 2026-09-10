@@ -1,0 +1,23 @@
+{
+  "i": 116,
+  "intent": {
+    "sequence": 117,
+    "method": "POST",
+    "route": "/skills/thresh_r/parameters",
+    "detailRoute": "/skills/thresh_r/parameters/mcast_time_source_seconds",
+    "skillKey": "thresh_r",
+    "kind": "parameters",
+    "stableKey": "mcast_time_source_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mcast_time_source_seconds",
+      "name": "幽冥监牢mCastTime来源值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.44999999,
+      "levelValues": null,
+      "description": "当前mCastTime=0.45秒，与spellCastTime冲突。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "method": "POST",
+    "route": "/skills/senna_w/parameters",
+    "detailRoute": "/skills/senna_w/parameters/spell_cast_time_source_seconds",
+    "skillKey": "senna_w",
+    "kind": "parameters",
+    "stableKey": "spell_cast_time_source_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_cast_time_source_seconds",
+      "name": "无尽厮守spellCastTime来源值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前spellCastTime=0，与mCastTime冲突，不能任选其一作为最终施法时长。",
+      "sortOrder": 60
+    }
+  }
+}

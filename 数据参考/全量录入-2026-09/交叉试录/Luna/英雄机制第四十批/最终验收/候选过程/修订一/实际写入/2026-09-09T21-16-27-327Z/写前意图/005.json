@@ -1,0 +1,23 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "method": "POST",
+    "route": "/skills/senna_p/parameters",
+    "detailRoute": "/skills/senna_p/parameters/crit_damage_mod_ratio",
+    "skillKey": "senna_p",
+    "kind": "parameters",
+    "stableKey": "crit_damage_mod_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_damage_mod_ratio",
+      "name": "暴击伤害基础效能比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.80000001,
+      "levelValues": null,
+      "description": "当前DataValues.CritDamageMod=0.8；它与实际CriticalDamage的mStat9输入分开保存。",
+      "sortOrder": 50
+    }
+  }
+}

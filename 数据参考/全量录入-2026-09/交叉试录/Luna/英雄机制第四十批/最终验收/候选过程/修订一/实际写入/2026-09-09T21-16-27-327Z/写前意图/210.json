@@ -1,0 +1,23 @@
+{
+  "i": 209,
+  "intent": {
+    "sequence": 210,
+    "method": "POST",
+    "route": "/skills/twistedfate_e/parameters",
+    "detailRoute": "/skills/twistedfate_e/parameters/bonus_ad_ratio",
+    "skillKey": "twistedfate_e",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "卡牌骗术额外攻击力伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "当前BonusDamage的mStat2带formula2，按来源额外攻击力读取。",
+      "sortOrder": 30
+    }
+  }
+}

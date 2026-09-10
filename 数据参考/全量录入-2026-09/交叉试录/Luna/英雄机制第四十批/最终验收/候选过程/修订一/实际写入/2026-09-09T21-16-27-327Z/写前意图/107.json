@@ -1,0 +1,55 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "method": "POST",
+    "route": "/skills/thresh_e/formulas",
+    "detailRoute": "/skills/thresh_e/formulas/passive_damage_max",
+    "skillKey": "thresh_e",
+    "kind": "formulas",
+    "stableKey": "passive_damage_max",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_damage_max",
+      "name": "厄运钟摆被动满蓄最高魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_damage_per_soul"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "soul_count"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前PAttackDamageMax=1.7×魂层+PassiveADRatioTT×来源总攻击力；满蓄事件待接。",
+      "sortOrder": 20
+    }
+  }
+}

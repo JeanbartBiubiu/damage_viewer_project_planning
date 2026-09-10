@@ -1,0 +1,23 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "method": "POST",
+    "route": "/skills/thresh_e/parameters",
+    "detailRoute": "/skills/thresh_e/parameters/cast_time_seconds",
+    "skillKey": "thresh_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_seconds",
+      "name": "厄运钟摆spellCastTime原始值（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.38889998,
+      "levelValues": null,
+      "description": "当前值0.3888999819755554秒，保留十进制来源，不无证四舍五入成整数毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 195,
+  "intent": {
+    "sequence": 196,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/gold_crit_multiplier",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "gold_crit_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "gold_crit_multiplier",
+      "name": "金牌暴击效能比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前GoldCritMultiplier=0.25；该值在完整当前PickACard对象中存在。",
+      "sortOrder": 100
+    }
+  }
+}

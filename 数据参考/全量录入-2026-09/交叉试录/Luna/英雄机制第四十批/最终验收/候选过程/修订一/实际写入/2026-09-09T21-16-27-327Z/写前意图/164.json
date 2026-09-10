@@ -1,0 +1,23 @@
+{
+  "i": 163,
+  "intent": {
+    "sequence": 164,
+    "method": "POST",
+    "route": "/skills/pyke_r/parameters",
+    "detailRoute": "/skills/pyke_r/parameters/reduced_damage_ratio",
+    "skillKey": "pyke_r",
+    "kind": "parameters",
+    "stableKey": "reduced_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "reduced_damage_ratio",
+      "name": "涌泉之恨未斩杀伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前ReducedDamage=0.5；最终公式乘完整斩杀阈值。",
+      "sortOrder": 20
+    }
+  }
+}

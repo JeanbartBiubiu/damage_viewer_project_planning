@@ -1,0 +1,29 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "method": "POST",
+    "route": "/skills/thresh_e/parameters",
+    "detailRoute": "/skills/thresh_e/parameters/passive_ad_ratio",
+    "skillKey": "thresh_e",
+    "kind": "parameters",
+    "stableKey": "passive_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_ad_ratio",
+      "name": "厄运钟摆满蓄总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.89999998,
+        "2": 1.20000005,
+        "3": 1.5,
+        "4": 1.79999995,
+        "5": 2.0999999
+      },
+      "description": "当前PAttackDamageMax消费PassiveADRatioTT，技能等级1至5为0.9/1.2/1.5/1.8/2.1，属性为来源总攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

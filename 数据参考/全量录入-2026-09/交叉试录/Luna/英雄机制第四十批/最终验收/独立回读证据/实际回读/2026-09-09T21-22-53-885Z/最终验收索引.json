@@ -1,0 +1,83 @@
+{
+  "batch": "英雄机制第四十批",
+  "revision": "hero40-source-v1-revision-1",
+  "status": "写后独立验收完成",
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "candidateFileSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
+  "planFileSha256": "a09729d2eab607c1e88d9ee83e135aaf72efb88c9ee5fa1a0c611696818455ce",
+  "get": {
+    "path": ".agents/artifacts/hero40-independent-review/实际回读/2026-09-09T21-22-53-885Z/独立全量GET-最终.json",
+    "sha256": "2862a711372fce041aff20dac7f865938b8c39bb34cc485d731e063ec647f018",
+    "calls": 449,
+    "statuses": {
+      "200": 449
+    },
+    "protectionRoutes": 200,
+    "protectionPassed": 200,
+    "details": 249,
+    "detailsPassed": 249,
+    "failures": 0
+  },
+  "math": {
+    "path": ".agents/artifacts/hero40-independent-source-math/独立源值数学报告.json",
+    "sha256": "16ea0f447cbf66a777d3a1e593ac802a5650ad34e0339babe62071dbef7fa5e3",
+    "status": "PASS",
+    "counts": {
+      "formulas": 30,
+      "sourceVsCandidateCases": 60,
+      "missingInputChecks": 47,
+      "binaryOperationChecks": 100,
+      "integerMillisecondChecks": 40,
+      "finiteChecks": 170,
+      "sourceBoundaryChecks": 9,
+      "totalChecks": 426,
+      "passed": 426,
+      "failed": 0
+    },
+    "actualGETFile": "C:/project/damage_web_dev/.agents/artifacts/hero40-independent-review/实际回读/2026-09-09T21-22-53-885Z/独立全量GET-最终.json",
+    "actualGETSha256": "2862a711372fce041aff20dac7f865938b8c39bb34cc485d731e063ec647f018"
+  },
+  "mechanicalCorrection": {
+    "originalGETStatus": "REVISE",
+    "reason": "原回读器将详情数量硬编码为245，实际详情为249且全部通过；修正摘要仅复用同一449次GET原始响应，未重复请求。"
+  },
+  "files": {
+    "reviewScript": {
+      "path": ".agents/artifacts/hero40-independent-review/独立回读-实际GET.mjs",
+      "sha256": "e928237e6195202cde8d429b07484acb6aece08c9a6f702ca420940ef6208288",
+      "byteSize": 18223
+    },
+    "mathScript": {
+      "path": ".agents/artifacts/hero40-independent-source-math/实际公式数学.mjs",
+      "sha256": "e798e3abafbcb8c586f5319000d69d4e3335a5316fabd498cb1f3913ea817f02",
+      "byteSize": 20358
+    },
+    "originalGET": {
+      "path": ".agents/artifacts/hero40-independent-review/实际回读/2026-09-09T21-22-53-885Z/独立全量GET.json",
+      "sha256": "fc58e2cfc96ad4c332f2abde7f5863897c6a75cd894232458dc717dcd0e54bc8",
+      "byteSize": 624577
+    },
+    "finalGET": {
+      "path": ".agents/artifacts/hero40-independent-review/实际回读/2026-09-09T21-22-53-885Z/独立全量GET-最终.json",
+      "sha256": "2862a711372fce041aff20dac7f865938b8c39bb34cc485d731e063ec647f018",
+      "byteSize": 624962
+    },
+    "finalResult": {
+      "path": ".agents/artifacts/hero40-independent-review/实际回读/2026-09-09T21-22-53-885Z/执行结果-最终.json",
+      "sha256": "6a8f98e3f6185100f0163c7fa39737ef45fb6a1ac725e8d02e1fa7af38abc509",
+      "byteSize": 877
+    },
+    "finalLock": {
+      "path": ".agents/artifacts/hero40-independent-review/实际回读/2026-09-09T21-22-53-885Z/运行锁-最终.json",
+      "sha256": "ff35a8be096c3017a4ec176fb309bb43cf4203fca937d0ac1e0b994be13286ac",
+      "byteSize": 715
+    },
+    "mathReport": {
+      "path": ".agents/artifacts/hero40-independent-source-math/独立源值数学报告.json",
+      "sha256": "16ea0f447cbf66a777d3a1e593ac802a5650ad34e0339babe62071dbef7fa5e3",
+      "byteSize": 148040
+    }
+  },
+  "selfHash": "本索引不包含自身字节散列"
+}

@@ -1,0 +1,67 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/senna_q/formulas",
+    "detailRoute": "/skills/senna_q/formulas/self_heal",
+    "skillKey": "senna_q",
+    "kind": "formulas",
+    "stableKey": "self_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_heal",
+      "name": "黑暗洞灭自身治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalHeal=BaseHeal+0.35×来源法强+0.4×来源额外攻击力；第三友方结果不写入。",
+      "sortOrder": 20
+    }
+  }
+}

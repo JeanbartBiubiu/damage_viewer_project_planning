@@ -1,0 +1,29 @@
+{
+  "i": 186,
+  "intent": {
+    "sequence": 187,
+    "method": "POST",
+    "route": "/skills/twistedfate_w/parameters",
+    "detailRoute": "/skills/twistedfate_w/parameters/blue_base_damage",
+    "skillKey": "twistedfate_w",
+    "kind": "parameters",
+    "stableKey": "blue_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "blue_base_damage",
+      "name": "蓝牌基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 60,
+        "3": 80,
+        "4": 100,
+        "5": 120
+      },
+      "description": "当前BlueBase技能等级1至5为40/60/80/100/120。",
+      "sortOrder": 10
+    }
+  }
+}

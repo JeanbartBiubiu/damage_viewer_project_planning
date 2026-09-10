@@ -1,0 +1,33 @@
+{
+  "i": 78,
+  "intent": {
+    "sequence": 79,
+    "method": "POST",
+    "route": "/skills/thresh_p/formulas",
+    "detailRoute": "/skills/thresh_p/formulas/current_soul_bonus",
+    "skillKey": "thresh_p",
+    "kind": "formulas",
+    "stableKey": "current_soul_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "current_soul_bonus",
+      "name": "地狱诅咒当前灵魂属性加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "soul_count"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "stat_value_per_soul"
+          }
+        ]
+      },
+      "description": "当前CurrentSoulBonus=灵魂层数×StatValuePerSoul；同一数值分别用于自身护甲与法强，属性应用待接。",
+      "sortOrder": 10
+    }
+  }
+}

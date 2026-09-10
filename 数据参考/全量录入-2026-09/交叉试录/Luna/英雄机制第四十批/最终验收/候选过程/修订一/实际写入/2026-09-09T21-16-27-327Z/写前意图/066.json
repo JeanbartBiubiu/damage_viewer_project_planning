@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/senna_r/parameters",
+    "detailRoute": "/skills/senna_r/parameters/damage_bonus_ad_ratio",
+    "skillKey": "senna_r",
+    "kind": "parameters",
+    "stableKey": "damage_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_bonus_ad_ratio",
+      "name": "暗影燎原额外攻击力伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.14999998,
+      "levelValues": null,
+      "description": "当前TotalDamage第三项mStat2带formula2，按来源额外攻击力读取。",
+      "sortOrder": 50
+    }
+  }
+}

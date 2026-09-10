@@ -1,0 +1,23 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/thresh_e/parameters",
+    "detailRoute": "/skills/thresh_e/parameters/active_ap_ratio",
+    "skillKey": "thresh_e",
+    "kind": "parameters",
+    "stableKey": "active_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_ap_ratio",
+      "name": "厄运钟摆主动法强伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.60000002,
+      "levelValues": null,
+      "description": "当前TotalDamage消费APRatio×来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}
