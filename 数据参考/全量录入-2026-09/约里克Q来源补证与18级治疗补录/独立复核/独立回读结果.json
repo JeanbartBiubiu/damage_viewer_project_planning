@@ -1,0 +1,328 @@
+{
+  "task": "约里克Q独立API回读",
+  "status": "PASS",
+  "startedAt": "2026-09-10T14:26:54.502Z",
+  "finishedAt": "2026-09-10T14:26:55.811Z",
+  "baseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "input": {
+    "protectionSnapshot": "C:\\project\\damage_web_dev\\.agents\\artifacts\\yorick-q-source-followup-20260910\\补录准备\\保护快照.json",
+    "plan": "C:\\project\\damage_web_dev\\.agents\\artifacts\\yorick-q-source-followup-20260910\\补录准备\\补录计划.json",
+    "protectionSnapshotSha256": "25f84ed254b71ddd5c14e7440fc517704f0b8efed575caf3082a0cefd72056c7",
+    "planSha256": "0a6b35c670d5318fac9153387f161684281535685e927215df7f92ab891fac94",
+    "planSourceSha256": "3f2ea1e5881c9527ae3a3e0eb3cb66d8fef532b917cae44e012dec111ddb3127",
+    "snapshotAt": "2026-09-10T06:25:31.489Z",
+    "planAt": "2026-09-10T06:25:31.489Z"
+  },
+  "scope": {
+    "expectedProtectedPaths": 21,
+    "requestedGetCount": 21,
+    "actualGetCount": 21,
+    "nonGetCount": 0,
+    "apiWrites": 0,
+    "writeMethodsRequested": [],
+    "authorizationHeaderLogged": false,
+    "responseBodiesLogged": false
+  },
+  "inputValidation": {
+    "issues": [],
+    "setupError": null
+  },
+  "counts": {
+    "pass": 21,
+    "mismatch": 0,
+    "error": 0,
+    "status": {
+      "200": 21
+    }
+  },
+  "protectedRoutes": [
+    {
+      "sequence": 1,
+      "route": "/skills/yorick_q",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "5bbf025321cc00339dd18f6ddd262410c2b1fc173771b0df2bfca29dd5ca828b",
+      "expectedSha256": "5bbf025321cc00339dd18f6ddd262410c2b1fc173771b0df2bfca29dd5ca828b",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 2,
+      "route": "/skills/yorick_q/representative-image",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "e03d341728293880d5075f928cd58789d3b97423192e64dcd9cbf31562fdc948",
+      "expectedSha256": "e03d341728293880d5075f928cd58789d3b97423192e64dcd9cbf31562fdc948",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 3,
+      "route": "/skills/yorick_q/parameters",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "PLAN_AFTER_PARAMETER_LIST",
+      "actualSha256": "9ac9d20f406d68936fd70e7c9640ebbb5acdfb3fb46366f09b7bae800b5cee87",
+      "expectedSha256": "9ac9d20f406d68936fd70e7c9640ebbb5acdfb3fb46366f09b7bae800b5cee87",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 4,
+      "route": "/skills/yorick_q/parameters/base_damage",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "3f068c32dcfd11a133317244149e6481a94ed994cd5d3a8daaf30fbf67cc8a07",
+      "expectedSha256": "3f068c32dcfd11a133317244149e6481a94ed994cd5d3a8daaf30fbf67cc8a07",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 5,
+      "route": "/skills/yorick_q/parameters/missing_health_percent_points",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "51b18ec1f97314160355a4e45d85dc21c02c9c54e8194a6195bf0c1a07a9cb7b",
+      "expectedSha256": "51b18ec1f97314160355a4e45d85dc21c02c9c54e8194a6195bf0c1a07a9cb7b",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 6,
+      "route": "/skills/yorick_q/parameters/total_ad_ratio",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "a65b48ee2c65afec39835ad1383677cd6622f6ad23090571cc6a743bfbbc3b39",
+      "expectedSha256": "a65b48ee2c65afec39835ad1383677cd6622f6ad23090571cc6a743bfbbc3b39",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 7,
+      "route": "/skills/yorick_q/parameters/buff_duration_ms",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "46e32bda9b0e266371a5604b42810a812e672daecc3bb63e11a2ff62b4d684b7",
+      "expectedSha256": "46e32bda9b0e266371a5604b42810a812e672daecc3bb63e11a2ff62b4d684b7",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 8,
+      "route": "/skills/yorick_q/parameters/percent_point_ratio",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "cb6e0d55256cdf5287486a725ecad7a037037bbda1eb232da0761c1e4fc093ce",
+      "expectedSha256": "cb6e0d55256cdf5287486a725ecad7a037037bbda1eb232da0761c1e4fc093ce",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 9,
+      "route": "/skills/yorick_q/parameters/q_heal_base_actual",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "PLAN_AFTER_PARAMETER_DETAIL",
+      "actualSha256": "3ca5301e2e17a764e4a0455f0fd6ef29d1078b554f907e8d5b0b9a79d027b097",
+      "expectedSha256": "3ca5301e2e17a764e4a0455f0fd6ef29d1078b554f907e8d5b0b9a79d027b097",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 10,
+      "route": "/skills/yorick_q/parameters/cooldown_ms",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "f882bdd092cb187ca8a06bb30f20ba62b773d880387a56c01704ff91b762eb8c",
+      "expectedSha256": "f882bdd092cb187ca8a06bb30f20ba62b773d880387a56c01704ff91b762eb8c",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 11,
+      "route": "/skills/yorick_q/parameters/mana_cost",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "c27dae8962557e15fe253d66e5f692b962d0ba5a1239dc3bec3746413ce53104",
+      "expectedSha256": "c27dae8962557e15fe253d66e5f692b962d0ba5a1239dc3bec3746413ce53104",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 12,
+      "route": "/skills/yorick_q/formulas",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "PLAN_AFTER_FORMULA_LIST",
+      "actualSha256": "d4675576832a3adeb80d34feee3bdeb94822b86d22f22c2d25391612c14ff8f6",
+      "expectedSha256": "d4675576832a3adeb80d34feee3bdeb94822b86d22f22c2d25391612c14ff8f6",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 13,
+      "route": "/skills/yorick_q/formulas/bonus_damage",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "623e0093f5e00f4d723e33572afc097fb3621166d444499896171b1bfbc1a742",
+      "expectedSha256": "623e0093f5e00f4d723e33572afc097fb3621166d444499896171b1bfbc1a742",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 14,
+      "route": "/skills/yorick_q/formulas/self_heal",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "PLAN_AFTER_FORMULA_DETAIL",
+      "actualSha256": "cdaacec872b6fde46fd0ca4a2ef64d75fb0479f93b54a5d20ce764d5491f9270",
+      "expectedSha256": "cdaacec872b6fde46fd0ca4a2ef64d75fb0479f93b54a5d20ce764d5491f9270",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 15,
+      "route": "/skills/yorick_q/effects",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "a2c6c9a816f93647e08924b72c463d08a48a37c27d949f44be0fef5288cf1d29",
+      "expectedSha256": "a2c6c9a816f93647e08924b72c463d08a48a37c27d949f44be0fef5288cf1d29",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 16,
+      "route": "/skills/yorick_q/effects/bonus_damage",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "6250f79ae5d45d26710e094e0083e91536bed572e6495bad2d918d6b3fe0cb03",
+      "expectedSha256": "6250f79ae5d45d26710e094e0083e91536bed572e6495bad2d918d6b3fe0cb03",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 17,
+      "route": "/skills/yorick_q/effects/self_heal",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "06dcad4be28ad3a8dd391b0d5b14d1cdda567835ac0ecb3b54908038078939e1",
+      "expectedSha256": "06dcad4be28ad3a8dd391b0d5b14d1cdda567835ac0ecb3b54908038078939e1",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 18,
+      "route": "/skills/yorick_q/effects/mana_cost",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "a9c5f44a99abdd413052b61614278739cd38008774c37c1752daffd8b19d36a4",
+      "expectedSha256": "a9c5f44a99abdd413052b61614278739cd38008774c37c1752daffd8b19d36a4",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 19,
+      "route": "/skills/yorick_q/processes",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "expectedSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 20,
+      "route": "/skills/yorick_q/internal-states",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "expectedSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "differences": [],
+      "error": null
+    },
+    {
+      "sequence": 21,
+      "route": "/skills/yorick_q/trigger-rules",
+      "status": 200,
+      "comparison": "PASS",
+      "protected": true,
+      "expectedMode": "OLD_SNAPSHOT",
+      "actualSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "expectedSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "differences": [],
+      "error": null
+    }
+  ],
+  "changedDetails": [
+    {
+      "route": "/skills/yorick_q/parameters/q_heal_base_actual",
+      "method": "GET",
+      "beforeSha256": "5015bef15e96687cf6cd611c3c43c6fe58258ffa5af7c4bb523f054e6fa300b3",
+      "planAfterSha256": "3ca5301e2e17a764e4a0455f0fd6ef29d1078b554f907e8d5b0b9a79d027b097",
+      "actualSha256": "3ca5301e2e17a764e4a0455f0fd6ef29d1078b554f907e8d5b0b9a79d027b097",
+      "comparison": "PASS",
+      "matchesPlanAfter": true,
+      "selectedActual": {
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "INTEGER",
+        "fixedValue": null,
+        "levelValues": "详见计划后对象散列；未在请求日志重复保存完整对象"
+      }
+    },
+    {
+      "route": "/skills/yorick_q/formulas/self_heal",
+      "method": "GET",
+      "beforeSha256": "1aeaed2b88cfafdd00e15712f32326d1e3a5e5c0d6480d3067021ed67b175774",
+      "planAfterSha256": "cdaacec872b6fde46fd0ca4a2ef64d75fb0479f93b54a5d20ce764d5491f9270",
+      "actualSha256": "cdaacec872b6fde46fd0ca4a2ef64d75fb0479f93b54a5d20ce764d5491f9270",
+      "comparison": "PASS",
+      "matchesPlanAfter": true,
+      "selectedActual": {
+        "descriptionUpdated": true,
+        "expressionRetained": true
+      }
+    }
+  ],
+  "requestLog": {
+    "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\yorick-q-independent-readback-20260910\\GET请求记录.jsonl",
+    "sha256": "cfc643d0b15faf1d854f755b425fa578dd66258cbe0cea3f73e6297d8f3aea81",
+    "entries": 21
+  },
+  "noBusinessWriteEvidence": "本脚本只发送GET；未发送POST、PUT、DELETE，业务写入计数为0。Authorization值和响应正文不写入日志。"
+}

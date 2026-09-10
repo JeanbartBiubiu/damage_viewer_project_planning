@@ -1,0 +1,110 @@
+{
+  "at": "2026-09-10T06:20:58.996Z",
+  "status": "等待独立核对，尚未写入",
+  "skill": "yorick_q",
+  "parameter": "q_heal_base_actual",
+  "version": "16.17 / 16.17.1",
+  "fixedSource": {
+    "path": "C:/project/damage_web_dev/.agents/artifacts/hero48-root-entry-20260910/来源绑定与当前文本.json",
+    "sha256": "a136cc45cb66b7854d09a30978a6f3496eca4bb092619b816bb602244d499419",
+    "tree": {
+      "mLevel1Value": 10,
+      "mInitialBonusPerLevel": 2,
+      "mBreakpoints": [
+        {
+          "mLevel": 7,
+          "mBonusPerLevelAtAndAfter": 3,
+          "__type": "Breakpoint"
+        },
+        {
+          "mLevel": 13,
+          "mBonusPerLevelAtAndAfter": 5,
+          "__type": "Breakpoint"
+        }
+      ],
+      "__type": "ByCharLevelBreakpointsCalculationPart"
+    },
+    "currentTexts": {
+      "keyName": {
+        "sourceKey": "Spell_YorickQ_Name",
+        "text": "临终仪式"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_YorickQ_Summary",
+        "text": "约里克的下次攻击造成额外伤害并治疗自身。如果目标是一个英雄或大型野怪或如果目标死亡，则会留下一个坟墓。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_YorickQ_Tooltip",
+        "text": "你的下一次普通攻击造成额外的<physicalDamage>@BonusDamage@物理伤害</physicalDamage>并回复<healing>@QHeal@外加他的@MissingHealthRatio@%已损失生命值</healing>，对抗非英雄单位时会削减@HealReduction@%。如果这个攻击命中了一个英雄或大型野怪或击杀了目标，就会留下一座坟墓。<br><br>当附近有3个或以上的坟墓时，如果这个技能已被使用，那么约里克就能<recast>再次施放</recast>来从附近的所有坟墓中唤起<keywordMajor>雾行者</keywordMajor>。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_YorickQ_TooltipExtendedBelowLine",
+        "text": "<rules>{{ buff_desc_SpellEffects }}</rules>"
+      }
+    }
+  },
+  "historicalAlgorithm": {
+    "url": "https://github.com/moonshadow565/calcrev/blob/master/calc.py",
+    "local": "calcrev-calc.py",
+    "sha256": "35a130db9f9d9817206d8d02e013384e27ec088fe2f2dd9bf19140f4bd58d345",
+    "lines": "342-357",
+    "limitation": "历史解析用来交叉核对该断点类算法，不套用其中已经与当前来源不同的属性枚举。"
+  },
+  "historicalDefaults": {
+    "url": "https://github.com/moonshadow565/calcrev/blob/master/meta.py",
+    "sha256": "ab250dcb92baf4f9a4192ac00ae8fb26c7b2448d125cbe747c591acd0b3ae121",
+    "lines": "160-218,2122-2134",
+    "claim": "该类浮点字段缺省为0；当前树未携带额外断点奖励。"
+  },
+  "fieldHashes": {
+    "mInitialBonusPerLevel": "2deb550",
+    "mBonusPerLevelAtAndAfter": "57fdc438",
+    "mAdditionalBonusAtThisLevel": "d5fd07ed"
+  },
+  "officialCrossChecks": [
+    {
+      "url": "https://www.leagueoflegends.com/en-gb/news/game-updates/patch-14-3-notes/",
+      "claim": "Q基础治疗为随等级10至68，缺失生命部分另行增加。"
+    },
+    {
+      "url": "https://www.leagueoflegends.com/en-gb/news/game-updates/patch-14-14-notes/",
+      "claim": "Q治疗基础端点仍为10至68，缺失生命比例改动与本次基础值分开。"
+    }
+  ],
+  "levelValues": {
+    "1": 10,
+    "2": 12,
+    "3": 14,
+    "4": 16,
+    "5": 18,
+    "6": 20,
+    "7": 23,
+    "8": 26,
+    "9": 29,
+    "10": 32,
+    "11": 35,
+    "12": 38,
+    "13": 43,
+    "14": 48,
+    "15": 53,
+    "16": 58,
+    "17": 63,
+    "18": 68
+  },
+  "checks": {
+    "levels": 18,
+    "independentStepAgreement": true,
+    "integerValues": 18,
+    "endpoint68": true,
+    "alternativeEndValues": {
+      "bothInclusive": 68,
+      "onlyFirstDelayed": 67,
+      "onlySecondDelayed": 66,
+      "bothDelayed": 65
+    }
+  },
+  "proposal": "仅更新现有q_heal_base_actual为CHARACTER_LEVEL和完整18级值，并修改名称与说明；既有self_heal公式已引用该键，保留标识及所有其他数值，不新增重复参数或效果。",
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行。依据固定树、具名字段、原作者算法与官方端点作数值推导，不宣称实测事件。"
+}

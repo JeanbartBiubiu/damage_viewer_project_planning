@@ -1,0 +1,75 @@
+{
+  "at": "2026-09-10T14:24:56.772Z",
+  "status": "PASS",
+  "gameId": "lol",
+  "skillKey": "yorick_q",
+  "businessWrites": 0,
+  "GETs": 2,
+  "calls": [
+    {
+      "method": "GET",
+      "route": "/parameters/q_heal_base_actual",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/formulas/self_heal",
+      "status": 200
+    }
+  ],
+  "parameterKey": "q_heal_base_actual",
+  "characterLevelValues": [
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    23,
+    26,
+    29,
+    32,
+    35,
+    38,
+    43,
+    48,
+    53,
+    58,
+    63,
+    68
+  ],
+  "incrementChecks": 17,
+  "integerValues": 18,
+  "formulaKey": "self_heal",
+  "formulaScenarios": [
+    {
+      "characterLevel": 1,
+      "skillLevel": 1,
+      "missingHp": 0,
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "characterLevel": 7,
+      "skillLevel": 1,
+      "missingHp": 1000,
+      "expected": 83,
+      "actual": 83
+    },
+    {
+      "characterLevel": 13,
+      "skillLevel": 3,
+      "missingHp": 1500,
+      "expected": 163,
+      "actual": 163
+    },
+    {
+      "characterLevel": 18,
+      "skillLevel": 5,
+      "missingHp": 2500,
+      "expected": 318,
+      "actual": 318
+    }
+  ],
+  "runtimeValidation": "未执行"
+}
