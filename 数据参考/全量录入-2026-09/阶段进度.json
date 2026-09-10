@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T03:24:36.069Z",
+  "generatedAt": "2026-09-10T03:31:11.609Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -4364,6 +4364,106 @@
         {
           "issue": "持续移速衰减需要事件接线",
           "detail": "当前保存初始值、下限和时段证据，未验证完整随时间衰减。"
+        }
+      ],
+      "runtimeValidation": "未执行"
+    },
+    "heroFortySeventhBatch": {
+      "skills": [
+        "elise_p",
+        "elise_q",
+        "elise_w",
+        "elise_e",
+        "elise_r",
+        "jayce_p",
+        "jayce_q",
+        "jayce_w",
+        "jayce_e",
+        "jayce_r",
+        "nidalee_p",
+        "nidalee_q",
+        "nidalee_w",
+        "nidalee_e",
+        "nidalee_r",
+        "shyvana_p",
+        "shyvana_q",
+        "shyvana_w",
+        "shyvana_e",
+        "shyvana_r"
+      ],
+      "heroes": [
+        "Elise",
+        "Jayce",
+        "Nidalee",
+        "Shyvana"
+      ],
+      "parameters": 104,
+      "formulas": 24,
+      "effects": 21,
+      "newCounts": {
+        "parameters": 83,
+        "formulas": 24,
+        "effects": 21
+      },
+      "created": 128,
+      "businessWrites": 128,
+      "reusedParameters": 21,
+      "currentTotalComponents": 149,
+      "saveGETs": 940,
+      "independentGets": 342,
+      "protectedPaths": 193,
+      "detailChecks": 149,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 24,
+      "independentSourceCases": 48,
+      "independentMissingRejects": 3,
+      "independentBinaryChecks": 61,
+      "completeParameterArrays": 27,
+      "completeArrayValues": 140,
+      "typedReferences": 88,
+      "finiteChecks": 194,
+      "independentIntegerValues": 131,
+      "integerParameters": 71,
+      "millisecondParameters": 36,
+      "representativePages": 4,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "9970f08a9e2569f15604a4339c9b6a5b8c2200814db05835a68f79a6ffbf957c",
+      "planSha256": "0ac9c3f05854baf318d663fe42224ac8e3d72db205fd096e483f36da6a4c9950",
+      "executor": "Cursor来源复核、Luna Max候选和独立快照数学检查、主负责人修订保存与页面验收",
+      "status": "本轮来源明确组成已保存，独立回读、实际源值数学与四个代表页面通过；未知治疗曲线、形态边界和事件接线单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十七批/当前实录状态.json",
+        "sha256": "3b8cbe39731924fa57d4e7defbf9eaef16a1253195073d2feb167ce46b16780c",
+        "commit": "441af7dc405292581aa97ecdb67c2b0d8751dadf"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十七批/最终验收/候选过程/修订二/页面验收.json",
+        "commit": "441af7dc405292581aa97ecdb67c2b0d8751dadf"
+      },
+      "experienceIssues": [
+        {
+          "issue": "最小治疗公式不能冒充实际治疗",
+          "detail": "奈德丽E保留最小/最大与中间输入边界，实际治疗效果待源值曲线和事件接线。"
+        },
+        {
+          "issue": "属性键存在不代表单位正确",
+          "detail": "希瓦娜P需要固定护甲/魔抗点数；奈德丽E需要实际目录的额外攻速比例键。"
+        },
+        {
+          "issue": "同来源互斥和跨来源叠加必须分清",
+          "detail": "奈德丽P根修订及六个数学状态明确各来源内部替代、不同来源相加、30%总封顶，页面不宣称运行已支持。"
+        },
+        {
+          "issue": "技能不能统一按五级模板录入",
+          "detail": "杰斯QWE真实最高六级，参数表已完整显示。"
+        },
+        {
+          "issue": "一次伤害载体需和持续召唤分开",
+          "detail": "伊莉丝W本体爆炸保留，持久蜘蛛与额外形态排除，未证可选中击杀另记。"
         }
       ],
       "runtimeValidation": "未执行"
