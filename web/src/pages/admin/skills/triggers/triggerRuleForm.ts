@@ -581,7 +581,7 @@ export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
   ATTRIBUTE_COMPARE: '属性比较',
   STATUS_CHECK: '战斗状态检查',
   LIFECYCLE_CHECK: '生命周期检查',
-  TARGET_CATEGORY_CHECK: '命中目标类别',
+  TARGET_CATEGORY_CHECK: '事件目标类别',
   INTERNAL_STATE_CHECK: '技能内部状态检查',
   EVENT_VALUE_COMPARE: '事件值比较'
 } as const satisfies { [K in SkillTriggerConditionType]: string };
@@ -2152,7 +2152,7 @@ export function analyzeEventSwitchImpact(
   const clearsProcessLimit = draft.maxTriggersPerProcessEnabled && nextSource.eventType !== 'PROCESS_MOMENT';
   const parts: string[] = [];
   if (!allowsTargetCategoryCheck(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'TARGET_CATEGORY_CHECK'))) {
-    parts.push('当前事件不提供命中目标类别，将清除命中目标类别条件。');
+    parts.push('当前事件不提供事件目标类别，将清除事件目标类别条件。');
   }
   if (!allowsSourceCastResourceCost(nextSource) && draft.actions.some((action) => action.runtimeInputBindings.some((binding) => binding.sourceType === 'SOURCE_CAST_RESOURCE_COST'))) {
     parts.push('当前事件未明确技能命中来源，将清除来源施放资源消耗绑定。');

@@ -11,10 +11,10 @@ const makeDraft = (detail: SkillTriggerTargetCategoryCheckDetail = { categories:
     actions: [{ ...rule.actions[0], name: '造成伤害', detail: { effectKey: 'hit_damage' } }] };
 };
 
-describe('命中目标类别条件', () => {
+describe('事件目标类别条件', () => {
   it('五类中文多选与严格类别集合一致', () => {
     expect(SKILL_TRIGGER_TARGET_CATEGORIES.map((category) => TARGET_CATEGORY_LABELS[category])).toEqual(['英雄', '史诗野怪', '小兵', '非史诗野怪', '建筑']);
-    expect(conditionSummary(makeDraft().conditionGroups[0].conditions[0])).toBe('命中目标类别 / 英雄、史诗野怪');
+    expect(conditionSummary(makeDraft().conditionGroups[0].conditions[0])).toBe('事件目标类别 / 英雄、史诗野怪');
   });
 
   it('新条件无默认类别，切换种类彻底清除旧主体和比较字段', () => {
@@ -25,7 +25,7 @@ describe('命中目标类别条件', () => {
     expect(switchConditionType(category, 'LIFECYCLE_CHECK').detail).not.toHaveProperty('categories');
   });
 
-  it.each(['SKILL_HIT', 'BASIC_ATTACK_HIT'] as const)('%s 保存回读仅含类别并保持排序；不增加数值依赖或循环保护', (eventType) => {
+  it.each(['SKILL_HIT', 'BASIC_ATTACK_HIT', 'KILL'] as const)('%s 保存回读仅含类别并保持排序；不增加数值依赖或循环保护', (eventType) => {
     const draft = makeDraft({ categories: ['EPIC_MONSTER', 'CHAMPION', 'STRUCTURE'] });
     draft.eventSource = eventType === 'SKILL_HIT' ? hit : { eventType, detail: {} };
     expect(allowsTargetCategoryCheck(eventType)).toBe(true);
@@ -63,19 +63,23 @@ describe('命中目标类别条件', () => {
     { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ANY' } },
     { eventType: 'BASIC_ATTACK_START', detail: {} },
     { eventType: 'DAMAGE_DEALT', detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' } }
-  ] satisfies SkillTriggerEventSource[])('切到非命中事件 %j 提醒并清理条件，原草稿保持不变', (next) => {
+  ] satisfies SkillTriggerEventSource[])('切到不提供事件目标的事件 %j 提醒并清理条件，原草稿保持不变', (next) => {
     const draft = makeDraft();
     expect(allowsTargetCategoryCheck(next.eventType)).toBe(false);
-    expect(analyzeEventSwitchImpact(draft, next).summary).toContain('将清除命中目标类别条件');
+    expect(analyzeEventSwitchImpact(draft, next).summary).toContain('将清除事件目标类别条件');
     expect(applyEventSwitchCleanup(draft, next).conditionGroups[0].conditions).toEqual([]);
     expect(draft.conditionGroups[0].conditions).toHaveLength(1);
     expect(validateSkillTriggerDraft({ ...draft, eventSource: next }, { includeRuleKey: true }).ok).toBe(false);
   });
 
-  it('在技能命中和普攻命中之间切换保留类别', () => {
-    const draft = makeDraft();
-    const next: SkillTriggerEventSource = { eventType: 'BASIC_ATTACK_HIT', detail: {} };
-    expect(analyzeEventSwitchImpact(draft, next).summary).toBe('');
-    expect(applyEventSwitchCleanup(draft, next).conditionGroups).toEqual(draft.conditionGroups);
+  it('在技能命中、普攻命中和完成击杀之间切换均保留类别', () => {
+    let draft = makeDraft();
+    for (const eventType of ['KILL', 'BASIC_ATTACK_HIT', 'SKILL_HIT'] as const) {
+      const next: SkillTriggerEventSource = eventType === 'SKILL_HIT' ? hit : { eventType, detail: {} };
+      expect(analyzeEventSwitchImpact(draft, next).summary).toBe('');
+      const cleaned = applyEventSwitchCleanup(draft, next);
+      expect(cleaned.conditionGroups).toEqual(draft.conditionGroups);
+      draft = cleaned;
+    }
   });
 });
