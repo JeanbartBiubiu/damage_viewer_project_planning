@@ -1,0 +1,114 @@
+{
+  "at": "2026-09-10T14:31:04.826Z",
+  "status": "约里克Q基础治疗18级数组已补录；两项原样更新、独立回读、实际数学与真实页面通过",
+  "gameId": "lol",
+  "sourceVersion": "16.17 / 16.17.1",
+  "skillKey": "yorick_q",
+  "updates": [
+    {
+      "type": "parameter",
+      "key": "q_heal_base_actual",
+      "change": "保留稳定标识，将计算时传入改为按角色等级，写入1至18级完整整数表并更新名称和说明"
+    },
+    {
+      "type": "formula",
+      "key": "self_heal",
+      "change": "只更新说明；表达式树、稳定标识、名称和排序保持不变"
+    }
+  ],
+  "characterLevelValues": [
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    23,
+    26,
+    29,
+    32,
+    35,
+    38,
+    43,
+    48,
+    53,
+    58,
+    63,
+    68
+  ],
+  "businessWrites": {
+    "PUT": 2,
+    "successful": 2,
+    "replayed": 0,
+    "created": 0,
+    "deleted": 0
+  },
+  "writer": {
+    "GETs": 28,
+    "confirmedUpdates": 2,
+    "finalStatus": "两项更新各自PUT后GET确认成功；末尾列表保护检查因检查器错误停止",
+    "evidence": "保存证据/实际修正.json"
+  },
+  "recovery": {
+    "firstReadOnlyGETs": 12,
+    "firstResult": "检查器把详情接口的完整公式结构误用于不返回表达式树的公式列表，因此只读停止；业务写入0",
+    "successfulReadOnlyGETs": 21,
+    "successfulResult": "按列表实际可见字段比较后，21条保护路径全部通过；业务写入0",
+    "replayedWrites": 0,
+    "evidence": [
+      "保存证据/只读恢复检查-第一次.json",
+      "保存证据/只读恢复检查.json"
+    ]
+  },
+  "readback": {
+    "sameExecutorGETs": 21,
+    "sameExecutorPassed": true,
+    "independentAgentGETs": 21,
+    "independentAgentPassed": true,
+    "independentProtectedPaths": 21,
+    "independentMismatches": 0,
+    "businessWrites": 0,
+    "evidence": [
+      "保存证据/独立GET.json",
+      "独立复核/独立回读结果.json"
+    ]
+  },
+  "math": {
+    "GETs": 2,
+    "integerValues": 18,
+    "incrementChecks": 17,
+    "formulaScenarios": 4,
+    "passed": true,
+    "businessWrites": 0,
+    "evidence": "保存证据/实际数学核验.json"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:5173/#/skills",
+    "representativePages": 1,
+    "listImageVisible": true,
+    "parameterGroupingPassed": true,
+    "all18ValuesVisible": true,
+    "parameterDetailPassed": true,
+    "formulaDetailPassed": true,
+    "businessWrites": 0,
+    "evidence": "保存证据/页面验收.json"
+  },
+  "protected": [
+    "技能主体与代表图片",
+    "其余7个参数",
+    "bonus_damage公式",
+    "3个效果及其结果",
+    "空过程、空内部状态与空触发规则",
+    "self_heal表达式结构及其效果引用"
+  ],
+  "experienceIssues": [
+    "受保护写入失败后必须先核对成功前缀，不能重放已经返回200并GET确认的更新。",
+    "集合接口可能只返回摘要字段；保护检查应按集合可见字段比较，详情接口再比较完整对象。",
+    "角色等级断点必须明确断点当级是否切换，并用完整18级递推和官方端点交叉核对。"
+  ],
+  "pending": [
+    "Q强化攻击的命中、治疗及墓地创建事件仍未做战斗运行验证。",
+    "非英雄治疗削减、雾行者召唤及其他超出本轮1V1范围的分支未补录。"
+  ],
+  "runtimeValidation": "未执行"
+}
