@@ -1,0 +1,55 @@
+{
+  "at": "2026-09-10T05:13:16.131Z",
+  "sourceFiles": [
+    {
+      "path": "web/src/pages/admin/skills/effects/effectForm.ts",
+      "sha256": "c161d49c9e9c730e9d2ee91d949cbcb43e84d745b8018e27e2cecb0cf3c6ce9e"
+    },
+    {
+      "path": "web/src/pages/admin/skills/effects/effectForm.test.ts",
+      "sha256": "53e19c001a67fc0ada1acb0c6bd4cc011fbd5afdb8658ad29580e6509454df67"
+    },
+    {
+      "path": "web/src/pages/admin/skills/effects/SkillEffectResultEditorModal.tsx",
+      "sha256": "fcb053b9d360ab3ec57f60260de304e6634bdff98bc034878aa323d934b740ff"
+    }
+  ],
+  "targeted": {
+    "command": "node node_modules/vitest/vitest.mjs run --config vitest.config.ts src/pages/admin/skills/effects/effectForm.test.ts",
+    "tests": 49,
+    "passed": 49,
+    "exitCode": 0,
+    "startedAt": "2026-09-10T12:54:04+08:00"
+  },
+  "module": [
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "productionFiles": 139
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run test",
+      "exitCode": 0,
+      "files": 56,
+      "tests": 588,
+      "passed": 588,
+      "startedAt": "2026-09-10T12:55:38+08:00"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "modules": 1289
+    }
+  ],
+  "earlierFailure": {
+    "tests": 49,
+    "failed": 2,
+    "reason": "首次归一化范围过宽，导致既有非持续非法粒度被静默清除；已恢复原校验路径，并明确持续结果切换清理行为，随后定向与完整检查均通过。"
+  },
+  "runtimeValidation": "未执行",
+  "browserValidation": "另录"
+}

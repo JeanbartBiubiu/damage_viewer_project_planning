@@ -1,0 +1,75 @@
+{
+  "at": "2026-09-10T05:38:41.136Z",
+  "status": "通过",
+  "sourceFiles": [
+    {
+      "path": "web/src/pages/admin/skills/effects/effectForm.ts",
+      "sha256": "43f5ab01b5142f1e44f0dac8cad225813165ad40aad238a93be29bdb52cf6bc1"
+    },
+    {
+      "path": "web/src/pages/admin/skills/effects/effectForm.test.ts",
+      "sha256": "c102f34fa5c4ea33edbd9a0dd5aa65b3d723cb6312f58b9a20da09e0987fc687"
+    },
+    {
+      "path": "web/src/pages/admin/skills/effects/SkillEffectResultEditorModal.tsx",
+      "sha256": "9d2f7bce2479a2ebb901965812d48adde725812d9e7fa38c2c28992681ddd327"
+    },
+    {
+      "path": "web/src/services/skillEffectClient.ts",
+      "sha256": "e338445284d12a56b6d76b6b2045df9bce1b769bddd1c3c9fe42cea5224e7a13"
+    },
+    {
+      "path": "web/src/services/skillEffectClient.test.ts",
+      "sha256": "2fe46f3ea01457aff0a9ef78e26bfcf9862e1ce2ec9fe05e24d9f18e7a6acbea"
+    }
+  ],
+  "backendCommit": "a21fcaeb0a9856818752ebd5a22ffa05b3a642f7",
+  "backend": {
+    "targetedTests": 47,
+    "moduleTests": 905,
+    "exitCode": 0
+  },
+  "frontend": {
+    "targetedEffectTests": 50,
+    "targetedClientTests": 10,
+    "moduleFiles": 56,
+    "moduleTests": 590,
+    "lintProductionFiles": 139,
+    "typecheckExitCode": 0,
+    "testExitCode": 0,
+    "buildExitCode": 0,
+    "buildModules": 1289,
+    "testStartedAt": "2026-09-10T13:34:29+08:00"
+  },
+  "business": {
+    "skill": "veigar_e",
+    "createdEffect": "event_horizon_stun",
+    "browserCreates": 1,
+    "browserSameValueUpdates": 1,
+    "scriptWrites": 0,
+    "independentGETs": 36,
+    "firstGETSha256": "1822f7ec434359a8de13fe79398e355d307ea3e96bea37628eddf9ef4f39ceb5",
+    "finalGETSha256": "bf5bf98acb5b2b92195cee1bfe53ceb94bc7db612d54506bedf925c66019cf10",
+    "oldBusinessPreserved": true,
+    "newParameters": 0,
+    "newTriggers": 0
+  },
+  "browser": {
+    "route": "http://127.0.0.1:5173/#/skills",
+    "childSavedBeforeParentMetadata": true,
+    "finalParentRejectedBlankIdAndName": true,
+    "reopenedActualDetail": true,
+    "removeOperationCleanupPrompt": true,
+    "cancelCleanupPreservedApplyAndResult": true,
+    "finalSaveMessage": "效果「碰到牢笼边缘眩晕」已保存。",
+    "finalFrontendPid": 10124,
+    "backendPid": 44136
+  },
+  "failuresResolved": [
+    "子结果提前校验父名称，新增子草稿专用跳过父元数据选项，父最终保存保持严格",
+    "表单与后端修复后客户端响应解析仍拒绝持续状态粒度，补齐共同限定组合",
+    "首次页面创建已落地但响应报错，先独立GET确认，不重试POST",
+    "Vite旧进程持续提供旧解析代码，重启真实前端并核对新模块后重开及原样更新成功"
+  ],
+  "runtimeValidation": "未执行；未产生真实牢笼边缘事件，未验证战斗期限或法术护盾执行"
+}

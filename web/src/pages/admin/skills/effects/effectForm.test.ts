@@ -659,6 +659,67 @@ describe('skill effect form validation', () => {
     expect(isSpellShieldBlockScopeVisible(heal)).toBe(false);
   });
 
+  it('preserves only result scope for persistent target status application through save and readback', () => {
+    const status = withBehavior(createEmptyResultDraft('STATUS_OPERATION'), { moment: 'PERSISTENT' });
+    status.resultKey = 'poison';
+    status.name = '施加中毒';
+    status.statusKey = 'poison';
+    status.spellShieldBlockScope = 'RESULT';
+    expect(isSpellShieldBlockScopeVisible(status)).toBe(true);
+    expect(listSpellShieldBlockScopeOptions(status)).toEqual(['RESULT']);
+    expect(clearHiddenResultFields(status).spellShieldBlockScope).toBe('RESULT');
+    expect(clearHiddenLifecycleBehaviorFields(status).spellShieldBlockScope).toBe('RESULT');
+    const saved = expectValid(lifecycleEnabledDraft([status])).results[0];
+    expect(saved).toMatchObject({
+      target: 'TARGET', resultType: 'STATUS_OPERATION', spellShieldBlockScope: 'RESULT',
+      detail: { operation: 'APPLY', statusKey: 'poison' },
+      lifecycleBehavior: { moment: 'PERSISTENT', stackValueMode: null, reapplicationValueMode: null }
+    });
+    expect(clearHiddenResultFields(skillEffectResultToDraft(saved)).spellShieldBlockScope).toBe('RESULT');
+    expect(expectValid(lifecycleEnabledDraft([{ ...status, spellShieldBlockScope: '' }])).results[0]
+      .spellShieldBlockScope).toBeNull();
+
+    for (const scope of ['SKILL', 'EFFECT', 'DAMAGE_INSTANCE'] as const) {
+      const invalid = { ...status, spellShieldBlockScope: scope };
+      expect(clearHiddenResultFields(invalid).spellShieldBlockScope).toBe('');
+      expect(clearHiddenLifecycleBehaviorFields(invalid).spellShieldBlockScope).toBe('');
+      expect(expectValid(lifecycleEnabledDraft([invalid])).results[0].spellShieldBlockScope).toBeNull();
+    }
+    for (const ineligible of [
+      { ...status, target: 'SOURCE' as const },
+      { ...status, statusOperation: 'REMOVE' as const },
+      { ...status, resultType: 'ATTRIBUTE_CHANGE' as const },
+      { ...status, resultType: 'DAMAGE' as const }
+    ]) {
+      expect(isSpellShieldBlockScopeVisible(ineligible)).toBe(false);
+      expect(listSpellShieldBlockScopeOptions(ineligible)).toEqual([]);
+      expect(clearHiddenLifecycleBehaviorFields(ineligible).spellShieldBlockScope).toBe('');
+    }
+  });
+
+  it('lets a valid child result enter an unfinished parent draft while final parent save stays strict', () => {
+    const parent = {
+      ...validEffectDraft([validDamageDraft()]), name: '', description: '长'.repeat(2001), sortOrder: '-1'
+    };
+    const childOptions = {
+      includeEffectKey: false, catalog: CATALOG,
+      skipLifecycleShapeValidation: true, skipEffectMetadataValidation: true
+    };
+    expect(validateSkillEffectDraft(parent, childOptions).ok).toBe(true);
+    const final = validateSkillEffectDraft(parent, { includeEffectKey: true, catalog: CATALOG });
+    expect(final.ok).toBe(false);
+    if (!final.ok) {
+      expect(final.fieldErrors.name).toBe('效果名称不能为空。');
+      expect(final.fieldErrors.description).toBe('说明不能超过 2000 个字符。');
+      expect(final.fieldErrors.sortOrder).toBeTruthy();
+    }
+    const badChild = validateSkillEffectDraft({
+      ...parent, results: [{ ...validDamageDraft(), name: '' }]
+    }, childOptions);
+    expect(badChild.ok).toBe(false);
+    if (!badChild.ok) expect(badChild.resultErrors[0]?.fieldErrors.name).toBe('结果名称不能为空。');
+  });
+
   it('builds a persistent spell-shield result with no value or block scope', () => {
     const shield = createEmptyResultDraft('SPELL_SHIELD');
     shield.resultKey = 'spell_shield';

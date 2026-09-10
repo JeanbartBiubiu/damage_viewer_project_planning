@@ -1,0 +1,89 @@
+{
+  "kind": "firstpass-persistent-status-review-backend-implementation",
+  "generatedAt": "2026-09-10T04:59:15.397Z",
+  "backendRoot": "C:/project/damage_backend_dev",
+  "backendBranch": "backend/dev",
+  "observedBaseCommit": "4809f1055cd73594a5c0681e2049f45a26ec09f5",
+  "changedSourceFiles": {
+    "server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java": {
+      "bytes": 108355,
+      "sha256": "a0b927efedbc268db245d35e82d1a8b48afb016f8fc8c7a3dedbb20aededd9ac"
+    },
+    "server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillEffectServiceTest.java": {
+      "bytes": 149137,
+      "sha256": "f39815e340b511bcc661c6e1d9a49994bb435be579015927e34aacc71f5bf947"
+    }
+  },
+  "evidenceFiles": {
+    "实施说明.md": {
+      "bytes": 1756,
+      "sha256": "d9dadd58fdd00d7df618a387f056120a4b9fb1d441adf7c28b3b5390f2cba6fe"
+    },
+    "测试证据.md": {
+      "bytes": 1626,
+      "sha256": "e51d436cf74b12dbde4ce4d93c48625ea75bded5cdd803d91165223f62a78f57"
+    },
+    "精确差异.md": {
+      "bytes": 1680,
+      "sha256": "dba244d3d2527633893c0c63a74442567aede50a7a0d7489699003683d7019b9"
+    },
+    "冻结清单.md": {
+      "bytes": 990,
+      "sha256": "afaf9a7c783ee72096da63f5729c5ede0de9f2a60962bfc825027b3f2520dfe9"
+    }
+  },
+  "gitDiff": {
+    "command": "git diff --no-ext-diff --binary -- server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillEffectServiceTest.java",
+    "bytes": 10268,
+    "sha256": "ab4ca02d04e23d05f8eb38aa2ff549237302592e933c486bb94465696d1c157e",
+    "exitCode": 0,
+    "stderr": "warning: in the working copy of 'server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillEffectServiceTest.java', LF will be replaced by CRLF the next time Git touches it"
+  },
+  "gitDiffCheck": {
+    "command": "git diff --check -- server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillEffectServiceTest.java",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": "warning: in the working copy of 'server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillEffectServiceTest.java', LF will be replaced by CRLF the next time Git touches it"
+  },
+  "gitStatusObserved": "## backend/dev...origin/backend/dev [ahead 14]\n M server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java\n M server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillEffectServiceTest.java",
+  "testResults": {
+    "targeted": {
+      "command": "mvn \"-Dtest=SkillEffectServiceTest\" test",
+      "exitCode": 0,
+      "testsRun": 47,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "module": {
+      "command": "mvn test",
+      "exitCode": 0,
+      "testsRun": 905,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "scope": {
+    "allowedPersistentSpellShieldShape": "TARGET + STATUS_OPERATION + detail.operation APPLY + PERSISTENT + RESULT",
+    "nullScope": "preserved",
+    "rejectedPersistentShapes": [
+      "SKILL",
+      "EFFECT",
+      "DAMAGE_INSTANCE",
+      "SOURCE target",
+      "REMOVE operation",
+      "other persistent result types"
+    ],
+    "excluded": [
+      "业务接口",
+      "数据库",
+      "浏览器",
+      "Wasm",
+      "SQL",
+      "前端",
+      "Git写入"
+    ]
+  },
+  "manifestNote": "本清单不纳入自身 SHA-256，避免自引用循环。"
+}
