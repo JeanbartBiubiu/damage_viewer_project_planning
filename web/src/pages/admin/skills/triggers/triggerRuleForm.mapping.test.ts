@@ -258,7 +258,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
     expect(impact.clearsEventValues).toBe(true);
     expect(impact.clearsEventSourceRefs).toBe(false);
     expect(impact.clearsProcessLimit).toBe(true);
-    expect(impact.summary).toContain('命中目标类别');
+    expect(impact.summary).toContain('事件目标类别');
     expect(impact.summary).toContain('来源施放资源消耗');
     expect(draft.eventSource).toEqual({ eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'nasus_q' } });
     expect(draft.conditionGroups[0].conditions).toHaveLength(4);

@@ -253,9 +253,9 @@ export function SkillTriggerConditionEditorModal({
           </Form.Item>
 
           {current.conditionType === 'TARGET_CATEGORY_CHECK' ? (
-            <Form.Item label="命中目标类别" required extra="固定判断本次实际命中目标，匹配所选任一类别。">
+            <Form.Item label="事件目标类别" required extra="命中事件读取本次实际命中对象，击杀事件读取本次被击杀对象；匹配所选任一类别。">
               <Checkbox.Group
-                aria-label="命中目标类别"
+                aria-label="事件目标类别"
                 value={current.detail.categories}
                 disabled={disabled}
                 options={SKILL_TRIGGER_TARGET_CATEGORIES.map((value) => ({ value, label: TARGET_CATEGORY_LABELS[value] }))}
