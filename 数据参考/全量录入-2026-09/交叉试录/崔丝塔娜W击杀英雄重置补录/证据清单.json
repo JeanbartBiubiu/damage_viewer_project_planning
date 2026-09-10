@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T15:57:06.042Z",
+  "generatedAt": "2026-09-10T16:06:22.209Z",
   "gameId": "lol",
   "skillKey": "tristana_w",
   "sourceVersion": "client 16.17 / current wiki revision 4007758",
@@ -8,7 +8,8 @@
     "writeStatus": 201,
     "writerPreflightGets": 10,
     "writerReadbackGets": 11,
-    "independentReadbackGets": 11
+    "independentReadbackGets": 11,
+    "emptyListRecheckGets": 1
   },
   "browser": {
     "pages": 1,
@@ -19,6 +20,9 @@
     "frontendCommit": "c9d840bc",
     "planningCommit": "f9e3ec38",
     "cursorReviewRun": "run-343f4b49-4f54-4975-9e6a-39456c40f0b0"
+  },
+  "evidenceCorrections": {
+    "internalStateEmptyList": "同批原始数据和当前HTTP均为[]；独立证据中的null为采集序列化失真。"
   },
   "files": [
     {
@@ -52,9 +56,14 @@
       "sha256": "2046e73a6761f1bf28bc17f6242c2f35c9e0870a55e0193f7f312e2e69b50191"
     },
     {
+      "name": "07-空列表观测复核.json",
+      "bytes": 1245,
+      "sha256": "e1f007630f713f7c7bbb8110c454231ec07c053100ff6603499b9e0d41a2b337"
+    },
+    {
       "name": "README.md",
-      "bytes": 2764,
-      "sha256": "f4a2d4e90e0d25f2290fdcc5d43f34229904ff026651618d6b40d7b57b9789d8"
+      "bytes": 3006,
+      "sha256": "962655f8d5e64d38593dd3279bb37fcda00523b3cf81b161ffab5d07fc04f2a5"
     }
   ],
   "runtimeValidation": "未执行"
