@@ -1858,6 +1858,133 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void createsAndReadsBackPersistentStatusApplyResultScope() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        stubDetailRead(
+            List.of(resultRow("apply_poison", SkillEffectResultType.STATUS_OPERATION)),
+            List.of(),
+            new DetailBundle(
+                List.of(), List.of(), List.of(), List.of(),
+                List.of(new SkillEffectStatusOperationDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "apply_poison", "poison", SkillEffectStatusOperation.APPLY
+                ))
+            )
+        );
+
+        SkillEffectDetailResponse created = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "持续眩晕",
+                null,
+                10,
+                timedLifecycle(),
+                List.of(statusResultWithScope(
+                    SkillEffectTarget.TARGET,
+                    SkillEffectStatusOperation.APPLY,
+                    persistentStatusBehavior(),
+                    SkillEffectSpellShieldBlockScope.RESULT
+                ))
+            )
+        );
+
+        assertEquals(SkillEffectLifecycleMoment.PERSISTENT, created.results().get(0).lifecycleBehavior().moment());
+        assertEquals(SkillEffectSpellShieldBlockScope.RESULT, created.results().get(0).spellShieldBlockScope());
+        ObjectNode stored = (ObjectNode) AggregateJson.tree(savedEffect.results()).get(0);
+        assertEquals("RESULT", stored.path("spellShieldBlockScope").asText());
+
+        when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        SkillEffectDetailResponse readBack = service.get(GAME_ID, SKILL_KEY, EFFECT_KEY);
+        assertEquals(created, readBack);
+        assertEquals(SkillEffectSpellShieldBlockScope.RESULT, readBack.results().get(0).spellShieldBlockScope());
+    }
+
+    @Test
+    void keepsNullScopeAndRejectsOtherPersistentScopeShapes() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        stubDetailRead(
+            List.of(resultRow("apply_poison", SkillEffectResultType.STATUS_OPERATION)),
+            List.of(),
+            new DetailBundle(
+                List.of(), List.of(), List.of(), List.of(),
+                List.of(new SkillEffectStatusOperationDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "apply_poison", "poison", SkillEffectStatusOperation.APPLY
+                ))
+            )
+        );
+
+        SkillEffectDetailResponse withoutScope = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "持续眩晕",
+                null,
+                10,
+                timedLifecycle(),
+                List.of(statusResultWithScope(
+                    SkillEffectTarget.TARGET,
+                    SkillEffectStatusOperation.APPLY,
+                    persistentStatusBehavior(),
+                    null
+                ))
+            )
+        );
+        assertNull(withoutScope.results().get(0).spellShieldBlockScope());
+
+        List<SkillEffectResultRequest> invalid = List.of(
+            statusResultWithScope(
+                SkillEffectTarget.TARGET,
+                SkillEffectStatusOperation.APPLY,
+                persistentStatusBehavior(),
+                SkillEffectSpellShieldBlockScope.SKILL
+            ),
+            statusResultWithScope(
+                SkillEffectTarget.TARGET,
+                SkillEffectStatusOperation.APPLY,
+                persistentStatusBehavior(),
+                SkillEffectSpellShieldBlockScope.EFFECT
+            ),
+            statusResultWithScope(
+                SkillEffectTarget.TARGET,
+                SkillEffectStatusOperation.APPLY,
+                persistentStatusBehavior(),
+                SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
+            ),
+            statusResultWithScope(
+                SkillEffectTarget.SOURCE,
+                SkillEffectStatusOperation.APPLY,
+                persistentStatusBehavior(),
+                SkillEffectSpellShieldBlockScope.RESULT
+            ),
+            statusResultWithScope(
+                SkillEffectTarget.TARGET,
+                SkillEffectStatusOperation.REMOVE,
+                persistentStatusBehavior(),
+                SkillEffectSpellShieldBlockScope.RESULT
+            ),
+            persistentDamageModifierWithScope(SkillEffectSpellShieldBlockScope.RESULT)
+        );
+
+        for (SkillEffectResultRequest result : invalid) {
+            stubParentAndNewKey();
+            ApiException exception = assertThrows(
+                ApiException.class,
+                () -> service.create(
+                    GAME_ID,
+                    SKILL_KEY,
+                    new SkillEffectCreateRequest(EFFECT_KEY, "非法持续阻挡粒度", null, 10, timedLifecycle(), List.of(result))
+                )
+            );
+            assertEquals("400.VALIDATION_FAILED", exception.getCode());
+            assertField(exception, "results[0].spellShieldBlockScope", "INVALID_SPELL_SHIELD_SCOPE");
+        }
+    }
+
+    @Test
     void lifecycleOperationsRequireValueExceptRefreshRemoveAndProtectTargetReferences() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         stubEnabledCatalogs();
@@ -2669,6 +2796,16 @@ class SkillEffectServiceTest {
         );
     }
 
+    private static SkillEffectResultRequest persistentDamageModifierWithScope(
+        SkillEffectSpellShieldBlockScope scope
+    ) {
+        SkillEffectResultRequest source = persistentDamageModifierResult();
+        return new SkillEffectResultRequest(
+            source.resultKey(), source.name(), source.resultType(), SkillEffectTarget.TARGET,
+            source.description(), source.sortOrder(), source.valueRule(), source.detail(), source.lifecycleBehavior(), scope
+        );
+    }
+
     private static SkillEffectResultRequest persistentDamageModifierResult() {
         return new SkillEffectResultRequest(
             "damage_reduction",
@@ -2918,16 +3055,52 @@ class SkillEffectServiceTest {
         String resultKey,
         SkillEffectResultLifecycleBehaviorRequest behavior
     ) {
+        return statusResultWithScope(
+            resultKey,
+            SkillEffectTarget.TARGET,
+            SkillEffectStatusOperation.APPLY,
+            behavior,
+            null
+        );
+    }
+
+    private static SkillEffectResultRequest statusResultWithScope(
+        SkillEffectTarget target,
+        SkillEffectStatusOperation operation,
+        SkillEffectResultLifecycleBehaviorRequest behavior,
+        SkillEffectSpellShieldBlockScope scope
+    ) {
+        return statusResultWithScope("apply_poison", target, operation, behavior, scope);
+    }
+
+    private static SkillEffectResultRequest statusResultWithScope(
+        String resultKey,
+        SkillEffectTarget target,
+        SkillEffectStatusOperation operation,
+        SkillEffectResultLifecycleBehaviorRequest behavior,
+        SkillEffectSpellShieldBlockScope scope
+    ) {
         return new SkillEffectResultRequest(
             resultKey,
             "施加中毒",
             SkillEffectResultType.STATUS_OPERATION,
-            SkillEffectTarget.TARGET,
+            target,
             null,
             6,
             null,
-            new SkillEffectStatusOperationDetail("poison", SkillEffectStatusOperation.APPLY),
-            behavior
+            new SkillEffectStatusOperationDetail("poison", operation),
+            behavior,
+            scope
+        );
+    }
+
+    private static SkillEffectResultLifecycleBehaviorRequest persistentStatusBehavior() {
+        return new SkillEffectResultLifecycleBehaviorRequest(
+            SkillEffectLifecycleMoment.PERSISTENT,
+            null,
+            null,
+            null,
+            null
         );
     }
 
