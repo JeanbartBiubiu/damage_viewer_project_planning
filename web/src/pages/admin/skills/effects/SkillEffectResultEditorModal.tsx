@@ -1065,7 +1065,8 @@ export function SkillEffectResultEditorModal({
       parameters, parametersLoadState,
         catalog,
         catalogLoadState: validationCatalogState,
-        skipLifecycleShapeValidation: true
+        skipLifecycleShapeValidation: true,
+        skipEffectMetadataValidation: true
       }
     );
     if (!validation.ok) {
@@ -1969,7 +1970,7 @@ export function SkillEffectResultEditorModal({
                   aria-label="状态操作"
                   value={draft.statusOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraft({
+                  onChange={(value) => patchDraftWithSpellShieldCleanup({
                     ...draft,
                     statusOperation: value as StatusOperation
                   })}
