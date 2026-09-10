@@ -551,8 +551,14 @@ public class SkillEffectService {
             || result.resultType() == SkillEffectResultType.EXECUTE
             || result.resultType() == SkillEffectResultType.HIT_LINK_APPLICATION
             || result.resultType() == SkillEffectResultType.ATTACK_LINK_APPLICATION;
+        boolean persistentStatusApplyResult = persistent
+            && result.target() == xyz.game.datamanage.model.skilleffect.SkillEffectTarget.TARGET
+            && result.resultType() == SkillEffectResultType.STATUS_OPERATION
+            && result.detail() instanceof SkillEffectStatusOperationDetail statusDetail
+            && statusDetail.operation() == SkillEffectStatusOperation.APPLY
+            && scope == SkillEffectSpellShieldBlockScope.RESULT;
         if (result.target() != xyz.game.datamanage.model.skilleffect.SkillEffectTarget.TARGET
-            || persistent
+            || (persistent && !persistentStatusApplyResult)
             || !allowedType
             || (scope == SkillEffectSpellShieldBlockScope.DAMAGE_INSTANCE
                 && result.resultType() != SkillEffectResultType.DAMAGE)) {
