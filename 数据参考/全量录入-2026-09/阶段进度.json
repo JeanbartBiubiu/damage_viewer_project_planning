@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T05:40:18.558Z",
+  "generatedAt": "2026-09-10T06:04:32.001Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -62,7 +62,7 @@
         "item_2422"
       ],
       "evidence": "API实录/符文生成装备第一批/独立最终回读.json",
-      "mechanismStatus": "主体与图片完成，消耗效果和符文生成关系待录"
+      "mechanismStatus": "四装备已挂载各自技能与代表图，明确参数、公式和效果完成回读及页面验收；神奇之鞋额外移速已从符文迁入装备技能。饼干中间恢复曲线、适应之力方向及消费/升级等事件仍按具体事项记录。"
     },
     "nonShopScope": {
       "reviewed": 17,
@@ -4695,6 +4695,73 @@
         "Vite旧进程持续提供旧解析代码，重启真实前端并核对新模块后重开及原样更新成功"
       ],
       "runtimeValidation": "未执行；未产生真实牢笼边缘事件，未验证战斗期限或法术护盾执行"
+    },
+    "runeGeneratedEquipmentOwnership": {
+      "status": "四装备来源明确组成、挂载及图片保存；旧鞋重复效果迁移完成，独立回读、数学与页面通过",
+      "equipmentKeys": [
+        "item_2010",
+        "item_2150",
+        "item_2152",
+        "item_2422"
+      ],
+      "skills": [
+        "item_2010_consume",
+        "item_2150_consume",
+        "item_2152_consume",
+        "item_2422_passive"
+      ],
+      "counts": {
+        "newSkills": 4,
+        "newParameters": 12,
+        "newFormulas": 3,
+        "newEffects": 2,
+        "newRelations": 4,
+        "representativeImages": 4,
+        "deletedOldEffects": 1
+      },
+      "businessWrites": 30,
+      "methods": {
+        "POST": 25,
+        "PUT": 4,
+        "DELETE": 1
+      },
+      "writerGETs": 364,
+      "independentGETs": 102,
+      "math": {
+        "parametersChecked": 12,
+        "formulasChecked": 3,
+        "effectsChecked": 2,
+        "formulaScenarioCount": 6
+      },
+      "browserPassed": true,
+      "protected": {
+        "baselineGETs": 72,
+        "supplementOldImage": true,
+        "oldParameters": 19,
+        "oldFormulas": 2,
+        "oldRuneRelationsUnchanged": true,
+        "equipmentDirectAttributesUnchanged": true
+      },
+      "pending": [
+        "饼干中间低血提升曲线、恢复跳数和消费事件未证；保存无默认实际输入与恢复总量公式",
+        "技能合剂的技能点消费、最高等级资格仍待真实事件；不能当角色经验等级",
+        "原力合剂适应之力方向和换算未证，未同时添加攻击力与法强",
+        "神奇之鞋升级继承只在确实来自该鞋时适用，升级来源事件未接；不自动作用全部鞋类"
+      ],
+      "experienceIssues": [
+        "旧效果代表图来自6项补充快照，不能误从72项主快照读取；初次只读预检失败，零写入，保留原件后补齐",
+        "中间迁移保护允许前三件已经正确挂载，鞋子自身须在旧效果删除后挂载；最终四关系必须精确齐全",
+        "饼干累计贡献使用施加时快照和覆盖，不能将完整累计数再次相加",
+        "装备和符文技能归属按实际持有/消耗对象区分，保留原符文参数和关系",
+        "装备关联弹窗可以核对挂载，当前查看技能组成仍需进入技能页按稳定标识查询"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/符文生成装备效果实录/当前实录状态.json",
+        "sha256": "947afcbb442a2e20dc1dd817338643e677dd3b6633fd4d508661ae153e8782f5",
+        "commit": "c561c8fbd47f13e427d5920c5f7a46eab39cf2dd"
+      },
+      "runtimeValidation": "未执行，不把公式算例、保存或页面回显视为战斗执行"
     }
   },
   "runtimeValidation": "未执行"
