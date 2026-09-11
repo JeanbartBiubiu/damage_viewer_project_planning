@@ -5076,6 +5076,90 @@
         "sha256": "30b164b79d46dab98a823c5f57b59a70e3057503c7322cf7b4792fa7fc438f87",
         "commit": "06c2349dbcbff5eb84db9f85aa5c973a2bd99789"
       }
+    },
+    "hydraActiveHitBackfill": {
+      "at": "2026-09-11T12:48:22.2664765Z",
+      "status": "三件主动核心命中伤害新增，独立评审、受保护写入、两路回读、公式核算和代表页面通过",
+      "skills": [
+        "item_3077_active",
+        "item_3074_active",
+        "item_6698_active"
+      ],
+      "created": {
+        "effects": 3,
+        "triggerRules": 3
+      },
+      "updated": {
+        "formulaDescriptions": 1,
+        "skillDescriptions": 3
+      },
+      "deleted": 0,
+      "sourceDecision": "仅保存实际命中当前目标后的核心物理伤害；三件被动顺劈按额外敌人分支排除，血斩吸血基准、范围命中生产、主动过程和冷却消费不猜填。",
+      "writer": {
+        "initialPreflightGETs": 70,
+        "candidateSkillsRead": 5,
+        "protectedPreflightGETs": 47,
+        "businessWrites": 10,
+        "POST": 6,
+        "PUT": 4,
+        "DELETE": 0,
+        "allGETs": 114,
+        "replayedWrites": 0
+      },
+      "independentAgentGETs": 47,
+      "independentMismatches": 0,
+      "formula": {
+        "GETs": 6,
+        "cases": 3,
+        "sourceTotalAttackDamage": 400,
+        "values": [
+          300,
+          320,
+          320
+        ],
+        "passed": true
+      },
+      "browser": {
+        "representativePages": 1,
+        "representativeSkill": "item_3077_active",
+        "listImageVisible": true,
+        "effectAndRuleDetailsVisible": true,
+        "sameContractItemsCoveredByApiReadback": 2,
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-73875d33-3f6f-4916-8eb9-4a311a9e31f8",
+        "planRevision": 2,
+        "verdict": "READY",
+        "runDeltaCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "parametersUnchanged": true,
+        "formulaExpressionsUnchanged": true,
+        "equipmentRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true
+      },
+      "experienceIssues": [
+        "写前快照缺代表图字段会让独立检查器把正确图片误报为漂移；后续模板必须显式保存图片详情。",
+        "说明更新会合法刷新列表时间戳，保护检查应按业务字段深比较并允许批准字段的对应更新时间变化。",
+        "SKILL_HIT请求省略useKind但回读规范化为null，冻结请求与冻结回读应分开表示。",
+        "管理页可以显示效果与规则，但没有公式试算入口，仍需从接口回读后独立核算。"
+      ],
+      "pending": [
+        "巨型九头蛇主动等待下一次普攻消费、近远程分支和可靠窗口。",
+        "救赎等待2.5秒区域结算、近期重复干涉衰减和友方治疗资格。",
+        "三件主动的空间命中、生命偷取、法术护盾、主动过程和冷却消费未做战斗运行验证。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三件九头蛇系主动命中补录/证据清单.json",
+        "sha256": "61f9542efae1c7d0c8ddbb8e7d346498fcf531d51c4d284558a558686c5c3267",
+        "commit": "d1890cfdfd146179ee58eef64cdf891d174dbb14"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
