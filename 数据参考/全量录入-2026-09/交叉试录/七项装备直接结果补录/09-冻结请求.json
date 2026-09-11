@@ -1,0 +1,518 @@
+{
+  "planRevision": 1,
+  "plannedWrites": 12,
+  "writeOrder": [
+    "POST /skills/item_2510_passive/effects (spellblade_damage)",
+    "POST /skills/item_2510_passive/effects (spellblade_heal)",
+    "POST /skills/item_3107_active/effects (enemy_true_damage)",
+    "POST /skills/item_3137_passive/effects (self_heal)",
+    "POST /skills/item_3152_active/effects (firebolt_hit)",
+    "POST /skills/item_3181_passive/effects (melee_bonus_damage)",
+    "POST /skills/item_3181_passive/effects (ranged_bonus_damage)",
+    "POST /skills/item_3748_passive/effects (primary_on_hit_melee)",
+    "POST /skills/item_3748_passive/effects (primary_on_hit_ranged)",
+    "POST /skills/item_3748_active/effects (active_primary_melee)",
+    "POST /skills/item_3748_active/effects (active_primary_ranged)",
+    "PUT /skills/item_3107_active/formulas/enemy_true_damage"
+  ],
+  "source": {
+    "normalizedPath": "数据参考/lol-wiki-current-items/current-items.normalized.json",
+    "normalizedSha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4",
+    "currentAuditSha256": "3aa27c660f597b862e84ac1819519d03c0720a93bf07c86fd0ba6c92641451fa",
+    "itemIds": [
+      2510,
+      3107,
+      3137,
+      3152,
+      3181,
+      3748
+    ]
+  },
+  "targets": [
+    {
+      "skillKey": "item_2510_passive",
+      "equipmentKey": "item_2510",
+      "sourceItemId": 2510,
+      "effectPosts": [
+        {
+          "effectKey": "spellblade_damage",
+          "name": "咒刃额外魔法伤害",
+          "description": "使用现有咒刃伤害公式保存下一次普攻对当前目标的额外魔法伤害；施放后10秒资格、攻击消费、0.2秒重复攻击特效和1.5秒冷却尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "咒刃额外魔法伤害",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存主目标单次额外伤害，不表示普攻触发已连接。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "spellblade_damage_value"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "spellblade_heal",
+          "name": "咒刃自身治疗",
+          "description": "使用现有咒刃治疗公式保存一次自身直接治疗；施放后攻击资格、攻击消费、重复攻击特效和冷却尚未接线。",
+          "sortOrder": 20,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "heal",
+              "name": "咒刃自身治疗",
+              "target": "SOURCE",
+              "resultType": "DIRECT_HEAL",
+              "description": "仅保存自身治疗数值，不表示触发时点已经连接。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "spellblade_healing_value"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3107_active",
+      "equipmentKey": "item_3107",
+      "sourceItemId": 3107,
+      "effectPosts": [
+        {
+          "effectKey": "enemy_true_damage",
+          "name": "干涉敌方真实伤害",
+          "description": "使用现有公式保存对当前敌方目标的真实伤害；2.5秒延迟、范围、相同目标衰减和90秒冷却尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "干涉敌方真实伤害",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存单个敌方目标的伤害数值；友方范围治疗不在本结果中。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "enemy_true_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "real",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ],
+      "formulaPut": {
+        "formulaKey": "enemy_true_damage",
+        "body": {
+          "name": "干涉敌方真实伤害值",
+          "description": "0.1×当前敌方英雄最大生命值输入；独立真实伤害结果已组成，2.5秒延迟、范围、重复衰减和目标输入供值仍未接线。",
+          "sortOrder": 10,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "enemy_true_damage_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_target_max_health"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        }
+      }
+    },
+    {
+      "skillKey": "item_3137_passive",
+      "equipmentKey": "item_3137",
+      "sourceItemId": 3137,
+      "effectPosts": [
+        {
+          "effectKey": "self_heal",
+          "name": "死中焕生自身治疗",
+          "description": "使用现有自身治疗公式保存一次自身直接治疗；参与击杀资格、3秒窗口、1.75秒新星、盟友范围和60秒冷却尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "heal",
+              "name": "死中焕生自身治疗",
+              "target": "SOURCE",
+              "resultType": "DIRECT_HEAL",
+              "description": "仅保存施法者自身治疗，不能代表范围内盟友目标。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "self_healing"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3152_active",
+      "equipmentKey": "item_3152",
+      "sourceItemId": 3152,
+      "effectPosts": [
+        {
+          "effectKey": "firebolt_hit",
+          "name": "超音速火箭命中",
+          "description": "使用现有火箭伤害公式保存一次对当前目标的魔法伤害；冲刺、弹道、每次施放只命中一次和冷却尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "超音速火箭命中",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存单个目标的一次火箭伤害，不表示弹道或命中去重已经连接。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "firebolt_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3181_passive",
+      "equipmentKey": "item_3181",
+      "sourceItemId": 3181,
+      "effectPosts": [
+        {
+          "effectKey": "melee_bonus_damage",
+          "name": "船长近战主目标附伤",
+          "description": "使用现有近战公式保存对当前主目标的额外物理伤害；攻击计数、满层消费和目标资格尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "船长近战主目标附伤",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存近战分支，后续过程必须在近战与远程分支中选择一个。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "melee_bonus_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "ranged_bonus_damage",
+          "name": "船长远程主目标附伤",
+          "description": "使用现有远程公式保存对当前主目标的额外物理伤害；攻击计数、满层消费和目标资格尚未接线。",
+          "sortOrder": 20,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "船长远程主目标附伤",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存远程分支，后续过程必须在近战与远程分支中选择一个。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "ranged_bonus_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3748_passive",
+      "equipmentKey": "item_3748",
+      "sourceItemId": 3748,
+      "effectPosts": [
+        {
+          "effectKey": "primary_on_hit_melee",
+          "name": "顺劈近战主目标附伤",
+          "description": "使用现有近战主目标公式保存一次普攻附加物理伤害；普通攻击触发与近远程选择尚未接线，次要锥形目标按一对一范围排除。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "顺劈近战主目标附伤",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存当前唯一主目标的近战分支。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "primary_on_hit_damage_melee"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "primary_on_hit_ranged",
+          "name": "顺劈远程主目标附伤",
+          "description": "使用现有远程主目标公式保存一次普攻附加物理伤害；普通攻击触发与近远程选择尚未接线，次要锥形目标按一对一范围排除。",
+          "sortOrder": 20,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "顺劈远程主目标附伤",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存当前唯一主目标的远程分支。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "primary_on_hit_damage_ranged"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3748_active",
+      "equipmentKey": "item_3748",
+      "sourceItemId": 3748,
+      "effectPosts": [
+        {
+          "effectKey": "active_primary_melee",
+          "name": "刚斩近战主目标附伤",
+          "description": "使用现有近战主目标公式保存强化普攻的额外物理伤害；10秒准备窗口、攻击消费、冷却和近远程选择尚未接线，次要目标按一对一范围排除。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "刚斩近战主目标附伤",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存当前唯一主目标的近战强化普攻分支。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "active_primary_damage_melee"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "active_primary_ranged",
+          "name": "刚斩远程主目标附伤",
+          "description": "使用现有远程主目标公式保存强化普攻的额外物理伤害；10秒准备窗口、攻击消费、冷却和近远程选择尚未接线，次要目标按一对一范围排除。",
+          "sortOrder": 20,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "刚斩远程主目标附伤",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存当前唯一主目标的远程强化普攻分支。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "active_primary_damage_ranged"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "skillKey": "item_3179_passive",
+      "reason": "actual_mstat29 的属性含义未得到来源证明。"
+    },
+    {
+      "skillKey": "item_3152_active",
+      "reason": "本批只组成伤害结果，不处理来源与现值之间的冷却和静态属性冲突。"
+    },
+    {
+      "skillKey": "item_3181_passive",
+      "reason": "层数触发、目标资格及来源中的层数文字冲突继续待核。"
+    }
+  ]
+}

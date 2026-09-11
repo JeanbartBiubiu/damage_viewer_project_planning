@@ -1,0 +1,136 @@
+{
+  "capturedAt": "2026-09-11T14:55:38.653Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browser": "Playwright Chromium",
+  "headless": true,
+  "liveFrontend": "http://127.0.0.1:5173",
+  "liveBackend": "http://127.0.0.1:8080",
+  "authorizationValueRecorded": false,
+  "imageCacheSeed": {
+    "source": "live management image GET",
+    "serverWrites": 0,
+    "imageKeys": [
+      "item_2510",
+      "item_3107",
+      "item_3748"
+    ]
+  },
+  "rows": [
+    {
+      "skillKey": "item_2510_passive",
+      "skillName": "黄昏与黎明·咒刃",
+      "rowText": "加载中\n\t\n黄昏与黎明·咒刃\n\t\nitem_2510_passive\n\t\n1\n\t\n被动技能\n\t\n启用\n\t\n0\n\t\n2026/9/9 12:49:44\n\t\n挂载对象代表图片\n查看\n编辑\n参数与公式\n效果与结果\n过程与内部状态\n条件与触发\n停用\n删除",
+      "imageAlt": "黄昏与黎明·咒刃代表图片",
+      "effects": [
+        {
+          "effectKey": "spellblade_damage",
+          "resultKey": "damage",
+          "effectRowText": "加载中\n\t\n咒刃额外魔法伤害\n\t\nspellblade_damage\n\t\n1\n\t\n无生命周期\n\t\n10\n\t\n2026/9/11 22:53:28\n\t\n代表图片\n查看\n编辑\n复制为新效果\n删除",
+          "effectText": "查看效果\n 效果标识\n 效果名称\n说明\n66/2000\n 排序\n生命周期\n生命周期\n结果\n结果名称\n\t\n稳定标识\n\t\n结果种类\n\t\n作用对象\n\t\n法术护盾阻挡\n\t\n关键引用摘要\n\t\n特殊交互\n\t\n排序\n\t\n操作\n\n\n咒刃额外魔法伤害\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nmagic\n\t\n普通攻击 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看\n关闭",
+          "resultRowText": "咒刃额外魔法伤害\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nmagic\n\t\n普通攻击 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n伤害\n 作用对象\n施法者\n当前目标\n 排序\n说明\n24/2000\n 数值\n固定数值\n技能参数\n技能公式\n咒刃额外魔法伤害值（spellblade_damage_value）\n 固定倍率\n固定最小值\n固定最大值\n 伤害类型\n魔法伤害\n 伤害产生方式\n技能\n普通攻击\n 伤害来源性质\n直接伤害\n反伤\n 暴击方式\n不允许暴击\n按来源对象暴击率判定\n强制暴击\n吸血规则\n法术护盾阻挡粒度\n不参与法术护盾阻挡\n关闭",
+          "expectedText": [
+            "咒刃额外魔法伤害",
+            "伤害",
+            "spellblade_damage_value",
+            "魔法伤害",
+            "普通攻击"
+          ],
+          "screenshot": "item_2510_passive-spellblade_damage-页面.png",
+          "passed": true
+        },
+        {
+          "effectKey": "spellblade_heal",
+          "resultKey": "heal",
+          "effectRowText": "未设置\n\t\n咒刃自身治疗\n\t\nspellblade_heal\n\t\n1\n\t\n无生命周期\n\t\n20\n\t\n2026/9/11 22:53:31\n\t\n代表图片\n查看\n编辑\n复制为新效果\n删除",
+          "effectText": "查看效果\n 效果标识\n 效果名称\n说明\n48/2000\n 排序\n生命周期\n生命周期\n结果\n结果名称\n\t\n稳定标识\n\t\n结果种类\n\t\n作用对象\n\t\n法术护盾阻挡\n\t\n关键引用摘要\n\t\n特殊交互\n\t\n排序\n\t\n操作\n\n\n咒刃自身治疗\n\t\nheal\n\t\n直接治疗\n\t\n施法者\n\t\n—\n\t\n咒刃自身治疗值\n\t\n—\n\t\n10\n\t\n查看\n关闭",
+          "resultRowText": "咒刃自身治疗\n\t\nheal\n\t\n直接治疗\n\t\n施法者\n\t\n—\n\t\n咒刃自身治疗值\n\t\n—\n\t\n10\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n直接治疗\n 作用对象\n施法者\n当前目标\n 排序\n说明\n22/2000\n 数值\n固定数值\n技能参数\n技能公式\n咒刃自身治疗值（spellblade_healing_value）\n 固定倍率\n固定最小值\n固定最大值\n关闭",
+          "expectedText": [
+            "咒刃自身治疗",
+            "直接治疗",
+            "spellblade_healing_value",
+            "施法者"
+          ],
+          "screenshot": "item_2510_passive-spellblade_heal-页面.png",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "item_3107_active",
+      "skillName": "救赎·干涉敌方伤害",
+      "rowText": "加载中\n\t\n救赎·干涉敌方伤害\n\t\nitem_3107_active\n\t\n1\n\t\n—\n\t\n启用\n\t\n0\n\t\n2026/9/9 17:44:04\n\t\n挂载对象代表图片\n查看\n编辑\n参数与公式\n效果与结果\n过程与内部状态\n条件与触发\n停用\n删除",
+      "imageAlt": "救赎·干涉敌方伤害代表图片",
+      "effects": [
+        {
+          "effectKey": "enemy_true_damage",
+          "resultKey": "damage",
+          "effectRowText": "加载中\n\t\n干涉敌方真实伤害\n\t\nenemy_true_damage\n\t\n1\n\t\n无生命周期\n\t\n10\n\t\n2026/9/11 22:53:32\n\t\n代表图片\n查看\n编辑\n复制为新效果\n删除",
+          "effectText": "查看效果\n 效果标识\n 效果名称\n说明\n48/2000\n 排序\n生命周期\n生命周期\n结果\n结果名称\n\t\n稳定标识\n\t\n结果种类\n\t\n作用对象\n\t\n法术护盾阻挡\n\t\n关键引用摘要\n\t\n特殊交互\n\t\n排序\n\t\n操作\n\n\n干涉敌方真实伤害\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nreal\n\t\n技能 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看\n关闭",
+          "resultRowText": "干涉敌方真实伤害\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nreal\n\t\n技能 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n伤害\n 作用对象\n施法者\n当前目标\n 排序\n说明\n28/2000\n 数值\n固定数值\n技能参数\n技能公式\n干涉敌方真实伤害值（enemy_true_damage）\n 固定倍率\n固定最小值\n固定最大值\n 伤害类型\n真实伤害\n 伤害产生方式\n技能\n普通攻击\n 伤害来源性质\n直接伤害\n反伤\n 暴击方式\n不允许暴击\n按来源对象暴击率判定\n强制暴击\n吸血规则\n法术护盾阻挡粒度\n不参与法术护盾阻挡\n关闭",
+          "expectedText": [
+            "干涉敌方真实伤害",
+            "伤害",
+            "enemy_true_damage",
+            "真实伤害",
+            "技能"
+          ],
+          "screenshot": "item_3107_active-enemy_true_damage-页面.png",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "skillKey": "item_3748_active",
+      "skillName": "巨型九头蛇·刚斩",
+      "rowText": "加载中\n\t\n巨型九头蛇·刚斩\n\t\nitem_3748_active\n\t\n1\n\t\n—\n\t\n启用\n\t\n0\n\t\n2026/9/9 17:30:22\n\t\n挂载对象代表图片\n查看\n编辑\n参数与公式\n效果与结果\n过程与内部状态\n条件与触发\n停用\n删除",
+      "imageAlt": "巨型九头蛇·刚斩代表图片",
+      "effects": [
+        {
+          "effectKey": "active_primary_melee",
+          "resultKey": "damage",
+          "effectRowText": "加载中\n\t\n刚斩近战主目标附伤\n\t\nactive_primary_melee\n\t\n1\n\t\n无生命周期\n\t\n10\n\t\n2026/9/11 22:53:42\n\t\n代表图片\n查看\n编辑\n复制为新效果\n删除",
+          "effectText": "查看效果\n 效果标识\n 效果名称\n说明\n64/2000\n 排序\n生命周期\n生命周期\n结果\n结果名称\n\t\n稳定标识\n\t\n结果种类\n\t\n作用对象\n\t\n法术护盾阻挡\n\t\n关键引用摘要\n\t\n特殊交互\n\t\n排序\n\t\n操作\n\n\n刚斩近战主目标附伤\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nphysics\n\t\n普通攻击 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看\n关闭",
+          "resultRowText": "刚斩近战主目标附伤\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nphysics\n\t\n普通攻击 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n伤害\n 作用对象\n施法者\n当前目标\n 排序\n说明\n20/2000\n 数值\n固定数值\n技能参数\n技能公式\n刚斩主目标近战伤害值（active_primary_damage_melee）\n 固定倍率\n固定最小值\n固定最大值\n 伤害类型\n物理伤害\n 伤害产生方式\n技能\n普通攻击\n 伤害来源性质\n直接伤害\n反伤\n 暴击方式\n不允许暴击\n按来源对象暴击率判定\n强制暴击\n吸血规则\n法术护盾阻挡粒度\n不参与法术护盾阻挡\n关闭",
+          "expectedText": [
+            "刚斩近战主目标附伤",
+            "active_primary_damage_melee",
+            "物理伤害",
+            "普通攻击"
+          ],
+          "screenshot": "item_3748_active-active_primary_melee-页面.png",
+          "passed": true
+        },
+        {
+          "effectKey": "active_primary_ranged",
+          "resultKey": "damage",
+          "effectRowText": "未设置\n\t\n刚斩远程主目标附伤\n\t\nactive_primary_ranged\n\t\n1\n\t\n无生命周期\n\t\n20\n\t\n2026/9/11 22:53:43\n\t\n代表图片\n查看\n编辑\n复制为新效果\n删除",
+          "effectText": "查看效果\n 效果标识\n 效果名称\n说明\n64/2000\n 排序\n生命周期\n生命周期\n结果\n结果名称\n\t\n稳定标识\n\t\n结果种类\n\t\n作用对象\n\t\n法术护盾阻挡\n\t\n关键引用摘要\n\t\n特殊交互\n\t\n排序\n\t\n操作\n\n\n刚斩远程主目标附伤\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nphysics\n\t\n普通攻击 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看\n关闭",
+          "resultRowText": "刚斩远程主目标附伤\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\nphysics\n\t\n普通攻击 / 直接伤害 / 不允许暴击 / 吸血 0 条\n\t\n10\n\t\n查看",
+          "resultText": "查看结果\n 结果标识\n 结果名称\n 结果种类\n伤害\n 作用对象\n施法者\n当前目标\n 排序\n说明\n20/2000\n 数值\n固定数值\n技能参数\n技能公式\n刚斩主目标远程伤害值（active_primary_damage_ranged）\n 固定倍率\n固定最小值\n固定最大值\n 伤害类型\n物理伤害\n 伤害产生方式\n技能\n普通攻击\n 伤害来源性质\n直接伤害\n反伤\n 暴击方式\n不允许暴击\n按来源对象暴击率判定\n强制暴击\n吸血规则\n法术护盾阻挡粒度\n不参与法术护盾阻挡\n关闭",
+          "expectedText": [
+            "刚斩远程主目标附伤",
+            "active_primary_damage_ranged",
+            "物理伤害",
+            "普通攻击"
+          ],
+          "screenshot": "item_3748_active-active_primary_ranged-页面.png",
+          "passed": true
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "diagnostics": {
+    "pageErrors": [],
+    "consoleErrors": [],
+    "failedRequests": [],
+    "errorResponses": []
+  },
+  "passed": true
+}
