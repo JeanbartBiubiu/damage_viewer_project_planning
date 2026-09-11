@@ -1,0 +1,61 @@
+{
+  "planRevision": 1,
+  "plannedWrites": 2,
+  "writeOrder": [
+    "POST /skills/rune_8139_passive/effects",
+    "PUT /skills/rune_8139_passive"
+  ],
+  "source": {
+    "gameVersion": "16.17",
+    "sourcePath": "数据参考/全量录入-2026-09/API实录/符文客户端数值补证/当前69项数值来源.json",
+    "runeId": 8139,
+    "sourceObjectSha256": "aa28bda176338b06eeb31c110d5c2e8363bc1cd2176d6fac7aff80fc54afccaf",
+    "rawSourceSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+    "localizedSourceSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+  },
+  "targets": [
+    {
+      "skillKey": "rune_8139_passive",
+      "runeKey": "rune_8139",
+      "skillPut": {
+        "name": "符文·血之滋味",
+        "description": "保存16至40等级基础值边界、5%法术强度、10%额外攻击力、20秒冷却以及完整治疗公式；等级基础值继续由运行时明确供给。自身直接治疗结果已组成，敌方英雄伤害资格和冷却消费尚未接线，不代表完整符文机制。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "effectPost": {
+        "effectKey": "heal_amount",
+        "name": "血之滋味自身治疗",
+        "description": "使用现有血之滋味恢复公式建立独立自身治疗结果；敌方英雄伤害资格、20秒冷却与等级基础值供给仍待事件层接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "result",
+            "name": "血之滋味自身治疗",
+            "target": "SOURCE",
+            "resultType": "DIRECT_HEAL",
+            "description": "仅保存一次自身直接治疗的数值组成，不表示伤害触发或冷却已经连接。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "heal_amount"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      }
+    }
+  ]
+}
