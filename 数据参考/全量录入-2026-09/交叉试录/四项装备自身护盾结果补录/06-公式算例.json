@@ -1,0 +1,155 @@
+{
+  "capturedAt": "2026-09-11T13:29:28.995Z",
+  "requestPolicy": {
+    "method": "GET",
+    "businessWriteIssued": false,
+    "authorizationValueRecorded": false
+  },
+  "getCount": 8,
+  "cases": [
+    {
+      "skillKey": "item_3040_passive",
+      "formulaKey": "lifeline_shield_value",
+      "inputs": {
+        "parameters": {
+          "lifeline_shield_resource_input": 1000
+        },
+        "attributes": {}
+      },
+      "expected": 180,
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "lifeline_shield_resource_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "lifeline_shield_resource_input"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 180,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3121_passive",
+      "formulaKey": "shield_value",
+      "inputs": {
+        "parameters": {},
+        "attributes": {
+          "SOURCE.mana.CURRENT": 1000
+        }
+      },
+      "expected": 145,
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "current_mana_shield_ratio"
+              },
+              {
+                "attributeKey": "mana",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "CURRENT",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 145,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3173_passive",
+      "formulaKey": "magic_shield_value",
+      "inputs": {
+        "parameters": {
+          "actual_level_base_shield": 200,
+          "source_mstat12_formula2_value": 500
+        },
+        "attributes": {}
+      },
+      "expected": 240,
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_level_base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_amount_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat12_formula2_value"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 240,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3174_passive",
+      "formulaKey": "physical_shield_value",
+      "inputs": {
+        "parameters": {
+          "actual_level_base_shield": 200,
+          "source_mstat12_formula2_value": 500
+        },
+        "attributes": {}
+      },
+      "expected": 240,
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_level_base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_amount_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat12_formula2_value"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 240,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "runtimeValidation": "未执行；这是管理端公式与运行时参数的独立算术核对。"
+}

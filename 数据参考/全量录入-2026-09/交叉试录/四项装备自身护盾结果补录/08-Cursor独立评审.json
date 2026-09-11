@@ -1,0 +1,46 @@
+{
+  "capturedAt": "2026-09-11T13:49:21.8643665Z",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "businessWriteIssued": false,
+  "authorizationValueRecorded": false,
+  "reviews": [
+    {
+      "revision": 1,
+      "runId": "run-38de849a-c83d-4c6c-9fc0-24042236abc5",
+      "verdict": "REVISE",
+      "blockers": [
+        "item_3190_active 的 SelfAoe 只能证明以自身为几何原点，不能证明施法者具备护盾目标资格"
+      ],
+      "acceptedTargets": [
+        "item_3040_passive",
+        "item_3121_passive",
+        "item_3173_passive",
+        "item_3174_passive"
+      ],
+      "action": "从冻结请求和方案中移除 item_3190_active，并保留自身目标资格待补证说明",
+      "runDeltaCount": 0,
+      "outsideScopeCount": 0
+    },
+    {
+      "revision": 2,
+      "runId": "run-fccc55c3-8cb7-4515-87c2-9fbf12090871",
+      "verdict": "READY",
+      "blockers": [],
+      "requestSha256": "7f8923edb75a84d6abe7a13321d4aeaa63af35965c7c7a5bffe61e24b5ef8b9b",
+      "preflightGetCount": 68,
+      "preflightCheckCount": 21,
+      "acceptedTargets": [
+        "item_3040_passive",
+        "item_3121_passive",
+        "item_3173_passive",
+        "item_3174_passive"
+      ],
+      "nonBlocking": [
+        "item_3121_passive 的效果说明仍提到运行时输入，后续接线不得把护盾当前法力读取误作 RUNTIME_INPUT"
+      ],
+      "runDeltaCount": 0,
+      "outsideScopeCount": 0
+    }
+  ],
+  "finalDecision": "修订二通过后才允许首次业务写入"
+}
