@@ -1,0 +1,29 @@
+{
+  "status": "finished",
+  "verdict": "READY",
+  "reviewedPlanRevision": 1,
+  "reviewedFrozenSha256": "cab59e566beb3caec7c8f8b7894529ec852b36a2b54c2eb5b79138369b5031b5",
+  "runId": "run-88f4e94e-2b2b-4c2f-bdcb-5c672703bcbf",
+  "model": {
+    "id": "grok-4.6",
+    "effort": "high",
+    "fast": false
+  },
+  "blockers": [],
+  "nonBlocking": [
+    "技能说明不再逐字保留原来的恢复时序待证文字；冻结正文未把来源中的4秒字段写成周期治疗，方案文档继续记录该未映射事实。"
+  ],
+  "fileAudit": {
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0
+  },
+  "businessWrites": 0,
+  "conclusions": [
+    "来源足以支持一次无生命周期的自身直接治疗。",
+    "效果键与同名公式分属不同对象，可以共存。",
+    "无默认等级基础输入可以用于本次离散结果，不应猜造等级曲线。",
+    "冻结请求、48次纯GET和18项写前检查一致，可以执行两次写入。"
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "capturedAt": "2026-09-11T14:25:15.545Z",
+  "requestPolicy": {
+    "method": "GET",
+    "businessWriteIssued": false,
+    "authorizationValueRecorded": false
+  },
+  "getCount": 3,
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/formulas/heal_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/effects/heal_amount",
+      "status": 200
+    }
+  ],
+  "formulaKey": "heal_amount",
+  "expression": {
+    "nodeType": "OPERATION",
+    "operands": [
+      {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_level_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BONUS",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_attack_damage_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      }
+    ],
+    "operation": "ADD"
+  },
+  "fixedParameters": {
+    "confirmed_level_base_source_start": 16,
+    "confirmed_level_base_source_end": 40,
+    "ability_power_ratio": 0.05,
+    "bonus_attack_damage_ratio": 0.1,
+    "cooldown_ms": 20000
+  },
+  "runtimeParameter": "confirmed_level_base",
+  "cases": [
+    {
+      "confirmedLevelBase": 16,
+      "abilityPower": 100,
+      "bonusAttackDamage": 50,
+      "expected": 26,
+      "actual": 26,
+      "passed": true
+    },
+    {
+      "confirmedLevelBase": 40,
+      "abilityPower": 200,
+      "bonusAttackDamage": 100,
+      "expected": 60,
+      "actual": 60,
+      "passed": true
+    },
+    {
+      "confirmedLevelBase": 28,
+      "abilityPower": 0,
+      "bonusAttackDamage": 0,
+      "expected": 28,
+      "actual": 28,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

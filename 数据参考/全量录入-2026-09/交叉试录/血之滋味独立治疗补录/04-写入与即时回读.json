@@ -1,0 +1,1527 @@
+{
+  "startedAt": "2026-09-11T14:23:27.782Z",
+  "requestPolicy": {
+    "authorizationValueRecorded": false
+  },
+  "approvedFrozenSha256": "cab59e566beb3caec7c8f8b7894529ec852b36a2b54c2eb5b79138369b5031b5",
+  "baselineSha256": "11226d0a9730f10418812fef6d8b88bf9f5aec819d84b9056a9c38661b8c2ae7",
+  "plannedWrites": 2,
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:33.124187Z",
+        "description": "本批仅录入：血之滋味恢复数值和20秒冷却；恢复时序待证。其余条件尚未连接，不代表完整符文。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "符文·血之滋味",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T03:43:33.124187Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": [
+        {
+          "createdAt": "2026-09-09T03:43:34.369957Z",
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "fixedValue": 16,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "等级基础恢复来源起点",
+          "parameterKey": "confirmed_level_base_source_start",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:34.369957Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:35.6763Z",
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "等级基础恢复来源终点",
+          "parameterKey": "confirmed_level_base_source_end",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:43:35.6763Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:36.972681Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础恢复",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:36.972681Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:38.077034Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:43:38.077034Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:39.202416Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:43:39.202416Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:40.386133Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 20000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冷却时间",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:43:40.386133Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/confirmed_level_base_source_start",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:34.369957Z",
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "fixedValue": 16,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "等级基础恢复来源起点",
+        "parameterKey": "confirmed_level_base_source_start",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:43:34.369957Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/confirmed_level_base_source_end",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:35.6763Z",
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "等级基础恢复来源终点",
+        "parameterKey": "confirmed_level_base_source_end",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:43:35.6763Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/confirmed_level_base",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:36.972681Z",
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认等级基础恢复",
+        "parameterKey": "confirmed_level_base",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:43:36.972681Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/ability_power_ratio",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:38.077034Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度系数",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T03:43:38.077034Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/bonus_attack_damage_ratio",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:39.202416Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力系数",
+        "parameterKey": "bonus_attack_damage_ratio",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T03:43:39.202416Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/cooldown_ms",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:40.386133Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 20000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冷却时间",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T03:43:40.386133Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/formulas",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": [
+        {
+          "createdAt": "2026-09-09T03:43:41.498235Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "formulaKey": "heal_amount",
+          "gameId": "lol",
+          "name": "自身恢复数值",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:41.498235Z"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/formulas/heal_amount",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:41.498235Z",
+        "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_level_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_attack_damage_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "heal_amount",
+        "gameId": "lol",
+        "name": "自身恢复数值",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:43:41.498235Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/processes",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/internal-states",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/trigger-rules",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/effects",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/effects/heal_amount",
+      "status": 404,
+      "requestBodySha256": null,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "heal_amount"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/representative-image",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8139",
+          "name": "符文·血之滋味"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/rune-skill-relations?runeKey=rune_8139&skillKey=rune_8139_passive",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_8139",
+            "runeName": "血之滋味",
+            "skillKey": "rune_8139_passive",
+            "skillName": "符文·血之滋味",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rune_8139_passive/effects",
+      "status": 201,
+      "requestBodySha256": "483c75a80a5e63ab3f51ee34392323b3ca2a31db29c640de565bb1bc38a84d20",
+      "data": {
+        "createdAt": "2026-09-11T14:23:25.385287Z",
+        "description": "使用现有血之滋味恢复公式建立独立自身治疗结果；敌方英雄伤害资格、20秒冷却与等级基础值供给仍待事件层接线。",
+        "effectKey": "heal_amount",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "血之滋味自身治疗",
+        "results": [
+          {
+            "description": "仅保存一次自身直接治疗的数值组成，不表示伤害触发或冷却已经连接。",
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "血之滋味自身治疗",
+            "resultKey": "result",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "heal_amount",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:23:25.385287Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/effects/heal_amount",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-11T14:23:25.385287Z",
+        "description": "使用现有血之滋味恢复公式建立独立自身治疗结果；敌方英雄伤害资格、20秒冷却与等级基础值供给仍待事件层接线。",
+        "effectKey": "heal_amount",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "血之滋味自身治疗",
+        "results": [
+          {
+            "description": "仅保存一次自身直接治疗的数值组成，不表示伤害触发或冷却已经连接。",
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "血之滋味自身治疗",
+            "resultKey": "result",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "heal_amount",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:23:25.385287Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/rune_8139_passive",
+      "status": 200,
+      "requestBodySha256": "57e30063c9b6d601affe196e02580d3e73d190e16e64d796003f99c28c85d54f",
+      "data": {
+        "createdAt": "2026-09-09T03:43:33.124187Z",
+        "description": "保存16至40等级基础值边界、5%法术强度、10%额外攻击力、20秒冷却以及完整治疗公式；等级基础值继续由运行时明确供给。自身直接治疗结果已组成，敌方英雄伤害资格和冷却消费尚未接线，不代表完整符文机制。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "符文·血之滋味",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-11T14:23:26.934896Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:33.124187Z",
+        "description": "保存16至40等级基础值边界、5%法术强度、10%额外攻击力、20秒冷却以及完整治疗公式；等级基础值继续由运行时明确供给。自身直接治疗结果已组成，敌方英雄伤害资格和冷却消费尚未接线，不代表完整符文机制。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "符文·血之滋味",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-11T14:23:26.934896Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:33.124187Z",
+        "description": "保存16至40等级基础值边界、5%法术强度、10%额外攻击力、20秒冷却以及完整治疗公式；等级基础值继续由运行时明确供给。自身直接治疗结果已组成，敌方英雄伤害资格和冷却消费尚未接线，不代表完整符文机制。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "符文·血之滋味",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-11T14:23:26.934896Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": [
+        {
+          "createdAt": "2026-09-09T03:43:34.369957Z",
+          "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+          "fixedValue": 16,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "等级基础恢复来源起点",
+          "parameterKey": "confirmed_level_base_source_start",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:34.369957Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:35.6763Z",
+          "description": "仅保留当前来源终点；等级求值过程待补。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "等级基础恢复来源终点",
+          "parameterKey": "confirmed_level_base_source_end",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T03:43:35.6763Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:36.972681Z",
+          "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已确认等级基础恢复",
+          "parameterKey": "confirmed_level_base",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T03:43:36.972681Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:38.077034Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度系数",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T03:43:38.077034Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:39.202416Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力系数",
+          "parameterKey": "bonus_attack_damage_ratio",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T03:43:39.202416Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T03:43:40.386133Z",
+          "description": "当前普通模式绑定数值。",
+          "fixedValue": 20000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冷却时间",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T03:43:40.386133Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/confirmed_level_base_source_start",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:34.369957Z",
+        "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+        "fixedValue": 16,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "等级基础恢复来源起点",
+        "parameterKey": "confirmed_level_base_source_start",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:43:34.369957Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/confirmed_level_base_source_end",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:35.6763Z",
+        "description": "仅保留当前来源终点；等级求值过程待补。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "等级基础恢复来源终点",
+        "parameterKey": "confirmed_level_base_source_end",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:43:35.6763Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/confirmed_level_base",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:36.972681Z",
+        "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认等级基础恢复",
+        "parameterKey": "confirmed_level_base",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:43:36.972681Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/ability_power_ratio",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:38.077034Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度系数",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T03:43:38.077034Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/bonus_attack_damage_ratio",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:39.202416Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力系数",
+        "parameterKey": "bonus_attack_damage_ratio",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T03:43:39.202416Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/parameters/cooldown_ms",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:40.386133Z",
+        "description": "当前普通模式绑定数值。",
+        "fixedValue": 20000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冷却时间",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T03:43:40.386133Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/formulas",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": [
+        {
+          "createdAt": "2026-09-09T03:43:41.498235Z",
+          "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+          "formulaKey": "heal_amount",
+          "gameId": "lol",
+          "name": "自身恢复数值",
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T03:43:41.498235Z"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/formulas/heal_amount",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-09T03:43:41.498235Z",
+        "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_level_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_attack_damage_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "heal_amount",
+        "gameId": "lol",
+        "name": "自身恢复数值",
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:43:41.498235Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/processes",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/internal-states",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/trigger-rules",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/effects",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": [
+        {
+          "createdAt": "2026-09-11T14:23:25.385287Z",
+          "description": "使用现有血之滋味恢复公式建立独立自身治疗结果；敌方英雄伤害资格、20秒冷却与等级基础值供给仍待事件层接线。",
+          "effectKey": "heal_amount",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "血之滋味自身治疗",
+          "resultCount": 1,
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-11T14:23:25.385287Z"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/effects/heal_amount",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "createdAt": "2026-09-11T14:23:25.385287Z",
+        "description": "使用现有血之滋味恢复公式建立独立自身治疗结果；敌方英雄伤害资格、20秒冷却与等级基础值供给仍待事件层接线。",
+        "effectKey": "heal_amount",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "血之滋味自身治疗",
+        "results": [
+          {
+            "description": "仅保存一次自身直接治疗的数值组成，不表示伤害触发或冷却已经连接。",
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "血之滋味自身治疗",
+            "resultKey": "result",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "heal_amount",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:23:25.385287Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8139_passive/representative-image",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8139",
+          "name": "符文·血之滋味"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/rune-skill-relations?runeKey=rune_8139&skillKey=rune_8139_passive",
+      "status": 200,
+      "requestBodySha256": null,
+      "data": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_8139",
+            "runeName": "血之滋味",
+            "skillKey": "rune_8139_passive",
+            "skillName": "符文·血之滋味",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      }
+    }
+  ],
+  "checks": [
+    {
+      "id": "write-preflight/parameters/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/parameters/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/formulas/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/formulas/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/processes/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/processes/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/internal-states/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/internal-states/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/trigger-rules/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/trigger-rules/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/representative-image",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/rune-relation",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/skill-approved-state",
+      "status": "PASS",
+      "detail": "BEFORE"
+    },
+    {
+      "id": "write-preflight/effects-before",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "write-preflight/effect-approved-state",
+      "status": "PASS",
+      "detail": "BEFORE"
+    },
+    {
+      "id": "effect-post-response",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "effect-immediate-readback",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "skill-put-response",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "skill-immediate-readback",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/parameters/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/parameters/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/formulas/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/formulas/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/processes/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/processes/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/internal-states/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/internal-states/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/trigger-rules/list",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/trigger-rules/details",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/representative-image",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/rune-relation",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/skill-approved-state",
+      "status": "PASS",
+      "detail": "AFTER"
+    },
+    {
+      "id": "final/effect-after",
+      "status": "PASS",
+      "detail": null
+    },
+    {
+      "id": "final/effect-approved-state",
+      "status": "PASS",
+      "detail": "AFTER"
+    }
+  ],
+  "success": true,
+  "final": {
+    "subject": {
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:43:33.124187Z",
+        "description": "保存16至40等级基础值边界、5%法术强度、10%额外攻击力、20秒冷却以及完整治疗公式；等级基础值继续由运行时明确供给。自身直接治疗结果已组成，敌方英雄伤害资格和冷却消费尚未接线，不代表完整符文机制。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "符文·血之滋味",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-11T14:23:26.934896Z"
+      }
+    },
+    "components": {
+      "parameters": {
+        "list": {
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T03:43:34.369957Z",
+              "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+              "fixedValue": 16,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "等级基础恢复来源起点",
+              "parameterKey": "confirmed_level_base_source_start",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:43:34.369957Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T03:43:35.6763Z",
+              "description": "仅保留当前来源终点；等级求值过程待补。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "等级基础恢复来源终点",
+              "parameterKey": "confirmed_level_base_source_end",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T03:43:35.6763Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T03:43:36.972681Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础恢复",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:43:36.972681Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T03:43:38.077034Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.05,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法术强度系数",
+              "parameterKey": "ability_power_ratio",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:43:38.077034Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T03:43:39.202416Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击力系数",
+              "parameterKey": "bonus_attack_damage_ratio",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T03:43:39.202416Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T03:43:40.386133Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 20000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "冷却时间",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T03:43:40.386133Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "details": [
+          {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T03:43:34.369957Z",
+              "description": "仅保留当前来源起点，不凭端点生成1至18级表。",
+              "fixedValue": 16,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "等级基础恢复来源起点",
+              "parameterKey": "confirmed_level_base_source_start",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:43:34.369957Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T03:43:35.6763Z",
+              "description": "仅保留当前来源终点；等级求值过程待补。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "等级基础恢复来源终点",
+              "parameterKey": "confirmed_level_base_source_end",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T03:43:35.6763Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T03:43:36.972681Z",
+              "description": "应由当前等级的已核实来源供值；没有默认值，不按1至18级线性猜算。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "已确认等级基础恢复",
+              "parameterKey": "confirmed_level_base",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T03:43:36.972681Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T03:43:38.077034Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.05,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法术强度系数",
+              "parameterKey": "ability_power_ratio",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T03:43:38.077034Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T03:43:39.202416Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击力系数",
+              "parameterKey": "bonus_attack_damage_ratio",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T03:43:39.202416Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T03:43:40.386133Z",
+              "description": "当前普通模式绑定数值。",
+              "fixedValue": 20000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "冷却时间",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T03:43:40.386133Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "list": {
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T03:43:41.498235Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "formulaKey": "heal_amount",
+              "gameId": "lol",
+              "name": "自身恢复数值",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:43:41.498235Z"
+            }
+          ]
+        },
+        "details": [
+          {
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T03:43:41.498235Z",
+              "description": "对应当前绑定计算树；等级基础值须明确外供。法强与额外攻击力直接读取来源属性，不填虚构值。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "confirmed_level_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ability_power_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "heal_amount",
+              "gameId": "lol",
+              "name": "自身恢复数值",
+              "skillKey": "rune_8139_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T03:43:41.498235Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "list": {
+          "status": 200,
+          "data": []
+        },
+        "details": []
+      },
+      "internal-states": {
+        "list": {
+          "status": 200,
+          "data": []
+        },
+        "details": []
+      },
+      "trigger-rules": {
+        "list": {
+          "status": 200,
+          "data": []
+        },
+        "details": []
+      }
+    },
+    "effects": {
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-11T14:23:25.385287Z",
+          "description": "使用现有血之滋味恢复公式建立独立自身治疗结果；敌方英雄伤害资格、20秒冷却与等级基础值供给仍待事件层接线。",
+          "effectKey": "heal_amount",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "血之滋味自身治疗",
+          "resultCount": 1,
+          "skillKey": "rune_8139_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-11T14:23:25.385287Z"
+        }
+      ]
+    },
+    "effect": {
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-11T14:23:25.385287Z",
+        "description": "使用现有血之滋味恢复公式建立独立自身治疗结果；敌方英雄伤害资格、20秒冷却与等级基础值供给仍待事件层接线。",
+        "effectKey": "heal_amount",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "血之滋味自身治疗",
+        "results": [
+          {
+            "description": "仅保存一次自身直接治疗的数值组成，不表示伤害触发或冷却已经连接。",
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "血之滋味自身治疗",
+            "resultKey": "result",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "heal_amount",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8139_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-11T14:23:25.385287Z"
+      }
+    },
+    "representativeImage": {
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "rune_8139",
+          "name": "符文·血之滋味"
+        }
+      }
+    },
+    "relation": {
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_8139",
+            "runeName": "血之滋味",
+            "skillKey": "rune_8139_passive",
+            "skillName": "符文·血之滋味",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      }
+    }
+  },
+  "observedFinalState": {
+    "skillAfter": true,
+    "effectAfter": true
+  },
+  "completedAt": "2026-09-11T14:23:32.156Z",
+  "writeStarted": true,
+  "counts": {
+    "GET": 36,
+    "POST": 1,
+    "PUT": 1
+  }
+}
