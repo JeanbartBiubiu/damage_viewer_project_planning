@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T06:16:50.461Z",
+  "generatedAt": "2026-09-11T13:53:31.118Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -5158,6 +5158,100 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/三件九头蛇系主动命中补录/证据清单.json",
         "sha256": "61f9542efae1c7d0c8ddbb8e7d346498fcf531d51c4d284558a558686c5c3267",
         "commit": "d1890cfdfd146179ee58eef64cdf891d174dbb14"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "equipmentShieldResultBackfill": {
+      "at": "2026-09-11T13:53:31.118Z",
+      "status": "四项装备自身护盾结果新增，独立评审、受保护写入、两路回读、公式核算和四项真实页面通过",
+      "skills": [
+        "item_3040_passive",
+        "item_3121_passive",
+        "item_3173_passive",
+        "item_3174_passive"
+      ],
+      "created": {
+        "effects": 4
+      },
+      "updated": {
+        "formulaDescriptions": 2,
+        "skillDescriptions": 4
+      },
+      "deleted": 0,
+      "sourceDecision": "只保存已有参数与公式能够准确支撑的自身护盾结果；生命阈值、近战资格、冷却消费和运行时供值继续待接。item_3190_active 因 SelfAoe 只证明几何原点、未证明施法者目标资格而退出本批。",
+      "writer": {
+        "fullAuditGETs": 2074,
+        "frozenPreflightGETs": 68,
+        "frozenChecks": 21,
+        "protectedPreflightGETs": 71,
+        "businessWrites": 10,
+        "POST": 4,
+        "PUT": 6,
+        "DELETE": 0,
+        "allGETs": 162,
+        "replayedWrites": 0
+      },
+      "independentAgentGETs": 72,
+      "independentChecks": 65,
+      "independentMismatches": 0,
+      "formula": {
+        "GETs": 8,
+        "cases": 4,
+        "values": [
+          180,
+          145,
+          240,
+          240
+        ],
+        "passed": true
+      },
+      "browser": {
+        "representativePages": 4,
+        "listImagesVisible": true,
+        "effectAndResultDetailsVisible": true,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "imageCacheSeedGETs": 4,
+        "serverWrites": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "passed": true
+      },
+      "cursorReview": {
+        "revisions": 2,
+        "firstRunId": "run-38de849a-c83d-4c6c-9fc0-24042236abc5",
+        "firstVerdict": "REVISE",
+        "finalRunId": "run-fccc55c3-8cb7-4515-87c2-9fbf12090871",
+        "finalVerdict": "READY",
+        "runDeltaCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "parametersUnchanged": true,
+        "formulaExpressionsUnchanged": true,
+        "equipmentRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true,
+        "triggerRulesRemainEmpty": true
+      },
+      "experienceIssues": [
+        "SelfAoe 不能推导施法者目标资格，范围技能仍需目标枚举证据。",
+        "全新浏览器环境的图片列表采用本地缓存，真实页面验收需先从图片接口读取并同步缓存。",
+        "结果弹窗的伤害类型名称异步加载，验收应等待页面标签回显，不能只等待接口响应。"
+      ],
+      "pending": [
+        "item_3190_active 的自身目标资格等待同版本目标枚举或等价权威资料。",
+        "四项护盾的低生命触发、近战资格、冷却消费和运行时参数供值未做战斗运行验证。"
+      ],
+      "requestSha256": "7f8923edb75a84d6abe7a13321d4aeaa63af35965c7c7a5bffe61e24b5ef8b9b",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项装备自身护盾结果补录/证据清单.json",
+        "sha256": "fec58866d81760adb7606589cc1715841b034a1f48aaf192028077457f192b8d",
+        "commit": "5d026e2875f5c6f20ccebb86417e0120d4dd2fb2"
       },
       "runtimeValidation": "未执行"
     }
