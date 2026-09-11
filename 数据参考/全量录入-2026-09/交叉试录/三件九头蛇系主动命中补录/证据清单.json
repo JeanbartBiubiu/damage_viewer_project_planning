@@ -1,0 +1,111 @@
+{
+  "generatedAt": "2026-09-11T12:49:52.0080585Z",
+  "gameId": "lol",
+  "sourceVersion": "client 16.17 / official 16.17.1 / game source 16.17.8104348",
+  "skills": [
+    "item_3077_active",
+    "item_3074_active",
+    "item_6698_active"
+  ],
+  "preflight": {
+    "initialGETs": 70,
+    "businessWrites": 0
+  },
+  "review": {
+    "cursorRunId": "run-73875d33-3f6f-4916-8eb9-4a311a9e31f8",
+    "cursorVerdict": "READY",
+    "lunaIndependentGETs": 47,
+    "lunaDifferences": 0,
+    "lunaVerdict": "READY"
+  },
+  "api": {
+    "writes": 10,
+    "methods": {
+      "POST": 6,
+      "PUT": 4,
+      "DELETE": 0
+    },
+    "writerGETs": 114,
+    "plannedWrites": 10,
+    "replayedWrites": 0,
+    "authorizationValueRecorded": false
+  },
+  "formula": {
+    "GETs": 6,
+    "cases": 3,
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 1,
+    "representativeSkill": "item_3077_active",
+    "sameContractItems": 2,
+    "passed": true,
+    "apiWrites": 0
+  },
+  "protected": {
+    "parametersUnchanged": true,
+    "formulaExpressionsUnchanged": true,
+    "equipmentRelationsUnchanged": true,
+    "processesRemainEmpty": true,
+    "internalStatesRemainEmpty": true,
+    "representativeImagesUnchanged": true
+  },
+  "hashes": {
+    "baseline": "1b9eb1a11f2aa327b1dcd4a6bb452a1d661776c83874a627c75f63c3533a9667",
+    "planV2": "82654d9321b0753a84ab95bc7669f915b5a7f96f2dfb6d693491ece7b2471c5c",
+    "frozenRequests": "9aee93c52008239c2affbd4e1b4d047b7f6266033d0c39366a4fe549669cfbb4"
+  },
+  "files": [
+    {
+      "name": "01-来源与范围判定.md",
+      "bytes": 2684,
+      "sha256": "8085816cb2dc03ab8ce4f58d2a041302dcc1fc480ab6fccc46eb5c3882c59c30"
+    },
+    {
+      "name": "02-补录方案.md",
+      "bytes": 5146,
+      "sha256": "82654d9321b0753a84ab95bc7669f915b5a7f96f2dfb6d693491ece7b2471c5c"
+    },
+    {
+      "name": "03-写入前现值.json",
+      "bytes": 61050,
+      "sha256": "1b9eb1a11f2aa327b1dcd4a6bb452a1d661776c83874a627c75f63c3533a9667"
+    },
+    {
+      "name": "04-写入与即时回读.json",
+      "bytes": 57225,
+      "sha256": "b373fa6f8c71937723c7906ffad11cfff8e57873cdc0c02a250b417afe00170a"
+    },
+    {
+      "name": "05-Luna独立回读.json",
+      "bytes": 95263,
+      "sha256": "f2e92752d0acd1436a27074f8801540628f70f8f24333484d3d99db04901c822"
+    },
+    {
+      "name": "06-公式算例.json",
+      "bytes": 2800,
+      "sha256": "52f8d40c0e02b9d613677178d7fbcde5dbb0b216b48eb1a4114047a7025f091a"
+    },
+    {
+      "name": "07-页面验收.json",
+      "bytes": 1897,
+      "sha256": "557dc0960ee982da4363b67008906a10e020aff8f5d26461596cec12077c3c88"
+    },
+    {
+      "name": "08-Cursor独立评审.json",
+      "bytes": 813,
+      "sha256": "b60d74262df887ed96aad9935ab68a9f52937443d97d377590e5ee455ab247f1"
+    },
+    {
+      "name": "09-冻结请求.json",
+      "bytes": 12717,
+      "sha256": "9aee93c52008239c2affbd4e1b4d047b7f6266033d0c39366a4fe549669cfbb4"
+    },
+    {
+      "name": "README.md",
+      "bytes": 3107,
+      "sha256": "51550bece9a021caf6f12007ce4e1edf71ce5a2db694053e239cf12c5e6921e4"
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

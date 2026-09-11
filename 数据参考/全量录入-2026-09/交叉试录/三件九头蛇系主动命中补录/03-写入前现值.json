@@ -1,0 +1,1558 @@
+{
+  "capturedAt": "2026-09-10T16:22:59.064Z",
+  "baseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "getCount": 70,
+  "skills": [
+    {
+      "skillKey": "item_3077_active",
+      "equipmentKey": "item_3077",
+      "subject": {
+        "route": "/skills/item_3077_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T17:18:28.063735Z",
+          "description": "保留主动对单个对手0.75总攻击力物理伤害的独立公式、10秒冷却。旁溅被动不能加在攻击主目标上，主动法术护盾资格与施放时点仍待核。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "提亚马特·新月",
+          "skillCategoryKeys": [],
+          "skillKey": "item_3077_active",
+          "sortOrder": 10,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T17:18:28.063735Z"
+        }
+      },
+      "relation": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3077&skillKey=item_3077_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "equipmentKey": "item_3077",
+              "equipmentName": "提亚马特",
+              "gameId": "lol",
+              "skillKey": "item_3077_active",
+              "skillName": "提亚马特·新月",
+              "skillStatus": "ENABLED",
+              "sortOrder": 20
+            }
+          ],
+          "total": 1
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/item_3077_active/parameters",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-08T17:18:28.674293Z",
+                "description": "当前PrimaryDamage使用StatByNamedDataValueCalculationPart、mStat=2和ActiveADRatio。",
+                "fixedValue": 0.75,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "主动总攻击力比例",
+                "parameterKey": "total_attack_damage_ratio",
+                "skillKey": "item_3077_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-08T17:18:28.674293Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-08T17:18:29.389231Z",
+                "description": "当前根Cooldown=10秒。",
+                "fixedValue": 10000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "新月主动冷却",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "item_3077_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-08T17:18:29.389231Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_3077_active/parameters/total_attack_damage_ratio",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-08T17:18:28.674293Z",
+                "description": "当前PrimaryDamage使用StatByNamedDataValueCalculationPart、mStat=2和ActiveADRatio。",
+                "fixedValue": 0.75,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "主动总攻击力比例",
+                "parameterKey": "total_attack_damage_ratio",
+                "skillKey": "item_3077_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-08T17:18:28.674293Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            },
+            {
+              "route": "/skills/item_3077_active/parameters/cooldown_ms",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-08T17:18:29.389231Z",
+                "description": "当前根Cooldown=10秒。",
+                "fixedValue": 10000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "新月主动冷却",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "item_3077_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-08T17:18:29.389231Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/item_3077_active/formulas",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-08T17:18:29.996384Z",
+                "description": "0.75×自身总攻击力；公式不包含被动旁溅、不结算基础普攻，也未接入主动命中。",
+                "formulaKey": "active_physical_damage",
+                "gameId": "lol",
+                "name": "新月主动物理伤害",
+                "skillKey": "item_3077_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-08T17:18:29.996384Z"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_3077_active/formulas/active_physical_damage",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-08T17:18:29.996384Z",
+                "description": "0.75×自身总攻击力；公式不包含被动旁溅、不结算基础普攻，也未接入主动命中。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_attack_damage_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "active_physical_damage",
+                "gameId": "lol",
+                "name": "新月主动物理伤害",
+                "skillKey": "item_3077_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-08T17:18:29.996384Z"
+              }
+            }
+          ]
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/item_3077_active/effects",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/item_3077_active/processes",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "internal-states": {
+          "list": {
+            "route": "/skills/item_3077_active/internal-states",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "trigger-rules": {
+          "list": {
+            "route": "/skills/item_3077_active/trigger-rules",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        }
+      }
+    },
+    {
+      "skillKey": "item_3074_active",
+      "equipmentKey": "item_3074",
+      "subject": {
+        "route": "/skills/item_3074_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T09:30:04.665097Z",
+          "description": "保留血斩对当前唯一敌方英雄的物理伤害比例、范围、冷却和生命偷取适用旁证。主动以自身为中心，未因范围文字排除；伤害资格和吸血结算尚未接线。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "贪欲九头蛇·血斩",
+          "skillCategoryKeys": [],
+          "skillKey": "item_3074_active",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-09T09:30:04.665097Z"
+        }
+      },
+      "relation": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3074&skillKey=item_3074_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "equipmentKey": "item_3074",
+              "equipmentName": "贪欲九头蛇",
+              "gameId": "lol",
+              "skillKey": "item_3074_active",
+              "skillName": "贪欲九头蛇·血斩",
+              "skillStatus": "ENABLED",
+              "sortOrder": 10
+            }
+          ],
+          "total": 1
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/item_3074_active/parameters",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-09T09:30:05.825651Z",
+                "description": "客户端PrimaryDamage使用mStat=2并绑定ActiveADRatio，按已证2/0窄映射读取来源总攻击力；ActiveADRatio=0.8。",
+                "fixedValue": 0.8,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩物理伤害总攻击力比例",
+                "parameterKey": "active_damage_ratio",
+                "skillKey": "item_3074_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:05.825651Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:06.679237Z",
+                "description": "客户端ActiveRadius=450；作为当前唯一敌人在范围内的条件参数。",
+                "fixedValue": 450,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩影响范围",
+                "parameterKey": "active_radius",
+                "skillKey": "item_3074_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:06.679237Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:07.671694Z",
+                "description": "客户端3074Active的castRadius=325；不把半径当成多目标排除理由。",
+                "fixedValue": 325,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩施法半径",
+                "parameterKey": "active_cast_radius",
+                "skillKey": "item_3074_active",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-09T09:30:07.671694Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:08.701034Z",
+                "description": "客户端根mDataValues/Cooldown=10秒；主动对象冷却数组为0，不能用0覆盖根值。",
+                "fixedValue": 10000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_3074_active",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T09:30:08.701034Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:11.558838Z",
+                "description": "官方和客户端中文都明确生命偷取作用于血斩伤害；只保存适用旁证，未创建吸血效果。",
+                "fixedValue": 1,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩生命偷取适用倍率",
+                "parameterKey": "life_steal_applies_multiplier",
+                "skillKey": "item_3074_active",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-09T09:30:11.558838Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_3074_active/parameters/active_damage_ratio",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:05.825651Z",
+                "description": "客户端PrimaryDamage使用mStat=2并绑定ActiveADRatio，按已证2/0窄映射读取来源总攻击力；ActiveADRatio=0.8。",
+                "fixedValue": 0.8,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩物理伤害总攻击力比例",
+                "parameterKey": "active_damage_ratio",
+                "skillKey": "item_3074_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:05.825651Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            },
+            {
+              "route": "/skills/item_3074_active/parameters/active_radius",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:06.679237Z",
+                "description": "客户端ActiveRadius=450；作为当前唯一敌人在范围内的条件参数。",
+                "fixedValue": 450,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩影响范围",
+                "parameterKey": "active_radius",
+                "skillKey": "item_3074_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:06.679237Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3074_active/parameters/active_cast_radius",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:07.671694Z",
+                "description": "客户端3074Active的castRadius=325；不把半径当成多目标排除理由。",
+                "fixedValue": 325,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩施法半径",
+                "parameterKey": "active_cast_radius",
+                "skillKey": "item_3074_active",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-09T09:30:07.671694Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3074_active/parameters/active_cooldown_ms",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:08.701034Z",
+                "description": "客户端根mDataValues/Cooldown=10秒；主动对象冷却数组为0，不能用0覆盖根值。",
+                "fixedValue": 10000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_3074_active",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T09:30:08.701034Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3074_active/parameters/life_steal_applies_multiplier",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:11.558838Z",
+                "description": "官方和客户端中文都明确生命偷取作用于血斩伤害；只保存适用旁证，未创建吸血效果。",
+                "fixedValue": 1,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "血斩生命偷取适用倍率",
+                "parameterKey": "life_steal_applies_multiplier",
+                "skillKey": "item_3074_active",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-09T09:30:11.558838Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/item_3074_active/formulas",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-09T09:30:12.573539Z",
+                "description": "0.8×来源总攻击力；当前只保存合法公式，未声明无条件DAMAGE。",
+                "formulaKey": "active_physical_damage",
+                "gameId": "lol",
+                "name": "血斩物理伤害值",
+                "skillKey": "item_3074_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:12.573539Z"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_3074_active/formulas/active_physical_damage",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:12.573539Z",
+                "description": "0.8×来源总攻击力；当前只保存合法公式，未声明无条件DAMAGE。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "active_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "active_physical_damage",
+                "gameId": "lol",
+                "name": "血斩物理伤害值",
+                "skillKey": "item_3074_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:12.573539Z"
+              }
+            }
+          ]
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/item_3074_active/effects",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/item_3074_active/processes",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "internal-states": {
+          "list": {
+            "route": "/skills/item_3074_active/internal-states",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "trigger-rules": {
+          "list": {
+            "route": "/skills/item_3074_active/trigger-rules",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        }
+      }
+    },
+    {
+      "skillKey": "item_3748_active",
+      "equipmentKey": "item_3748",
+      "subject": {
+        "route": "/skills/item_3748_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T09:30:22.649593Z",
+          "description": "保留刚斩强化下一次顺劈时对当前唯一主目标的额外物理伤害比例、远程倍率和10秒冷却；最新窄证覆盖的具名旧节点将mStat=12读取为SOURCE.hp.TOTAL（自身最大生命值）。目标身后的额外伤害留在来源。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "巨型九头蛇·刚斩",
+          "skillCategoryKeys": [],
+          "skillKey": "item_3748_active",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-09T09:30:22.649593Z"
+        }
+      },
+      "relation": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3748&skillKey=item_3748_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "equipmentKey": "item_3748",
+              "equipmentName": "巨型九头蛇",
+              "gameId": "lol",
+              "skillKey": "item_3748_active",
+              "skillName": "巨型九头蛇·刚斩",
+              "skillStatus": "ENABLED",
+              "sortOrder": 20
+            }
+          ],
+          "total": 1
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/item_3748_active/parameters",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-09T09:30:23.629383Z",
+                "description": "客户端ActivePrimaryTargetHPRatio=0.04；mStat12属性仍由运行时提供。",
+                "fixedValue": 0.04,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "刚斩主目标生命比例",
+                "parameterKey": "active_primary_target_hp_ratio",
+                "skillKey": "item_3748_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:23.629383Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:24.707168Z",
+                "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+                "fixedValue": 0.5,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "刚斩远程倍率",
+                "parameterKey": "ranged_effectiveness",
+                "skillKey": "item_3748_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:24.707168Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:25.894408Z",
+                "description": "客户端根Cooldown=10秒；不使用主动对象的零值冷却数组。",
+                "fixedValue": 10000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "刚斩冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_3748_active",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T09:30:25.894408Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_3748_active/parameters/active_primary_target_hp_ratio",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:23.629383Z",
+                "description": "客户端ActivePrimaryTargetHPRatio=0.04；mStat12属性仍由运行时提供。",
+                "fixedValue": 0.04,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "刚斩主目标生命比例",
+                "parameterKey": "active_primary_target_hp_ratio",
+                "skillKey": "item_3748_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:23.629383Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            },
+            {
+              "route": "/skills/item_3748_active/parameters/ranged_effectiveness",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:24.707168Z",
+                "description": "客户端RangedEffectiveness=0.5；仅供远程分支公式使用。",
+                "fixedValue": 0.5,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "刚斩远程倍率",
+                "parameterKey": "ranged_effectiveness",
+                "skillKey": "item_3748_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:24.707168Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            },
+            {
+              "route": "/skills/item_3748_active/parameters/active_cooldown_ms",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:25.894408Z",
+                "description": "客户端根Cooldown=10秒；不使用主动对象的零值冷却数组。",
+                "fixedValue": 10000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "刚斩冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_3748_active",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T09:30:25.894408Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/item_3748_active/formulas",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-09T09:30:26.927714Z",
+                "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+                "formulaKey": "active_primary_damage_melee",
+                "gameId": "lol",
+                "name": "刚斩主目标近战伤害值",
+                "skillKey": "item_3748_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:26.927714Z"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:27.951746Z",
+                "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+                "formulaKey": "active_primary_damage_ranged",
+                "gameId": "lol",
+                "name": "刚斩主目标远程伤害值",
+                "skillKey": "item_3748_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:27.951746Z"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_3748_active/formulas/active_primary_damage_melee",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:26.927714Z",
+                "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）；仅限最新窄证覆盖的具名旧节点，近战不应用0.5远程倍率。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "active_primary_target_hp_ratio"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "active_primary_damage_melee",
+                "gameId": "lol",
+                "name": "刚斩主目标近战伤害值",
+                "skillKey": "item_3748_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:26.927714Z"
+              }
+            },
+            {
+              "route": "/skills/item_3748_active/formulas/active_primary_damage_ranged",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:27.951746Z",
+                "description": "0.04×SOURCE.hp.TOTAL（自身最大生命值）×0.5远程倍率；仅限最新窄证覆盖的具名旧节点。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "active_primary_target_hp_ratio"
+                        },
+                        {
+                          "attributeKey": "hp",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ranged_effectiveness"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "active_primary_damage_ranged",
+                "gameId": "lol",
+                "name": "刚斩主目标远程伤害值",
+                "skillKey": "item_3748_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:27.951746Z"
+              }
+            }
+          ]
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/item_3748_active/effects",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/item_3748_active/processes",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "internal-states": {
+          "list": {
+            "route": "/skills/item_3748_active/internal-states",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "trigger-rules": {
+          "list": {
+            "route": "/skills/item_3748_active/trigger-rules",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        }
+      }
+    },
+    {
+      "skillKey": "item_6698_active",
+      "equipmentKey": "item_6698",
+      "subject": {
+        "route": "/skills/item_6698_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T09:30:31.287429Z",
+          "description": "保留邪斩对当前唯一附近敌方英雄的物理伤害、450范围和10秒冷却。顺劈被动及未绑定生命阈值字段留来源。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "亵渎九头蛇·邪斩",
+          "skillCategoryKeys": [],
+          "skillKey": "item_6698_active",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-09T09:30:31.287429Z"
+        }
+      },
+      "relation": {
+        "route": "/equipment-skill-relations?equipmentKey=item_6698&skillKey=item_6698_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "equipmentKey": "item_6698",
+              "equipmentName": "亵渎九头蛇",
+              "gameId": "lol",
+              "skillKey": "item_6698_active",
+              "skillName": "亵渎九头蛇·邪斩",
+              "skillStatus": "ENABLED",
+              "sortOrder": 10
+            }
+          ],
+          "total": 1
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/item_6698_active/parameters",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-09T09:30:32.369232Z",
+                "description": "客户端SlashDamageBase/SlashDamageMax均为mStat=2、系数0.8，按已证2/0窄映射读取来源总攻击力。",
+                "fixedValue": 0.8,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "邪斩物理伤害总攻击力比例",
+                "parameterKey": "active_damage_ratio",
+                "skillKey": "item_6698_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:32.369232Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:33.307001Z",
+                "description": "客户端ActiveRadius=450；当前唯一敌人在范围内时仍相关。",
+                "fixedValue": 450,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "邪斩影响范围",
+                "parameterKey": "active_radius",
+                "skillKey": "item_6698_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:33.307001Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:34.350352Z",
+                "description": "客户端6698Active的castRadius=325。",
+                "fixedValue": 325,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "邪斩施法半径",
+                "parameterKey": "active_cast_radius",
+                "skillKey": "item_6698_active",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-09T09:30:34.350352Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:35.271007Z",
+                "description": "客户端根Cooldown=10秒；主动对象冷却数组为0，不能当作实际冷却。",
+                "fixedValue": 10000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "邪斩冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_6698_active",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T09:30:35.271007Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_6698_active/parameters/active_damage_ratio",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:32.369232Z",
+                "description": "客户端SlashDamageBase/SlashDamageMax均为mStat=2、系数0.8，按已证2/0窄映射读取来源总攻击力。",
+                "fixedValue": 0.8,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "邪斩物理伤害总攻击力比例",
+                "parameterKey": "active_damage_ratio",
+                "skillKey": "item_6698_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:32.369232Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            },
+            {
+              "route": "/skills/item_6698_active/parameters/active_radius",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:33.307001Z",
+                "description": "客户端ActiveRadius=450；当前唯一敌人在范围内时仍相关。",
+                "fixedValue": 450,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "邪斩影响范围",
+                "parameterKey": "active_radius",
+                "skillKey": "item_6698_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:33.307001Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_6698_active/parameters/active_cast_radius",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:34.350352Z",
+                "description": "客户端6698Active的castRadius=325。",
+                "fixedValue": 325,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "邪斩施法半径",
+                "parameterKey": "active_cast_radius",
+                "skillKey": "item_6698_active",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-09T09:30:34.350352Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_6698_active/parameters/active_cooldown_ms",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:35.271007Z",
+                "description": "客户端根Cooldown=10秒；主动对象冷却数组为0，不能当作实际冷却。",
+                "fixedValue": 10000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "邪斩冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_6698_active",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T09:30:35.271007Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/item_6698_active/formulas",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-09T09:30:36.276191Z",
+                "description": "0.8×来源总攻击力；只保存公式，不创建无条件DAMAGE。",
+                "formulaKey": "active_physical_damage",
+                "gameId": "lol",
+                "name": "邪斩物理伤害值",
+                "skillKey": "item_6698_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:36.276191Z"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_6698_active/formulas/active_physical_damage",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:36.276191Z",
+                "description": "0.8×来源总攻击力；只保存公式，不创建无条件DAMAGE。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "active_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "active_physical_damage",
+                "gameId": "lol",
+                "name": "邪斩物理伤害值",
+                "skillKey": "item_6698_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:36.276191Z"
+              }
+            }
+          ]
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/item_6698_active/effects",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/item_6698_active/processes",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "internal-states": {
+          "list": {
+            "route": "/skills/item_6698_active/internal-states",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "trigger-rules": {
+          "list": {
+            "route": "/skills/item_6698_active/trigger-rules",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        }
+      }
+    },
+    {
+      "skillKey": "item_3107_active",
+      "equipmentKey": "item_3107",
+      "subject": {
+        "route": "/skills/item_3107_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T09:30:39.522128Z",
+          "description": "保留干涉在2.5秒后对当前敌方英雄造成其最大生命值10%真实伤害的分支，同时保留友方治疗150/350端点和当前合资格友方英雄基础治疗运行时输入。友方治疗目标归属（含施法者自身）待补证；不创建治疗效果或中转公式。 当前绑定扩展说明：死亡期间也可主动使用；对相同目标的后续干涉效果降低50%。本次保存比例，重复时间窗和实际触发待核。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "救赎·干涉敌方伤害",
+          "skillCategoryKeys": [],
+          "skillKey": "item_3107_active",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-09T09:44:04.609627Z"
+        }
+      },
+      "relation": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3107&skillKey=item_3107_active",
+        "method": "GET",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "equipmentKey": "item_3107",
+              "equipmentName": "救赎",
+              "gameId": "lol",
+              "skillKey": "item_3107_active",
+              "skillName": "救赎·干涉敌方伤害",
+              "skillStatus": "ENABLED",
+              "sortOrder": 10
+            }
+          ],
+          "total": 1
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/item_3107_active/parameters",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-09T09:30:40.474482Z",
+                "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+                "fixedValue": 0.1,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉敌方真实伤害比例",
+                "parameterKey": "enemy_true_damage_ratio",
+                "skillKey": "item_3107_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:40.474482Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:41.495245Z",
+                "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "当前敌方英雄最大生命值",
+                "parameterKey": "actual_target_max_health",
+                "skillKey": "item_3107_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:41.495245Z",
+                "valueMode": "RUNTIME_INPUT",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:42.449924Z",
+                "description": "官方与客户端中文明确2.5秒后生效。",
+                "fixedValue": 2500,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉生效延迟",
+                "parameterKey": "impact_delay_ms",
+                "skillKey": "item_3107_active",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-09T09:30:42.449924Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:43.459838Z",
+                "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+                "fixedValue": 550,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉区域半径",
+                "parameterKey": "area_radius",
+                "skillKey": "item_3107_active",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T09:30:43.459838Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:44.355122Z",
+                "description": "客户端CastRange=5500。",
+                "fixedValue": 5500,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉施法距离",
+                "parameterKey": "cast_range",
+                "skillKey": "item_3107_active",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-09T09:30:44.355122Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:45.408966Z",
+                "description": "客户端根Cooldown=90秒；只读根数据值。",
+                "fixedValue": 90000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_3107_active",
+                "sortOrder": 60,
+                "updatedAt": "2026-09-09T09:30:45.408966Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:46.384955Z",
+                "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+                "fixedValue": 150,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "友方治疗下限",
+                "parameterKey": "ally_heal_min",
+                "skillKey": "item_3107_active",
+                "sortOrder": 70,
+                "updatedAt": "2026-09-09T09:30:46.384955Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:47.377293Z",
+                "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+                "fixedValue": 350,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "友方治疗上限",
+                "parameterKey": "ally_heal_max",
+                "skillKey": "item_3107_active",
+                "sortOrder": 80,
+                "updatedAt": "2026-09-09T09:30:47.377293Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T09:30:48.415892Z",
+                "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "当前合资格友方英雄基础治疗输入",
+                "parameterKey": "actual_qualified_ally_base_heal",
+                "skillKey": "item_3107_active",
+                "sortOrder": 90,
+                "updatedAt": "2026-09-09T09:30:48.415892Z",
+                "valueMode": "RUNTIME_INPUT",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-09T09:44:02.43169Z",
+                "description": "当前绑定扩展说明后续效果降低50%；仅此数值，两种说法数值相同。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+                "fixedValue": 0.5,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "重复干预效果保留比例",
+                "parameterKey": "repeated_effect_ratio",
+                "skillKey": "item_3107_active",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-09T09:44:02.43169Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_3107_active/parameters/enemy_true_damage_ratio",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:40.474482Z",
+                "description": "官方与客户端中文明确为敌方英雄最大生命值的10%真实伤害。",
+                "fixedValue": 0.1,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉敌方真实伤害比例",
+                "parameterKey": "enemy_true_damage_ratio",
+                "skillKey": "item_3107_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:40.474482Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/actual_target_max_health",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:41.495245Z",
+                "description": "目标最大生命值作为运行时输入；不补默认值或未知属性枚举。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "当前敌方英雄最大生命值",
+                "parameterKey": "actual_target_max_health",
+                "skillKey": "item_3107_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T09:30:41.495245Z",
+                "valueMode": "RUNTIME_INPUT",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/impact_delay_ms",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:42.449924Z",
+                "description": "官方与客户端中文明确2.5秒后生效。",
+                "fixedValue": 2500,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉生效延迟",
+                "parameterKey": "impact_delay_ms",
+                "skillKey": "item_3107_active",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-09T09:30:42.449924Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/area_radius",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:43.459838Z",
+                "description": "客户端AOESize=550；只作为当前敌人在区域内的条件参数。",
+                "fixedValue": 550,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉区域半径",
+                "parameterKey": "area_radius",
+                "skillKey": "item_3107_active",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T09:30:43.459838Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/cast_range",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:44.355122Z",
+                "description": "客户端CastRange=5500。",
+                "fixedValue": 5500,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉施法距离",
+                "parameterKey": "cast_range",
+                "skillKey": "item_3107_active",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-09T09:30:44.355122Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/active_cooldown_ms",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:45.408966Z",
+                "description": "客户端根Cooldown=90秒；只读根数据值。",
+                "fixedValue": 90000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "干涉冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_3107_active",
+                "sortOrder": 60,
+                "updatedAt": "2026-09-09T09:30:45.408966Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/ally_heal_min",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:46.384955Z",
+                "description": "客户端HealMin=150；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+                "fixedValue": 150,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "友方治疗下限",
+                "parameterKey": "ally_heal_min",
+                "skillKey": "item_3107_active",
+                "sortOrder": 70,
+                "updatedAt": "2026-09-09T09:30:46.384955Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/ally_heal_max",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:47.377293Z",
+                "description": "客户端HealMax=350；官方与客户端说明给出150-350端点，等级求值和自身资格未证，只保留端点。",
+                "fixedValue": 350,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "友方治疗上限",
+                "parameterKey": "ally_heal_max",
+                "skillKey": "item_3107_active",
+                "sortOrder": 80,
+                "updatedAt": "2026-09-09T09:30:47.377293Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/actual_qualified_ally_base_heal",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:48.415892Z",
+                "description": "无默认值；当前合资格友方英雄的基础治疗值由运行时提供。HealAmount含ByCharLevelInterpolation，未知等级算法及施法者自身资格不补默认值。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "当前合资格友方英雄基础治疗输入",
+                "parameterKey": "actual_qualified_ally_base_heal",
+                "skillKey": "item_3107_active",
+                "sortOrder": 90,
+                "updatedAt": "2026-09-09T09:30:48.415892Z",
+                "valueMode": "RUNTIME_INPUT",
+                "valueType": "DECIMAL"
+              }
+            },
+            {
+              "route": "/skills/item_3107_active/parameters/repeated_effect_ratio",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:44:02.43169Z",
+                "description": "当前绑定扩展说明后续效果降低50%；仅此数值，两种说法数值相同。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+                "fixedValue": 0.5,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "重复干预效果保留比例",
+                "parameterKey": "repeated_effect_ratio",
+                "skillKey": "item_3107_active",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-09T09:44:02.43169Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/item_3107_active/formulas",
+            "method": "GET",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-09T09:30:49.301456Z",
+                "description": "0.1×当前敌方英雄最大生命值输入；延迟由参数保留，未创建伤害效果。",
+                "formulaKey": "enemy_true_damage",
+                "gameId": "lol",
+                "name": "干涉敌方真实伤害值",
+                "skillKey": "item_3107_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:49.301456Z"
+              }
+            ]
+          },
+          "details": [
+            {
+              "route": "/skills/item_3107_active/formulas/enemy_true_damage",
+              "method": "GET",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T09:30:49.301456Z",
+                "description": "0.1×当前敌方英雄最大生命值输入；延迟由参数保留，未创建伤害效果。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "enemy_true_damage_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_target_max_health"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "enemy_true_damage",
+                "gameId": "lol",
+                "name": "干涉敌方真实伤害值",
+                "skillKey": "item_3107_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T09:30:49.301456Z"
+              }
+            }
+          ]
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/item_3107_active/effects",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/item_3107_active/processes",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "internal-states": {
+          "list": {
+            "route": "/skills/item_3107_active/internal-states",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        },
+        "trigger-rules": {
+          "list": {
+            "route": "/skills/item_3107_active/trigger-rules",
+            "method": "GET",
+            "status": 200,
+            "data": []
+          },
+          "details": []
+        }
+      }
+    }
+  ]
+}
