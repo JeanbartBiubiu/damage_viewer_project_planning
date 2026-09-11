@@ -5254,6 +5254,92 @@
         "commit": "5d026e2875f5c6f20ccebb86417e0120d4dd2fb2"
       },
       "runtimeValidation": "未执行"
+    },
+    "runeTasteOfBloodDirectHealBackfill": {
+      "at": "2026-09-11T14:25:00Z",
+      "status": "血之滋味独立自身治疗结果新增，独立评审、受保护写入、独立回读、公式核算和真实页面通过",
+      "skills": [
+        "rune_8139_passive"
+      ],
+      "created": {
+        "effects": 1
+      },
+      "updated": {
+        "skillDescriptions": 1
+      },
+      "deleted": 0,
+      "sourceDecision": "只保存来源明确的一次自身治疗数值；敌方英雄伤害资格、触发去重、20秒冷却消费和等级基础值供给继续待接，未映射4秒字段不猜作周期治疗。",
+      "writer": {
+        "frozenPreflightGETs": 48,
+        "frozenChecks": 18,
+        "businessWrites": 2,
+        "POST": 1,
+        "PUT": 1,
+        "DELETE": 0,
+        "allGETs": 36,
+        "replayedWrites": 0
+      },
+      "independentAgentGETs": 17,
+      "independentChecks": 40,
+      "independentMismatches": 0,
+      "formula": {
+        "GETs": 3,
+        "cases": 3,
+        "values": [
+          26,
+          60,
+          28
+        ],
+        "passed": true
+      },
+      "browser": {
+        "representativePages": 1,
+        "representativeSkill": "rune_8139_passive",
+        "listImageVisible": true,
+        "effectAndResultDetailsVisible": true,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "imageCacheSeedGETs": 1,
+        "serverWrites": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-88f4e94e-2b2b-4c2f-bdcb-5c672703bcbf",
+        "planRevision": 1,
+        "verdict": "READY",
+        "runDeltaCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "parametersUnchanged": true,
+        "formulaExpressionUnchanged": true,
+        "runeRelationUnchanged": true,
+        "representativeImageUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true,
+        "triggerRulesRemainEmpty": true
+      },
+      "experienceIssues": [
+        "来源对象中的4秒字段未被当前绑定文本引用，不能从字段名猜成周期治疗生命周期。",
+        "效果键与公式键位于不同对象，可以使用同名键；保护检查仍需按完整父路径区分。",
+        "严格一对一范围下，小兵或野怪击杀恢复不应为了扩大批量而新增效果。"
+      ],
+      "pending": [
+        "完整1至18级基础恢复值仍需来源证明，当前继续使用无默认运行时输入。",
+        "敌方英雄伤害资格、触发去重、冷却消费和等级基础值供给未做战斗运行验证。"
+      ],
+      "requestSha256": "cab59e566beb3caec7c8f8b7894529ec852b36a2b54c2eb5b79138369b5031b5",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/血之滋味独立治疗补录/证据清单.json",
+        "sha256": "3e1165c602cc55ad6a2d7bee1597e27003e6ae6f3c03a4e40db48912ac6ceff4",
+        "commit": "4241f33b"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
