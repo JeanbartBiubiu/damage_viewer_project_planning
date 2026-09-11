@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T13:53:31.118Z",
+  "generatedAt": "2026-09-11T15:50:09.146Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -5338,6 +5338,123 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/血之滋味独立治疗补录/证据清单.json",
         "sha256": "3e1165c602cc55ad6a2d7bee1597e27003e6ae6f3c03a4e40db48912ac6ceff4",
         "commit": "4241f33b"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "equipmentDirectResultBackfill": {
+      "at": "2026-09-11T15:50:09.147Z",
+      "status": "七项装备技能的十一项独立伤害或自身治疗结果新增，独立评审、受保护写入、独立回读、公式核算和代表页面通过",
+      "skills": [
+        "item_2510_passive",
+        "item_3107_active",
+        "item_3137_passive",
+        "item_3152_active",
+        "item_3181_passive",
+        "item_3748_passive",
+        "item_3748_active"
+      ],
+      "created": {
+        "effects": 11,
+        "damageResults": 9,
+        "directHealResults": 2
+      },
+      "updated": {
+        "formulaDescriptions": 1
+      },
+      "deleted": 0,
+      "sourceDecision": "只保存已有公式能够准确支撑的单目标伤害与自身治疗；触发、攻击消费、冷却、延迟、范围、层数和近远程选择继续待接，次要锥形目标和纯盟友范围收益按严格一对一范围排除。",
+      "writer": {
+        "frozenPreflightGETs": 120,
+        "frozenChecks": 166,
+        "protectedPreflightGETs": 116,
+        "businessWrites": 12,
+        "POST": 11,
+        "PUT": 1,
+        "DELETE": 0,
+        "allGETs": 256,
+        "replayedWrites": 0
+      },
+      "independentAgentGETs": 116,
+      "independentChecks": 136,
+      "independentMismatches": 0,
+      "formula": {
+        "GETs": 29,
+        "cases": 11,
+        "values": [
+          95,
+          35,
+          250,
+          140,
+          120,
+          220,
+          154,
+          25,
+          12.5,
+          100,
+          50
+        ],
+        "branchInvariants": 3,
+        "passed": true
+      },
+      "browser": {
+        "representativePages": 3,
+        "representativeEffects": 5,
+        "skills": [
+          "item_2510_passive",
+          "item_3107_active",
+          "item_3748_active"
+        ],
+        "listImagesVisible": true,
+        "effectAndResultDetailsVisible": true,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "imageCacheSeedGETs": 3,
+        "serverWrites": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "passed": true
+      },
+      "cursorReview": {
+        "firstRunId": "run-009fc4df-ec47-4f5f-b8d7-456cbe8c6839",
+        "firstResult": "内容READY但因并发提交符文证据产生12项运行期越界变化，未采用",
+        "validRunId": "run-775953f6-a22a-4e73-93c2-77b86f6e2c3d",
+        "planRevision": 1,
+        "verdict": "READY",
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "subjectsUnchanged": true,
+        "parametersUnchanged": true,
+        "formulaStructuresUnchanged": true,
+        "equipmentRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true,
+        "triggerRulesRemainEmpty": true
+      },
+      "experienceIssues": [
+        "固定两条一批会降低吞吐；共享同一结构和保护规则的独立结果可以一次冻结并批量录入，本批安全覆盖7个技能和11个效果。",
+        "Cursor只读评审运行期间不能并发提交工作树文件；第一次内容虽为READY，但12项运行期越界变化使审计无效，干净重跑后runDeltaCount为0。",
+        "页面效果行的嵌套定位器在多效果弹窗中超时；改用行文本筛选并精确确认标识单元格后，3个技能5个效果全部通过。",
+        "空吸血规则和空法术护盾范围是明确语义；部分普攻附伤来源带可应用生命偷取标记，连接自动执行前必须重新裁定。"
+      ],
+      "pending": [
+        "黄昏与黎明、破舰者和巨型九头蛇的普攻触发、消费、冷却、近远程选择、吸血及法术护盾处理仍待接线。",
+        "救赎的2.5秒延迟、范围、重复衰减、友方治疗和冷却仍待接线。",
+        "破碎王后之冕的参与击杀资格、窗口、盟友目标和冷却仍待接线。",
+        "火箭腰带的冲刺、弹道、命中去重及来源与现值的静态属性和冷却冲突待单独核对。",
+        "item_3179_passive 的 actual_mstat29 属性含义未证，不能猜写真实伤害结果。"
+      ],
+      "requestSha256": "9b726b52dcbef12319c32d1b02e7500c7f5db82d2d2a41976e36d7a6a3f73b16",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项装备直接结果补录/证据清单.json",
+        "sha256": "b400e8ee2ba06ab7351157f396a1656da6460a0b1f2d86e34a8055aaf0debe03",
+        "commit": "26954267"
       },
       "runtimeValidation": "未执行"
     }
