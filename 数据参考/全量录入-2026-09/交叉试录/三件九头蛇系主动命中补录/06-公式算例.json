@@ -1,0 +1,106 @@
+{
+  "at": "2026-09-10T17:03:37.861Z",
+  "apiWrites": 0,
+  "GET": 6,
+  "inputPolicy": "仅注入来源总攻击力400；参数全部取API回读，不补零。",
+  "results": [
+    {
+      "skillKey": "item_3077_active",
+      "formulaKey": "active_physical_damage",
+      "input": {
+        "SOURCE.attack_damage.TOTAL": 400
+      },
+      "parameterValues": {
+        "total_attack_damage_ratio": 0.75,
+        "cooldown_ms": 10000
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "total_attack_damage_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "expected": 300,
+      "actual": 300,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3074_active",
+      "formulaKey": "active_physical_damage",
+      "input": {
+        "SOURCE.attack_damage.TOTAL": 400
+      },
+      "parameterValues": {
+        "active_damage_ratio": 0.8,
+        "active_radius": 450,
+        "active_cast_radius": 325,
+        "active_cooldown_ms": 10000,
+        "life_steal_applies_multiplier": 1
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_damage_ratio"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "expected": 320,
+      "actual": 320,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6698_active",
+      "formulaKey": "active_physical_damage",
+      "input": {
+        "SOURCE.attack_damage.TOTAL": 400
+      },
+      "parameterValues": {
+        "active_damage_ratio": 0.8,
+        "active_radius": 450,
+        "active_cast_radius": 325,
+        "active_cooldown_ms": 10000
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_damage_ratio"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "expected": 320,
+      "actual": 320,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "runtimeValidation": "未执行；这是作者公式的独立数值核算。",
+  "authorizationValueRecorded": false
+}

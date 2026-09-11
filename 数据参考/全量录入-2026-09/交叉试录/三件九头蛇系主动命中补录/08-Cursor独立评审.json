@@ -1,0 +1,24 @@
+{
+  "runId": "run-73875d33-3f6f-4916-8eb9-4a311a9e31f8",
+  "model": "grok-4.6",
+  "effort": "high",
+  "planRevision": 2,
+  "verdict": "READY",
+  "blockers": [],
+  "runDeltaCount": 0,
+  "outsideScopeCount": 0,
+  "apiWrites": 0,
+  "reviewed": [
+    "三项技能更新保留主体字段",
+    "3077公式更新保留完整表达式",
+    "三项效果和规则为基线中不存在的新对象",
+    "SKILL_HIT请求省略useKind且回读规范化为null",
+    "fixedMinValue、法术护盾空值和空吸血规则均符合当前契约",
+    "十次写入顺序在中断时不会先留下错误完成说明"
+  ],
+  "nonBlockingFindingsApplied": [
+    "公式前后值改用不受对象键顺序影响的深比较",
+    "规则即时回读改用规范化后的期望对象"
+  ],
+  "runtimeValidation": "未执行"
+}

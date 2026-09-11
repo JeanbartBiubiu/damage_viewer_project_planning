@@ -1,0 +1,56 @@
+{
+  "capturedOn": "2026-09-11",
+  "route": "http://127.0.0.1:5173/#/skills",
+  "gameId": "lol",
+  "apiWrites": 0,
+  "list": {
+    "totalSkills": 1062,
+    "pageSize": 25,
+    "localPaginationVisible": true
+  },
+  "representative": {
+    "skillKey": "item_3077_active",
+    "filterResultCount": 1,
+    "listImageAlt": "提亚马特·新月代表图片",
+    "listImageVisible": true,
+    "effect": {
+      "effectKey": "active_hit",
+      "name": "新月主动命中",
+      "resultCount": 1,
+      "resultKey": "physical_damage",
+      "target": "当前目标",
+      "damageType": "物理",
+      "deliveryKind": "技能",
+      "originKind": "直接伤害",
+      "critical": "禁止暴击",
+      "formulaKey": "active_physical_damage",
+      "fixedMultiplier": 1,
+      "fixedMinValue": 0,
+      "spellShield": "不参与法术护盾阻挡",
+      "vampRuleCount": 0
+    },
+    "triggerRule": {
+      "ruleKey": "actual_hit",
+      "eventType": "SKILL_HIT",
+      "sourceSkillKey": "item_3077_active",
+      "conditionGroupCount": 0,
+      "actionCount": 1,
+      "action": "对当前目标执行 active_hit",
+      "runtimeInputBindingCount": 0,
+      "resultModifierCount": 0
+    },
+    "passed": true
+  },
+  "sameContractItems": [
+    "item_3074_active",
+    "item_6698_active"
+  ],
+  "coverage": "真实页面完成一项代表验收；另外两项使用写入者完整回读和Luna Max独立回读覆盖。三项的新增效果、结果和规则契约相同。",
+  "browserControlFollowup": "代表项通过后，页面控制长脚本超时；重新连接两次均返回 Codex auth token is unavailable，因此没有把另外两项写成页面证据。",
+  "service": {
+    "frontend": "Vite 127.0.0.1:5173 已启动",
+    "backend": "Spring Boot 127.0.0.1:8080 已启动"
+  },
+  "runtimeValidation": "未执行；页面只核对作者数据和管理界面回显。",
+  "passed": true
+}

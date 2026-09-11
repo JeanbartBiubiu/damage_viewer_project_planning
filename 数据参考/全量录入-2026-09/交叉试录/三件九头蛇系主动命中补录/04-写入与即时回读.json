@@ -1,0 +1,1518 @@
+{
+  "startedAt": "2026-09-10T17:01:50.824Z",
+  "finishedAt": "2026-09-10T17:02:16.037Z",
+  "intent": {
+    "createdAt": "2026-09-10T17:01:36.823Z",
+    "scope": [
+      "item_3077_active",
+      "item_3074_active",
+      "item_6698_active"
+    ],
+    "planRevision": 2,
+    "baselineSha256": "1b9eb1a11f2aa327b1dcd4a6bb452a1d661776c83874a627c75f63c3533a9667",
+    "planSha256": "82654d9321b0753a84ab95bc7669f915b5a7f96f2dfb6d693491ece7b2471c5c",
+    "frozenRequestBodiesSha256": "9aee93c52008239c2affbd4e1b4d047b7f6266033d0c39366a4fe549669cfbb4",
+    "writerSha256": "9f0f8f293b63f185852f9909ee91b1f6921724863d33826bff0662793db2cb5e",
+    "desiredPayloadSha256": "9aee93c52008239c2affbd4e1b4d047b7f6266033d0c39366a4fe549669cfbb4",
+    "plannedWrites": 10,
+    "writeOrder": [
+      "三项效果新增",
+      "三项实际命中规则新增",
+      "提亚马特公式说明更新",
+      "三项技能说明更新"
+    ],
+    "noDelete": true,
+    "authorizationValueRecorded": false
+  },
+  "requestSummary": {
+    "GET": 114,
+    "writes": 10,
+    "plannedWrites": 10,
+    "preflightGET": 47,
+    "operations": 10
+  },
+  "assertions": {
+    "threeSkillsHandled": true,
+    "tenOperationsCompleted": true,
+    "finalEffectsUnique": true,
+    "finalRulesUnique": true,
+    "protectedParametersUnchanged": true,
+    "protectedFormulaExpressionsUnchanged": true,
+    "protectedRelationsUnchanged": true,
+    "processesRemainEmpty": true,
+    "internalStatesRemainEmpty": true,
+    "authorizationValueRecorded": false,
+    "runtimeValidation": "未执行"
+  },
+  "operations": [
+    {
+      "spec": "item_3077_active",
+      "kind": "命中效果新增",
+      "detailRoute": "/skills/item_3077_active/effects/active_hit",
+      "method": "POST",
+      "mode": "已写入",
+      "writeStatus": 201,
+      "desiredSha256": "ae16c64b2fcdab46e4306031e48b2716676c8fb0debeb2a51943f48c3683d80a",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-10T17:01:53.807212Z",
+        "description": "在运行时确认新月实际命中当前目标后结算核心物理伤害；本效果不负责范围命中生产、主动过程或冷却消费。",
+        "effectKey": "active_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "新月主动命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "新月物理伤害",
+            "resultKey": "physical_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "active_physical_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3077_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T17:01:53.807212Z"
+      }
+    },
+    {
+      "spec": "item_3074_active",
+      "kind": "命中效果新增",
+      "detailRoute": "/skills/item_3074_active/effects/active_hit",
+      "method": "POST",
+      "mode": "已写入",
+      "writeStatus": 201,
+      "desiredSha256": "90a2ee1f8f8314e5b3ed882f915423272b82bd6789ea46ea9c281b794fff86db",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-10T17:01:56.312014Z",
+        "description": "在运行时确认血斩实际命中当前目标后结算核心物理伤害；生命偷取结算基准、范围命中生产、主动过程和冷却消费尚未确定。",
+        "effectKey": "active_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "血斩主动命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "血斩物理伤害",
+            "resultKey": "physical_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "active_physical_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3074_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T17:01:56.312014Z"
+      }
+    },
+    {
+      "spec": "item_6698_active",
+      "kind": "命中效果新增",
+      "detailRoute": "/skills/item_6698_active/effects/active_hit",
+      "method": "POST",
+      "mode": "已写入",
+      "writeStatus": 201,
+      "desiredSha256": "e4b6d175cbed5ec0aa72b04a28a0fdd6203499b4d5c6c4a6a18d9f4ce00b66e7",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-10T17:01:58.102868Z",
+        "description": "在运行时确认邪斩实际命中当前目标后结算核心物理伤害；本效果不负责生命阈值分支、范围命中生产、主动过程或冷却消费。",
+        "effectKey": "active_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "邪斩主动命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": []
+            },
+            "lifecycleBehavior": null,
+            "name": "邪斩物理伤害",
+            "resultKey": "physical_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "active_physical_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_6698_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T17:01:58.102868Z"
+      }
+    },
+    {
+      "spec": "item_3077_active",
+      "kind": "实际命中规则新增",
+      "detailRoute": "/skills/item_3077_active/trigger-rules/actual_hit",
+      "method": "POST",
+      "mode": "已写入",
+      "writeStatus": 201,
+      "desiredSha256": "c73c9e3c46bd300ce062dc05ec80441cda76b12fc0b4fdfc886308295d1ec91f",
+      "readbackStatus": 200,
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "physical_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "active_hit"
+            },
+            "name": "执行新月物理伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "仅在运行时确认新月实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "item_3077_active",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "新月实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    {
+      "spec": "item_3074_active",
+      "kind": "实际命中规则新增",
+      "detailRoute": "/skills/item_3074_active/trigger-rules/actual_hit",
+      "method": "POST",
+      "mode": "已写入",
+      "writeStatus": 201,
+      "desiredSha256": "0b67fc0915839233a465a35fcd8878cfcec3fa6929bf67b6a172eba0009fb635",
+      "readbackStatus": 200,
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "physical_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "active_hit"
+            },
+            "name": "执行血斩物理伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "仅在运行时确认血斩实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "item_3074_active",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "血斩实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    {
+      "spec": "item_6698_active",
+      "kind": "实际命中规则新增",
+      "detailRoute": "/skills/item_6698_active/trigger-rules/actual_hit",
+      "method": "POST",
+      "mode": "已写入",
+      "writeStatus": 201,
+      "desiredSha256": "2c9c18a9fc419ea7fa59813612d6c71f28e25ee9ef90a57cb9a52bebb68ad835",
+      "readbackStatus": 200,
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "physical_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "active_hit"
+            },
+            "name": "执行邪斩物理伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "仅在运行时确认邪斩实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "item_6698_active",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "邪斩实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    {
+      "spec": "item_3077_active",
+      "kind": "公式说明更新",
+      "detailRoute": "/skills/item_3077_active/formulas/active_physical_damage",
+      "method": "PUT",
+      "mode": "已写入",
+      "writeStatus": 200,
+      "desiredSha256": "ce7d1f1df0024f9c8e3ba30424d5d4ef462ca6154964642a199e78ad8d627eb4",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-08T17:18:29.996384Z",
+        "description": "0.75×自身总攻击力；仅表示实际命中后的核心主动伤害，不包含被动旁溅、不结算基础普攻，也不负责范围判定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "attack_damage",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "total_attack_damage_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "active_physical_damage",
+        "gameId": "lol",
+        "name": "新月主动物理伤害",
+        "skillKey": "item_3077_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T17:02:07.483926Z"
+      }
+    },
+    {
+      "spec": "item_3077_active",
+      "kind": "技能说明更新",
+      "detailRoute": "/skills/item_3077_active",
+      "method": "PUT",
+      "mode": "已写入",
+      "writeStatus": 200,
+      "desiredSha256": "a6bb132e876e6f3bb017b3c39435e6908749352b9f5ffc3d0eae1aab301fe857",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-08T17:18:28.063735Z",
+        "description": "保留主动对单个对手0.75倍来源总攻击力物理伤害和10秒冷却；核心伤害已组成，仅在实际命中当前目标后结算。被动旁溅不能加在基础攻击主目标上；范围命中生产、主动过程、冷却消费、法术护盾资格与运行时接线仍待处理。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "提亚马特·新月",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3077_active",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-10T17:02:09.33749Z"
+      }
+    },
+    {
+      "spec": "item_3074_active",
+      "kind": "技能说明更新",
+      "detailRoute": "/skills/item_3074_active",
+      "method": "PUT",
+      "mode": "已写入",
+      "writeStatus": 200,
+      "desiredSha256": "42ef8f57de456784c243943ecbd5304fb32d1b616eb62700196065aa34825c2d",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-09T09:30:04.665097Z",
+        "description": "保留血斩对当前唯一敌方英雄的0.8倍来源总攻击力物理伤害、450范围、10秒冷却和生命偷取适用旁证；核心伤害已组成，仅在实际命中当前目标后结算。主动以自身为中心，未因范围文字排除；范围命中生产、主动过程、冷却消费、生命偷取结算基准、法术护盾资格与运行时接线仍待处理。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "贪欲九头蛇·血斩",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3074_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-10T17:02:11.168653Z"
+      }
+    },
+    {
+      "spec": "item_6698_active",
+      "kind": "技能说明更新",
+      "detailRoute": "/skills/item_6698_active",
+      "method": "PUT",
+      "mode": "已写入",
+      "writeStatus": 200,
+      "desiredSha256": "6f856cbc36c3c85214af6f27f3011a39396dee5ed7e2c31de7d5e91b0f3069be",
+      "readbackStatus": 200,
+      "readback": {
+        "createdAt": "2026-09-09T09:30:31.287429Z",
+        "description": "保留邪斩对当前唯一附近敌方英雄的0.8倍来源总攻击力物理伤害、450范围和10秒冷却；核心伤害已组成，仅在实际命中当前目标后结算。顺劈被动及未绑定生命阈值字段继续留来源；范围命中生产、主动过程、冷却消费、法术护盾资格与运行时接线仍待处理。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "亵渎九头蛇·邪斩",
+        "skillCategoryKeys": [],
+        "skillKey": "item_6698_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-10T17:02:12.916883Z"
+      }
+    }
+  ],
+  "finalStates": [
+    {
+      "skillKey": "item_3077_active",
+      "state": {
+        "skill": {
+          "route": "/skills/item_3077_active",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-08T17:18:28.063735Z",
+            "description": "保留主动对单个对手0.75倍来源总攻击力物理伤害和10秒冷却；核心伤害已组成，仅在实际命中当前目标后结算。被动旁溅不能加在基础攻击主目标上；范围命中生产、主动过程、冷却消费、法术护盾资格与运行时接线仍待处理。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "提亚马特·新月",
+            "skillCategoryKeys": [],
+            "skillKey": "item_3077_active",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-10T17:02:09.33749Z"
+          }
+        },
+        "representativeImage": {
+          "route": "/skills/item_3077_active/representative-image",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3077",
+              "name": "item_3077"
+            }
+          }
+        },
+        "parameters": {
+          "route": "/skills/item_3077_active/parameters",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-08T17:18:28.674293Z",
+              "description": "当前PrimaryDamage使用StatByNamedDataValueCalculationPart、mStat=2和ActiveADRatio。",
+              "fixedValue": 0.75,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "主动总攻击力比例",
+              "parameterKey": "total_attack_damage_ratio",
+              "skillKey": "item_3077_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-08T17:18:28.674293Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-08T17:18:29.389231Z",
+              "description": "当前根Cooldown=10秒。",
+              "fixedValue": 10000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "新月主动冷却",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "item_3077_active",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-08T17:18:29.389231Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "parameterDetails": [
+          {
+            "route": "/skills/item_3077_active/parameters/total_attack_damage_ratio",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T17:18:28.674293Z",
+              "description": "当前PrimaryDamage使用StatByNamedDataValueCalculationPart、mStat=2和ActiveADRatio。",
+              "fixedValue": 0.75,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "主动总攻击力比例",
+              "parameterKey": "total_attack_damage_ratio",
+              "skillKey": "item_3077_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-08T17:18:28.674293Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "route": "/skills/item_3077_active/parameters/cooldown_ms",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T17:18:29.389231Z",
+              "description": "当前根Cooldown=10秒。",
+              "fixedValue": 10000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "新月主动冷却",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "item_3077_active",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-08T17:18:29.389231Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "formulas": {
+          "route": "/skills/item_3077_active/formulas",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-08T17:18:29.996384Z",
+              "description": "0.75×自身总攻击力；仅表示实际命中后的核心主动伤害，不包含被动旁溅、不结算基础普攻，也不负责范围判定。",
+              "formulaKey": "active_physical_damage",
+              "gameId": "lol",
+              "name": "新月主动物理伤害",
+              "skillKey": "item_3077_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T17:02:07.483926Z"
+            }
+          ]
+        },
+        "formula": {
+          "route": "/skills/item_3077_active/formulas/active_physical_damage",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-08T17:18:29.996384Z",
+            "description": "0.75×自身总攻击力；仅表示实际命中后的核心主动伤害，不包含被动旁溅、不结算基础普攻，也不负责范围判定。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_attack_damage_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "active_physical_damage",
+            "gameId": "lol",
+            "name": "新月主动物理伤害",
+            "skillKey": "item_3077_active",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-10T17:02:07.483926Z"
+          }
+        },
+        "effects": {
+          "route": "/skills/item_3077_active/effects",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-10T17:01:53.807212Z",
+              "description": "在运行时确认新月实际命中当前目标后结算核心物理伤害；本效果不负责范围命中生产、主动过程或冷却消费。",
+              "effectKey": "active_hit",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "新月主动命中",
+              "resultCount": 1,
+              "skillKey": "item_3077_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T17:01:53.807212Z"
+            }
+          ]
+        },
+        "effect": {
+          "route": "/skills/item_3077_active/effects/active_hit",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-10T17:01:53.807212Z",
+            "description": "在运行时确认新月实际命中当前目标后结算核心物理伤害；本效果不负责范围命中生产、主动过程或冷却消费。",
+            "effectKey": "active_hit",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "新月主动命中",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "新月物理伤害",
+                "resultKey": "physical_damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "active_physical_damage",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3077_active",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-10T17:01:53.807212Z"
+          }
+        },
+        "processes": {
+          "route": "/skills/item_3077_active/processes",
+          "method": "GET",
+          "status": 200,
+          "data": []
+        },
+        "internalStates": {
+          "route": "/skills/item_3077_active/internal-states",
+          "method": "GET",
+          "status": 200,
+          "data": []
+        },
+        "triggerRules": {
+          "route": "/skills/item_3077_active/trigger-rules",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "actionCount": 1,
+              "conditionGroupCount": 0,
+              "description": "仅在运行时确认新月实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+              "eventType": "SKILL_HIT",
+              "maxTriggersPerProcessEnabled": false,
+              "name": "新月实际命中",
+              "perTargetCooldownEnabled": false,
+              "ruleKey": "actual_hit",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T17:01:59.811258Z"
+            }
+          ]
+        },
+        "triggerRule": {
+          "route": "/skills/item_3077_active/trigger-rules/actual_hit",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "actions": [
+              {
+                "actionKey": "physical_damage",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "active_hit"
+                },
+                "name": "执行新月物理伤害",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "仅在运行时确认新月实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": "item_3077_active",
+                "useKind": null
+              },
+              "eventType": "SKILL_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "新月实际命中",
+            "perTargetCooldown": null,
+            "ruleKey": "actual_hit",
+            "sortOrder": 10
+          }
+        },
+        "relation": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3077&skillKey=item_3077_active",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_3077",
+                "equipmentName": "提亚马特",
+                "gameId": "lol",
+                "skillKey": "item_3077_active",
+                "skillName": "提亚马特·新月",
+                "skillStatus": "ENABLED",
+                "sortOrder": 20
+              }
+            ],
+            "total": 1
+          }
+        }
+      }
+    },
+    {
+      "skillKey": "item_3074_active",
+      "state": {
+        "skill": {
+          "route": "/skills/item_3074_active",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T09:30:04.665097Z",
+            "description": "保留血斩对当前唯一敌方英雄的0.8倍来源总攻击力物理伤害、450范围、10秒冷却和生命偷取适用旁证；核心伤害已组成，仅在实际命中当前目标后结算。主动以自身为中心，未因范围文字排除；范围命中生产、主动过程、冷却消费、生命偷取结算基准、法术护盾资格与运行时接线仍待处理。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "贪欲九头蛇·血斩",
+            "skillCategoryKeys": [],
+            "skillKey": "item_3074_active",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-10T17:02:11.168653Z"
+          }
+        },
+        "representativeImage": {
+          "route": "/skills/item_3074_active/representative-image",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3074",
+              "name": "item_3074"
+            }
+          }
+        },
+        "parameters": {
+          "route": "/skills/item_3074_active/parameters",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T09:30:05.825651Z",
+              "description": "客户端PrimaryDamage使用mStat=2并绑定ActiveADRatio，按已证2/0窄映射读取来源总攻击力；ActiveADRatio=0.8。",
+              "fixedValue": 0.8,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩物理伤害总攻击力比例",
+              "parameterKey": "active_damage_ratio",
+              "skillKey": "item_3074_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T09:30:05.825651Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T09:30:06.679237Z",
+              "description": "客户端ActiveRadius=450；作为当前唯一敌人在范围内的条件参数。",
+              "fixedValue": 450,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩影响范围",
+              "parameterKey": "active_radius",
+              "skillKey": "item_3074_active",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T09:30:06.679237Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T09:30:07.671694Z",
+              "description": "客户端3074Active的castRadius=325；不把半径当成多目标排除理由。",
+              "fixedValue": 325,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩施法半径",
+              "parameterKey": "active_cast_radius",
+              "skillKey": "item_3074_active",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T09:30:07.671694Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T09:30:08.701034Z",
+              "description": "客户端根mDataValues/Cooldown=10秒；主动对象冷却数组为0，不能用0覆盖根值。",
+              "fixedValue": 10000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩冷却",
+              "parameterKey": "active_cooldown_ms",
+              "skillKey": "item_3074_active",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T09:30:08.701034Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T09:30:11.558838Z",
+              "description": "官方和客户端中文都明确生命偷取作用于血斩伤害；只保存适用旁证，未创建吸血效果。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩生命偷取适用倍率",
+              "parameterKey": "life_steal_applies_multiplier",
+              "skillKey": "item_3074_active",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T09:30:11.558838Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          ]
+        },
+        "parameterDetails": [
+          {
+            "route": "/skills/item_3074_active/parameters/active_damage_ratio",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:05.825651Z",
+              "description": "客户端PrimaryDamage使用mStat=2并绑定ActiveADRatio，按已证2/0窄映射读取来源总攻击力；ActiveADRatio=0.8。",
+              "fixedValue": 0.8,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩物理伤害总攻击力比例",
+              "parameterKey": "active_damage_ratio",
+              "skillKey": "item_3074_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T09:30:05.825651Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "route": "/skills/item_3074_active/parameters/active_radius",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:06.679237Z",
+              "description": "客户端ActiveRadius=450；作为当前唯一敌人在范围内的条件参数。",
+              "fixedValue": 450,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩影响范围",
+              "parameterKey": "active_radius",
+              "skillKey": "item_3074_active",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T09:30:06.679237Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "route": "/skills/item_3074_active/parameters/active_cast_radius",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:07.671694Z",
+              "description": "客户端3074Active的castRadius=325；不把半径当成多目标排除理由。",
+              "fixedValue": 325,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩施法半径",
+              "parameterKey": "active_cast_radius",
+              "skillKey": "item_3074_active",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T09:30:07.671694Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "route": "/skills/item_3074_active/parameters/active_cooldown_ms",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:08.701034Z",
+              "description": "客户端根mDataValues/Cooldown=10秒；主动对象冷却数组为0，不能用0覆盖根值。",
+              "fixedValue": 10000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩冷却",
+              "parameterKey": "active_cooldown_ms",
+              "skillKey": "item_3074_active",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T09:30:08.701034Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "route": "/skills/item_3074_active/parameters/life_steal_applies_multiplier",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:11.558838Z",
+              "description": "官方和客户端中文都明确生命偷取作用于血斩伤害；只保存适用旁证，未创建吸血效果。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "血斩生命偷取适用倍率",
+              "parameterKey": "life_steal_applies_multiplier",
+              "skillKey": "item_3074_active",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T09:30:11.558838Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ],
+        "formulas": {
+          "route": "/skills/item_3074_active/formulas",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T09:30:12.573539Z",
+              "description": "0.8×来源总攻击力；当前只保存合法公式，未声明无条件DAMAGE。",
+              "formulaKey": "active_physical_damage",
+              "gameId": "lol",
+              "name": "血斩物理伤害值",
+              "skillKey": "item_3074_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T09:30:12.573539Z"
+            }
+          ]
+        },
+        "formula": {
+          "route": "/skills/item_3074_active/formulas/active_physical_damage",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T09:30:12.573539Z",
+            "description": "0.8×来源总攻击力；当前只保存合法公式，未声明无条件DAMAGE。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_damage_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "active_physical_damage",
+            "gameId": "lol",
+            "name": "血斩物理伤害值",
+            "skillKey": "item_3074_active",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T09:30:12.573539Z"
+          }
+        },
+        "effects": {
+          "route": "/skills/item_3074_active/effects",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-10T17:01:56.312014Z",
+              "description": "在运行时确认血斩实际命中当前目标后结算核心物理伤害；生命偷取结算基准、范围命中生产、主动过程和冷却消费尚未确定。",
+              "effectKey": "active_hit",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "血斩主动命中",
+              "resultCount": 1,
+              "skillKey": "item_3074_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T17:01:56.312014Z"
+            }
+          ]
+        },
+        "effect": {
+          "route": "/skills/item_3074_active/effects/active_hit",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-10T17:01:56.312014Z",
+            "description": "在运行时确认血斩实际命中当前目标后结算核心物理伤害；生命偷取结算基准、范围命中生产、主动过程和冷却消费尚未确定。",
+            "effectKey": "active_hit",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "血斩主动命中",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "血斩物理伤害",
+                "resultKey": "physical_damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "active_physical_damage",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3074_active",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-10T17:01:56.312014Z"
+          }
+        },
+        "processes": {
+          "route": "/skills/item_3074_active/processes",
+          "method": "GET",
+          "status": 200,
+          "data": []
+        },
+        "internalStates": {
+          "route": "/skills/item_3074_active/internal-states",
+          "method": "GET",
+          "status": 200,
+          "data": []
+        },
+        "triggerRules": {
+          "route": "/skills/item_3074_active/trigger-rules",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "actionCount": 1,
+              "conditionGroupCount": 0,
+              "description": "仅在运行时确认血斩实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+              "eventType": "SKILL_HIT",
+              "maxTriggersPerProcessEnabled": false,
+              "name": "血斩实际命中",
+              "perTargetCooldownEnabled": false,
+              "ruleKey": "actual_hit",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T17:02:02.743723Z"
+            }
+          ]
+        },
+        "triggerRule": {
+          "route": "/skills/item_3074_active/trigger-rules/actual_hit",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "actions": [
+              {
+                "actionKey": "physical_damage",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "active_hit"
+                },
+                "name": "执行血斩物理伤害",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "仅在运行时确认血斩实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": "item_3074_active",
+                "useKind": null
+              },
+              "eventType": "SKILL_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "血斩实际命中",
+            "perTargetCooldown": null,
+            "ruleKey": "actual_hit",
+            "sortOrder": 10
+          }
+        },
+        "relation": {
+          "route": "/equipment-skill-relations?equipmentKey=item_3074&skillKey=item_3074_active",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_3074",
+                "equipmentName": "贪欲九头蛇",
+                "gameId": "lol",
+                "skillKey": "item_3074_active",
+                "skillName": "贪欲九头蛇·血斩",
+                "skillStatus": "ENABLED",
+                "sortOrder": 10
+              }
+            ],
+            "total": 1
+          }
+        }
+      }
+    },
+    {
+      "skillKey": "item_6698_active",
+      "state": {
+        "skill": {
+          "route": "/skills/item_6698_active",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T09:30:31.287429Z",
+            "description": "保留邪斩对当前唯一附近敌方英雄的0.8倍来源总攻击力物理伤害、450范围和10秒冷却；核心伤害已组成，仅在实际命中当前目标后结算。顺劈被动及未绑定生命阈值字段继续留来源；范围命中生产、主动过程、冷却消费、法术护盾资格与运行时接线仍待处理。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "亵渎九头蛇·邪斩",
+            "skillCategoryKeys": [],
+            "skillKey": "item_6698_active",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-10T17:02:12.916883Z"
+          }
+        },
+        "representativeImage": {
+          "route": "/skills/item_6698_active/representative-image",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_6698",
+              "name": "item_6698"
+            }
+          }
+        },
+        "parameters": {
+          "route": "/skills/item_6698_active/parameters",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T09:30:32.369232Z",
+              "description": "客户端SlashDamageBase/SlashDamageMax均为mStat=2、系数0.8，按已证2/0窄映射读取来源总攻击力。",
+              "fixedValue": 0.8,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "邪斩物理伤害总攻击力比例",
+              "parameterKey": "active_damage_ratio",
+              "skillKey": "item_6698_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T09:30:32.369232Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T09:30:33.307001Z",
+              "description": "客户端ActiveRadius=450；当前唯一敌人在范围内时仍相关。",
+              "fixedValue": 450,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "邪斩影响范围",
+              "parameterKey": "active_radius",
+              "skillKey": "item_6698_active",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T09:30:33.307001Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T09:30:34.350352Z",
+              "description": "客户端6698Active的castRadius=325。",
+              "fixedValue": 325,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "邪斩施法半径",
+              "parameterKey": "active_cast_radius",
+              "skillKey": "item_6698_active",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T09:30:34.350352Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T09:30:35.271007Z",
+              "description": "客户端根Cooldown=10秒；主动对象冷却数组为0，不能当作实际冷却。",
+              "fixedValue": 10000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "邪斩冷却",
+              "parameterKey": "active_cooldown_ms",
+              "skillKey": "item_6698_active",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T09:30:35.271007Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "parameterDetails": [
+          {
+            "route": "/skills/item_6698_active/parameters/active_damage_ratio",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:32.369232Z",
+              "description": "客户端SlashDamageBase/SlashDamageMax均为mStat=2、系数0.8，按已证2/0窄映射读取来源总攻击力。",
+              "fixedValue": 0.8,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "邪斩物理伤害总攻击力比例",
+              "parameterKey": "active_damage_ratio",
+              "skillKey": "item_6698_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T09:30:32.369232Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "route": "/skills/item_6698_active/parameters/active_radius",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:33.307001Z",
+              "description": "客户端ActiveRadius=450；当前唯一敌人在范围内时仍相关。",
+              "fixedValue": 450,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "邪斩影响范围",
+              "parameterKey": "active_radius",
+              "skillKey": "item_6698_active",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T09:30:33.307001Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "route": "/skills/item_6698_active/parameters/active_cast_radius",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:34.350352Z",
+              "description": "客户端6698Active的castRadius=325。",
+              "fixedValue": 325,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "邪斩施法半径",
+              "parameterKey": "active_cast_radius",
+              "skillKey": "item_6698_active",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T09:30:34.350352Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "route": "/skills/item_6698_active/parameters/active_cooldown_ms",
+            "method": "GET",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T09:30:35.271007Z",
+              "description": "客户端根Cooldown=10秒；主动对象冷却数组为0，不能当作实际冷却。",
+              "fixedValue": 10000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "邪斩冷却",
+              "parameterKey": "active_cooldown_ms",
+              "skillKey": "item_6698_active",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T09:30:35.271007Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ],
+        "formulas": {
+          "route": "/skills/item_6698_active/formulas",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T09:30:36.276191Z",
+              "description": "0.8×来源总攻击力；只保存公式，不创建无条件DAMAGE。",
+              "formulaKey": "active_physical_damage",
+              "gameId": "lol",
+              "name": "邪斩物理伤害值",
+              "skillKey": "item_6698_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T09:30:36.276191Z"
+            }
+          ]
+        },
+        "formula": {
+          "route": "/skills/item_6698_active/formulas/active_physical_damage",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T09:30:36.276191Z",
+            "description": "0.8×来源总攻击力；只保存公式，不创建无条件DAMAGE。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_damage_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "active_physical_damage",
+            "gameId": "lol",
+            "name": "邪斩物理伤害值",
+            "skillKey": "item_6698_active",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T09:30:36.276191Z"
+          }
+        },
+        "effects": {
+          "route": "/skills/item_6698_active/effects",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-10T17:01:58.102868Z",
+              "description": "在运行时确认邪斩实际命中当前目标后结算核心物理伤害；本效果不负责生命阈值分支、范围命中生产、主动过程或冷却消费。",
+              "effectKey": "active_hit",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "邪斩主动命中",
+              "resultCount": 1,
+              "skillKey": "item_6698_active",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T17:01:58.102868Z"
+            }
+          ]
+        },
+        "effect": {
+          "route": "/skills/item_6698_active/effects/active_hit",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-10T17:01:58.102868Z",
+            "description": "在运行时确认邪斩实际命中当前目标后结算核心物理伤害；本效果不负责生命阈值分支、范围命中生产、主动过程或冷却消费。",
+            "effectKey": "active_hit",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "邪斩主动命中",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "vampRules": []
+                },
+                "lifecycleBehavior": null,
+                "name": "邪斩物理伤害",
+                "resultKey": "physical_damage",
+                "resultType": "DAMAGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "TARGET",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "active_physical_damage",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_6698_active",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-10T17:01:58.102868Z"
+          }
+        },
+        "processes": {
+          "route": "/skills/item_6698_active/processes",
+          "method": "GET",
+          "status": 200,
+          "data": []
+        },
+        "internalStates": {
+          "route": "/skills/item_6698_active/internal-states",
+          "method": "GET",
+          "status": 200,
+          "data": []
+        },
+        "triggerRules": {
+          "route": "/skills/item_6698_active/trigger-rules",
+          "method": "GET",
+          "status": 200,
+          "data": [
+            {
+              "actionCount": 1,
+              "conditionGroupCount": 0,
+              "description": "仅在运行时确认邪斩实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+              "eventType": "SKILL_HIT",
+              "maxTriggersPerProcessEnabled": false,
+              "name": "邪斩实际命中",
+              "perTargetCooldownEnabled": false,
+              "ruleKey": "actual_hit",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-10T17:02:05.263052Z"
+            }
+          ]
+        },
+        "triggerRule": {
+          "route": "/skills/item_6698_active/trigger-rules/actual_hit",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "actions": [
+              {
+                "actionKey": "physical_damage",
+                "actionType": "EXECUTE_EFFECT",
+                "detail": {
+                  "effectKey": "active_hit"
+                },
+                "name": "执行邪斩物理伤害",
+                "resultModifiers": [],
+                "runtimeInputBindings": [],
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET"
+              }
+            ],
+            "conditionGroups": [],
+            "description": "仅在运行时确认邪斩实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+            "eventSource": {
+              "detail": {
+                "sourceSkillKey": "item_6698_active",
+                "useKind": null
+              },
+              "eventType": "SKILL_HIT"
+            },
+            "maxTriggersPerProcess": null,
+            "name": "邪斩实际命中",
+            "perTargetCooldown": null,
+            "ruleKey": "actual_hit",
+            "sortOrder": 10
+          }
+        },
+        "relation": {
+          "route": "/equipment-skill-relations?equipmentKey=item_6698&skillKey=item_6698_active",
+          "method": "GET",
+          "status": 200,
+          "data": {
+            "items": [
+              {
+                "equipmentKey": "item_6698",
+                "equipmentName": "亵渎九头蛇",
+                "gameId": "lol",
+                "skillKey": "item_6698_active",
+                "skillName": "亵渎九头蛇·邪斩",
+                "skillStatus": "ENABLED",
+                "sortOrder": 10
+              }
+            ],
+            "total": 1
+          }
+        }
+      }
+    }
+  ]
+}
