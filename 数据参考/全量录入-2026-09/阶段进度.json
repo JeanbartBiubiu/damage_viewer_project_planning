@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T07:25:30.937Z",
+  "generatedAt": "2026-09-12T11:00:35.758Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -6076,6 +6076,134 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/伤害事件对方类别装备补录/证据清单.json",
         "sha256": "0635fa9490fd9777438f61a51f3658a51c646e86b8f1f11d220a08bc96161a80",
         "commit": "f78a2f07"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "persistentEquipmentInitializationBackfill": {
+      "at": "2026-09-12T11:00:35.758Z",
+      "status": "四项装备常驻属性完成初始化接线，双轮独立评审、受保护恢复、Luna独立回读和真实页面通过",
+      "skills": [
+        "item_2422_passive",
+        "item_3742_passive",
+        "item_3042_passive",
+        "item_3040_passive"
+      ],
+      "created": {
+        "parameters": 1,
+        "formulas": 1,
+        "effects": 1,
+        "triggerRules": 4
+      },
+      "updated": {
+        "skills": 4,
+        "effects": 3
+      },
+      "deleted": {
+        "parameters": 1,
+        "formulas": 1
+      },
+      "sourceDecision": "有点神奇之鞋初始化额外10点移动速度且不重复主体25点；亡者的板甲初始化15%减速抗性；魔切按总法力值2%初始化额外攻击力；炽天使之拥按额外法力值2%初始化法术强度，救主灵刃仍按总法力值18%计算护盾。",
+      "writer": {
+        "initialPreflightGETs": 1262,
+        "initialFrozenWrites": 16,
+        "initialBusinessWrites": 1,
+        "recoveryPreflightGETs": 1262,
+        "recoveryFrozenWrites": 15,
+        "recoveryBusinessWrites": 15,
+        "totalBusinessWrites": 16,
+        "PUT": 7,
+        "POST": 7,
+        "DELETE": 2,
+        "replayedWrites": 0,
+        "initialFailure": "第2个更新效果请求误携带不可更新的effectKey，后端拒绝；仅首个技能说明已落地。",
+        "recoveryFinalAssertion": "剩余15次写入和即时回读均成功；随后父列表摘要保护断言未放行目标行说明与更新时间变化，独立纯读恢复确认数据正确。"
+      },
+      "independentAgent": {
+        "model": "Luna Max",
+        "GETs": 1266,
+        "writes": 0,
+        "status200": 1264,
+        "expected404": 2,
+        "priorRulesUnchanged": 90,
+        "newRulesMatched": 4,
+        "finalRuleCount": 94,
+        "sourceInitializedCount": 24,
+        "mismatches": 0,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 254,
+        "businessWrites": 0,
+        "skills": [
+          "item_2422_passive",
+          "item_3742_passive",
+          "item_3042_passive",
+          "item_3040_passive"
+        ],
+        "listImagesVisible": 4,
+        "imageNaturalSize": "64x64",
+        "screenshots": 13,
+        "effectAndResultDetailsVisible": true,
+        "triggerDetailsVisible": 4,
+        "seraphBonusManaFormulaVisible": true,
+        "oldSeraphKeysAbsent": true,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "cursorReview": {
+        "revisions": 2,
+        "firstRunId": "run-f6edcd2b-75ee-48ed-a174-5e82d593de9d",
+        "firstRequestId": "0b81ac5c-9bbd-4f35-8c6a-a266eb86ad18",
+        "firstVerdict": "READY",
+        "recoveryRunId": "run-10b17465-2ef9-488f-b124-b3a260cf0211",
+        "recoveryRequestId": "adf7099e-8b86-4d61-a0e0-750c192188fc",
+        "recoveryVerdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "runDeltaCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "equipmentAttributesUnchanged": true,
+        "equipmentRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "priorRulesUnchanged": 90,
+        "lifelineShieldUsesTotalMana": true,
+        "oldSeraphKeysDeleted": true,
+        "unrelatedSkillComponentsUnchanged": true
+      },
+      "formulaChecks": {
+        "values": [
+          10,
+          0.15,
+          30,
+          10,
+          32
+        ],
+        "passed": true
+      },
+      "experienceIssues": [
+        "更新请求体不能直接展开详情GET对象；每类资源需按白名单构造，并在首写前检查稳定标识没有进入PUT请求体。",
+        "子项更新会合法改变父列表中对应行的说明与更新时间；列表保护应严格核对稳定键集合、其他行和允许变化字段。",
+        "页面异步加载要等待稳定标识；参数键与公式键可能同名，必须限定正确分区并精确匹配目标行。",
+        "本轮1062个规则列表接口均返回数组，未发现空列表响应形状不一致。"
+      ],
+      "pending": [
+        "四项SOURCE_INITIALIZED规则尚未做装备装配、卸除和战斗属性聚合的运行验证。",
+        "魔切冲击、亡者板甲动量攻击和鞋类升级继承继续按后续机制批次补录。"
+      ],
+      "requestSha256": "cf8e6e3c4fa1e62c4caffeeedc8fc46c286f33d4cc63840a089e59f8a79d386e",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项常驻装备初始化补录/证据清单.json",
+        "sha256": "dc645a55c97d3e616439532b42e1df1f5b099ab40f555aa0f1ebae2bacfeb1ce",
+        "commit": "b3925e914ae30334d0801ee4011243adb93c8c6b"
       },
       "runtimeValidation": "未执行"
     }
