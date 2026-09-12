@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T14:40:51.690Z",
+  "generatedAt": "2026-09-12T15:29:54.398Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -6409,6 +6409,128 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/装备与符文触发补录/证据清单.json",
         "sha256": "00fd65037afcd0a729d6c2596adbda77e2ee83cf687dbefa7cc2d3b5b8e2d800",
         "commit": "d93f4ccc9691a13599f80914d97cbe8e203289c3"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroEquipmentFourTriggerBackfill": {
+      "at": "2026-09-12T15:29:54.398Z",
+      "status": "艾希R、内瑟斯E、火箭腰带主动与锐雯E四条规则完成触发接线，Cursor修订2终审、受保护写入、独立GET回读和真实页面通过",
+      "skills": [
+        "ashe_r",
+        "nasus_e",
+        "item_3152_active",
+        "riven_e"
+      ],
+      "created": {
+        "triggerRules": 4
+      },
+      "semantics": [
+        "艾希R仅在实际命中英雄时执行已有hit_damage，不录眩晕、距离、附近目标、减速、弹道、视野、消耗与冷却。",
+        "内瑟斯E仅在首次实际命中英雄时执行已有initial_damage；后续区域周期伤害、护甲削减和解除时点不混入本条规则。",
+        "火箭腰带主动仅接item_3152_active已确认的一次实际火箭命中并执行firebolt_hit，不生成冲刺、弹道、多弹或同次施放去重。",
+        "锐雯E在主动使用时执行已有shield；结果目标为SOURCE且持续1500毫秒，不表达冲刺、资格、中断或冷却消费。"
+      ],
+      "preparation": {
+        "GETs": 2508,
+        "status200": 2500,
+        "expected404": 8,
+        "businessWrites": 0,
+        "priorRuleCount": 100,
+        "skillCount": 1062,
+        "sourceInitializedCount": 24,
+        "gateCorrections": [
+          "按上游声明分别验证规范对象散列或文件原始字节散列，再为合并清单统一记录原始文件散列。",
+          "拟议POST只属于冻结计划，执行方法统计只读取来源、基线和运行报告。"
+        ]
+      },
+      "cursorReview": {
+        "runId": "run-986e86e6-fa35-4550-8faa-7636a1f30876",
+        "requestId": "f3ece1da-e0b8-4efb-815f-e08e66d65276",
+        "resultStatus": "finished",
+        "planRevision": 2,
+        "verdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "sdkVersion": "1.0.24",
+        "uniqueToolCalls": 1,
+        "completedToolCalls": 1,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "writer": {
+        "protectedGETs": 3778,
+        "businessWrites": 4,
+        "POST": 4,
+        "status201": 4,
+        "immediateReadbacks": 4,
+        "replayedWrites": 0,
+        "priorRuleCount": 100,
+        "finalRuleCount": 104,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "independentReadback": {
+        "firstAssertionFailure": {
+          "GETs": 95,
+          "businessWrites": 0,
+          "reason": "后端将SKILL_HIT中省略的useKind规范化为null，原始JSON完全比较失败。"
+        },
+        "boundedRevision": "仅在事件类型为SKILL_HIT且字段为eventSource.detail.useKind:null时与省略等价，其余结构完整比较。",
+        "passedGETs": 1262,
+        "businessWrites": 0,
+        "priorRulesUnchanged": 100,
+        "newRulesMatched": 4,
+        "nonRuleTargetsUnchanged": 4,
+        "finalRuleCount": 104,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 263,
+        "businessWrites": 0,
+        "skills": [
+          "ashe_r",
+          "nasus_e",
+          "item_3152_active",
+          "riven_e"
+        ],
+        "listImagesVisible": 4,
+        "imageNaturalSize": "64x64",
+        "screenshots": 16,
+        "formulaEffectResultAndTriggerDetailsVisible": true,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "protected": {
+        "priorRulesUnchanged": 100,
+        "skillSubjectsUnchanged": true,
+        "ownerRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "experienceIssues": [
+        "上游证据的散列口径可能不同；合并门禁必须先按各自声明验真，再统一生成当前批次散列。",
+        "冻结请求中的拟议写方法不能计入已经执行的业务写入。",
+        "后端会把SKILL_HIT中省略的useKind回读为null；只允许固定事件、字段和值的窄规范化，不能用宽泛子集比较。"
+      ],
+      "pending": [
+        "内瑟斯E后续区域周期伤害与护甲削减仍需独立机制证据和接线。",
+        "四条规则尚未执行战斗运行或Wasm验收。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/英雄装备四项触发补录/证据清单.json",
+        "sha256": "b35e7b71d9a28691274ad7c005507763cfce31b0f1630b8296ca8e5d2be01f99",
+        "commit": "c2f148ae474d74bc5f3f0cf47df9ddc31327347c"
       },
       "runtimeValidation": "未执行"
     }
