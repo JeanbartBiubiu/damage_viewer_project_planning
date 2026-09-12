@@ -39,8 +39,8 @@ class SkillTriggerTargetCategoryConditionServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL"})
-    void allFiveCategoriesSurviveParentRequestStorageAndReadBack(SkillTriggerEventType event) {
+    @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
+    void allFiveOpponentCategoriesSurviveParentRequestStorageAndReadBack(SkillTriggerEventType event) {
         List<SkillTriggerTargetCategory> categories = List.of(SkillTriggerTargetCategory.STRUCTURE,
             SkillTriggerTargetCategory.CHAMPION, SkillTriggerTargetCategory.EPIC_MONSTER,
             SkillTriggerTargetCategory.MINION, SkillTriggerTargetCategory.NON_EPIC_MONSTER);
@@ -111,9 +111,11 @@ class SkillTriggerTargetCategoryConditionServiceTest {
         SkillTriggerEventDetail eventDetail = switch (event) {
             case SKILL_HIT -> new SkillTriggerSkillEventDetail(null, null);
             case SKILL_USED -> new SkillTriggerSkillEventDetail(null, SkillTriggerEventUseKind.ANY);
+            case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN ->
+                new SkillTriggerDamageEventDetail(null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY);
             default -> new SkillTriggerEmptyEventDetail();
         };
-        return new SkillTriggerRuleCreateRequest("targets", "目标类别", null, 0,
+        return new SkillTriggerRuleCreateRequest("targets", "事件对方类别", null, 0,
             new SkillTriggerEventSource(event, eventDetail),
             List.of(new SkillTriggerConditionGroup("g", "条件", 0, List.of(
                 new SkillTriggerCondition("target_category", SkillTriggerConditionType.TARGET_CATEGORY_CHECK, 0, detail)))),
