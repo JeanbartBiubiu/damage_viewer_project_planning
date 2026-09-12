@@ -1,0 +1,767 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-12T17:43:13.068Z",
+  "sourcePolicy": "固定六个通过独立语义评审的上游候选目录；先按上游声明的散列口径验真，再为合并证据统一记录原始文件散列。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "semanticReviewSha256": "63b104f25dc6307c047ce37ac6619ffd0e380bbdef2f74f1cc3290086ec1fe1c",
+  "sourceDirectories": [
+    {
+      "id": "tristana",
+      "name": "崔丝塔娜 Q",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\麦林炮手Q触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\麦林炮手Q触发补录\\02-冻结请求.json",
+          "sha256": "a6444d9fbe921b66c5d624ddff5897372ed532c5dc0e723eb2db3278263b085b"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\麦林炮手Q触发补录\\03-来源快照.json",
+          "sha256": "2b6de76f29bbf966f77404b933eab09ce914fd28e98d2cf11ec0d7270055b3b2"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\麦林炮手Q触发补录\\04-写入前现值.json",
+          "sha256": "b1222834fe2d2ccd832141b447ae14594740aa6ab59d1966f3158c6e6ad59487"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\麦林炮手Q触发补录\\05-只读准备报告.json",
+          "sha256": "555e84a9efdfc841cd03c1f9a7265596f8816aefb6a5ae4181325b734871d82c"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "归档候选组成",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\候选原始.json",
+          "byteSize": 275402,
+          "sha256": "446adb7a68cbdbd402a247acbc4659d929aed6da33bffe86bbe02a2e21006146"
+        },
+        {
+          "kind": "16.17客户端原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Tristana.json.gz",
+          "byteSize": 6615,
+          "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494",
+          "decompressedByteSize": 40078,
+          "decompressedSha256": "c3122c601945305e0749b828b326315f0df50cea28f877142d64aab44d689831"
+        },
+        {
+          "kind": "16.17.1官方中文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Tristana.json",
+          "byteSize": 15693,
+          "sha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+        },
+        {
+          "kind": "归档来源冻结索引",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\来源冻结\\来源与哈希汇总.json",
+          "byteSize": 8877,
+          "sha256": "6712d3ee1ef11d99877649954e7997981d914db468eeabb6ea434183fd1baf15"
+        },
+        {
+          "kind": "归档正文候选",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\完整候选.json",
+          "byteSize": 225367,
+          "sha256": "d13fbff8cf47af2e91422e6bcc11a949625e81208cc5fd76471c02b5ebe26d6d"
+        },
+        {
+          "kind": "归档效果过程候选",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第三批\\录入候选.json",
+          "byteSize": 266589,
+          "sha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90"
+        }
+      ],
+      "upstreamSourceSnapshot": "2b6de76f29bbf966f77404b933eab09ce914fd28e98d2cf11ec0d7270055b3b2"
+    },
+    {
+      "id": "twitch",
+      "name": "图奇 R",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\瘟疫之源R触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\瘟疫之源R触发补录\\02-冻结请求.json",
+          "sha256": "9bebafca252003f85a948c0bbcac82b563e059325d6d5c6b1bf9efc0ac5e2ee0"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\瘟疫之源R触发补录\\03-来源快照.json",
+          "sha256": "bd4d1c9b0aa73a55f08053b106f70c142c88a51641e33862e9e8f65109eff22e"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\瘟疫之源R触发补录\\04-写入前现值.json",
+          "sha256": "675dc246f40761145283b77338d74771910915baba0da94da952503ae7f7f303"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\瘟疫之源R触发补录\\05-只读准备报告.json",
+          "sha256": "8d4adb96cb0696825e4cb58dcb1e727eaa45b6e233679ec74b82be711178c070"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "归档候选组成",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\候选原始.json",
+          "byteSize": 275402,
+          "sha256": "446adb7a68cbdbd402a247acbc4659d929aed6da33bffe86bbe02a2e21006146"
+        },
+        {
+          "kind": "16.17客户端原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Twitch.json.gz",
+          "byteSize": 7455,
+          "sha256": "78a3de6a91ebb859c457415088aa23cce7f62a62c5ed0672b16bdd13c33c7f18",
+          "decompressedByteSize": 50705,
+          "decompressedSha256": "ce403a5dcc34779ad7ba2bf616297221553bc3dadecba4469b0ef4e90f505241"
+        },
+        {
+          "kind": "16.17.1官方中文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Twitch.json",
+          "byteSize": 13726,
+          "sha256": "11bd82969c5af05144c3d5812864a319a69a5050d8f91abc38a2c21bac7b6b81"
+        },
+        {
+          "kind": "归档来源冻结索引",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\来源冻结\\来源与哈希汇总.json",
+          "byteSize": 8877,
+          "sha256": "6712d3ee1ef11d99877649954e7997981d914db468eeabb6ea434183fd1baf15"
+        },
+        {
+          "kind": "归档正文候选",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\完整候选.json",
+          "byteSize": 225367,
+          "sha256": "d13fbff8cf47af2e91422e6bcc11a949625e81208cc5fd76471c02b5ebe26d6d"
+        },
+        {
+          "kind": "归档效果过程候选",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第三批\\录入候选.json",
+          "byteSize": 266589,
+          "sha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90"
+        }
+      ],
+      "upstreamSourceSnapshot": "bd4d1c9b0aa73a55f08053b106f70c142c88a51641e33862e9e8f65109eff22e"
+    },
+    {
+      "id": "vayne",
+      "name": "薇恩 R",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\暗夜猎手R触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\暗夜猎手R触发补录\\02-冻结请求.json",
+          "sha256": "009878fbccbf56d095c714127257002e32fe08f26ea5559795cc6df3f83bfe3a"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\暗夜猎手R触发补录\\03-来源快照.json",
+          "sha256": "476ef8819f65bfd4bc1f94c6b3f8fb40572d146985dfe718ba87493cc033bb61"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\暗夜猎手R触发补录\\04-写入前现值.json",
+          "sha256": "2905ccc1e0d45ab28bfc689908c61af7e1f752990127f5f03c251f11c003f19d"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\暗夜猎手R触发补录\\05-只读准备报告.json",
+          "sha256": "6844e59b32311734fa119392ff3439b912b1c2f955d9b37a51c9959d61b36f85"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "归档候选组成",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\完整候选.json",
+          "byteSize": 332093,
+          "sha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35"
+        },
+        {
+          "kind": "16.17客户端原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Vayne.json.gz",
+          "byteSize": 7753,
+          "sha256": "23cf52004d1015b09532d1575c5e9dc12538956015fa570b756c6b21766af343",
+          "decompressedByteSize": 51663,
+          "decompressedSha256": "e2d398f8573fdf346444a4d1d7e0b4d163f523a80a8160e3db44a82d699629b8"
+        },
+        {
+          "kind": "16.17.1官方中文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Vayne.json",
+          "byteSize": 14322,
+          "sha256": "843e2ef92e1c395aa3e02f4562478461d7bc14b6cfe5abd5b3bed5e95a60a711"
+        },
+        {
+          "kind": "归档来源冻结索引",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\来源冻结\\来源与哈希汇总.json",
+          "byteSize": 8255,
+          "sha256": "538058f5b171e4462bbd6a4c5e3b05d997b0c2a1fcc0653d66a9ceaca186038b"
+        }
+      ],
+      "upstreamSourceSnapshot": "476ef8819f65bfd4bc1f94c6b3f8fb40572d146985dfe718ba87493cc033bb61"
+    },
+    {
+      "id": "masteryi",
+      "name": "易 R",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\无极剑圣R触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\无极剑圣R触发补录\\02-冻结请求.json",
+          "sha256": "435db84682a882d41399370f594ec134d317111f5238b51221c30c835b56ed14"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\无极剑圣R触发补录\\03-来源快照.json",
+          "sha256": "e287862a636cba87c5bd59f74acb6a6c4badc39ac387932074dc0f8555ec74f2"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\无极剑圣R触发补录\\04-写入前现值.json",
+          "sha256": "7f3c11efb6b41a0ec040859b6e0a3b8d3e17d27ed94a6b0523de1d1f8747f9c9"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\无极剑圣R触发补录\\05-只读准备报告.json",
+          "sha256": "58c87760b31b6a21fc8a58328b9c95d7ba65530dee7c60a477a0bfe41c9916a6"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "无极剑圣客户端16.17原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\MasterYi.json.gz",
+          "byteSize": 8476,
+          "sha256": "f17da6211002e697811e1d9ab8e6597e1bad662cfa5bc15bcad91393a0aee2fe",
+          "decompressedByteSize": 56696,
+          "decompressedSha256": "406982f759b8260ea1ebe8f930753dab9e0a626a811889e099b05caebbbfef1c"
+        },
+        {
+          "kind": "无极剑圣官方16.17.1中文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\MasterYi.json",
+          "byteSize": 15996,
+          "sha256": "f5035d61e1a80360aa3b33a66f9063b486d5a061f9d922a63f300e01ca42cac2"
+        },
+        {
+          "kind": "无极剑圣官方16.17.1英文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\MasterYi.json",
+          "byteSize": 16406,
+          "sha256": "11b8f0b3b614c71f45cc0d12a8971c7bc054a2a0a3c86c251ca9ac80324530e4"
+        },
+        {
+          "kind": "官方资料版本清单",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\versions.json",
+          "byteSize": 5189,
+          "sha256": "178005ff120963169159a1563e5b1817601778940129f32aa0240a9fd15b8fed"
+        }
+      ],
+      "upstreamSourceSnapshot": "e287862a636cba87c5bd59f74acb6a6c4badc39ac387932074dc0f8555ec74f2"
+    },
+    {
+      "id": "skarner",
+      "name": "斯卡纳 W",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\斯卡纳W触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\斯卡纳W触发补录\\02-冻结请求.json",
+          "sha256": "d10ae3ff7fd0ae1220dbc3eaf6926ec1eb50b4780d9927f36e1a6a002a1b5c8c"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\斯卡纳W触发补录\\03-来源快照.json",
+          "sha256": "7985a535a374e391da90899294b8a7057ff1242c22c1b40bdaa828f750b3af76"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\斯卡纳W触发补录\\04-写入前现值.json",
+          "sha256": "48001be3abb0d1785de32baaaf270b4b8786e8c182d91813ab6baf7b2a4afbb4"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\斯卡纳W触发补录\\05-只读准备报告.json",
+          "sha256": "9293bd26175b52053b92b635b18d703ec08e868ab803549846c81fd19c7cafd4"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "斯卡纳客户端16.17原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Skarner.json.gz",
+          "byteSize": 8228,
+          "sha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+          "decompressedByteSize": 54092,
+          "decompressedSha256": "a88c0388e87b40699b35601d0dafa1fde9d3e2605c9872f8e273b2059ef660b1"
+        },
+        {
+          "kind": "斯卡纳官方16.17.1中文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Skarner.json",
+          "byteSize": 10433,
+          "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2"
+        },
+        {
+          "kind": "斯卡纳官方16.17.1英文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Skarner.json",
+          "byteSize": 9912,
+          "sha256": "dba7c616a97453855cdca38601146cf5be1a6e6de13057b2f12707f49058823c"
+        },
+        {
+          "kind": "官方资料版本清单",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\versions.json",
+          "byteSize": 5189,
+          "sha256": "178005ff120963169159a1563e5b1817601778940129f32aa0240a9fd15b8fed"
+        }
+      ],
+      "upstreamSourceSnapshot": "7985a535a374e391da90899294b8a7057ff1242c22c1b40bdaa828f750b3af76"
+    },
+    {
+      "id": "diana",
+      "name": "黛安娜 W",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\皎月女神W触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\皎月女神W触发补录\\02-冻结请求.json",
+          "sha256": "e152bb44670aaeea1a05e2d59cd87b27645dfcde7326e8a30ed5f7ad2e9f413c"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\皎月女神W触发补录\\03-来源快照.json",
+          "sha256": "51b8097188e795ae870f8ef02f193db9563cb31143568dbf9fc679f6a1107d0f"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\皎月女神W触发补录\\04-写入前现值.json",
+          "sha256": "a5b28c9c6c1d7dd454d79e2e758daee9a6c69f10234e0f7961115b009c04222d"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\LunaMax\\皎月女神W触发补录\\05-只读准备报告.json",
+          "sha256": "044715374900761fbb665213ff9236dc538fea40ae879f4859fba44061a61ed4"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "皎月女神客户端16.17原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Diana.json.gz",
+          "byteSize": 7926,
+          "sha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+          "decompressedByteSize": 48586,
+          "decompressedSha256": "ed46b24b345a284e7938db666ff6f354cd837f49e6e0e7ef544429addd817efa"
+        },
+        {
+          "kind": "皎月女神官方16.17.1中文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Diana.json",
+          "byteSize": 16631,
+          "sha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d"
+        },
+        {
+          "kind": "皎月女神官方16.17.1英文资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Diana.json",
+          "byteSize": 15878,
+          "sha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055"
+        },
+        {
+          "kind": "官方资料版本清单",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\versions.json",
+          "byteSize": 5189,
+          "sha256": "178005ff120963169159a1563e5b1817601778940129f32aa0240a9fd15b8fed"
+        }
+      ],
+      "upstreamSourceSnapshot": "51b8097188e795ae870f8ef02f193db9563cb31143568dbf9fc679f6a1107d0f"
+    }
+  ],
+  "acceptedFacts": {
+    "tristana": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "tristana_q",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动急速射击施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "processCheck": {
+        "processKey": "cast",
+        "activationType": "ACTIVE",
+        "cooldownParameterKey": "cooldown_ms",
+        "steps": [
+          {
+            "stepKey": "activate",
+            "stepType": "IMMEDIATE",
+            "sortOrder": 10
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "momentType": "PROCESS_START",
+            "stepKey": null,
+            "sortOrder": 10
+          },
+          {
+            "bindingKey": "rapid_fire",
+            "effectKey": "rapid_fire",
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "activate",
+            "sortOrder": 20
+          }
+        ]
+      },
+      "effectChecks": [
+        {
+          "effectKey": "rapid_fire",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "resultTarget": "SOURCE",
+          "valueKind": "PARAMETER",
+          "valueKey": "bonus_attack_speed_ratio",
+          "durationParameterKey": "buff_duration_ms"
+        }
+      ]
+    },
+    "twitch": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "twitch_r",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动火力全开施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "processCheck": {
+        "processKey": "cast",
+        "activationType": "ACTIVE",
+        "cooldownParameterKey": "cooldown_ms",
+        "steps": [
+          {
+            "stepKey": "activate",
+            "stepType": "IMMEDIATE",
+            "sortOrder": 10
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "momentType": "PROCESS_START",
+            "stepKey": null,
+            "sortOrder": 10
+          },
+          {
+            "bindingKey": "bonus_ad",
+            "effectKey": "bonus_ad",
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "activate",
+            "sortOrder": 20
+          },
+          {
+            "bindingKey": "bonus_range",
+            "effectKey": "bonus_range",
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "activate",
+            "sortOrder": 30
+          }
+        ]
+      },
+      "effectChecks": [
+        {
+          "effectKey": "bonus_ad",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "resultTarget": "SOURCE",
+          "valueKind": "PARAMETER",
+          "valueKey": "bonus_attack_damage",
+          "durationParameterKey": "buff_duration_ms"
+        },
+        {
+          "effectKey": "bonus_range",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "resultTarget": "SOURCE",
+          "valueKind": "PARAMETER",
+          "valueKey": "bonus_attack_range",
+          "durationParameterKey": "buff_duration_ms"
+        }
+      ]
+    },
+    "vayne": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "vayne_r",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动终极时刻施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "processCheck": {
+        "processKey": "cast",
+        "activationType": "ACTIVE",
+        "cooldownParameterKey": "cooldown_ms",
+        "steps": [
+          {
+            "stepKey": "start",
+            "stepType": "IMMEDIATE",
+            "sortOrder": 10
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "momentType": "PROCESS_START",
+            "stepKey": null,
+            "sortOrder": 10
+          },
+          {
+            "bindingKey": "bonus_attack_damage",
+            "effectKey": "bonus_attack_damage",
+            "momentType": "STEP_COMPLETE",
+            "stepKey": "start",
+            "sortOrder": 20
+          }
+        ]
+      },
+      "effectChecks": [
+        {
+          "effectKey": "bonus_attack_damage",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "resultTarget": "SOURCE",
+          "valueKind": "PARAMETER",
+          "valueKey": "bonus_attack_damage",
+          "durationParameterKey": "base_duration_ms"
+        }
+      ]
+    },
+    "masteryi": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "masteryi_r",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actions": [
+        {
+          "actionKey": "execute_attack_speed",
+          "name": "执行高原血统额外攻击速度",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "attack_speed"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        },
+        {
+          "actionKey": "execute_move_speed",
+          "name": "执行高原血统额外移动速度",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 20,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "move_speed"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "processCheck": null,
+      "effectChecks": [
+        {
+          "effectKey": "attack_speed",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "resultTarget": "SOURCE",
+          "valueKind": "PARAMETER",
+          "valueKey": "attack_speed_ratio",
+          "durationParameterKey": "duration_ms"
+        },
+        {
+          "effectKey": "move_speed",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "resultTarget": "SOURCE",
+          "valueKind": "PARAMETER",
+          "valueKey": "move_speed_ratio",
+          "durationParameterKey": "duration_ms"
+        }
+      ]
+    },
+    "skarner": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "skarner_w",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actions": [
+        {
+          "actionKey": "execute_self_shield",
+          "name": "执行震地壁垒自身护盾",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "self_shield"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "processCheck": null,
+      "effectChecks": [
+        {
+          "effectKey": "self_shield",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "resultTarget": "SOURCE",
+          "valueKind": "FORMULA",
+          "valueKey": "shield_value",
+          "durationParameterKey": "shield_duration_ms"
+        }
+      ]
+    },
+    "diana": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "diana_w",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动苍白之瀑施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "processCheck": {
+        "processKey": "cast",
+        "activationType": "ACTIVE",
+        "cooldownParameterKey": "cooldown_ms",
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "stepType": "DELAY",
+            "sortOrder": 10
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "momentType": "PROCESS_START",
+            "stepKey": null,
+            "sortOrder": 10
+          },
+          {
+            "bindingKey": "pale_cascade_shield",
+            "effectKey": "pale_cascade_shield",
+            "momentType": "STEP_COMPLETE",
+            "stepKey": "cast_time",
+            "sortOrder": 20
+          }
+        ]
+      },
+      "effectChecks": [
+        {
+          "effectKey": "pale_cascade_shield",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "resultTarget": "SOURCE",
+          "valueKind": "FORMULA",
+          "valueKey": "shield",
+          "durationParameterKey": "shield_duration_ms"
+        }
+      ]
+    }
+  },
+  "requests": [
+    {
+      "id": "tristana",
+      "ruleKey": "active",
+      "bodySha256": "213efe75968f043bafd5d8b26d36f9bb819f9309636adda9197a4798b68ffd34"
+    },
+    {
+      "id": "twitch",
+      "ruleKey": "on_used",
+      "bodySha256": "2ea450642faffb34d243c164fb83217755c814cf1540d695d09447b080df1221"
+    },
+    {
+      "id": "vayne",
+      "ruleKey": "on_used",
+      "bodySha256": "0d7164e5a3abd18150a2e1098aacb87a6fba50a8f7a5df62c14bb68ae114faa8"
+    },
+    {
+      "id": "masteryi",
+      "ruleKey": "on_used",
+      "bodySha256": "7fb2c58994d6cafccf0b531ee00e71729e0ac03712f7f5f8502b13627480d9ef"
+    },
+    {
+      "id": "skarner",
+      "ruleKey": "on_used",
+      "bodySha256": "b32f92ef6e8bc9d3503f0dfe02fec6604e023b60e43b898a77442a1c7b7a97d7"
+    },
+    {
+      "id": "diana",
+      "ruleKey": "on_used",
+      "bodySha256": "896bebc9c8d3878bacff22417d662455bec6e950d446ade8fc260b4cd46ec338"
+    }
+  ]
+}

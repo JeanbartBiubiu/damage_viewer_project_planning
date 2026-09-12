@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "capturedAt": "2026-09-12T18:02:27.700Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 299
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "tristana_q",
+      "passed": true,
+      "representativeImage": {
+        "alt": "崔丝塔娜·急速射击代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "effects": [],
+      "trigger": {
+        "ruleKey": "active",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "twitch_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "图奇·火力全开代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "effects": [],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "vayne_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "薇恩·终极时刻代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "effects": [],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "masteryi_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "易·高原血统代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "attack_speed",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        },
+        {
+          "effectKey": "move_speed",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "skarner_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "斯卡纳·震地壁垒代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": {
+        "formulaKey": "shield_value",
+        "expectedTextsVisible": true
+      },
+      "effects": [
+        {
+          "effectKey": "self_shield",
+          "resultKey": "shield",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "diana_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "黛安娜·苍白之瀑代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "effects": [],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "diana_w-cast过程.png",
+    "diana_w-on_used规则.png",
+    "diana_w-列表图片.png",
+    "masteryi_r-attack_speed结果.png",
+    "masteryi_r-move_speed结果.png",
+    "masteryi_r-on_used规则.png",
+    "masteryi_r-列表图片.png",
+    "skarner_w-on_used规则.png",
+    "skarner_w-self_shield结果.png",
+    "skarner_w-shield_value公式.png",
+    "skarner_w-列表图片.png",
+    "tristana_q-active规则.png",
+    "tristana_q-cast过程.png",
+    "tristana_q-列表图片.png",
+    "twitch_r-cast过程.png",
+    "twitch_r-on_used规则.png",
+    "twitch_r-列表图片.png",
+    "vayne_r-cast过程.png",
+    "vayne_r-on_used规则.png",
+    "vayne_r-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "43863331fbd9c54eb4bd3075fe03c322ebc486e60fcb9f6d7f3e6cbcbada78fe"
+}

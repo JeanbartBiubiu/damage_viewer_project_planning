@@ -1,0 +1,1708 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T17:24:25.175Z",
+  "baseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requestPolicy": {
+    "methodsSent": [
+      "GET"
+    ],
+    "businessMethodsSent": [],
+    "authorizationValueRecorded": false,
+    "businessWritesIssued": 0
+  },
+  "sourceSnapshotSha256": "4d00057dfc2cba790b828f5f37ad266a8b0d48394e1439132c64912be3fcad03",
+  "frozenRequestSha256": "e418bc5adbd0b108d06b5f63ff772cf7887e29c8a511538f08d3df06be95e3c3",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24
+  },
+  "targetSnapshot": {
+    "cfg": {
+      "ownerName": "亡灵战神",
+      "characterKey": "champion_sion",
+      "skillKey": "sion_w"
+    },
+    "staticResponses": {
+      "/characters/champion_sion": {
+        "method": "GET",
+        "route": "/characters/champion_sion",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_sion",
+          "createdAt": "2026-09-06T17:43:09.433301Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "赛恩",
+          "updatedAt": "2026-09-06T17:43:09.433301Z"
+        }
+      },
+      "/characters/champion_sion/attributes": {
+        "method": "GET",
+        "route": "/characters/champion_sion/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_sion",
+          "levelValues": {
+            "1": {
+              "move_speed": 345,
+              "hp": 655,
+              "hp_regen": 9,
+              "mana": 400,
+              "mana_regen": 8,
+              "armor": 36,
+              "magic_resistance": 32,
+              "attack_damage": 68,
+              "attack_speed": 0.679,
+              "attack_range": 175
+            },
+            "2": {
+              "move_speed": 345,
+              "hp": 717.64,
+              "hp_regen": 9.576,
+              "mana": 437.44,
+              "mana_regen": 8.432,
+              "armor": 39.024,
+              "magic_resistance": 33.476,
+              "attack_damage": 70.88,
+              "attack_speed": 0.685355,
+              "attack_range": 175
+            },
+            "3": {
+              "move_speed": 345,
+              "hp": 783.325,
+              "hp_regen": 10.18,
+              "mana": 476.7,
+              "mana_regen": 8.885,
+              "armor": 42.195,
+              "magic_resistance": 35.02375,
+              "attack_damage": 73.9,
+              "attack_speed": 0.69202,
+              "attack_range": 175
+            },
+            "4": {
+              "move_speed": 345,
+              "hp": 852.055,
+              "hp_regen": 10.812,
+              "mana": 517.78,
+              "mana_regen": 9.359,
+              "armor": 45.513,
+              "magic_resistance": 36.64325,
+              "attack_damage": 77.06,
+              "attack_speed": 0.698993,
+              "attack_range": 175
+            },
+            "5": {
+              "move_speed": 345,
+              "hp": 923.83,
+              "hp_regen": 11.472,
+              "mana": 560.68,
+              "mana_regen": 9.854,
+              "armor": 48.978,
+              "magic_resistance": 38.3345,
+              "attack_damage": 80.36,
+              "attack_speed": 0.706275,
+              "attack_range": 175
+            },
+            "6": {
+              "move_speed": 345,
+              "hp": 998.65,
+              "hp_regen": 12.16,
+              "mana": 605.4,
+              "mana_regen": 10.37,
+              "armor": 52.59,
+              "magic_resistance": 40.0975,
+              "attack_damage": 83.8,
+              "attack_speed": 0.713867,
+              "attack_range": 175
+            },
+            "7": {
+              "move_speed": 345,
+              "hp": 1076.515,
+              "hp_regen": 12.876,
+              "mana": 651.94,
+              "mana_regen": 10.907,
+              "armor": 56.349,
+              "magic_resistance": 41.93225,
+              "attack_damage": 87.38,
+              "attack_speed": 0.721767,
+              "attack_range": 175
+            },
+            "8": {
+              "move_speed": 345,
+              "hp": 1157.425,
+              "hp_regen": 13.62,
+              "mana": 700.3,
+              "mana_regen": 11.465,
+              "armor": 60.255,
+              "magic_resistance": 43.83875,
+              "attack_damage": 91.1,
+              "attack_speed": 0.729976,
+              "attack_range": 175
+            },
+            "9": {
+              "move_speed": 345,
+              "hp": 1241.38,
+              "hp_regen": 14.392,
+              "mana": 750.48,
+              "mana_regen": 12.044,
+              "armor": 64.308,
+              "magic_resistance": 45.817,
+              "attack_damage": 94.96,
+              "attack_speed": 0.738494,
+              "attack_range": 175
+            },
+            "10": {
+              "move_speed": 345,
+              "hp": 1328.38,
+              "hp_regen": 15.192,
+              "mana": 802.48,
+              "mana_regen": 12.644,
+              "armor": 68.508,
+              "magic_resistance": 47.867,
+              "attack_damage": 98.96,
+              "attack_speed": 0.747321,
+              "attack_range": 175
+            },
+            "11": {
+              "move_speed": 345,
+              "hp": 1418.425,
+              "hp_regen": 16.02,
+              "mana": 856.3,
+              "mana_regen": 13.265,
+              "armor": 72.855,
+              "magic_resistance": 49.98875,
+              "attack_damage": 103.1,
+              "attack_speed": 0.756457,
+              "attack_range": 175
+            },
+            "12": {
+              "move_speed": 345,
+              "hp": 1511.515,
+              "hp_regen": 16.876,
+              "mana": 911.94,
+              "mana_regen": 13.907,
+              "armor": 77.349,
+              "magic_resistance": 52.18225,
+              "attack_damage": 107.38,
+              "attack_speed": 0.765902,
+              "attack_range": 175
+            },
+            "13": {
+              "move_speed": 345,
+              "hp": 1607.65,
+              "hp_regen": 17.76,
+              "mana": 969.4,
+              "mana_regen": 14.57,
+              "armor": 81.99,
+              "magic_resistance": 54.4475,
+              "attack_damage": 111.8,
+              "attack_speed": 0.775656,
+              "attack_range": 175
+            },
+            "14": {
+              "move_speed": 345,
+              "hp": 1706.83,
+              "hp_regen": 18.672,
+              "mana": 1028.68,
+              "mana_regen": 15.254,
+              "armor": 86.778,
+              "magic_resistance": 56.7845,
+              "attack_damage": 116.36,
+              "attack_speed": 0.785718,
+              "attack_range": 175
+            },
+            "15": {
+              "move_speed": 345,
+              "hp": 1809.055,
+              "hp_regen": 19.612,
+              "mana": 1089.78,
+              "mana_regen": 15.959,
+              "armor": 91.713,
+              "magic_resistance": 59.19325,
+              "attack_damage": 121.06,
+              "attack_speed": 0.79609,
+              "attack_range": 175
+            },
+            "16": {
+              "move_speed": 345,
+              "hp": 1914.325,
+              "hp_regen": 20.58,
+              "mana": 1152.7,
+              "mana_regen": 16.685,
+              "armor": 96.795,
+              "magic_resistance": 61.67375,
+              "attack_damage": 125.9,
+              "attack_speed": 0.806771,
+              "attack_range": 175
+            },
+            "17": {
+              "move_speed": 345,
+              "hp": 2022.64,
+              "hp_regen": 21.576,
+              "mana": 1217.44,
+              "mana_regen": 17.432,
+              "armor": 102.024,
+              "magic_resistance": 64.226,
+              "attack_damage": 130.88,
+              "attack_speed": 0.81776,
+              "attack_range": 175
+            },
+            "18": {
+              "move_speed": 345,
+              "hp": 2134,
+              "hp_regen": 22.6,
+              "mana": 1284,
+              "mana_regen": 18.2,
+              "armor": 107.4,
+              "magic_resistance": 66.85,
+              "attack_damage": 136,
+              "attack_speed": 0.829059,
+              "attack_range": 175
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "/characters/champion_sion/representative-image": {
+        "method": "GET",
+        "route": "/characters/champion_sion/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_sion",
+            "name": "champion_sion"
+          }
+        }
+      },
+      "/character-skill-relations?characterKey=champion_sion": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_sion",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_sion",
+              "characterName": "赛恩",
+              "gameId": "lol",
+              "skillKey": "sion_p",
+              "skillName": "赛恩·死亡荣耀",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_sion",
+              "characterName": "赛恩",
+              "gameId": "lol",
+              "skillKey": "sion_q",
+              "skillName": "赛恩·残虐猛击",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_sion",
+              "characterName": "赛恩",
+              "gameId": "lol",
+              "skillKey": "sion_w",
+              "skillName": "赛恩·灵魂熔炉",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_sion",
+              "characterName": "赛恩",
+              "gameId": "lol",
+              "skillKey": "sion_e",
+              "skillName": "赛恩·杀手怒吼",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_sion",
+              "characterName": "赛恩",
+              "gameId": "lol",
+              "skillKey": "sion_r",
+              "skillName": "赛恩·蛮横冲撞",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "/character-skill-relations?skillKey=sion_w": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=sion_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_sion",
+              "characterName": "赛恩",
+              "gameId": "lol",
+              "skillKey": "sion_w",
+              "skillName": "赛恩·灵魂熔炉",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "/skills/sion_w": {
+        "method": "GET",
+        "route": "/skills/sion_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:22.09192Z",
+          "description": "赛恩为自己套上护盾，并能在3秒后再次激活这个技能来对身边的敌人造成魔法伤害。在赛恩击杀敌人时，他会被动获得最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "赛恩·灵魂熔炉",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "sion_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:22.09192Z"
+        }
+      },
+      "/skills/sion_w/representative-image": {
+        "method": "GET",
+        "route": "/skills/sion_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_sion_w",
+            "name": "sion_w"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/sion_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T14:39:19.707749Z",
+              "description": "官方逐级冷却与当前根 cooldownTime 索引1至上限逐级一致；不含技能急速或其他技能修正。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 15000,
+                "2": 14000,
+                "3": 13000,
+                "4": 12000,
+                "5": 11000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "sion_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T14:39:19.707749Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:20.79288Z",
+              "description": "官方cost与当前根manaValues逐级一致；法力值；未包含持续资源。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 75,
+                "2": 80,
+                "3": 85,
+                "4": 90,
+                "5": 95
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "sion_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T14:39:20.79288Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:21.923415Z",
+              "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "sion_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T14:39:21.923415Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:23.005302Z",
+              "description": "当前根TotalShield的mStat=12无mStatFormula；正文明确最大生命值，绑定来源总生命值。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.08,
+                "2": 0.1,
+                "3": 0.12,
+                "4": 0.14,
+                "5": 0.16
+              },
+              "name": "灵魂熔炉护盾最大生命值比例",
+              "parameterKey": "shield_max_hp_ratio",
+              "skillKey": "sion_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T14:39:23.005302Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:24.122235Z",
+              "description": "当前根绑定 DataValues.HPPerChampKill 取索引1至5",
+              "fixedValue": 15,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉参与击杀英雄或大型单位获得生命值",
+              "parameterKey": "hp_per_champion_kill",
+              "skillKey": "sion_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T14:39:24.122235Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:25.143203Z",
+              "description": "当前根绑定 DataValues.HPPerKill 取索引1至5",
+              "fixedValue": 4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉普通击杀获得生命值",
+              "parameterKey": "hp_per_kill",
+              "skillKey": "sion_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T14:39:25.143203Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:26.132039Z",
+              "description": "当前根绑定 DataValues.HPPerLargeKill 取索引1至5",
+              "fixedValue": 15,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉大型单位击杀获得生命值",
+              "parameterKey": "hp_per_large_kill",
+              "skillKey": "sion_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T14:39:26.132039Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:27.412856Z",
+              "description": "当前根TotalShield第二项；按当前法术强度窄口径绑定。",
+              "fixedValue": 0.4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉护盾法强比例",
+              "parameterKey": "shield_ap_ratio",
+              "skillKey": "sion_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T14:39:27.412856Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:28.521768Z",
+              "description": "当前根TotalDamage第二项；按当前法术强度窄口径绑定。",
+              "fixedValue": 0.4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉爆炸法强比例",
+              "parameterKey": "damage_ap_ratio",
+              "skillKey": "sion_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T14:39:28.521768Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:29.599778Z",
+              "description": "当前根绑定 DataValues.BaseShield 取索引1至5",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 60,
+                "2": 75,
+                "3": 90,
+                "4": 105,
+                "5": 120
+              },
+              "name": "灵魂熔炉基础护盾值",
+              "parameterKey": "base_shield",
+              "skillKey": "sion_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-09T14:39:29.599778Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:32.299952Z",
+              "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 40,
+                "2": 65,
+                "3": 90,
+                "4": 115,
+                "5": 140
+              },
+              "name": "灵魂熔炉基础魔法伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "sion_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-09T14:39:32.299952Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:33.452165Z",
+              "description": "当前官方中文正文显示MaxHPDamageRatio×100%；百分数点转为比例。",
+              "fixedValue": 0.14,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉爆炸目标最大生命值伤害比例",
+              "parameterKey": "max_hp_damage_ratio",
+              "skillKey": "sion_w",
+              "sortOrder": 120,
+              "updatedAt": "2026-09-09T14:39:33.452165Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:34.501148Z",
+              "description": "当前根DetonateRecastCooldown。",
+              "fixedValue": 3000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉引爆可再施放等待时间（毫秒）",
+              "parameterKey": "detonate_recast_cooldown_ms",
+              "skillKey": "sion_w",
+              "sortOrder": 130,
+              "updatedAt": "2026-09-09T14:39:34.501148Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:35.606488Z",
+              "description": "当前根ShieldDuration；正文明确6秒。",
+              "fixedValue": 6000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉护盾持续时间（毫秒）",
+              "parameterKey": "shield_duration_ms",
+              "skillKey": "sion_w",
+              "sortOrder": 140,
+              "updatedAt": "2026-09-09T14:39:35.606488Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:36.703945Z",
+              "description": "正文明确爆炸伤害外加目标最大生命值比例；目标属性由运行时提供，不默认。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "灵魂熔炉目标最大生命值",
+              "parameterKey": "target_max_health",
+              "skillKey": "sion_w",
+              "sortOrder": 150,
+              "updatedAt": "2026-09-09T14:39:36.703945Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          ]
+        },
+        "keys": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "shield_max_hp_ratio",
+          "hp_per_champion_kill",
+          "hp_per_kill",
+          "hp_per_large_kill",
+          "shield_ap_ratio",
+          "damage_ap_ratio",
+          "base_shield",
+          "base_damage",
+          "max_hp_damage_ratio",
+          "detonate_recast_cooldown_ms",
+          "shield_duration_ms",
+          "target_max_health"
+        ],
+        "details": [
+          {
+            "key": "cooldown_ms",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/cooldown_ms",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:19.707749Z",
+                "description": "官方逐级冷却与当前根 cooldownTime 索引1至上限逐级一致；不含技能急速或其他技能修正。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 15000,
+                  "2": 14000,
+                  "3": 13000,
+                  "4": 12000,
+                  "5": 11000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "sion_w",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T14:39:19.707749Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "mana_cost",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/mana_cost",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:20.79288Z",
+                "description": "官方cost与当前根manaValues逐级一致；法力值；未包含持续资源。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 75,
+                  "2": 80,
+                  "3": 85,
+                  "4": 90,
+                  "5": 95
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "sion_w",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T14:39:20.79288Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "cast_time_ms",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/cast_time_ms",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:21.923415Z",
+                "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+                "fixedValue": 250,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "施法时间（毫秒）",
+                "parameterKey": "cast_time_ms",
+                "skillKey": "sion_w",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-09T14:39:21.923415Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "shield_max_hp_ratio",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/shield_max_hp_ratio",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:23.005302Z",
+                "description": "当前根TotalShield的mStat=12无mStatFormula；正文明确最大生命值，绑定来源总生命值。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 0.08,
+                  "2": 0.1,
+                  "3": 0.12,
+                  "4": 0.14,
+                  "5": 0.16
+                },
+                "name": "灵魂熔炉护盾最大生命值比例",
+                "parameterKey": "shield_max_hp_ratio",
+                "skillKey": "sion_w",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T14:39:23.005302Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          {
+            "key": "hp_per_champion_kill",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/hp_per_champion_kill",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:24.122235Z",
+                "description": "当前根绑定 DataValues.HPPerChampKill 取索引1至5",
+                "fixedValue": 15,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉参与击杀英雄或大型单位获得生命值",
+                "parameterKey": "hp_per_champion_kill",
+                "skillKey": "sion_w",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-09T14:39:24.122235Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "hp_per_kill",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/hp_per_kill",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:25.143203Z",
+                "description": "当前根绑定 DataValues.HPPerKill 取索引1至5",
+                "fixedValue": 4,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉普通击杀获得生命值",
+                "parameterKey": "hp_per_kill",
+                "skillKey": "sion_w",
+                "sortOrder": 60,
+                "updatedAt": "2026-09-09T14:39:25.143203Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "hp_per_large_kill",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/hp_per_large_kill",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:26.132039Z",
+                "description": "当前根绑定 DataValues.HPPerLargeKill 取索引1至5",
+                "fixedValue": 15,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉大型单位击杀获得生命值",
+                "parameterKey": "hp_per_large_kill",
+                "skillKey": "sion_w",
+                "sortOrder": 70,
+                "updatedAt": "2026-09-09T14:39:26.132039Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "shield_ap_ratio",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/shield_ap_ratio",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:27.412856Z",
+                "description": "当前根TotalShield第二项；按当前法术强度窄口径绑定。",
+                "fixedValue": 0.4,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉护盾法强比例",
+                "parameterKey": "shield_ap_ratio",
+                "skillKey": "sion_w",
+                "sortOrder": 80,
+                "updatedAt": "2026-09-09T14:39:27.412856Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          {
+            "key": "damage_ap_ratio",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/damage_ap_ratio",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:28.521768Z",
+                "description": "当前根TotalDamage第二项；按当前法术强度窄口径绑定。",
+                "fixedValue": 0.4,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉爆炸法强比例",
+                "parameterKey": "damage_ap_ratio",
+                "skillKey": "sion_w",
+                "sortOrder": 90,
+                "updatedAt": "2026-09-09T14:39:28.521768Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          {
+            "key": "base_shield",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/base_shield",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:29.599778Z",
+                "description": "当前根绑定 DataValues.BaseShield 取索引1至5",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 60,
+                  "2": 75,
+                  "3": 90,
+                  "4": 105,
+                  "5": 120
+                },
+                "name": "灵魂熔炉基础护盾值",
+                "parameterKey": "base_shield",
+                "skillKey": "sion_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-09T14:39:29.599778Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "base_damage",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/base_damage",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:32.299952Z",
+                "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 40,
+                  "2": 65,
+                  "3": 90,
+                  "4": 115,
+                  "5": 140
+                },
+                "name": "灵魂熔炉基础魔法伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "sion_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-09T14:39:32.299952Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "max_hp_damage_ratio",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/max_hp_damage_ratio",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:33.452165Z",
+                "description": "当前官方中文正文显示MaxHPDamageRatio×100%；百分数点转为比例。",
+                "fixedValue": 0.14,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉爆炸目标最大生命值伤害比例",
+                "parameterKey": "max_hp_damage_ratio",
+                "skillKey": "sion_w",
+                "sortOrder": 120,
+                "updatedAt": "2026-09-09T14:39:33.452165Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          {
+            "key": "detonate_recast_cooldown_ms",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/detonate_recast_cooldown_ms",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:34.501148Z",
+                "description": "当前根DetonateRecastCooldown。",
+                "fixedValue": 3000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉引爆可再施放等待时间（毫秒）",
+                "parameterKey": "detonate_recast_cooldown_ms",
+                "skillKey": "sion_w",
+                "sortOrder": 130,
+                "updatedAt": "2026-09-09T14:39:34.501148Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "shield_duration_ms",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/shield_duration_ms",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:35.606488Z",
+                "description": "当前根ShieldDuration；正文明确6秒。",
+                "fixedValue": 6000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉护盾持续时间（毫秒）",
+                "parameterKey": "shield_duration_ms",
+                "skillKey": "sion_w",
+                "sortOrder": 140,
+                "updatedAt": "2026-09-09T14:39:35.606488Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "target_max_health",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/parameters/target_max_health",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:36.703945Z",
+                "description": "正文明确爆炸伤害外加目标最大生命值比例；目标属性由运行时提供，不默认。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "灵魂熔炉目标最大生命值",
+                "parameterKey": "target_max_health",
+                "skillKey": "sion_w",
+                "sortOrder": 150,
+                "updatedAt": "2026-09-09T14:39:36.703945Z",
+                "valueMode": "RUNTIME_INPUT",
+                "valueType": "DECIMAL"
+              }
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/sion_w/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T14:39:37.866355Z",
+              "description": "TotalShield = BaseShield + ShieldAPRatio×来源法术强度 + ShieldPercentHealthTooltip×来源总生命值。",
+              "formulaKey": "total_shield",
+              "gameId": "lol",
+              "name": "灵魂熔炉护盾数学量",
+              "skillKey": "sion_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T14:39:37.866355Z"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:38.944291Z",
+              "description": "完整正文伤害 = BaseDamage + DamageAPRatio×来源法术强度 + MaxHPDamageRatio×目标最大生命值；不创建即时伤害。",
+              "formulaKey": "total_damage",
+              "gameId": "lol",
+              "name": "灵魂熔炉爆炸魔法伤害数学量",
+              "skillKey": "sion_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T14:39:38.944291Z"
+            }
+          ]
+        },
+        "keys": [
+          "total_shield",
+          "total_damage"
+        ],
+        "details": [
+          {
+            "key": "total_shield",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/formulas/total_shield",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:37.866355Z",
+                "description": "TotalShield = BaseShield + ShieldAPRatio×来源法术强度 + ShieldPercentHealthTooltip×来源总生命值。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_shield"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "shield_ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_max_hp_ratio"
+                        },
+                        {
+                          "attributeKey": "hp",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "total_shield",
+                "gameId": "lol",
+                "name": "灵魂熔炉护盾数学量",
+                "skillKey": "sion_w",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T14:39:37.866355Z"
+              }
+            }
+          },
+          {
+            "key": "total_damage",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/formulas/total_damage",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:38.944291Z",
+                "description": "完整正文伤害 = BaseDamage + DamageAPRatio×来源法术强度 + MaxHPDamageRatio×目标最大生命值；不创建即时伤害。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "damage_ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "max_hp_damage_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "target_max_health"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "total_damage",
+                "gameId": "lol",
+                "name": "灵魂熔炉爆炸魔法伤害数学量",
+                "skillKey": "sion_w",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T14:39:38.944291Z"
+              }
+            }
+          }
+        ]
+      },
+      "effects": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/sion_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T14:39:40.008503Z",
+              "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "施放法力消耗",
+              "resultCount": 1,
+              "skillKey": "sion_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T14:39:40.008503Z"
+            },
+            {
+              "createdAt": "2026-09-09T14:39:41.167679Z",
+              "description": "当前正文明确主动获得持续6秒护盾。；仅表示独立护盾组成，施放资格和实际吸收尚未接线。",
+              "effectKey": "shield",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "灵魂熔炉自身护盾",
+              "resultCount": 1,
+              "skillKey": "sion_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T14:39:41.167679Z"
+            }
+          ]
+        },
+        "keys": [
+          "mana_cost",
+          "shield"
+        ],
+        "details": [
+          {
+            "key": "mana_cost",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/effects/mana_cost",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:40.008503Z",
+                "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+                "effectKey": "mana_cost",
+                "gameId": "lol",
+                "lifecycle": null,
+                "name": "施放法力消耗",
+                "results": [
+                  {
+                    "description": null,
+                    "detail": {
+                      "attributeKey": "mana",
+                      "operation": "CONSUME"
+                    },
+                    "lifecycleBehavior": null,
+                    "name": "消耗法力",
+                    "resultKey": "consume_mana",
+                    "resultType": "RESOURCE_CHANGE",
+                    "sortOrder": 10,
+                    "spellShieldBlockScope": null,
+                    "target": "SOURCE",
+                    "valueRule": {
+                      "fixedMaxValue": null,
+                      "fixedMinValue": 0,
+                      "fixedMultiplier": 1,
+                      "value": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "mana_cost"
+                      }
+                    }
+                  }
+                ],
+                "skillKey": "sion_w",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T14:39:40.008503Z"
+              }
+            }
+          },
+          {
+            "key": "shield",
+            "response": {
+              "method": "GET",
+              "route": "/skills/sion_w/effects/shield",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-09T14:39:41.167679Z",
+                "description": "当前正文明确主动获得持续6秒护盾。；仅表示独立护盾组成，施放资格和实际吸收尚未接线。",
+                "effectKey": "shield",
+                "gameId": "lol",
+                "lifecycle": {
+                  "applicationStacksValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "durationValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "shield_duration_ms"
+                  },
+                  "expiryMode": "ALL_AT_ONCE",
+                  "firstPeriodicExecution": null,
+                  "instanceScope": "SOURCE",
+                  "maxStacksValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "periodicIntervalValue": null,
+                  "reapplicationDurationMode": "REFRESH_ALL",
+                  "reapplicationStackMode": "KEEP"
+                },
+                "name": "灵魂熔炉自身护盾",
+                "results": [
+                  {
+                    "description": null,
+                    "detail": {
+                      "absorbedDamageTypeKey": null,
+                      "decayMode": "NONE"
+                    },
+                    "lifecycleBehavior": {
+                      "moment": "PERSISTENT",
+                      "periodicExecutionMode": null,
+                      "reapplicationValueMode": "REPLACE",
+                      "stackValueMode": "SHARED",
+                      "valueReadMode": "APPLICATION_SNAPSHOT"
+                    },
+                    "name": "灵魂熔炉自身护盾",
+                    "resultKey": "shield",
+                    "resultType": "NORMAL_SHIELD",
+                    "sortOrder": 10,
+                    "spellShieldBlockScope": null,
+                    "target": "SOURCE",
+                    "valueRule": {
+                      "fixedMaxValue": null,
+                      "fixedMinValue": 0,
+                      "fixedMultiplier": 1,
+                      "value": {
+                        "formulaKey": "total_shield",
+                        "kind": "FORMULA"
+                      }
+                    }
+                  }
+                ],
+                "skillKey": "sion_w",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T14:39:41.167679Z"
+              }
+            }
+          }
+        ]
+      },
+      "processes": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/sion_w/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/sion_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/sion_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    },
+    "candidateDetail": {
+      "method": "GET",
+      "route": "/skills/sion_w/trigger-rules/on_used",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "on_used"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    "checks": {
+      "characterSubject": true,
+      "skillSubject": true,
+      "relationForwardExact": true,
+      "relationReverseExact": true,
+      "characterImagePresent": true,
+      "skillImagePresent": true,
+      "candidateDetail404": true,
+      "triggerListEmpty": true
+    },
+    "getCount": 33,
+    "componentKeys": {
+      "parameters": [
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "shield_max_hp_ratio",
+        "hp_per_champion_kill",
+        "hp_per_kill",
+        "hp_per_large_kill",
+        "shield_ap_ratio",
+        "damage_ap_ratio",
+        "base_shield",
+        "base_damage",
+        "max_hp_damage_ratio",
+        "detonate_recast_cooldown_ms",
+        "shield_duration_ms",
+        "target_max_health"
+      ],
+      "formulas": [
+        "total_shield",
+        "total_damage"
+      ],
+      "effects": [
+        "mana_cost",
+        "shield"
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    }
+  },
+  "baseline": {
+    "expected": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24
+    },
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24,
+    "first": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24,
+      "eventTypeCounts": {
+        "BASIC_ATTACK_HIT": 10,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "DAMAGE_TAKEN": 3,
+        "KILL": 2,
+        "SKILL_HIT": 55,
+        "SKILL_USED": 5,
+        "SOURCE_INITIALIZED": 24,
+        "SPELL_SHIELD_BLOCKED": 5
+      },
+      "skillKeysSha256": "2c3c50058d4b13843abd7038bfc197bf7727148055fb168f4dbdfaa62e97d7dd",
+      "ruleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+      "ruleDetailHashes": {
+        "ahri_e/actual_hit": "64414af0df698f4dfded9227c758a8afed745cce381905bd86c3582c1158fb84",
+        "ahri_r/actual_hit": "05fd2e766070a843c5ba2500e4630bd0be4ba5bd6ceb33b4e62a76ddc023e818",
+        "annie_q/actual_hit": "1861f69c675ad51764985fdc88c9ea4f7a9c4ace5f1a31174aa0ac235f3e0243",
+        "annie_r/actual_hit": "268d8b58c2128d1a470228158471a9da6fc16bdba04ce79ffbf5083218b6129b",
+        "annie_w/actual_hit": "ed069491d929fc4f70a2fb4bfed6dba673a9ba339b5133073ec389dd55d8b780",
+        "ashe_r/actual_hit": "8d97c2cb36a5e634508b1e6740236386bc827ee88fd3255fff61b2c5f10efa12",
+        "brand_e/actual_hit": "267ec4dc8799ac531f9e1be49ea18e6e74d38fc41364d54c2e2f27d72ac35f02",
+        "brand_q/actual_hit": "bb9b0086fcdc0111cac495293a60855ded77476e544cbd2e80f74466c6b59447",
+        "brand_r/actual_hit": "0a3bd141e5045b0646796268a0a315275f6b63777a7167ffcc7c2852be62aed2",
+        "diana_e/actual_hit": "4b25cfb1ad00452f02d702942c2bdb6e052e81af4053fc858dbb84aa8d4e0adb",
+        "diana_q/actual_hit": "0decb2e05b200cdccb8ce0277a415674c255bc1de1258f66604ef1965501b68d",
+        "ez_e/resolve_on_e_hit": "bcac7d9054e37a4bbd6363efcd8e4e3946e5fbc8a28ff49637b6af1228e783d5",
+        "ez_p/stack_on_ez_e_hit": "4f5e024f82341ad2f3e72fd308cf9d47e8ab278f2bcfe9464ce87a1ee9e7342c",
+        "ez_p/stack_on_ez_q_hit": "12c90b634f35c89adee37942b422571eaccb771bae3f1e0794466f351143be24",
+        "ez_p/stack_on_ez_r_hit": "3f10e44f0eacec314a7b2fc47f87c77b1668a2a6142471c5cfa58c3b515df7e2",
+        "ez_p/stack_on_ez_w_hit": "68fcd49ead17a5717d0d58f562f7a7a3de5bc4007c079588e145026597158c33",
+        "ez_q/resolve_on_q_hit": "20021f33b162bf642419a6cefa0ae46505c63be897c0f082cac2483419161700",
+        "ez_r/resolve_on_r_champion_epic_hit": "80c8f0fd3aa828c02dc431955288997aaa44fca6c0df2d46888ca89ab94cf496",
+        "ez_r/resolve_on_r_minion_monster_hit": "ef594b18721475b3f54d9168988ff63f69f51ba74c55406ec330b2e5f3f1bbc2",
+        "ez_w/apply_mark_on_w_hit": "c9e55834e28b1a9b2f8195d9bccf95cf4121e3b10998c258dc8f41b623f2f877",
+        "ez_w/detonate_private_mark_on_basic_attack_hit": "2937fdd6e48eccacacb5a1da4eb1d625ab0fcb82937b4183d3d516571f5f450d",
+        "ez_w/detonate_private_mark_on_ez_e_hit": "4bc3d1f80888080094a057dc17175fcb6f5d774c4c98836973c327d40b54e83a",
+        "ez_w/detonate_private_mark_on_ez_q_hit": "0faaecfcc4bf1b0de71b2b03887a5b99ffda61fe9a25617fc78aa4f44f9d86b1",
+        "ez_w/detonate_private_mark_on_ez_r_hit": "02d72c89f67e78b0af1f8abdd53dc6e9e4ac3ae2a5cc6bc2dc7ef60ac3e79632",
+        "garen_r/on_hit": "17c9b7fb626da5b402877e8d10d5e6e5ec32a160856f27795ea3af24738143f7",
+        "garen_w/on_used": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165",
+        "item_1043_passive/resolve_on_basic_attack_hit": "739aa1d0484719a0276e17d89c81ddbfd130e2b0cff55dd17cc50e5d6287cd17",
+        "item_1083_passive/resolve_on_basic_attack_hit": "d82eed78ab099f71908a5425ff3e36c1d96fd3e3da8ac76bc7526dca20b0eb97",
+        "item_2422_passive/initialize_magical_footwear_additional_speed": "96bd3b0563f129a1d1b394e032aaf0c851cc6a3fde663ed115cb1079899eac52",
+        "item_2501_passive/initialize_ad_from_bonus_hp": "7693258fecb390f473361215ebc1927be3e893711b2420be1e8eacdea2666612",
+        "item_3003_passive/initialize_ap_from_bonus_mana": "497c16bbc6af406cb6c719588af0e4aa357e1a41724724b7fada2631fb5672d3",
+        "item_3004_passive/initialize_bonus_attack_damage_from_max_mana": "e61fbb759657cea27a93293bbd6d3e5dcdafd46b51fec1d9c62b993b2e773cfd",
+        "item_3040_passive/initialize_ap_from_bonus_mana": "ceae2ee002d13ac2d9dfda82f971409b86f9ac3bed595098b96b339d1ba699eb",
+        "item_3040_passive/on_damage_cross_below_lifeline_threshold": "159c4e021007f02f6b49573bfe86fc9d436d912db85991b058d8d18489fc8fab",
+        "item_3042_passive/initialize_bonus_attack_damage_from_max_mana": "41fa2539d20c831b29ceec47181b1c4838f5114dd7dd0ee1b3751f700c242fd0",
+        "item_3042_passive/on_basic_attack_hit_to_champion": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a",
+        "item_3047_passive/initialize_plating_basic_damage_reduction": "4556f610e346a44d0959239dc715c5fd6710590741f19a8ea3e026ea68141084",
+        "item_3050_passive/initialize_ultimate_haste": "b70a169ef5a5040e2b0414da29dab0fe43285ba50d7820b0828c1b8948a0b8bd",
+        "item_3071_passive/on_physical_damage_dealt_to_champion": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8",
+        "item_3074_active/actual_hit": "5b0328757741a7dd2e7d08a25aa8dc83af275344f7a4bcab0ed6b135b73a7436",
+        "item_3075_passive/reflect_on_basic_attack_taken": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10",
+        "item_3076_passive/reflect_on_basic_attack_taken": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10",
+        "item_3077_active/actual_hit": "bd8eeea2c21ad8b396cbca09814b6c7412f617e89902e7d001fbb1a1a19e6bbc",
+        "item_3078_passive/grant_move_speed_on_basic_attack_hit": "8bd6b15db12edcc701dcbfc36201f5293e15bb0450f3189a50da5fad46f3e206",
+        "item_3089_passive/initialize_total_ap_multiplier": "1f7b3d946e50385b6f9b5da0a4a1b2e7eb844753494ddbe9db4c4eb8a0227c72",
+        "item_3091_passive/resolve_on_basic_attack_hit": "0ef09cbfe205ea2c635019e93aa75856c5590a576781888f91490c03ec8e638a",
+        "item_3102_passive/consume_on_spell_block": "71602cbbfe44374a9d7413841da563fbc48fe0cef14e9e852e81dedd2aa50f7f",
+        "item_3115_passive/resolve_on_basic_attack_hit": "7e722a857804954ba9004e6f00d6de89aafde20c5d5ef6408167bd5ae2825975",
+        "item_3124_passive/resolve_rageblade_basic_attack": "0ac0f60a9d07b4f0f384d56f18d8cd53d89bae17383b875da63058707de24468",
+        "item_3143_passive/initialize_resilience_critical_damage_reduction": "6ab4f7e61a7f60b2d9275bfbb9365fe2321cff09bb2d7967fcc683c8d9e1e193",
+        "item_3152_active/actual_hit": "3feb10bb0ce859e1d1cb054e6c41c581cb06fa6a488866acd0a6aca89486dcc1",
+        "item_3161_passive/initialize_basic_skill_haste": "829a6f0bf4943a92bc6101ff5888b6ad873b958269dbb0b165f938cf7072cb04",
+        "item_3742_passive/initialize_unsinkable_slow_resist": "8176c65ec4c410468c8b810197c22031a44d383ca80473502f002e52eadf8be7",
+        "item_3803_passive/on_damage_taken_from_champion_restore_mana": "b520cfc3905c3ad2a7e86dff8c1ee246ba4f57f39c2e30b97808f012d17407ae",
+        "item_3814_passive/consume_on_successful_block": "1ada2bc71556caef8abd2ed43ce8a9f37292767b745c5d28d250a735cf16ad65",
+        "item_3814_passive/initialize_spell_shield": "5c684393bbc087848f949aa350b8ea5f35a17fe3e5088c646edb24845ab473e2",
+        "item_4629_passive/on_magic_damage_dealt_to_champion": "3ec774b771d07e4355360c6bc2594b4831f0ff3a0bc92fa04a1b66ec608a9023",
+        "item_4629_passive/on_real_damage_dealt_to_champion": "4f3b28b96bc46f9873f844f218c2d959a288ff8ebb2247753dccec0c84c2e063",
+        "item_4632_passive/consume_on_spell_block": "e77bb760f2663a99cb4eaff2529f95225de7145cbfc1d998b5f317a932cd81bf",
+        "item_4632_passive/initialize_spell_shield": "352f0958635305635cdce598990dc695d27aa77159111b7142a718eaecdf56c1",
+        "item_4633_passive/initialize_ap_from_bonus_hp": "2b1ca35b719ac93ee4c728e32228b5c2f9e49bee967871cd77bc5592e3ab00e1",
+        "item_6621_passive/initialize_dawncore_scaling": "dffc79159c4611943d26e8a7025b5e632bf349386f7d3b2e38ac579d4dbfd561",
+        "item_6631_active/actual_hit": "965b933ac7a3fdc6e58a41db5b1cb3940333c034ef511bb14570408ee7378163",
+        "item_6657_passive/initialize_timeless_growth": "4f07c2a966f4fdf70645bf13cd3530641a4ef8ed6ee0539229c590525ce5b172",
+        "item_6698_active/actual_hit": "467373e8c8c954746a4aea39feea039ac0f702a4ee665832c5bdd9308949a94a",
+        "ivern_q/actual_hit": "7f38b580ff7263602293284765ac1a5effd5862859ac928090c6b2dbad96baff",
+        "jax_q/actual_hit": "181569015462ac49b76fa7f26e8518bb03bc4929b8950aa0a79824cd23ea3e56",
+        "jax_r/actual_hit": "5f10231d6a9979e436f98234b930e35c95c349f856165027368df6e754752f42",
+        "kassadin_q/on_used": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+        "lucian_q/actual_hit": "36a57e2fe9c0f71613af404c186cdc7c3fbe76a2ae85609e2bdc8a2e659535fd",
+        "lucian_r/actual_hit": "812cb7522f89a738593b32fae96885968ce8ac582571a2e119fcdd7b3186913f",
+        "lucian_w/actual_hit": "3a9f5fe40e5eb715b80ebcc759c304d51b32f4b8e6975986e706bd3b1e3114b5",
+        "lux_q/resolve_on_q_hit": "530d8bac2c801ad455d467e666fd596286fab933391b57b4adec3f418bfff64b",
+        "lux_r/resolve_on_r_hit": "d2045e1aeb115c9be4de03a5bc81c796a1ec4c2fbd676141738f748c50e9ca4d",
+        "malphite_e/actual_hit": "e32fefa85cfa14b7a2f2665f063b8bcfc87cde583d4e8917181e261d3f364a5f",
+        "malphite_q/actual_hit": "71abd9a9fe7d7893bcef919a217aeef93e4bba1108a714fde95d335145169c78",
+        "malphite_r/actual_hit": "6998e54618d0199756fd6a678503f5c42e4291ea8be04f7136d05f0a1bf1d610",
+        "mordekaiser_e/actual_hit": "c48b78de1a6bc9434b836c0ab4e7448ee2af8222fb692e1ab9f10ee89bba96f6",
+        "mordekaiser_p/basic_attack_hit": "bd4ee27d26a9b0c59ca100cb11f391bdb3193515a888a56e0f704c22febec206",
+        "nasus_e/actual_initial_hit": "306059e2de15f842801e702de99bff7f002e402195149955f5168740ec242112",
+        "nasus_p/initialize_lifesteal": "96760c1fff06171ae8ef4634dfc94168641d3bf6f0ef9d1ac3678d628a9a9403",
+        "nocturne_q/actual_hit": "6a9b0749777bf33dae125efcd29097bccb6fa9262593bfd44d50981e70619226",
+        "nocturne_w/consume_and_empower_on_block": "dc5478533fd32b3970bac5b8ede6265dcc963903846442f66d7354194dd0e9a3",
+        "olaf_e/actual_hit": "6cdf83e34615b0f8bdbdf93c8637cde43d5787353c44b1587daa68133741f64a",
+        "olaf_q/actual_hit": "fdde4be21cdd7659d03385ffe6b200ab93e88de24ad99ad3533b6c26e4a6be89",
+        "olaf_w/on_used": "f2f241a90bcde755297f9908c0a886976bd9bf43b0397fbe81946dcd51a7c858",
+        "riven_e/on_used": "0a256d96fab268a426a64ad7d35ca6f7ce7d70a4ed25fdc43bd774e94022b084",
+        "rune_5005_passive/initialize_stat_bonus": "f265828b1686d557601fcb7a0179b0cc8bbd25fc0f126d69ce4f187bd1e8bd72",
+        "rune_5007_passive/initialize_stat_bonus": "13f9786ca28c6a78540e11feeefb546c642043083bd01a6233ea3156a5b737d2",
+        "rune_5011_passive/initialize_stat_bonus": "ccbe55ac676ef4b79d5db192d978b94fad03fed66e1a86598db82dab764cdcc2",
+        "rune_8210_passive/initialize_level_ability_haste": "488e3c10dc061ab9680f8438237d7635e4d7059f0ae928f22c6c43b5f0c31897",
+        "rune_8453_passive/initialize_base_heal_shield_power": "86f1ba33bb109095088b4f69bb0c8d2433d45a3ca12652e2f23bf1076d021ecc",
+        "rune_9104_passive/initialize_base_attack_speed": "82d5449888492c0228f54b134ce9018af8be2bd5878fabf8fe12d13eff790651",
+        "rune_9111_passive/on_champion_kill": "27678748b1a5cfbad4202af4e27385ece67efcc152497408ef710d731d518b34",
+        "sett_e/actual_hit": "e1821fa50cf62754d10bfe37f591cef1a8e9dadad4cab2e87c7e00af13b33468",
+        "sivir_e/successful_spell_block": "1348bdaffd0ef6da7af8e7e849dfd179a0c0a0638519431c9699195f75ca772f",
+        "sivir_q/actual_hit": "ac1dd4d1a28bc7c51f75d691602407c1e02b31fc0bc1a914b06a4a7a1d534e6f",
+        "sivir_r/active_attack_refund": "731f850ba05f7bec706f69a0bf9b95cbfc03b9d3e27b82af905ec7fe2fc7e9a0",
+        "tristana_r/actual_hit": "363d9365762c86ff15ce61a9d21fac6743281e0d8ed9e445ce118122b9f7a0ae",
+        "tristana_w/actual_hit": "8c4b495e469b31a774b6645504e37c66bf5fb68f938df36495521c8a681eafa4",
+        "tristana_w/own_kill_reset": "75f206ada49de216f9766dc08dd549c480ff5c36c56c91c75de1517362164ce4",
+        "vayne_e/actual_hit": "535db5e2427eb1cec2ef1558741f23b0404901f0ed63ac87aa614a0328ff4abc",
+        "veigar_q/actual_hit": "3d53d45f4981b283d132ebca545f6ede7b0e6b1525f0f21423662d2297bb8f4b",
+        "veigar_w/actual_hit": "8a37b1a74ca1679395968687ad20f8c34709561fba45f7169a7f92c6a366706f",
+        "vex_w/on_used": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51",
+        "vi_r/actual_hit": "454add0d8eaad56120cb6eef04ffbb9f38d3221b69909bf5b1d53ac642143f14",
+        "xinzhao_e/actual_charge_hit": "aa11a1ae73daec728e1a5764fa5cba76c708412e7daadaa9908f1c7c4eddcacf",
+        "xinzhao_r/actual_sweep_hit": "af8ece6fae3a577207bc45044043be76eb16e038f1caadcd00749963460addb0"
+      },
+      "getCount": 1171
+    },
+    "second": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24,
+      "eventTypeCounts": {
+        "BASIC_ATTACK_HIT": 10,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "DAMAGE_TAKEN": 3,
+        "KILL": 2,
+        "SKILL_HIT": 55,
+        "SKILL_USED": 5,
+        "SOURCE_INITIALIZED": 24,
+        "SPELL_SHIELD_BLOCKED": 5
+      },
+      "skillKeysSha256": "2c3c50058d4b13843abd7038bfc197bf7727148055fb168f4dbdfaa62e97d7dd",
+      "ruleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+      "ruleDetailHashes": {
+        "ahri_e/actual_hit": "64414af0df698f4dfded9227c758a8afed745cce381905bd86c3582c1158fb84",
+        "ahri_r/actual_hit": "05fd2e766070a843c5ba2500e4630bd0be4ba5bd6ceb33b4e62a76ddc023e818",
+        "annie_q/actual_hit": "1861f69c675ad51764985fdc88c9ea4f7a9c4ace5f1a31174aa0ac235f3e0243",
+        "annie_r/actual_hit": "268d8b58c2128d1a470228158471a9da6fc16bdba04ce79ffbf5083218b6129b",
+        "annie_w/actual_hit": "ed069491d929fc4f70a2fb4bfed6dba673a9ba339b5133073ec389dd55d8b780",
+        "ashe_r/actual_hit": "8d97c2cb36a5e634508b1e6740236386bc827ee88fd3255fff61b2c5f10efa12",
+        "brand_e/actual_hit": "267ec4dc8799ac531f9e1be49ea18e6e74d38fc41364d54c2e2f27d72ac35f02",
+        "brand_q/actual_hit": "bb9b0086fcdc0111cac495293a60855ded77476e544cbd2e80f74466c6b59447",
+        "brand_r/actual_hit": "0a3bd141e5045b0646796268a0a315275f6b63777a7167ffcc7c2852be62aed2",
+        "diana_e/actual_hit": "4b25cfb1ad00452f02d702942c2bdb6e052e81af4053fc858dbb84aa8d4e0adb",
+        "diana_q/actual_hit": "0decb2e05b200cdccb8ce0277a415674c255bc1de1258f66604ef1965501b68d",
+        "ez_e/resolve_on_e_hit": "bcac7d9054e37a4bbd6363efcd8e4e3946e5fbc8a28ff49637b6af1228e783d5",
+        "ez_p/stack_on_ez_e_hit": "4f5e024f82341ad2f3e72fd308cf9d47e8ab278f2bcfe9464ce87a1ee9e7342c",
+        "ez_p/stack_on_ez_q_hit": "12c90b634f35c89adee37942b422571eaccb771bae3f1e0794466f351143be24",
+        "ez_p/stack_on_ez_r_hit": "3f10e44f0eacec314a7b2fc47f87c77b1668a2a6142471c5cfa58c3b515df7e2",
+        "ez_p/stack_on_ez_w_hit": "68fcd49ead17a5717d0d58f562f7a7a3de5bc4007c079588e145026597158c33",
+        "ez_q/resolve_on_q_hit": "20021f33b162bf642419a6cefa0ae46505c63be897c0f082cac2483419161700",
+        "ez_r/resolve_on_r_champion_epic_hit": "80c8f0fd3aa828c02dc431955288997aaa44fca6c0df2d46888ca89ab94cf496",
+        "ez_r/resolve_on_r_minion_monster_hit": "ef594b18721475b3f54d9168988ff63f69f51ba74c55406ec330b2e5f3f1bbc2",
+        "ez_w/apply_mark_on_w_hit": "c9e55834e28b1a9b2f8195d9bccf95cf4121e3b10998c258dc8f41b623f2f877",
+        "ez_w/detonate_private_mark_on_basic_attack_hit": "2937fdd6e48eccacacb5a1da4eb1d625ab0fcb82937b4183d3d516571f5f450d",
+        "ez_w/detonate_private_mark_on_ez_e_hit": "4bc3d1f80888080094a057dc17175fcb6f5d774c4c98836973c327d40b54e83a",
+        "ez_w/detonate_private_mark_on_ez_q_hit": "0faaecfcc4bf1b0de71b2b03887a5b99ffda61fe9a25617fc78aa4f44f9d86b1",
+        "ez_w/detonate_private_mark_on_ez_r_hit": "02d72c89f67e78b0af1f8abdd53dc6e9e4ac3ae2a5cc6bc2dc7ef60ac3e79632",
+        "garen_r/on_hit": "17c9b7fb626da5b402877e8d10d5e6e5ec32a160856f27795ea3af24738143f7",
+        "garen_w/on_used": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165",
+        "item_1043_passive/resolve_on_basic_attack_hit": "739aa1d0484719a0276e17d89c81ddbfd130e2b0cff55dd17cc50e5d6287cd17",
+        "item_1083_passive/resolve_on_basic_attack_hit": "d82eed78ab099f71908a5425ff3e36c1d96fd3e3da8ac76bc7526dca20b0eb97",
+        "item_2422_passive/initialize_magical_footwear_additional_speed": "96bd3b0563f129a1d1b394e032aaf0c851cc6a3fde663ed115cb1079899eac52",
+        "item_2501_passive/initialize_ad_from_bonus_hp": "7693258fecb390f473361215ebc1927be3e893711b2420be1e8eacdea2666612",
+        "item_3003_passive/initialize_ap_from_bonus_mana": "497c16bbc6af406cb6c719588af0e4aa357e1a41724724b7fada2631fb5672d3",
+        "item_3004_passive/initialize_bonus_attack_damage_from_max_mana": "e61fbb759657cea27a93293bbd6d3e5dcdafd46b51fec1d9c62b993b2e773cfd",
+        "item_3040_passive/initialize_ap_from_bonus_mana": "ceae2ee002d13ac2d9dfda82f971409b86f9ac3bed595098b96b339d1ba699eb",
+        "item_3040_passive/on_damage_cross_below_lifeline_threshold": "159c4e021007f02f6b49573bfe86fc9d436d912db85991b058d8d18489fc8fab",
+        "item_3042_passive/initialize_bonus_attack_damage_from_max_mana": "41fa2539d20c831b29ceec47181b1c4838f5114dd7dd0ee1b3751f700c242fd0",
+        "item_3042_passive/on_basic_attack_hit_to_champion": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a",
+        "item_3047_passive/initialize_plating_basic_damage_reduction": "4556f610e346a44d0959239dc715c5fd6710590741f19a8ea3e026ea68141084",
+        "item_3050_passive/initialize_ultimate_haste": "b70a169ef5a5040e2b0414da29dab0fe43285ba50d7820b0828c1b8948a0b8bd",
+        "item_3071_passive/on_physical_damage_dealt_to_champion": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8",
+        "item_3074_active/actual_hit": "5b0328757741a7dd2e7d08a25aa8dc83af275344f7a4bcab0ed6b135b73a7436",
+        "item_3075_passive/reflect_on_basic_attack_taken": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10",
+        "item_3076_passive/reflect_on_basic_attack_taken": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10",
+        "item_3077_active/actual_hit": "bd8eeea2c21ad8b396cbca09814b6c7412f617e89902e7d001fbb1a1a19e6bbc",
+        "item_3078_passive/grant_move_speed_on_basic_attack_hit": "8bd6b15db12edcc701dcbfc36201f5293e15bb0450f3189a50da5fad46f3e206",
+        "item_3089_passive/initialize_total_ap_multiplier": "1f7b3d946e50385b6f9b5da0a4a1b2e7eb844753494ddbe9db4c4eb8a0227c72",
+        "item_3091_passive/resolve_on_basic_attack_hit": "0ef09cbfe205ea2c635019e93aa75856c5590a576781888f91490c03ec8e638a",
+        "item_3102_passive/consume_on_spell_block": "71602cbbfe44374a9d7413841da563fbc48fe0cef14e9e852e81dedd2aa50f7f",
+        "item_3115_passive/resolve_on_basic_attack_hit": "7e722a857804954ba9004e6f00d6de89aafde20c5d5ef6408167bd5ae2825975",
+        "item_3124_passive/resolve_rageblade_basic_attack": "0ac0f60a9d07b4f0f384d56f18d8cd53d89bae17383b875da63058707de24468",
+        "item_3143_passive/initialize_resilience_critical_damage_reduction": "6ab4f7e61a7f60b2d9275bfbb9365fe2321cff09bb2d7967fcc683c8d9e1e193",
+        "item_3152_active/actual_hit": "3feb10bb0ce859e1d1cb054e6c41c581cb06fa6a488866acd0a6aca89486dcc1",
+        "item_3161_passive/initialize_basic_skill_haste": "829a6f0bf4943a92bc6101ff5888b6ad873b958269dbb0b165f938cf7072cb04",
+        "item_3742_passive/initialize_unsinkable_slow_resist": "8176c65ec4c410468c8b810197c22031a44d383ca80473502f002e52eadf8be7",
+        "item_3803_passive/on_damage_taken_from_champion_restore_mana": "b520cfc3905c3ad2a7e86dff8c1ee246ba4f57f39c2e30b97808f012d17407ae",
+        "item_3814_passive/consume_on_successful_block": "1ada2bc71556caef8abd2ed43ce8a9f37292767b745c5d28d250a735cf16ad65",
+        "item_3814_passive/initialize_spell_shield": "5c684393bbc087848f949aa350b8ea5f35a17fe3e5088c646edb24845ab473e2",
+        "item_4629_passive/on_magic_damage_dealt_to_champion": "3ec774b771d07e4355360c6bc2594b4831f0ff3a0bc92fa04a1b66ec608a9023",
+        "item_4629_passive/on_real_damage_dealt_to_champion": "4f3b28b96bc46f9873f844f218c2d959a288ff8ebb2247753dccec0c84c2e063",
+        "item_4632_passive/consume_on_spell_block": "e77bb760f2663a99cb4eaff2529f95225de7145cbfc1d998b5f317a932cd81bf",
+        "item_4632_passive/initialize_spell_shield": "352f0958635305635cdce598990dc695d27aa77159111b7142a718eaecdf56c1",
+        "item_4633_passive/initialize_ap_from_bonus_hp": "2b1ca35b719ac93ee4c728e32228b5c2f9e49bee967871cd77bc5592e3ab00e1",
+        "item_6621_passive/initialize_dawncore_scaling": "dffc79159c4611943d26e8a7025b5e632bf349386f7d3b2e38ac579d4dbfd561",
+        "item_6631_active/actual_hit": "965b933ac7a3fdc6e58a41db5b1cb3940333c034ef511bb14570408ee7378163",
+        "item_6657_passive/initialize_timeless_growth": "4f07c2a966f4fdf70645bf13cd3530641a4ef8ed6ee0539229c590525ce5b172",
+        "item_6698_active/actual_hit": "467373e8c8c954746a4aea39feea039ac0f702a4ee665832c5bdd9308949a94a",
+        "ivern_q/actual_hit": "7f38b580ff7263602293284765ac1a5effd5862859ac928090c6b2dbad96baff",
+        "jax_q/actual_hit": "181569015462ac49b76fa7f26e8518bb03bc4929b8950aa0a79824cd23ea3e56",
+        "jax_r/actual_hit": "5f10231d6a9979e436f98234b930e35c95c349f856165027368df6e754752f42",
+        "kassadin_q/on_used": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+        "lucian_q/actual_hit": "36a57e2fe9c0f71613af404c186cdc7c3fbe76a2ae85609e2bdc8a2e659535fd",
+        "lucian_r/actual_hit": "812cb7522f89a738593b32fae96885968ce8ac582571a2e119fcdd7b3186913f",
+        "lucian_w/actual_hit": "3a9f5fe40e5eb715b80ebcc759c304d51b32f4b8e6975986e706bd3b1e3114b5",
+        "lux_q/resolve_on_q_hit": "530d8bac2c801ad455d467e666fd596286fab933391b57b4adec3f418bfff64b",
+        "lux_r/resolve_on_r_hit": "d2045e1aeb115c9be4de03a5bc81c796a1ec4c2fbd676141738f748c50e9ca4d",
+        "malphite_e/actual_hit": "e32fefa85cfa14b7a2f2665f063b8bcfc87cde583d4e8917181e261d3f364a5f",
+        "malphite_q/actual_hit": "71abd9a9fe7d7893bcef919a217aeef93e4bba1108a714fde95d335145169c78",
+        "malphite_r/actual_hit": "6998e54618d0199756fd6a678503f5c42e4291ea8be04f7136d05f0a1bf1d610",
+        "mordekaiser_e/actual_hit": "c48b78de1a6bc9434b836c0ab4e7448ee2af8222fb692e1ab9f10ee89bba96f6",
+        "mordekaiser_p/basic_attack_hit": "bd4ee27d26a9b0c59ca100cb11f391bdb3193515a888a56e0f704c22febec206",
+        "nasus_e/actual_initial_hit": "306059e2de15f842801e702de99bff7f002e402195149955f5168740ec242112",
+        "nasus_p/initialize_lifesteal": "96760c1fff06171ae8ef4634dfc94168641d3bf6f0ef9d1ac3678d628a9a9403",
+        "nocturne_q/actual_hit": "6a9b0749777bf33dae125efcd29097bccb6fa9262593bfd44d50981e70619226",
+        "nocturne_w/consume_and_empower_on_block": "dc5478533fd32b3970bac5b8ede6265dcc963903846442f66d7354194dd0e9a3",
+        "olaf_e/actual_hit": "6cdf83e34615b0f8bdbdf93c8637cde43d5787353c44b1587daa68133741f64a",
+        "olaf_q/actual_hit": "fdde4be21cdd7659d03385ffe6b200ab93e88de24ad99ad3533b6c26e4a6be89",
+        "olaf_w/on_used": "f2f241a90bcde755297f9908c0a886976bd9bf43b0397fbe81946dcd51a7c858",
+        "riven_e/on_used": "0a256d96fab268a426a64ad7d35ca6f7ce7d70a4ed25fdc43bd774e94022b084",
+        "rune_5005_passive/initialize_stat_bonus": "f265828b1686d557601fcb7a0179b0cc8bbd25fc0f126d69ce4f187bd1e8bd72",
+        "rune_5007_passive/initialize_stat_bonus": "13f9786ca28c6a78540e11feeefb546c642043083bd01a6233ea3156a5b737d2",
+        "rune_5011_passive/initialize_stat_bonus": "ccbe55ac676ef4b79d5db192d978b94fad03fed66e1a86598db82dab764cdcc2",
+        "rune_8210_passive/initialize_level_ability_haste": "488e3c10dc061ab9680f8438237d7635e4d7059f0ae928f22c6c43b5f0c31897",
+        "rune_8453_passive/initialize_base_heal_shield_power": "86f1ba33bb109095088b4f69bb0c8d2433d45a3ca12652e2f23bf1076d021ecc",
+        "rune_9104_passive/initialize_base_attack_speed": "82d5449888492c0228f54b134ce9018af8be2bd5878fabf8fe12d13eff790651",
+        "rune_9111_passive/on_champion_kill": "27678748b1a5cfbad4202af4e27385ece67efcc152497408ef710d731d518b34",
+        "sett_e/actual_hit": "e1821fa50cf62754d10bfe37f591cef1a8e9dadad4cab2e87c7e00af13b33468",
+        "sivir_e/successful_spell_block": "1348bdaffd0ef6da7af8e7e849dfd179a0c0a0638519431c9699195f75ca772f",
+        "sivir_q/actual_hit": "ac1dd4d1a28bc7c51f75d691602407c1e02b31fc0bc1a914b06a4a7a1d534e6f",
+        "sivir_r/active_attack_refund": "731f850ba05f7bec706f69a0bf9b95cbfc03b9d3e27b82af905ec7fe2fc7e9a0",
+        "tristana_r/actual_hit": "363d9365762c86ff15ce61a9d21fac6743281e0d8ed9e445ce118122b9f7a0ae",
+        "tristana_w/actual_hit": "8c4b495e469b31a774b6645504e37c66bf5fb68f938df36495521c8a681eafa4",
+        "tristana_w/own_kill_reset": "75f206ada49de216f9766dc08dd549c480ff5c36c56c91c75de1517362164ce4",
+        "vayne_e/actual_hit": "535db5e2427eb1cec2ef1558741f23b0404901f0ed63ac87aa614a0328ff4abc",
+        "veigar_q/actual_hit": "3d53d45f4981b283d132ebca545f6ede7b0e6b1525f0f21423662d2297bb8f4b",
+        "veigar_w/actual_hit": "8a37b1a74ca1679395968687ad20f8c34709561fba45f7169a7f92c6a366706f",
+        "vex_w/on_used": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51",
+        "vi_r/actual_hit": "454add0d8eaad56120cb6eef04ffbb9f38d3221b69909bf5b1d53ac642143f14",
+        "xinzhao_e/actual_charge_hit": "aa11a1ae73daec728e1a5764fa5cba76c708412e7daadaa9908f1c7c4eddcacf",
+        "xinzhao_r/actual_sweep_hit": "af8ece6fae3a577207bc45044043be76eb16e038f1caadcd00749963460addb0"
+      },
+      "getCount": 1171
+    },
+    "stable": true,
+    "sharedGetCount": 2342
+  },
+  "preservation": {
+    "targetSnapshotSha256": "69c883d00cfbc1e3f7a23accbb0f0a6460dc2c4647e63eb58354ff5016c2608a",
+    "oldRuleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+    "oldRuleDetailHashesSha256": "33459a9be46d04e8ad9cc3c4c1d7f8b6bbfcd3a5e909cd39e2b82245602faa29",
+    "oldRuleDetailHashesEqualSecondPass": true
+  },
+  "getSummary": {
+    "totalGetCount": 2457,
+    "targetGetCount": 33,
+    "sharedGlobalGetCount": 2342,
+    "statusCounts": {
+      "200": 2453,
+      "404": 4
+    },
+    "methodCounts": {
+      "GET": 2457
+    }
+  },
+  "businessWrites": 0
+}

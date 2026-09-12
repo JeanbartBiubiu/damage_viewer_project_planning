@@ -1,0 +1,1635 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T17:24:25.180Z",
+  "baseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requestPolicy": {
+    "methodsSent": [
+      "GET"
+    ],
+    "businessMethodsSent": [],
+    "authorizationValueRecorded": false,
+    "businessWritesIssued": 0
+  },
+  "sourceSnapshotSha256": "da1cd0d015645aab310aca4b63a9b4a591942150cb337a879f58e3d12755cc81",
+  "frozenRequestSha256": "6edfd6affbe2831536f6c54fdaaa01ed3d72432ce44109e4d5ca9a6d140b9d01",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24
+  },
+  "targetSnapshot": {
+    "cfg": {
+      "ownerName": "皎月女神",
+      "characterKey": "champion_diana",
+      "skillKey": "diana_w"
+    },
+    "staticResponses": {
+      "/characters/champion_diana": {
+        "method": "GET",
+        "route": "/characters/champion_diana",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_diana",
+          "createdAt": "2026-09-06T16:22:07.446309Z",
+          "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+          "gameId": "lol",
+          "name": "黛安娜",
+          "updatedAt": "2026-09-06T16:22:07.446309Z"
+        }
+      },
+      "/characters/champion_diana/attributes": {
+        "method": "GET",
+        "route": "/characters/champion_diana/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_diana",
+          "levelValues": {
+            "1": {
+              "move_speed": 345,
+              "hp": 640,
+              "hp_regen": 6.5,
+              "mana": 375,
+              "mana_regen": 8,
+              "armor": 31,
+              "magic_resistance": 32,
+              "attack_damage": 57,
+              "attack_speed": 0.625,
+              "attack_range": 150
+            },
+            "2": {
+              "move_speed": 345,
+              "hp": 718.48,
+              "hp_regen": 7.112,
+              "mana": 393,
+              "mana_regen": 8.576,
+              "armor": 34.096,
+              "magic_resistance": 33.476,
+              "attack_damage": 59.16,
+              "attack_speed": 0.634994,
+              "attack_range": 150
+            },
+            "3": {
+              "move_speed": 345,
+              "hp": 800.775,
+              "hp_regen": 7.75375,
+              "mana": 411.875,
+              "mana_regen": 9.18,
+              "armor": 37.3425,
+              "magic_resistance": 35.02375,
+              "attack_damage": 61.425,
+              "attack_speed": 0.645473,
+              "attack_range": 150
+            },
+            "4": {
+              "move_speed": 345,
+              "hp": 886.885,
+              "hp_regen": 8.42525,
+              "mana": 431.625,
+              "mana_regen": 9.812,
+              "armor": 40.7395,
+              "magic_resistance": 36.64325,
+              "attack_damage": 63.795,
+              "attack_speed": 0.656438,
+              "attack_range": 150
+            },
+            "5": {
+              "move_speed": 345,
+              "hp": 976.81,
+              "hp_regen": 9.1265,
+              "mana": 452.25,
+              "mana_regen": 10.472,
+              "armor": 44.287,
+              "magic_resistance": 38.3345,
+              "attack_damage": 66.27,
+              "attack_speed": 0.667889,
+              "attack_range": 150
+            },
+            "6": {
+              "move_speed": 345,
+              "hp": 1070.55,
+              "hp_regen": 9.8575,
+              "mana": 473.75,
+              "mana_regen": 11.16,
+              "armor": 47.985,
+              "magic_resistance": 40.0975,
+              "attack_damage": 68.85,
+              "attack_speed": 0.679826,
+              "attack_range": 150
+            },
+            "7": {
+              "move_speed": 345,
+              "hp": 1168.105,
+              "hp_regen": 10.61825,
+              "mana": 496.125,
+              "mana_regen": 11.876,
+              "armor": 51.8335,
+              "magic_resistance": 41.93225,
+              "attack_damage": 71.535,
+              "attack_speed": 0.692249,
+              "attack_range": 150
+            },
+            "8": {
+              "move_speed": 345,
+              "hp": 1269.475,
+              "hp_regen": 11.40875,
+              "mana": 519.375,
+              "mana_regen": 12.62,
+              "armor": 55.8325,
+              "magic_resistance": 43.83875,
+              "attack_damage": 74.325,
+              "attack_speed": 0.705157,
+              "attack_range": 150
+            },
+            "9": {
+              "move_speed": 345,
+              "hp": 1374.66,
+              "hp_regen": 12.229,
+              "mana": 543.5,
+              "mana_regen": 13.392,
+              "armor": 59.982,
+              "magic_resistance": 45.817,
+              "attack_damage": 77.22,
+              "attack_speed": 0.718551,
+              "attack_range": 150
+            },
+            "10": {
+              "move_speed": 345,
+              "hp": 1483.66,
+              "hp_regen": 13.079,
+              "mana": 568.5,
+              "mana_regen": 14.192,
+              "armor": 64.282,
+              "magic_resistance": 47.867,
+              "attack_damage": 80.22,
+              "attack_speed": 0.732431,
+              "attack_range": 150
+            },
+            "11": {
+              "move_speed": 345,
+              "hp": 1596.475,
+              "hp_regen": 13.95875,
+              "mana": 594.375,
+              "mana_regen": 15.02,
+              "armor": 68.7325,
+              "magic_resistance": 49.98875,
+              "attack_damage": 83.325,
+              "attack_speed": 0.746797,
+              "attack_range": 150
+            },
+            "12": {
+              "move_speed": 345,
+              "hp": 1713.105,
+              "hp_regen": 14.86825,
+              "mana": 621.125,
+              "mana_regen": 15.876,
+              "armor": 73.3335,
+              "magic_resistance": 52.18225,
+              "attack_damage": 86.535,
+              "attack_speed": 0.761649,
+              "attack_range": 150
+            },
+            "13": {
+              "move_speed": 345,
+              "hp": 1833.55,
+              "hp_regen": 15.8075,
+              "mana": 648.75,
+              "mana_regen": 16.76,
+              "armor": 78.085,
+              "magic_resistance": 54.4475,
+              "attack_damage": 89.85,
+              "attack_speed": 0.776986,
+              "attack_range": 150
+            },
+            "14": {
+              "move_speed": 345,
+              "hp": 1957.81,
+              "hp_regen": 16.7765,
+              "mana": 677.25,
+              "mana_regen": 17.672,
+              "armor": 82.987,
+              "magic_resistance": 56.7845,
+              "attack_damage": 93.27,
+              "attack_speed": 0.792809,
+              "attack_range": 150
+            },
+            "15": {
+              "move_speed": 345,
+              "hp": 2085.885,
+              "hp_regen": 17.77525,
+              "mana": 706.625,
+              "mana_regen": 18.612,
+              "armor": 88.0395,
+              "magic_resistance": 59.19325,
+              "attack_damage": 96.795,
+              "attack_speed": 0.809118,
+              "attack_range": 150
+            },
+            "16": {
+              "move_speed": 345,
+              "hp": 2217.775,
+              "hp_regen": 18.80375,
+              "mana": 736.875,
+              "mana_regen": 19.58,
+              "armor": 93.2425,
+              "magic_resistance": 61.67375,
+              "attack_damage": 100.425,
+              "attack_speed": 0.825913,
+              "attack_range": 150
+            },
+            "17": {
+              "move_speed": 345,
+              "hp": 2353.48,
+              "hp_regen": 19.862,
+              "mana": 768,
+              "mana_regen": 20.576,
+              "armor": 98.596,
+              "magic_resistance": 64.226,
+              "attack_damage": 104.16,
+              "attack_speed": 0.843194,
+              "attack_range": 150
+            },
+            "18": {
+              "move_speed": 345,
+              "hp": 2493,
+              "hp_regen": 20.95,
+              "mana": 800,
+              "mana_regen": 21.6,
+              "armor": 104.1,
+              "magic_resistance": 66.85,
+              "attack_damage": 108,
+              "attack_speed": 0.86096,
+              "attack_range": 150
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "/characters/champion_diana/representative-image": {
+        "method": "GET",
+        "route": "/characters/champion_diana/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_diana",
+            "name": "champion_diana"
+          }
+        }
+      },
+      "/character-skill-relations?characterKey=champion_diana": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_diana",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_diana",
+              "characterName": "黛安娜",
+              "gameId": "lol",
+              "skillKey": "diana_p",
+              "skillName": "黛安娜·月银之刃",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_diana",
+              "characterName": "黛安娜",
+              "gameId": "lol",
+              "skillKey": "diana_q",
+              "skillName": "黛安娜·新月打击",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_diana",
+              "characterName": "黛安娜",
+              "gameId": "lol",
+              "skillKey": "diana_w",
+              "skillName": "黛安娜·苍白之瀑",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_diana",
+              "characterName": "黛安娜",
+              "gameId": "lol",
+              "skillKey": "diana_e",
+              "skillName": "黛安娜·月神冲刺",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_diana",
+              "characterName": "黛安娜",
+              "gameId": "lol",
+              "skillKey": "diana_r",
+              "skillName": "黛安娜·月之降临",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "/character-skill-relations?skillKey=diana_w": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=diana_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_diana",
+              "characterName": "黛安娜",
+              "gameId": "lol",
+              "skillKey": "diana_w",
+              "skillName": "黛安娜·苍白之瀑",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "/skills/diana_w": {
+        "method": "GET",
+        "route": "/skills/diana_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:08.998051Z",
+          "description": "黛安娜召出三颗护体法球，在命中敌人后爆炸，对一个区域内的敌人造成范围伤害。她也会获得一层吸收伤害的护盾。护盾的生命值会在她的第三颗法球爆炸后得到提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "黛安娜·苍白之瀑",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "diana_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:08.998051Z"
+        }
+      },
+      "/skills/diana_w/representative-image": {
+        "method": "GET",
+        "route": "/skills/diana_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_diana_w",
+            "name": "diana_w"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/diana_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-07T18:53:38.89167Z",
+              "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "diana_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-07T18:53:38.89167Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:39.46104Z",
+              "description": "客户端当前根绑定 DataValues.OrbDamage 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 20,
+                "2": 32,
+                "3": 44,
+                "4": 56,
+                "5": 68
+              },
+              "name": "基础伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "diana_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-07T18:53:39.46104Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:40.079946Z",
+              "description": "客户端当前根绑定 DataValues.OrbAPRatio 取索引1至5。",
+              "fixedValue": 0.18,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法强倍率",
+              "parameterKey": "ap_ratio",
+              "skillKey": "diana_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-07T18:53:40.079946Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:40.655985Z",
+              "description": "客户端当前根绑定 DataValues.ShieldBase 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 45,
+                "2": 60,
+                "3": 75,
+                "4": 90,
+                "5": 105
+              },
+              "name": "基础自护盾",
+              "parameterKey": "base_shield",
+              "skillKey": "diana_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-07T18:53:40.655985Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:41.279301Z",
+              "description": "客户端当前根绑定 DataValues.ShieldAPRatio 取索引1至5。",
+              "fixedValue": 0.3,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "自护盾法强倍率",
+              "parameterKey": "shield_ap_ratio",
+              "skillKey": "diana_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-07T18:53:41.279301Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:41.83141Z",
+              "description": "客户端当前根绑定 DataValues.ShieldBHPRatio 取索引1至5。",
+              "fixedValue": 0.11,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "自护盾额外生命倍率",
+              "parameterKey": "shield_bonus_hp_ratio",
+              "skillKey": "diana_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-07T18:53:41.83141Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:42.405587Z",
+              "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+              "fixedValue": 5000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "护盾和法球持续（毫秒）",
+              "parameterKey": "shield_duration_ms",
+              "skillKey": "diana_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-07T18:53:42.405587Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:18.961924Z",
+              "description": "DDragon16.17.1 Diana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 15000,
+                "2": 13500,
+                "3": 12000,
+                "4": 10500,
+                "5": 9000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "diana_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T16:00:18.961924Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:42.89986Z",
+              "description": "官方及当前TotalMaxDamage乘3一致。",
+              "fixedValue": 3,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "护体法球数",
+              "parameterKey": "orb_count",
+              "skillKey": "diana_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:53:42.89986Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:19.209125Z",
+              "description": "DDragon16.17.1 Diana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 40,
+                "2": 45,
+                "3": 50,
+                "4": 55,
+                "5": 60
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "diana_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:19.209125Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "cast_time_ms",
+          "base_damage",
+          "ap_ratio",
+          "base_shield",
+          "shield_ap_ratio",
+          "shield_bonus_hp_ratio",
+          "shield_duration_ms",
+          "cooldown_ms",
+          "orb_count",
+          "mana_cost"
+        ],
+        "details": [
+          {
+            "key": "cast_time_ms",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/cast_time_ms",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:38.89167Z",
+                "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+                "fixedValue": 250,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "施法时间（毫秒）",
+                "parameterKey": "cast_time_ms",
+                "skillKey": "diana_w",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-07T18:53:38.89167Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "base_damage",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/base_damage",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:39.46104Z",
+                "description": "客户端当前根绑定 DataValues.OrbDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 20,
+                  "2": 32,
+                  "3": 44,
+                  "4": 56,
+                  "5": 68
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "diana_w",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T18:53:39.46104Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "ap_ratio",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/ap_ratio",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:40.079946Z",
+                "description": "客户端当前根绑定 DataValues.OrbAPRatio 取索引1至5。",
+                "fixedValue": 0.18,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法强倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "diana_w",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T18:53:40.079946Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          {
+            "key": "base_shield",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/base_shield",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:40.655985Z",
+                "description": "客户端当前根绑定 DataValues.ShieldBase 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 45,
+                  "2": 60,
+                  "3": 75,
+                  "4": 90,
+                  "5": 105
+                },
+                "name": "基础自护盾",
+                "parameterKey": "base_shield",
+                "skillKey": "diana_w",
+                "sortOrder": 60,
+                "updatedAt": "2026-09-07T18:53:40.655985Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "shield_ap_ratio",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/shield_ap_ratio",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:41.279301Z",
+                "description": "客户端当前根绑定 DataValues.ShieldAPRatio 取索引1至5。",
+                "fixedValue": 0.3,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "自护盾法强倍率",
+                "parameterKey": "shield_ap_ratio",
+                "skillKey": "diana_w",
+                "sortOrder": 70,
+                "updatedAt": "2026-09-07T18:53:41.279301Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          {
+            "key": "shield_bonus_hp_ratio",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/shield_bonus_hp_ratio",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:41.83141Z",
+                "description": "客户端当前根绑定 DataValues.ShieldBHPRatio 取索引1至5。",
+                "fixedValue": 0.11,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "自护盾额外生命倍率",
+                "parameterKey": "shield_bonus_hp_ratio",
+                "skillKey": "diana_w",
+                "sortOrder": 80,
+                "updatedAt": "2026-09-07T18:53:41.83141Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          {
+            "key": "shield_duration_ms",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/shield_duration_ms",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:42.405587Z",
+                "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+                "fixedValue": 5000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "护盾和法球持续（毫秒）",
+                "parameterKey": "shield_duration_ms",
+                "skillKey": "diana_w",
+                "sortOrder": 90,
+                "updatedAt": "2026-09-07T18:53:42.405587Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "cooldown_ms",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/cooldown_ms",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T16:00:18.961924Z",
+                "description": "DDragon16.17.1 Diana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 15000,
+                  "2": 13500,
+                  "3": 12000,
+                  "4": 10500,
+                  "5": 9000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "diana_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T16:00:18.961924Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "orb_count",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/orb_count",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:42.89986Z",
+                "description": "官方及当前TotalMaxDamage乘3一致。",
+                "fixedValue": 3,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "护体法球数",
+                "parameterKey": "orb_count",
+                "skillKey": "diana_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:53:42.89986Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          {
+            "key": "mana_cost",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/parameters/mana_cost",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T16:00:19.209125Z",
+                "description": "DDragon16.17.1 Diana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 40,
+                  "2": 45,
+                  "3": 50,
+                  "4": 55,
+                  "5": 60
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "diana_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T16:00:19.209125Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/diana_w/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-07T18:53:43.476166Z",
+              "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+              "formulaKey": "damage",
+              "gameId": "lol",
+              "name": "苍白之瀑基础伤害",
+              "skillKey": "diana_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T18:53:43.476166Z"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:44.040877Z",
+              "description": "ShieldValue明确额外生命0.11，非总生命；基础45/60/75/90/105+0.3AP+0.11额外HP。",
+              "formulaKey": "shield",
+              "gameId": "lol",
+              "name": "一次苍白之瀑护盾量",
+              "skillKey": "diana_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T18:53:44.040877Z"
+            }
+          ]
+        },
+        "keys": [
+          "damage",
+          "shield"
+        ],
+        "details": [
+          {
+            "key": "damage",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/formulas/damage",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:43.476166Z",
+                "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "苍白之瀑基础伤害",
+                "skillKey": "diana_w",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T18:53:43.476166Z"
+              }
+            }
+          },
+          {
+            "key": "shield",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/formulas/shield",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:44.040877Z",
+                "description": "ShieldValue明确额外生命0.11，非总生命；基础45/60/75/90/105+0.3AP+0.11额外HP。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_shield"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "shield_ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_bonus_hp_ratio"
+                        },
+                        {
+                          "attributeKey": "hp",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BONUS",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "shield",
+                "gameId": "lol",
+                "name": "一次苍白之瀑护盾量",
+                "skillKey": "diana_w",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-07T18:53:44.040877Z"
+              }
+            }
+          }
+        ]
+      },
+      "effects": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/diana_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-07T18:53:44.580504Z",
+              "description": "仅施放法力消耗；具体过程单独绑定。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "施放法力消耗",
+              "resultCount": 1,
+              "skillKey": "diana_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T18:53:44.580504Z"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:45.154618Z",
+              "description": "自身普通护盾；仅本效果来源实例刷新，不代替额外护盾的叠加语义。",
+              "effectKey": "pale_cascade_shield",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "施放苍白之瀑自护盾",
+              "resultCount": 1,
+              "skillKey": "diana_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T18:53:45.154618Z"
+            },
+            {
+              "createdAt": "2026-09-07T18:53:45.771965Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "orb_collision",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "一颗护体法球接触爆炸",
+              "resultCount": 1,
+              "skillKey": "diana_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-07T18:53:45.771965Z"
+            }
+          ]
+        },
+        "keys": [
+          "mana_cost",
+          "pale_cascade_shield",
+          "orb_collision"
+        ],
+        "details": [
+          {
+            "key": "mana_cost",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/effects/mana_cost",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:44.580504Z",
+                "description": "仅施放法力消耗；具体过程单独绑定。",
+                "effectKey": "mana_cost",
+                "gameId": "lol",
+                "lifecycle": null,
+                "name": "施放法力消耗",
+                "results": [
+                  {
+                    "description": null,
+                    "detail": {
+                      "attributeKey": "mana",
+                      "operation": "CONSUME"
+                    },
+                    "lifecycleBehavior": null,
+                    "name": "消耗法力",
+                    "resultKey": "consume_mana",
+                    "resultType": "RESOURCE_CHANGE",
+                    "sortOrder": 10,
+                    "spellShieldBlockScope": null,
+                    "target": "SOURCE",
+                    "valueRule": {
+                      "fixedMaxValue": null,
+                      "fixedMinValue": 0,
+                      "fixedMultiplier": 1,
+                      "value": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "mana_cost"
+                      }
+                    }
+                  }
+                ],
+                "skillKey": "diana_w",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T18:53:44.580504Z"
+              }
+            }
+          },
+          {
+            "key": "pale_cascade_shield",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/effects/pale_cascade_shield",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:45.154618Z",
+                "description": "自身普通护盾；仅本效果来源实例刷新，不代替额外护盾的叠加语义。",
+                "effectKey": "pale_cascade_shield",
+                "gameId": "lol",
+                "lifecycle": {
+                  "applicationStacksValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "durationValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "shield_duration_ms"
+                  },
+                  "expiryMode": "ALL_AT_ONCE",
+                  "firstPeriodicExecution": null,
+                  "instanceScope": "SOURCE",
+                  "maxStacksValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "periodicIntervalValue": null,
+                  "reapplicationDurationMode": "REFRESH_ALL",
+                  "reapplicationStackMode": "KEEP"
+                },
+                "name": "施放苍白之瀑自护盾",
+                "results": [
+                  {
+                    "description": null,
+                    "detail": {
+                      "absorbedDamageTypeKey": null,
+                      "decayMode": "NONE"
+                    },
+                    "lifecycleBehavior": {
+                      "moment": "PERSISTENT",
+                      "periodicExecutionMode": null,
+                      "reapplicationValueMode": "REPLACE",
+                      "stackValueMode": "SHARED",
+                      "valueReadMode": "APPLICATION_SNAPSHOT"
+                    },
+                    "name": "自身护盾",
+                    "resultKey": "shield",
+                    "resultType": "NORMAL_SHIELD",
+                    "sortOrder": 10,
+                    "spellShieldBlockScope": null,
+                    "target": "SOURCE",
+                    "valueRule": {
+                      "fixedMaxValue": null,
+                      "fixedMinValue": 0,
+                      "fixedMultiplier": 1,
+                      "value": {
+                        "formulaKey": "shield",
+                        "kind": "FORMULA"
+                      }
+                    }
+                  }
+                ],
+                "skillKey": "diana_w",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-07T18:53:45.154618Z"
+              }
+            }
+          },
+          {
+            "key": "orb_collision",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/effects/orb_collision",
+              "status": 200,
+              "data": {
+                "createdAt": "2026-09-07T18:53:45.771965Z",
+                "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+                "effectKey": "orb_collision",
+                "gameId": "lol",
+                "lifecycle": null,
+                "name": "一颗护体法球接触爆炸",
+                "results": [
+                  {
+                    "description": null,
+                    "detail": {
+                      "critical": {
+                        "mode": "DISALLOWED",
+                        "multiplierValue": null
+                      },
+                      "damageTypeKey": "magic",
+                      "deliveryKind": "SKILL",
+                      "originKind": "DIRECT",
+                      "vampRules": []
+                    },
+                    "lifecycleBehavior": null,
+                    "name": "一颗护体法球接触爆炸",
+                    "resultKey": "damage",
+                    "resultType": "DAMAGE",
+                    "sortOrder": 10,
+                    "spellShieldBlockScope": "RESULT",
+                    "target": "TARGET",
+                    "valueRule": {
+                      "fixedMaxValue": null,
+                      "fixedMinValue": 0,
+                      "fixedMultiplier": 1,
+                      "value": {
+                        "formulaKey": "damage",
+                        "kind": "FORMULA"
+                      }
+                    }
+                  }
+                ],
+                "skillKey": "diana_w",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-07T18:53:45.771965Z"
+              }
+            }
+          }
+        ]
+      },
+      "processes": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/diana_w/processes",
+          "status": 200,
+          "data": [
+            {
+              "activationType": "ACTIVE",
+              "createdAt": "2026-09-07T18:53:46.2849Z",
+              "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+              "effectBindingCount": 2,
+              "gameId": "lol",
+              "name": "施放苍白之瀑",
+              "processKey": "cast",
+              "skillKey": "diana_w",
+              "sortOrder": 10,
+              "stateOperationCount": 0,
+              "stepCount": 1,
+              "updatedAt": "2026-09-07T18:53:46.2849Z"
+            }
+          ]
+        },
+        "keys": [
+          "cast"
+        ],
+        "details": [
+          {
+            "key": "cast",
+            "response": {
+              "method": "GET",
+              "route": "/skills/diana_w/processes/cast",
+              "status": 200,
+              "data": {
+                "activationType": "ACTIVE",
+                "cooldown": {
+                  "durationValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cooldown_ms"
+                  },
+                  "startMoment": {
+                    "momentType": "PROCESS_START",
+                    "stepKey": null
+                  }
+                },
+                "createdAt": "2026-09-07T18:53:46.2849Z",
+                "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+                "effectBindings": [
+                  {
+                    "bindingKey": "mana_cost",
+                    "effectKey": "mana_cost",
+                    "moment": {
+                      "momentType": "PROCESS_START",
+                      "stepKey": null
+                    },
+                    "sortOrder": 10
+                  },
+                  {
+                    "bindingKey": "pale_cascade_shield",
+                    "effectKey": "pale_cascade_shield",
+                    "moment": {
+                      "momentType": "STEP_COMPLETE",
+                      "stepKey": "cast_time"
+                    },
+                    "sortOrder": 20
+                  }
+                ],
+                "gameId": "lol",
+                "name": "施放苍白之瀑",
+                "processKey": "cast",
+                "skillKey": "diana_w",
+                "sortOrder": 10,
+                "stateOperations": [],
+                "steps": [
+                  {
+                    "description": null,
+                    "detail": {
+                      "delayValue": {
+                        "kind": "PARAMETER",
+                        "parameterKey": "cast_time_ms"
+                      }
+                    },
+                    "name": "施法延迟",
+                    "sortOrder": 10,
+                    "stepKey": "cast_time",
+                    "stepType": "DELAY"
+                  }
+                ],
+                "updatedAt": "2026-09-07T18:53:46.2849Z"
+              }
+            }
+          }
+        ]
+      },
+      "internal-states": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/diana_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/diana_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    },
+    "candidateDetail": {
+      "method": "GET",
+      "route": "/skills/diana_w/trigger-rules/on_used",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "on_used"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    "checks": {
+      "characterSubject": true,
+      "skillSubject": true,
+      "relationForwardExact": true,
+      "relationReverseExact": true,
+      "characterImagePresent": true,
+      "skillImagePresent": true,
+      "candidateDetail404": true,
+      "triggerListEmpty": true
+    },
+    "getCount": 30,
+    "componentKeys": {
+      "parameters": [
+        "cast_time_ms",
+        "base_damage",
+        "ap_ratio",
+        "base_shield",
+        "shield_ap_ratio",
+        "shield_bonus_hp_ratio",
+        "shield_duration_ms",
+        "cooldown_ms",
+        "orb_count",
+        "mana_cost"
+      ],
+      "formulas": [
+        "damage",
+        "shield"
+      ],
+      "effects": [
+        "mana_cost",
+        "pale_cascade_shield",
+        "orb_collision"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "internal-states": [],
+      "trigger-rules": []
+    }
+  },
+  "baseline": {
+    "expected": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24
+    },
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24,
+    "first": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24,
+      "eventTypeCounts": {
+        "BASIC_ATTACK_HIT": 10,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "DAMAGE_TAKEN": 3,
+        "KILL": 2,
+        "SKILL_HIT": 55,
+        "SKILL_USED": 5,
+        "SOURCE_INITIALIZED": 24,
+        "SPELL_SHIELD_BLOCKED": 5
+      },
+      "skillKeysSha256": "2c3c50058d4b13843abd7038bfc197bf7727148055fb168f4dbdfaa62e97d7dd",
+      "ruleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+      "ruleDetailHashes": {
+        "ahri_e/actual_hit": "64414af0df698f4dfded9227c758a8afed745cce381905bd86c3582c1158fb84",
+        "ahri_r/actual_hit": "05fd2e766070a843c5ba2500e4630bd0be4ba5bd6ceb33b4e62a76ddc023e818",
+        "annie_q/actual_hit": "1861f69c675ad51764985fdc88c9ea4f7a9c4ace5f1a31174aa0ac235f3e0243",
+        "annie_r/actual_hit": "268d8b58c2128d1a470228158471a9da6fc16bdba04ce79ffbf5083218b6129b",
+        "annie_w/actual_hit": "ed069491d929fc4f70a2fb4bfed6dba673a9ba339b5133073ec389dd55d8b780",
+        "ashe_r/actual_hit": "8d97c2cb36a5e634508b1e6740236386bc827ee88fd3255fff61b2c5f10efa12",
+        "brand_e/actual_hit": "267ec4dc8799ac531f9e1be49ea18e6e74d38fc41364d54c2e2f27d72ac35f02",
+        "brand_q/actual_hit": "bb9b0086fcdc0111cac495293a60855ded77476e544cbd2e80f74466c6b59447",
+        "brand_r/actual_hit": "0a3bd141e5045b0646796268a0a315275f6b63777a7167ffcc7c2852be62aed2",
+        "diana_e/actual_hit": "4b25cfb1ad00452f02d702942c2bdb6e052e81af4053fc858dbb84aa8d4e0adb",
+        "diana_q/actual_hit": "0decb2e05b200cdccb8ce0277a415674c255bc1de1258f66604ef1965501b68d",
+        "ez_e/resolve_on_e_hit": "bcac7d9054e37a4bbd6363efcd8e4e3946e5fbc8a28ff49637b6af1228e783d5",
+        "ez_p/stack_on_ez_e_hit": "4f5e024f82341ad2f3e72fd308cf9d47e8ab278f2bcfe9464ce87a1ee9e7342c",
+        "ez_p/stack_on_ez_q_hit": "12c90b634f35c89adee37942b422571eaccb771bae3f1e0794466f351143be24",
+        "ez_p/stack_on_ez_r_hit": "3f10e44f0eacec314a7b2fc47f87c77b1668a2a6142471c5cfa58c3b515df7e2",
+        "ez_p/stack_on_ez_w_hit": "68fcd49ead17a5717d0d58f562f7a7a3de5bc4007c079588e145026597158c33",
+        "ez_q/resolve_on_q_hit": "20021f33b162bf642419a6cefa0ae46505c63be897c0f082cac2483419161700",
+        "ez_r/resolve_on_r_champion_epic_hit": "80c8f0fd3aa828c02dc431955288997aaa44fca6c0df2d46888ca89ab94cf496",
+        "ez_r/resolve_on_r_minion_monster_hit": "ef594b18721475b3f54d9168988ff63f69f51ba74c55406ec330b2e5f3f1bbc2",
+        "ez_w/apply_mark_on_w_hit": "c9e55834e28b1a9b2f8195d9bccf95cf4121e3b10998c258dc8f41b623f2f877",
+        "ez_w/detonate_private_mark_on_basic_attack_hit": "2937fdd6e48eccacacb5a1da4eb1d625ab0fcb82937b4183d3d516571f5f450d",
+        "ez_w/detonate_private_mark_on_ez_e_hit": "4bc3d1f80888080094a057dc17175fcb6f5d774c4c98836973c327d40b54e83a",
+        "ez_w/detonate_private_mark_on_ez_q_hit": "0faaecfcc4bf1b0de71b2b03887a5b99ffda61fe9a25617fc78aa4f44f9d86b1",
+        "ez_w/detonate_private_mark_on_ez_r_hit": "02d72c89f67e78b0af1f8abdd53dc6e9e4ac3ae2a5cc6bc2dc7ef60ac3e79632",
+        "garen_r/on_hit": "17c9b7fb626da5b402877e8d10d5e6e5ec32a160856f27795ea3af24738143f7",
+        "garen_w/on_used": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165",
+        "item_1043_passive/resolve_on_basic_attack_hit": "739aa1d0484719a0276e17d89c81ddbfd130e2b0cff55dd17cc50e5d6287cd17",
+        "item_1083_passive/resolve_on_basic_attack_hit": "d82eed78ab099f71908a5425ff3e36c1d96fd3e3da8ac76bc7526dca20b0eb97",
+        "item_2422_passive/initialize_magical_footwear_additional_speed": "96bd3b0563f129a1d1b394e032aaf0c851cc6a3fde663ed115cb1079899eac52",
+        "item_2501_passive/initialize_ad_from_bonus_hp": "7693258fecb390f473361215ebc1927be3e893711b2420be1e8eacdea2666612",
+        "item_3003_passive/initialize_ap_from_bonus_mana": "497c16bbc6af406cb6c719588af0e4aa357e1a41724724b7fada2631fb5672d3",
+        "item_3004_passive/initialize_bonus_attack_damage_from_max_mana": "e61fbb759657cea27a93293bbd6d3e5dcdafd46b51fec1d9c62b993b2e773cfd",
+        "item_3040_passive/initialize_ap_from_bonus_mana": "ceae2ee002d13ac2d9dfda82f971409b86f9ac3bed595098b96b339d1ba699eb",
+        "item_3040_passive/on_damage_cross_below_lifeline_threshold": "159c4e021007f02f6b49573bfe86fc9d436d912db85991b058d8d18489fc8fab",
+        "item_3042_passive/initialize_bonus_attack_damage_from_max_mana": "41fa2539d20c831b29ceec47181b1c4838f5114dd7dd0ee1b3751f700c242fd0",
+        "item_3042_passive/on_basic_attack_hit_to_champion": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a",
+        "item_3047_passive/initialize_plating_basic_damage_reduction": "4556f610e346a44d0959239dc715c5fd6710590741f19a8ea3e026ea68141084",
+        "item_3050_passive/initialize_ultimate_haste": "b70a169ef5a5040e2b0414da29dab0fe43285ba50d7820b0828c1b8948a0b8bd",
+        "item_3071_passive/on_physical_damage_dealt_to_champion": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8",
+        "item_3074_active/actual_hit": "5b0328757741a7dd2e7d08a25aa8dc83af275344f7a4bcab0ed6b135b73a7436",
+        "item_3075_passive/reflect_on_basic_attack_taken": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10",
+        "item_3076_passive/reflect_on_basic_attack_taken": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10",
+        "item_3077_active/actual_hit": "bd8eeea2c21ad8b396cbca09814b6c7412f617e89902e7d001fbb1a1a19e6bbc",
+        "item_3078_passive/grant_move_speed_on_basic_attack_hit": "8bd6b15db12edcc701dcbfc36201f5293e15bb0450f3189a50da5fad46f3e206",
+        "item_3089_passive/initialize_total_ap_multiplier": "1f7b3d946e50385b6f9b5da0a4a1b2e7eb844753494ddbe9db4c4eb8a0227c72",
+        "item_3091_passive/resolve_on_basic_attack_hit": "0ef09cbfe205ea2c635019e93aa75856c5590a576781888f91490c03ec8e638a",
+        "item_3102_passive/consume_on_spell_block": "71602cbbfe44374a9d7413841da563fbc48fe0cef14e9e852e81dedd2aa50f7f",
+        "item_3115_passive/resolve_on_basic_attack_hit": "7e722a857804954ba9004e6f00d6de89aafde20c5d5ef6408167bd5ae2825975",
+        "item_3124_passive/resolve_rageblade_basic_attack": "0ac0f60a9d07b4f0f384d56f18d8cd53d89bae17383b875da63058707de24468",
+        "item_3143_passive/initialize_resilience_critical_damage_reduction": "6ab4f7e61a7f60b2d9275bfbb9365fe2321cff09bb2d7967fcc683c8d9e1e193",
+        "item_3152_active/actual_hit": "3feb10bb0ce859e1d1cb054e6c41c581cb06fa6a488866acd0a6aca89486dcc1",
+        "item_3161_passive/initialize_basic_skill_haste": "829a6f0bf4943a92bc6101ff5888b6ad873b958269dbb0b165f938cf7072cb04",
+        "item_3742_passive/initialize_unsinkable_slow_resist": "8176c65ec4c410468c8b810197c22031a44d383ca80473502f002e52eadf8be7",
+        "item_3803_passive/on_damage_taken_from_champion_restore_mana": "b520cfc3905c3ad2a7e86dff8c1ee246ba4f57f39c2e30b97808f012d17407ae",
+        "item_3814_passive/consume_on_successful_block": "1ada2bc71556caef8abd2ed43ce8a9f37292767b745c5d28d250a735cf16ad65",
+        "item_3814_passive/initialize_spell_shield": "5c684393bbc087848f949aa350b8ea5f35a17fe3e5088c646edb24845ab473e2",
+        "item_4629_passive/on_magic_damage_dealt_to_champion": "3ec774b771d07e4355360c6bc2594b4831f0ff3a0bc92fa04a1b66ec608a9023",
+        "item_4629_passive/on_real_damage_dealt_to_champion": "4f3b28b96bc46f9873f844f218c2d959a288ff8ebb2247753dccec0c84c2e063",
+        "item_4632_passive/consume_on_spell_block": "e77bb760f2663a99cb4eaff2529f95225de7145cbfc1d998b5f317a932cd81bf",
+        "item_4632_passive/initialize_spell_shield": "352f0958635305635cdce598990dc695d27aa77159111b7142a718eaecdf56c1",
+        "item_4633_passive/initialize_ap_from_bonus_hp": "2b1ca35b719ac93ee4c728e32228b5c2f9e49bee967871cd77bc5592e3ab00e1",
+        "item_6621_passive/initialize_dawncore_scaling": "dffc79159c4611943d26e8a7025b5e632bf349386f7d3b2e38ac579d4dbfd561",
+        "item_6631_active/actual_hit": "965b933ac7a3fdc6e58a41db5b1cb3940333c034ef511bb14570408ee7378163",
+        "item_6657_passive/initialize_timeless_growth": "4f07c2a966f4fdf70645bf13cd3530641a4ef8ed6ee0539229c590525ce5b172",
+        "item_6698_active/actual_hit": "467373e8c8c954746a4aea39feea039ac0f702a4ee665832c5bdd9308949a94a",
+        "ivern_q/actual_hit": "7f38b580ff7263602293284765ac1a5effd5862859ac928090c6b2dbad96baff",
+        "jax_q/actual_hit": "181569015462ac49b76fa7f26e8518bb03bc4929b8950aa0a79824cd23ea3e56",
+        "jax_r/actual_hit": "5f10231d6a9979e436f98234b930e35c95c349f856165027368df6e754752f42",
+        "kassadin_q/on_used": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+        "lucian_q/actual_hit": "36a57e2fe9c0f71613af404c186cdc7c3fbe76a2ae85609e2bdc8a2e659535fd",
+        "lucian_r/actual_hit": "812cb7522f89a738593b32fae96885968ce8ac582571a2e119fcdd7b3186913f",
+        "lucian_w/actual_hit": "3a9f5fe40e5eb715b80ebcc759c304d51b32f4b8e6975986e706bd3b1e3114b5",
+        "lux_q/resolve_on_q_hit": "530d8bac2c801ad455d467e666fd596286fab933391b57b4adec3f418bfff64b",
+        "lux_r/resolve_on_r_hit": "d2045e1aeb115c9be4de03a5bc81c796a1ec4c2fbd676141738f748c50e9ca4d",
+        "malphite_e/actual_hit": "e32fefa85cfa14b7a2f2665f063b8bcfc87cde583d4e8917181e261d3f364a5f",
+        "malphite_q/actual_hit": "71abd9a9fe7d7893bcef919a217aeef93e4bba1108a714fde95d335145169c78",
+        "malphite_r/actual_hit": "6998e54618d0199756fd6a678503f5c42e4291ea8be04f7136d05f0a1bf1d610",
+        "mordekaiser_e/actual_hit": "c48b78de1a6bc9434b836c0ab4e7448ee2af8222fb692e1ab9f10ee89bba96f6",
+        "mordekaiser_p/basic_attack_hit": "bd4ee27d26a9b0c59ca100cb11f391bdb3193515a888a56e0f704c22febec206",
+        "nasus_e/actual_initial_hit": "306059e2de15f842801e702de99bff7f002e402195149955f5168740ec242112",
+        "nasus_p/initialize_lifesteal": "96760c1fff06171ae8ef4634dfc94168641d3bf6f0ef9d1ac3678d628a9a9403",
+        "nocturne_q/actual_hit": "6a9b0749777bf33dae125efcd29097bccb6fa9262593bfd44d50981e70619226",
+        "nocturne_w/consume_and_empower_on_block": "dc5478533fd32b3970bac5b8ede6265dcc963903846442f66d7354194dd0e9a3",
+        "olaf_e/actual_hit": "6cdf83e34615b0f8bdbdf93c8637cde43d5787353c44b1587daa68133741f64a",
+        "olaf_q/actual_hit": "fdde4be21cdd7659d03385ffe6b200ab93e88de24ad99ad3533b6c26e4a6be89",
+        "olaf_w/on_used": "f2f241a90bcde755297f9908c0a886976bd9bf43b0397fbe81946dcd51a7c858",
+        "riven_e/on_used": "0a256d96fab268a426a64ad7d35ca6f7ce7d70a4ed25fdc43bd774e94022b084",
+        "rune_5005_passive/initialize_stat_bonus": "f265828b1686d557601fcb7a0179b0cc8bbd25fc0f126d69ce4f187bd1e8bd72",
+        "rune_5007_passive/initialize_stat_bonus": "13f9786ca28c6a78540e11feeefb546c642043083bd01a6233ea3156a5b737d2",
+        "rune_5011_passive/initialize_stat_bonus": "ccbe55ac676ef4b79d5db192d978b94fad03fed66e1a86598db82dab764cdcc2",
+        "rune_8210_passive/initialize_level_ability_haste": "488e3c10dc061ab9680f8438237d7635e4d7059f0ae928f22c6c43b5f0c31897",
+        "rune_8453_passive/initialize_base_heal_shield_power": "86f1ba33bb109095088b4f69bb0c8d2433d45a3ca12652e2f23bf1076d021ecc",
+        "rune_9104_passive/initialize_base_attack_speed": "82d5449888492c0228f54b134ce9018af8be2bd5878fabf8fe12d13eff790651",
+        "rune_9111_passive/on_champion_kill": "27678748b1a5cfbad4202af4e27385ece67efcc152497408ef710d731d518b34",
+        "sett_e/actual_hit": "e1821fa50cf62754d10bfe37f591cef1a8e9dadad4cab2e87c7e00af13b33468",
+        "sivir_e/successful_spell_block": "1348bdaffd0ef6da7af8e7e849dfd179a0c0a0638519431c9699195f75ca772f",
+        "sivir_q/actual_hit": "ac1dd4d1a28bc7c51f75d691602407c1e02b31fc0bc1a914b06a4a7a1d534e6f",
+        "sivir_r/active_attack_refund": "731f850ba05f7bec706f69a0bf9b95cbfc03b9d3e27b82af905ec7fe2fc7e9a0",
+        "tristana_r/actual_hit": "363d9365762c86ff15ce61a9d21fac6743281e0d8ed9e445ce118122b9f7a0ae",
+        "tristana_w/actual_hit": "8c4b495e469b31a774b6645504e37c66bf5fb68f938df36495521c8a681eafa4",
+        "tristana_w/own_kill_reset": "75f206ada49de216f9766dc08dd549c480ff5c36c56c91c75de1517362164ce4",
+        "vayne_e/actual_hit": "535db5e2427eb1cec2ef1558741f23b0404901f0ed63ac87aa614a0328ff4abc",
+        "veigar_q/actual_hit": "3d53d45f4981b283d132ebca545f6ede7b0e6b1525f0f21423662d2297bb8f4b",
+        "veigar_w/actual_hit": "8a37b1a74ca1679395968687ad20f8c34709561fba45f7169a7f92c6a366706f",
+        "vex_w/on_used": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51",
+        "vi_r/actual_hit": "454add0d8eaad56120cb6eef04ffbb9f38d3221b69909bf5b1d53ac642143f14",
+        "xinzhao_e/actual_charge_hit": "aa11a1ae73daec728e1a5764fa5cba76c708412e7daadaa9908f1c7c4eddcacf",
+        "xinzhao_r/actual_sweep_hit": "af8ece6fae3a577207bc45044043be76eb16e038f1caadcd00749963460addb0"
+      },
+      "getCount": 1171
+    },
+    "second": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24,
+      "eventTypeCounts": {
+        "BASIC_ATTACK_HIT": 10,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "DAMAGE_TAKEN": 3,
+        "KILL": 2,
+        "SKILL_HIT": 55,
+        "SKILL_USED": 5,
+        "SOURCE_INITIALIZED": 24,
+        "SPELL_SHIELD_BLOCKED": 5
+      },
+      "skillKeysSha256": "2c3c50058d4b13843abd7038bfc197bf7727148055fb168f4dbdfaa62e97d7dd",
+      "ruleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+      "ruleDetailHashes": {
+        "ahri_e/actual_hit": "64414af0df698f4dfded9227c758a8afed745cce381905bd86c3582c1158fb84",
+        "ahri_r/actual_hit": "05fd2e766070a843c5ba2500e4630bd0be4ba5bd6ceb33b4e62a76ddc023e818",
+        "annie_q/actual_hit": "1861f69c675ad51764985fdc88c9ea4f7a9c4ace5f1a31174aa0ac235f3e0243",
+        "annie_r/actual_hit": "268d8b58c2128d1a470228158471a9da6fc16bdba04ce79ffbf5083218b6129b",
+        "annie_w/actual_hit": "ed069491d929fc4f70a2fb4bfed6dba673a9ba339b5133073ec389dd55d8b780",
+        "ashe_r/actual_hit": "8d97c2cb36a5e634508b1e6740236386bc827ee88fd3255fff61b2c5f10efa12",
+        "brand_e/actual_hit": "267ec4dc8799ac531f9e1be49ea18e6e74d38fc41364d54c2e2f27d72ac35f02",
+        "brand_q/actual_hit": "bb9b0086fcdc0111cac495293a60855ded77476e544cbd2e80f74466c6b59447",
+        "brand_r/actual_hit": "0a3bd141e5045b0646796268a0a315275f6b63777a7167ffcc7c2852be62aed2",
+        "diana_e/actual_hit": "4b25cfb1ad00452f02d702942c2bdb6e052e81af4053fc858dbb84aa8d4e0adb",
+        "diana_q/actual_hit": "0decb2e05b200cdccb8ce0277a415674c255bc1de1258f66604ef1965501b68d",
+        "ez_e/resolve_on_e_hit": "bcac7d9054e37a4bbd6363efcd8e4e3946e5fbc8a28ff49637b6af1228e783d5",
+        "ez_p/stack_on_ez_e_hit": "4f5e024f82341ad2f3e72fd308cf9d47e8ab278f2bcfe9464ce87a1ee9e7342c",
+        "ez_p/stack_on_ez_q_hit": "12c90b634f35c89adee37942b422571eaccb771bae3f1e0794466f351143be24",
+        "ez_p/stack_on_ez_r_hit": "3f10e44f0eacec314a7b2fc47f87c77b1668a2a6142471c5cfa58c3b515df7e2",
+        "ez_p/stack_on_ez_w_hit": "68fcd49ead17a5717d0d58f562f7a7a3de5bc4007c079588e145026597158c33",
+        "ez_q/resolve_on_q_hit": "20021f33b162bf642419a6cefa0ae46505c63be897c0f082cac2483419161700",
+        "ez_r/resolve_on_r_champion_epic_hit": "80c8f0fd3aa828c02dc431955288997aaa44fca6c0df2d46888ca89ab94cf496",
+        "ez_r/resolve_on_r_minion_monster_hit": "ef594b18721475b3f54d9168988ff63f69f51ba74c55406ec330b2e5f3f1bbc2",
+        "ez_w/apply_mark_on_w_hit": "c9e55834e28b1a9b2f8195d9bccf95cf4121e3b10998c258dc8f41b623f2f877",
+        "ez_w/detonate_private_mark_on_basic_attack_hit": "2937fdd6e48eccacacb5a1da4eb1d625ab0fcb82937b4183d3d516571f5f450d",
+        "ez_w/detonate_private_mark_on_ez_e_hit": "4bc3d1f80888080094a057dc17175fcb6f5d774c4c98836973c327d40b54e83a",
+        "ez_w/detonate_private_mark_on_ez_q_hit": "0faaecfcc4bf1b0de71b2b03887a5b99ffda61fe9a25617fc78aa4f44f9d86b1",
+        "ez_w/detonate_private_mark_on_ez_r_hit": "02d72c89f67e78b0af1f8abdd53dc6e9e4ac3ae2a5cc6bc2dc7ef60ac3e79632",
+        "garen_r/on_hit": "17c9b7fb626da5b402877e8d10d5e6e5ec32a160856f27795ea3af24738143f7",
+        "garen_w/on_used": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165",
+        "item_1043_passive/resolve_on_basic_attack_hit": "739aa1d0484719a0276e17d89c81ddbfd130e2b0cff55dd17cc50e5d6287cd17",
+        "item_1083_passive/resolve_on_basic_attack_hit": "d82eed78ab099f71908a5425ff3e36c1d96fd3e3da8ac76bc7526dca20b0eb97",
+        "item_2422_passive/initialize_magical_footwear_additional_speed": "96bd3b0563f129a1d1b394e032aaf0c851cc6a3fde663ed115cb1079899eac52",
+        "item_2501_passive/initialize_ad_from_bonus_hp": "7693258fecb390f473361215ebc1927be3e893711b2420be1e8eacdea2666612",
+        "item_3003_passive/initialize_ap_from_bonus_mana": "497c16bbc6af406cb6c719588af0e4aa357e1a41724724b7fada2631fb5672d3",
+        "item_3004_passive/initialize_bonus_attack_damage_from_max_mana": "e61fbb759657cea27a93293bbd6d3e5dcdafd46b51fec1d9c62b993b2e773cfd",
+        "item_3040_passive/initialize_ap_from_bonus_mana": "ceae2ee002d13ac2d9dfda82f971409b86f9ac3bed595098b96b339d1ba699eb",
+        "item_3040_passive/on_damage_cross_below_lifeline_threshold": "159c4e021007f02f6b49573bfe86fc9d436d912db85991b058d8d18489fc8fab",
+        "item_3042_passive/initialize_bonus_attack_damage_from_max_mana": "41fa2539d20c831b29ceec47181b1c4838f5114dd7dd0ee1b3751f700c242fd0",
+        "item_3042_passive/on_basic_attack_hit_to_champion": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a",
+        "item_3047_passive/initialize_plating_basic_damage_reduction": "4556f610e346a44d0959239dc715c5fd6710590741f19a8ea3e026ea68141084",
+        "item_3050_passive/initialize_ultimate_haste": "b70a169ef5a5040e2b0414da29dab0fe43285ba50d7820b0828c1b8948a0b8bd",
+        "item_3071_passive/on_physical_damage_dealt_to_champion": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8",
+        "item_3074_active/actual_hit": "5b0328757741a7dd2e7d08a25aa8dc83af275344f7a4bcab0ed6b135b73a7436",
+        "item_3075_passive/reflect_on_basic_attack_taken": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10",
+        "item_3076_passive/reflect_on_basic_attack_taken": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10",
+        "item_3077_active/actual_hit": "bd8eeea2c21ad8b396cbca09814b6c7412f617e89902e7d001fbb1a1a19e6bbc",
+        "item_3078_passive/grant_move_speed_on_basic_attack_hit": "8bd6b15db12edcc701dcbfc36201f5293e15bb0450f3189a50da5fad46f3e206",
+        "item_3089_passive/initialize_total_ap_multiplier": "1f7b3d946e50385b6f9b5da0a4a1b2e7eb844753494ddbe9db4c4eb8a0227c72",
+        "item_3091_passive/resolve_on_basic_attack_hit": "0ef09cbfe205ea2c635019e93aa75856c5590a576781888f91490c03ec8e638a",
+        "item_3102_passive/consume_on_spell_block": "71602cbbfe44374a9d7413841da563fbc48fe0cef14e9e852e81dedd2aa50f7f",
+        "item_3115_passive/resolve_on_basic_attack_hit": "7e722a857804954ba9004e6f00d6de89aafde20c5d5ef6408167bd5ae2825975",
+        "item_3124_passive/resolve_rageblade_basic_attack": "0ac0f60a9d07b4f0f384d56f18d8cd53d89bae17383b875da63058707de24468",
+        "item_3143_passive/initialize_resilience_critical_damage_reduction": "6ab4f7e61a7f60b2d9275bfbb9365fe2321cff09bb2d7967fcc683c8d9e1e193",
+        "item_3152_active/actual_hit": "3feb10bb0ce859e1d1cb054e6c41c581cb06fa6a488866acd0a6aca89486dcc1",
+        "item_3161_passive/initialize_basic_skill_haste": "829a6f0bf4943a92bc6101ff5888b6ad873b958269dbb0b165f938cf7072cb04",
+        "item_3742_passive/initialize_unsinkable_slow_resist": "8176c65ec4c410468c8b810197c22031a44d383ca80473502f002e52eadf8be7",
+        "item_3803_passive/on_damage_taken_from_champion_restore_mana": "b520cfc3905c3ad2a7e86dff8c1ee246ba4f57f39c2e30b97808f012d17407ae",
+        "item_3814_passive/consume_on_successful_block": "1ada2bc71556caef8abd2ed43ce8a9f37292767b745c5d28d250a735cf16ad65",
+        "item_3814_passive/initialize_spell_shield": "5c684393bbc087848f949aa350b8ea5f35a17fe3e5088c646edb24845ab473e2",
+        "item_4629_passive/on_magic_damage_dealt_to_champion": "3ec774b771d07e4355360c6bc2594b4831f0ff3a0bc92fa04a1b66ec608a9023",
+        "item_4629_passive/on_real_damage_dealt_to_champion": "4f3b28b96bc46f9873f844f218c2d959a288ff8ebb2247753dccec0c84c2e063",
+        "item_4632_passive/consume_on_spell_block": "e77bb760f2663a99cb4eaff2529f95225de7145cbfc1d998b5f317a932cd81bf",
+        "item_4632_passive/initialize_spell_shield": "352f0958635305635cdce598990dc695d27aa77159111b7142a718eaecdf56c1",
+        "item_4633_passive/initialize_ap_from_bonus_hp": "2b1ca35b719ac93ee4c728e32228b5c2f9e49bee967871cd77bc5592e3ab00e1",
+        "item_6621_passive/initialize_dawncore_scaling": "dffc79159c4611943d26e8a7025b5e632bf349386f7d3b2e38ac579d4dbfd561",
+        "item_6631_active/actual_hit": "965b933ac7a3fdc6e58a41db5b1cb3940333c034ef511bb14570408ee7378163",
+        "item_6657_passive/initialize_timeless_growth": "4f07c2a966f4fdf70645bf13cd3530641a4ef8ed6ee0539229c590525ce5b172",
+        "item_6698_active/actual_hit": "467373e8c8c954746a4aea39feea039ac0f702a4ee665832c5bdd9308949a94a",
+        "ivern_q/actual_hit": "7f38b580ff7263602293284765ac1a5effd5862859ac928090c6b2dbad96baff",
+        "jax_q/actual_hit": "181569015462ac49b76fa7f26e8518bb03bc4929b8950aa0a79824cd23ea3e56",
+        "jax_r/actual_hit": "5f10231d6a9979e436f98234b930e35c95c349f856165027368df6e754752f42",
+        "kassadin_q/on_used": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+        "lucian_q/actual_hit": "36a57e2fe9c0f71613af404c186cdc7c3fbe76a2ae85609e2bdc8a2e659535fd",
+        "lucian_r/actual_hit": "812cb7522f89a738593b32fae96885968ce8ac582571a2e119fcdd7b3186913f",
+        "lucian_w/actual_hit": "3a9f5fe40e5eb715b80ebcc759c304d51b32f4b8e6975986e706bd3b1e3114b5",
+        "lux_q/resolve_on_q_hit": "530d8bac2c801ad455d467e666fd596286fab933391b57b4adec3f418bfff64b",
+        "lux_r/resolve_on_r_hit": "d2045e1aeb115c9be4de03a5bc81c796a1ec4c2fbd676141738f748c50e9ca4d",
+        "malphite_e/actual_hit": "e32fefa85cfa14b7a2f2665f063b8bcfc87cde583d4e8917181e261d3f364a5f",
+        "malphite_q/actual_hit": "71abd9a9fe7d7893bcef919a217aeef93e4bba1108a714fde95d335145169c78",
+        "malphite_r/actual_hit": "6998e54618d0199756fd6a678503f5c42e4291ea8be04f7136d05f0a1bf1d610",
+        "mordekaiser_e/actual_hit": "c48b78de1a6bc9434b836c0ab4e7448ee2af8222fb692e1ab9f10ee89bba96f6",
+        "mordekaiser_p/basic_attack_hit": "bd4ee27d26a9b0c59ca100cb11f391bdb3193515a888a56e0f704c22febec206",
+        "nasus_e/actual_initial_hit": "306059e2de15f842801e702de99bff7f002e402195149955f5168740ec242112",
+        "nasus_p/initialize_lifesteal": "96760c1fff06171ae8ef4634dfc94168641d3bf6f0ef9d1ac3678d628a9a9403",
+        "nocturne_q/actual_hit": "6a9b0749777bf33dae125efcd29097bccb6fa9262593bfd44d50981e70619226",
+        "nocturne_w/consume_and_empower_on_block": "dc5478533fd32b3970bac5b8ede6265dcc963903846442f66d7354194dd0e9a3",
+        "olaf_e/actual_hit": "6cdf83e34615b0f8bdbdf93c8637cde43d5787353c44b1587daa68133741f64a",
+        "olaf_q/actual_hit": "fdde4be21cdd7659d03385ffe6b200ab93e88de24ad99ad3533b6c26e4a6be89",
+        "olaf_w/on_used": "f2f241a90bcde755297f9908c0a886976bd9bf43b0397fbe81946dcd51a7c858",
+        "riven_e/on_used": "0a256d96fab268a426a64ad7d35ca6f7ce7d70a4ed25fdc43bd774e94022b084",
+        "rune_5005_passive/initialize_stat_bonus": "f265828b1686d557601fcb7a0179b0cc8bbd25fc0f126d69ce4f187bd1e8bd72",
+        "rune_5007_passive/initialize_stat_bonus": "13f9786ca28c6a78540e11feeefb546c642043083bd01a6233ea3156a5b737d2",
+        "rune_5011_passive/initialize_stat_bonus": "ccbe55ac676ef4b79d5db192d978b94fad03fed66e1a86598db82dab764cdcc2",
+        "rune_8210_passive/initialize_level_ability_haste": "488e3c10dc061ab9680f8438237d7635e4d7059f0ae928f22c6c43b5f0c31897",
+        "rune_8453_passive/initialize_base_heal_shield_power": "86f1ba33bb109095088b4f69bb0c8d2433d45a3ca12652e2f23bf1076d021ecc",
+        "rune_9104_passive/initialize_base_attack_speed": "82d5449888492c0228f54b134ce9018af8be2bd5878fabf8fe12d13eff790651",
+        "rune_9111_passive/on_champion_kill": "27678748b1a5cfbad4202af4e27385ece67efcc152497408ef710d731d518b34",
+        "sett_e/actual_hit": "e1821fa50cf62754d10bfe37f591cef1a8e9dadad4cab2e87c7e00af13b33468",
+        "sivir_e/successful_spell_block": "1348bdaffd0ef6da7af8e7e849dfd179a0c0a0638519431c9699195f75ca772f",
+        "sivir_q/actual_hit": "ac1dd4d1a28bc7c51f75d691602407c1e02b31fc0bc1a914b06a4a7a1d534e6f",
+        "sivir_r/active_attack_refund": "731f850ba05f7bec706f69a0bf9b95cbfc03b9d3e27b82af905ec7fe2fc7e9a0",
+        "tristana_r/actual_hit": "363d9365762c86ff15ce61a9d21fac6743281e0d8ed9e445ce118122b9f7a0ae",
+        "tristana_w/actual_hit": "8c4b495e469b31a774b6645504e37c66bf5fb68f938df36495521c8a681eafa4",
+        "tristana_w/own_kill_reset": "75f206ada49de216f9766dc08dd549c480ff5c36c56c91c75de1517362164ce4",
+        "vayne_e/actual_hit": "535db5e2427eb1cec2ef1558741f23b0404901f0ed63ac87aa614a0328ff4abc",
+        "veigar_q/actual_hit": "3d53d45f4981b283d132ebca545f6ede7b0e6b1525f0f21423662d2297bb8f4b",
+        "veigar_w/actual_hit": "8a37b1a74ca1679395968687ad20f8c34709561fba45f7169a7f92c6a366706f",
+        "vex_w/on_used": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51",
+        "vi_r/actual_hit": "454add0d8eaad56120cb6eef04ffbb9f38d3221b69909bf5b1d53ac642143f14",
+        "xinzhao_e/actual_charge_hit": "aa11a1ae73daec728e1a5764fa5cba76c708412e7daadaa9908f1c7c4eddcacf",
+        "xinzhao_r/actual_sweep_hit": "af8ece6fae3a577207bc45044043be76eb16e038f1caadcd00749963460addb0"
+      },
+      "getCount": 1171
+    },
+    "stable": true,
+    "sharedGetCount": 2342
+  },
+  "preservation": {
+    "targetSnapshotSha256": "e17e6e90d8917df728bbd01be52c4d962f48f5e2c478742a6376ff5395175dfd",
+    "oldRuleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+    "oldRuleDetailHashesSha256": "33459a9be46d04e8ad9cc3c4c1d7f8b6bbfcd3a5e909cd39e2b82245602faa29",
+    "oldRuleDetailHashesEqualSecondPass": true
+  },
+  "getSummary": {
+    "totalGetCount": 2457,
+    "targetGetCount": 30,
+    "sharedGlobalGetCount": 2342,
+    "statusCounts": {
+      "200": 2453,
+      "404": 4
+    },
+    "methodCounts": {
+      "GET": 2457
+    }
+  },
+  "businessWrites": 0
+}

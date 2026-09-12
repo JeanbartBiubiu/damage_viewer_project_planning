@@ -1,0 +1,584 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T17:24:13.342Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划工作树归档资料和本地候选范围。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "亡灵战神客户端16.17原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Sion.json.gz",
+      "byteSize": 11514,
+      "sha256": "0d01beddfcf751216c8d79acd4c0994742373a0363c9cae47c0bfb1ef83f2b98",
+      "decompressedByteSize": 94148,
+      "decompressedSha256": "7705f23410fc3e7c9b9ddd854336ba4b5aa003ef38b4524475cbe9bdc4137448"
+    },
+    {
+      "kind": "亡灵战神官方16.17.1中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Sion.json",
+      "byteSize": 15562,
+      "sha256": "d9c522243dd8142ff4639ad57c81801737ed489fe3660d0a2ecd2a319e0e871a"
+    },
+    {
+      "kind": "亡灵战神官方16.17.1英文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Sion.json",
+      "byteSize": 14603,
+      "sha256": "d9e88e8edb63dc983693008d4ded738f14717f91e18e2a8df3045e8050ece559"
+    },
+    {
+      "kind": "官方资料版本清单",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\versions.json",
+      "byteSize": 5189,
+      "sha256": "178005ff120963169159a1563e5b1817601778940129f32aa0240a9fd15b8fed"
+    }
+  ],
+  "client": {
+    "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Sion.json.gz",
+    "pointer": "Characters/Sion/Spells/SionWAbility/SionW",
+    "mSpellTags": [
+      "Trait_DamageAbility",
+      "Trait_RecastOrReplaceSpell",
+      "Trait_Shield",
+      "Trait_Low_Damage",
+      "Trait_AoE"
+    ],
+    "mSpellCalculations": {
+      "TotalShield": {
+        "mFormulaParts": [
+          {
+            "mDataValue": "BaseShield",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mDataValue": "ShieldAPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          {
+            "mStat": 12,
+            "mDataValue": "ShieldPercentHealthTooltip",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "TotalDamage": {
+        "mFormulaParts": [
+          {
+            "mDataValue": "BaseDamage",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mDataValue": "DamageAPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      }
+    },
+    "dataValues": {
+      "ShieldPercentHealthTooltip": {
+        "values": [
+          0.05999999865889549,
+          0.07999999821186066,
+          0.10000000149011612,
+          0.11999999731779099,
+          0.14000000059604645,
+          0.1599999964237213,
+          0.18000000715255737
+        ],
+        "type": "SpellDataValue"
+      },
+      "HPPerChampKill": {
+        "values": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "type": "SpellDataValue"
+      },
+      "HPPerKill": {
+        "values": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "type": "SpellDataValue"
+      },
+      "HPPerLargeKill": {
+        "values": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "type": "SpellDataValue"
+      },
+      "ShieldAPRatio": {
+        "values": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "type": "SpellDataValue"
+      },
+      "BaseShield": {
+        "values": [
+          60,
+          60,
+          75,
+          90,
+          105,
+          120,
+          120
+        ],
+        "type": "SpellDataValue"
+      },
+      "BaseDamage": {
+        "values": [
+          15,
+          40,
+          65,
+          90,
+          115,
+          140,
+          165
+        ],
+        "type": "SpellDataValue"
+      },
+      "MaxHPDamageRatio": {
+        "values": [
+          14,
+          14,
+          14,
+          14,
+          14,
+          14,
+          14
+        ],
+        "type": "SpellDataValue"
+      },
+      "DetonateRecastCooldown": {
+        "values": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "type": "SpellDataValue"
+      },
+      "ShieldDuration": {
+        "values": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "type": "SpellDataValue"
+      }
+    },
+    "spellCastTime": 0.25,
+    "cooldownTime": [
+      15,
+      15,
+      14,
+      13,
+      12,
+      11,
+      11
+    ],
+    "mana": [
+      65,
+      70,
+      75,
+      80,
+      85,
+      90
+    ],
+    "targetingType": {
+      "__type": "Self"
+    },
+    "tooltipLists": {
+      "LevelUp": {
+        "levelCount": 5,
+        "Elements": [
+          {
+            "type": "BaseShield",
+            "nameOverride": "Spell_ListType_ShieldAmount",
+            "__type": "TooltipInstanceListElement"
+          },
+          {
+            "type": "BaseDamage",
+            "nameOverride": "Spell_ListType_Damage",
+            "__type": "TooltipInstanceListElement"
+          },
+          {
+            "type": "ShieldPercentHealthTooltip",
+            "typeIndex": 3,
+            "multiplier": 100,
+            "nameOverride": "Spell_ListType_MaxHealthShieldRatio",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          },
+          {
+            "type": "Cost",
+            "nameOverride": "Spell_ListType_ManaCost",
+            "__type": "TooltipInstanceListElement"
+          },
+          {
+            "type": "Cooldown",
+            "__type": "TooltipInstanceListElement"
+          }
+        ],
+        "__type": "TooltipInstanceList"
+      }
+    },
+    "selectedFacts": [
+      "客户端 TotalShield 由 BaseShield、ShieldAPRatio×法术强度和 ShieldPercentHealthTooltip×mStat 12 组成；当前实库公式对应 SOURCE.hp.TOTAL 与 SOURCE.ability_power.TOTAL。",
+      "官方主动段明确自身获得护盾，持续 6 秒；3 秒后可再次施放引爆是相关但暂缓的另一段行为。"
+    ]
+  },
+  "official": {
+    "zh": {
+      "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Sion.json",
+      "version": "16.17.1",
+      "spell": {
+        "id": "SionW",
+        "name": "灵魂熔炉",
+        "description": "赛恩为自己套上护盾，并能在3秒后再次激活这个技能来对身边的敌人造成魔法伤害。在赛恩击杀敌人时，他会被动获得最大生命值。",
+        "tooltip": "<spellPassive>被动</spellPassive>：赛恩每击杀一个单位就会获得<scaleHealth>{{ hpperkill }}最大生命值</scaleHealth>，或在参与击杀英雄、击杀大型小兵或大型野怪后获得<scaleHealth>{{ hpperchampkill }}最大生命值</scaleHealth>。<br /><br /><spellActive>主动</spellActive>：赛恩获得<shield>{{ totalshield }}护盾值</shield>，持续6秒。在{{ detonaterecastcooldown }}秒后，如果护盾仍然存在，那么赛恩就能<recast>再次施放</recast>来引爆护盾，造成<magicDamage>{{ totaldamage }}外加{{ maxhpdamageratio }}%最大生命值的魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "护盾值",
+            "伤害",
+            "最大生命值收益系数",
+            "法力消耗",
+            "冷却时间"
+          ],
+          "effect": [
+            "{{ baseshield }} -> {{ baseshieldNL }}",
+            "{{ basedamage }} -> {{ basedamageNL }}",
+            "{{ shieldpercenthealthtooltip*100.000000 }}% -> {{ shieldpercenthealthtooltipnl*100.000000 }}%",
+            "{{ cost }} -> {{ costNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          15,
+          14,
+          13,
+          12,
+          11
+        ],
+        "cost": [
+          75,
+          80,
+          85,
+          90,
+          95
+        ],
+        "range": [
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "effect": [
+          null,
+          [
+            60,
+            75,
+            90,
+            105,
+            120
+          ],
+          [
+            40,
+            65,
+            90,
+            115,
+            140
+          ],
+          [
+            8,
+            10,
+            12,
+            14,
+            16
+          ],
+          [
+            14,
+            14,
+            14,
+            14,
+            14
+          ],
+          [
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          [
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "60/75/90/105/120",
+          "40/65/90/115/140",
+          "8/10/12/14/16",
+          "14",
+          "4",
+          "15",
+          "3",
+          "15",
+          "6",
+          "0"
+        ],
+        "image": {
+          "full": "SionW.png",
+          "sprite": "spell13.png",
+          "group": "spell",
+          "x": 48,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "en": {
+      "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Sion.json",
+      "version": "16.17.1",
+      "spell": {
+        "id": "SionW",
+        "name": "Soul Furnace",
+        "description": "Sion shields himself and can reactivate after 3 seconds to deal Magic Damage to enemies nearby. When Sion kills enemies, he passively gains maximum Health.",
+        "tooltip": "<spellPassive>Passive</spellPassive>: Sion gains <scaleHealth>{{ hpperkill }} max Health</scaleHealth> when he kills a unit, or <scaleHealth>{{ hpperchampkill }}</scaleHealth> for champion takedowns, large minions and large monsters.<br /><br /><spellActive>Active</spellActive>: Sion gains <shield>{{ totalshield }} Shield</shield> for 6 seconds. After {{ detonaterecastcooldown }} seconds if the shield still holds, Sion can <recast>Recast</recast> to detonate the shield to deal <magicDamage>{{ totaldamage }} plus {{ maxhpdamageratio }}% max Health magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Shield Amount",
+            "Damage",
+            "Max Health Shield Ratio",
+            "Mana Cost",
+            "Cooldown"
+          ],
+          "effect": [
+            "{{ baseshield }} -> {{ baseshieldNL }}",
+            "{{ basedamage }} -> {{ basedamageNL }}",
+            "{{ shieldpercenthealthtooltip*100.000000 }}% -> {{ shieldpercenthealthtooltipnl*100.000000 }}%",
+            "{{ cost }} -> {{ costNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          15,
+          14,
+          13,
+          12,
+          11
+        ],
+        "cost": [
+          75,
+          80,
+          85,
+          90,
+          95
+        ],
+        "range": [
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "effect": [
+          null,
+          [
+            60,
+            75,
+            90,
+            105,
+            120
+          ],
+          [
+            40,
+            65,
+            90,
+            115,
+            140
+          ],
+          [
+            8,
+            10,
+            12,
+            14,
+            16
+          ],
+          [
+            14,
+            14,
+            14,
+            14,
+            14
+          ],
+          [
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          [
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "60/75/90/105/120",
+          "40/65/90/115/140",
+          "8/10/12/14/16",
+          "14",
+          "4",
+          "15",
+          "3",
+          "15",
+          "6",
+          "0"
+        ],
+        "image": {
+          "full": "SionW.png",
+          "sprite": "spell13.png",
+          "group": "spell",
+          "x": 48,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        }
+      }
+    }
+  },
+  "acceptedFacts": {
+    "skillKey": "sion_w",
+    "sourceVersion": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "target": "触发动作传入 CURRENT_TARGET；已有效果的结果目标决定最终作用对象。",
+    "scope": [
+      "客户端 TotalShield 由 BaseShield、ShieldAPRatio×法术强度和 ShieldPercentHealthTooltip×mStat 12 组成；当前实库公式对应 SOURCE.hp.TOTAL 与 SOURCE.ability_power.TOTAL。",
+      "官方主动段明确自身获得护盾，持续 6 秒；3 秒后可再次施放引爆是相关但暂缓的另一段行为。"
+    ],
+    "excluded": [],
+    "deferred": [
+      "SKILL_USED ACTIVE 无法区分首次施放与 3 秒后重施；直接执行 shield 会在重施时按 REFRESH_ALL 错误刷新护盾，待增加阶段判别或过程接线。",
+      "再次施放引爆魔法伤害",
+      "战前及击杀/参与击杀的永久生命值累积",
+      "引爆等待时间",
+      "法力消耗和基础冷却",
+      "引爆伤害所需目标最大生命值运行输入"
+    ]
+  },
+  "sourceChecks": {
+    "clientArchiveVersion": true,
+    "officialZhVersion": true,
+    "officialEnVersion": true,
+    "officialZhHasExpectedSpell": true,
+    "officialEnHasExpectedSpell": true,
+    "officialZhMentionsExpectedEffects": true,
+    "officialEnMentionsExpectedEffects": true,
+    "clientPointerPresent": true,
+    "sourceValuesPresent": true,
+    "candidateScopeIsExplicit": true,
+    "clientShieldCalculationPresent": true,
+    "clientShieldDuration6s": true
+  }
+}
