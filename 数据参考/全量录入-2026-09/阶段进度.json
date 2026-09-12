@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T11:00:35.758Z",
+  "generatedAt": "2026-09-12T12:22:08.693Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -6204,6 +6204,105 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项常驻装备初始化补录/证据清单.json",
         "sha256": "dc645a55c97d3e616439532b42e1df1f5b099ab40f555aa0f1ebae2bacfeb1ce",
         "commit": "b3925e914ae30334d0801ee4011243adb93c8c6b"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "olafWGarenRTriggerBackfill": {
+      "at": "2026-09-12T12:22:08.693Z",
+      "status": "奥拉夫W主动过程与盖伦R英雄命中伤害完成触发接线，Cursor独立评审、受保护写入、Luna独立回读和真实页面通过",
+      "skills": [
+        "olaf_w",
+        "garen_r"
+      ],
+      "created": {
+        "triggerRules": 2
+      },
+      "writer": {
+        "protectedPreflightGETs": 2262,
+        "finalReadbackGETs": 3469,
+        "businessWrites": 2,
+        "POST": 2,
+        "status201": 2,
+        "immediateReadbacks": 2,
+        "replayedWrites": 0,
+        "priorRuleCount": 94,
+        "finalRuleCount": 96,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "independentAgent": {
+        "model": "Luna Max",
+        "GETs": 1199,
+        "writes": 0,
+        "status200": 1199,
+        "priorRulesUnchanged": 94,
+        "newRulesMatched": 2,
+        "finalRuleCount": 96,
+        "sourceInitializedCount": 24,
+        "mismatches": 0,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 187,
+        "businessWrites": 0,
+        "localImageCacheRecords": 3279,
+        "skills": [
+          "olaf_w",
+          "garen_r"
+        ],
+        "listImagesVisible": 2,
+        "imageNaturalSize": "64x64",
+        "screenshots": 7,
+        "processAndFormulaDetailsVisible": true,
+        "triggerDetailsVisible": 2,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-4cfdcda1-a699-449c-bb99-43fcfd6a0663",
+        "requestId": "874b4ceb-5c67-40c1-a6e3-83169448f71f",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 10,
+        "completedToolCalls": 10,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false,
+        "runDeltaCount": 0,
+        "apiWrites": 0,
+        "rejectedPriorRuns": 2
+      },
+      "protected": {
+        "priorRulesUnchanged": 94,
+        "skillSubjectsUnchanged": true,
+        "characterRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "experienceIssues": [
+        "Cursor文字结论为READY仍不足以授权写入；必须按调用标识汇总最终事件，任何工具调用缺少完成终态都要拒绝该轮并缩小范围重跑。",
+        "页面验收必须读取实际控件值；禁用输入框的值不在正文文本中，组合框可访问节点不应依赖特定组件类名或父节点文本。",
+        "页面显示术语以当前实际界面为准，本轮准确值为“主动”和“已损失值”；只读断言失败后只修脚本，不重放数据写入。"
+      ],
+      "pending": [
+        "奥拉夫失败、取消和退款分支仍需运行时核对。",
+        "盖伦施法延迟、视野、距离和失效条件仍需运行时核对。",
+        "两条规则尚未执行战斗运行或Wasm验收。"
+      ],
+      "requestSha256": "ae75b8bde7344f7470496014b0f205553723cbef81f39a7491c3ec3ee339c6ca",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/奥拉夫W与盖伦R触发补录/证据清单.json",
+        "sha256": "e0dab5d9baa1a3bc7a060d94640da17e4e6dd95f4e17661045969762425f3302",
+        "commit": "e60c521967f2cc378a4159cb4f196d75488d17bc"
       },
       "runtimeValidation": "未执行"
     }
