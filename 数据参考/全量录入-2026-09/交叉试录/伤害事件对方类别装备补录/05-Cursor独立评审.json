@@ -1,0 +1,31 @@
+{
+  "capturedAt": "2026-09-12T08:35:42.000Z",
+  "runId": "run-a71db3a5-17c3-4d32-9225-e82af5b7c44e",
+  "requestId": "e40c1bb4-fadc-4260-95e7-f2924ffddaf9",
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {"id": "effort", "value": "high"},
+      {"id": "fast", "value": "false"}
+    ]
+  },
+  "verdict": "READY",
+  "reviewedPlanRevision": 1,
+  "blockers": [],
+  "writeAllowlistAudit": {
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0
+  },
+  "toolEvents": {
+    "records": 212,
+    "uniqueCalls": 106,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false
+  },
+  "apiWrites": 0,
+  "review": "方案修订1可实施、无阻塞。TARGET_CATEGORY_CHECK继续只保存categories；DAMAGE_DEALT读取本次伤害承受对象，DAMAGE_PENDING和DAMAGE_TAKEN读取本次伤害来源对象。现有类别条件均未挂在伤害事件上，不需要迁移。星界驱驰可用魔法和真实两条DAMAGE_DEALT规则加英雄类别执行既有移速效果；万世催化石可用DAMAGE_TAKEN加英雄类别，把RAW_DAMAGE绑定到damage_input后执行既有回蓝效果。EternityCDPerCast与施法自疗不在本批猜测。",
+  "artifact": "C:/project/damage_web_dev/.agents/artifacts/damage-counterparty-category-review-20260912/run/summary.json"
+}

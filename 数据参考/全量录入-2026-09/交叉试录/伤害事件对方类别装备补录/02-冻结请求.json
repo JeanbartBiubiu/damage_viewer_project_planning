@@ -1,0 +1,309 @@
+{
+  "planRevision": 1,
+  "plannedWrites": 9,
+  "capability": {
+    "backendCommit": "aedc0edb893cb02621776824e4e4f6bf3337cc76",
+    "frontendCommit": "4b1c56b1872fea117d7570cb2cd9dd484b7d80c4",
+    "planningCommit": "1203b7726ce3c904418d1c866f46ab5857c3cb7d",
+    "cursorReviewRunId": "run-a71db3a5-17c3-4d32-9225-e82af5b7c44e",
+    "reviewedPlanRevision": 1,
+    "verdict": "READY"
+  },
+  "sources": [
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十三批常规效果/完整候选.json",
+      "sha256": "b849c156a9732b94bfc183e91719ecccc0a11d0400bd41ae8195fe4351045878"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十三批常规效果/冻结来源.json",
+      "sha256": "9b60a740d02a1b324789f7f132864592acdd7cf13cbb4ef8937ef2b3cdec2a96"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/Luna第八批/录入候选.json",
+      "sha256": "68a24cfe03525d968b75780d22789555fcf5d5f49c2821460c0cc222b348ae46"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/Luna第八批/冻结来源补证.json",
+      "sha256": "ee0e2c264a0a8cd2829b9303ae1ac660872a8ea16069e3a2ee3bc98e1583568e"
+    }
+  ],
+  "writes": [
+    {
+      "method": "PUT",
+      "route": "/skills/item_4629_passive",
+      "body": {
+        "name": "星界驱驰·咒舞",
+        "description": "对英雄造成魔法或真实伤害后提供自身20点固定移动速度，持续4秒。两条造成伤害规则分别限定魔法与真实伤害，并要求事件对方为英雄；不重复现有4%直接移速，不采用未绑定旧叠层字段。管理配置已接线，战斗运行时未验证。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": ["passive"]
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_4629_passive/effects/spelldance_move_speed",
+      "body": {
+        "name": "咒舞自身移动速度",
+        "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；重新触发只刷新持续时间，不叠加多份。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "applicationStacksValue": {"kind": "FIXED", "value": 1},
+          "durationValue": {"kind": "PARAMETER", "parameterKey": "move_speed_duration_ms"},
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {"kind": "FIXED", "value": 1},
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "description": "规则限定事件对方为英雄；满足魔法或真实伤害入口后，为持有者增加20点固定移动速度。",
+            "detail": {
+              "attributeKey": "move_speed",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "咒舞自身移动速度",
+            "resultKey": "move_speed",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {"kind": "PARAMETER", "parameterKey": "move_speed_bonus"}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "detailRoute": "/skills/item_4629_passive/trigger-rules/on_magic_damage_dealt_to_champion",
+      "body": {
+        "ruleKey": "on_magic_damage_dealt_to_champion",
+        "name": "对英雄造成魔法伤害触发咒舞",
+        "description": "来源对象对英雄造成魔法伤害后执行咒舞自身移动速度；不响应物理伤害或非英雄对象。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "DAMAGE_DEALT",
+          "detail": {"damageTypeKey": "magic", "deliveryKind": "ANY", "originKind": "ANY"}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_counterparty",
+            "name": "伤害承受对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {"categories": ["CHAMPION"]}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_spelldance_move_speed",
+            "name": "执行咒舞自身移动速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {"effectKey": "spelldance_move_speed"},
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "detailRoute": "/skills/item_4629_passive/trigger-rules/on_real_damage_dealt_to_champion",
+      "body": {
+        "ruleKey": "on_real_damage_dealt_to_champion",
+        "name": "对英雄造成真实伤害触发咒舞",
+        "description": "来源对象对英雄造成真实伤害后执行咒舞自身移动速度；不响应物理伤害或非英雄对象。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "DAMAGE_DEALT",
+          "detail": {"damageTypeKey": "real", "deliveryKind": "ANY", "originKind": "ANY"}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_counterparty",
+            "name": "伤害承受对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {"categories": ["CHAMPION"]}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_spelldance_move_speed",
+            "name": "执行咒舞自身移动速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {"effectKey": "spelldance_move_speed"},
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3803_passive",
+      "body": {
+        "name": "万世催化石·永恒",
+        "description": "保存来自英雄的减免前伤害10%回蓝、技能法力消耗25%自疗、单次施放上限20和维持型技能每秒上限20参数。受击回蓝已由受到伤害事件限定英雄来源并绑定减免前伤害；技能消耗自疗和持续技能统计仍待接线。客户端EternityCDPerCast=1000毫秒仅保留原字段，不解释为受击回蓝冷却。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": ["passive"]
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3803_passive/parameters/damage_input",
+      "body": {
+        "name": "受击伤害运行时输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "受到伤害规则在事件对方为英雄时绑定本次减免前伤害，单位：伤害点；不使用防御结算后的伤害值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3803_passive/formulas/mana_restore_from_damage",
+      "body": {
+        "name": "所受伤害转法力",
+        "description": "受到伤害规则提供来自英雄的减免前伤害运行时输入，再乘10%回蓝比例。",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {"nodeType": "PARAMETER", "parameterKey": "damage_input"},
+            {"nodeType": "PARAMETER", "parameterKey": "mana_restore_ratio_from_damage"}
+          ],
+          "operation": "MULTIPLY"
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3803_passive/effects/mana_from_hero_damage",
+      "body": {
+        "name": "受击回蓝",
+        "description": "受到来自英雄的伤害时，以本次减免前伤害的10%恢复持有者法力。客户端EternityCDPerCast=1000毫秒仅作为原字段保留，适用范围待证，不预设受击回蓝冷却。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": "恢复来自英雄的减免前伤害输入的10%法力。",
+            "detail": {"attributeKey": "mana", "operation": "RESTORE"},
+            "lifecycleBehavior": null,
+            "name": "恢复法力",
+            "resultKey": "mana_restore",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {"formulaKey": "mana_restore_from_damage", "kind": "FORMULA"}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3803_passive/trigger-rules",
+      "detailRoute": "/skills/item_3803_passive/trigger-rules/on_damage_taken_from_champion_restore_mana",
+      "body": {
+        "ruleKey": "on_damage_taken_from_champion_restore_mana",
+        "name": "受到英雄伤害恢复法力",
+        "description": "持有者受到来自英雄的伤害时，把本次减免前伤害绑定到受击输入并执行回蓝效果；不设置未经证实的内部冷却。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "DAMAGE_TAKEN",
+          "detail": {"damageTypeKey": null, "deliveryKind": "ANY", "originKind": "ANY"}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_counterparty",
+            "name": "伤害来源对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {"categories": ["CHAMPION"]}
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_mana_from_hero_damage",
+            "name": "执行受击回蓝",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {"effectKey": "mana_from_hero_damage"},
+            "runtimeInputBindings": [
+              {
+                "bindingKey": "bind_raw_damage",
+                "parameterKey": "damage_input",
+                "sourceType": "EVENT_VALUE",
+                "detail": {"eventValueKey": "RAW_DAMAGE"}
+              }
+            ],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "装备直接属性、关系和图片保持不变",
+    "万世催化石施法消耗自疗仍未接线",
+    "不解释EternityCDPerCast的适用范围",
+    "不证明战斗运行时已产生伤害事件或事件对方类别"
+  ]
+}

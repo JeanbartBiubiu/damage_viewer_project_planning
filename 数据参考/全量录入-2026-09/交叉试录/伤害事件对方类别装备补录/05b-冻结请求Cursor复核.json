@@ -1,0 +1,40 @@
+{
+  "capturedAt": "2026-09-12T09:14:38.147Z",
+  "runId": "run-09730fac-3d07-4432-881a-7503f9581e48",
+  "requestId": "9a8e5b84-fa52-4116-9860-2f3f3ca197eb",
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "effort": "high",
+    "fast": false,
+    "sdkVersion": "1.0.24"
+  },
+  "verdict": "READY",
+  "reviewedPlanRevision": 1,
+  "approvedHashes": {
+    "01-来源与方案.md": "43e46bbd7d3abff6882b5db8981e0a5fd00fb18dd8851eb4cb6704195a84b805",
+    "02-冻结请求.json": "20d72445b6247fe7b7a9344ec2f10b9c26f969ab83edf9660df39731ae503350",
+    "03-来源快照.json": "d81dfdd38ae59345b1dadb28a2f13b2f85deb93b581f21c40e34c0643be8b2b3",
+    "04-写入前现值.json": "87674f4f9d22158b3907a3ca979447db1bc1326ad303acc95b65a0401f1d13f4",
+    "05-Cursor独立评审.json": "a60291040ab11ff692bb0aabe2b5f00a23c57a7945d0fb4581caef993f583c89"
+  },
+  "blockers": [],
+  "writeAllowlistAudit": {
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0
+  },
+  "toolEvents": {
+    "records": 1736,
+    "uniqueCalls": 44,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false
+  },
+  "shellCommandsAudited": true,
+  "apiReads": 0,
+  "apiWrites": 0,
+  "artifactSummary": "C:/project/damage_web_dev/.agents/artifacts/damage-counterparty-item-write-review-20260912/run/summary.json",
+  "artifactSummarySha256": "630fac0a4c5b4ac0049e69eb4cf8cb4f7811de2c5aaf7dd88b3b59fdd82f66a5",
+  "review": "真实冻结请求复核通过。六次更新和三次新增均与来源、写前现值及事件方向一致；星界驱驰只新增魔法与真实伤害英雄目标规则，万世催化石只新增来自英雄的受击回蓝规则并绑定减免前伤害。既有结构和值不变，不设置未经证实的冷却，也不声称战斗运行时已验证。"
+}

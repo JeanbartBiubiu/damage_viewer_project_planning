@@ -1,0 +1,4186 @@
+{
+  "capturedAt": "2026-09-12T09:04:18.125Z",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "getCount": 1194,
+  "businessWrites": 0,
+  "staticRequests": [
+    {
+      "method": "GET",
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/move_speed",
+      "status": 200,
+      "data": {
+        "attributeKey": "move_speed",
+        "createdAt": "2026-08-22T15:27:35.616234Z",
+        "description": "角色面板移动速度",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "移动速度",
+        "sortOrder": 100,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-23T07:43:37.216118Z",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/mana",
+      "status": 200,
+      "data": {
+        "attributeKey": "mana",
+        "createdAt": "2026-08-22T15:27:36.139767Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "法力值",
+        "sortOrder": 310,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:36.139767Z",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones/attribute_flat_add",
+      "status": 200,
+      "data": {
+        "applicationStage": "ATTRIBUTE_FLAT",
+        "calculationMode": "FLAT_ADD",
+        "createdAt": "2026-09-06T16:50:52.756989Z",
+        "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+        "domain": "ATTRIBUTE",
+        "gameId": "lol",
+        "modifierZoneKey": "attribute_flat_add",
+        "name": "属性固定加算",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T16:50:52.756989Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_4629",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:11:12.963849Z",
+        "description": "来源：官方16.17.1装备4629。 原始说明：70法术强度\n350生命值\n25技能急速\n4%移动速度\n\n咒舞\n对英雄造成魔法伤害或真实伤害时会提供移动速度，持续4秒。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_4629",
+        "gameId": "lol",
+        "name": "星界驱驰",
+        "updatedAt": "2026-09-06T18:11:12.963849Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_4629/attributes",
+      "status": 200,
+      "data": {
+        "attributeValues": {
+          "move_speed_percent": 0.04,
+          "hp": 350,
+          "ability_power": 70,
+          "ability_haste": 25
+        },
+        "equipmentKey": "item_4629"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_4629",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_4629",
+            "equipmentName": "星界驱驰",
+            "gameId": "lol",
+            "skillKey": "item_4629_passive",
+            "skillName": "星界驱驰·咒舞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T16:43:01.319894Z",
+        "description": "对英雄造成魔法或真实伤害后提供自身20点固定移动速度，持续4秒。候选保留单层独立移速效果；伤害类型与英雄类别门槛尚未接线，不重复现有4%直接移速，不采用未绑定旧叠层字段。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "星界驱驰·咒舞",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_4629_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T16:43:01.319894Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_4629",
+          "name": "item_4629"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T16:43:02.156703Z",
+          "description": "当前绑定 MovespeedAmount 对应同根 MoveSpeedAmount 计算式，常量20；大小写按客户端变量名称匹配。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒舞固定移动速度",
+          "parameterKey": "move_speed_bonus",
+          "skillKey": "item_4629_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T16:43:02.156703Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T16:43:02.740395Z",
+          "description": "当前绑定 StackDuration=4秒，换算4000毫秒。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒舞移动速度持续时间",
+          "parameterKey": "move_speed_duration_ms",
+          "skillKey": "item_4629_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-08T16:43:02.740395Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/parameters/move_speed_bonus",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T16:43:02.156703Z",
+        "description": "当前绑定 MovespeedAmount 对应同根 MoveSpeedAmount 计算式，常量20；大小写按客户端变量名称匹配。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒舞固定移动速度",
+        "parameterKey": "move_speed_bonus",
+        "skillKey": "item_4629_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T16:43:02.156703Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/parameters/move_speed_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T16:43:02.740395Z",
+        "description": "当前绑定 StackDuration=4秒，换算4000毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒舞移动速度持续时间",
+        "parameterKey": "move_speed_duration_ms",
+        "skillKey": "item_4629_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T16:43:02.740395Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T16:43:03.314916Z",
+          "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+          "effectKey": "spelldance_move_speed",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "咒舞自身移动速度",
+          "resultCount": 1,
+          "skillKey": "item_4629_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T16:43:03.314916Z"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/effects/spelldance_move_speed",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T16:43:03.314916Z",
+        "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+        "effectKey": "spelldance_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "move_speed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "咒舞自身移动速度",
+        "results": [
+          {
+            "description": "对英雄造成魔法或真实伤害后，单份20点固定移动速度持续4秒；合法事件选择尚未接线。",
+            "detail": {
+              "attributeKey": "move_speed",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "咒舞自身移动速度",
+            "resultKey": "move_speed",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "move_speed_bonus"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_4629_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T16:43:03.314916Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3803",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:11:09.271903Z",
+        "description": "来源：官方16.17.1装备3803。 原始说明：300生命值\n375法力\n\n永恒\n将来自英雄的10%所受伤害回复为法力值。\n施放一个技能时，治疗自身相当于25%法力消耗的生命值。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3803",
+        "gameId": "lol",
+        "name": "万世催化石",
+        "updatedAt": "2026-09-06T18:11:09.271903Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3803/attributes",
+      "status": 200,
+      "data": {
+        "attributeValues": {
+          "hp": 300,
+          "mana": 375
+        },
+        "equipmentKey": "item_3803"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3803",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3803",
+            "equipmentName": "万世催化石",
+            "gameId": "lol",
+            "skillKey": "item_3803_passive",
+            "skillName": "万世催化石·永恒",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:44.736393Z",
+        "description": "保存来自英雄的减免前伤害10%回蓝、技能法力消耗25%自疗、单次施放上限20和维持型技能每秒上限20参数。客户端EternityCDPerCast=1000毫秒作为原字段保留，适用事件范围待证；不把它扩展为普通施法全局冷却或受击回蓝冷却。damage_input明确接收减免前英雄伤害；技能消耗、英雄来源筛选和持续技能统计仍待接线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "万世催化石·永恒",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3803_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T02:16:35.474344Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3803",
+          "name": "item_3803"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:47:45.226962Z",
+          "description": "来自英雄所受伤害的10%转为法力，小数0.1表示10%。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "所受伤害回蓝比例",
+          "parameterKey": "mana_restore_ratio_from_damage",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:47:45.226962Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:47:45.674908Z",
+          "description": "技能法力消耗的25%转为自身治疗，小数0.25表示25%。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力消耗治疗比例",
+          "parameterKey": "health_restore_ratio_from_mana_cost",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:47:45.674908Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:47:46.17305Z",
+          "description": "客户端EternityMaxHealPerCast=20，单位：生命点/次。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "单次技能治疗上限",
+          "parameterKey": "health_restore_cap_per_cast",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:47:46.17305Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:47:46.669696Z",
+          "description": "客户端EternityCDPerCast=1秒（1000毫秒）原字段；适用事件范围待证，不解释为普通施法全局冷却或受击回蓝冷却。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "永恒内部冷却",
+          "parameterKey": "eternity_internal_cooldown_ms",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-08T02:16:36.747585Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:47:47.185583Z",
+          "description": "来自英雄的减免前伤害运行时输入，单位：伤害点；不使用防御结算后的伤害值。英雄来源和事件绑定待配置。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受击伤害运行时输入",
+          "parameterKey": "damage_input",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-08T02:16:36.189926Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:47:47.61356Z",
+          "description": "待触发绑定提供的本次技能法力消耗，持续技能规则待核。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "技能法力消耗运行时输入",
+          "parameterKey": "mana_cost_input",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T18:47:47.61356Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T02:16:37.24004Z",
+          "description": "当前绑定扩展说明只确证维持型技能每秒最多治疗20生命；本参数只记录上限，不构造逐秒治疗金额或流程。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "维持型技能每秒治疗上限",
+          "parameterKey": "health_restore_cap_per_second",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-08T02:16:37.24004Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/parameters/mana_restore_ratio_from_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:45.226962Z",
+        "description": "来自英雄所受伤害的10%转为法力，小数0.1表示10%。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "所受伤害回蓝比例",
+        "parameterKey": "mana_restore_ratio_from_damage",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:47:45.226962Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/parameters/health_restore_ratio_from_mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:45.674908Z",
+        "description": "技能法力消耗的25%转为自身治疗，小数0.25表示25%。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗治疗比例",
+        "parameterKey": "health_restore_ratio_from_mana_cost",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:47:45.674908Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/parameters/health_restore_cap_per_cast",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:46.17305Z",
+        "description": "客户端EternityMaxHealPerCast=20，单位：生命点/次。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "单次技能治疗上限",
+        "parameterKey": "health_restore_cap_per_cast",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:47:46.17305Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/parameters/eternity_internal_cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:46.669696Z",
+        "description": "客户端EternityCDPerCast=1秒（1000毫秒）原字段；适用事件范围待证，不解释为普通施法全局冷却或受击回蓝冷却。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "永恒内部冷却",
+        "parameterKey": "eternity_internal_cooldown_ms",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T02:16:36.747585Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/parameters/damage_input",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:47.185583Z",
+        "description": "来自英雄的减免前伤害运行时输入，单位：伤害点；不使用防御结算后的伤害值。英雄来源和事件绑定待配置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "受击伤害运行时输入",
+        "parameterKey": "damage_input",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T02:16:36.189926Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/parameters/mana_cost_input",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:47.61356Z",
+        "description": "待触发绑定提供的本次技能法力消耗，持续技能规则待核。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能法力消耗运行时输入",
+        "parameterKey": "mana_cost_input",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:47:47.61356Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/parameters/health_restore_cap_per_second",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:16:37.24004Z",
+        "description": "当前绑定扩展说明只确证维持型技能每秒最多治疗20生命；本参数只记录上限，不构造逐秒治疗金额或流程。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "维持型技能每秒治疗上限",
+        "parameterKey": "health_restore_cap_per_second",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T02:16:37.24004Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:47:48.139728Z",
+          "description": "运行时输入是来自英雄的减免前伤害，乘10%回蓝比例；英雄来源和输入事件留待触发绑定。",
+          "formulaKey": "mana_restore_from_damage",
+          "gameId": "lol",
+          "name": "所受伤害转法力",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:37.775088Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:47:48.736045Z",
+          "description": "运行时法力消耗乘25%治疗比例。",
+          "formulaKey": "health_restore_uncapped",
+          "gameId": "lol",
+          "name": "法力消耗转治疗未封顶值",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:47:48.736045Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:48:55.75888Z",
+          "description": "单次治疗取25%法力消耗与20点上限的较小值；公式树内联25%乘法，避免把公式结果误当表达式节点。",
+          "formulaKey": "health_restore_from_skill_cost",
+          "gameId": "lol",
+          "name": "法力消耗转治疗封顶值",
+          "skillKey": "item_3803_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:48:55.75888Z"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/formulas/mana_restore_from_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:48.139728Z",
+        "description": "运行时输入是来自英雄的减免前伤害，乘10%回蓝比例；英雄来源和输入事件留待触发绑定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_input"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_restore_ratio_from_damage"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "mana_restore_from_damage",
+        "gameId": "lol",
+        "name": "所受伤害转法力",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:37.775088Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/formulas/health_restore_uncapped",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:47:48.736045Z",
+        "description": "运行时法力消耗乘25%治疗比例。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_cost_input"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "health_restore_ratio_from_mana_cost"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "health_restore_uncapped",
+        "gameId": "lol",
+        "name": "法力消耗转治疗未封顶值",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:47:48.736045Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/formulas/health_restore_from_skill_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:48:55.75888Z",
+        "description": "单次治疗取25%法力消耗与20点上限的较小值；公式树内联25%乘法，避免把公式结果误当表达式节点。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_cost_input"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "health_restore_ratio_from_mana_cost"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "health_restore_cap_per_cast"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "health_restore_from_skill_cost",
+        "gameId": "lol",
+        "name": "法力消耗转治疗封顶值",
+        "skillKey": "item_3803_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:48:55.75888Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:48:56.29344Z",
+          "description": "以来自英雄的减免前伤害运行时输入的10%恢复持有者法力；英雄来源和伤害事件仍待触发绑定。客户端EternityCDPerCast=1000毫秒只作为原字段保留，适用范围待证，不预设受击回蓝冷却。",
+          "effectKey": "mana_from_hero_damage",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "受击回蓝",
+          "resultCount": 1,
+          "skillKey": "item_3803_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T02:16:38.269879Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:48:56.720977Z",
+          "description": "以运行时技能法力消耗的25%治疗持有者，单次通过公式封顶20点。",
+          "effectKey": "health_from_skill_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施法自疗",
+          "resultCount": 1,
+          "skillKey": "item_3803_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:48:56.720977Z"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/effects/mana_from_hero_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:48:56.29344Z",
+        "description": "以来自英雄的减免前伤害运行时输入的10%恢复持有者法力；英雄来源和伤害事件仍待触发绑定。客户端EternityCDPerCast=1000毫秒只作为原字段保留，适用范围待证，不预设受击回蓝冷却。",
+        "effectKey": "mana_from_hero_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "受击回蓝",
+        "results": [
+          {
+            "description": "恢复来自英雄的减免前伤害输入的10%法力。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "RESTORE"
+            },
+            "lifecycleBehavior": null,
+            "name": "恢复法力",
+            "resultKey": "mana_restore",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "mana_restore_from_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3803_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T02:16:38.269879Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/effects/health_from_skill_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:48:56.720977Z",
+        "description": "以运行时技能法力消耗的25%治疗持有者，单次通过公式封顶20点。",
+        "effectKey": "health_from_skill_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施法自疗",
+        "results": [
+          {
+            "description": "恢复25%运行时技能法力消耗，且单次不超过20点。",
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "恢复生命",
+            "resultKey": "health_restore",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "health_restore_from_skill_cost",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3803_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:48:56.720977Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules/on_magic_damage_dealt_to_champion",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "on_magic_damage_dealt_to_champion"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_4629_passive/trigger-rules/on_real_damage_dealt_to_champion",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "on_real_damage_dealt_to_champion"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3803_passive/trigger-rules/on_damage_taken_from_champion_restore_mana",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "on_damage_taken_from_champion_restore_mana"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    }
+  ],
+  "triggerRuleScan": {
+    "skillCount": 1062,
+    "listGetCount": 1062,
+    "detailGetCount": 87,
+    "ruleCount": 87,
+    "targetCategoryConditionCount": 5,
+    "damageRuleCount": 3,
+    "damageRulesWithTargetCategoryCount": 0,
+    "sha256": "84e75f15845e9b8e44f7ab3dfb73104dc3d3f24c57bc14365070a9da6ee442da",
+    "rules": [
+      {
+        "skillKey": "ahri_e",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "charm_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ahri_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "魅惑妖术实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ahri_r",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spirit_bolt_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ahri_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "灵魄突袭实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "annie_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spell_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "annie_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "碎裂之火实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "annie_r",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "summon_impact"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "annie_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "提伯斯之怒实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "annie_w",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spell_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "annie_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "焚烧实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "brand_e",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "conflagration_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "brand_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "烈火燃烧实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "brand_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "fireball_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "brand_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "火焰烙印实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "brand_r",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "pyroclasm_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "brand_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "烈焰风暴实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "diana_e",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "lunar_rush_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "diana_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "月神冲刺实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "diana_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "moon_arc_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "diana_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "新月打击实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_e",
+        "ruleKey": "resolve_on_e_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "name": "结算 E 命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "仅监听原始 E 弹体实际命中并执行伤害。寻敌和命中事件由运行层提供，伤害结果不得反向重复生成弹体命中事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "奥术跃迁实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_e_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_p",
+        "ruleKey": "stack_on_ez_e_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "gain_stack",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "rising_spell_force"
+              },
+              "name": "获得一层咒能高涨",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "对应技能命中敌人时执行咒能高涨攻速层数效果。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "奥术跃迁命中获得咒能高涨",
+          "perTargetCooldown": null,
+          "ruleKey": "stack_on_ez_e_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_p",
+        "ruleKey": "stack_on_ez_q_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "gain_stack",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "rising_spell_force"
+              },
+              "name": "获得一层咒能高涨",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "对应技能命中敌人时执行咒能高涨攻速层数效果。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "秘术射击命中获得咒能高涨",
+          "perTargetCooldown": null,
+          "ruleKey": "stack_on_ez_q_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_p",
+        "ruleKey": "stack_on_ez_r_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "gain_stack",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "rising_spell_force"
+              },
+              "name": "获得一层咒能高涨",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "对应技能命中敌人时执行咒能高涨攻速层数效果。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "精准弹幕命中获得咒能高涨",
+          "perTargetCooldown": null,
+          "ruleKey": "stack_on_ez_r_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_p",
+        "ruleKey": "stack_on_ez_w_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "gain_stack",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "rising_spell_force"
+              },
+              "name": "获得一层咒能高涨",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "对应技能命中敌人时执行咒能高涨攻速层数效果。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "精华跃动命中获得咒能高涨",
+          "perTargetCooldown": null,
+          "ruleKey": "stack_on_ez_w_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_q",
+        "ruleKey": "resolve_on_q_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "name": "结算 Q 命中伤害与冷却缩减",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "仅监听原始 Q 弹体实际命中，执行伤害及全技能冷却缩减。法术护盾不阻止命中事件和冷却缩减；伤害是否被阻挡由伤害结算处理。伤害结果不得反向重复生成弹体命中事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "秘术射击实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_q_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_r",
+        "ruleKey": "resolve_on_r_champion_epic_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "champion_hit"
+              },
+              "name": "结算 R 英雄与史诗野怪伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "cond_1",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION",
+                      "EPIC_MONSTER"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_epic_target",
+              "name": "命中英雄或史诗野怪",
+              "sortOrder": 10
+            }
+          ],
+          "description": "原始 R 弹体实际命中英雄或史诗野怪时执行通常伤害。每个实际目标独立判断；缺少目标类别不能默认放行，伤害结果不得重复生成弹体命中事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "精准弹幕命中英雄与史诗野怪",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_r_champion_epic_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_r",
+        "ruleKey": "resolve_on_r_minion_monster_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "minion_monster_hit"
+              },
+              "name": "结算 R 小兵与非史诗野怪伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "cond_1",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "MINION",
+                      "NON_EPIC_MONSTER"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "minion_monster_target",
+              "name": "命中小兵或非史诗野怪",
+              "sortOrder": 10
+            }
+          ],
+          "description": "原始 R 弹体实际命中小兵或非史诗野怪时执行对应伤害。与英雄、史诗野怪分支互斥；缺少目标类别不能默认放行，伤害结果不得重复生成弹体命中事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "精准弹幕命中小兵与非史诗野怪",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_r_minion_monster_hit",
+          "sortOrder": 20
+        }
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "apply_mark_on_w_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "essence_flux_mark"
+              },
+              "name": "施加或刷新精华跃动印记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "cond_1",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION",
+                      "EPIC_MONSTER",
+                      "STRUCTURE"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "valid_mark_target",
+              "name": "可附着印记的命中目标",
+              "sortOrder": 10
+            }
+          ],
+          "description": "监听原始W弹体实际命中英雄、史诗野怪或建筑，施加或刷新私有印记生命周期。技能伤害结果不得再次伪造W弹体命中事件；缺少目标类别不能默认放行。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "精华跃动实际命中后挂标",
+          "perTargetCooldown": null,
+          "ruleKey": "apply_mark_on_w_hit",
+          "sortOrder": 0
+        }
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "detonate_private_mark_on_basic_attack_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "detonate_mark",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "detonate_by_attack"
+              },
+              "name": "普通攻击引爆印记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 20,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "mark_present",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "PRESENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "essence_flux_mark",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "marked_target",
+              "name": "当前目标存在 W 私有印记",
+              "sortOrder": 10
+            }
+          ],
+          "description": "普通攻击实际命中当前目标且存在自身来源的 W 印记时，移除该印记并结算一次引爆伤害；普攻路径不回复法力。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "普通攻击命中引爆印记",
+          "perTargetCooldown": null,
+          "ruleKey": "detonate_private_mark_on_basic_attack_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "detonate_private_mark_on_ez_e_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "detonate_mark",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "detonate_with_mana_refund"
+              },
+              "name": "技能命中引爆印记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [
+                {
+                  "bindingKey": "source_cast_mana",
+                  "detail": {
+                    "attributeKey": "mana"
+                  },
+                  "parameterKey": "source_cast_mana_cost",
+                  "sourceType": "SOURCE_CAST_RESOURCE_COST"
+                }
+              ],
+              "sortOrder": 20,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "mark_present",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "PRESENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "essence_flux_mark",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "hit_not_spell_shielded",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 20
+                }
+              ],
+              "groupKey": "marked_target",
+              "name": "存在自身印记且本次技能命中未被法术护盾阻挡",
+              "sortOrder": 10
+            }
+          ],
+          "description": "来源技能实际命中且未被法术护盾阻挡，同时当前目标存在自身来源的 W 印记时，消费印记并结算一次引爆伤害，回复60加该次来源施放法力消耗。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "奥术跃迁命中引爆印记",
+          "perTargetCooldown": null,
+          "ruleKey": "detonate_private_mark_on_ez_e_hit",
+          "sortOrder": 30
+        }
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "detonate_private_mark_on_ez_q_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "detonate_mark",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "detonate_with_mana_refund"
+              },
+              "name": "技能命中引爆印记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [
+                {
+                  "bindingKey": "source_cast_mana",
+                  "detail": {
+                    "attributeKey": "mana"
+                  },
+                  "parameterKey": "source_cast_mana_cost",
+                  "sourceType": "SOURCE_CAST_RESOURCE_COST"
+                }
+              ],
+              "sortOrder": 20,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "mark_present",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "PRESENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "essence_flux_mark",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "hit_not_spell_shielded",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 20
+                }
+              ],
+              "groupKey": "marked_target",
+              "name": "存在自身印记且本次技能命中未被法术护盾阻挡",
+              "sortOrder": 10
+            }
+          ],
+          "description": "来源技能实际命中且未被法术护盾阻挡，同时当前目标存在自身来源的 W 印记时，消费印记并结算一次引爆伤害，回复60加该次来源施放法力消耗。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "秘术射击命中引爆印记",
+          "perTargetCooldown": null,
+          "ruleKey": "detonate_private_mark_on_ez_q_hit",
+          "sortOrder": 20
+        }
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "detonate_private_mark_on_ez_r_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "detonate_mark",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "detonate_with_mana_refund"
+              },
+              "name": "技能命中引爆印记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [
+                {
+                  "bindingKey": "source_cast_mana",
+                  "detail": {
+                    "attributeKey": "mana"
+                  },
+                  "parameterKey": "source_cast_mana_cost",
+                  "sourceType": "SOURCE_CAST_RESOURCE_COST"
+                }
+              ],
+              "sortOrder": 20,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "mark_present",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "PRESENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "essence_flux_mark",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "hit_not_spell_shielded",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 20
+                }
+              ],
+              "groupKey": "marked_target",
+              "name": "存在自身印记且本次技能命中未被法术护盾阻挡",
+              "sortOrder": 10
+            }
+          ],
+          "description": "来源技能实际命中且未被法术护盾阻挡，同时当前目标存在自身来源的 W 印记时，消费印记并结算一次引爆伤害，回复60加该次来源施放法力消耗。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ez_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "精准弹幕命中引爆印记",
+          "perTargetCooldown": null,
+          "ruleKey": "detonate_private_mark_on_ez_r_hit",
+          "sortOrder": 40
+        }
+      },
+      {
+        "skillKey": "item_1043_passive",
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_on_hit_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "on_hit_damage"
+              },
+              "name": "执行叮刺额外伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "按客户端攻击附带文案监听已有普通攻击命中事件；技能触发攻击特效的范围不在本批扩大。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "普通攻击命中结算叮刺",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_basic_attack_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_1083_passive",
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_on_hit_heal",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "on_hit_heal"
+              },
+              "name": "执行收割攻击治疗",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "按来源每次攻击回复生命值的文案监听已有普通攻击命中事件；金币奖励不进入本技能。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "普通攻击命中结算收割",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_basic_attack_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_2501_passive",
+        "ruleKey": "initialize_ad_from_bonus_hp",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ad_from_bonus_hp",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ad_from_bonus_hp"
+              },
+              "name": "执行专横属性效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立按当前额外生命读取的专横属性效果；报复完整函数不在本规则中猜测。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化专横",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ad_from_bonus_hp",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3003_passive",
+        "ruleKey": "initialize_ap_from_bonus_mana",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ap_from_bonus_mana",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ap_from_bonus_mana"
+              },
+              "name": "执行敬畏属性效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立按当前额外法力读取的敬畏属性效果；法力流技能命中筛选不在本规则中扩大。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化敬畏额外法力转法术强度",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ap_from_bonus_mana",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3004_passive",
+        "ruleKey": "initialize_bonus_attack_damage_from_max_mana",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_bonus_attack_damage_from_max_mana",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "bonus_attack_damage_from_max_mana"
+              },
+              "name": "执行敬畏属性效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立按当前最大法力读取的属性效果；法力流命中事件和魔切替换不在本规则中扩大。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化敬畏最大法力转攻击力",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_bonus_attack_damage_from_max_mana",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3040_passive",
+        "ruleKey": "on_damage_cross_below_lifeline_threshold",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_lifeline_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "lifeline_shield"
+              },
+              "name": "执行救主灵刃护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "health_before_at_or_above_threshold",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "GTE",
+                    "comparisonValue": {
+                      "formulaKey": "lifeline_health_threshold_value",
+                      "kind": "FORMULA"
+                    },
+                    "eventValueKey": "HEALTH_BEFORE"
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "projected_health_below_threshold",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "LT",
+                    "comparisonValue": {
+                      "formulaKey": "lifeline_health_threshold_value",
+                      "kind": "FORMULA"
+                    },
+                    "eventValueKey": "PROJECTED_HEALTH_AFTER"
+                  },
+                  "sortOrder": 20
+                }
+              ],
+              "groupKey": "cross_below_lifeline_threshold",
+              "name": "向下越过救主灵刃阈值",
+              "sortOrder": 10
+            }
+          ],
+          "description": "待处理伤害使持有者生命值从不低于30%最大生命值降到低于30%时，在护盾吸收和扣血前执行救主灵刃护盾；同一持有者冷却90秒。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "originKind": "ANY"
+            },
+            "eventType": "DAMAGE_PENDING"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "伤前触发救主灵刃",
+          "perTargetCooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "lifeline_cooldown_ms"
+            },
+            "targetContext": "CURRENT_TARGET"
+          },
+          "ruleKey": "on_damage_cross_below_lifeline_threshold",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3047_passive",
+        "ruleKey": "initialize_plating_basic_damage_reduction",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_plating_basic_damage_reduction",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "plating_basic_damage_reduction"
+              },
+              "name": "执行镀板伤害减免",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "来源对象初始化完成后建立铁板靴持续基础攻击伤害减免。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化镀板伤害减免",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_plating_basic_damage_reduction",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3050_passive",
+        "ruleKey": "initialize_ultimate_haste",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ultimate_haste",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ultimate_haste"
+              },
+              "name": "执行终极技能急速",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备持有者初始化时，对已核对的170个终极技能执行冰晶燃烧终极技能急速效果。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化冰晶燃烧终极技能急速",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ultimate_haste",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3074_active",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "physical_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "active_hit"
+              },
+              "name": "执行血斩物理伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "仅在运行时确认血斩实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "item_3074_active",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "血斩实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3075_passive",
+        "ruleKey": "reflect_on_basic_attack_taken",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_thorn_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "thorn_damage"
+              },
+              "name": "执行荆棘反伤",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "按冻结说明把直接的普通攻击伤害筛选为受击事件，并以事件来源对象作为反伤目标；重伤状态另因共享状态目录缺失而待补。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT"
+            },
+            "eventType": "DAMAGE_TAKEN"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "受到普攻命中后反伤",
+          "perTargetCooldown": null,
+          "ruleKey": "reflect_on_basic_attack_taken",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3076_passive",
+        "ruleKey": "reflect_on_basic_attack_taken",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_thorn_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "thorn_damage"
+              },
+              "name": "执行荆棘反伤",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "按冻结说明把直接的普通攻击伤害筛选为受击事件，并以事件来源对象作为反伤目标；重伤状态另因共享状态目录缺失而待补。",
+          "eventSource": {
+            "detail": {
+              "damageTypeKey": null,
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT"
+            },
+            "eventType": "DAMAGE_TAKEN"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "受到普攻命中后反伤",
+          "perTargetCooldown": null,
+          "ruleKey": "reflect_on_basic_attack_taken",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3077_active",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "physical_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "active_hit"
+              },
+              "name": "执行新月物理伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "仅在运行时确认新月实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "item_3077_active",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "新月实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3078_passive",
+        "ruleKey": "grant_move_speed_on_basic_attack_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_move_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "move_speed"
+              },
+              "name": "执行加快移动速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "客户端说明明确为攻击一个单位后提供持续2秒的20点移动速度；本规则只接入普攻命中这一已有事件，不扩大咒刃触发范围。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "攻击命中获得加快",
+          "perTargetCooldown": null,
+          "ruleKey": "grant_move_speed_on_basic_attack_hit",
+          "sortOrder": 20
+        }
+      },
+      {
+        "skillKey": "item_3089_passive",
+        "ruleKey": "initialize_total_ap_multiplier",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_total_ap_percent",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "total_ap_percent"
+              },
+              "name": "执行总法术强度提升",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "死亡之帽是装备持有时就生效的无条件被动，使用SOURCE_INITIALIZED并保持事件明细为空。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化总法术强度提升",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_total_ap_multiplier",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3091_passive",
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_on_hit_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "on_hit_damage"
+              },
+              "name": "执行喧争额外伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "监听普通攻击命中并执行喧争额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "普通攻击命中结算喧争",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_basic_attack_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3102_passive",
+        "ruleKey": "consume_on_spell_block",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "consume_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "consume_spell_shield"
+              },
+              "name": "消费自身法术护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "格挡成功后移除本技能自身护盾；不把自然结束或任意伤害当作成功格挡。",
+          "eventSource": {
+            "detail": {
+              "shieldEffectKey": "spell_shield"
+            },
+            "eventType": "SPELL_SHIELD_BLOCKED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "法术护盾成功格挡后消费",
+          "perTargetCooldown": null,
+          "ruleKey": "consume_on_spell_block",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3115_passive",
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_on_hit_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "on_hit_damage"
+              },
+              "name": "执行艾卡西亚之咬额外伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "监听普通攻击命中并执行艾卡西亚之咬额外魔法伤害。技能触发攻击特效的事件范围未在本次录入中扩大。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "普通攻击命中结算艾卡西亚之咬",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_basic_attack_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3124_passive",
+        "ruleKey": "resolve_rageblade_basic_attack",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_on_hit_magic_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "on_hit_magic_damage"
+              },
+              "name": "执行怨怒额外魔法伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            },
+            {
+              "actionKey": "execute_attack_speed_stack",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "attack_speed_stack"
+              },
+              "name": "执行沸腾打击层数",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 20,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "按来源攻击附带与普通攻击叠层文案监听BASIC_ATTACK_HIT；技能触发攻击特效不扩大到该事件，第三次攻击双附伤另行待配。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "普通攻击命中结算怨怒与沸腾打击",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_rageblade_basic_attack",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3143_passive",
+        "ruleKey": "initialize_resilience_critical_damage_reduction",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_resilience_critical_damage_reduction",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "resilience_critical_damage_reduction"
+              },
+              "name": "执行复原力伤害减免",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "来源对象初始化完成后建立兰顿之兆持续暴击伤害减免。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化复原力伤害减免",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_resilience_critical_damage_reduction",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3161_passive",
+        "ruleKey": "initialize_basic_skill_haste",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_basic_skill_haste",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "basic_skill_haste"
+              },
+              "name": "执行基础技能急速",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备持有时对现有common技能类别应用25点技能急速；仅完成配置与回读。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化龙之力量",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_basic_skill_haste",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_3814_passive",
+        "ruleKey": "consume_on_successful_block",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "consume_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "consume_spell_shield"
+              },
+              "name": "消耗本次格挡护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "法术护盾不自动消费，成功格挡后显式移除；恢复另配。",
+          "eventSource": {
+            "detail": {
+              "shieldEffectKey": "spell_shield"
+            },
+            "eventType": "SPELL_SHIELD_BLOCKED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "成功格挡后消耗护盾",
+          "perTargetCooldown": null,
+          "ruleKey": "consume_on_successful_block",
+          "sortOrder": 20
+        }
+      },
+      {
+        "skillKey": "item_3814_passive",
+        "ruleKey": "initialize_spell_shield",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_spell_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spell_shield"
+              },
+              "name": "执行法术护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立一层法术护盾；成功格挡后的消费和40秒重获规则待补。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化废除法术护盾",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_spell_shield",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_4632_passive",
+        "ruleKey": "consume_on_spell_block",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "consume_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "consume_spell_shield"
+              },
+              "name": "消费自身法术护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只接收本技能法术护盾成功格挡事件；普通攻击、自然结束或其他护盾格挡不触发本消费。",
+          "eventSource": {
+            "detail": {
+              "shieldEffectKey": "spell_shield"
+            },
+            "eventType": "SPELL_SHIELD_BLOCKED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "法术护盾成功格挡后消费",
+          "perTargetCooldown": null,
+          "ruleKey": "consume_on_spell_block",
+          "sortOrder": 20
+        }
+      },
+      {
+        "skillKey": "item_4632_passive",
+        "ruleKey": "initialize_spell_shield",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_spell_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spell_shield"
+              },
+              "name": "授予自身法术护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备持有者初始化时建立自身一层法术护盾；成功格挡后的60秒恢复和受伤重置待配。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化废除法术护盾",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_spell_shield",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_4633_passive",
+        "ruleKey": "initialize_ap_from_bonus_hp",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ap_from_bonus_hp",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ap_from_bonus_hp"
+              },
+              "name": "执行虚空灌注属性效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备生效时建立按当前额外生命读取的虚空灌注属性效果；虚空腐蚀战斗筛选不在本规则中扩大。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化虚空灌注",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_ap_from_bonus_hp",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_6621_passive",
+        "ruleKey": "initialize_dawncore_scaling",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_ap_from_base_mana_regen",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "ap_from_base_mana_regen"
+              },
+              "name": "执行基础法力回复法术强度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            },
+            {
+              "actionKey": "execute_heal_shield_from_base_mana_regen",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "heal_shield_from_base_mana_regen"
+              },
+              "name": "执行基础法力回复治疗护盾强度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 20,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "装备持有时读取来源对象基础法力回复比例并分别执行法术强度与治疗护盾强度增益。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化最初之光",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_dawncore_scaling",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_6657_passive",
+        "ruleKey": "initialize_timeless_growth",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_timeless_growth",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "timeless_growth_process"
+              },
+              "name": "启动时无限十次成长",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "来源对象初始化时启动一次有界成长过程，满层升级和永恒另行配置。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化时无限十次成长",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_timeless_growth",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "item_6698_active",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "physical_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "active_hit"
+              },
+              "name": "执行邪斩物理伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "仅在运行时确认邪斩实际命中当前目标后执行核心伤害；规则本身不生成范围命中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "item_6698_active",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "邪斩实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "jax_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "leap_damage"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "jax_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "跳斩实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "jax_r",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "active_damage"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "jax_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "武器大师实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "lucian_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "beam_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lucian_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "透体圣光实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "lucian_r",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "bullet_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lucian_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "圣枪洗礼实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "lucian_w",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "flare_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lucian_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "热诚烈弹实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "lux_q",
+        "ruleKey": "resolve_on_q_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "resolve_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "light_binding_hit"
+              },
+              "name": "结算命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lux_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "光之束缚实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_q_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "lux_r",
+        "ruleKey": "resolve_on_r_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "resolve_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "final_spark_hit"
+              },
+              "name": "结算命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lux_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "终极闪光实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_r_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "malphite_e",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "slam_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "malphite_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "大地震颤实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "malphite_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "shard_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "malphite_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "地震碎片实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "malphite_r",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "impact_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "malphite_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "势不可挡实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "mordekaiser_e",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "death_grasp_damage"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "mordekaiser_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "断魂一扼实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "mordekaiser_p",
+        "ruleKey": "basic_attack_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "attack_bonus_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "attack_bonus_damage"
+              },
+              "name": "执行attack_bonus_damage",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只接受所列真实事件；规则不自行生成命中。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "真实普攻命中附带黑暗起兮伤害",
+          "perTargetCooldown": null,
+          "ruleKey": "basic_attack_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "nasus_p",
+        "ruleKey": "initialize_lifesteal",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "soul_eater_lifesteal"
+              },
+              "name": "施加自身生命偷取",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "来源基础属性、挂载技能和初始状态准备完成后，对自身施加吞噬灵魂生命偷取；按当前角色等级读取，初始化仅触发一次。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化生命偷取",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_lifesteal",
+          "sortOrder": 0
+        }
+      },
+      {
+        "skillKey": "nocturne_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "damage"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "nocturne_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "梦魇之径实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "nocturne_w",
+        "ruleKey": "consume_and_empower_on_block",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "consume_spell_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "consume_spell_shield"
+              },
+              "name": "执行consume_spell_shield",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            },
+            {
+              "actionKey": "on_block_additional_attack_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "on_block_additional_attack_speed"
+              },
+              "name": "执行on_block_additional_attack_speed",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 20,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只接受所列真实事件；不自行生成命中。",
+          "eventSource": {
+            "detail": {
+              "shieldEffectKey": "spell_shield"
+            },
+            "eventType": "SPELL_SHIELD_BLOCKED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "本技能屏障成功格挡后消费并增攻速",
+          "perTargetCooldown": null,
+          "ruleKey": "consume_and_empower_on_block",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "olaf_e",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "reckless_damage"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "olaf_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "鲁莽挥击实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "olaf_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "axe_damage"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "olaf_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "逆流投掷实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "rune_5005_passive",
+        "ruleKey": "initialize_stat_bonus",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_stat_bonus",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "stat_bonus"
+              },
+              "name": "执行攻击速度加成",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "来源对象初始化完成时，建立此来源的单层常驻属性加成。重复施加保持一层，不在初始化时造成伤害、治疗或扣除资源。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化攻击速度常驻加成",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_stat_bonus",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "rune_5007_passive",
+        "ruleKey": "initialize_stat_bonus",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_stat_bonus",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "stat_bonus"
+              },
+              "name": "执行技能急速加成",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "来源对象初始化完成时，建立此来源的单层常驻属性加成。重复施加保持一层，不在初始化时造成伤害、治疗或扣除资源。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化技能急速常驻加成",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_stat_bonus",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "rune_5011_passive",
+        "ruleKey": "initialize_stat_bonus",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_stat_bonus",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "stat_bonus"
+              },
+              "name": "执行固定生命值加成",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "来源对象初始化完成时，建立此来源的单层常驻属性加成。重复施加保持一层，不在初始化时造成伤害、治疗或扣除资源。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化固定生命值常驻加成",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_stat_bonus",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "rune_8210_passive",
+        "ruleKey": "initialize_level_ability_haste",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_level_ability_haste",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "level_ability_haste"
+              },
+              "name": "建立超然等级急速",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只初始化此来源明确无条件的属性组成，未包含其他有条件分支。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化超然等级急速",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_level_ability_haste",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "rune_8453_passive",
+        "ruleKey": "initialize_base_heal_shield_power",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_base_heal_shield_power",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "base_heal_shield_power"
+              },
+              "name": "建立复苏基础强度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只初始化此来源明确无条件的属性组成，未包含其他有条件分支。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化复苏基础强度",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_base_heal_shield_power",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "rune_9104_passive",
+        "ruleKey": "initialize_base_attack_speed",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_base_attack_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "base_attack_speed"
+              },
+              "name": "建立欢欣基础攻速",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "EVENT_SOURCE"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只初始化此来源明确无条件的属性组成，未包含其他有条件分支。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "初始化欢欣基础攻速",
+          "perTargetCooldown": null,
+          "ruleKey": "initialize_base_attack_speed",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "sett_e",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "facebreaker_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "facebreaker_hit"
+              },
+              "name": "执行facebreaker_hit",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只接受所列真实事件；规则不自行生成命中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "sett_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "裂颅实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "sivir_e",
+        "ruleKey": "successful_spell_block",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "block_heal"
+              },
+              "name": "执行block_heal",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+          "eventSource": {
+            "detail": {
+              "shieldEffectKey": "spell_shield"
+            },
+            "eventType": "SPELL_SHIELD_BLOCKED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "法术护盾成功格挡后治疗",
+          "perTargetCooldown": null,
+          "ruleKey": "successful_spell_block",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "sivir_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "boomerang_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "sivir_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "回旋之刃实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "sivir_r",
+        "ruleKey": "active_attack_refund",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "attack_basic_refund",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "attack_basic_refund"
+              },
+              "name": "执行attack_basic_refund",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "hunt_active",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "PRESENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "on_the_hunt",
+                    "subject": null
+                  },
+                  "sortOrder": 20
+                }
+              ],
+              "groupKey": "required",
+              "name": "必要条件",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "狩猎期间攻击英雄返还基础技能冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "active_attack_refund",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "tristana_r",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "cannon_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "tristana_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "毁灭射击实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "tristana_w",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "landing_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "tristana_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "火箭跳跃实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "tristana_w",
+        "ruleKey": "own_kill_reset",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "reset_jump",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "reset_jump"
+              },
+              "name": "重置火箭跳跃冷却",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_only",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "killed_target",
+              "name": "被击杀对象",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "KILL"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "本人击杀英雄重置火箭跳跃",
+          "perTargetCooldown": null,
+          "ruleKey": "own_kill_reset",
+          "sortOrder": 20
+        }
+      },
+      {
+        "skillKey": "vayne_e",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "initial_damage"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "vayne_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "恶魔审判实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "veigar_q",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "baleful_strike_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "veigar_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "黑暗祭祀实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "veigar_w",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "dark_matter_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "veigar_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "黑暗物质实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "vi_r",
+        "ruleKey": "actual_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "primary_damage"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "vi_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "天霸横空烈轰实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "xinzhao_e",
+        "ruleKey": "actual_charge_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "charge_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "charge_hit"
+              },
+              "name": "执行charge_hit",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只接受所列真实事件；规则不自行生成命中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "xinzhao_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "无畏冲锋实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_charge_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "skillKey": "xinzhao_r",
+        "ruleKey": "actual_sweep_hit",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "sweep_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "sweep_hit"
+              },
+              "name": "执行sweep_hit",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "只接受所列真实事件；规则不自行生成命中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "xinzhao_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "新月横扫实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_sweep_hit",
+          "sortOrder": 10
+        }
+      }
+    ]
+  }
+}
