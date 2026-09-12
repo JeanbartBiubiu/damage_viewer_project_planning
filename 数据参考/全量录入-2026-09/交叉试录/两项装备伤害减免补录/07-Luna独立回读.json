@@ -1,0 +1,84 @@
+{
+  "验证范围": "两项装备伤害减免补录的独立纯GET实库回读",
+  "工作树": "C:\\project\\damage_web_dev",
+  "分支": "web/dev",
+  "方法策略": "GET_ONLY",
+  "GET数": 26,
+  "业务写入数": 0,
+  "结论": "PASS",
+  "证据": {
+    "独立GET": {
+      "退出码": 0,
+      "请求状态": "26个GET全部返回200",
+      "失败路径": []
+    },
+    "工作树": {
+      "gitDiff": "空",
+      "状态": "与验证前一致，仅保留原有未跟踪补录目录"
+    }
+  },
+  "逐项断言": {
+    "冻结计划为版本1且包含6项新增": true,
+    "6个新增目标唯一": true,
+    "来源散列与冻结值一致": true,
+    "两项乘区均为DAMAGE、RATIO_ADD、DAMAGE_PRE_DEFENSE、ENABLED": true,
+    "原四个乘区完整保持": true,
+    "乘区总数为6": true,
+    "两个新增乘区各出现一次": true,
+    "铁板靴详情完整回读": true,
+    "铁板靴参数绑定0.1": true,
+    "铁板靴筛选为BASIC_ATTACK+ANY": true,
+    "铁板靴为TAKEN+DECREASE并绑定独立乘区": true,
+    "铁板靴生命周期为PERSISTENT、SOURCE单层、快照、无自然到期": true,
+    "铁板靴对应SOURCE_INITIALIZED规则": true,
+    "兰顿详情完整回读": true,
+    "兰顿参数绑定0.3": true,
+    "兰顿筛选为ANY+CRITICAL_ONLY": true,
+    "兰顿为TAKEN+DECREASE并绑定独立乘区": true,
+    "兰顿生命周期为PERSISTENT、SOURCE单层、快照、无自然到期": true,
+    "兰顿对应SOURCE_INITIALIZED规则": true,
+    "两个效果及两条规则各出现一次": true,
+    "两个技能主体、参数、公式、过程、内部状态、关系、代表图保持基线": true
+  },
+  "观察到的关键值": {
+    "乘区总数": 6,
+    "铁板靴": {
+      "乘区": "item_3047_basic_damage_reduction",
+      "效果": "plating_basic_damage_reduction",
+      "结果": "incoming_basic_damage_reduction",
+      "参数": "incoming_attack_damage_reduction",
+      "固定值": 0.1,
+      "方向": "TAKEN",
+      "操作": "DECREASE",
+      "传递方式": "BASIC_ATTACK",
+      "来源类别": "ANY",
+      "暴击过滤": "ANY",
+      "生命周期": "PERSISTENT",
+      "初始化事件": "SOURCE_INITIALIZED"
+    },
+    "兰顿": {
+      "乘区": "item_3143_critical_damage_reduction",
+      "效果": "resilience_critical_damage_reduction",
+      "结果": "incoming_critical_damage_reduction",
+      "参数": "critical_damage_reduction_ratio",
+      "固定值": 0.3,
+      "方向": "TAKEN",
+      "操作": "DECREASE",
+      "传递方式": "ANY",
+      "来源类别": "ANY",
+      "暴击过滤": "CRITICAL_ONLY",
+      "生命周期": "PERSISTENT",
+      "初始化事件": "SOURCE_INITIALIZED"
+    }
+  },
+  "写入报告参考": {
+    "状态": "PASS",
+    "报告记录业务写入数": 6,
+    "用途": "仅作参考，未替代本次实库GET"
+  },
+  "问题": [],
+  "覆盖边界": [
+    "本次证据证明管理数据已写入并可独立回读。",
+    "不证明战斗运行时、Wasm或浏览器实际执行伤害减免。"
+  ]
+}

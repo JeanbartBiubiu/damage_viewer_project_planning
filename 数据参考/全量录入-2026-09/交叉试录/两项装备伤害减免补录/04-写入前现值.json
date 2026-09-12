@@ -1,0 +1,407 @@
+{
+  "capturedAt": "2026-09-12T05:31:26.957Z",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "getCount": 26,
+  "businessWrites": 0,
+  "candidateExpectedStatus": 404,
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T17:56:45.948337Z",
+        "description": "保存16.17客户端与官方16.17.1说明共同确证的镀板10%攻击伤害降低参数；装备自身25护甲与45移动速度不在技能中重复施加。当前管理目录没有DAMAGE修正乘区，因此不把属性乘区冒充攻击伤害减免，效果与触发留待补配。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "铁板靴·镀板",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3047_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T17:56:45.948337Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T17:56:46.51526Z",
+          "description": "即将到来的攻击伤害降低10%，小数0.1表示10%。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "镀板攻击伤害降低比例",
+          "parameterKey": "incoming_attack_damage_reduction",
+          "skillKey": "item_3047_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:56:46.51526Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3047",
+          "name": "item_3047"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T16:43:12.003313Z",
+        "description": "所受的来自暴击的伤害降低30%。本被动候选仅保留确定削减比例；暴击过滤、减伤计算区和作用阶段未接线，不能减少对手暴击率或借属性区代替。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "兰顿之兆·复原力",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3143_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T16:43:12.003313Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T16:43:12.657049Z",
+          "description": "当前 PercentCritDamageReduction=0.3，绑定复原力与官方说明一致。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受到暴击伤害削减比例",
+          "parameterKey": "critical_damage_reduction_ratio",
+          "skillKey": "item_3143_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T16:43:12.657049Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3143",
+          "name": "item_3143"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3047",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3047",
+            "equipmentName": "铁板靴",
+            "gameId": "lol",
+            "skillKey": "item_3047_passive",
+            "skillName": "铁板靴·镀板",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3143",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3143",
+            "equipmentName": "兰顿之兆",
+            "gameId": "lol",
+            "skillKey": "item_3143_passive",
+            "skillName": "兰顿之兆·复原力",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          },
+          {
+            "equipmentKey": "item_3143",
+            "equipmentName": "兰顿之兆",
+            "gameId": "lol",
+            "skillKey": "item_3143_active",
+            "skillName": "兰顿之兆·谦卑",
+            "skillStatus": "ENABLED",
+            "sortOrder": 20
+          }
+        ],
+        "total": 2
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones/item_3047_basic_damage_reduction",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.MODIFIER_ZONE_NOT_FOUND",
+          "details": {
+            "modifierZoneKey": "item_3047_basic_damage_reduction"
+          },
+          "message": "乘区不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones/item_3143_critical_damage_reduction",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.MODIFIER_ZONE_NOT_FOUND",
+          "details": {
+            "modifierZoneKey": "item_3143_critical_damage_reduction"
+          },
+          "message": "乘区不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/effects/plating_basic_damage_reduction",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "plating_basic_damage_reduction"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3047_passive/trigger-rules/initialize_plating_basic_damage_reduction",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "initialize_plating_basic_damage_reduction"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/effects/resilience_critical_damage_reduction",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "resilience_critical_damage_reduction"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3143_passive/trigger-rules/initialize_resilience_critical_damage_reduction",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "initialize_resilience_critical_damage_reduction"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    }
+  ]
+}
