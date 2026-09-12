@@ -1,0 +1,1368 @@
+{
+  "startedAt": "2026-09-12T12:14:11.852Z",
+  "completedAt": "2026-09-12T12:14:17.442Z",
+  "status": "PASS",
+  "passed": true,
+  "methodPolicy": "GET_ONLY",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "businessWriteCount": 0,
+  "apiWrites": 0,
+  "getCount": 1199,
+  "mismatches": 0,
+  "inputFiles": {
+    "README.md": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\README.md",
+      "sha256": "df0e3b3b59b0d68c1983d60d3c11490ac519fec091db7c7f71c472ded32207f8"
+    },
+    "01-来源与方案.md": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\01-来源与方案.md",
+      "sha256": "c65e1f3b0371973e204b1a4a9f19223f5cdb0f6879a701474824380e20e82944"
+    },
+    "02-冻结请求.json": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\02-冻结请求.json",
+      "sha256": "ae75b8bde7344f7470496014b0f205553723cbef81f39a7491c3ec3ee339c6ca"
+    },
+    "03-来源快照.json": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\03-来源快照.json",
+      "sha256": "3646d339ccf2c0985ee22107b3ad6b74fb729d3201cdabaddf829bb725f10b5b"
+    },
+    "04-写入前现值.json": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\04-写入前现值.json",
+      "sha256": "6feccfcef9a10f84f40be3adbf1d85d2de47c71ae7ca63a56dcb0bb8eeefbd09"
+    },
+    "05-Cursor独立评审.json": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\05-Cursor独立评审.json",
+      "sha256": "d876f358eda9b4783fb8d747e7406adf3fb34fcd136aeeb56df73ebdab08512a"
+    },
+    "06-写入与即时回读.json": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\06-写入与即时回读.json",
+      "sha256": "f1c332f83e0fa4e62a4f39005c8e100e00c099dda2d939ce610ad7b546f914ef"
+    },
+    "受保护写入.mjs": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\受保护写入.mjs",
+      "sha256": "3498aa3639762604ff0e6c296549a2672ce109436420bb5d43ff4b4742d40747"
+    },
+    "页面验收.mjs": {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\奥拉夫W与盖伦R触发补录\\页面验收.mjs",
+      "sha256": "dd2ec57ceda06b7da57ec943b4f05fbfce102b66973749787050a336604d9d58"
+    }
+  },
+  "staticChecks": [
+    {
+      "name": "冻结请求、写入报告和04基线前置条件",
+      "passed": true,
+      "frozenStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "reviewVerdict": "READY",
+      "writeStatus": "PASS",
+      "writeCount": 2,
+      "baselineRuleCount": 94,
+      "expectedNewRuleKeys": [
+        "garen_r/on_hit",
+        "olaf_w/on_used"
+      ]
+    }
+  ],
+  "ruleScan": {
+    "expected": {
+      "skillCount": 1062,
+      "ruleListGetCount": 1062,
+      "oldRuleCount": 94,
+      "newRuleCount": 2,
+      "totalRuleCount": 96,
+      "sourceInitializedCount": 24
+    },
+    "actual": {
+      "skillCount": 1062,
+      "ruleListGetCount": 1062,
+      "ruleDetailGetCount": 96,
+      "totalRuleCount": 96,
+      "oldRulesMatched": 94,
+      "newRulesMatched": 2,
+      "sourceInitializedCount": 24,
+      "ruleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023",
+      "oldRuleKeysSha256": "4af6eb531625bd2760c2f817bc82ee6109370996affb89fc7238e92b8152c4cc",
+      "newRuleKeys": [
+        "garen_r/on_hit",
+        "olaf_w/on_used"
+      ]
+    },
+    "checks": [
+      {
+        "name": "技能目录为1062项且稳定键保持不变",
+        "passed": true,
+        "status": 200,
+        "count": 1062,
+        "skillKeysSha256": "2c3c50058d4b13843abd7038bfc197bf7727148055fb168f4dbdfaa62e97d7dd"
+      },
+      {
+        "name": "1062个技能触发规则列表均为200数组且引用无重复",
+        "passed": true,
+        "listGetCount": 1062,
+        "failedListCount": 0,
+        "duplicateRuleRefs": []
+      },
+      {
+        "name": "规则键集合恰为04旧94条加两条新增规则",
+        "passed": true,
+        "skillCount": 1062,
+        "ruleCount": 96,
+        "expectedRuleCount": 96,
+        "missingKeys": [],
+        "unexpectedKeys": [],
+        "ruleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023"
+      },
+      {
+        "name": "旧94条规则详情逐对象严格一致",
+        "passed": true,
+        "expected": 94,
+        "matched": 94
+      },
+      {
+        "name": "两条新增规则按冻结体字段、数组长度和顺序核对",
+        "passed": true,
+        "expected": 2,
+        "matched": 2
+      },
+      {
+        "name": "SOURCE_INITIALIZED仍为24条",
+        "passed": true,
+        "expected": 24,
+        "actual": 24
+      }
+    ],
+    "detailChecks": [
+      {
+        "skillKey": "ahri_e",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ahri_r",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "annie_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "annie_r",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "annie_w",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "brand_e",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "brand_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "brand_r",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "diana_e",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "diana_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_e",
+        "ruleKey": "resolve_on_e_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_p",
+        "ruleKey": "stack_on_ez_e_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_p",
+        "ruleKey": "stack_on_ez_q_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_p",
+        "ruleKey": "stack_on_ez_r_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_p",
+        "ruleKey": "stack_on_ez_w_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_q",
+        "ruleKey": "resolve_on_q_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_r",
+        "ruleKey": "resolve_on_r_champion_epic_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_r",
+        "ruleKey": "resolve_on_r_minion_monster_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "apply_mark_on_w_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "detonate_private_mark_on_basic_attack_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "detonate_private_mark_on_ez_e_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "detonate_private_mark_on_ez_q_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "ez_w",
+        "ruleKey": "detonate_private_mark_on_ez_r_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "garen_r",
+        "ruleKey": "on_hit",
+        "kind": "new",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_1043_passive",
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_1083_passive",
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_2422_passive",
+        "ruleKey": "initialize_magical_footwear_additional_speed",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_2501_passive",
+        "ruleKey": "initialize_ad_from_bonus_hp",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3003_passive",
+        "ruleKey": "initialize_ap_from_bonus_mana",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3004_passive",
+        "ruleKey": "initialize_bonus_attack_damage_from_max_mana",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3040_passive",
+        "ruleKey": "initialize_ap_from_bonus_mana",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3040_passive",
+        "ruleKey": "on_damage_cross_below_lifeline_threshold",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3042_passive",
+        "ruleKey": "initialize_bonus_attack_damage_from_max_mana",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3047_passive",
+        "ruleKey": "initialize_plating_basic_damage_reduction",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3050_passive",
+        "ruleKey": "initialize_ultimate_haste",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3074_active",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3075_passive",
+        "ruleKey": "reflect_on_basic_attack_taken",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3076_passive",
+        "ruleKey": "reflect_on_basic_attack_taken",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3077_active",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3078_passive",
+        "ruleKey": "grant_move_speed_on_basic_attack_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3089_passive",
+        "ruleKey": "initialize_total_ap_multiplier",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3091_passive",
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3102_passive",
+        "ruleKey": "consume_on_spell_block",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3115_passive",
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3124_passive",
+        "ruleKey": "resolve_rageblade_basic_attack",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3143_passive",
+        "ruleKey": "initialize_resilience_critical_damage_reduction",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3161_passive",
+        "ruleKey": "initialize_basic_skill_haste",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3742_passive",
+        "ruleKey": "initialize_unsinkable_slow_resist",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3803_passive",
+        "ruleKey": "on_damage_taken_from_champion_restore_mana",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3814_passive",
+        "ruleKey": "consume_on_successful_block",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_3814_passive",
+        "ruleKey": "initialize_spell_shield",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_4629_passive",
+        "ruleKey": "on_magic_damage_dealt_to_champion",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_4629_passive",
+        "ruleKey": "on_real_damage_dealt_to_champion",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_4632_passive",
+        "ruleKey": "consume_on_spell_block",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_4632_passive",
+        "ruleKey": "initialize_spell_shield",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_4633_passive",
+        "ruleKey": "initialize_ap_from_bonus_hp",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_6621_passive",
+        "ruleKey": "initialize_dawncore_scaling",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_6657_passive",
+        "ruleKey": "initialize_timeless_growth",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "item_6698_active",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "jax_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "jax_r",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "lucian_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "lux_q",
+        "ruleKey": "resolve_on_q_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "lux_r",
+        "ruleKey": "resolve_on_r_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "malphite_e",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "malphite_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "malphite_r",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "mordekaiser_e",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "mordekaiser_p",
+        "ruleKey": "basic_attack_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "nasus_p",
+        "ruleKey": "initialize_lifesteal",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "nocturne_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "nocturne_w",
+        "ruleKey": "consume_and_empower_on_block",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "olaf_e",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "olaf_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "olaf_w",
+        "ruleKey": "on_used",
+        "kind": "new",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "rune_5005_passive",
+        "ruleKey": "initialize_stat_bonus",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "rune_5007_passive",
+        "ruleKey": "initialize_stat_bonus",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "rune_5011_passive",
+        "ruleKey": "initialize_stat_bonus",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "rune_8210_passive",
+        "ruleKey": "initialize_level_ability_haste",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "rune_8453_passive",
+        "ruleKey": "initialize_base_heal_shield_power",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "rune_9104_passive",
+        "ruleKey": "initialize_base_attack_speed",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "sett_e",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "ruleKey": "successful_spell_block",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "ruleKey": "active_attack_refund",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "ruleKey": "own_kill_reset",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "vayne_e",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "veigar_q",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "veigar_w",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "vi_r",
+        "ruleKey": "actual_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "xinzhao_e",
+        "ruleKey": "actual_charge_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      },
+      {
+        "skillKey": "xinzhao_r",
+        "ruleKey": "actual_sweep_hit",
+        "kind": "existing",
+        "status": 200,
+        "passed": true
+      }
+    ],
+    "failedRuleLists": [],
+    "duplicateRuleRefs": [],
+    "missingKeys": [],
+    "unexpectedKeys": []
+  },
+  "targetReadback": {
+    "targetCount": 2,
+    "targets": [
+      {
+        "skillKey": "olaf_w",
+        "hero": "奥拉夫",
+        "subjectStatus": 200,
+        "relationStatus": 200,
+        "representativeImageStatus": 200,
+        "sourceImage": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\图片\\prepared\\olaf_w.png",
+          "byteSize": 6870,
+          "width": 64,
+          "height": 64,
+          "expectedSha256": "6115264992628c6c079f0f95dcafc7bd53779c1918436ad55a43fb64b4b220da",
+          "actualSha256": "6115264992628c6c079f0f95dcafc7bd53779c1918436ad55a43fb64b4b220da"
+        },
+        "components": {
+          "parameters": {
+            "listStatus": 200,
+            "expectedCount": 9,
+            "actualCount": 9,
+            "detailExpected": 9,
+            "detailRead": 9,
+            "detailMatched": 9,
+            "keysMatch": true,
+            "passedChecks": 11,
+            "totalChecks": 11
+          },
+          "formulas": {
+            "listStatus": 200,
+            "expectedCount": 3,
+            "actualCount": 3,
+            "detailExpected": 3,
+            "detailRead": 3,
+            "detailMatched": 3,
+            "keysMatch": true,
+            "passedChecks": 5,
+            "totalChecks": 5
+          },
+          "effects": {
+            "listStatus": 200,
+            "expectedCount": 3,
+            "actualCount": 3,
+            "detailExpected": 3,
+            "detailRead": 3,
+            "detailMatched": 3,
+            "keysMatch": true,
+            "passedChecks": 5,
+            "totalChecks": 5
+          },
+          "processes": {
+            "listStatus": 200,
+            "expectedCount": 1,
+            "actualCount": 1,
+            "detailExpected": 1,
+            "detailRead": 1,
+            "detailMatched": 1,
+            "keysMatch": true,
+            "passedChecks": 3,
+            "totalChecks": 3
+          },
+          "internal-states": {
+            "listStatus": 200,
+            "expectedCount": 0,
+            "actualCount": 0,
+            "detailExpected": 0,
+            "detailRead": 0,
+            "detailMatched": 0,
+            "keysMatch": true,
+            "passedChecks": 2,
+            "totalChecks": 2
+          }
+        }
+      },
+      {
+        "skillKey": "garen_r",
+        "hero": "盖伦",
+        "subjectStatus": 200,
+        "relationStatus": 200,
+        "representativeImageStatus": 200,
+        "sourceImage": {
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\图片\\prepared\\garen_r.png",
+          "byteSize": 5230,
+          "width": 64,
+          "height": 64,
+          "expectedSha256": "82031c7b445c6bced255fcc91b9a8570a8215f96092c766cb1a0e519cac5e949",
+          "actualSha256": "82031c7b445c6bced255fcc91b9a8570a8215f96092c766cb1a0e519cac5e949"
+        },
+        "components": {
+          "parameters": {
+            "listStatus": 200,
+            "expectedCount": 6,
+            "actualCount": 6,
+            "detailExpected": 6,
+            "detailRead": 6,
+            "detailMatched": 6,
+            "keysMatch": true,
+            "passedChecks": 8,
+            "totalChecks": 8
+          },
+          "formulas": {
+            "listStatus": 200,
+            "expectedCount": 1,
+            "actualCount": 1,
+            "detailExpected": 1,
+            "detailRead": 1,
+            "detailMatched": 1,
+            "keysMatch": true,
+            "passedChecks": 3,
+            "totalChecks": 3
+          },
+          "effects": {
+            "listStatus": 200,
+            "expectedCount": 1,
+            "actualCount": 1,
+            "detailExpected": 1,
+            "detailRead": 1,
+            "detailMatched": 1,
+            "keysMatch": true,
+            "passedChecks": 3,
+            "totalChecks": 3
+          },
+          "processes": {
+            "listStatus": 200,
+            "expectedCount": 0,
+            "actualCount": 0,
+            "detailExpected": 0,
+            "detailRead": 0,
+            "detailMatched": 0,
+            "keysMatch": true,
+            "passedChecks": 2,
+            "totalChecks": 2
+          },
+          "internal-states": {
+            "listStatus": 200,
+            "expectedCount": 0,
+            "actualCount": 0,
+            "detailExpected": 0,
+            "detailRead": 0,
+            "detailMatched": 0,
+            "keysMatch": true,
+            "passedChecks": 2,
+            "totalChecks": 2
+          }
+        }
+      }
+    ],
+    "checks": [
+      {
+        "name": "olaf_w 主体严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "olaf_w 角色技能关系严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "olaf_w 代表图片关联严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "olaf_w 代表图片启用且来源为 64x64",
+        "passed": true,
+        "imageKey": "entry_16171_olaf_w"
+      },
+      {
+        "name": "olaf_w/parameters 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "olaf_w/parameters 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 9,
+        "actualCount": 9
+      },
+      {
+        "name": "olaf_w/parameters/attack_speed_ratio 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "attack_speed_ratio"
+      },
+      {
+        "name": "olaf_w/parameters/attack_speed_duration_ms 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "attack_speed_duration_ms"
+      },
+      {
+        "name": "olaf_w/parameters/base_shield 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "base_shield"
+      },
+      {
+        "name": "olaf_w/parameters/missing_hp_ratio 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "missing_hp_ratio"
+      },
+      {
+        "name": "olaf_w/parameters/shield_duration_ms 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "shield_duration_ms"
+      },
+      {
+        "name": "olaf_w/parameters/max_shield_hp_threshold 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "max_shield_hp_threshold"
+      },
+      {
+        "name": "olaf_w/parameters/one 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "one"
+      },
+      {
+        "name": "olaf_w/parameters/cooldown_ms 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "cooldown_ms"
+      },
+      {
+        "name": "olaf_w/parameters/mana_cost 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "mana_cost"
+      },
+      {
+        "name": "olaf_w/formulas 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "olaf_w/formulas 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 3,
+        "actualCount": 3
+      },
+      {
+        "name": "olaf_w/formulas/uncapped_shield 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "uncapped_shield"
+      },
+      {
+        "name": "olaf_w/formulas/max_shield 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "max_shield"
+      },
+      {
+        "name": "olaf_w/formulas/shield 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "shield"
+      },
+      {
+        "name": "olaf_w/effects 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "olaf_w/effects 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 3,
+        "actualCount": 3
+      },
+      {
+        "name": "olaf_w/effects/mana_cost 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "mana_cost"
+      },
+      {
+        "name": "olaf_w/effects/cast_shield 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "cast_shield"
+      },
+      {
+        "name": "olaf_w/effects/attack_speed 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "attack_speed"
+      },
+      {
+        "name": "olaf_w/processes 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "olaf_w/processes 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 1,
+        "actualCount": 1
+      },
+      {
+        "name": "olaf_w/processes/cast 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "cast"
+      },
+      {
+        "name": "olaf_w/internal-states 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "olaf_w/internal-states 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 0,
+        "actualCount": 0
+      },
+      {
+        "name": "garen_r 主体严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "garen_r 角色技能关系严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "garen_r 代表图片关联严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "garen_r 代表图片启用且来源为 64x64",
+        "passed": true,
+        "imageKey": "image_8d466315-5f6e-42da-9e9c-e8f2a7a916c4"
+      },
+      {
+        "name": "garen_r/parameters 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "garen_r/parameters 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 6,
+        "actualCount": 6
+      },
+      {
+        "name": "garen_r/parameters/base_damage 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "base_damage"
+      },
+      {
+        "name": "garen_r/parameters/missing_hp_ratio 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "missing_hp_ratio"
+      },
+      {
+        "name": "garen_r/parameters/cooldown_ms 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "cooldown_ms"
+      },
+      {
+        "name": "garen_r/parameters/cast_time_ms 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "cast_time_ms"
+      },
+      {
+        "name": "garen_r/parameters/reveal_duration_ms 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "reveal_duration_ms"
+      },
+      {
+        "name": "garen_r/parameters/cast_range 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "cast_range"
+      },
+      {
+        "name": "garen_r/formulas 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "garen_r/formulas 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 1,
+        "actualCount": 1
+      },
+      {
+        "name": "garen_r/formulas/damage 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "damage"
+      },
+      {
+        "name": "garen_r/effects 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "garen_r/effects 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 1,
+        "actualCount": 1
+      },
+      {
+        "name": "garen_r/effects/justice_damage 详情严格回读",
+        "passed": true,
+        "status": 200,
+        "key": "justice_damage"
+      },
+      {
+        "name": "garen_r/processes 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "garen_r/processes 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 0,
+        "actualCount": 0
+      },
+      {
+        "name": "garen_r/internal-states 列表严格回读",
+        "passed": true,
+        "status": 200
+      },
+      {
+        "name": "garen_r/internal-states 列表稳定键和顺序",
+        "passed": true,
+        "expectedCount": 0,
+        "actualCount": 0
+      }
+    ]
+  },
+  "mechanismChecks": [
+    {
+      "name": "奥拉夫 on_used 为主动使用并唯一启动cast",
+      "passed": true,
+      "eventType": "SKILL_USED",
+      "sourceSkillKey": "olaf_w",
+      "useKind": "ACTIVE",
+      "conditionGroupCount": 0,
+      "actionCount": 1,
+      "actionType": "START_PROCESS",
+      "processKey": "cast",
+      "targetContext": "CURRENT_TARGET"
+    },
+    {
+      "name": "盖伦 on_hit 为英雄命中并唯一执行justice_damage",
+      "passed": true,
+      "eventType": "SKILL_HIT",
+      "sourceSkillKey": "garen_r",
+      "conditionGroupCount": 1,
+      "conditionType": "TARGET_CATEGORY_CHECK",
+      "categories": [
+        "CHAMPION"
+      ],
+      "actionCount": 1,
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "justice_damage",
+      "targetContext": "CURRENT_TARGET"
+    },
+    {
+      "name": "奥拉夫cast已有法力、冷却、护盾和攻速组成",
+      "passed": true,
+      "cooldownParameter": "cooldown_ms",
+      "effectBindings": [
+        "mana_cost",
+        "cast_shield",
+        "attack_speed"
+      ],
+      "parameterKeys": [
+        "attack_speed_ratio",
+        "attack_speed_duration_ms",
+        "base_shield",
+        "missing_hp_ratio",
+        "shield_duration_ms",
+        "max_shield_hp_threshold",
+        "one",
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "effectKeys": [
+        "mana_cost",
+        "cast_shield",
+        "attack_speed"
+      ]
+    },
+    {
+      "name": "盖伦damage公式和justice_damage真实伤害结果仍在",
+      "passed": true,
+      "formulaKey": "damage",
+      "formulaOperation": "ADD",
+      "effectKey": "justice_damage",
+      "resultKey": "damage",
+      "resultType": "DAMAGE",
+      "damageTypeKey": "real",
+      "formulaBinding": "damage"
+    }
+  ],
+  "requestSummary": {
+    "totalGets": 1199,
+    "methods": {
+      "GET": 1199
+    },
+    "statuses": {
+      "200": 1199
+    },
+    "allRequestsWereGET": true,
+    "failedRequests": []
+  },
+  "targetSummaries": [
+    {
+      "skillKey": "olaf_w",
+      "summary": "主体、奥拉夫角色技能关系、代表图片、参数/公式/效果/过程/内部状态列表及详情均按04严格回读；on_used主动启动cast。",
+      "representativeImage": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\图片\\prepared\\olaf_w.png",
+        "byteSize": 6870,
+        "width": 64,
+        "height": 64,
+        "expectedSha256": "6115264992628c6c079f0f95dcafc7bd53779c1918436ad55a43fb64b4b220da",
+        "actualSha256": "6115264992628c6c079f0f95dcafc7bd53779c1918436ad55a43fb64b4b220da"
+      }
+    },
+    {
+      "skillKey": "garen_r",
+      "summary": "主体、盖伦角色技能关系、代表图片、参数/公式/效果/过程/内部状态列表及详情均按04严格回读；on_hit命中英雄后执行justice_damage。",
+      "representativeImage": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\图片\\prepared\\garen_r.png",
+        "byteSize": 5230,
+        "width": 64,
+        "height": 64,
+        "expectedSha256": "82031c7b445c6bced255fcc91b9a8570a8215f96092c766cb1a0e519cac5e949",
+        "actualSha256": "82031c7b445c6bced255fcc91b9a8570a8215f96092c766cb1a0e519cac5e949"
+      }
+    }
+  ],
+  "findings": [],
+  "limitations": [
+    "本轮只证明管理数据、接口回读和本地代表图片文件尺寸。",
+    "本轮未执行战斗运行、Wasm 或浏览器页面验收。"
+  ],
+  "error": null
+}

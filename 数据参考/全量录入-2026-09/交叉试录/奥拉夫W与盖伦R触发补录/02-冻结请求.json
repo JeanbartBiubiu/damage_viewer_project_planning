@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T11:12:52.055Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "writable": true,
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceSnapshotSha256": "3646d339ccf2c0985ee22107b3ad6b74fb729d3201cdabaddf829bb725f10b5b",
+  "cursorOriginalSummary": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\README.md",
+    "sha256": "407027806908bca35d82bc9b0b18d2a8985d834d8a6b55fff0a7cf58973d6972",
+    "note": "只记录已有原始摘要散列；不把摘要中的执行结果当作本轮实库证据。"
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 94,
+    "sourceInitializedCount": 24
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 94,
+    "sourceInitializedCount": 24,
+    "stableRead": true
+  },
+  "targetRulesBefore": [
+    {
+      "skillKey": "olaf_w",
+      "ruleKeys": []
+    },
+    {
+      "skillKey": "garen_r",
+      "ruleKeys": []
+    }
+  ],
+  "descriptionChecks": [
+    {
+      "skillKey": "olaf_w",
+      "descriptionContainsUnwired": false,
+      "currentDescription": "奥拉夫的攻击速度得到提升，并获得一层护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "updateBody": null
+    },
+    {
+      "skillKey": "garen_r",
+      "descriptionContainsUnwired": false,
+      "currentDescription": "R技能。对敌方英雄造成125/200/275+25/30/35%目标已损失生命值的真实伤害；冷却120/100/80秒。资料：16.17客户端及官方26.14补证。施法与实际命中、视野、失败和冷却边界待处理，图片待补。",
+      "updateBody": null
+    }
+  ],
+  "conflicts": [],
+  "plannedRuleAdds": 2,
+  "plannedWrites": 2,
+  "writes": [
+    {
+      "id": "olaf_w-on_used",
+      "kind": "新增触发规则",
+      "method": "POST",
+      "route": "/skills/olaf_w/trigger-rules",
+      "detailRoute": "/skills/olaf_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "on_used",
+        "name": "挺过去主动使用启动过程",
+        "description": "以主动 SKILL_USED 为输入；CURRENT_TARGET 没有显式目标时回退来源对象，启动已有 cast 过程，由过程管理法力、冷却、护盾与攻速。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "olaf_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动挺过去过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "garen_r-on_hit",
+      "kind": "新增触发规则",
+      "method": "POST",
+      "route": "/skills/garen_r/trigger-rules",
+      "detailRoute": "/skills/garen_r/trigger-rules/on_hit",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "on_hit",
+        "name": "德玛西亚正义实际命中",
+        "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+        "sortOrder": 0,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "garen_r"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "allowed_target",
+            "name": "允许的命中目标",
+            "sortOrder": 0,
+            "conditions": [
+              {
+                "conditionKey": "category",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 0,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "damage",
+            "name": "执行效果",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "justice_damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

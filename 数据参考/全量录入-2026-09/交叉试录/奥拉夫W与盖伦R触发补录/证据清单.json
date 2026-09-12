@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T12:22:08.693Z",
+  "batchKey": "olaf-w-garen-r-trigger-backfill-2026-09-12",
+  "status": "PASS",
+  "scope": [
+    "olaf_w/on_used",
+    "garen_r/on_hit"
+  ],
+  "businessWrites": {
+    "total": 2,
+    "posts": 2,
+    "replayed": 0
+  },
+  "finalRuleCounts": {
+    "all": 96,
+    "sourceInitialized": 24
+  },
+  "protectedWriter": {
+    "report": "06-写入与即时回读.json",
+    "status": "PASS",
+    "gets": 3469,
+    "businessWrites": 2,
+    "responses": {
+      "201": 2
+    },
+    "immediateReadbacks": {
+      "200": 2
+    }
+  },
+  "cursorReview": {
+    "report": "05-Cursor独立评审.json",
+    "runId": "run-4cfdcda1-a699-449c-bb99-43fcfd6a0663",
+    "requestId": "874b4ceb-5c67-40c1-a6e3-83169448f71f",
+    "status": "finished",
+    "verdict": "READY",
+    "model": "grok-4.6",
+    "reasoningEffort": "high",
+    "fast": false,
+    "sdkVersion": "1.0.24",
+    "terminalToolCalls": {
+      "unique": 10,
+      "completed": 10,
+      "truncated": 0
+    },
+    "runDeltaCount": 0,
+    "apiWrites": 0,
+    "rejectedPriorRuns": [
+      {
+        "runId": "run-9a57fe6b-0b22-45fe-8b62-55f87ac52713",
+        "missingTerminalCalls": 1
+      },
+      {
+        "runId": "run-84f98b6c-97a3-4fe1-957b-8fdcffc553cb",
+        "missingTerminalCalls": 2
+      }
+    ]
+  },
+  "independentReadback": {
+    "report": "07-Luna独立回读.json",
+    "status": "PASS",
+    "methodPolicy": "GET_ONLY",
+    "gets": 1199,
+    "http200": 1199,
+    "businessWrites": 0,
+    "oldRulesMatched": 94,
+    "newRulesMatched": 2,
+    "mismatches": 0
+  },
+  "browserAcceptance": {
+    "report": "08-页面验收.json",
+    "status": "PASS",
+    "methodPolicy": "BROWSER_READ_ONLY",
+    "gets": 187,
+    "businessWrites": 0,
+    "imageCacheChanges": 3279,
+    "screenshots": 7,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "requestFailures": 0,
+    "errorResponses": 0,
+    "correctedReadOnlyAssertions": 5
+  },
+  "runtimeValidation": "未执行战斗运行或 Wasm；最终证据覆盖管理接口数据、代表图片和管理页面只读展示。",
+  "files": [
+    {
+      "path": "01-来源与方案.md",
+      "sha256": "c65e1f3b0371973e204b1a4a9f19223f5cdb0f6879a701474824380e20e82944",
+      "bytes": 3173
+    },
+    {
+      "path": "02-冻结请求.json",
+      "sha256": "ae75b8bde7344f7470496014b0f205553723cbef81f39a7491c3ec3ee339c6ca",
+      "bytes": 4749
+    },
+    {
+      "path": "03-来源快照.json",
+      "sha256": "3646d339ccf2c0985ee22107b3ad6b74fb729d3201cdabaddf829bb725f10b5b",
+      "bytes": 10284
+    },
+    {
+      "path": "04-写入前现值.json",
+      "sha256": "6feccfcef9a10f84f40be3adbf1d85d2de47c71ae7ca63a56dcb0bb8eeefbd09",
+      "bytes": 1496278
+    },
+    {
+      "path": "05-Cursor独立评审.json",
+      "sha256": "d876f358eda9b4783fb8d747e7406adf3fb34fcd136aeeb56df73ebdab08512a",
+      "bytes": 3378
+    },
+    {
+      "path": "06-写入与即时回读.json",
+      "sha256": "f1c332f83e0fa4e62a4f39005c8e100e00c099dda2d939ce610ad7b546f914ef",
+      "bytes": 4239
+    },
+    {
+      "path": "07-Luna独立回读.json",
+      "sha256": "d6c1f9f8e3c4d39a73711cc0accc01603fa4f80387da8eed709b5e8bf1676f46",
+      "bytes": 37473
+    },
+    {
+      "path": "07-Luna独立回读.mjs",
+      "sha256": "92ef5d4480c1e8f8c4118fdf5567b6d7606b213eba3381959026669465811223",
+      "bytes": 41320
+    },
+    {
+      "path": "08-页面验收.json",
+      "sha256": "680e2715b58aad7a74b1e2e2422e9877604d3d37b4b09938ade6944242897f7c",
+      "bytes": 2185
+    },
+    {
+      "path": "受保护写入.mjs",
+      "sha256": "3498aa3639762604ff0e6c296549a2672ce109436420bb5d43ff4b4742d40747",
+      "bytes": 21393
+    },
+    {
+      "path": "页面截图/garen_r-结果详情.png",
+      "sha256": "bb74780d5f3a2ff197a276d79c327f9ac03c335f853ed6e79790700fb1fbdf64",
+      "bytes": 116449
+    },
+    {
+      "path": "页面截图/garen_r-列表图片.png",
+      "sha256": "36fe5e0ed69d2a237ab373088f839f4a6da9838f1a9af2d7abefff6bf2356fa0",
+      "bytes": 100626
+    },
+    {
+      "path": "页面截图/garen_r-伤害公式.png",
+      "sha256": "2b35bb47b200ad19830015ffbd5bbeb37f49e44657043d2628a5de7c1f072beb",
+      "bytes": 160565
+    },
+    {
+      "path": "页面截图/garen_r-on_hit规则.png",
+      "sha256": "df0a243366d9d39fd2fe1073aa0ccbda83db24080a7f10b3922dfbaf6d686f8e",
+      "bytes": 97254
+    },
+    {
+      "path": "页面截图/olaf_w-列表图片.png",
+      "sha256": "d2819824a039120eae3472641361db50f74a6bd5aff5c3af19ee37a290a42f63",
+      "bytes": 102458
+    },
+    {
+      "path": "页面截图/olaf_w-cast过程.png",
+      "sha256": "d53a62f6f9115ddaf80e23899db589cea1c20f51619fb4f790548cf12deb97b4",
+      "bytes": 88645
+    },
+    {
+      "path": "页面截图/olaf_w-on_used规则.png",
+      "sha256": "f9699f331ff5112e68fa55bdd81057aea151d22ae1f56f94caeb27e963e05e5f",
+      "bytes": 89066
+    },
+    {
+      "path": "页面验收.mjs",
+      "sha256": "dd2ec57ceda06b7da57ec943b4f05fbfce102b66973749787050a336604d9d58",
+      "bytes": 14957
+    },
+    {
+      "path": "准备只读.mjs",
+      "sha256": "549b0f14e57a87ff022fdbe3596a0c277f17f177eb051b817ee2f585f0df7274",
+      "bytes": 21630
+    },
+    {
+      "path": "README.md",
+      "sha256": "cc0f92137e64b3fa5b80229f38406f30bad33c405a73c34ebe650c4800b84f9d",
+      "bytes": 3597
+    }
+  ]
+}

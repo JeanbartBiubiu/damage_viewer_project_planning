@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T11:59:17.075Z",
+  "resultStatus": "finished",
+  "verdict": "READY",
+  "reviewedPlanRevision": 1,
+  "blockers": [],
+  "runtime": "sdk",
+  "sdkVersion": "1.0.24",
+  "model": {
+    "id": "grok-4.6",
+    "effort": "high",
+    "fast": false
+  },
+  "runId": "run-4cfdcda1-a699-449c-bb99-43fcfd6a0663",
+  "requestId": "874b4ceb-5c67-40c1-a6e3-83169448f71f",
+  "writeAllowlistAudit": {
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0
+  },
+  "toolEvents": {
+    "eventRecordCount": 20,
+    "uniqueCallCount": 10,
+    "completedCallCount": 10,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "byName": {
+      "shell": 10
+    }
+  },
+  "requestAudit": {
+    "allowedMethods": [
+      "GET"
+    ],
+    "getCount": 2,
+    "businessWriteMethodsFound": 0,
+    "ranProtectedWriter": false,
+    "ranBrowserAcceptance": false
+  },
+  "apiWrites": 0,
+  "approvedInputHashes": {
+    "README.md": "df0e3b3b59b0d68c1983d60d3c11490ac519fec091db7c7f71c472ded32207f8",
+    "01-来源与方案.md": "c65e1f3b0371973e204b1a4a9f19223f5cdb0f6879a701474824380e20e82944",
+    "02-冻结请求.json": "ae75b8bde7344f7470496014b0f205553723cbef81f39a7491c3ec3ee339c6ca",
+    "03-来源快照.json": "3646d339ccf2c0985ee22107b3ad6b74fb729d3201cdabaddf829bb725f10b5b",
+    "04-写入前现值.json": "6feccfcef9a10f84f40be3adbf1d85d2de47c71ae7ca63a56dcb0bb8eeefbd09",
+    "受保护写入.mjs": "3498aa3639762604ff0e6c296549a2672ce109436420bb5d43ff4b4742d40747",
+    "页面验收.mjs": "e3f2e13ce65b71cc9eb608927e9fb8f9b221b3c92e1f779874c8b49d201cee46"
+  },
+  "cursorOriginalSummary": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\README.md",
+    "sha256": "407027806908bca35d82bc9b0b18d2a8985d834d8a6b55fff0a7cf58973d6972"
+  },
+  "artifactSummary": {
+    "ignoredPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\olaf-garen-trigger-review-final-20260912\\summary.json",
+    "sha256": "e18c55f548a86651df04b6aebcfe1f93125f74994d8db8e29b92511c77b37b98"
+  },
+  "findings": [
+    "冻结请求只有 olaf_w/on_used 与 garen_r/on_hit 两次新增规则请求，无主体或其他组成更新。",
+    "写前基线为 1062 个技能、94 条规则、24 条 SOURCE_INITIALIZED；两个目标规则列表仍为空。",
+    "写入器会在首写前锁定批准散列、两轮键集合、旧规则详情、目标缺失和两技能全部组成，并逐次即时回读；终态只能为旧 94 条加两条目标规则。",
+    "奥拉夫 CURRENT_TARGET 在无显式目标时回退来源对象；规则只启动已有 cast，不重复执行法力、冷却、护盾或攻速。",
+    "盖伦规则复用已有真实伤害效果，并以事件对方类别限制当前命中对象为英雄。",
+    "页面脚本从使用种类下拉框精确核对主动，且保持浏览器只读。"
+  ],
+  "priorRunsNotAdopted": [
+    {
+      "runId": "run-9a57fe6b-0b22-45fe-8b62-55f87ac52713",
+      "reason": "1 个读取工具调用缺少 completed 终态。"
+    },
+    {
+      "runId": "run-84f98b6c-97a3-4fe1-957b-8fdcffc553cb",
+      "reason": "2 个读取工具调用缺少 completed 终态。"
+    }
+  ],
+  "limitations": [
+    "本评审未执行战斗运行、Wasm 或写后浏览器验收。"
+  ]
+}
