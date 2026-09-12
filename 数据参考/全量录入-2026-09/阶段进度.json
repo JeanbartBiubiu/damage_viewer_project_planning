@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T05:08:47.790Z",
+  "generatedAt": "2026-09-12T06:19:32.107Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -5720,6 +5720,115 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/亡者板甲减速抗性补录/证据清单.json",
         "sha256": "62aad9ebc30c3a39484223b9f147e970d80bcdd90bb6761fb5f828b6b6fa09e",
         "commit": "09bf671a"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "equipmentDamageReductionBackfill": {
+      "at": "2026-09-12T06:19:32.107Z",
+      "status": "铁板靴基础攻击伤害减免与兰顿暴击伤害减免完成静态配置，独立评审、受保护写入、独立回读和真实页面通过",
+      "skills": [
+        "item_3047_passive",
+        "item_3143_passive"
+      ],
+      "created": {
+        "modifierZones": 2,
+        "effects": 2,
+        "results": 2,
+        "triggerRules": 2
+      },
+      "updated": 0,
+      "deleted": 0,
+      "sourceDecision": "铁板靴只过滤普通攻击并降低受到的伤害0.1；兰顿只过滤暴击并降低受到的伤害0.3。两者各用独立伤害乘区，普通攻击暴击同时命中时按0.9乘0.7得到0.63，不在缺少来源依据时把两个减免直接相加。",
+      "preparation": {
+        "GETs": 26,
+        "businessWrites": 0,
+        "candidate404": 6
+      },
+      "writer": {
+        "protectedPreflightGETs": 26,
+        "businessWrites": 6,
+        "POST": 6,
+        "PUT": 0,
+        "DELETE": 0,
+        "immediateReadbacks": 6,
+        "finalGETs": 22,
+        "replayedWrites": 0,
+        "passed": true
+      },
+      "independentAgent": {
+        "model": "Luna Max",
+        "GETs": 26,
+        "writes": 0,
+        "modifierZones": 6,
+        "effects": 2,
+        "results": 2,
+        "triggerRules": 2,
+        "mismatches": 0,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 237,
+        "businessWrites": 0,
+        "localImageCacheRecords": 3279,
+        "modifierZones": 6,
+        "skills": [
+          "item_3047_passive",
+          "item_3143_passive"
+        ],
+        "listImagesVisible": true,
+        "imageNaturalSize": "64x64",
+        "effectAndResultDetailsVisible": true,
+        "triggerDetailsVisible": true,
+        "expectedCancelledImageReads": 12,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-0f050ed0-32f2-4b11-bca7-097c8440a384",
+        "requestId": "dc166b3c-25f3-4882-a3ed-edb6b44c4a0f",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 87,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "subjectsUnchanged": true,
+        "parametersUnchanged": true,
+        "formulasRemainEmpty": true,
+        "equipmentRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true,
+        "existingModifierZonesUnchanged": true
+      },
+      "experienceIssues": [
+        "同一路由连续验收时会保留上一条本地筛选，验收脚本应先重置筛选再刷新，不能把过滤后的空表误判成数据丢失。",
+        "结果的乘区目录和触发规则详情异步加载；必须等待稳定标识或目录加载完成后判断，不能读取初始草稿。",
+        "本地分页筛选和离页会主动取消已离开行的代表图读取；这类GET取消应单列，目标行图片仍需以完整加载和实际尺寸判断。",
+        "伤害方向、产生方式、来源性质和暴击过滤是独立字段；页面摘要便于核对，接口独立回读仍负责确认每个内部取值。"
+      ],
+      "pending": [
+        "战斗运行仍需产生普通攻击和暴击上下文，并按伤害防御前阶段消费两个修正乘区。",
+        "多个伤害修正来源的乘区合并顺序及普通攻击暴击同时命中的0.63结果尚未做Wasm运行验收。",
+        "铁板靴对防御塔攻击的排除属于本轮1V1范围外边界，没有新增超出范围的对象类别判断。"
+      ],
+      "requestSha256": "9b389c44ea19f91de6f9a44edf425637e6051df2a983bb237edf94266cc622ac",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/两项装备伤害减免补录/证据清单.json",
+        "sha256": "bb2d4a38dd865ce8479fc0d9ae534da476177a98b2aac24dfd8c42e634879eb0",
+        "commit": "2afbbebb"
       },
       "runtimeValidation": "未执行"
     }
