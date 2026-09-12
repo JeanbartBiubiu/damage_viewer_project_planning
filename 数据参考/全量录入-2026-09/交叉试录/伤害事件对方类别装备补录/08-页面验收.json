@@ -1,0 +1,120 @@
+{
+  "capturedAt": "2026-09-12T09:30:54.950Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "visibleCodexBrowserControl": "更新后缺少 Codex 浏览器授权令牌，改由同机真实 Chromium 完成验收。",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 210
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "item_4629_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "星界驱驰·咒舞代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "parameters": {
+        "parameterKeys": [
+          "move_speed_bonus",
+          "move_speed_duration_ms"
+        ],
+        "formulaObserved": false
+      },
+      "effect": {
+        "effectKey": "spelldance_move_speed",
+        "resultKey": "move_speed",
+        "detailObserved": true,
+        "resultDetailObserved": true
+      },
+      "rules": [
+        {
+          "ruleKey": "on_magic_damage_dealt_to_champion",
+          "eventLabel": "来源对象造成伤害",
+          "damageLabel": "魔法伤害",
+          "counterpartCategory": "英雄",
+          "directionHelp": "造成伤害事件读取本次伤害承受对象；匹配所选任一类别。",
+          "actionSummary": "执行效果 / 当前目标 / spelldance_move_speed / 绑定 0 / 修正 0",
+          "cooldownShownInList": true
+        },
+        {
+          "ruleKey": "on_real_damage_dealt_to_champion",
+          "eventLabel": "来源对象造成伤害",
+          "damageLabel": "真实伤害",
+          "counterpartCategory": "英雄",
+          "directionHelp": "造成伤害事件读取本次伤害承受对象；匹配所选任一类别。",
+          "actionSummary": "执行效果 / 当前目标 / spelldance_move_speed / 绑定 0 / 修正 0",
+          "cooldownShownInList": true
+        }
+      ]
+    },
+    {
+      "area": "item_3803_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "万世催化石·永恒代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "parameters": {
+        "parameterKeys": [
+          "damage_input",
+          "mana_restore_ratio_from_damage"
+        ],
+        "formulaObserved": true
+      },
+      "effect": {
+        "effectKey": "mana_from_hero_damage",
+        "resultKey": "mana_restore",
+        "detailObserved": true,
+        "resultDetailObserved": true
+      },
+      "rules": [
+        {
+          "ruleKey": "on_damage_taken_from_champion_restore_mana",
+          "eventLabel": "来源对象受到伤害",
+          "damageLabel": "任意伤害类型",
+          "counterpartCategory": "英雄",
+          "directionHelp": "受到伤害事件读取本次伤害来源对象；匹配所选任一类别。",
+          "actionSummary": "执行效果 / 当前目标 / mana_from_hero_damage / 绑定 1 / 修正 0",
+          "cooldownShownInList": true
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    "item_3803_passive-公式详情.png",
+    "item_3803_passive-技能列表图片.png",
+    "item_3803_passive-效果详情.png",
+    "item_3803_passive-结果详情.png",
+    "item_4629_passive-技能列表图片.png",
+    "item_4629_passive-效果详情.png",
+    "item_4629_passive-结果详情.png",
+    "on_damage_taken_from_champion_restore_mana-事件对方类别.png",
+    "on_magic_damage_dealt_to_champion-事件对方类别.png",
+    "on_real_damage_dealt_to_champion-事件对方类别.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "b7dabf4704bbf24824f3a9632bf70d0f43690c179437bd201e81cf8e2ff26b54"
+}
