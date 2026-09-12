@@ -1213,7 +1213,7 @@ public class SkillTriggerRuleService {
             }
             case TARGET_CATEGORY_CHECK -> {
                 if (!(condition.detail() instanceof SkillTriggerTargetCategoryConditionDetail detail)) {
-                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "事件目标类别条件明细形状不合法"));
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "事件对方类别条件明细形状不合法"));
                     return;
                 }
                 issues.addAll(SkillTargetCategoryConditionSemantics.shapeIssues(detail, prefix + ".detail"));

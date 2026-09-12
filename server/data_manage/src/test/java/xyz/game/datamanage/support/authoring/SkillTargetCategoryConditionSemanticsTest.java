@@ -2,6 +2,7 @@ package xyz.game.datamanage.support.authoring;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,6 +11,9 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
@@ -23,9 +27,18 @@ class SkillTargetCategoryConditionSemanticsTest {
             SkillTriggerEventCapabilities.currentTargetBindings().get(SkillTriggerEventType.KILL));
     }
 
+    @Test
+    void damageDealtUsesTheCurrentInjuredTargetAndPendingOrTakenUseTheEventSource() {
+        var bindings = SkillTriggerEventCapabilities.currentTargetBindings();
+        assertFalse(SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_DEALT));
+        assertTrue(SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_PENDING));
+        assertTrue(SkillTriggerEventCapabilities.hasEventSource(SkillTriggerEventType.DAMAGE_TAKEN));
+        assertEquals("本次伤害承受对象", bindings.get(SkillTriggerEventType.DAMAGE_DEALT));
+    }
+
     @ParameterizedTest
-    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL"})
-    void supportedEventTargetCategoriesNeedNoCatalogOrExecutionReferences(String event) {
+    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
+    void supportedEventOpponentCategoriesNeedNoCatalogOrExecutionReferences(String event) {
         List<Aggregate> objects = List.of(rule(event, "{\"categories\":[\"CHAMPION\",\"EPIC_MONSTER\"]}"));
         assertEquals(List.of(), SkillObjectReferences.extractAndValidate("lol", objects, Set.of()));
         assertDoesNotThrow(() -> SkillTargetCategoryConditionSemantics.validate(objects));
@@ -51,9 +64,15 @@ class SkillTargetCategoryConditionSemanticsTest {
     }
 
     static Aggregate rule(String event, String detail) {
+        String eventDetail = switch (event) {
+            case "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"
+                -> AggregateJson.write(new SkillTriggerDamageEventDetail(
+                    null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY));
+            default -> "{}";
+        };
         return new Aggregate(SourceType.TRIGGER, "skill", "rule", AggregateJson.tree("""
-            {"eventSource":{"eventType":"%s","detail":{}},"actions":[],
+            {"eventSource":{"eventType":"%s","detail":%s},"actions":[],
              "conditionGroups":[{"conditions":[{"conditionType":"TARGET_CATEGORY_CHECK","detail":%s}]}]}
-            """.formatted(event, detail)));
+            """.formatted(event, eventDetail, detail)));
     }
 }
