@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T04:23:54.377Z",
+  "generatedAt": "2026-09-12T05:08:47.790Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -5590,6 +5590,136 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/六件装备公式结果补录/证据清单.json",
         "sha256": "bccbfc6fc8e779cee4515d84573e835f3b39075c258ea57123a9c174b62fa38f",
         "commit": "9baea535"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "equipmentDeadMansPlateSlowResistBackfill": {
+      "at": "2026-09-12T05:08:47.790Z",
+      "status": "亡者的板甲15%减速抗性效果新增，独立评审、受保护写入、独立回读、参数核算和真实页面通过",
+      "skills": [
+        "item_3742_passive"
+      ],
+      "created": {
+        "effects": 1,
+        "results": 1,
+        "attributeChangeResults": 1
+      },
+      "updated": 0,
+      "deleted": 0,
+      "sourceDecision": "固定来源把永不沉没列为独立被动，装备根属性没有减速抗性字段；以关联技能持续属性结果保存0.15，并使用比例属性的固定加算乘区。",
+      "preparation": {
+        "GETs": 20,
+        "checks": 14
+      },
+      "frozenPreflight": {
+        "GETs": 20,
+        "checks": 33,
+        "status200": 19,
+        "intended404": 1
+      },
+      "writer": {
+        "protectedPreflightGETs": 20,
+        "businessWrites": 1,
+        "POST": 1,
+        "PUT": 0,
+        "DELETE": 0,
+        "immediateReadbacks": 1,
+        "writeStatus": 201,
+        "recoveryGETs": 20,
+        "recoveryWrites": 0,
+        "replayedWrites": 0,
+        "verifierRecovery": "原写入器将 authorizationValueRecorded=false 误判为失败；确认一次写入和即时回读成功后，以纯读取恢复最终报告，未重放业务写入。"
+      },
+      "independentAgent": {
+        "model": "Luna Max",
+        "GETs": 20,
+        "writes": 0,
+        "effects": 2,
+        "resultsChecked": 1,
+        "mismatches": 0,
+        "passed": true
+      },
+      "parameterCheck": {
+        "GETs": 4,
+        "parameterValue": 0.15,
+        "resultPercentagePoints": 15,
+        "modifierZone": "attribute_flat_add",
+        "passed": true
+      },
+      "browser": {
+        "representativePages": 1,
+        "representativeResults": 1,
+        "skills": [
+          "item_3742_passive"
+        ],
+        "listImageVisible": true,
+        "existingAndNewEffectsVisible": true,
+        "effectAndResultDetailsVisible": true,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "imageCacheSeedGETs": 1,
+        "serverWrites": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-14f11d14-2843-4910-a6ec-9d75b7a77f96",
+        "requestId": "bfbee07a-8662-4beb-99af-f73917e13029",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "subjectUnchanged": true,
+        "parametersUnchanged": true,
+        "formulaUnchanged": true,
+        "equipmentRelationUnchanged": true,
+        "representativeImageUnchanged": true,
+        "existingMomentumEffectUnchanged": true,
+        "attributeAndModifierZoneUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true,
+        "triggerRulesRemainEmpty": true
+      },
+      "remainingEquipmentAudit": {
+        "agents": 2,
+        "models": [
+          "Luna Max",
+          "Luna Max"
+        ],
+        "lowIdGETsAtLeast": 677,
+        "highIdGETAttempts": 570,
+        "totalGETsAtLeast": 1247,
+        "businessWrites": 0,
+        "fullyExpressibleNewCandidates": 0,
+        "conclusion": "成熟且可完整表达的剩余装备结果已基本耗尽；继续扩大代理并发不能替代系统能力补齐。"
+      },
+      "experienceIssues": [
+        "比例属性增加0.15表示增加15个百分点，应使用属性固定加算；属性百分比乘区会把它变成对现值再乘15%。",
+        "验收器需要区分字段预期为假和断言失败；未知退出后先读写入进度和实库现值，不能直接重放写入。",
+        "管理页目录选择框显示中文名称，接口验收负责内部标识，页面验收负责用户可见名称。",
+        "两路普通装备全扫未找到可直接扩大批次的完整候选，当前瓶颈是状态、条件、计时、范围和修正语义。"
+      ],
+      "pending": [
+        "装备装配、卸除和多个减速抗性来源的组合规则仍待接线。",
+        "纳沃利需要近战远程互斥，千变者需要战斗计时和结束重置，均未写半成品。",
+        "后续先按可解锁对象数量选择一个高复用系统缺口完成最小迭代，再恢复批量录入。"
+      ],
+      "requestSha256": "b726d22e8c09791009408a416e3474c58c27c82df949fc168e6317ae3a40ba55",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/亡者板甲减速抗性补录/证据清单.json",
+        "sha256": "62aad9ebc30c3a39484223b9f147e970d80bcdd90bb6761fb5f828b6b6fa09e",
+        "commit": "09bf671a"
       },
       "runtimeValidation": "未执行"
     }
