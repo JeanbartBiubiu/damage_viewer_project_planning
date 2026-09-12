@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:24:25.175Z",
+  "status": "DEFERRED",
+  "recommendedStatus": "DEFERRED",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "scope": {
+    "ownerName": "亡灵战神",
+    "characterKey": "champion_sion",
+    "skillKey": "sion_w",
+    "ruleKey": "on_used",
+    "eventType": "SKILL_USED",
+    "useKind": "ACTIVE",
+    "effects": [
+      "shield"
+    ],
+    "excluded": [],
+    "deferred": [
+      "SKILL_USED ACTIVE 无法区分首次施放与 3 秒后重施；直接执行 shield 会在重施时按 REFRESH_ALL 错误刷新护盾，待增加阶段判别或过程接线。",
+      "再次施放引爆魔法伤害",
+      "战前及击杀/参与击杀的永久生命值累积",
+      "引爆等待时间",
+      "法力消耗和基础冷却",
+      "引爆伤害所需目标最大生命值运行输入"
+    ]
+  },
+  "checks": {
+    "clientArchiveVersion": true,
+    "officialZhVersion": true,
+    "officialEnVersion": true,
+    "officialZhHasExpectedSpell": true,
+    "officialEnHasExpectedSpell": true,
+    "officialZhMentionsExpectedEffects": true,
+    "officialEnMentionsExpectedEffects": true,
+    "clientPointerPresent": true,
+    "sourceValuesPresent": true,
+    "candidateScopeIsExplicit": true,
+    "clientShieldCalculationPresent": true,
+    "clientShieldDuration6s": true,
+    "characterSubject": true,
+    "skillSubject": true,
+    "relationForwardExact": true,
+    "relationReverseExact": true,
+    "characterImagePresent": true,
+    "skillImagePresent": true,
+    "candidateDetail404": true,
+    "triggerListEmpty": true,
+    "effectsPresent": true,
+    "effectsVerified": true,
+    "processWiringVerified": true,
+    "candidateRequestExact": true,
+    "globalBaseline": true,
+    "noBusinessWrite": true
+  },
+  "getSummary": {
+    "totalGetCount": 2457,
+    "targetGetCount": 33,
+    "sharedGlobalGetCount": 2342,
+    "statusCounts": {
+      "200": 2453,
+      "404": 4
+    },
+    "methodCounts": {
+      "GET": 2457
+    },
+    "candidateDetailStatus": 404,
+    "businessWrites": 0
+  },
+  "baseline": {
+    "expected": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "sourceInitializedCount": 24
+    },
+    "observed": {
+      "first": {
+        "skillCount": 1062,
+        "ruleCount": 108,
+        "sourceInitializedCount": 24,
+        "ruleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748"
+      },
+      "second": {
+        "skillCount": 1062,
+        "ruleCount": 108,
+        "sourceInitializedCount": 24,
+        "ruleRefsSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748"
+      },
+      "stableTwoPass": true
+    }
+  },
+  "candidate": null,
+  "sourceSnapshotSha256": "4d00057dfc2cba790b828f5f37ad266a8b0d48394e1439132c64912be3fcad03",
+  "frozenRequestSha256": "e418bc5adbd0b108d06b5f63ff772cf7887e29c8a511538f08d3df06be95e3c3",
+  "experienceIssues": [
+    "SKILL_USED ACTIVE 无法区分首次施放与 3 秒后重施；直接执行 shield 会在重施时按 REFRESH_ALL 错误刷新护盾，待增加阶段判别或过程接线。",
+    "再次施放引爆魔法伤害",
+    "战前及击杀/参与击杀的永久生命值累积",
+    "引爆等待时间",
+    "法力消耗和基础冷却",
+    "引爆伤害所需目标最大生命值运行输入"
+  ],
+  "reviewDecision": "DEFERRED：首次施放与 3 秒后重施共用 SKILL_USED ACTIVE，当前没有阶段判别。",
+  "conflicts": []
+}

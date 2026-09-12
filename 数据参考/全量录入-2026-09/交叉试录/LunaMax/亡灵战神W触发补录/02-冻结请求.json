@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:24:13.342Z",
+  "status": "DEFERRED",
+  "writable": false,
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceSnapshotSha256": "4d00057dfc2cba790b828f5f37ad266a8b0d48394e1439132c64912be3fcad03",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24,
+    "stableTwoPass": true
+  },
+  "targetBefore": {
+    "ownerName": "亡灵战神",
+    "characterKey": "champion_sion",
+    "skillKey": "sion_w",
+    "componentKeys": {
+      "parameters": [
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "shield_max_hp_ratio",
+        "hp_per_champion_kill",
+        "hp_per_kill",
+        "hp_per_large_kill",
+        "shield_ap_ratio",
+        "damage_ap_ratio",
+        "base_shield",
+        "base_damage",
+        "max_hp_damage_ratio",
+        "detonate_recast_cooldown_ms",
+        "shield_duration_ms",
+        "target_max_health"
+      ],
+      "formulas": [
+        "total_shield",
+        "total_damage"
+      ],
+      "effects": [
+        "mana_cost",
+        "shield"
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "candidateDetailStatus": 404
+  },
+  "plannedWrites": 0,
+  "writes": [],
+  "excluded": [],
+  "deferred": [
+    "SKILL_USED ACTIVE 无法区分首次施放与 3 秒后重施；直接执行 shield 会在重施时按 REFRESH_ALL 错误刷新护盾，待增加阶段判别或过程接线。",
+    "再次施放引爆魔法伤害",
+    "战前及击杀/参与击杀的永久生命值累积",
+    "引爆等待时间",
+    "法力消耗和基础冷却",
+    "引爆伤害所需目标最大生命值运行输入"
+  ],
+  "reviewDecision": "首次施放与 3 秒后重施共用 SKILL_USED ACTIVE，阶段无法判别；不可冻结直接 shield POST。"
+}

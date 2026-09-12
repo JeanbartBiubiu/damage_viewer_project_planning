@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:24:13.342Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "writable": true,
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceSnapshotSha256": "da1cd0d015645aab310aca4b63a9b4a591942150cb337a879f58e3d12755cc81",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 108,
+    "sourceInitializedCount": 24,
+    "stableTwoPass": true
+  },
+  "targetBefore": {
+    "ownerName": "皎月女神",
+    "characterKey": "champion_diana",
+    "skillKey": "diana_w",
+    "componentKeys": {
+      "parameters": [
+        "cast_time_ms",
+        "base_damage",
+        "ap_ratio",
+        "base_shield",
+        "shield_ap_ratio",
+        "shield_bonus_hp_ratio",
+        "shield_duration_ms",
+        "cooldown_ms",
+        "orb_count",
+        "mana_cost"
+      ],
+      "formulas": [
+        "damage",
+        "shield"
+      ],
+      "effects": [
+        "mana_cost",
+        "pale_cascade_shield",
+        "orb_collision"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "candidateDetailStatus": 404
+  },
+  "plannedWrites": 1,
+  "writes": [
+    {
+      "id": "diana_w/on_used",
+      "kind": "新增触发规则",
+      "method": "POST（仅拟议，不由本脚本发送）",
+      "route": "/skills/diana_w/trigger-rules",
+      "detailRoute": "/skills/diana_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "49505b74530bf0d5ffa84e3b48074bc3b954eb9f0dba872e2572dc9334a5655d",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "苍白之瀑主动使用",
+        "description": "接收 diana_w 主动使用；无条件在 CURRENT_TARGET 上启动已有 cast 过程，由该过程绑定法力、冷却和 pale_cascade_shield。该效果结果为 target=SOURCE 的一次普通护盾，使用 shield 公式并持续 shield_duration_ms（5000毫秒）；相关的法球碰撞伤害、最后一颗法球后的额外护盾与刷新留待后续规则补录。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "diana_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动苍白之瀑施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [],
+  "deferred": [
+    "三颗法球的逐颗碰撞伤害",
+    "最后一颗法球爆炸后的额外护盾和刷新",
+    "法力消耗和基础冷却",
+    "最后一颗法球爆炸后的额外护盾与持续时间刷新没有在本条 on_used 动作中表达，必须由后续命中或法球生命周期事件单独核对。"
+  ],
+  "reviewDecision": null
+}

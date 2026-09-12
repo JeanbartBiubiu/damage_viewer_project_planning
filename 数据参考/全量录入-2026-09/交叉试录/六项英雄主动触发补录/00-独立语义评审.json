@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-13T01:28:00+08:00",
+  "verdict": "READY_WITH_DEFERRED",
+  "scope": "管理作者数据语义与现有组成复用；不把管理保存、宿主事件生产和战斗运行混为一项证据。",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "decision": {
+    "writeCandidateIds": [
+      "tristana",
+      "twitch",
+      "vayne",
+      "masteryi",
+      "skarner",
+      "diana"
+    ],
+    "deferredCandidateIds": [
+      "sion",
+      "vi"
+    ],
+    "expectedRuleCountBefore": 108,
+    "expectedRuleCountAfter": 114
+  },
+  "accepted": [
+    {
+      "id": "tristana",
+      "skillKey": "tristana_q",
+      "ruleKey": "active",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "tristana_q",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动cast过程在开始时处理冷却和法力，并在activate步骤执行rapid_fire；规则只启动过程，避免重复执行效果。",
+      "evidence": [
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/完整候选.json:7140",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json:4268",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json:4328"
+      ]
+    },
+    {
+      "id": "twitch",
+      "skillKey": "twitch_r",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "twitch_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动cast过程处理冷却、法力并依次执行bonus_ad与bonus_range；穿透和后续目标衰减不进入本条1V1窄规则。",
+      "evidence": [
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/完整候选.json:4854",
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/完整候选.json:4952",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json:8206"
+      ]
+    },
+    {
+      "id": "vayne",
+      "skillKey": "vayne_r",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "vayne_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动cast过程处理冷却、法力和基础持续时间内的bonus_attack_damage；移动速度替换、Q变化与续时仍待补。",
+      "evidence": [
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json:9111",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json:9351",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json:9411",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json:9636"
+      ]
+    },
+    {
+      "id": "masteryi",
+      "skillKey": "masteryi_r",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "masteryi_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "EXECUTE_EFFECT:attack_speed",
+        "EXECUTE_EFFECT:move_speed"
+      ],
+      "reason": "当前没有过程；只连接已有7000毫秒初始攻速和移速，自身减速免疫、续时、普通技能冷却变化及计时暂停待补。",
+      "evidence": [
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/完整候选.json:2580",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/完整候选.json:2721",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/完整候选.json:2779",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/完整候选.json:2968"
+      ]
+    },
+    {
+      "id": "skarner",
+      "skillKey": "skarner_w",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "skarner_w",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "EXECUTE_EFFECT:self_shield"
+      ],
+      "reason": "当前没有过程；只连接已有2500毫秒自身护盾，地震伤害、减速、资源与冷却仍待补。",
+      "evidence": [
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json:4401",
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json:4572",
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json:4702",
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json:4778"
+      ]
+    },
+    {
+      "id": "diana",
+      "skillKey": "diana_w",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "diana_w",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动cast过程处理冷却、法力和首次护盾；法球碰撞、第三球追加护盾与刷新不进入本规则。",
+      "evidence": [
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json:5344",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json:5401",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json:5441",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/来源处置清单.md:182"
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "id": "sion",
+      "skillKey": "sion_w",
+      "ruleKey": "on_used",
+      "reason": "首次施放与三秒后重施都可能进入同一主动使用事件；当前没有阶段条件或过程，直接执行REFRESH_ALL护盾会在重施引爆时错误刷新。"
+    },
+    {
+      "id": "vi",
+      "skillKey": "vi_p",
+      "ruleKey": null,
+      "reason": "被动冷却等级断点、内部冷却状态、W第三次攻击减冷却和Q/E/R命中生产未证；直接规则会绕过冷却重复刷新护盾。"
+    }
+  ],
+  "runtimeBoundary": "当前结论只放行作者数据保存；未证明SKILL_USED宿主投影、TinyGo或Wasm端到端执行。"
+}

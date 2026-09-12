@@ -1,0 +1,734 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-12T18:04:07.420Z",
+  "batch": "六项英雄主动触发补录",
+  "sourceVersion": "16.17/16.17.1",
+  "scope": {
+    "reviewed": [
+      "tristana_q",
+      "twitch_r",
+      "vayne_r",
+      "masteryi_r",
+      "sion_w",
+      "skarner_w",
+      "diana_w",
+      "vi_p"
+    ],
+    "createdRules": [
+      "tristana_q/active",
+      "twitch_r/on_used",
+      "vayne_r/on_used",
+      "masteryi_r/on_used",
+      "skarner_w/on_used",
+      "diana_w/on_used"
+    ],
+    "deferred": [
+      {
+        "id": "sion",
+        "skillKey": "sion_w",
+        "ruleKey": "on_used",
+        "reason": "首次施放与三秒后重施都可能进入同一主动使用事件；当前没有阶段条件或过程，直接执行REFRESH_ALL护盾会在重施引爆时错误刷新。"
+      },
+      {
+        "id": "vi",
+        "skillKey": "vi_p",
+        "ruleKey": null,
+        "reason": "被动冷却等级断点、内部冷却状态、W第三次攻击减冷却和Q/E/R命中生产未证；直接规则会绕过冷却重复刷新护盾。"
+      }
+    ],
+    "beforeRuleCount": 108,
+    "afterRuleCount": 114,
+    "skillCount": 1062,
+    "sourceInitializedCount": 24
+  },
+  "semantics": [
+    {
+      "id": "tristana",
+      "skillKey": "tristana_q",
+      "ruleKey": "active",
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动cast过程在开始时处理冷却和法力，并在activate步骤执行rapid_fire；规则只启动过程，避免重复执行效果。"
+    },
+    {
+      "id": "twitch",
+      "skillKey": "twitch_r",
+      "ruleKey": "on_used",
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动cast过程处理冷却、法力并依次执行bonus_ad与bonus_range；穿透和后续目标衰减不进入本条1V1窄规则。"
+    },
+    {
+      "id": "vayne",
+      "skillKey": "vayne_r",
+      "ruleKey": "on_used",
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动cast过程处理冷却、法力和基础持续时间内的bonus_attack_damage；移动速度替换、Q变化与续时仍待补。"
+    },
+    {
+      "id": "masteryi",
+      "skillKey": "masteryi_r",
+      "ruleKey": "on_used",
+      "actions": [
+        "EXECUTE_EFFECT:attack_speed",
+        "EXECUTE_EFFECT:move_speed"
+      ],
+      "reason": "当前没有过程；只连接已有7000毫秒初始攻速和移速，自身减速免疫、续时、普通技能冷却变化及计时暂停待补。"
+    },
+    {
+      "id": "skarner",
+      "skillKey": "skarner_w",
+      "ruleKey": "on_used",
+      "actions": [
+        "EXECUTE_EFFECT:self_shield"
+      ],
+      "reason": "当前没有过程；只连接已有2500毫秒自身护盾，地震伤害、减速、资源与冷却仍待补。"
+    },
+    {
+      "id": "diana",
+      "skillKey": "diana_w",
+      "ruleKey": "on_used",
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动cast过程处理冷却、法力和首次护盾；法球碰撞、第三球追加护盾与刷新不进入本规则。"
+    }
+  ],
+  "preparation": {
+    "status": "CAPTURED",
+    "GETs": 2656,
+    "statusCounts": {
+      "200": 2644,
+      "404": 12
+    },
+    "businessWrites": 0,
+    "stableVerification": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleLists": true,
+      "stableRuleDetails": true,
+      "firstRuleKeysSha256": "3a5eef1477b56b8493f70d2cdced2c3cbbcc1e51403b82ddb98869cffdea07ee",
+      "secondRuleKeysSha256": "3a5eef1477b56b8493f70d2cdced2c3cbbcc1e51403b82ddb98869cffdea07ee"
+    },
+    "candidateStatuses": [
+      {
+        "id": "tristana",
+        "status": 404
+      },
+      {
+        "id": "twitch",
+        "status": 404
+      },
+      {
+        "id": "vayne",
+        "status": 404
+      },
+      {
+        "id": "masteryi",
+        "status": 404
+      },
+      {
+        "id": "skarner",
+        "status": 404
+      },
+      {
+        "id": "diana",
+        "status": 404
+      }
+    ],
+    "sourceSnapshotSha256": "33d9c4bbe716dfcc308971244c87af0b052f008de242d5bf33e44aefe5fe985c",
+    "frozenRequestSha256": "936793a0d1428fc6a488349efbfc77d7ae1d8068a41eee54ad0e6a96eda3c1cd",
+    "baselineSha256": "9c9b99de4a4fc6d3fdcf2bc1e4b2e31b82de50b012b31d241e52fb6aea304586",
+    "sourceDigestConventions": [
+      "键排序紧凑对象",
+      "原顺序紧凑对象"
+    ]
+  },
+  "cursorReview": {
+    "runId": "run-3b4ec4db-dae0-42ae-93d6-09b650c299b5",
+    "requestId": "eb6078e9-8c52-403a-b48e-b0cefe7cf0b4",
+    "resultStatus": "finished",
+    "planRevision": 1,
+    "verdict": "READY",
+    "model": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ],
+    "sdkVersion": "1.0.24",
+    "uniqueToolCalls": 1,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "businessWrites": 0
+  },
+  "writer": {
+    "protectedGETs": 4008,
+    "businessWrites": 6,
+    "POST": 6,
+    "status201": 6,
+    "immediateReadbacks": 6,
+    "replayedWrites": 0,
+    "priorRuleCount": 108,
+    "finalRuleCount": 114,
+    "sourceInitializedCount": 24,
+    "passed": true
+  },
+  "independentReadback": {
+    "GETs": 1340,
+    "methods": {
+      "GET": 1340
+    },
+    "businessWrites": 0,
+    "priorRulesUnchanged": 108,
+    "newRulesMatched": 6,
+    "nonRuleTargetsUnchanged": 6,
+    "skillCount": 1062,
+    "finalRuleCount": 114,
+    "sourceInitializedCount": 24,
+    "passed": true
+  },
+  "browser": {
+    "GETs": 299,
+    "businessWrites": 0,
+    "skills": [
+      "tristana_q",
+      "twitch_r",
+      "vayne_r",
+      "masteryi_r",
+      "skarner_w",
+      "diana_w"
+    ],
+    "listImagesVisible": 6,
+    "imageNaturalSize": "64x64",
+    "processDetailsVisible": 4,
+    "directEffectDetailsVisible": 3,
+    "triggerDetailsVisible": 6,
+    "screenshots": 20,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "failedRequests": 0,
+    "errorResponses": 0,
+    "liveFrontend": "127.0.0.1:5173",
+    "liveBackend": "127.0.0.1:8080",
+    "passed": true
+  },
+  "protected": {
+    "priorRulesUnchanged": 108,
+    "skillSubjectsUnchanged": true,
+    "ownerRelationsUnchanged": true,
+    "representativeImagesUnchanged": true,
+    "parametersFormulasEffectsProcessesAndStatesUnchanged": true,
+    "candidateRulesOnly": true
+  },
+  "experienceIssues": [
+    "已有主动cast过程已经负责法力、冷却与效果绑定时，触发规则必须启动过程；直接执行效果会绕过过程或造成重复应用。",
+    "不同候选准备器可能使用键排序对象散列或原顺序对象散列；合并门禁应先按上游声明验真，再统一记录当前批次文件散列。",
+    "主动使用事件足以连接明确的首次自身增益，但不能代替重施阶段、自施目标身份、同次施放去重或被动内部冷却。",
+    "过程详情页面可以直接核对启动方式、普通冷却和效果绑定；本批四个过程均无需新增表或修改管理界面。"
+  ],
+  "pending": [
+    "赛恩W等待首次施放与重施阶段的可判别过程或状态；蔚P等待等级冷却断点、内部冷却状态和Q/E/R命中生产证据。",
+    "易R减速免疫、普通技能冷却变化、续时与计时暂停，斯卡纳W伤害与减速，黛安娜W法球伤害与第三球护盾刷新仍需独立机制接线。",
+    "六条新增规则尚未执行宿主事件、战斗运行、TinyGo或Wasm验收。"
+  ],
+  "evidence": {
+    "batchFiles": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/00-独立语义评审.json",
+        "byteSize": 6741,
+        "sha256": "63b104f25dc6307c047ce37ac6619ffd0e380bbdef2f74f1cc3290086ec1fe1c"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/01-合并方案.md",
+        "byteSize": 1621,
+        "sha256": "49070a637140e193b6a10126b104925b0aa0c988fb0d11a7a970a8a4b95d41b0"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/02-合并冻结请求.json",
+        "byteSize": 19601,
+        "sha256": "936793a0d1428fc6a488349efbfc77d7ae1d8068a41eee54ad0e6a96eda3c1cd"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/03-来源散列快照.json",
+        "byteSize": 31738,
+        "sha256": "33d9c4bbe716dfcc308971244c87af0b052f008de242d5bf33e44aefe5fe985c"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/04-共享写前现值.json",
+        "byteSize": 3056209,
+        "sha256": "9c9b99de4a4fc6d3fdcf2bc1e4b2e31b82de50b012b31d241e52fb6aea304586"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/05-Cursor独立评审.json",
+        "byteSize": 25762,
+        "sha256": "e502011a42e3e3d7d67824aaf9a35c027f17f05537a61dfaa2b7a47fc9879c05"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/06-写入与即时回读.json",
+        "byteSize": 43116,
+        "sha256": "a6250d8bf1abc1be843bd728c510414a5d8bed156455e16e0b23601324d04226"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/07-独立GET回读.json",
+        "byteSize": 3200,
+        "sha256": "79c1f8d868f2568456804ee833d74f400b0e5ca7cce85363ecbbff0c1fb937e8"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/08-页面验收.json",
+        "byteSize": 5365,
+        "sha256": "153a882b0534e7402dc2c3735278bca6ac6a0c21e06b168ed2e99ef745cf521d"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/独立GET回读.mjs",
+        "byteSize": 20763,
+        "sha256": "7f8b04889ba4fc15e08940b9e41c58c209110949d959206c376e40c193456d28"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/批次配置.mjs",
+        "byteSize": 7420,
+        "sha256": "dda823b4dde2c9056a149748240ee780679be1e32ed47d5b78bb296dd198b03c"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/受保护写入.mjs",
+        "byteSize": 32603,
+        "sha256": "cecfaf8e2404731a8c8027fe9d385fda2701b584fc81c3194e519d0615401ffd"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/diana_w-列表图片.png",
+        "byteSize": 102890,
+        "sha256": "2ea85619cfb9620a0359aed4414b18a0e257575470c518a54994a308e1471453"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/diana_w-cast过程.png",
+        "byteSize": 91819,
+        "sha256": "76438578f22e0ee40ba5c8f93d74cf3ebef937e0506ed60a11c1439d337b626f"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/diana_w-on_used规则.png",
+        "byteSize": 122459,
+        "sha256": "42ea9d22208ac415a0b0efcf5fd51fb09f3b4a880a125ca53ecffe7c1e1bb1d2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/masteryi_r-列表图片.png",
+        "byteSize": 101457,
+        "sha256": "1aac6adf7c46340b190e52c00b7c14c5b69027acbe570df50eea3c7dbe1646a4"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/masteryi_r-attack_speed结果.png",
+        "byteSize": 124088,
+        "sha256": "296492a0d814ae00daf777049fe29eb3b3531971e1b1d2da4f0c789793ae32ee"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/masteryi_r-move_speed结果.png",
+        "byteSize": 102470,
+        "sha256": "ba6cf023c5d81b630619116304cc8cc838c5f1a81e3c8d6c252c296485adb0fe"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/masteryi_r-on_used规则.png",
+        "byteSize": 114171,
+        "sha256": "a8a1f74480c414f5eacd40178f94b4ba9f780d5cf4fce015af58251591492d89"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/skarner_w-列表图片.png",
+        "byteSize": 103138,
+        "sha256": "c51ee40ccd69e12299232e6f79f7c352f675c06fe2698a72fecf319268aede5b"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/skarner_w-on_used规则.png",
+        "byteSize": 117406,
+        "sha256": "b191ad87b25d6b55af6deb01512c4d684b6df063f5b4fda45e881801adb0def8"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/skarner_w-self_shield结果.png",
+        "byteSize": 108789,
+        "sha256": "87b3b8c4dae1f93907a2d551696d8efbcd3c02b934d1212fba67c151f0d62221"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/skarner_w-shield_value公式.png",
+        "byteSize": 149271,
+        "sha256": "ada2cb6bca1a828a63320b6623d40ea4ec54cb21ee9e813432f5081705d82dd3"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/tristana_q-列表图片.png",
+        "byteSize": 103095,
+        "sha256": "3f38fb8546af81c2ad742cbdbf0e5661558735143d216d6656424661f638a73a"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/tristana_q-active规则.png",
+        "byteSize": 89894,
+        "sha256": "8251434c3d5ebfa8d0f03ca23bd3e87b270a9aa90942f502406521d744f4a43a"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/tristana_q-cast过程.png",
+        "byteSize": 133284,
+        "sha256": "0790bcf014e6d3bd1185461dc299e95ccce329a6ccf7cd878ce021c426fef5a2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/twitch_r-列表图片.png",
+        "byteSize": 101058,
+        "sha256": "5bae6fe33ba65e8d55826f98fb9b5142f97efc2555e44a48d25f67cff52d3a69"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/twitch_r-cast过程.png",
+        "byteSize": 98279,
+        "sha256": "d25999da3f2e68663f4e8c0002474cd0e2d1c3c8223716e6495e739b6f97d43c"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/twitch_r-on_used规则.png",
+        "byteSize": 92059,
+        "sha256": "229c49c03545b216220161b4b2932a2a9bab8855cb6caa6e0c3c0c8848b7b70f"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/vayne_r-列表图片.png",
+        "byteSize": 101213,
+        "sha256": "8d6d7e477b63ee5b9dee11ccbdbfc9d567bc81923c264f1c067cb3e8190c85f0"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/vayne_r-cast过程.png",
+        "byteSize": 96361,
+        "sha256": "409030f9babece976ae4b104116133adbdeb6a9bba15717116aa92e5c67d48ae"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/页面截图/vayne_r-on_used规则.png",
+        "byteSize": 99005,
+        "sha256": "ba725685b32e44629a71303ac205d57115adb2a7fd9bead3d6d3a518a4f74e11"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/只读页面验收.mjs",
+        "byteSize": 18147,
+        "sha256": "43863331fbd9c54eb4bd3075fe03c322ebc486e60fcb9f6d7f3e6cbcbada78fe"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/准备合并只读.mjs",
+        "byteSize": 29087,
+        "sha256": "4810ccf62a4f4393b43fb633699d11de1f25b6d2c6d2dcb8b83ecf1b7db165fc"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/Cursor终审只读检查.mjs",
+        "byteSize": 13211,
+        "sha256": "f735b58b1927bd01356cef846ca5d736ac95a97dec107bd1dbce0162c1455732"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/README.md",
+        "byteSize": 820,
+        "sha256": "b23b04fd41bbe9f99a8e93ca678f8c467250e4bca3ae0a6549ba7c44a1d0f2f4"
+      }
+    ],
+    "upstreamCandidates": [
+      {
+        "name": "麦林炮手Q触发补录",
+        "files": [
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/麦林炮手Q触发补录/01-来源方案.md",
+            "byteSize": 1553,
+            "sha256": "e5979f4a26a029a8d4525661494239cd390f3eb72de62714e6504ecd5ec9f7ce"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/麦林炮手Q触发补录/02-冻结请求.json",
+            "byteSize": 6122,
+            "sha256": "a6444d9fbe921b66c5d624ddff5897372ed532c5dc0e723eb2db3278263b085b"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/麦林炮手Q触发补录/03-来源快照.json",
+            "byteSize": 18590,
+            "sha256": "2b6de76f29bbf966f77404b933eab09ce914fd28e98d2cf11ec0d7270055b3b2"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/麦林炮手Q触发补录/04-写入前现值.json",
+            "byteSize": 2870960,
+            "sha256": "b1222834fe2d2ccd832141b447ae14594740aa6ab59d1966f3158c6e6ad59487"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/麦林炮手Q触发补录/05-只读准备报告.json",
+            "byteSize": 7793,
+            "sha256": "555e84a9efdfc841cd03c1f9a7265596f8816aefb6a5ae4181325b734871d82c"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/麦林炮手Q触发补录/06-体验报告.md",
+            "byteSize": 1894,
+            "sha256": "cc3567f80163c1a64e2b2e021c97222e82eb8c19fc3df6527b79fd5fd7625555"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/麦林炮手Q触发补录/准备只读.mjs",
+            "byteSize": 42110,
+            "sha256": "65c0283611633690c563b3903005531be45e164798b5cc9e76ee55612dcf6755"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/麦林炮手Q触发补录/README.md",
+            "byteSize": 1289,
+            "sha256": "8120959c76fb71229ed32418f395b8bf547d0ace5d1de8a6cf2613402174bc2e"
+          }
+        ]
+      },
+      {
+        "name": "瘟疫之源R触发补录",
+        "files": [
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/瘟疫之源R触发补录/01-来源方案.md",
+            "byteSize": 1606,
+            "sha256": "dbcf8d5a2203d0b4828a05c45b4ace330ee72e10cc99628fb5e207c0d2b9fb49"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/瘟疫之源R触发补录/02-冻结请求.json",
+            "byteSize": 6190,
+            "sha256": "9bebafca252003f85a948c0bbcac82b563e059325d6d5c6b1bf9efc0ac5e2ee0"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/瘟疫之源R触发补录/03-来源快照.json",
+            "byteSize": 23683,
+            "sha256": "bd4d1c9b0aa73a55f08053b106f70c142c88a51641e33862e9e8f65109eff22e"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/瘟疫之源R触发补录/04-写入前现值.json",
+            "byteSize": 2876459,
+            "sha256": "675dc246f40761145283b77338d74771910915baba0da94da952503ae7f7f303"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/瘟疫之源R触发补录/05-只读准备报告.json",
+            "byteSize": 8295,
+            "sha256": "8d4adb96cb0696825e4cb58dcb1e727eaa45b6e233679ec74b82be711178c070"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/瘟疫之源R触发补录/06-体验报告.md",
+            "byteSize": 1906,
+            "sha256": "70d90fc9e6d477681bc7a6ff8669a059e46c118e4de3229e964036dfac00231a"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/瘟疫之源R触发补录/准备只读.mjs",
+            "byteSize": 252,
+            "sha256": "ded78054443b97e82cdbc37e26119d3e6851fb6737fb40e619809ef407c4468f"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/瘟疫之源R触发补录/README.md",
+            "byteSize": 1313,
+            "sha256": "90948bca64e221f53a787e506d725012f248a212dab8b418c0d2fb3aef3b2766"
+          }
+        ]
+      },
+      {
+        "name": "暗夜猎手R触发补录",
+        "files": [
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/暗夜猎手R触发补录/01-来源方案.md",
+            "byteSize": 1790,
+            "sha256": "7ac6b56373567cc5f0722d7ac784b580759ab255a538f189d0e3e274473d882d"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/暗夜猎手R触发补录/02-冻结请求.json",
+            "byteSize": 6393,
+            "sha256": "009878fbccbf56d095c714127257002e32fe08f26ea5559795cc6df3f83bfe3a"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/暗夜猎手R触发补录/03-来源快照.json",
+            "byteSize": 30484,
+            "sha256": "476ef8819f65bfd4bc1f94c6b3f8fb40572d146985dfe718ba87493cc033bb61"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/暗夜猎手R触发补录/04-写入前现值.json",
+            "byteSize": 2889513,
+            "sha256": "2905ccc1e0d45ab28bfc689908c61af7e1f752990127f5f03c251f11c003f19d"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/暗夜猎手R触发补录/05-只读准备报告.json",
+            "byteSize": 8703,
+            "sha256": "6844e59b32311734fa119392ff3439b912b1c2f955d9b37a51c9959d61b36f85"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/暗夜猎手R触发补录/06-体验报告.md",
+            "byteSize": 2273,
+            "sha256": "6c4ab6283e77259a8d0788f86d05724ae158746d395e42dd0cdbbe15ee85c3e4"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/暗夜猎手R触发补录/准备只读.mjs",
+            "byteSize": 251,
+            "sha256": "d58995af688e67ae738d486fdb39ffc88d57c7e029fec97b23bcb2b01bbf07a4"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/暗夜猎手R触发补录/README.md",
+            "byteSize": 1518,
+            "sha256": "46cdc3bb04299c96710da432a2918d3710f3a54216fe3d5fc5730e85a2238acc"
+          }
+        ]
+      },
+      {
+        "name": "无极剑圣R触发补录",
+        "files": [
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/无极剑圣R触发补录/01-来源方案.md",
+            "byteSize": 1088,
+            "sha256": "9c5104280e568c30f2f770762fa02aa8c0a2c97b0a3e579f85fe2e13d7377c00"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/无极剑圣R触发补录/02-冻结请求.json",
+            "byteSize": 3532,
+            "sha256": "435db84682a882d41399370f594ec134d317111f5238b51221c30c835b56ed14"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/无极剑圣R触发补录/03-来源快照.json",
+            "byteSize": 11300,
+            "sha256": "e287862a636cba87c5bd59f74acb6a6c4badc39ac387932074dc0f8555ec74f2"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/无极剑圣R触发补录/04-写入前现值.json",
+            "byteSize": 64284,
+            "sha256": "7f3c11efb6b41a0ec040859b6e0a3b8d3e17d27ed94a6b0523de1d1f8747f9c9"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/无极剑圣R触发补录/05-只读准备报告.json",
+            "byteSize": 4689,
+            "sha256": "58c87760b31b6a21fc8a58328b9c95d7ba65530dee7c60a477a0bfe41c9916a6"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/无极剑圣R触发补录/体验报告.md",
+            "byteSize": 1769,
+            "sha256": "29db65abba43ed666056a671d5bb48dd257da47211b25e1230433a8b33659052"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/无极剑圣R触发补录/准备只读.mjs",
+            "byteSize": 37454,
+            "sha256": "e9a47eae317d59b27413be3c6d7781c01a8282581732a59bea63d74292f51cb0"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/无极剑圣R触发补录/README.md",
+            "byteSize": 974,
+            "sha256": "42ab3a436b8fc66bb202ab3e2475ba1a42b2a2c80f88ee59de5a997d89e6b3d1"
+          }
+        ]
+      },
+      {
+        "name": "亡灵战神W触发补录",
+        "files": [
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/亡灵战神W触发补录/01-来源方案.md",
+            "byteSize": 1339,
+            "sha256": "22ac6a7a608d6fc0ffeb568ff08f73adc27ec0342ddf64474cfbedf63cae7622"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/亡灵战神W触发补录/02-冻结请求.json",
+            "byteSize": 2067,
+            "sha256": "b5d5b16bd7f7b576e2b129bb2dacacf0235f46a76a6a147c5d5f608188e999ce"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/亡灵战神W触发补录/03-来源快照.json",
+            "byteSize": 15463,
+            "sha256": "2cc836707c0313c0fb6c98547cbb0c175a6e9b957322633c2f7c895a5314391b"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/亡灵战神W触发补录/04-写入前现值.json",
+            "byteSize": 77318,
+            "sha256": "1d1dba7e1f50699e3fc8801f019defde26bc78b59a9bdc1eb9146c2bc0184e93"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/亡灵战神W触发补录/05-只读准备报告.json",
+            "byteSize": 3471,
+            "sha256": "219ced6744be124abfc7a1fb33e8ebfabd65538547c08862cb2f3a68230eea79"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/亡灵战神W触发补录/体验报告.md",
+            "byteSize": 1562,
+            "sha256": "eeb02e5292433c0feb7faf7350dc34ec5f9305498dba097728de3123774412e6"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/亡灵战神W触发补录/README.md",
+            "byteSize": 987,
+            "sha256": "6b0f65c2d2782a6a5d9da9e528b4872443a3cf4e58794b2ab9847694a6d72486"
+          }
+        ]
+      },
+      {
+        "name": "斯卡纳W触发补录",
+        "files": [
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/斯卡纳W触发补录/01-来源方案.md",
+            "byteSize": 1143,
+            "sha256": "710fb6a9cc1ac847e370c99f9c27d21e9dcc1544054a777d5a8cd2023fb335cd"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/斯卡纳W触发补录/02-冻结请求.json",
+            "byteSize": 3212,
+            "sha256": "d10ae3ff7fd0ae1220dbc3eaf6926ec1eb50b4780d9927f36e1a6a002a1b5c8c"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/斯卡纳W触发补录/03-来源快照.json",
+            "byteSize": 12384,
+            "sha256": "7985a535a374e391da90899294b8a7057ff1242c22c1b40bdaa828f750b3af76"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/斯卡纳W触发补录/04-写入前现值.json",
+            "byteSize": 66016,
+            "sha256": "48001be3abb0d1785de32baaaf270b4b8786e8c182d91813ab6baf7b2a4afbb4"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/斯卡纳W触发补录/05-只读准备报告.json",
+            "byteSize": 4345,
+            "sha256": "9293bd26175b52053b92b635b18d703ec08e868ab803549846c81fd19c7cafd4"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/斯卡纳W触发补录/体验报告.md",
+            "byteSize": 1335,
+            "sha256": "437a742eb6124a58118d1b03eb41e4bdbe08b6ca6fe9f95e9857a3b5006773d6"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/斯卡纳W触发补录/README.md",
+            "byteSize": 984,
+            "sha256": "38e9f3e97496aafce85ee181c7281cf7fcbacb48fb654a28bad5494980d92d5b"
+          }
+        ]
+      },
+      {
+        "name": "皎月女神W触发补录",
+        "files": [
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/皎月女神W触发补录/01-来源方案.md",
+            "byteSize": 1245,
+            "sha256": "587c2323d44c2070c3b4f7dc6c3c289558a775eb98394e3e0d6eedfd7a855b47"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/皎月女神W触发补录/02-冻结请求.json",
+            "byteSize": 3366,
+            "sha256": "e152bb44670aaeea1a05e2d59cd87b27645dfcde7326e8a30ed5f7ad2e9f413c"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/皎月女神W触发补录/03-来源快照.json",
+            "byteSize": 14106,
+            "sha256": "51b8097188e795ae870f8ef02f193db9563cb31143568dbf9fc679f6a1107d0f"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/皎月女神W触发补录/04-写入前现值.json",
+            "byteSize": 73813,
+            "sha256": "a5b28c9c6c1d7dd454d79e2e758daee9a6c69f10234e0f7961115b009c04222d"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/皎月女神W触发补录/05-只读准备报告.json",
+            "byteSize": 4550,
+            "sha256": "044715374900761fbb665213ff9236dc538fea40ae879f4859fba44061a61ed4"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/皎月女神W触发补录/体验报告.md",
+            "byteSize": 1392,
+            "sha256": "cfb8623c0ca8b0ca85147f24618132b77e23fc78f6fa3c197a54d82f2fa698a9"
+          },
+          {
+            "path": "数据参考/全量录入-2026-09/交叉试录/LunaMax/皎月女神W触发补录/README.md",
+            "byteSize": 983,
+            "sha256": "9ecc320b73c6fb3663f3e1ac2c98eefd8754156937a7ff81fac8ea3dad5980a8"
+          }
+        ]
+      }
+    ]
+  },
+  "runtimeValidation": "未执行"
+}

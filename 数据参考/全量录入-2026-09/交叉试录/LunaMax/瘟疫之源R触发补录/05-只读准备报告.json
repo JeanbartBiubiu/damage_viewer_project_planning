@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T17:31:56.102Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "recommendedStatus": "READY_FOR_INDEPENDENT_REVIEW",
+  "recommendation": "READY_FOR_INDEPENDENT_REVIEW",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "fixedVersion": "16.17.1",
+  "scope": {
+    "skillKey": "twitch_r",
+    "skillName": "火力全开",
+    "ruleKey": "on_used",
+    "eventType": "SKILL_USED",
+    "sourceSkillKey": "twitch_r",
+    "useKind": "ACTIVE",
+    "actionEffectKeys": [
+      "bonus_ad",
+      "bonus_range"
+    ],
+    "actionType": "START_PROCESS",
+    "processKey": "cast",
+    "actionTargetContext": "CURRENT_TARGET",
+    "actionResultTargets": {
+      "bonus_ad": "SOURCE",
+      "bonus_range": "SOURCE"
+    },
+    "skippedEffects": [
+      "不重复执行 mana_cost 或 cooldown；这两项属于施放过程。",
+      "不新增穿刺路径、多目标伤害衰减、越程、普通攻击伤害或攻击解除伪装事件。",
+      "不把 bonus_attack_damage、bonus_attack_range 或 buff_duration_ms 归档数值当作本批新增参数。",
+      "不直接 EXECUTE_EFFECT bonus_ad 或 bonus_range；本条规则只启动已有 cast 过程，避免重复执行自益效果。"
+    ],
+    "deferredScope": []
+  },
+  "checks": {
+    "characterSubject": true,
+    "characterAttributes": true,
+    "characterRepresentativeImage": true,
+    "characterSkillRelation": true,
+    "skillSubject": true,
+    "skillRepresentativeImage": true,
+    "candidateAbsent": true,
+    "targetRuleBaselineEmpty": true,
+    "sourceActionEffectsPresent": true,
+    "sourceActionEffectSemantics": true,
+    "castProcessSemantics": true,
+    "requiredParametersPresent": true,
+    "allTargetListsReadable": true,
+    "allTargetDetailsReadable": true,
+    "staticRoutesReadable": true,
+    "triggerDependenciesReady": true,
+    "all": true,
+    "globalOld108Unchanged": true,
+    "globalTwoPassStable": true,
+    "sourceSemanticComplete": true,
+    "archiveChecksComplete": true,
+    "noBusinessWrite": true
+  },
+  "source": {
+    "snapshotFile": "03-来源快照.json",
+    "snapshotSha256": "a4a4012a36af59a64d4ecd3185baa3d446e314916b8b1fd8eb8f202bd5373423",
+    "candidateFileSha256": "446adb7a68cbdbd402a247acbc4659d929aed6da33bffe86bbe02a2e21006146",
+    "clientSha256": "78a3de6a91ebb859c457415088aa23cce7f62a62c5ed0672b16bdd13c33c7f18",
+    "clientDecompressedSha256": "ce403a5dcc34779ad7ba2bf616297221553bc3dadecba4469b0ef4e90f505241",
+    "officialSha256": "11bd82969c5af05144c3d5812864a319a69a5050d8f91abc38a2c21bac7b6b81"
+  },
+  "getSummary": {
+    "getCount": 2369,
+    "businessWrites": 0,
+    "statusCounts": {
+      "200": 2368,
+      "404": 1
+    },
+    "targetGetCount": 24,
+    "globalSkillListGetCount": 2,
+    "globalTriggerRuleListGetCount": 2125,
+    "globalTriggerRuleDetailGetCount": 216,
+    "candidateDetailGetCount": 1,
+    "catalogGetCount": 5
+  },
+  "observedCurrent": {
+    "first": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "eventTypeCounts": {
+        "DAMAGE_TAKEN": 3,
+        "BASIC_ATTACK_HIT": 10,
+        "SOURCE_INITIALIZED": 24,
+        "SKILL_HIT": 55,
+        "SPELL_SHIELD_BLOCKED": 5,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "KILL": 2,
+        "SKILL_USED": 5
+      },
+      "sourceInitializedCount": 24,
+      "detailStatus200Count": 108
+    },
+    "second": {
+      "skillCount": 1062,
+      "ruleCount": 108,
+      "eventTypeCounts": {
+        "DAMAGE_TAKEN": 3,
+        "BASIC_ATTACK_HIT": 10,
+        "SOURCE_INITIALIZED": 24,
+        "SKILL_HIT": 55,
+        "SPELL_SHIELD_BLOCKED": 5,
+        "DAMAGE_DEALT": 3,
+        "DAMAGE_PENDING": 1,
+        "KILL": 2,
+        "SKILL_USED": 5
+      },
+      "sourceInitializedCount": 24,
+      "detailStatus200Count": 108
+    },
+    "oldRuleKeysSha256": "2381b324af8f9ec459040c8200408d50a66a73c9201294bcd8e39974811a1748",
+    "oldRuleDetailsSha256": "575932dea9b0ba7b7bf8e8fcd91afae793025ede26ffd3677dd9670d9f34dc41",
+    "targetRuleKeys": [],
+    "targetComponentKeys": {
+      "parameters": [
+        "cooldown_ms",
+        "mana_cost",
+        "bonus_attack_damage",
+        "bonus_attack_range",
+        "buff_duration_ms"
+      ],
+      "formulas": [],
+      "effects": [
+        "mana_cost",
+        "bonus_ad",
+        "bonus_range"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "targetEffectChecks": {
+      "bonus_ad": {
+        "effectPresent": true,
+        "exactlyOneResult": true,
+        "resultType": true,
+        "resultTarget": true,
+        "attributeKey": true,
+        "operation": true,
+        "modifierZoneKey": true,
+        "valueParameter": true,
+        "durationParameter": true
+      },
+      "bonus_range": {
+        "effectPresent": true,
+        "exactlyOneResult": true,
+        "resultType": true,
+        "resultTarget": true,
+        "attributeKey": true,
+        "operation": true,
+        "modifierZoneKey": true,
+        "valueParameter": true,
+        "durationParameter": true
+      }
+    },
+    "castProcessCheck": {
+      "processPresent": true,
+      "activeProcess": true,
+      "cooldownPresent": true,
+      "cooldownParameter": true,
+      "cooldownStartsAtProcessStart": true,
+      "exactEffectBindings": true,
+      "manaEffectBound": true,
+      "actionEffectsBound": true
+    }
+  },
+  "candidate": {
+    "ruleKey": "on_used",
+    "detailRoute": "/skills/twitch_r/trigger-rules/on_used",
+    "preflightStatus": 404,
+    "frozenRequestFile": "02-冻结请求.json",
+    "frozenRequestSha256": "de27c3fbdb5520dda3fc972f367a10ccfd247c59011f0c4d138d5d0f155dc824",
+    "proposedRequest": {
+      "ruleKey": "on_used",
+      "name": "火力全开主动使用",
+      "description": "接收 twitch_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却、bonus_ad 和 bonus_range，两项自益效果由过程执行一次。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "twitch_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动火力全开施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "conditionalRequestBody": {
+      "ruleKey": "on_used",
+      "name": "火力全开主动使用",
+      "description": "接收 twitch_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程已绑定法力、冷却、bonus_ad 和 bonus_range，两项自益效果由过程执行一次。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "twitch_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "name": "启动火力全开施放过程",
+          "actionType": "START_PROCESS",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "processKey": "cast"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "conditionalRequestBodySha256": "2ea450642faffb34d243c164fb83217755c814cf1540d695d09447b080df1221"
+  },
+  "conflicts": [],
+  "deferred": [],
+  "deferredScope": [],
+  "excluded": [
+    "不重复执行 mana_cost 或 cooldown；这两项属于施放过程。",
+    "不新增穿刺路径、多目标伤害衰减、越程、普通攻击伤害或攻击解除伪装事件。",
+    "不把 bonus_attack_damage、bonus_attack_range 或 buff_duration_ms 归档数值当作本批新增参数。",
+    "不直接 EXECUTE_EFFECT bonus_ad 或 bonus_range；本条规则只启动已有 cast 过程，避免重复执行自益效果。"
+  ]
+}

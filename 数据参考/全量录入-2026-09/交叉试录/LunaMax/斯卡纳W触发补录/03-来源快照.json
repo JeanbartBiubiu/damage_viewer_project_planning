@@ -1,0 +1,505 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T17:24:13.342Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划工作树归档资料和本地候选范围。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "斯卡纳客户端16.17原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Skarner.json.gz",
+      "byteSize": 8228,
+      "sha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+      "decompressedByteSize": 54092,
+      "decompressedSha256": "a88c0388e87b40699b35601d0dafa1fde9d3e2605c9872f8e273b2059ef660b1"
+    },
+    {
+      "kind": "斯卡纳官方16.17.1中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Skarner.json",
+      "byteSize": 10433,
+      "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2"
+    },
+    {
+      "kind": "斯卡纳官方16.17.1英文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Skarner.json",
+      "byteSize": 9912,
+      "sha256": "dba7c616a97453855cdca38601146cf5be1a6e6de13057b2f12707f49058823c"
+    },
+    {
+      "kind": "官方资料版本清单",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\versions.json",
+      "byteSize": 5189,
+      "sha256": "178005ff120963169159a1563e5b1817601778940129f32aa0240a9fd15b8fed"
+    }
+  ],
+  "client": {
+    "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Skarner.json.gz",
+    "pointer": "Characters/Skarner/Spells/SkarnerWAbility/SkarnerW",
+    "mSpellTags": [
+      "Trait_DamageAbility",
+      "Trait_Shield",
+      "Trait_Low_Damage",
+      "Trait_AoE"
+    ],
+    "mSpellCalculations": {
+      "InitialShield": {
+        "mFormulaParts": [
+          {
+            "mStat": 12,
+            "mDataValue": "InitialShieldRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "Damage": {
+        "mFormulaParts": [
+          {
+            "mDataValue": "BaseDamage",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mDataValue": "DamageAPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      }
+    },
+    "dataValues": {
+      "BaseDamage": {
+        "values": [
+          30,
+          50,
+          70,
+          90,
+          110,
+          130,
+          150
+        ],
+        "type": "SpellDataValue"
+      },
+      "DamageAPRatio": {
+        "values": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "type": "SpellDataValue"
+      },
+      "InitialShieldRatio": {
+        "values": [
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066
+        ],
+        "type": "SpellDataValue"
+      },
+      "ShieldDuration": {
+        "values": [
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5
+        ],
+        "type": "SpellDataValue"
+      },
+      "SlowEffect": {
+        "values": [
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224,
+          -0.20000000298023224
+        ],
+        "type": "SpellDataValue"
+      },
+      "SlowDuration": {
+        "values": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "type": "SpellDataValue"
+      }
+    },
+    "spellCastTime": 0.30000001192092896,
+    "cooldownTime": [
+      10,
+      10,
+      9,
+      8,
+      7,
+      6,
+      6
+    ],
+    "mana": [
+      60,
+      65,
+      70,
+      75,
+      80,
+      80
+    ],
+    "targetingType": {
+      "__type": "Direction"
+    },
+    "tooltipLists": {
+      "LevelUp": {
+        "levelCount": 5,
+        "Elements": [
+          {
+            "type": "BaseDamage",
+            "nameOverride": "Spell_ListType_Damage",
+            "__type": "TooltipInstanceListElement"
+          },
+          {
+            "type": "Cooldown",
+            "nameOverride": "Spell_ListType_Cooldown",
+            "__type": "TooltipInstanceListElement"
+          },
+          {
+            "type": "Cost",
+            "__type": "TooltipInstanceListElement"
+          }
+        ],
+        "__type": "TooltipInstanceList"
+      }
+    },
+    "selectedFacts": [
+      "客户端 InitialShield 使用 InitialShieldRatio 8% 与 mStat 12；当前实库公式已核对为 0.08×SOURCE.hp.TOTAL。",
+      "官方资料明确自身获得持续 2.5 秒的护盾；地震魔法伤害与减速是独立行为。"
+    ]
+  },
+  "official": {
+    "zh": {
+      "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Skarner.json",
+      "version": "16.17.1",
+      "spell": {
+        "id": "SkarnerW",
+        "name": "震地壁垒",
+        "description": "斯卡纳获得一个护盾并生成一阵地震，地震的冲击波会伤害并减速敌人们。",
+        "tooltip": "斯卡纳获得持续{{ shieldduration }}秒的<shield>{{ initialshield }}护盾值</shield>并引发一阵地震，来对附近的敌人们造成<magicDamage>{{ damage }}魔法伤害</magicDamage>和持续{{ slowduration }}秒的{{ sloweffect*-100 }}%<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "伤害",
+            "冷却时间",
+            "@AbilityResourceName@消耗"
+          ],
+          "effect": [
+            "{{ basedamage }} -> {{ basedamageNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ cost }} -> {{ costNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          9,
+          8,
+          7,
+          6
+        ],
+        "cost": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "range": [
+          700,
+          700,
+          700,
+          700,
+          700
+        ],
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "image": {
+          "full": "SkarnerW.png",
+          "sprite": "spell13.png",
+          "group": "spell",
+          "x": 432,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "en": {
+      "filePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Skarner.json",
+      "version": "16.17.1",
+      "spell": {
+        "id": "SkarnerW",
+        "name": "Seismic Bastion",
+        "description": "Skarner gains a shield and creates an earthquake whose shockwave damages and slows foes.",
+        "tooltip": "Skarner gains <shield>{{ initialshield }} Shield</shield> for {{ shieldduration }}s and triggers an earthquake that deals <magicDamage>{{ damage }} magic damage</magicDamage> and <status>Slows</status> nearby enemies by {{ sloweffect*-100 }}% for {{ slowduration }}s.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Damage",
+            "Cooldown",
+            "@AbilityResourceName@ Cost"
+          ],
+          "effect": [
+            "{{ basedamage }} -> {{ basedamageNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ cost }} -> {{ costNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          9,
+          8,
+          7,
+          6
+        ],
+        "cost": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "range": [
+          700,
+          700,
+          700,
+          700,
+          700
+        ],
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "image": {
+          "full": "SkarnerW.png",
+          "sprite": "spell13.png",
+          "group": "spell",
+          "x": 432,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        }
+      }
+    }
+  },
+  "acceptedFacts": {
+    "skillKey": "skarner_w",
+    "sourceVersion": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "target": "触发动作传入 CURRENT_TARGET；已有效果的结果目标决定最终作用对象。",
+    "scope": [
+      "客户端 InitialShield 使用 InitialShieldRatio 8% 与 mStat 12；当前实库公式已核对为 0.08×SOURCE.hp.TOTAL。",
+      "官方资料明确自身获得持续 2.5 秒的护盾；地震魔法伤害与减速是独立行为。"
+    ],
+    "excluded": [],
+    "deferred": [
+      "地震魔法伤害",
+      "附近敌人减速",
+      "减速持续时间",
+      "法力消耗和基础冷却",
+      "客户端 mStat 12 的语义只由固定资料与当前实库既有公式共同核对；不在本次触发规则中新增或重写公式。"
+    ]
+  },
+  "sourceChecks": {
+    "clientArchiveVersion": true,
+    "officialZhVersion": true,
+    "officialEnVersion": true,
+    "officialZhHasExpectedSpell": true,
+    "officialEnHasExpectedSpell": true,
+    "officialZhMentionsExpectedEffects": true,
+    "officialEnMentionsExpectedEffects": true,
+    "clientPointerPresent": true,
+    "sourceValuesPresent": true,
+    "candidateScopeIsExplicit": true,
+    "clientShieldCalculationPresent": true,
+    "clientShieldDuration2_5s": true
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "startedAt": "2026-09-12T18:01:27.699Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 1340,
+  "methods": {
+    "GET": 1340
+  },
+  "targets": [
+    {
+      "id": "tristana",
+      "skillKey": "tristana_q",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "213efe75968f043bafd5d8b26d36f9bb819f9309636adda9197a4798b68ffd34",
+      "frozenBodySha256": "213efe75968f043bafd5d8b26d36f9bb819f9309636adda9197a4798b68ffd34",
+      "nonRuleSnapshotSha256": "597f60883b12a9b99333a94438df06516e93b0c875d048bee08f8f0de6c62a4b"
+    },
+    {
+      "id": "twitch",
+      "skillKey": "twitch_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "2ea450642faffb34d243c164fb83217755c814cf1540d695d09447b080df1221",
+      "frozenBodySha256": "2ea450642faffb34d243c164fb83217755c814cf1540d695d09447b080df1221",
+      "nonRuleSnapshotSha256": "f306b53543e87f0f8e2a2baa3d6db3cebb4f390890b491eb1581e2fc9abefaad"
+    },
+    {
+      "id": "vayne",
+      "skillKey": "vayne_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "0d7164e5a3abd18150a2e1098aacb87a6fba50a8f7a5df62c14bb68ae114faa8",
+      "frozenBodySha256": "0d7164e5a3abd18150a2e1098aacb87a6fba50a8f7a5df62c14bb68ae114faa8",
+      "nonRuleSnapshotSha256": "c8b0a8f276e847460a0147ba510287ec59f63075a7c999f69a0e0893288002dc"
+    },
+    {
+      "id": "masteryi",
+      "skillKey": "masteryi_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "7fb2c58994d6cafccf0b531ee00e71729e0ac03712f7f5f8502b13627480d9ef",
+      "frozenBodySha256": "7fb2c58994d6cafccf0b531ee00e71729e0ac03712f7f5f8502b13627480d9ef",
+      "nonRuleSnapshotSha256": "afdbfbe41d0f3885cf5e01b1bc238a59b6e639943546d3ddfdca44bff78b79ff"
+    },
+    {
+      "id": "skarner",
+      "skillKey": "skarner_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "b32f92ef6e8bc9d3503f0dfe02fec6604e023b60e43b898a77442a1c7b7a97d7",
+      "frozenBodySha256": "b32f92ef6e8bc9d3503f0dfe02fec6604e023b60e43b898a77442a1c7b7a97d7",
+      "nonRuleSnapshotSha256": "f2bd1d19413c4a6a647e07549eec6776802d6dd45ee9a8d557b7f4bea3cb5375"
+    },
+    {
+      "id": "diana",
+      "skillKey": "diana_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "896bebc9c8d3878bacff22417d662455bec6e950d446ade8fc260b4cd46ec338",
+      "frozenBodySha256": "896bebc9c8d3878bacff22417d662455bec6e950d446ade8fc260b4cd46ec338",
+      "nonRuleSnapshotSha256": "8bd85fc97890a6b0dc65893bf2618f0f9e3a6a89a19763d6e1389494ec4e67e8"
+    }
+  ],
+  "global": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_HIT": 55,
+      "SKILL_USED": 11,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "KILL": 2
+    },
+    "ruleKeysSha256": "b79527bde39efea6e35f218e78261bbbb1a35bb5798542753d21ee2fc6b20e60",
+    "oldRuleDetailsExact": true,
+    "newRulesExact": true
+  },
+  "error": null,
+  "completedAt": "2026-09-12T18:01:36.203Z"
+}

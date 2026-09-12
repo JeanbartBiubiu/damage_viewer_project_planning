@@ -1,0 +1,824 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T17:30:27.856Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；归档候选只作来源证据，不覆盖实时接口现值。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "归档候选组成",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\候选原始.json",
+      "byteSize": 275402,
+      "sha256": "446adb7a68cbdbd402a247acbc4659d929aed6da33bffe86bbe02a2e21006146"
+    },
+    {
+      "kind": "16.17客户端原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Twitch.json.gz",
+      "byteSize": 7455,
+      "sha256": "78a3de6a91ebb859c457415088aa23cce7f62a62c5ed0672b16bdd13c33c7f18",
+      "decompressedByteSize": 50705,
+      "decompressedSha256": "ce403a5dcc34779ad7ba2bf616297221553bc3dadecba4469b0ef4e90f505241"
+    },
+    {
+      "kind": "16.17.1官方中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Twitch.json",
+      "byteSize": 13726,
+      "sha256": "11bd82969c5af05144c3d5812864a319a69a5050d8f91abc38a2c21bac7b6b81"
+    },
+    {
+      "kind": "归档来源冻结索引",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\来源冻结\\来源与哈希汇总.json",
+      "byteSize": 8877,
+      "sha256": "6712d3ee1ef11d99877649954e7997981d914db468eeabb6ea434183fd1baf15"
+    },
+    {
+      "kind": "归档正文候选",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\完整候选.json",
+      "byteSize": 225367,
+      "sha256": "d13fbff8cf47af2e91422e6bcc11a949625e81208cc5fd76471c02b5ebe26d6d"
+    },
+    {
+      "kind": "归档效果过程候选",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第三批\\录入候选.json",
+      "byteSize": 266589,
+      "sha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十二批\\候选原始.json",
+    "fileSha256": "446adb7a68cbdbd402a247acbc4659d929aed6da33bffe86bbe02a2e21006146",
+    "revision": null,
+    "skill": {
+      "skillKey": "twitch_r",
+      "name": "火力全开",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Twitch",
+        "rootPath": "Characters/Twitch/CharacterRecords/Root",
+        "spellPath": "Characters/Twitch/Spells/TwitchFullAutomaticAbility/TwitchFullAutomatic",
+        "clientSha256": "ce403a5dcc34779ad7ba2bf616297221553bc3dadecba4469b0ef4e90f505241",
+        "officialSha256": "11bd82969c5af05144c3d5812864a319a69a5050d8f91abc38a2c21bac7b6b81",
+        "currentBoundText": {
+          "binding": "Characters/Twitch/Spells/TwitchFullAutomaticAbility/TwitchFullAutomatic",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_TwitchFullAutomatic_Name",
+              "key": "spell_twitchfullautomatic_name",
+              "text": "火力全开"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_TwitchFullAutomatic_Summary",
+              "key": "spell_twitchfullautomatic_summary",
+              "text": "图奇让十字弩火力全开，快速地朝他面前射出强力且射程极远的穿刺箭头，穿透沿途的所有敌人。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_TwitchFullAutomatic_Tooltip",
+              "key": "spell_twitchfullautomatic_tooltip",
+              "text": "图奇解开他的十字弩的封印，获得@BonusRange@攻击距离和<scaleAD>@BonusAD@攻击力</scaleAD>，并使他的攻击变为穿刺弩箭，持续@Duration@秒。这些弩箭会攻击它们沿途的所有敌人，但对每个后续目标造成的伤害减少@FallOffDamage*100@%，最低降至@MinimumFallOffDamage*100@%伤害。<br>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_TwitchFullAutomatic_TooltipExtendedBelowLine",
+              "key": "spell_twitchfullautomatic_tooltipextendedbelowline",
+              "text": "<rules>使用这个技能不会打破<keywordStealth>伪装</keywordStealth>，但攻击仍然会。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "mana_cost",
+            "name": "法力消耗",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 100,
+            "levelValues": null,
+            "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "bonus_attack_damage",
+            "name": "额外攻击力",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 30,
+              "2": 45,
+              "3": 60
+            },
+            "description": "客户端当前根绑定 DataValues.BonusAD 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_attack_range",
+            "name": "额外攻击距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 300,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.BonusRange 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "buff_duration_ms",
+            "name": "火力全开持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.Duration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "bonus_ad",
+            "name": "火力全开攻击力",
+            "description": "独立持续属性；应用、取消与实际触发分别核对。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "buff_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "火力全开攻击力",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "attack_damage",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "bonus_range",
+            "name": "火力全开攻击距离",
+            "description": "独立持续属性；应用、取消与实际触发分别核对。",
+            "sortOrder": 30,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "buff_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "attribute",
+                "name": "火力全开攻击距离",
+                "resultType": "ATTRIBUTE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "bonus_attack_range"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "attack_range",
+                  "operation": "INCREASE",
+                  "modifierZoneKey": "attribute_flat_add"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放火力全开",
+            "activationType": "ACTIVE",
+            "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "activate",
+                "name": "启用自身效果",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "IMMEDIATE",
+                "detail": {}
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              },
+              {
+                "bindingKey": "bonus_ad",
+                "effectKey": "bonus_ad",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "activate"
+                },
+                "sortOrder": 20
+              },
+              {
+                "bindingKey": "bonus_range",
+                "effectKey": "bonus_range",
+                "moment": {
+                  "momentType": "STEP_EXECUTION",
+                  "stepKey": "activate"
+                },
+                "sortOrder": 30
+              }
+            ],
+            "stateOperations": []
+          }
+        ],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "official.cooldown + cooldownTime",
+          "values": [
+            90000,
+            90000,
+            90000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "official.cost + manaValues.values",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "parameterKey": "bonus_attack_damage",
+          "source": "DataValues.BonusAD",
+          "raw": [
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105
+          ],
+          "offset": 1,
+          "values": [
+            30,
+            45,
+            60
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "bonus_attack_range",
+          "source": "DataValues.BonusRange",
+          "raw": [
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300
+          ],
+          "offset": 1,
+          "values": [
+            300,
+            300,
+            300
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "source": "DataValues.Duration",
+          "raw": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "offset": 1,
+          "values": [
+            6000,
+            6000,
+            6000
+          ],
+          "scale": 1000
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "伪装与攻击投射规则",
+          "reason": "本技能施放不打破伪装，攻击仍解除；与Q伪装真实状态及穿透攻击事件交接时保留这一区别。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "穿透路径、多目标伤害衰减与越程",
+          "reason": "保留本人攻击力、攻击距离；不重复创建普通攻击基础伤害。"
+        }
+      ],
+      "status": "已准备部分组成；须独立GET确认保存；待补不是机制完成"
+    }
+  },
+  "client": {
+    "objectPath": "Characters/Twitch/Spells/TwitchFullAutomaticAbility/TwitchFullAutomatic",
+    "found": true,
+    "objectName": "TwitchFullAutomatic",
+    "scriptName": "TwitchFullAutomatic",
+    "dataValues": [
+      {
+        "name": "BonusRange",
+        "values": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "FallOffDamage",
+        "values": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "MinimumFallOffDamage",
+        "values": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "BonusAD",
+        "values": [
+          15,
+          30,
+          45,
+          60,
+          75,
+          90,
+          105
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "Duration",
+        "values": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "OvershootMult",
+        "values": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "OvershootMin",
+        "values": [
+          250,
+          250,
+          250,
+          250,
+          250,
+          250,
+          250
+        ],
+        "__type": "SpellDataValue"
+      }
+    ],
+    "cooldownTime": [
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90
+    ],
+    "cooldown": {
+      "values": [
+        90,
+        90,
+        90,
+        90,
+        90,
+        90,
+        90
+      ],
+      "{0a3e0478}": 90,
+      "__type": "{0a0eddc9}"
+    },
+    "mana": [
+      100,
+      100,
+      100,
+      0,
+      0,
+      0
+    ],
+    "manaValues": {
+      "values": [
+        100,
+        100,
+        100,
+        0,
+        0,
+        0
+      ],
+      "__type": "{630af303}"
+    },
+    "spellCastTime": null,
+    "spellTotalTime": null,
+    "castRange": [
+      1200,
+      1200,
+      1200,
+      1200,
+      1200,
+      1200,
+      1200
+    ],
+    "castRangeValues": {
+      "values": [
+        1200,
+        1200,
+        1200,
+        1200,
+        1200,
+        1200,
+        1200
+      ],
+      "{0a3e0478}": 1200,
+      "__type": "{0a0eddc9}"
+    },
+    "castRadius": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+    ],
+    "missileSpeed": null,
+    "spellTags": [
+      "Trait_Ultimate",
+      "Trait_SylasSpecialAttackOverride",
+      "Trait_MultiTargetAttack",
+      "Trait_AttackBuff_Duration",
+      "Trait_AoE"
+    ],
+    "targetingTypeData": {
+      "__type": "Self"
+    },
+    "spellCalculationKeys": []
+  },
+  "official": {
+    "pointer": "data/Twitch/spells[id=TwitchFullAutomatic]",
+    "found": true,
+    "spell": {
+      "id": "TwitchFullAutomatic",
+      "name": "火力全开",
+      "description": "图奇让十字弩火力全开，快速地朝他面前射出强力且射程极远的穿刺箭头，穿透沿途的所有敌人。",
+      "tooltip": "图奇解开他的十字弩的封印，获得{{ bonusrange }}攻击距离和<scaleAD>{{ bonusad }}攻击力</scaleAD>，并使他的攻击变为穿刺弩箭，持续{{ duration }}秒。这些弩箭会攻击它们沿途的所有敌人，但对每个后续目标造成的伤害减少{{ falloffdamage*100 }}%，最低降至{{ minimumfalloffdamage*100 }}%伤害。<br />{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "攻击力"
+        ],
+        "effect": [
+          "{{ bonusad }} -> {{ bonusadNL }}"
+        ]
+      },
+      "maxrank": 3,
+      "cooldown": [
+        90,
+        90,
+        90
+      ],
+      "cost": [
+        100,
+        100,
+        100
+      ],
+      "effect": [
+        null,
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "effectBurn": [
+        null,
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "image": {
+        "full": "TwitchFullAutomatic.png",
+        "sprite": "spell15.png",
+        "group": "spell",
+        "x": 432,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "resource": "{{ cost }} {{ abilityresourcename }}"
+    }
+  },
+  "sourceSemantic": {
+    "checks": {
+      "candidatePresent": true,
+      "sourceEffectKeys": true,
+      "sourceParameterKeys": true,
+      "sourceFormulaKeys": true,
+      "sourceProcessKeys": true,
+      "actionEffectSemantics": true,
+      "all": true
+    },
+    "effectChecks": {
+      "bonus_ad": {
+        "effectPresent": true,
+        "exactlyOneResult": true,
+        "resultType": true,
+        "resultTarget": true,
+        "attributeKey": true,
+        "operation": true,
+        "modifierZoneKey": true,
+        "valueParameter": true,
+        "durationParameter": true
+      },
+      "bonus_range": {
+        "effectPresent": true,
+        "exactlyOneResult": true,
+        "resultType": true,
+        "resultTarget": true,
+        "attributeKey": true,
+        "operation": true,
+        "modifierZoneKey": true,
+        "valueParameter": true,
+        "durationParameter": true
+      }
+    },
+    "componentKeys": {
+      "parameters": [
+        "cooldown_ms",
+        "mana_cost",
+        "bonus_attack_damage",
+        "bonus_attack_range",
+        "buff_duration_ms"
+      ],
+      "formulas": [],
+      "effects": [
+        "mana_cost",
+        "bonus_ad",
+        "bonus_range"
+      ],
+      "processes": [
+        "cast"
+      ],
+      "internalStates": [],
+      "triggerRules": []
+    }
+  },
+  "archiveChecks": {
+    "candidateSkillPresent": true,
+    "clientPointerPresent": true,
+    "officialSpellPresent": true,
+    "clientVersionFixed": true,
+    "officialVersionFixed": true
+  },
+  "fixedFacts": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "skillKey": "twitch_r",
+    "ruleKey": "on_used",
+    "eventType": "SKILL_USED",
+    "useKind": "ACTIVE",
+    "actionEffectKeys": [
+      "bonus_ad",
+      "bonus_range"
+    ],
+    "actionType": "START_PROCESS",
+    "processKey": "cast",
+    "actionResultTargets": {
+      "bonus_ad": "SOURCE",
+      "bonus_range": "SOURCE"
+    },
+    "deferred": []
+  }
+}
