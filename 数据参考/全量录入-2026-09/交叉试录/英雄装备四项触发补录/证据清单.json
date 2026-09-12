@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-12T15:29:54.398Z",
+  "status": "PASS",
+  "scope": "艾希R、内瑟斯E、火箭腰带主动与锐雯E四条触发规则",
+  "baseline": {
+    "skillCount": 1062,
+    "ruleCount": 100,
+    "sourceInitializedCount": 24
+  },
+  "final": {
+    "skillCount": 1062,
+    "ruleCount": 104,
+    "sourceInitializedCount": 24
+  },
+  "preparation": {
+    "file": "04-共享写前现值.json",
+    "getCount": 2508,
+    "statusCounts": {
+      "200": 2500,
+      "404": 8
+    },
+    "businessWrites": 0,
+    "gateCorrections": "准备门禁修订.json"
+  },
+  "cursorReview": {
+    "file": "05-Cursor独立评审.json",
+    "runId": "run-986e86e6-fa35-4550-8faa-7636a1f30876",
+    "requestId": "f3ece1da-e0b8-4efb-815f-e08e66d65276",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "sdkVersion": "1.0.24",
+    "status": "READY",
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "businessWrites": 0,
+    "reviewedInputHashes": {
+      "README.md": "50f9ff5a98500d619eb4ffa25967783ad3d42a054c67067fd7ba029b79136dce",
+      "01-合并方案.md": "25e49365814d1a664ccaad6d14540f042e6712ab9f95a1175808e14889026754",
+      "02-合并冻结请求.json": "d47f251e3a5075b63ae935d7dffa5b7e07533395c736db6a513c6e13b304f60b",
+      "03-来源散列快照.json": "e4abeb8ef1e7b2c027e0bef8d810deda2bada284a4f7c108255f587ba047f053",
+      "04-共享写前现值.json": "b7c69ea321cb08075670958b1954c25aff5bb3a8d07f7210d16ddf9556867650",
+      "受保护写入.mjs": "3dc6d4f25d9b4d5f5216eba0793ea7afa62685887c89d4d7a7bbf7aed8996d46",
+      "独立GET回读.mjs": "75223cd15ae8833ddd69ae97ea4a5104d791ad93ce60420c37ad1bbaec631d0b",
+      "只读页面验收.mjs": "d80e95aed0f7e43faadfb235a016b1c8d65d05615dd867388277d92df4d600cc"
+    },
+    "postWriteReadOnlyChanges": [
+      "README.md",
+      "01-合并方案.md",
+      "独立GET回读.mjs"
+    ],
+    "note": "写入器执行时全部输入与评审散列一致；列出的变化发生在写入完成后，用于记录结果和修正独立GET的默认空值比较。"
+  },
+  "protectedWrite": {
+    "file": "06-写入与即时回读.json",
+    "getCount": 3778,
+    "businessWriteCount": 4,
+    "responseStatuses": [
+      201,
+      201,
+      201,
+      201
+    ],
+    "immediateReadbackStatuses": [
+      200,
+      200,
+      200,
+      200
+    ]
+  },
+  "independentReadback": {
+    "firstAssertionFailure": {
+      "file": "07-独立GET回读-首轮断言失败.json",
+      "getCount": 95,
+      "methods": {
+        "GET": 95
+      },
+      "businessWrites": 0,
+      "error": "新增规则详情与冻结请求不符：ashe"
+    },
+    "boundedRevision": {
+      "file": "07-独立GET回读断言修订.json",
+      "status": "ASSERTION_REVISED",
+      "businessWrites": 0
+    },
+    "passed": {
+      "file": "07-独立GET回读.json",
+      "getCount": 1262,
+      "methods": {
+        "GET": 1262
+      },
+      "businessWrites": 0,
+      "skillCount": 1062,
+      "ruleCount": 104,
+      "sourceInitializedCount": 24,
+      "oldRuleDetailsExact": true,
+      "newRulesExact": true
+    }
+  },
+  "browserAcceptance": {
+    "file": "08-页面验收.json",
+    "browser": "Playwright Chromium 真实页面",
+    "methods": {
+      "GET": 263
+    },
+    "businessWrites": 0,
+    "screenshotCount": 16,
+    "diagnostics": {
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "requestFailures": 0,
+      "errorResponses": 0
+    },
+    "visualInspection": [
+      "riven_e-on_used规则.png",
+      "ashe_r-actual_hit规则.png",
+      "item_3152_active-列表图片.png"
+    ]
+  },
+  "runtimeBoundary": "未执行战斗运行、TinyGo或Wasm验证。",
+  "files": [
+    {
+      "path": "01-合并方案.md",
+      "bytes": 7153,
+      "sha256": "1901847179bdb903c4b6b0cf7ba85045adb2a2cb606b364a6aac7c8f708011f2"
+    },
+    {
+      "path": "02-合并冻结请求.json",
+      "bytes": 14578,
+      "sha256": "d47f251e3a5075b63ae935d7dffa5b7e07533395c736db6a513c6e13b304f60b"
+    },
+    {
+      "path": "03-来源散列快照.json",
+      "bytes": 17852,
+      "sha256": "e4abeb8ef1e7b2c027e0bef8d810deda2bada284a4f7c108255f587ba047f053"
+    },
+    {
+      "path": "04-共享写前现值.json",
+      "bytes": 2358008,
+      "sha256": "b7c69ea321cb08075670958b1954c25aff5bb3a8d07f7210d16ddf9556867650"
+    },
+    {
+      "path": "05-Cursor独立评审.json",
+      "bytes": 3005,
+      "sha256": "8a2e51b6cb4dfe73b3d35054f7beb6bde3883f192a37da0dea35880455b0472c"
+    },
+    {
+      "path": "05-Cursor评审占位.json",
+      "bytes": 539,
+      "sha256": "69072e20d1cb727354561286ce43ef15844833274a832dd2d363a4b56901f50a"
+    },
+    {
+      "path": "06-写入与即时回读.json",
+      "bytes": 14741,
+      "sha256": "4592da5dcd990f069635e5fdbc7ef7c1e02f5c35799b205ec1db3b68e79318c0"
+    },
+    {
+      "path": "07-独立GET回读-首轮断言失败.json",
+      "bytes": 418,
+      "sha256": "da9652dbefc396753629347fb976c6e4cce22e0263553346e69f891529977abd"
+    },
+    {
+      "path": "07-独立GET回读.json",
+      "bytes": 2618,
+      "sha256": "af1f7756d55ef060746f6d35a37e0a012acf4f0cd73545b0153c361a7a2c6242"
+    },
+    {
+      "path": "07-独立GET回读断言修订.json",
+      "bytes": 807,
+      "sha256": "c474221d074e6fcf787d0ff8fa9395e51a7592e0e500fa0c850e365cdc2064e6"
+    },
+    {
+      "path": "08-页面验收.json",
+      "bytes": 3969,
+      "sha256": "315eb594b6a9615a7ef37d2742b358dd356bd161e78ae2948280aaf4e336e993"
+    },
+    {
+      "path": "独立GET回读.mjs",
+      "bytes": 16970,
+      "sha256": "0f6695d17e3de21ebfa91c31c1b7e20c642205523cd3401c0804c8e9a28b2d82"
+    },
+    {
+      "path": "受保护写入.mjs",
+      "bytes": 29424,
+      "sha256": "3dc6d4f25d9b4d5f5216eba0793ea7afa62685887c89d4d7a7bbf7aed8996d46"
+    },
+    {
+      "path": "页面截图/ashe_r-列表图片.png",
+      "bytes": 101198,
+      "sha256": "fddd2ba545843cc82f7eee675d74953fefa760619111c60477de84efc6747275"
+    },
+    {
+      "path": "页面截图/ashe_r-actual_hit规则.png",
+      "bytes": 109869,
+      "sha256": "bc23a78afed54b43556a2b0d64fa98649505c5dc012aa1ec9f0ade653ce703ce"
+    },
+    {
+      "path": "页面截图/ashe_r-damage结果.png",
+      "bytes": 118480,
+      "sha256": "c3d3bfbff3905ceb28fc938c33330ee008b915daa498508d738da58f8560c796"
+    },
+    {
+      "path": "页面截图/ashe_r-hit_damage公式.png",
+      "bytes": 145298,
+      "sha256": "0f64567d5e007a7276e91e84e6346074a7293ab23a8f0fe924c3db625e07ce8e"
+    },
+    {
+      "path": "页面截图/item_3152_active-列表图片.png",
+      "bytes": 102706,
+      "sha256": "1d12f6a870b11dd756e977f2ec9d22ea477e5bb1c312a59873b5c455da1c8c3c"
+    },
+    {
+      "path": "页面截图/item_3152_active-actual_hit规则.png",
+      "bytes": 112600,
+      "sha256": "a43b19c2343e470f4c6e23d56fd207bd9b6d19eb0e84d35d699bca0cecdddbc9"
+    },
+    {
+      "path": "页面截图/item_3152_active-damage结果.png",
+      "bytes": 97877,
+      "sha256": "fec293d90187cd8265a2cf1dbd109f79a9997c00f921271dd3d66caa26552f60"
+    },
+    {
+      "path": "页面截图/item_3152_active-firebolt_damage公式.png",
+      "bytes": 165661,
+      "sha256": "5c4eac0beb07bbb9785ccac58d1bf39489234109d2192b142b1287359ca592cf"
+    },
+    {
+      "path": "页面截图/nasus_e-列表图片.png",
+      "bytes": 102916,
+      "sha256": "f5136cf99807ea3ae21acedf0b91553a654a3bd4e88fcad2b2c427c77a2269a4"
+    },
+    {
+      "path": "页面截图/nasus_e-actual_initial_hit规则.png",
+      "bytes": 110132,
+      "sha256": "2087cd3e15e612ca68693cc5774365111291bf6d54ef8337a139148935043fdb"
+    },
+    {
+      "path": "页面截图/nasus_e-damage结果.png",
+      "bytes": 103660,
+      "sha256": "1a2958083ada37ccd944e674f6d6f92ed9ec967b3eb337fe16d90318164d2d01"
+    },
+    {
+      "path": "页面截图/nasus_e-initial_damage公式.png",
+      "bytes": 164205,
+      "sha256": "aac3449242b7d04323c2c92138081bf93c8f767d7b18e8125c1518c906d64a6c"
+    },
+    {
+      "path": "页面截图/riven_e-列表图片.png",
+      "bytes": 102540,
+      "sha256": "73e499f97c23fdb2827226a484fd465712b89018dfb2f1375d27212902996ddc"
+    },
+    {
+      "path": "页面截图/riven_e-on_used规则.png",
+      "bytes": 109966,
+      "sha256": "998e93e185b3429a52974984842781392fdb0d2e879a97fcc41b5bff0ad2c14d"
+    },
+    {
+      "path": "页面截图/riven_e-shield结果.png",
+      "bytes": 110462,
+      "sha256": "1285e5b477f2184531109c7fde13e13752f763ae3a46f1ce6eb7394d60205a5f"
+    },
+    {
+      "path": "页面截图/riven_e-total_shield公式.png",
+      "bytes": 164534,
+      "sha256": "790a3b4fdfc8a1820fc5bc901ea2c3556ac0f96ebceb44b79229807e9f90ec93"
+    },
+    {
+      "path": "只读页面验收.mjs",
+      "bytes": 15142,
+      "sha256": "d80e95aed0f7e43faadfb235a016b1c8d65d05615dd867388277d92df4d600cc"
+    },
+    {
+      "path": "准备合并只读.mjs",
+      "bytes": 26916,
+      "sha256": "760e9dc150f18e863468c7438dac9b396cbb472ada89eea097e548fed9bc77f3"
+    },
+    {
+      "path": "准备门禁修订.json",
+      "bytes": 1185,
+      "sha256": "9c301336749d702f381e6a1b8f21f9c15b7178caeb2607dc71df9f2b0e4ba6d8"
+    },
+    {
+      "path": "Cursor终审只读检查.mjs",
+      "bytes": 11936,
+      "sha256": "455e5f79762cb36c0f606b21918cd148eca3430502038da87a94bb896f16f9a0"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6730,
+      "sha256": "cefc05c25a775ffe4af5fb55b40b5dbba1e13cd459b3275d7266dfbd7c8631f4"
+    }
+  ]
+}

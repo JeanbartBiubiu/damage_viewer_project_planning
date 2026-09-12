@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 2,
+  "capturedAt": "2026-09-12T15:20:33.949Z",
+  "status": "READY",
+  "verdict": "READY",
+  "accepted": true,
+  "finished": true,
+  "resultStatus": "finished",
+  "revision": "rev2",
+  "reviewedPlanRevision": 2,
+  "reviewer": "Cursor 本地代理独立只读终审",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "sdkVersion": "1.0.24",
+  "fast": false,
+  "runId": "run-986e86e6-fa35-4550-8faa-7636a1f30876",
+  "requestId": "f3ece1da-e0b8-4efb-815f-e08e66d65276",
+  "summarySha256": "7758f879151cf4ccc017a8d52dd04c9617eed6caa9ca676f1a2aeca526bce470",
+  "reviewSha256": "5b1f2ebc2a6410d3b9d2014b0e718c65cd5ff8d622c09a60ee8ba12fcc52cad6",
+  "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "diffBytes": 0,
+  "reviewedFiles": [
+    "README.md",
+    "01-合并方案.md",
+    "02-合并冻结请求.json",
+    "03-来源散列快照.json",
+    "04-共享写前现值.json",
+    "受保护写入.mjs",
+    "独立GET回读.mjs",
+    "只读页面验收.mjs"
+  ],
+  "approvedInputHashes": {
+    "README.md": "50f9ff5a98500d619eb4ffa25967783ad3d42a054c67067fd7ba029b79136dce",
+    "01-合并方案.md": "25e49365814d1a664ccaad6d14540f042e6712ab9f95a1175808e14889026754",
+    "02-合并冻结请求.json": "d47f251e3a5075b63ae935d7dffa5b7e07533395c736db6a513c6e13b304f60b",
+    "03-来源散列快照.json": "e4abeb8ef1e7b2c027e0bef8d810deda2bada284a4f7c108255f587ba047f053",
+    "04-共享写前现值.json": "b7c69ea321cb08075670958b1954c25aff5bb3a8d07f7210d16ddf9556867650",
+    "受保护写入.mjs": "3dc6d4f25d9b4d5f5216eba0793ea7afa62685887c89d4d7a7bbf7aed8996d46",
+    "独立GET回读.mjs": "75223cd15ae8833ddd69ae97ea4a5104d791ad93ce60420c37ad1bbaec631d0b",
+    "只读页面验收.mjs": "d80e95aed0f7e43faadfb235a016b1c8d65d05615dd867388277d92df4d600cc"
+  },
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "toolEvents": {
+    "uniqueTerminalCallCount": 1,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "eventsParseable": true
+  },
+  "businessWrites": 0,
+  "apiWrites": 0,
+  "blockers": [],
+  "nonBlocking": [
+    "静态、GET与管理页面证据不等于战斗运行或Wasm证明。"
+  ],
+  "conclusion": "修订2终审通过，可以按固定散列执行一次四条受保护新增。",
+  "authorizationValueRecorded": false,
+  "artifactDirectory": ".agents/artifacts/hero-equipment-trigger-review-r1-20260912"
+}

@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev2",
+  "startedAt": "2026-09-12T15:21:00.169Z",
+  "status": "PASS",
+  "authorizationValueRecorded": false,
+  "approvedHashes": {
+    "受保护写入.mjs": "3dc6d4f25d9b4d5f5216eba0793ea7afa62685887c89d4d7a7bbf7aed8996d46",
+    "README.md": "50f9ff5a98500d619eb4ffa25967783ad3d42a054c67067fd7ba029b79136dce",
+    "01-合并方案.md": "25e49365814d1a664ccaad6d14540f042e6712ab9f95a1175808e14889026754",
+    "独立GET回读.mjs": "75223cd15ae8833ddd69ae97ea4a5104d791ad93ce60420c37ad1bbaec631d0b",
+    "05-Cursor独立评审.json": "8a2e51b6cb4dfe73b3d35054f7beb6bde3883f192a37da0dea35880455b0472c",
+    "只读页面验收.mjs": "d80e95aed0f7e43faadfb235a016b1c8d65d05615dd867388277d92df4d600cc",
+    "03-来源散列快照.json": "e4abeb8ef1e7b2c027e0bef8d810deda2bada284a4f7c108255f587ba047f053",
+    "04-共享写前现值.json": "b7c69ea321cb08075670958b1954c25aff5bb3a8d07f7210d16ddf9556867650",
+    "02-合并冻结请求.json": "d47f251e3a5075b63ae935d7dffa5b7e07533395c736db6a513c6e13b304f60b"
+  },
+  "cursorReview": {
+    "file": "05-Cursor独立评审.json",
+    "status": "READY",
+    "accepted": true,
+    "revision": "rev2",
+    "businessWrites": 0,
+    "approvedInputHashes": {
+      "README.md": "50f9ff5a98500d619eb4ffa25967783ad3d42a054c67067fd7ba029b79136dce",
+      "01-合并方案.md": "25e49365814d1a664ccaad6d14540f042e6712ab9f95a1175808e14889026754",
+      "02-合并冻结请求.json": "d47f251e3a5075b63ae935d7dffa5b7e07533395c736db6a513c6e13b304f60b",
+      "03-来源散列快照.json": "e4abeb8ef1e7b2c027e0bef8d810deda2bada284a4f7c108255f587ba047f053",
+      "04-共享写前现值.json": "b7c69ea321cb08075670958b1954c25aff5bb3a8d07f7210d16ddf9556867650",
+      "受保护写入.mjs": "3dc6d4f25d9b4d5f5216eba0793ea7afa62685887c89d4d7a7bbf7aed8996d46",
+      "独立GET回读.mjs": "75223cd15ae8833ddd69ae97ea4a5104d791ad93ce60420c37ad1bbaec631d0b",
+      "只读页面验收.mjs": "d80e95aed0f7e43faadfb235a016b1c8d65d05615dd867388277d92df4d600cc"
+    },
+    "writeAllowlistAudit": {
+      "kind": "audited-write-allowlist",
+      "osSandbox": false,
+      "auditAvailable": true,
+      "outsideScopeCount": 0,
+      "outsideScopePaths": [],
+      "runDeltaOutsideScopeCount": 0,
+      "runDeltaOutsideScopePaths": [],
+      "runDeltaCount": 0,
+      "failClosed": false
+    },
+    "toolEvents": {
+      "uniqueTerminalCallCount": 1,
+      "allTerminalCallsCompleted": true,
+      "anyTruncated": false,
+      "eventsParseable": true
+    }
+  },
+  "preflight": {
+    "rounds": [
+      {
+        "pass": "写入前第一轮",
+        "skillCount": 1062,
+        "ruleCount": 100,
+        "sourceInitializedCount": 24,
+        "ruleKeysSha256": "76c4682d02a05c6f3310bfc5227889d3a38a4c2bf7fcc72873bc83a81ce790d8"
+      },
+      {
+        "pass": "写入前第二轮",
+        "skillCount": 1062,
+        "ruleCount": 100,
+        "sourceInitializedCount": 24,
+        "ruleKeysSha256": "76c4682d02a05c6f3310bfc5227889d3a38a4c2bf7fcc72873bc83a81ce790d8"
+      }
+    ],
+    "targetRounds": [
+      {
+        "pass": "写入前第一轮",
+        "snapshots": [
+          {
+            "id": "ashe",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "f55d3921cc45e9a7feb2fcd67e7aebecde25c606be96065281fdc783d3a67dbb"
+          },
+          {
+            "id": "nasus",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "1bb85b13731d019b70bac7d3b287208f6a4cdbe950cde82012fae143a27da1b6"
+          },
+          {
+            "id": "rocket",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "3f36d6a3cec4c73f40fa0b1f279d6449ab932326b878bd019b3a9d962af5c7c4"
+          },
+          {
+            "id": "riven",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "8d7915a3523e7c2a99d585d6be473adfe9cbfc60c694121afd0311d46d83edfb"
+          }
+        ]
+      },
+      {
+        "pass": "写入前第二轮",
+        "snapshots": [
+          {
+            "id": "ashe",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "f55d3921cc45e9a7feb2fcd67e7aebecde25c606be96065281fdc783d3a67dbb"
+          },
+          {
+            "id": "nasus",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "1bb85b13731d019b70bac7d3b287208f6a4cdbe950cde82012fae143a27da1b6"
+          },
+          {
+            "id": "rocket",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "3f36d6a3cec4c73f40fa0b1f279d6449ab932326b878bd019b3a9d962af5c7c4"
+          },
+          {
+            "id": "riven",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "8d7915a3523e7c2a99d585d6be473adfe9cbfc60c694121afd0311d46d83edfb"
+          }
+        ]
+      }
+    ]
+  },
+  "writes": [
+    {
+      "id": "ashe",
+      "ruleKey": "actual_hit",
+      "method": "POST",
+      "route": "/skills/ashe_r/trigger-rules",
+      "detailRoute": "/skills/ashe_r/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "1fff49982b8cc75465d7c8d6998e265ee030c3e3325617a23e54adc958fe6a66",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/ashe_r/trigger-rules/actual_hit",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_hit_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "hit_damage"
+              },
+              "name": "执行水晶箭命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "命中对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ashe_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "命中英雄触发水晶箭伤害",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "nasus",
+      "ruleKey": "actual_initial_hit",
+      "method": "POST",
+      "route": "/skills/nasus_e/trigger-rules",
+      "detailRoute": "/skills/nasus_e/trigger-rules/actual_initial_hit",
+      "expectedStatus": 201,
+      "bodySha256": "00e6dc6bdafadf5a0eb427ce4c0f65a53cf53b83032ffad4f5d81ba953d8478e",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/nasus_e/trigger-rules/actual_initial_hit",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_initial_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "initial_damage"
+              },
+              "name": "执行灵魂烈焰初始伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "命中对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "仅在运行时确认 nasus_e 已命中英雄后，在当前目标上执行已有的 initial_damage；每秒区域伤害、周期、护甲削减、解除时点、消耗与冷却不在本条规则中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "nasus_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "命中英雄触发灵魂烈焰初始伤害",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_initial_hit",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "rocket",
+      "ruleKey": "actual_hit",
+      "method": "POST",
+      "route": "/skills/item_3152_active/trigger-rules",
+      "detailRoute": "/skills/item_3152_active/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "3731ce0847815484ae5f510a48bf1592adc3739d28904e63f073107f17f4be50",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/item_3152_active/trigger-rules/actual_hit",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "firebolt_hit"
+              },
+              "name": "执行火箭命中",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_counterparty",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_counterparty",
+              "name": "命中对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只接收 item_3152_active 已确认的一次实际火箭命中，在当前目标上执行已有 firebolt_hit。规则不生成冲刺、弹道或多颗魔法弹，不表达同次施放去重、穿墙、法术护盾和主动冷却。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "item_3152_active",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "超音速实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "riven",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/riven_e/trigger-rules",
+      "detailRoute": "/skills/riven_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "0a256d96fab268a426a64ad7d35ca6f7ce7d70a4ed25fdc43bd774e94022b084",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/riven_e/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_shield",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "shield"
+              },
+              "name": "执行自身护盾",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 riven_e 主动使用；CURRENT_TARGET 无显式目标时回落来源对象，在当前目标上执行已有 shield。shield 结果目标为 SOURCE，因此只连接1.5秒自身护盾，不表达冲刺、施放资格、中断或冷却消费。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "riven_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "勇往直前主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    }
+  ],
+  "finalReadback": {
+    "targetSnapshots": [
+      {
+        "id": "ashe",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "f55d3921cc45e9a7feb2fcd67e7aebecde25c606be96065281fdc783d3a67dbb"
+      },
+      {
+        "id": "nasus",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "1bb85b13731d019b70bac7d3b287208f6a4cdbe950cde82012fae143a27da1b6"
+      },
+      {
+        "id": "rocket",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "3f36d6a3cec4c73f40fa0b1f279d6449ab932326b878bd019b3a9d962af5c7c4"
+      },
+      {
+        "id": "riven",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "8d7915a3523e7c2a99d585d6be473adfe9cbfc60c694121afd0311d46d83edfb"
+      }
+    ],
+    "skillCount": 1062,
+    "ruleCount": 104,
+    "sourceInitializedCount": 24,
+    "ruleKeysSha256": "0b26a19b47aa63d43975c5694a3ae2dc04b2ac74d9c90b5d8b927e8b90326fb2",
+    "newRuleDetails": [
+      {
+        "id": "ashe",
+        "status": 200,
+        "bodySha256": "1fff49982b8cc75465d7c8d6998e265ee030c3e3325617a23e54adc958fe6a66"
+      },
+      {
+        "id": "nasus",
+        "status": 200,
+        "bodySha256": "00e6dc6bdafadf5a0eb427ce4c0f65a53cf53b83032ffad4f5d81ba953d8478e"
+      },
+      {
+        "id": "rocket",
+        "status": 200,
+        "bodySha256": "3731ce0847815484ae5f510a48bf1592adc3739d28904e63f073107f17f4be50"
+      },
+      {
+        "id": "riven",
+        "status": 200,
+        "bodySha256": "0a256d96fab268a426a64ad7d35ca6f7ce7d70a4ed25fdc43bd774e94022b084"
+      }
+    ]
+  },
+  "businessWriteCount": 4,
+  "getCount": 3778,
+  "error": null,
+  "completedAt": "2026-09-12T15:21:30.564Z"
+}

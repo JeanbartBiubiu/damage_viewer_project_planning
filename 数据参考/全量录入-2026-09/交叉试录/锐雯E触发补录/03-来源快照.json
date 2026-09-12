@@ -1,0 +1,395 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T13:58:21.876Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划来源，不用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "官方英雄原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Riven.json",
+      "byteSize": 14489,
+      "sha256": "d376561f803515c9d703b3da1f2eb1133569b2b111b1c063708ad7213fb26d6f"
+    },
+    {
+      "kind": "客户端英雄原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Riven.json.gz",
+      "byteSize": 7055,
+      "sha256": "9887a4267c3328aac0d237d67ff20991b78ffeaf955b2f05fff2c7a365605a3b",
+      "decompressedByteSize": 51598,
+      "decompressedSha256": "9086aba7fcafaafc6563b3a7ee5c5997d9d48198c7fd55fd0294457e7b244166"
+    },
+    {
+      "kind": "技能公共参数候选",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数第五批\\公共参数候选.json",
+      "byteSize": 346558,
+      "sha256": "5c630241c41a2bbbb0e6aa609fb5ad42232acff026c612fa94f04a0a3ddfd9d6"
+    },
+    {
+      "kind": "已有角色接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\英雄全量核对\\champion_riven.json",
+      "byteSize": 1298,
+      "sha256": "db9e36e61bb5f4c12d8bf60cf64c72bed54787f50663fa578823f71948349568"
+    },
+    {
+      "kind": "已有技能接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\riven_e.json",
+      "byteSize": 1127,
+      "sha256": "41d92e34fa18751b8336a417243b9fd3a86c6bdc2780fd8cef79cd9a554f8bf0"
+    },
+    {
+      "kind": "已有角色技能关系记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\relations_champion_riven.json",
+      "byteSize": 1628,
+      "sha256": "7c1c3b97c3619bb0dec2621699c1600aab8ec3786fc6d3f6484fa77337ff3aa9"
+    },
+    {
+      "kind": "技能代表图文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\02_技能\\Riven\\E_RivenFeint.png",
+      "byteSize": 5448,
+      "sha256": "395c1f1ae9021736b232bc4b6d7bf63f7d9a05500ee407f81824197c8b8224db"
+    },
+    {
+      "kind": "角色代表图文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\01_角色\\Riven.png",
+      "byteSize": 27993,
+      "sha256": "4527ba3804c0b78e0127608708b2a425d1c6eef5f95925c5dcfd707f5fa32139"
+    }
+  ],
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Riven.json",
+    "championKey": "Riven",
+    "championName": "放逐之刃",
+    "spell": {
+      "id": "RivenFeint",
+      "name": "勇往直前",
+      "description": "锐雯向前冲锋一小段距离，并格挡即将到来的伤害。",
+      "tooltip": "锐雯快速冲刺并获得持续1.5秒的<shield>{{ totalshield }}护盾值</shield>。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "护盾值",
+          "冷却时间"
+        ],
+        "effect": [
+          "{{ shieldamount }} -> {{ shieldamountNL }}",
+          "{{ cooldown }} -> {{ cooldownNL }}"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        10,
+        9,
+        8,
+        7,
+        6
+      ],
+      "cooldownBurn": "10/9/8/7/6",
+      "cost": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "costBurn": "0",
+      "datavalues": {},
+      "effect": [
+        null,
+        [
+          70,
+          95,
+          120,
+          145,
+          170
+        ],
+        [
+          70,
+          95,
+          120,
+          145,
+          170
+        ],
+        [
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        [
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "effectBurn": [
+        null,
+        "70/95/120/145/170",
+        "70/95/120/145/170",
+        "4",
+        "800",
+        "1.5",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "vars": [],
+      "costType": "无消耗",
+      "maxammo": "-1",
+      "range": [
+        250,
+        250,
+        250,
+        250,
+        250
+      ],
+      "rangeBurn": "250",
+      "image": {
+        "full": "RivenFeint.png",
+        "sprite": "spell12.png",
+        "group": "spell",
+        "x": 192,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "resource": "无消耗"
+    }
+  },
+  "clientExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Riven.json.gz",
+    "pointer": "Characters/Riven/Spells/RivenFeintAbility/RivenFeint/mSpell",
+    "spellTags": [
+      "PositiveEffect_MoveBlock",
+      "Trait_PlayerSelectedDashDirection",
+      "Trait_Shield"
+    ],
+    "dataValues": {
+      "ShieldAmount": [
+        45,
+        70,
+        95,
+        120,
+        145,
+        170,
+        195
+      ],
+      "BaseShieldAmount": [
+        50,
+        70,
+        95,
+        120,
+        145,
+        170,
+        235
+      ],
+      "ShieldDuration": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ]
+    },
+    "totalShield": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "ShieldAmount",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mStat": 2,
+          "mStatFormula": 2,
+          "mCoefficient": 1.100000023841858,
+          "__type": "StatByCoefficientCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "cooldownValues": [
+      10,
+      10,
+      9,
+      8,
+      7,
+      6,
+      6
+    ],
+    "buff": {
+      "mDescription": "game_buff_tooltip_RivenFeint",
+      "__type": "BuffData"
+    }
+  },
+  "publicParameterCandidate": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数第五批\\公共参数候选.json",
+    "entry": {
+      "championId": "Riven",
+      "skillKey": "riven_e",
+      "name": "勇往直前",
+      "maxLevel": 5,
+      "status": "仅基础公共参数",
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "sortOrder": 100,
+          "description": "DDragon16.17.1 Riven.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+        }
+      ],
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "officialPointer": "data.Riven.spells[2].cooldown",
+          "clientPointer": "Characters/Riven/Spells/RivenFeintAbility/RivenFeint/mSpell/Cooldown/values",
+          "officialValues": [
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "clientRawValues": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "legacyClientRawValues": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            6
+          ],
+          "clientOffset": 1,
+          "values": [
+            10000,
+            9000,
+            8000,
+            7000,
+            6000
+          ],
+          "unit": "秒转换为毫秒"
+        }
+      ],
+      "sources": {
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Riven.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Riven.json",
+          "fetchedAt": "2026-09-06T14:12:52.561Z",
+          "byteSize": 14489,
+          "sha256": "d376561f803515c9d703b3da1f2eb1133569b2b111b1c063708ad7213fb26d6f"
+        },
+        "client": {
+          "path": "客户端原文/Riven.json.gz",
+          "sha256": "9086aba7fcafaafc6563b3a7ee5c5997d9d48198c7fd55fd0294457e7b244166",
+          "compressedSha256": "9887a4267c3328aac0d237d67ff20991b78ffeaf955b2f05fff2c7a365605a3b",
+          "byteSize": 51598,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/riven/riven.bin.json",
+          "fetchedAt": "2026-09-06T14:26:35.129Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        }
+      },
+      "scopeReview": "本批保留直接战斗技能的基础字段；控制、伤害、被动、跨技能修正和完整过程另按英雄实录，不以本批计为完成。"
+    }
+  },
+  "acceptedFacts": {
+    "trigger": {
+      "skillKey": "riven_e",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "riven_e",
+        "useKind": "ACTIVE"
+      },
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "shield"
+    },
+    "targetFallback": "无显式目标时 CURRENT_TARGET 回落来源对象；shield 结果自身 target 为 SOURCE，所以护盾落在锐雯身上。",
+    "boundary": [
+      "只连接主动使用后已有的1.5秒自身护盾。",
+      "不表达冲刺、施放资格、中断或冷却消费。",
+      "不新增参数、公式或效果。"
+    ]
+  },
+  "sourceChecks": {
+    "officialChampionPresent": true,
+    "officialSpellPresent": true,
+    "officialShieldDuration": true,
+    "officialFiveRanks": true,
+    "officialCooldown": true,
+    "officialNoResourceCost": true,
+    "clientSpellPresent": true,
+    "clientShieldTag": true,
+    "clientShieldDuration": true,
+    "clientShieldCalculation": true,
+    "clientAdCoefficient": true,
+    "publicEntryPresent": true,
+    "publicEntrySkillKey": true,
+    "publicEntryFiveRanks": true
+  }
+}

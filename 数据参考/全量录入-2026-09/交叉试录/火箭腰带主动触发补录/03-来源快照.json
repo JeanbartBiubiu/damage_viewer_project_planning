@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T13:57:48.052Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划来源，不用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "规划候选",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十五批伤害装备\\完整候选.json",
+      "byteSize": 193888,
+      "sha256": "8eef5d285f2ee624db477c9519e7aa94c4cb7c61f1a24ff227daa084931947be"
+    },
+    {
+      "kind": "客户端装备原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+      "byteSize": 1577238,
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "decompressedByteSize": 15923188,
+      "decompressedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "kind": "客户端中文文本原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+      "byteSize": 8350124,
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "decompressedByteSize": 32784742,
+      "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "kind": "官方装备原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json",
+      "byteSize": 691131,
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "kind": "已有装备接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备\\item_3152.json",
+      "byteSize": 1220,
+      "sha256": "454e44a56951fffa27ed414b3520f97e05ceae7b7873057950489b56f66e9503"
+    },
+    {
+      "kind": "已有装备图片接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备图片\\item_3152.json",
+      "byteSize": 1007,
+      "sha256": "3d7b04aba58f4e71fdf71fcf88cd16f26697222fe122da00a2d4a7abd3702ca8"
+    },
+    {
+      "kind": "已有装备图片文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备图片\\source-images\\3152.png",
+      "byteSize": 7523,
+      "sha256": "0f2f2c9c9c9cff96fc4e663ecd844a5ecd71cfea235731e986f8b8b8d91387ec"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十五批伤害装备\\完整候选.json",
+    "equipmentKey": "item_3152",
+    "equipmentName": "海克斯科技火箭腰带",
+    "skillKey": "item_3152_active",
+    "apiPayload": {
+      "skill": {
+        "skillKey": "item_3152_active",
+        "name": "海克斯科技火箭腰带·超音速",
+        "description": "保留主动50秒冷却和魔法弹计算值100+0.1×显式缩放属性输入。当前FireboltDamage的mStat缺失，不把系数命名为法术强度；冲刺、魔法弹命中与无法穿过地形的规则保持未接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 10,
+        "skillCategoryKeys": []
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "超音速主动冷却",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 50000,
+          "levelValues": null,
+          "description": "当前Cooldown=50秒，换算50000毫秒；主动冷却数值已确定，冷却起点和消费仍待规则接线。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "firebolt_base_damage",
+          "name": "超音速魔法弹基础伤害",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "description": "当前FireboltDamage第一项BaseDamage=100。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "firebolt_scaling_ratio",
+          "name": "超音速未定属性缩放比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null,
+          "description": "当前APRatio=0.1；计算节点mStat缺失，只保存系数。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "firebolt_scaling_stat_value",
+          "name": "超音速缩放属性显式输入",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "非负小数输入；运行时须先明确mStat属性，不能默认法术强度或缺失为0。",
+          "sortOrder": 40
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "firebolt_damage",
+          "name": "超音速魔法弹伤害",
+          "description": "100 + 0.1 × 显式缩放属性输入；不表达魔法弹数量、命中和主动过程。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "firebolt_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "firebolt_scaling_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "firebolt_scaling_stat_value"
+                  }
+                ]
+              }
+            ]
+          },
+          "sortOrder": 10
+        }
+      ],
+      "effects": [],
+      "processes": [],
+      "internalStates": [],
+      "triggerRules": [],
+      "relation": {
+        "equipmentKey": "item_3152",
+        "skillKey": "item_3152_active",
+        "sortOrder": 20
+      },
+      "representativeImage": {
+        "imageKey": "item_3152"
+      }
+    },
+    "pendingRules": []
+  },
+  "clientExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+    "pointer": "Items/3152",
+    "dataValues": {
+      "APRatio": 0.10000000149011612,
+      "BaseDamage": 100,
+      "Cooldown": 50
+    },
+    "fireboltDamage": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "BaseDamage",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mDataValue": "APRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    }
+  },
+  "clientStringtableExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+    "pointer": "entries/item_3152_active、entries/item_3152_tooltipextendedrules",
+    "entries": {
+      "item_3152_active": "%i:activeEffect% <active>超音速</active> {{ Item_Cooldown }}<br>朝着目标方向冲刺，释放多颗魔法弹，魔法弹造成<magicDamage>@FireboltDamage@魔法伤害</magicDamage>。",
+      "item_3152_tooltipextendedrules": "<br><br><rules><active>超音速</active>的冲刺无法穿过地形。</rules>",
+      "generatedtip_item_3152_description": "<section></section><section><attention>%i:scaleAP%@FlatMagicDamageMod@</attention>法术强度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值<br><attention>%i:scaleCooldown%@AbilityHasteMod@</attention>技能急速</section><section></section><section>%i:activeEffect% <active>超音速</active> {{ Item_Cooldown }}<br>朝着目标方向冲刺，释放多颗魔法弹，魔法弹造成<magicDamage>@FireboltDamage@魔法伤害</magicDamage>。</section><section><flavorText></flavorText></section>"
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json",
+    "itemKey": "3152",
+    "item": {
+      "name": "海克斯科技火箭腰带",
+      "description": "<mainText><stats><attention>60</attention>法术强度<br><attention>350</attention>生命值<br><attention>20</attention>技能急速</stats><br><br><active>超音速</active><br>朝着目标方向冲刺，释放多颗魔法弹，魔法弹造成<magicDamage>魔法伤害</magicDamage>。</mainText>",
+      "colloq": "huojianyaodai;Hextech Rocketbelt;",
+      "plaintext": "主动施放来向前冲刺并释放一阵炫目的轰炸",
+      "from": [
+        "3145",
+        "3067",
+        "1028"
+      ],
+      "image": {
+        "full": "3152.png",
+        "sprite": "item4.png",
+        "group": "item",
+        "x": 144,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 350,
+        "purchasable": true,
+        "total": 2650,
+        "sell": 1855
+      },
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "Active",
+        "CooldownReduction",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatHPPoolMod": 350,
+        "FlatMagicDamageMod": 60
+      },
+      "depth": 3
+    }
+  },
+  "acceptedFacts": {
+    "trigger": {
+      "skillKey": "item_3152_active",
+      "ruleKey": "actual_hit",
+      "eventType": "SKILL_HIT",
+      "eventDetail": {
+        "sourceSkillKey": "item_3152_active",
+        "useKind": null
+      },
+      "targetCategory": "CHAMPION",
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "firebolt_hit"
+    },
+    "boundary": [
+      "只接收已确认的实际火箭命中，不由规则生成冲刺、弹道或命中。",
+      "不表达同次施放只命中一次、多颗魔法弹、穿墙、法术护盾或主动冷却。",
+      "只复用当前实库已有 firebolt_hit，不新增参数、公式或效果。"
+    ]
+  },
+  "sourceChecks": {
+    "candidateObjectPresent": true,
+    "candidateSkillKey": true,
+    "candidateHadNoTriggerRule": true,
+    "clientItemPresent": true,
+    "clientBaseDamage": true,
+    "clientApRatio": true,
+    "clientCooldown": true,
+    "clientCalculationPresent": true,
+    "stringtableActivePresent": true,
+    "stringtableTerrainRulePresent": true,
+    "officialItemPresent": true,
+    "officialName": true
+  }
+}
