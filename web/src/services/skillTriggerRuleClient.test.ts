@@ -569,10 +569,10 @@ describe('来源施放资源消耗响应', () => {
   });
 });
 
-describe('命中目标类别响应', () => {
+describe('事件对方类别响应', () => {
   const withCategory = (conditionDetail: unknown) => ({ ...detail,
     eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'ezreal_r' } },
-    conditionGroups: [{ groupKey: 'targets', name: '命中类别', sortOrder: 0, conditions: [{ conditionKey: 'hit_category', conditionType: 'TARGET_CATEGORY_CHECK', sortOrder: 0, detail: conditionDetail }] }]
+    conditionGroups: [{ groupKey: 'targets', name: '对方类别', sortOrder: 0, conditions: [{ conditionKey: 'hit_category', conditionType: 'TARGET_CATEGORY_CHECK', sortOrder: 0, detail: conditionDetail }] }]
   });
   it.each([['CHAMPION'], ['CHAMPION', 'EPIC_MONSTER', 'MINION', 'NON_EPIC_MONSTER', 'STRUCTURE']])('读取类别数组 %j，不要求比较取值字段', (...categories) => {
     const conditionDetail = { categories };

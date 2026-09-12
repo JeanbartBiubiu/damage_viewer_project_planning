@@ -6916,7 +6916,7 @@ test('source cast resource cost binding retains failed drafts and saves and reop
   diagnostics.assertClean('source cast resource cost binding round trip and retained failures');
 });
 
-test('event target category supports kill, preserves legal switches and confirms invalid event cleanup', async ({ page }) => {
+test('event counterpart category supports kill, damage directions, legal switches and confirms invalid event cleanup', async ({ page }) => {
   const mock = new MockApi();
   seedSkillTriggerCatalog(mock);
   const diagnostics = await prepare(page, mock);
@@ -6925,24 +6925,24 @@ test('event target category supports kill, preserves legal switches and confirms
   await shell.getByRole('button', { name: '新增规则', exact: true }).click();
   const create = visibleModal(page, '新增规则');
   await create.getByLabel('规则标识', { exact: true }).fill('target_categories');
-  await create.getByLabel('规则名称', { exact: true }).fill('目标类别条件');
+  await create.getByLabel('规则名称', { exact: true }).fill('事件对方类别条件');
   await chooseTriggerEventType(page, create, '来源对象完成击杀');
   await create.getByRole('button', { name: '编辑', exact: true }).first().click();
   await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), { name: '命中伤害', effectName: '命中结果' });
   await create.getByRole('button', { name: '新增条件组', exact: true }).click();
-  await create.getByLabel('条件组名称', { exact: true }).fill('实际目标类别');
+  await create.getByLabel('条件组名称', { exact: true }).fill('实际事件对方类别');
   const card = (modal: Locator) => modal.locator('.arco-card').filter({ has: page.getByLabel('条件组名称', { exact: true }) });
   await card(create).getByRole('button', { name: '编辑', exact: true }).click();
   const condition = visibleModal(page, '编辑条件');
-  await chooseSelectOption(page, condition, '条件种类', '事件目标类别');
+  await chooseSelectOption(page, condition, '条件种类', '事件对方类别');
   await expect(condition.getByLabel('属性比较对象', { exact: true })).toHaveCount(0);
   await expect(condition.getByLabel('比较取值', { exact: true })).toHaveCount(0);
-  await expect(condition.getByText('命中事件读取本次实际命中对象，击杀事件读取本次被击杀对象；匹配所选任一类别。', { exact: true })).toBeVisible();
+  await expect(condition.getByText('击杀事件读取本次被击杀对象；匹配所选任一类别。', { exact: true })).toBeVisible();
   await condition.getByRole('button', { name: '确定', exact: true }).click();
-  await expect(condition.getByText('至少选择一个事件目标类别。', { exact: true })).toBeVisible();
+  await expect(condition.getByText('至少选择一个事件对方类别。', { exact: true })).toBeVisible();
   for (const label of ['英雄', '史诗野怪', '建筑']) await condition.getByText(label, { exact: true }).click();
   await condition.getByRole('button', { name: '确定', exact: true }).click();
-  await expect(card(create).locator('span').filter({ hasText: /^事件目标类别 \/ 英雄、史诗野怪、建筑$/ })).toBeVisible();
+  await expect(card(create).locator('span').filter({ hasText: /^事件对方类别 \/ 英雄、史诗野怪、建筑$/ })).toBeVisible();
   await saveOpenModal(create);
   const saved = () => mock.skillTriggerRules.find((item) => item.ruleKey === 'target_categories')!;
   expect(saved().conditionGroups[0].conditions[0].detail).toEqual({ categories: ['CHAMPION', 'EPIC_MONSTER', 'STRUCTURE'] });
@@ -6967,22 +6967,32 @@ test('event target category supports kill, preserves legal switches and confirms
   expect(saved().conditionGroups[0].conditions[0].detail).toEqual({ categories: ['MINION', 'NON_EPIC_MONSTER'] });
 
   const reopened = await reopen();
-  await expect(card(reopened).locator('span').filter({ hasText: /^事件目标类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
+  await expect(card(reopened).locator('span').filter({ hasText: /^事件对方类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
+  const assertDirectionHelp = async (eventName: string, help: string) => {
+    await chooseTriggerEventType(page, reopened, eventName);
+    await card(reopened).getByRole('button', { name: '编辑', exact: true }).click();
+    const directionCondition = visibleModal(page, '编辑条件');
+    await expect(directionCondition.getByText(help, { exact: true })).toBeVisible();
+    await directionCondition.getByRole('button', { name: '取消', exact: true }).click();
+  };
+  await assertDirectionHelp('即将受到伤害', '伤害待结算事件读取本次伤害来源对象；匹配所选任一类别。');
+  await assertDirectionHelp('来源对象造成伤害', '造成伤害事件读取本次伤害承受对象；匹配所选任一类别。');
+  await assertDirectionHelp('来源对象受到伤害', '受到伤害事件读取本次伤害来源对象；匹配所选任一类别。');
   await chooseTriggerEventType(page, reopened, '技能命中');
-  await expect(card(reopened).locator('span').filter({ hasText: /^事件目标类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
+  await expect(card(reopened).locator('span').filter({ hasText: /^事件对方类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
   await chooseTriggerEventType(page, reopened, '来源对象完成击杀');
-  await expect(card(reopened).locator('span').filter({ hasText: /^事件目标类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
+  await expect(card(reopened).locator('span').filter({ hasText: /^事件对方类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
   await chooseSelectOption(page, reopened, '事件类型', '普通攻击发起');
-  const cleanup = page.getByRole('dialog').filter({ hasText: '将清除事件目标类别条件' });
+  const cleanup = page.getByRole('dialog').filter({ hasText: '将清除事件对方类别条件' });
   await cleanup.getByRole('button', { name: '取消', exact: true }).click();
-  await expect(card(reopened).locator('span').filter({ hasText: /^事件目标类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
+  await expect(card(reopened).locator('span').filter({ hasText: /^事件对方类别 \/ 小兵、非史诗野怪$/ })).toBeVisible();
   await chooseSelectOption(page, reopened, '事件类型', '普通攻击发起');
   await cleanup.getByRole('button', { name: '确定', exact: true }).click();
-  await expect(card(reopened).getByText(/事件目标类别 \/ /)).toHaveCount(0);
+  await expect(card(reopened).getByText(/事件对方类别 \/ /)).toHaveCount(0);
   await card(reopened).getByRole('button', { name: '新增条件', exact: true }).click();
   const next = visibleModal(page, '新增条件');
   await next.getByLabel('条件种类', { exact: true }).click();
-  await expect(page.getByRole('option', { name: '事件目标类别', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('option', { name: '事件对方类别', exact: true })).toHaveCount(0);
   await page.keyboard.press('Escape');
   diagnostics.assertClean('target category selection and event cleanup');
 });
@@ -7126,7 +7136,7 @@ test('condition group key typing keeps focus and identity through equal-order re
   for (const [name, category] of [['第一组', '英雄'], ['第二组', '小兵']]) {
     await groupCard(name).getByRole('button', { name: '编辑', exact: true }).click();
     const condition = visibleModal(page, '编辑条件');
-    await chooseSelectOption(page, condition, '条件种类', '事件目标类别');
+    await chooseSelectOption(page, condition, '条件种类', '事件对方类别');
     await condition.getByText(category, { exact: true }).click();
     await condition.getByRole('button', { name: '确定', exact: true }).click();
   }

@@ -1,5 +1,5 @@
 import { changeLifecycleCheckKind, changeLifecycleEffect, lifecycleConditionEffects, lifecycleConditionError, lifecycleNeedsSubject, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
-import { allowsTargetCategoryCheck, targetCategoryConditionError, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
+import { allowsTargetCategoryCheck, targetCategoryConditionError, targetCategoryConditionHelp, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
 import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerTargetCategory } from '../../../../types/skillTriggerRule';
 import { numericValueError } from '../numericValueForm';
 import type { SkillParameter } from '../../../../types/skillParameter';
@@ -253,9 +253,9 @@ export function SkillTriggerConditionEditorModal({
           </Form.Item>
 
           {current.conditionType === 'TARGET_CATEGORY_CHECK' ? (
-            <Form.Item label="事件目标类别" required extra="命中事件读取本次实际命中对象，击杀事件读取本次被击杀对象；匹配所选任一类别。">
+            <Form.Item label="事件对方类别" required extra={targetCategoryConditionHelp(eventSource.eventType)}>
               <Checkbox.Group
-                aria-label="事件目标类别"
+                aria-label="事件对方类别"
                 value={current.detail.categories}
                 disabled={disabled}
                 options={SKILL_TRIGGER_TARGET_CATEGORIES.map((value) => ({ value, label: TARGET_CATEGORY_LABELS[value] }))}
