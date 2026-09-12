@@ -1,0 +1,184 @@
+{
+  "planRevision": 1,
+  "plannedWrites": 7,
+  "source": {
+    "normalizedPath": "数据参考/lol-wiki-current-items/current-items.normalized.json",
+    "normalizedSha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4",
+    "itemIds": [3040]
+  },
+  "writes": [
+    {
+      "method": "PUT",
+      "route": "/skills/item_3040_passive/formulas/lifeline_shield_value",
+      "body": {
+        "name": "救主灵刃护盾值",
+        "description": "来源最大法力值的0.18倍；最大法力值直接读取SOURCE mana TOTAL。",
+        "sortOrder": 20,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {"nodeType": "PARAMETER", "parameterKey": "lifeline_shield_resource_ratio"},
+            {"nodeType": "ATTRIBUTE", "attributeOwner": "SOURCE", "attributeKey": "mana", "attributeValueKind": "TOTAL"}
+          ]
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/item_3040_passive/parameters/lifeline_shield_resource_input",
+      "body": null
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3040_passive/parameters/lifeline_shield_resource_ratio",
+      "body": {
+        "name": "救主灵刃护盾资源系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.18,
+        "levelValues": null,
+        "description": "救主灵刃护盾等于来源最大法力值的18%。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3040_passive/formulas",
+      "detailRoute": "/skills/item_3040_passive/formulas/lifeline_health_threshold_value",
+      "body": {
+        "formulaKey": "lifeline_health_threshold_value",
+        "name": "救主灵刃生命阈值",
+        "description": "来源最大生命值的0.3倍；用于伤前生命值和预计伤后生命值比较。",
+        "sortOrder": 30,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {"nodeType": "PARAMETER", "parameterKey": "lifeline_health_threshold_ratio"},
+            {"nodeType": "ATTRIBUTE", "attributeOwner": "SOURCE", "attributeKey": "hp", "attributeValueKind": "TOTAL"}
+          ]
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3040_passive/effects/lifeline_shield",
+      "body": {
+        "name": "救主灵刃自身护盾",
+        "description": "以来源最大法力值的18%建立持续3秒的自身普通护盾；由伤前生命阈值规则触发。管理数据已接线，战斗运行时未验证。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {"kind": "PARAMETER", "parameterKey": "lifeline_shield_duration_ms"},
+          "maxStacksValue": {"kind": "FIXED", "value": 1},
+          "applicationStacksValue": {"kind": "FIXED", "value": 1},
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "救主灵刃护盾",
+            "target": "SOURCE",
+            "resultType": "NORMAL_SHIELD",
+            "description": "吸收任意伤害，数值为来源最大法力值的18%。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {"kind": "FORMULA", "formulaKey": "lifeline_shield_value"},
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {"absorbedDamageTypeKey": null, "decayMode": "NONE"}
+          }
+        ]
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3040_passive",
+      "body": {
+        "name": "炽天使之拥·敬畏与救主灵刃",
+        "description": "敬畏公式保留现有配置。救主灵刃在待处理伤害使持有者生命值从不低于最大生命值30%降到低于30%时，先获得最大法力值18%的3秒普通护盾；同一持有者冷却90秒。管理配置已接线，战斗运行时未验证。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": ["passive"]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3040_passive/trigger-rules",
+      "detailRoute": "/skills/item_3040_passive/trigger-rules/on_damage_cross_below_lifeline_threshold",
+      "body": {
+        "ruleKey": "on_damage_cross_below_lifeline_threshold",
+        "name": "伤前触发救主灵刃",
+        "description": "待处理伤害使持有者生命值从不低于30%最大生命值降到低于30%时，在护盾吸收和扣血前执行救主灵刃护盾；同一持有者冷却90秒。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "DAMAGE_PENDING",
+          "detail": {"damageTypeKey": null, "deliveryKind": "ANY", "originKind": "ANY"}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "cross_below_lifeline_threshold",
+            "name": "向下越过救主灵刃阈值",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "health_before_at_or_above_threshold",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 10,
+                "detail": {
+                  "eventValueKey": "HEALTH_BEFORE",
+                  "comparator": "GTE",
+                  "comparisonValue": {"kind": "FORMULA", "formulaKey": "lifeline_health_threshold_value"}
+                }
+              },
+              {
+                "conditionKey": "projected_health_below_threshold",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 20,
+                "detail": {
+                  "eventValueKey": "PROJECTED_HEALTH_AFTER",
+                  "comparator": "LT",
+                  "comparisonValue": {"kind": "FORMULA", "formulaKey": "lifeline_health_threshold_value"}
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_lifeline_shield",
+            "name": "执行救主灵刃护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {"effectKey": "lifeline_shield"},
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": {
+          "durationValue": {"kind": "PARAMETER", "parameterKey": "lifeline_cooldown_ms"},
+          "targetContext": "CURRENT_TARGET"
+        },
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}
+

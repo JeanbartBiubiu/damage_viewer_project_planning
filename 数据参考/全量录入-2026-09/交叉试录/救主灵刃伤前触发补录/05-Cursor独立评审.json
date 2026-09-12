@@ -1,0 +1,36 @@
+{
+  "capturedAt": "2026-09-12T07:14:02.381Z",
+  "runId": "run-d298e748-7091-4d09-9304-aa92d8b204b7",
+  "requestId": "2d1a184a-25cf-47c8-b56b-26e955d9d7df",
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "verdict": "READY",
+  "reviewedPlanRevision": 1,
+  "blockers": [],
+  "writeAllowlistAudit": {
+    "beforeAuditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0
+  },
+  "toolEvents": {
+    "eventRecords": 170,
+    "uniqueCalls": 85,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false
+  },
+  "apiWrites": 0,
+  "review": "我先按只读评审执行：确认工作树与分支，核对这些方案文件的散列，并对照类型契约与详细设计检查十项要求。工作树已确认。接下来核对这些方案文件的 SHA-256，并对照类型契约与详细设计逐项核对。散列已对齐。接下来读详细设计、来源快照和写前现值，并核对服务端约束与现场数据。散列已对齐。接下来核对条件组的并且语义、技能 PUT 完整性，并用纯 GET 对照写前现值。来源散列一致，本地管理接口 GET 可用。接下来用纯 GET 把写前现值与现场逐条对照。VERDICT: READY  \nREVIEWED_PLAN_REV: 1  \nBLOCKERS: NONE  \nNON_BLOCKING: NONE\n\n四份方案文件 SHA-256 与给定值一致；`current-items.normalized.json`、伤前保护详细设计、第十六批/第二十批冻结来源散列与 `03` 快照一致。对 18 条写前 GET 做纯 GET 对照，与 `04-写入前现值.json` 全部一致。未写任何仓库文件，未发 POST/PUT/PATCH/DELETE。\n\n1. Wiki 3040 正文、16.17 客户端绑定与 `HealthThreshold=0.3`、`ShieldDuration=3`、`LifelineCooldown/Cooldown=90`、护盾系数 0.18，均支持“将要受到的伤害使生命值低于最大生命值 30% 时，先获得最大法力值 18% 的护盾，持续 3 秒，默认冷却 90 秒”。\n2. `DAMAGE_PENDING` 观察点在普通护盾吸收和扣血前；当前目标是来源对象自身，`EVENT_SOURCE` 是候选伤害来源。动作与每目标冷却都用 `CURRENT_TARGET`，没有把攻击者当作护盾对象。效果结果仍是 `SOURCE`（技能拥有者），伤前事件下与持有者重合。\n3. 同一条件组为并且。`HEALTH_BEFORE GTE` 与 `PROJECTED_HEALTH_AFTER LT` 同组，能表达“从不低于阈值降到严格低于阈值”；`LT` 对应“低于 / 跌到以下”。\n4. 阈值公式 `SOURCE hp TOTAL × 0.3`、护盾公式 `SOURCE mana TOTAL × 0.18` 符合公式契约：`TOTAL` 即最大值；与 Wiki 最大生命/最大法力及客户端系数一致。\n5. 先改 `lifeline_shield_value` 去掉 `lifeline_shield_resource_input`，再删该参数。现值里只有该公式引用它，且无触发规则。新规则 `runtimeInputBindings` 为空，不再需要运行时绑定。\n6. 冷却用已有 `lifeline_cooldown_ms`（90000）和 `CURRENT_TARGET`，表示本轮持有者冷却。本规则执行普通护盾而非反伤；`originKind=ANY` 且存在合法每目标冷却，满足循环保护口径。\n7. 既有护盾 PUT 保留生命周期、`NORMAL_SHIELD`、`absorbedDamageTypeKey=null`、施加快照、无衰减；技能 PUT 覆盖 `UpdateSkillRequest` 全字段。只改说明，不改结果种类或数值形状。\n8. 当前只保存默认 90 秒；极地大乱斗 75 秒覆盖与敬畏“额外法力 / 总法力”疑点已记为模型/既有公式问题，不写入、不阻塞救主灵刃。\n9. `02` 只含 `item_3040_passive` 七次写入。3173/3174 的英雄来源类别不能用伤害事件上的 `TARGET_CATEGORY_CHECK`（该条件仅命中/击杀），等级曲线 90 起点与公开 100～200 冲突只记录，避免无依据修改。\n10. 方案与请求只覆盖管理接口保存、回读和页面回显；效果/技能说明写明战斗运行时未验证，不冒充 Wasm 或结算证明。"
+}

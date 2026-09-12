@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "formulaChecks": [
+    {
+      "formulaKey": "lifeline_shield_value",
+      "sourceMaxMana": 1000,
+      "ratio": 0.18,
+      "expected": 180,
+      "actual": 180,
+      "passed": true
+    },
+    {
+      "formulaKey": "lifeline_health_threshold_value",
+      "sourceMaxHealth": 2000,
+      "ratio": 0.3,
+      "expected": 600,
+      "actual": 600,
+      "passed": true
+    }
+  ],
+  "conditionChecks": [
+    {
+      "case": "从阈值以上降到阈值以下",
+      "healthBefore": 650,
+      "projectedHealthAfter": 500,
+      "threshold": 600,
+      "healthBeforeGte": true,
+      "projectedHealthAfterLt": true,
+      "expectedTrigger": true,
+      "actualTrigger": true,
+      "passed": true
+    },
+    {
+      "case": "原本已经低于阈值",
+      "healthBefore": 500,
+      "projectedHealthAfter": 400,
+      "threshold": 600,
+      "healthBeforeGte": false,
+      "projectedHealthAfterLt": true,
+      "expectedTrigger": false,
+      "actualTrigger": false,
+      "passed": true
+    },
+    {
+      "case": "预计伤后生命等于阈值",
+      "healthBefore": 650,
+      "projectedHealthAfter": 600,
+      "threshold": 600,
+      "healthBeforeGte": true,
+      "projectedHealthAfterLt": false,
+      "expectedTrigger": false,
+      "actualTrigger": false,
+      "passed": true
+    }
+  ],
+  "note": "本文件独立核对公式算术与严格小于边界，不代表战斗运行时已经执行该规则。"
+}
