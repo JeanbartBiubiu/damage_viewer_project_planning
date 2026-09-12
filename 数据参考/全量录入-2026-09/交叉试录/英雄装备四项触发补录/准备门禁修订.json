@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:29:15.185Z",
+  "status": "RESOLVED_BEFORE_NETWORK",
+  "attempts": [
+    {
+      "order": 1,
+      "error": "艾希 R 上游来源散列不符",
+      "networkRequests": 0,
+      "businessWrites": 0,
+      "cause": "艾希和内瑟斯上游使用紧凑对象散列，火箭腰带和锐雯使用文件字节散列；合并器原先只接受文件字节散列。",
+      "resolution": "分别验证上游声明值匹配紧凑对象或文件字节，并在合并快照统一记录文件字节散列。"
+    },
+    {
+      "order": 2,
+      "error": "艾希 R 上游证据含非GET调用",
+      "networkRequests": 0,
+      "businessWrites": 0,
+      "cause": "通用扫描器把冻结请求中待执行的唯一POST计划误算成历史业务写入。",
+      "resolution": "实际调用证据仅扫描来源快照、写前现值和准备报告；冻结请求的计划POST由独立路径、方法、数量和请求体散列门禁验证。"
+    }
+  ],
+  "successfulPreparation": {
+    "getCount": 2508,
+    "statusCounts": {
+      "200": 2500,
+      "404": 8
+    },
+    "businessWrites": 0
+  },
+  "authorizationValueRecorded": false
+}

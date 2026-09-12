@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:24:34.793Z",
+  "status": "ASSERTION_REVISED",
+  "reason": "后端在读取SKILL_HIT规则时将请求中省略的useKind规范化为null；四条实际数据仅三条命中规则出现这一项允许差异，锐雯SKILL_USED保持精确一致。",
+  "failedReport": "07-独立GET回读-首轮断言失败.json",
+  "failedReportStatus": "FAILED",
+  "failedReportBusinessWrites": 0,
+  "failedReportMethods": {
+    "GET": 95
+  },
+  "allowedNormalization": {
+    "eventType": "SKILL_HIT",
+    "path": "eventSource.detail.useKind",
+    "storedValue": null,
+    "comparisonAction": "回读比较前删除该默认空值，再对完整结构作严格相等检查。"
+  },
+  "writeReplay": false,
+  "businessWrites": 0,
+  "authorizationValueRecorded": false
+}

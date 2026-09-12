@@ -1,0 +1,917 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T13:48:28.333Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划来源和已有实录，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "内瑟斯技能候选与已有组成",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\内瑟斯技能实录第一批\\录入候选.json",
+      "byteSize": 47395,
+      "sha256": "7f1b5912aec4f745a6ade83e1cf51315a49f0959b743f39e94fb43774fb48272"
+    },
+    {
+      "kind": "内瑟斯客户端主对象压缩资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nasus.json.gz",
+      "byteSize": 7554,
+      "sha256": "dad0b2fe3a52800faceaf75b9e70cced0ba8128acb3384712cea739ab4386051",
+      "decompressedByteSize": 46849,
+      "decompressedSha256": "d9e3e055a3d3c5c76627badaa4f4bc57ec0bde0eb4eda1c2fad37e3c968dc5e7"
+    },
+    {
+      "kind": "内瑟斯官方中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nasus.json",
+      "byteSize": 14861,
+      "sha256": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d"
+    },
+    {
+      "kind": "内瑟斯技能已有实录回读",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\内瑟斯技能实录第一批\\实录回读.json",
+      "byteSize": 77001,
+      "sha256": "222c692088250b0fcfaddba603ce6d2335545b2ed440f7df8e3514f85293f406"
+    },
+    {
+      "kind": "内瑟斯技能已有独立核对",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\内瑟斯技能实录第一批\\独立核对.json",
+      "byteSize": 77073,
+      "sha256": "e3cd7f2940806331d9e06c9a04c487fb50cff309748cc38e8bd3a256a9d0efb4"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\内瑟斯技能实录第一批\\录入候选.json",
+    "source": {
+      "championId": "Nasus",
+      "chineseName": "沙漠死神",
+      "resourceType": "法力",
+      "client": {
+        "path": "客户端原文/Nasus.json.gz",
+        "sha256": "d9e3e055a3d3c5c76627badaa4f4bc57ec0bde0eb4eda1c2fad37e3c968dc5e7",
+        "compressedSha256": "dad0b2fe3a52800faceaf75b9e70cced0ba8128acb3384712cea739ab4386051",
+        "byteSize": 46849,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nasus/nasus.bin.json",
+        "fetchedAt": "2026-09-06T14:26:29.749Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Nasus.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nasus.json",
+        "fetchedAt": "2026-09-06T14:12:50.525Z",
+        "byteSize": 14861,
+        "sha256": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d"
+      },
+      "rootPath": "Characters/Nasus/CharacterRecords/Root",
+      "skills": [
+        {
+          "slot": "P",
+          "officialId": null,
+          "name": "吞噬灵魂",
+          "clientPath": "Characters/Nasus/Spells/NasusPassiveAbility/NasusPassive",
+          "bindingAvailable": true,
+          "officialMaxRank": 1,
+          "cooldown": null,
+          "cost": null,
+          "resource": null,
+          "clientCooldown": null,
+          "clientMana": null,
+          "clientCastTime": null,
+          "dataValueNames": [],
+          "calculationNames": [
+            "LifestealTooltip"
+          ],
+          "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+        },
+        {
+          "slot": "Q",
+          "officialId": "NasusQ",
+          "name": "汲魂痛击",
+          "clientPath": "Characters/Nasus/Spells/NasusQAbility/NasusQ",
+          "bindingAvailable": true,
+          "officialMaxRank": 5,
+          "cooldown": [
+            7.5,
+            6.5,
+            5.5,
+            4.5,
+            3.5
+          ],
+          "cost": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}",
+          "clientCooldown": [
+            8.5,
+            7.5,
+            6.5,
+            5.5,
+            4.5,
+            3.5,
+            2.5
+          ],
+          "clientMana": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "clientCastTime": 0.5217499732971191,
+          "dataValueNames": [
+            "BonusRange",
+            "BonusDamage",
+            "BasicStacks",
+            "BigStacks",
+            "BuffDuration"
+          ],
+          "calculationNames": [
+            "TotalDamage",
+            "CritDamage"
+          ],
+          "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+        },
+        {
+          "slot": "W",
+          "officialId": "NasusW",
+          "name": "枯萎",
+          "clientPath": "Characters/Nasus/Spells/NasusWAbility/NasusW",
+          "bindingAvailable": true,
+          "officialMaxRank": 5,
+          "cooldown": [
+            15,
+            14,
+            13,
+            12,
+            11
+          ],
+          "cost": [
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}",
+          "clientCooldown": [
+            16,
+            15,
+            14,
+            13,
+            12,
+            11,
+            11
+          ],
+          "clientMana": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientCastTime": 0.25,
+          "dataValueNames": [
+            "SlowBase",
+            "SlowPerTick",
+            "MaxSlowTooltipOnly",
+            "AttackSpeedSlowMult",
+            "Duration"
+          ],
+          "calculationNames": [],
+          "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+        },
+        {
+          "slot": "E",
+          "officialId": "NasusE",
+          "name": "灵魂烈焰",
+          "clientPath": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+          "bindingAvailable": true,
+          "officialMaxRank": 5,
+          "cooldown": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "cost": [
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}",
+          "clientCooldown": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "clientMana": [
+            60,
+            70,
+            80,
+            90,
+            100,
+            100
+          ],
+          "clientCastTime": 0.25,
+          "dataValueNames": [
+            "DamagePerTick",
+            "ArmorShredPercent",
+            "Duration",
+            "InitialHitDamage"
+          ],
+          "calculationNames": [
+            "TotalDotDamage",
+            "InitialDamage"
+          ],
+          "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+        },
+        {
+          "slot": "R",
+          "officialId": "NasusR",
+          "name": "死神降临",
+          "clientPath": "Characters/Nasus/Spells/NasusRAbility/NasusR",
+          "bindingAvailable": true,
+          "officialMaxRank": 3,
+          "cooldown": [
+            120,
+            100,
+            80
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}",
+          "clientCooldown": [
+            120,
+            120,
+            100,
+            80,
+            80,
+            80,
+            80
+          ],
+          "clientMana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            0
+          ],
+          "clientCastTime": 0.25,
+          "dataValueNames": [
+            "BonusHealth",
+            "AttackRangeIncrease",
+            "AOEDamagePercent",
+            "TickRate",
+            "InitialResistGain",
+            "MaxDamageCap",
+            "Duration",
+            "QCDR",
+            "SizeIncreasePercent",
+            "BaseAoERadius",
+            "MinAoERadius"
+          ],
+          "calculationNames": [
+            "DamageCalc"
+          ],
+          "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+        }
+      ]
+    },
+    "skill": {
+      "slot": "E",
+      "skillKey": "nasus_e",
+      "maxLevel": 5,
+      "parameters": [
+        {
+          "parameterKey": "initial_base_damage",
+          "name": "初始魔法伤害基础值",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 80,
+            "3": 110,
+            "4": 140,
+            "5": 170
+          },
+          "description": "InitialHitDamage 当前主对象。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "initial_ap_ratio",
+          "name": "初始伤害法强比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null,
+          "description": "InitialDamage 计算式 Stat 法术强度系数。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "damage_per_second_base",
+          "name": "每秒魔法伤害基础值",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10,
+            "2": 16,
+            "3": 22,
+            "4": 28,
+            "5": 34
+          },
+          "description": "官方升级提示明确为每秒伤害；名称含Tick不证明周期频率。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "damage_per_second_ap_ratio",
+          "name": "每秒伤害法强比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.12,
+          "levelValues": null,
+          "description": "TotalDotDamage 计算式对应每秒部分系数；全程总量还需乘5。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "duration_ms",
+          "name": "灵魂烈焰持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null,
+          "description": "场地持续5秒，停留不足不能结算完整5秒。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "armor_reduction_ratio",
+          "name": "目标护甲降低比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.3,
+            "2": 0.35,
+            "3": 0.4,
+            "4": 0.45,
+            "5": 0.5
+          },
+          "description": "原值为负；这里保存降低比例的正数，目标护甲削减，不是来源穿透。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null,
+          "description": "当前主技能 spellCastTime=0.25秒；Q 的攻击施法字段不套用普通施法时长。",
+          "sortOrder": 10
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "initial_damage",
+          "name": "灵魂烈焰初始魔法伤害",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "initial_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "initial_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "一次实际初始命中50/80/110/140/170加60%法强。",
+          "sortOrder": 10
+        },
+        {
+          "formulaKey": "damage_per_second",
+          "name": "灵魂烈焰每秒魔法伤害",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_second_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_per_second_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "每秒量，不作为每次Tick或一次立即伤害直接执行。",
+          "sortOrder": 10
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "initial_damage",
+          "name": "灵魂烈焰初始伤害",
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "初始魔法伤害",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "initial_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ],
+          "description": "只保存独立伤害组成，未挂接必定命中；法术护盾与吸血交互待补，空项不是不受影响的证据。",
+          "sortOrder": 10
+        },
+        {
+          "effectKey": "mana_cost",
+          "name": "施放法力消耗",
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ],
+          "description": "复用公共参数批次已保存的 mana_cost，实际扣除时点由过程绑定决定。",
+          "sortOrder": 10
+        }
+      ],
+      "processes": [
+        {
+          "processKey": "cast",
+          "name": "施法与法力消耗",
+          "activationType": "ACTIVE",
+          "sortOrder": 10,
+          "description": "仅普通施法延迟、开始冷却与法力消耗，不用施法结束替代实际命中。伤害或持续属性效果独立保留。",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "steps": [
+            {
+              "stepKey": "cast_time",
+              "name": "施法时间",
+              "description": null,
+              "sortOrder": 10,
+              "stepType": "DELAY",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              }
+            }
+          ],
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "sortOrder": 10,
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            }
+          ],
+          "stateOperations": []
+        }
+      ],
+      "gaps": [
+        "周期频率、第一次结算时间、离开后的伤害/削甲解除时间待补证。",
+        "初始命中和持续削甲的护盾交互另补，尚未挂接命中规则。"
+      ]
+    }
+  },
+  "client": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nasus.json.gz",
+    "pointer": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+    "excerpt": {
+      "objectPath": "Characters/Nasus/Spells/NasusEAbility/NasusE",
+      "spellTags": [
+        "Trait_DamageAbility",
+        "Trait_DoT",
+        "Trait_Target_Area",
+        "Trait_Ranged_Zone",
+        "Trait_AoE"
+      ],
+      "effectAmounts": [
+        {
+          "value": [
+            10,
+            10,
+            16,
+            22,
+            28,
+            34,
+            34
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            -0.30000001192092896,
+            -0.30000001192092896,
+            -0.3499999940395355,
+            -0.4000000059604645,
+            -0.44999998807907104,
+            -0.5,
+            -0.5
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "value": [
+            50,
+            50,
+            80,
+            110,
+            140,
+            170,
+            170
+          ],
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        },
+        {
+          "__type": "SpellEffectAmount"
+        }
+      ],
+      "dataValues": [
+        {
+          "name": "DamagePerTick",
+          "values": [
+            10,
+            10,
+            16,
+            22,
+            28,
+            34,
+            34
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ArmorShredPercent",
+          "values": [
+            -0.30000001192092896,
+            -0.30000001192092896,
+            -0.3499999940395355,
+            -0.4000000059604645,
+            -0.44999998807907104,
+            -0.5,
+            -0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "Duration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "InitialHitDamage",
+          "values": [
+            50,
+            50,
+            80,
+            110,
+            140,
+            170,
+            170
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDotDamage": {
+          "mMultiplier": {
+            "mDataValue": "Duration",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "DamagePerTick",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.11999999731779099,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "InitialDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "InitialHitDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "castTime": 0.25,
+      "cooldownTime": [
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "mana": [
+        60,
+        70,
+        80,
+        90,
+        100,
+        100
+      ],
+      "castRange": [
+        650,
+        650,
+        650,
+        650,
+        650,
+        650,
+        650
+      ],
+      "castRadius": [
+        380,
+        380,
+        380,
+        380,
+        380,
+        380,
+        380
+      ],
+      "targetingType": {
+        "__type": "Area"
+      }
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nasus.json",
+    "pointer": "data/Nasus/spells[id=NasusE]",
+    "excerpt": {
+      "id": "NasusE",
+      "name": "灵魂烈焰",
+      "description": "内瑟斯在目标区域施放灵魂烈焰，伤害并削弱敌人。",
+      "tooltip": "内瑟斯引发一团灵魂烈焰，造成<magicDamage>{{ initialdamage }}魔法伤害</magicDamage>。区域内的敌人们会失去<scaleArmor>{{ armorshredpercent*-100 }}%护甲</scaleArmor>并在{{ duration }}秒里持续受到共<magicDamage>{{ totaldotdamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "初始伤害",
+          "每秒伤害",
+          "减少护甲百分比",
+          "@AbilityResourceName@消耗"
+        ],
+        "effect": [
+          "{{ initialhitdamage }} -> {{ initialhitdamageNL }}",
+          "{{ damagepertick }} -> {{ damagepertickNL }}",
+          "{{ armorshredpercent*-100.000000 }}% -> {{ armorshredpercentnl*-100.000000 }}%",
+          "{{ cost }} -> {{ costNL }}"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "cost": [
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "effect": [
+        null,
+        [
+          10,
+          16,
+          22,
+          28,
+          34
+        ],
+        [
+          -0.3,
+          -0.35,
+          -0.4,
+          -0.45,
+          -0.5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          50,
+          80,
+          110,
+          140,
+          170
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "image": {
+        "full": "NasusE.png",
+        "sprite": "spell9.png",
+        "group": "spell",
+        "x": 288,
+        "y": 144,
+        "w": 48,
+        "h": 48
+      }
+    }
+  },
+  "acceptedFacts": {
+    "directHitEffect": "initial_damage：单次初始命中魔法伤害，结果目标为 TARGET。",
+    "continuousBoundary": "damage_per_second 只有公式；duration_ms 与 armor_reduction_ratio 只有参数，没有对应周期或属性效果。",
+    "skippedArea": "区域多目标、周期频率、第一次结算、停留时间和离开后的护甲削减解除没有当前完整作者配置。",
+    "resourceBoundary": "mana_cost 和 cooldown 属于施法过程，命中规则不重复执行；已有 cast 过程不能替代实际命中。"
+  }
+}
