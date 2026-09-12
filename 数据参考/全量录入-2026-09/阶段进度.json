@@ -5950,6 +5950,134 @@
         "commit": "9cb25197"
       },
       "runtimeValidation": "未执行"
+    },
+    "damageEventCounterpartyEquipmentBackfill": {
+      "at": "2026-09-12T09:41:02.8990238Z",
+      "status": "两项装备完成伤害事件对方类别首批实录，能力验收、冻结请求评审、受保护写入、Luna独立回读和真实页面通过",
+      "skills": [
+        "item_4629_passive",
+        "item_3803_passive"
+      ],
+      "created": {
+        "triggerRules": 3
+      },
+      "updated": {
+        "skills": 2,
+        "parameters": 1,
+        "formulas": 1,
+        "effects": 2
+      },
+      "sourceDecision": "星界驱驰只在持有者对英雄造成魔法或真实伤害时执行既有20点固定移动速度、4000毫秒效果；万世催化石只在伤害来源为英雄时读取本次减免前伤害，并按10%恢复持有者法力。三条规则均不添加未证冷却。",
+      "capabilityValidation": {
+        "requests": 20,
+        "persistentWrites": 0,
+        "allowedEventsAndInvalidFieldsCovered": true,
+        "passed": true
+      },
+      "preparation": {
+        "staticGETs": 44,
+        "triggerRuleGETs": 1150,
+        "totalGETs": 1194,
+        "businessWrites": 0,
+        "skillCount": 1062,
+        "priorTriggerRuleCount": 87
+      },
+      "writer": {
+        "protectedPreflightGETs": 1194,
+        "businessWrites": 9,
+        "POST": 3,
+        "PUT": 6,
+        "immediateReadbacks": 9,
+        "replayedWrites": 0,
+        "finalTriggerRuleCount": 90,
+        "finalCounterpartyCategoryConditionCount": 8,
+        "finalDamageEventRuleCount": 6,
+        "finalDamageRulesWithCounterpartyCategoryCount": 3,
+        "passed": true
+      },
+      "independentAgent": {
+        "model": "Luna Max",
+        "GETs": 1197,
+        "writes": 0,
+        "staticChecks": 44,
+        "targetChecks": 9,
+        "relationAndImageChecks": 4,
+        "priorRulesUnchanged": 87,
+        "newRulesMatched": 3,
+        "mismatches": 0,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 210,
+        "businessWrites": 0,
+        "localImageCacheRecords": 3279,
+        "skills": [
+          "item_4629_passive",
+          "item_3803_passive"
+        ],
+        "listImagesVisible": 2,
+        "imageNaturalSize": "64x64",
+        "effectAndResultDetailsVisible": true,
+        "triggerDetailsVisible": 3,
+        "counterpartyDirectionHelpMatched": true,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-09730fac-3d07-4432-881a-7503f9581e48",
+        "requestId": "9a8e5b84-fa52-4116-9860-2f3f3ca197eb",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 44,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "equipmentAttributesUnchanged": true,
+        "equipmentRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "priorRulesUnchanged": 87,
+        "unrelatedSkillComponentsUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true
+      },
+      "formulaChecks": {
+        "manaAtRawDamage100": 10,
+        "moveSpeedBonus": 20,
+        "moveSpeedDurationMs": 4000,
+        "passed": true
+      },
+      "experienceIssues": [
+        "规则、图片和结果引用分层异步加载；必须等待稳定标识、目标行和图片实际尺寸，不能把初始空态当作数据缺失。",
+        "效果总览只显示结果摘要，公式引用必须进入结果详情核对。",
+        "伤害方向相近时必须打开事件对方类别条件，依据页面说明核对承受对象或来源对象，不能只看规则名称猜测。",
+        "Codex可见浏览器更新后仍缺少浏览器授权令牌，本批由同机Playwright Chromium完成真实页面验收。"
+      ],
+      "pending": [
+        "战斗运行仍需产生伤害事件、提供事件对方类别并执行移动速度或回蓝效果。",
+        "万世催化石的技能法力消耗自疗尚未接线。",
+        "客户端EternityCDPerCast=1000毫秒的适用范围仍未解释，不用于本次受击回蓝冷却。"
+      ],
+      "requestSha256": "20d72445b6247fe7b7a9344ec2f10b9c26f969ab83edf9660df39731ae503350",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/伤害事件对方类别装备补录/证据清单.json",
+        "sha256": "0635fa9490fd9777438f61a51f3658a51c646e86b8f1f11d220a08bc96161a80",
+        "commit": "f78a2f07"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
