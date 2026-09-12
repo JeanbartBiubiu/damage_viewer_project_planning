@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T15:50:09.146Z",
+  "generatedAt": "2026-09-12T04:23:54.377Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -5455,6 +5455,141 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项装备直接结果补录/证据清单.json",
         "sha256": "b400e8ee2ba06ab7351157f396a1656da6460a0b1f2d86e34a8055aaf0debe03",
         "commit": "26954267"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "equipmentExistingFormulaResultBackfill": {
+      "at": "2026-09-12T04:23:54.377Z",
+      "status": "六件装备技能的七项效果和八项现有公式结果新增，独立评审、受保护写入、独立回读、公式核算和代表页面通过",
+      "skills": [
+        "item_3042_passive",
+        "item_3026_passive",
+        "item_3742_passive",
+        "item_6631_active",
+        "item_6662_passive",
+        "item_6655_passive"
+      ],
+      "created": {
+        "effects": 7,
+        "results": 8,
+        "attributeChangeResults": 1,
+        "damageResults": 5,
+        "directHealResults": 1,
+        "resourceChangeResults": 1
+      },
+      "updated": 0,
+      "deleted": 0,
+      "sourceDecision": "只把已有公式能够准确支撑的持续属性、单目标伤害、生命恢复和法力恢复组成结果；复活时序、范围、触发、消费、冷却、中间层数和多目标分支继续待接。",
+      "preparation": {
+        "GETs": 113,
+        "checks": 64
+      },
+      "frozenPreflight": {
+        "GETs": 113,
+        "checks": 142,
+        "status200": 106,
+        "intended404": 7
+      },
+      "writer": {
+        "protectedPreflightGETs": 110,
+        "businessWrites": 7,
+        "POST": 7,
+        "PUT": 0,
+        "DELETE": 0,
+        "immediateReadbacks": 7,
+        "recoveryGETs": 110,
+        "recoveryWrites": 0,
+        "replayedWrites": 0,
+        "verifierRecovery": "原写入器将 authorizationValueRecorded=false 误判为失败；确认七次写入均已成功后，以纯读取恢复最终报告，未重放业务写入。"
+      },
+      "independentAgent": {
+        "model": "Luna Max",
+        "GETs": 110,
+        "writes": 0,
+        "effects": 7,
+        "results": 8,
+        "formulaCases": 8,
+        "mismatches": 0,
+        "passed": true
+      },
+      "formula": {
+        "GETs": 21,
+        "cases": 8,
+        "values": [
+          50,
+          30,
+          400,
+          1200,
+          140,
+          200,
+          150,
+          180
+        ],
+        "guardianAngelManaUsesTotal": true,
+        "deadMansPlateFullStackEndpoint": true,
+        "ludensStrictOneVsOneMultiplier": true,
+        "passed": true
+      },
+      "browser": {
+        "representativePages": 3,
+        "representativeResults": 4,
+        "skills": [
+          "item_3042_passive",
+          "item_3026_passive",
+          "item_6655_passive"
+        ],
+        "listImagesVisible": true,
+        "effectAndResultDetailsVisible": true,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "imageCacheSeedGETs": 3,
+        "serverWrites": 0,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-5b0cc481-b3e9-4077-967f-dd732da3dcd5",
+        "requestId": "c7b68d0b-d77b-4a13-bf13-373e90ddff06",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "subjectsUnchanged": true,
+        "parametersUnchanged": true,
+        "formulaStructuresUnchanged": true,
+        "equipmentRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true,
+        "triggerRulesRemainEmpty": true
+      },
+      "experienceIssues": [
+        "成熟且共享结构和保护规则的结果无需固定两条一批；本批一次冻结并安全覆盖6个技能、7个效果和8个结果。",
+        "验收器需要区分“字段预期为假”和“断言失败”；未知退出后应先读写入进度和实库现值，不能直接重放写入。",
+        "管理页只读说明存放在表单值中，页面验收不能只检查正文文本。",
+        "现有结果模型可以保存持续属性、同效果双结果和严格场景端点，但保存成功不能等同于触发、时序和战斗运行完成。",
+        "空吸血规则和空法术护盾范围是当前静态组成的明确现值；连接自动执行前必须按具体事件重新核对。"
+      ],
+      "pending": [
+        "魔切和冰脉的攻击命中、英雄目标资格、施放后资格、消费、冷却、吸血和法术护盾处理仍待接线。",
+        "守护天使的致命伤害、4秒复活、无敌、不可选取、无法行动和冷却仍待接线。",
+        "亡者的板甲的移动积攒、0至99层曲线、消费和来源3.75秒与当前4秒的冲突仍待核对。",
+        "挺进破坏者的范围选择、减速、自身移动速度、衰减和冷却仍待接线。",
+        "卢登的充能、技能伤害触发、额外目标、弹道、消费和冷却仍待接线。"
+      ],
+      "requestSha256": "1fba98ec7bd3967d4f825d2f978fc30f83a5a94fef175fbd3c2be2fbc2c4bbd0",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六件装备公式结果补录/证据清单.json",
+        "sha256": "bccbfc6fc8e779cee4515d84573e835f3b39075c258ea57123a9c174b62fa38f",
+        "commit": "9baea535"
       },
       "runtimeValidation": "未执行"
     }
