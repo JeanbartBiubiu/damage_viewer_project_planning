@@ -1,0 +1,1255 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:35:49.583Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取指定候选和规划来源，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "固定英雄机制候选",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十三批\\完整候选.json",
+      "byteSize": 360105,
+      "sha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0"
+    },
+    {
+      "kind": "官方中文英雄资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Kassadin.json",
+      "byteSize": 11848,
+      "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+    },
+    {
+      "kind": "客户端英雄原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Kassadin.json.gz",
+      "byteSize": 6741,
+      "sha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+      "decompressedByteSize": 41633,
+      "decompressedSha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785"
+    },
+    {
+      "kind": "已有角色接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\英雄全量核对\\champion_kassadin.json",
+      "byteSize": 1031,
+      "sha256": "ae10b6daa9bde70b942d5ac745a0ad6ef624ac9131f70b4ac497a7cb068e0fa7"
+    },
+    {
+      "kind": "已有技能接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\kassadin_q.json",
+      "byteSize": 1366,
+      "sha256": "50104116c8bb42c29ce1a3b8121387c6694feb6535bbaf06659d09124582c93d"
+    },
+    {
+      "kind": "已有角色技能关系记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\relations_champion_kassadin.json",
+      "byteSize": 1709,
+      "sha256": "43b6289cb031949dae048e4c95450f32f8434620dd2f0cad7071adcd18f7d7cb"
+    },
+    {
+      "kind": "技能代表图文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\02_技能\\Kassadin\\Q_NullLance.png",
+      "byteSize": 5948,
+      "sha256": "4864e561932f18a966e1b9b067f1e2c9625900ce22b359de102b12dd6f6bb2f2"
+    },
+    {
+      "kind": "角色代表图文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\01_角色\\Kassadin.png",
+      "byteSize": 29874,
+      "sha256": "a7616e721346eef6a2af65470f98757e4ad184a53685d412edec583dd5989a15"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十三批\\完整候选.json",
+    "meta": {
+      "executor": "第十三批由Codex执行代理准备；仅来源与当前GET候选，未业务写入",
+      "gameId": "lol",
+      "note": "客户端16.17与官方16.17.1来源已冻结；本批仅生成候选，不写业务API。当前20技能六类组成先做GET，结果与失败事实分开记录。",
+      "sources": [
+        {
+          "id": "Akali",
+          "client": {
+            "path": "客户端原文/Akali.json.gz",
+            "sha256": "5ff9d5df7dad31b4778f72d4e3cc3fc65ce224a791ad7bacc8f5ca983a96bb05",
+            "compressedSha256": "9daa3aa723fe15eb8f64332c98be7b526e438cfd7d1e7170a049c0241bee4ee3",
+            "byteSize": 103081,
+            "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/akali/akali.bin.json",
+            "fetchedAt": "2026-09-06T14:26:12.110Z",
+            "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "official": {
+            "path": "../英雄/原始资料/zh_CN/champion/Akali.json",
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Akali.json",
+            "fetchedAt": "2026-09-06T14:12:44.287Z",
+            "byteSize": 17535,
+            "sha256": "f932c5caefdad1f1731ca4a296f9fb7909eacdb4a95f18497621af82b8d93a9f"
+          }
+        },
+        {
+          "id": "Kassadin",
+          "client": {
+            "path": "客户端原文/Kassadin.json.gz",
+            "sha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+            "compressedSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+            "byteSize": 41633,
+            "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kassadin/kassadin.bin.json",
+            "fetchedAt": "2026-09-06T14:26:23.316Z",
+            "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "official": {
+            "path": "../英雄/原始资料/zh_CN/champion/Kassadin.json",
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kassadin.json",
+            "fetchedAt": "2026-09-06T14:12:48.394Z",
+            "byteSize": 11848,
+            "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+          }
+        },
+        {
+          "id": "Ryze",
+          "client": {
+            "path": "客户端原文/Ryze.json.gz",
+            "sha256": "5b8b69e8a440e0c573c4c3e83095515e0e737c0bc68784ba04584634b30c9543",
+            "compressedSha256": "cb595b4eb23adb880ba6cede70b16c0dfdb521d9accf9bde724307a0b998c81b",
+            "byteSize": 56189,
+            "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ryze/ryze.bin.json",
+            "fetchedAt": "2026-09-06T14:26:35.594Z",
+            "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "official": {
+            "path": "../英雄/原始资料/zh_CN/champion/Ryze.json",
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ryze.json",
+            "fetchedAt": "2026-09-06T14:12:53.304Z",
+            "byteSize": 12533,
+            "sha256": "9fc21f4d7973f7b47a04eb6c9df7897954616c799a707929663886322aaffddf"
+          }
+        },
+        {
+          "id": "Cassiopeia",
+          "client": {
+            "path": "客户端原文/Cassiopeia.json.gz",
+            "sha256": "94a8f643754eaa9e0611b2427b64a27b5b785063066933e5074a144589f406e3",
+            "compressedSha256": "a1f04468d7a87e03da446148884ae4786b16a36c2d7dac5ce1f2b49d5736183c",
+            "byteSize": 53200,
+            "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/cassiopeia/cassiopeia.bin.json",
+            "fetchedAt": "2026-09-06T14:26:14.422Z",
+            "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "official": {
+            "path": "../英雄/原始资料/zh_CN/champion/Cassiopeia.json",
+            "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Cassiopeia.json",
+            "fetchedAt": "2026-09-06T14:12:45.599Z",
+            "byteSize": 11579,
+            "sha256": "7a7b11a5428ccfa86df2c0d5b49849fa690169f94f433b3ed646e8cf0d071cc5"
+          }
+        }
+      ],
+      "scope": "阿卡丽、卡萨丁、瑞兹、卡西奥佩娅20槽；保护原28公共参数，仅准备确定组成；能量、法力口径、中毒和朝向资格分别核对。",
+      "generatedAt": "2026-09-09T05:13:47.694Z",
+      "apiWrites": 0,
+      "reuseReport": {
+        "publicParameters": [
+          {
+            "skillKey": "akali_q",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "akali_w",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "akali_e",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "akali_r",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "kassadin_q",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "kassadin_q",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "kassadin_w",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "kassadin_w",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "kassadin_e",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "kassadin_e",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "kassadin_r",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "kassadin_r",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "ryze_q",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "ryze_q",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "ryze_w",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "ryze_w",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "ryze_e",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "ryze_e",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "ryze_r",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "ryze_r",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "cassiopeia_q",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "cassiopeia_q",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "cassiopeia_w",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "cassiopeia_w",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "cassiopeia_e",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "cassiopeia_e",
+            "parameterKey": "mana_cost"
+          },
+          {
+            "skillKey": "cassiopeia_r",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "skillKey": "cassiopeia_r",
+            "parameterKey": "mana_cost"
+          }
+        ],
+        "preservedMetadataDifferences": [
+          {
+            "skillKey": "akali_q",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "akali_w",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "akali_e",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "akali_r",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "kassadin_q",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "kassadin_q",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "kassadin_w",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "kassadin_w",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "kassadin_e",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "kassadin_e",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "kassadin_r",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "ryze_q",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "ryze_q",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "ryze_w",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "ryze_w",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "ryze_e",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "ryze_e",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "cassiopeia_q",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "cassiopeia_q",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "cassiopeia_w",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "cassiopeia_w",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "cassiopeia_e",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "cassiopeia_e",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "cassiopeia_r",
+            "parameterKey": "cooldown_ms",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          },
+          {
+            "skillKey": "cassiopeia_r",
+            "parameterKey": "mana_cost",
+            "policy": "原对象完整复用，不发更新请求",
+            "fields": [
+              "description",
+              "sortOrder"
+            ]
+          }
+        ],
+        "originalSnapshotSha256": "8520f8b032d6ba347e1490c3b1ed1b6964586bc16c46d6e1a88932a15bfd1074"
+      }
+    },
+    "skill": {
+      "skillKey": "kassadin_q",
+      "name": "虚无法球",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Kassadin",
+        "rootPath": "Characters/Kassadin/CharacterRecords/Root",
+        "spellPath": "Characters/Kassadin/Spells/NullLanceAbility/NullLance",
+        "clientSha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+        "officialSha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29",
+        "currentBoundText": {
+          "binding": "Characters/Kassadin/Spells/NullLanceAbility/NullLance",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_NullLance_Name",
+              "key": "spell_nulllance_name",
+              "text": "虚无法球"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NullLance_Summary",
+              "key": "spell_nulllance_summary",
+              "text": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NullLance_Tooltip",
+              "key": "spell_nulllance_tooltip",
+              "text": "卡萨丁发射一颗虚无能量法球，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并打断引导技能。卡萨丁还会获得<shield>@TotalShield@魔法护盾</shield>，持续1.5秒。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 9000,
+              "2": 8500,
+              "3": 8000,
+              "4": 7500,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 65,
+              "2": 95,
+              "3": 125,
+              "4": 155,
+              "5": 185
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "base_magic_shield",
+            "name": "基础魔法护盾",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 110,
+              "3": 140,
+              "4": 170,
+              "5": 200
+            },
+            "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "魔法护盾持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "calculation_constant_1",
+            "name": "虚无法球魔法伤害固定系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.7,
+            "levelValues": null,
+            "description": "当前原计算树显式常数；只用于此数学表达式。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "calculation_constant_2",
+            "name": "魔法护盾数值固定系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "当前原计算树显式常数；只用于此数学表达式。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "damage",
+            "name": "虚无法球魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_1"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "基础值加0.7法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "magic_shield_amount",
+            "name": "魔法护盾数值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_magic_shield"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_2"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "基础值加0.3法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "magic_shield",
+            "name": "虚无法球自身魔法护盾",
+            "description": "当前正文明确自身1.5秒魔法护盾；施放与目标命中、护盾采样时点未自动连接。",
+            "sortOrder": 20,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "魔法护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "magic_shield_amount"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": "magic",
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "official.cooldown + Cooldown.values",
+          "values": [
+            9000,
+            8500,
+            8000,
+            7500,
+            7000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "official.cost + manaValues.values",
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ]
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "source": "spellCastTime",
+          "values": [
+            250
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            35,
+            65,
+            95,
+            125,
+            155,
+            185,
+            215
+          ],
+          "offset": 1,
+          "values": [
+            65,
+            95,
+            125,
+            155,
+            185
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "base_magic_shield",
+          "source": "DataValues.ShieldAmount",
+          "raw": [
+            50,
+            80,
+            110,
+            140,
+            170,
+            200,
+            230
+          ],
+          "offset": 1,
+          "values": [
+            80,
+            110,
+            140,
+            170,
+            200
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "source": "DataValues.ShieldDuration",
+          "raw": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "offset": 1,
+          "values": [
+            1500,
+            1500,
+            1500,
+            1500,
+            1500
+          ],
+          "scale": 1000
+        },
+        {
+          "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]",
+          "raw": {
+            "mCoefficient": 0.699999988079071,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "semantic": "同构建旧属性节点窄映射",
+          "attribute": {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        },
+        {
+          "parameterKey": "calculation_constant_1",
+          "source": "mSpellCalculations.TotalDamage.mFormulaParts[1].mCoefficient",
+          "values": [
+            0.7
+          ]
+        },
+        {
+          "formulaKey": "damage",
+          "source": "mSpellCalculations.TotalDamage",
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.699999988079071,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "semantic": "基础值加0.7法强"
+        },
+        {
+          "source": "mSpellCalculations.TotalShield.mFormulaParts[1]",
+          "raw": {
+            "mCoefficient": 0.30000001192092896,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "semantic": "同构建旧属性节点窄映射",
+          "attribute": {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        },
+        {
+          "parameterKey": "calculation_constant_2",
+          "source": "mSpellCalculations.TotalShield.mFormulaParts[1].mCoefficient",
+          "values": [
+            0.3
+          ]
+        },
+        {
+          "formulaKey": "magic_shield_amount",
+          "source": "mSpellCalculations.TotalShield",
+          "raw": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "ShieldAmount",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.30000001192092896,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "semantic": "基础值加0.3法强"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "引导打断",
+          "reason": "只打断合法引导，不默认沉默或打断任意技能。"
+        },
+        {
+          "kind": "来源",
+          "component": "实际伤害资格",
+          "reason": "仅保存确定公式；实际命中、暴击、吸血、护盾资格及归属未证明，不创建默认DAMAGE、空过程或规则。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "kind": "来源",
+            "component": "实际伤害资格",
+            "reason": "仅保存确定公式；实际命中、暴击、吸血、护盾资格及归属未证明，不创建默认DAMAGE、空过程或规则。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "引导打断",
+            "reason": "只打断合法引导，不默认沉默或打断任意技能。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存/未接线不表示完整战斗机制"
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Kassadin.json",
+    "championKey": "Kassadin",
+    "championName": "虚空行者",
+    "spell": {
+      "id": "NullLance",
+      "name": "虚无法球",
+      "description": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。",
+      "tooltip": "卡萨丁发射一颗虚无能量法球，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并打断引导技能。卡萨丁还会获得<shield>{{ totalshield }}魔法护盾</shield>，持续1.5秒。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "伤害",
+          "护盾值",
+          "@AbilityResourceName@消耗",
+          "冷却时间"
+        ],
+        "effect": [
+          "{{ basedamage }} -> {{ basedamageNL }}",
+          "{{ shieldamount }} -> {{ shieldamountNL }}",
+          "{{ cost }} -> {{ costNL }}",
+          "{{ cooldown }} -> {{ cooldownNL }}"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        9,
+        8.5,
+        8,
+        7.5,
+        7
+      ],
+      "cooldownBurn": "9/8.5/8/7.5/7",
+      "cost": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "costBurn": "60/65/70/75/80",
+      "datavalues": {},
+      "effect": [
+        null,
+        [
+          65,
+          95,
+          125,
+          155,
+          185
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          80,
+          110,
+          140,
+          170,
+          200
+        ],
+        [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "effectBurn": [
+        null,
+        "65/95/125/155/185",
+        "0",
+        "80/110/140/170/200",
+        "1.5",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "vars": [],
+      "costType": " {{ abilityresourcename }}",
+      "maxammo": "-1",
+      "range": [
+        650,
+        650,
+        650,
+        650,
+        650
+      ],
+      "rangeBurn": "650",
+      "image": {
+        "full": "NullLance.png",
+        "sprite": "spell6.png",
+        "group": "spell",
+        "x": 0,
+        "y": 144,
+        "w": 48,
+        "h": 48
+      },
+      "resource": "{{ cost }} {{ abilityresourcename }}"
+    }
+  },
+  "clientExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Kassadin.json.gz",
+    "pointer": "Characters/Kassadin/Spells/NullLanceAbility/NullLance/mSpell",
+    "spellTags": [
+      "Trait_DamageAbility",
+      "Trait_Shield",
+      "Trait_Low_Damage"
+    ],
+    "dataValues": {
+      "BaseDamage": [
+        35,
+        65,
+        95,
+        125,
+        155,
+        185,
+        215
+      ],
+      "ShieldAmount": [
+        50,
+        80,
+        110,
+        140,
+        170,
+        200,
+        230
+      ],
+      "ShieldDuration": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ]
+    },
+    "totalShield": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "ShieldAmount",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mCoefficient": 0.30000001192092896,
+          "__type": "StatByCoefficientCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "cooldownValues": [
+      9,
+      9,
+      8.5,
+      8,
+      7.5,
+      7,
+      8
+    ]
+  },
+  "acceptedFacts": {
+    "trigger": {
+      "skillKey": "kassadin_q",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "kassadin_q",
+        "useKind": "ACTIVE"
+      },
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKeys": [
+        "magic_shield"
+      ]
+    },
+    "effectResults": [
+      {
+        "effectKey": "magic_shield",
+        "resultTarget": "SOURCE",
+        "absorbedDamageTypeKey": "magic",
+        "durationParameter": "shield_duration_ms"
+      }
+    ],
+    "boundary": [
+      "不把目标魔法伤害或其他目标伤害写入本条规则。",
+      "不把引导打断、法力消耗、施法时间或冷却写入本条规则。",
+      "不把静态来源、接口 GET 或本脚本检查当作战斗运行时证明。"
+    ]
+  },
+  "sourceChecks": {
+    "candidateSkillKey": true,
+    "candidateEffectsPresent": true,
+    "candidateTriggerRulesEmpty": true,
+    "officialChampionPresent": true,
+    "officialSpellPresent": true,
+    "officialMaxRank": true,
+    "officialMagicShieldText": true,
+    "clientSpellPresent": true,
+    "clientShieldDuration": true,
+    "clientShieldCalculation": true,
+    "clientShieldSourceValues": true
+  }
+}

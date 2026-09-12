@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T15:46:11.454Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "fixedVersion": "16.17.1",
+  "scope": {
+    "skillKey": "ashe_w",
+    "effectKey": "hit_damage",
+    "eventType": "SKILL_HIT",
+    "sourceSkillKey": "ashe_w",
+    "targetCategory": "CHAMPION",
+    "actionTargetContext": "CURRENT_TARGET",
+    "skippedEffects": [
+      "箭数重复伤害",
+      "减速",
+      "法力消耗",
+      "冷却"
+    ]
+  },
+  "checks": {
+    "characterSubject": true,
+    "skillSubject": true,
+    "characterAttributes": true,
+    "characterSkillRelation": true,
+    "characterRepresentativeImage": true,
+    "skillRepresentativeImage": true,
+    "parametersAndFormula": true,
+    "initialDamageEffect": true,
+    "noUnprovenControlEffect": true,
+    "candidateAbsent": true,
+    "targetRuleBaselineEmpty": true,
+    "globalOldRulesComplete": true,
+    "globalTwoPassStable": true,
+    "noBusinessWrite": true
+  },
+  "getSummary": {
+    "getCount": 2362,
+    "businessWrites": 0,
+    "statusCounts": {
+      "200": 2361,
+      "404": 1
+    },
+    "targetGetCount": 24,
+    "globalSkillListGetCount": 2,
+    "globalTriggerRuleListGetCount": 2125,
+    "globalTriggerRuleDetailGetCount": 208,
+    "candidateDetailGetCount": 1
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 104,
+    "eventTypeCounts": {
+      "DAMAGE_TAKEN": 3,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "SKILL_HIT": 54,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_PENDING": 1,
+      "KILL": 2,
+      "SKILL_USED": 2
+    },
+    "sourceInitializedCount": 24,
+    "stableRead": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleCount": true,
+      "firstSkillCount": 1062,
+      "secondSkillCount": 1062,
+      "firstRuleCount": 104,
+      "secondRuleCount": 104,
+      "firstRuleKeysSha256": "ddfede95c17b5b130448e067362bf4300deb9b183a25d0914aec53ff40d078ec",
+      "secondRuleKeysSha256": "ddfede95c17b5b130448e067362bf4300deb9b183a25d0914aec53ff40d078ec"
+    }
+  },
+  "candidate": {
+    "ruleKey": "actual_hit",
+    "detailRoute": "/skills/ashe_w/trigger-rules/actual_hit",
+    "preflightStatus": 404,
+    "frozenBodySha256": "d4032aa445ba6065697a533ad89f9af261f6dfeb55d70c0591744d122362b1f3",
+    "body": {
+      "ruleKey": "actual_hit",
+      "name": "命中英雄触发万箭齐发伤害",
+      "description": "仅消费宿主按同次施放与目标去重后产生的一次 ashe_w 实际英雄命中，并在当前目标上执行已有的 hit_damage；减速、法力消耗与冷却不在本条规则中。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_HIT",
+        "detail": {
+          "sourceSkillKey": "ashe_w"
+        }
+      },
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "命中对象为英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "actionKey": "execute_hit_damage",
+          "name": "执行万箭齐发命中伤害",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "hit_damage"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    }
+  },
+  "conflicts": [],
+  "excluded": [
+    "箭数重复伤害",
+    "减速",
+    "法力消耗",
+    "冷却"
+  ]
+}

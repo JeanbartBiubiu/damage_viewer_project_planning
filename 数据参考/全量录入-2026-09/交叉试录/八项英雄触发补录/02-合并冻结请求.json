@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 4,
+  "revision": "rev4",
+  "generatedAt": "2026-09-12T16:35:55.063Z",
+  "status": "READY",
+  "writable": true,
+  "gameId": "lol",
+  "fixedVersion": "16.17.1",
+  "methodPolicy": "GET_ONLY_PRECHECK_THEN_4_POSTS",
+  "authorizationValueRecorded": false,
+  "semanticReviewSha256": "d04bb9dc7371177efa2e1526cf7e1164a662e5f4e65247572cfecc4c1c34010a",
+  "sourceSnapshotSha256": "e7495be67e882f2fb0e8c5722ec2bf12899879ade837b81d4417e107df8e7f3e",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 104,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 108
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 104,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_HIT": 54,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "SKILL_USED": 2,
+      "KILL": 2
+    },
+    "stableRead": true,
+    "stableVerification": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleLists": true,
+      "stableRuleDetails": true,
+      "firstRuleKeysSha256": "0b26a19b47aa63d43975c5694a3ae2dc04b2ac74d9c90b5d8b927e8b90326fb2",
+      "secondRuleKeysSha256": "0b26a19b47aa63d43975c5694a3ae2dc04b2ac74d9c90b5d8b927e8b90326fb2"
+    }
+  },
+  "writeBoundary": {
+    "businessWriteCount": 4,
+    "order": [
+      {
+        "id": "garen",
+        "route": "/skills/garen_w/trigger-rules",
+        "detailRoute": "/skills/garen_w/trigger-rules/on_used"
+      },
+      {
+        "id": "vex",
+        "route": "/skills/vex_w/trigger-rules",
+        "detailRoute": "/skills/vex_w/trigger-rules/on_used"
+      },
+      {
+        "id": "kassadin",
+        "route": "/skills/kassadin_q/trigger-rules",
+        "detailRoute": "/skills/kassadin_q/trigger-rules/on_used"
+      },
+      {
+        "id": "ivern",
+        "route": "/skills/ivern_q/trigger-rules",
+        "detailRoute": "/skills/ivern_q/trigger-rules/actual_hit"
+      }
+    ],
+    "methods": [
+      "POST"
+    ],
+    "expectedStatus": 201,
+    "onlyFrozenRoutes": true,
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true,
+    "noRerunExistingRules": true,
+    "noReplayIfReportExists": true
+  },
+  "requests": [
+    {
+      "id": "garen",
+      "name": "盖伦 W",
+      "skillKey": "garen_w",
+      "ownerKey": "champion_garen",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/garen_w/trigger-rules",
+      "detailRoute": "/skills/garen_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "勇气主动使用",
+        "description": "接收 garen_w 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 upfront_shield 和 upfront_tenacity。两个效果结果 target=SOURCE，均使用 upfront_duration_ms（750毫秒）；永久双抗、主动减伤和冷却不在本条规则中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "garen_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_upfront_shield",
+            "name": "执行勇气短时护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "upfront_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "execute_upfront_tenacity",
+            "name": "执行勇气短时韧性",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "upfront_tenacity"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "vex",
+      "name": "愁云使者 W",
+      "skillKey": "vex_w",
+      "ownerKey": "champion_vex",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/vex_w/trigger-rules",
+      "detailRoute": "/skills/vex_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "生人勿近主动使用",
+        "description": "接收 vex_w 主动使用；无条件在 CURRENT_TARGET 上执行已有 self_shield。self_shield 结果 target=SOURCE，只连接自身护盾，不表达范围伤害、暮气消费或资源消耗。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vex_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_shield",
+            "name": "执行生人勿近自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "kassadin",
+      "name": "虚空行者 Q",
+      "skillKey": "kassadin_q",
+      "ownerKey": "champion_kassadin",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/kassadin_q/trigger-rules",
+      "detailRoute": "/skills/kassadin_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "虚无法球主动使用",
+        "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kassadin_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_magic_shield",
+            "name": "执行虚无法球魔法护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "magic_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "ivern",
+      "name": "艾翁 Q",
+      "skillKey": "ivern_q",
+      "ownerKey": "champion_ivern",
+      "ownerKind": "character",
+      "ruleKey": "actual_hit",
+      "method": "POST",
+      "route": "/skills/ivern_q/trigger-rules",
+      "detailRoute": "/skills/ivern_q/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "a5fbdbcfe2c0287bd069bf321d0c06ed406fa87040bbce015c47ea0d491167c7",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "命中英雄触发根深敌固伤害",
+        "description": "仅消费宿主确认的 ivern_q 实际英雄命中，并在当前目标上执行已有的 damage；禁锢、再次施放突进、友军与非史诗级野怪分支、法力消耗和冷却不在本条规则中。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "ivern_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_damage",
+            "name": "执行根深敌固命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "protection": {
+    "candidateDetailsMustBe404": [
+      "/skills/garen_w/trigger-rules/on_used",
+      "/skills/vex_w/trigger-rules/on_used",
+      "/skills/kassadin_q/trigger-rules/on_used",
+      "/skills/ivern_q/trigger-rules/actual_hit"
+    ],
+    "targetNonRuleSnapshotSha256": {
+      "garen": "94acd013913bed3ebae33448506f2b1674f07d65e5cf893d8af071cadec82fdd",
+      "vex": "c0cbfb302542a7d5fbf9deecb8d20bd8623f9529f6077f0c24f47d8fb3b16fa2",
+      "kassadin": "d5445116b27d20a2ede4c40a971e6bd13a8ec1fab0b7d89e8fec8825b974e84a",
+      "ivern": "d86bebeb0d5f3173598a5da4feeae8c1698d91ec4eb1444758b9405c1df34ccd"
+    },
+    "targetSkills": [
+      "garen_w",
+      "vex_w",
+      "kassadin_q",
+      "ivern_q"
+    ],
+    "existingRuleCount": 104,
+    "existingRuleDetailsSaved": true,
+    "existingRuleListsSaved": true,
+    "expectedFinalRuleCount": 108,
+    "expectedNewRuleRefs": [
+      "garen_w/on_used",
+      "vex_w/on_used",
+      "kassadin_q/on_used",
+      "ivern_q/actual_hit"
+    ],
+    "sourceInitializedCount": 24
+  },
+  "targetBefore": [
+    {
+      "id": "garen",
+      "name": "盖伦 W",
+      "ownerKind": "character",
+      "ownerKey": "champion_garen",
+      "skillKey": "garen_w",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "base_shield",
+          "bonus_hp_ratio",
+          "cooldown_ms",
+          "max_stacks",
+          "reduction_duration_ms",
+          "reduction_ratio",
+          "resist_max",
+          "resist_per_kill",
+          "tenacity_ratio",
+          "upfront_duration_ms"
+        ],
+        "formulas": [
+          "shield"
+        ],
+        "effects": [
+          "upfront_shield",
+          "upfront_tenacity"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "94acd013913bed3ebae33448506f2b1674f07d65e5cf893d8af071cadec82fdd"
+    },
+    {
+      "id": "vex",
+      "name": "愁云使者 W",
+      "ownerKind": "character",
+      "ownerKey": "champion_vex",
+      "skillKey": "vex_w",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "aoe_radius",
+          "base_damage",
+          "base_shield",
+          "bonus_aoe_radius_vs_dashes",
+          "cast_time_ms",
+          "cooldown_ms",
+          "damage_ap_ratio",
+          "mana_cost",
+          "shield_ap_ratio",
+          "shield_duration_ms"
+        ],
+        "formulas": [
+          "magic_damage",
+          "shield_value"
+        ],
+        "effects": [
+          "self_shield"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "c0cbfb302542a7d5fbf9deecb8d20bd8623f9529f6077f0c24f47d8fb3b16fa2"
+    },
+    {
+      "id": "kassadin",
+      "name": "虚空行者 Q",
+      "ownerKind": "character",
+      "ownerKey": "champion_kassadin",
+      "skillKey": "kassadin_q",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "base_damage",
+          "base_magic_shield",
+          "calculation_constant_1",
+          "calculation_constant_2",
+          "cast_time_ms",
+          "cooldown_ms",
+          "mana_cost",
+          "shield_duration_ms"
+        ],
+        "formulas": [
+          "damage",
+          "magic_shield_amount"
+        ],
+        "effects": [
+          "magic_shield",
+          "mana_cost"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "d5445116b27d20a2ede4c40a971e6bd13a8ec1fab0b7d89e8fec8825b974e84a"
+    },
+    {
+      "id": "ivern",
+      "name": "艾翁 Q",
+      "ownerKind": "character",
+      "ownerKey": "champion_ivern",
+      "skillKey": "ivern_q",
+      "candidateRuleKey": "actual_hit",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "ap_ratio",
+          "base_damage",
+          "cast_radius",
+          "cast_range",
+          "cooldown_ms",
+          "dash_speed",
+          "display_range",
+          "m_cast_time_ms",
+          "mana_cost",
+          "missile_speed",
+          "root_duration_ms",
+          "spell_cast_time_ms"
+        ],
+        "formulas": [
+          "magic_damage",
+          "root_duration"
+        ],
+        "effects": [
+          "damage",
+          "mana_cost"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "d86bebeb0d5f3173598a5da4feeae8c1698d91ec4eb1444758b9405c1df34ccd"
+    }
+  ],
+  "excluded": [
+    "不修改四个目标主体、关系、代表图片、参数、公式、效果、过程或内部状态。",
+    "不修改当前批已存在的旧104条规则；SKILL_HIT事件明细不写入useKind=null。",
+    "不把暂缓项、位移、区域伤害、控制、资源或冷却等未冻结行为自行补造。",
+    "静态来源、GET预检和页面验收不等于战斗运行时、TinyGo或Wasm证明。"
+  ]
+}

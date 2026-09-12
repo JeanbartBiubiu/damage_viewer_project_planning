@@ -1,0 +1,1239 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:31:16.316Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取指定候选和规划来源，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "固定英雄机制候选",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第三十四批\\修订一\\完整候选.json",
+      "byteSize": 441195,
+      "sha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b"
+    },
+    {
+      "kind": "官方中文英雄资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Vex.json",
+      "byteSize": 11137,
+      "sha256": "5e4c0eccbd8ce0947883690b57a6a208cbc3cfddb8943d53fa3878ca7a3d1a1c"
+    },
+    {
+      "kind": "客户端英雄原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Vex.json.gz",
+      "byteSize": 7576,
+      "sha256": "d200bc9a07b60d391886cbdbee5bfa66317efbf60a46ff5efffbb31860140f2b",
+      "decompressedByteSize": 51010,
+      "decompressedSha256": "e0c8d923b81cc8b3dd8ea14e4fa8a135e1f1c8f1fdfca9fcc35b722069c5300d"
+    },
+    {
+      "kind": "已有角色接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\英雄全量核对\\champion_vex.json",
+      "byteSize": 1107,
+      "sha256": "321e8fd78e2b60703d49e5ed032743c954b6eb5c1d2f130d5832f8185ef2ce17"
+    },
+    {
+      "kind": "已有技能接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\vex_w.json",
+      "byteSize": 1087,
+      "sha256": "2d5fc93eaf9321c8ea788bebf495d13a86f8665574932835e5d094bea041f707"
+    },
+    {
+      "kind": "已有角色技能关系记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\relations_champion_vex.json",
+      "byteSize": 1618,
+      "sha256": "78bf1f5e4452e0146ccb2fbc7c07f5e37c091dc3ba6ba313e46b85bd8292c09a"
+    },
+    {
+      "kind": "技能代表图文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\02_技能\\Vex\\W_VexW.png",
+      "byteSize": 5717,
+      "sha256": "0baf9df9cebd9aad48ebe44d3ab33b56cd8d0880a5fa1506fd9771a08a4553dd"
+    },
+    {
+      "kind": "角色代表图文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\01_角色\\Vex.png",
+      "byteSize": 29332,
+      "sha256": "aaa93d7fab2d5d469778128ccdbe59bde00e601da065d17e3ae7bce4fe53c758"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第三十四批\\修订一\\完整候选.json",
+    "meta": {
+      "generatedAt": "2026-09-09T18:32:29.339Z",
+      "batch": "英雄机制第三十四批",
+      "revision": "hero34-source-v2",
+      "status": "主负责人修正攻击力口径、范围及施法冲突；尚未调用业务接口",
+      "gameId": "lol",
+      "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+      "sourceVersion": {
+        "clientVersion": "16.17",
+        "officialVersion": "16.17.1",
+        "build": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "sourcePolicy": "固定客户端16.17、官方16.17.1、当前mLocKeys绑定正文和当前计算树；明确值才进入候选，未知实际输入、时序、目标资格和曲线不猜、不设默认。",
+      "scope": "卡特琳娜、乐芙兰、薇古丝、基兰20个技能槽；唯一敌方英雄一对一。基兰P经验/金币整槽排除；乐芙兰R五棵复制树、卡特琳娜匕首与R同目标多次、薇古丝R两段、基兰Q同目标双炸保留。",
+      "sourceBindingSha256": "441f748d92b040a84c0b43018864236216aabb49dd2cdc2435c3ed38560e2b10",
+      "sourceRangeSha256": "efc80feebee296c43efe768261bf86ab40e329630d8d173d900fb2daeac2787e",
+      "rootReviewSha256": "a61a1a0a31960c35efda17ca44ec605acd222febaa6fc50bd0fb6e022fefab12",
+      "semanticNoteSha256": "dfc574ff3ec9bcae8c0e7dc24e636a96afb7fa679ac021850a3d0de0e84c4cc3",
+      "sourceReview": {
+        "conclusionFile": ".agents/artifacts/hero34-cursor-review-run-20260910/Cursor来源复核结论.md",
+        "conclusionSha256": "343d701b1fabb8457b36c92c4a538e09c8859de26e2c1c1a000f37069ffa8a6e",
+        "auditFile": ".agents/artifacts/hero34-cursor-review-run-20260910/主负责人执行审计.json",
+        "auditSha256": "0f2d5549f2916caa2f8b395cb62df43e2238b40eac14b296754d79909f094934",
+        "verdict": "READY",
+        "runId": "run-d1bd992c-5fd1-4e76-8d5c-fb674ae32dd6",
+        "events": 924,
+        "uniqueTools": 64,
+        "apiWrites": 0,
+        "gitDelta": []
+      },
+      "inputPackage": ".agents/artifacts/hero34-root-entry-20260910",
+      "protectionSnapshotSha256": "fc009ca7dc2f05946bda455455bc7e64d18977091f23789003a54621533e47fc",
+      "publicReuseSha256": "5cb20adf5f4b3e5b14dc061671f502a163f385d7448b334a0654a78a91387b76",
+      "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "currentGETs": 198,
+      "apiCalls": 0,
+      "businessWrites": 0,
+      "tokenStored": false,
+      "parentCandidateSha256": "d494b730fac1da22b8ce266ce303aaec9cd4224e62423a0fa2d64b0a42fc30db"
+    },
+    "skill": {
+      "skillKey": "vex_w",
+      "name": "薇古丝·生人勿近",
+      "maxLevel": 5,
+      "currentSubject": {
+        "createdAt": "2026-09-06T18:20:57.769366Z",
+        "description": "获得一个护盾并伤害附近的敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇古丝·生人勿近",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vex_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:57.769366Z"
+      },
+      "subjectWrite": {
+        "planned": false,
+        "reason": "主体、分类、图片和现有组成保护快照；当前候选只计划新增组成。现有分类=[\"common\"]，来源技能槽=common。"
+      },
+      "source": {
+        "hero": "Vex",
+        "heroName": "薇古丝",
+        "heroKey": "champion_vex",
+        "slot": "W",
+        "resourceType": "法力",
+        "rootPath": "Characters/Vex/CharacterRecords/Root",
+        "spellPath": "Characters/Vex/Spells/VexWAbility/VexW",
+        "clientFile": "参考资料/客户端原文/Vex.json.gz",
+        "clientSha256": "d200bc9a07b60d391886cbdbee5bfa66317efbf60a46ff5efffbb31860140f2b",
+        "officialZhFile": "参考资料/官方中文/Vex.json",
+        "officialZhSha256": "5e4c0eccbd8ce0947883690b57a6a208cbc3cfddb8943d53fa3878ca7a3d1a1c",
+        "officialEnFile": "参考资料/官方英文/Vex.json",
+        "officialEnSha256": "a0632afaa6281ad0615fd3eda6c0df3a8d260b23baccb6ed1746bcb4afbf4a8c",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_VexW_Name",
+            "text": "生人勿近"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_VexW_Summary",
+            "text": "获得一个护盾并伤害附近的敌人们。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_VexW_Tooltip",
+            "text": "薇古丝获得持续@ShieldDuration@秒的<shield>@ShieldCalc@护盾值</shield>并且放射一道冲击波来造成<magicDamage>@WDamageCalc@魔法伤害</magicDamage>。<br><br>在命中敌人时会消耗其身上的<keywordMajor>暮气</keywordMajor>效果。"
+          }
+        },
+        "raw": {
+          "dataValues": [
+            {
+              "name": "ShieldAmount",
+              "values": [
+                25,
+                50,
+                75,
+                100,
+                125,
+                150,
+                175
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                40,
+                80,
+                120,
+                160,
+                200,
+                240,
+                280
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShieldDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AOERadius",
+              "values": [
+                475,
+                475,
+                475,
+                475,
+                475,
+                475,
+                475
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BonusAOERadiusVsDashes",
+              "values": [
+                75,
+                75,
+                75,
+                75,
+                75,
+                75,
+                75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DamageAPRatio",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "ShieldCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ShieldAmount",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.75,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "WDamageCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "DamageAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "fields": {
+            "spellCastTime": 0.25,
+            "mCastTime": 0.25,
+            "spellTotalTime": 0,
+            "cooldownTime": [
+              17,
+              16,
+              15,
+              14,
+              13,
+              12,
+              11
+            ],
+            "mana": [
+              75,
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "manaValues": {
+              "values": [
+                75,
+                75,
+                75,
+                75,
+                75,
+                75
+              ],
+              "{0a3e0478}": 75,
+              "__type": "{630af303}"
+            },
+            "mDoesNotConsumeMana": null,
+            "mDoesNotConsumeCooldown": null
+          }
+        },
+        "officialEvidence": {
+          "zh": {
+            "id": "VexW",
+            "name": "生人勿近",
+            "description": "获得一个护盾并伤害附近的敌人们。",
+            "tooltip": "薇古丝获得持续{{ shieldduration }}秒的<shield>{{ shieldcalc }}护盾值</shield>并且放射一道冲击波来造成<magicDamage>{{ wdamagecalc }}魔法伤害</magicDamage>。<br /><br />在命中敌人时会消耗其身上的<keywordMajor>暮气</keywordMajor>效果。{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "伤害",
+                "护盾值",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ shieldamount }} -> {{ shieldamountNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              16,
+              15,
+              14,
+              13,
+              12
+            ],
+            "cooldownBurn": "16/15/14/13/12",
+            "cost": [
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "costBurn": "75",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              475,
+              475,
+              475,
+              475,
+              475
+            ],
+            "rangeBurn": "475",
+            "image": {
+              "full": "VexW.png",
+              "sprite": "spell15.png",
+              "group": "spell",
+              "x": 240,
+              "y": 144,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          },
+          "en": {
+            "id": "VexW",
+            "name": "Personal Space",
+            "description": "Gain a shield and damage nearby enemies.",
+            "tooltip": "Vex gains <shield>{{ shieldcalc }} Shield</shield> for {{ shieldduration }} seconds and emits a shockwave that deals <magicDamage>{{ wdamagecalc }} magic damage</magicDamage>.<br /><br />Consumes <keywordMajor>Gloom</keywordMajor> on enemies hit.{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "Damage",
+                "Shield Amount",
+                "Cooldown"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ shieldamount }} -> {{ shieldamountNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              16,
+              15,
+              14,
+              13,
+              12
+            ],
+            "cooldownBurn": "16/15/14/13/12",
+            "cost": [
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "costBurn": "75",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              475,
+              475,
+              475,
+              475,
+              475
+            ],
+            "rangeBurn": "475",
+            "image": {
+              "full": "VexW.png",
+              "sprite": "spell15.png",
+              "group": "spell",
+              "x": 240,
+              "y": 144,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        },
+        "sourceSummary": {
+          "officialMaxRank": 5,
+          "clientCooldown": [
+            17,
+            16,
+            15,
+            14,
+            13,
+            12,
+            11
+          ],
+          "clientMana": [
+            75,
+            75,
+            75,
+            75,
+            75,
+            75
+          ],
+          "dataValueNames": [
+            "ShieldAmount",
+            "BaseDamage",
+            "ShieldDuration",
+            "AOERadius",
+            "BonusAOERadiusVsDashes",
+            "DamageAPRatio"
+          ],
+          "calculationNames": [
+            "ShieldCalc",
+            "WDamageCalc"
+          ],
+          "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+        },
+        "selectedData": {
+          "ShieldAmount": {
+            "sourceDataIndices": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "sourceValues": [
+              50,
+              75,
+              100,
+              125,
+              150
+            ],
+            "normalizedValues": [
+              50,
+              75,
+              100,
+              125,
+              150
+            ]
+          },
+          "BaseDamage": {
+            "sourceDataIndices": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "sourceValues": [
+              80,
+              120,
+              160,
+              200,
+              240
+            ],
+            "normalizedValues": [
+              80,
+              120,
+              160,
+              200,
+              240
+            ]
+          },
+          "DamageAPRatio": {
+            "sourceDataIndices": [
+              1
+            ],
+            "sourceValues": [
+              0.30000001192092896
+            ],
+            "normalizedValues": [
+              0.3
+            ]
+          },
+          "ShieldDuration": {
+            "sourceDataIndices": [
+              1
+            ],
+            "sourceValues": [
+              2.5
+            ],
+            "normalizedValues": [
+              2.5
+            ]
+          },
+          "AOERadius": {
+            "sourceDataIndices": [
+              1
+            ],
+            "sourceValues": [
+              475
+            ],
+            "normalizedValues": [
+              475
+            ]
+          },
+          "BonusAOERadiusVsDashes": {
+            "sourceDataIndices": [
+              1
+            ],
+            "sourceValues": [
+              75
+            ],
+            "normalizedValues": [
+              75
+            ]
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "base_shield",
+            "name": "基础护盾值",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 75,
+              "3": 100,
+              "4": 125,
+              "5": 150
+            },
+            "description": "客户端ShieldAmount取索引1至5；索引0的25不是等级1。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "shield_ap_ratio",
+            "name": "护盾法强比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "ShieldCalc树的StatByCoefficient=0.75×来源总法强。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 120,
+              "3": 160,
+              "4": 200,
+              "5": 240
+            },
+            "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "damage_ap_ratio",
+            "name": "伤害法强比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "WDamageCalc消费DamageAPRatio=0.3×来源总法强。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "客户端ShieldDuration取索引1的2.5秒，转换为2500毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "aoe_radius",
+            "name": "冲击波范围半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 475,
+            "levelValues": null,
+            "description": "客户端AOERadius取索引1。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "bonus_aoe_radius_vs_dashes",
+            "name": "针对位移目标的额外范围",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 75,
+            "levelValues": null,
+            "description": "客户端BonusAOERadiusVsDashes取索引1；条件事件待接。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "shield_value",
+            "name": "生人勿近自身护盾值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_shield"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "ShieldCalc = ShieldAmount + 0.75×来源总法强。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "magic_damage",
+            "name": "生人勿近唯一敌人魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "WDamageCalc = BaseDamage + DamageAPRatio×来源总法强。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "self_shield",
+            "name": "生人勿近自身护盾",
+            "description": "当前正文明确自身护盾，普通护盾吸收类型未限定；命中与暮气消费事件未接线。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "生人勿近自身护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield_value"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "护盾应用、冲击波命中和暮气消费",
+          "reason": "树给出数值，实际命中与状态消费未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "冲刺目标额外范围",
+          "reason": "只保留来源参数，不把条件额外范围扩成自动命中事件。"
+        }
+      ],
+      "sourceProof": "W同时保留ShieldCalc、WDamageCalc和普通自身护盾生命周期；不创建伤害结果。",
+      "currentProtection": {
+        "parameters": {
+          "status": 200,
+          "count": 2,
+          "dataSha256": "32265f8486e0d776d666c70ea35f5ce25310962dba8f5f5aa6d6a75839c4de9e"
+        },
+        "formulas": {
+          "status": 200,
+          "count": 0,
+          "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "effects": {
+          "status": 200,
+          "count": 0,
+          "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "processes": {
+          "status": 200,
+          "count": 0,
+          "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "internalStates": {
+          "status": 200,
+          "count": 0,
+          "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "triggerRules": {
+          "status": 200,
+          "count": 0,
+          "dataSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "representativeImage": {
+          "status": 200,
+          "dataSha256": "3cc37cfde78ac150e17b375143dc647d2408af51f5f44d6f17898ed3422d5af8"
+        }
+      }
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Vex.json",
+    "championKey": "Vex",
+    "championName": "愁云使者",
+    "spell": {
+      "id": "VexW",
+      "name": "生人勿近",
+      "description": "获得一个护盾并伤害附近的敌人们。",
+      "tooltip": "薇古丝获得持续{{ shieldduration }}秒的<shield>{{ shieldcalc }}护盾值</shield>并且放射一道冲击波来造成<magicDamage>{{ wdamagecalc }}魔法伤害</magicDamage>。<br /><br />在命中敌人时会消耗其身上的<keywordMajor>暮气</keywordMajor>效果。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "伤害",
+          "护盾值",
+          "冷却时间"
+        ],
+        "effect": [
+          "{{ basedamage }} -> {{ basedamageNL }}",
+          "{{ shieldamount }} -> {{ shieldamountNL }}",
+          "{{ cooldown }} -> {{ cooldownNL }}"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        16,
+        15,
+        14,
+        13,
+        12
+      ],
+      "cooldownBurn": "16/15/14/13/12",
+      "cost": [
+        75,
+        75,
+        75,
+        75,
+        75
+      ],
+      "costBurn": "75",
+      "datavalues": {},
+      "effect": [
+        null,
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "effectBurn": [
+        null,
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "vars": [],
+      "costType": " {{ abilityresourcename }}",
+      "maxammo": "-1",
+      "range": [
+        475,
+        475,
+        475,
+        475,
+        475
+      ],
+      "rangeBurn": "475",
+      "image": {
+        "full": "VexW.png",
+        "sprite": "spell15.png",
+        "group": "spell",
+        "x": 240,
+        "y": 144,
+        "w": 48,
+        "h": 48
+      },
+      "resource": "{{ cost }} {{ abilityresourcename }}"
+    }
+  },
+  "clientExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Vex.json.gz",
+    "pointer": "Characters/Vex/Spells/VexWAbility/VexW/mSpell",
+    "spellTags": [
+      "Trait_DamageAbility",
+      "Trait_Shield",
+      "Trait_Low_Damage",
+      "Trait_AoE"
+    ],
+    "dataValues": {
+      "ShieldAmount": [
+        25,
+        50,
+        75,
+        100,
+        125,
+        150,
+        175
+      ],
+      "ShieldDuration": [
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5
+      ],
+      "DamageAPRatio": [
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896
+      ]
+    },
+    "shieldCalculation": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "ShieldAmount",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mCoefficient": 0.75,
+          "__type": "StatByCoefficientCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "cooldownValues": [
+      17,
+      16,
+      15,
+      14,
+      13,
+      12,
+      11
+    ]
+  },
+  "acceptedFacts": {
+    "trigger": {
+      "skillKey": "vex_w",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "vex_w",
+        "useKind": "ACTIVE"
+      },
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKeys": [
+        "self_shield"
+      ]
+    },
+    "effectResults": [
+      {
+        "effectKey": "self_shield",
+        "resultTarget": "SOURCE",
+        "durationParameter": "shield_duration_ms"
+      }
+    ],
+    "boundary": [
+      "不把范围伤害、冲击波实际命中或多目标选择写入本条规则。",
+      "不把暮气消费、法力消耗、施法时间、范围半径或冷却写入本条规则。",
+      "不把静态来源、接口 GET 或本脚本检查当作战斗运行时证明。"
+    ]
+  },
+  "sourceChecks": {
+    "candidateSkillKey": true,
+    "candidateEffectsPresent": true,
+    "candidateTriggerRulesEmpty": true,
+    "officialChampionPresent": true,
+    "officialSpellPresent": true,
+    "officialMaxRank": true,
+    "officialCostPresent": true,
+    "clientSpellPresent": true,
+    "clientShieldDuration": true,
+    "clientShieldCalculation": true,
+    "clientShieldSourceValues": true
+  }
+}
