@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev2",
+  "capturedAt": "2026-09-12T14:29:16.057Z",
+  "sourcePolicy": "固定现有四个上游批次的来源记录；前三项从各自 02 提取，凯旋原 02 的 REVISE 只作为问题证据，本目录重新建立 rev2 请求。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceDirectories": [
+    {
+      "id": "black",
+      "name": "黑色切割者",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\黑色切割者触发补录",
+      "files": [
+        {
+          "kind": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\黑色切割者触发补录\\02-冻结请求.json",
+          "byteSize": 3554,
+          "sha256": "e814e4bc0179dd51e9d5e8cb599143f92ac609572f50dc98ba2d466bd000e4df"
+        },
+        {
+          "kind": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\黑色切割者触发补录\\03-来源快照.json",
+          "byteSize": 18720,
+          "sha256": "61fa5627c55f1570da6331a0f10a3199e674d5ba69a1a70f06322716844eca1c"
+        },
+        {
+          "kind": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\黑色切割者触发补录\\04-写入前现值.json",
+          "byteSize": 1367838,
+          "sha256": "b01d3bd34b8b37f749b97b1de048a379cd562b520b11b8afee5339e54d850879"
+        },
+        {
+          "kind": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\黑色切割者触发补录\\05-只读准备报告.json",
+          "byteSize": 2805,
+          "sha256": "a79787bedf30b524c3fbd321220afac0a59e9d66fb91cb16bfe24ba8d33dbdc1"
+        }
+      ],
+      "upstreamStatus": "READY",
+      "upstreamFrozenRequest": "e814e4bc0179dd51e9d5e8cb599143f92ac609572f50dc98ba2d466bd000e4df",
+      "upstreamSourceSnapshot": "61fa5627c55f1570da6331a0f10a3199e674d5ba69a1a70f06322716844eca1c",
+      "upstreamBaseline": "b01d3bd34b8b37f749b97b1de048a379cd562b520b11b8afee5339e54d850879",
+      "upstreamReport": "a79787bedf30b524c3fbd321220afac0a59e9d66fb91cb16bfe24ba8d33dbdc1"
+    },
+    {
+      "id": "magic",
+      "name": "魔切",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\魔切普攻触发补录",
+      "files": [
+        {
+          "kind": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\魔切普攻触发补录\\02-冻结请求.json",
+          "byteSize": 7021,
+          "sha256": "9ac79ffe2be7dac2fa0273b312474fb98687b6e2358fe29186919ecf3800da58"
+        },
+        {
+          "kind": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\魔切普攻触发补录\\03-来源快照.json",
+          "byteSize": 8766,
+          "sha256": "7f2fd08ca1b8124f8f902ef1b2fa16a46041b5f6e3ba3e403ff0a6ca43a3525d"
+        },
+        {
+          "kind": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\魔切普攻触发补录\\04-写入前现值.json",
+          "byteSize": 1075902,
+          "sha256": "a2e546d1673a62cd24b8bd447ad15d2b49d194cf5e8790acb6fc0bf9e6b608e3"
+        },
+        {
+          "kind": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\魔切普攻触发补录\\05-只读准备报告.json",
+          "byteSize": 18978,
+          "sha256": "90a8d754f2106cdef1d7e586f9eaf1c4b8bfa1f9f3e07466a236ebf50d7c3b4e"
+        }
+      ],
+      "upstreamStatus": "READY",
+      "upstreamFrozenRequest": "9ac79ffe2be7dac2fa0273b312474fb98687b6e2358fe29186919ecf3800da58",
+      "upstreamSourceSnapshot": "7f2fd08ca1b8124f8f902ef1b2fa16a46041b5f6e3ba3e403ff0a6ca43a3525d",
+      "upstreamBaseline": "a2e546d1673a62cd24b8bd447ad15d2b49d194cf5e8790acb6fc0bf9e6b608e3",
+      "upstreamReport": "90a8d754f2106cdef1d7e586f9eaf1c4b8bfa1f9f3e07466a236ebf50d7c3b4e"
+    },
+    {
+      "id": "stridebreaker",
+      "name": "挺进破坏者",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\挺进破坏者主动触发补录",
+      "files": [
+        {
+          "kind": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\挺进破坏者主动触发补录\\02-冻结请求.json",
+          "byteSize": 3708,
+          "sha256": "0e4ef8f011e80d1f288b8cf9da8f92a29ff0572871005dbd2f6fecf523bc2b33"
+        },
+        {
+          "kind": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\挺进破坏者主动触发补录\\03-来源快照.json",
+          "byteSize": 38560,
+          "sha256": "19307dffc71b326bd96edeb236e6b16dd514229482139acb4b6f57f643e0aeea"
+        },
+        {
+          "kind": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\挺进破坏者主动触发补录\\04-写入前现值.json",
+          "byteSize": 1371234,
+          "sha256": "760d31f7599dea507e23e56cd96a0898390f71bacf215681296d0e65bf25e42d"
+        },
+        {
+          "kind": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\挺进破坏者主动触发补录\\05-只读准备报告.json",
+          "byteSize": 2604,
+          "sha256": "429a4bfb07b67971a29e0e0d953d3750b464149b14f106be97efa3c6f0c09068"
+        }
+      ],
+      "upstreamStatus": "READY",
+      "upstreamFrozenRequest": "0e4ef8f011e80d1f288b8cf9da8f92a29ff0572871005dbd2f6fecf523bc2b33",
+      "upstreamSourceSnapshot": "19307dffc71b326bd96edeb236e6b16dd514229482139acb4b6f57f643e0aeea",
+      "upstreamBaseline": "760d31f7599dea507e23e56cd96a0898390f71bacf215681296d0e65bf25e42d",
+      "upstreamReport": "429a4bfb07b67971a29e0e0d953d3750b464149b14f106be97efa3c6f0c09068"
+    },
+    {
+      "id": "triumph",
+      "name": "凯旋",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\凯旋符文触发补录",
+      "files": [
+        {
+          "kind": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\凯旋符文触发补录\\02-冻结请求.json",
+          "byteSize": 7146,
+          "sha256": "e7b740623d2d2eb3ae3f5dbc12555c3e8fd3eb4fa8d531a6670b7c47339c99a3"
+        },
+        {
+          "kind": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\凯旋符文触发补录\\03-来源快照.json",
+          "byteSize": 24572,
+          "sha256": "8238f380465593829329d3b0984153051156ef96f775502ddee7bb1eab3a3d12"
+        },
+        {
+          "kind": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\凯旋符文触发补录\\04-写入前现值.json",
+          "byteSize": 2726855,
+          "sha256": "dbffeaadbd54f28127ba5a40d70cd574fe17921c4172dce4c0428a413601afe6"
+        },
+        {
+          "kind": "05-只读准备报告.md",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\凯旋符文触发补录\\05-只读准备报告.md",
+          "byteSize": 3718,
+          "sha256": "6383be3cad63d6c19dd703e6e80ba1b5752aab915b3ccb4d9938dc41854a913c"
+        }
+      ],
+      "upstreamStatus": "REVISE",
+      "upstreamFrozenRequest": "e7b740623d2d2eb3ae3f5dbc12555c3e8fd3eb4fa8d531a6670b7c47339c99a3",
+      "upstreamSourceSnapshot": "8238f380465593829329d3b0984153051156ef96f775502ddee7bb1eab3a3d12",
+      "upstreamBaseline": "dbffeaadbd54f28127ba5a40d70cd574fe17921c4172dce4c0428a413601afe6",
+      "upstreamReport": "6383be3cad63d6c19dd703e6e80ba1b5752aab915b3ccb4d9938dc41854a913c"
+    }
+  ],
+  "acceptedFacts": {
+    "black": {
+      "skillKey": "item_3071_passive",
+      "eventType": "DAMAGE_DEALT",
+      "detail": {
+        "damageTypeKey": "physics",
+        "deliveryKind": "ANY",
+        "originKind": "ANY"
+      },
+      "condition": {
+        "conditionType": "TARGET_CATEGORY_CHECK",
+        "categories": [
+          "CHAMPION"
+        ]
+      },
+      "targetContext": "CURRENT_TARGET",
+      "effectKey": "armor_shred"
+    },
+    "magic": {
+      "skillKey": "item_3042_passive",
+      "eventType": "BASIC_ATTACK_HIT",
+      "detail": {},
+      "condition": {
+        "conditionType": "TARGET_CATEGORY_CHECK",
+        "categories": [
+          "CHAMPION"
+        ]
+      },
+      "targetContext": "CURRENT_TARGET",
+      "effectKey": "on_hit_damage_from_max_mana"
+    },
+    "stridebreaker": {
+      "skillKey": "item_6631_active",
+      "eventType": "SKILL_HIT",
+      "detail": {
+        "sourceSkillKey": "item_6631_active"
+      },
+      "condition": {
+        "conditionType": "TARGET_CATEGORY_CHECK",
+        "categories": [
+          "CHAMPION"
+        ]
+      },
+      "targetContext": "CURRENT_TARGET",
+      "effectKey": "active_hit"
+    },
+    "triumph": {
+      "skillKey": "rune_9111_passive",
+      "eventType": "KILL",
+      "detail": {},
+      "condition": {
+        "conditionType": "TARGET_CATEGORY_CHECK",
+        "categories": [
+          "CHAMPION"
+        ]
+      },
+      "targetContext": "CURRENT_TARGET",
+      "effectKey": "triumph_heal",
+      "existingResultTarget": "SOURCE",
+      "currentTargetMeaning": "被击杀英雄",
+      "eventSourceAvailable": false,
+      "scope": "严格一对一中的本人击杀子集；不覆盖多人助攻或完整参与击杀；跳过 20 金币"
+    }
+  },
+  "requests": [
+    {
+      "id": "black",
+      "ruleKey": "on_physical_damage_dealt_to_champion",
+      "bodySha256": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8",
+      "sourceExpectedStatus": 201,
+      "sourceExpectedStatusDefaulted": false
+    },
+    {
+      "id": "magic",
+      "ruleKey": "on_basic_attack_hit_to_champion",
+      "bodySha256": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a",
+      "sourceExpectedStatus": null,
+      "sourceExpectedStatusDefaulted": true
+    },
+    {
+      "id": "stridebreaker",
+      "ruleKey": "actual_hit",
+      "bodySha256": "2ce647f2f4269fc3b1cbd5dc8cf0efccce6f2603d448b58a0681c04bb951c809",
+      "sourceExpectedStatus": 201,
+      "sourceExpectedStatusDefaulted": false
+    },
+    {
+      "id": "triumph",
+      "ruleKey": "on_champion_kill",
+      "bodySha256": "27678748b1a5cfbad4202af4e27385ece67efcc152497408ef710d731d518b34",
+      "sourceExpectedStatus": null,
+      "sourceExpectedStatusDefaulted": false
+    }
+  ]
+}

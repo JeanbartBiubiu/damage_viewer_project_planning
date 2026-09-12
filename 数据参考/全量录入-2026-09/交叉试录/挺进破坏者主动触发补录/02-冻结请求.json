@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T12:59:05.804Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "writable": true,
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceSnapshotSha256": "19307dffc71b326bd96edeb236e6b16dd514229482139acb4b6f57f643e0aeea",
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 96,
+    "eventTypeCounts": {
+      "BASIC_ATTACK_HIT": 9,
+      "DAMAGE_DEALT": 2,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_TAKEN": 3,
+      "KILL": 1,
+      "SKILL_HIT": 50,
+      "SKILL_USED": 1,
+      "SOURCE_INITIALIZED": 24,
+      "SPELL_SHIELD_BLOCKED": 5
+    },
+    "targetCategoryConditionCount": 9,
+    "skillHitCategoryRuleCount": 4,
+    "stableRead": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleCount": true,
+      "firstSkillCount": 1062,
+      "secondSkillCount": 1062,
+      "firstRuleCount": 96,
+      "secondRuleCount": 96,
+      "firstRuleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023",
+      "secondRuleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023"
+    }
+  },
+  "targetBefore": {
+    "equipmentKey": "item_6631",
+    "skillKey": "item_6631_active",
+    "existingEffectKeys": [
+      "active_hit"
+    ],
+    "ruleKeys": [],
+    "newRuleDetailStatus": 404
+  },
+  "plannedWrites": 1,
+  "writes": [
+    {
+      "id": "item_6631_active-actual_hit",
+      "kind": "新增触发规则",
+      "method": "POST",
+      "route": "/skills/item_6631_active/trigger-rules",
+      "detailRoute": "/skills/item_6631_active/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "破阵冲击波命中英雄",
+        "description": "仅在运行时确认 item_6631_active 已命中英雄后，在当前目标上执行已有的 active_hit；本批不生成范围命中，不接入减速、自身移动速度、衰减或冷却。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "item_6631_active"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_active_hit",
+            "name": "执行破阵冲击波主动命中",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "active_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "conflicts": [],
+  "excluded": [
+    "不重复创建 active_hit 或任何其他效果、参数、公式、过程和内部状态。",
+    "不补主动施放过程、范围命中生产、附近其他目标、减速、自身移动速度或衰减算法。",
+    "不新增或解释主动冷却、每目标冷却、触发次数、吸血或法术护盾字段。",
+    "不新增 DAMAGE_DEALT 技能伤害分支。",
+    "不把静态来源、接口 GET 或本脚本检查当作战斗运行时证明。"
+  ]
+}

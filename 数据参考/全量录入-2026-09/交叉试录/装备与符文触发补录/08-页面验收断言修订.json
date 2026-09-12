@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "status": "RESOLVED",
+  "businessWrites": 0,
+  "scope": "真实管理页面只读断言与当前展示文案对齐",
+  "attempts": [
+    {
+      "target": "item_3071_passive",
+      "area": "结果详情",
+      "staleExpectation": "目标护甲降低、降低",
+      "observedStableText": "属性变化、护甲、减少、armor_shred_ratio_per_stack、黑色切割者护甲削减乘区",
+      "resolution": "用实际字段、操作和乘区断言，不依赖查看窗未显示的结果名称。"
+    },
+    {
+      "target": "item_3042_passive",
+      "area": "公式详情",
+      "staleExpectation": "查看窗正文包含公式名称",
+      "observedStableText": "法力值、施法者、最终值、on_hit_max_mana_damage_ratio、乘",
+      "resolution": "稳定标识继续由输入框值校验，正文改查公式结构。"
+    },
+    {
+      "target": "item_3042_passive",
+      "area": "结果列表",
+      "staleExpectation": "物理伤害",
+      "observedStableText": "physics",
+      "resolution": "列表按真实伤害类型目录键断言；详情仍核对中文类型和伤害语义。"
+    }
+  ],
+  "finalReport": "08-页面验收.json",
+  "finalStatus": "PASS",
+  "runtimeBoundary": "这些修订和最终报告仅证明真实管理页面只读展示，不证明战斗运行。"
+}

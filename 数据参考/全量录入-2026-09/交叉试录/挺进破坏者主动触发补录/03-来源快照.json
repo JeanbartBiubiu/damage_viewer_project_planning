@@ -1,0 +1,985 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T12:58:54.185Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划来源和已有前批证据，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "规划第十八批最终候选",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十八批剩余自身效果\\最终候选.json",
+      "byteSize": 191367,
+      "sha256": "4863b2119fd7f154d188d207f4b6e465d3719146f35dd1cc2bfb047e4b294a2b"
+    },
+    {
+      "kind": "规划第十八批冻结来源",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十八批剩余自身效果\\冻结来源.json",
+      "byteSize": 130616,
+      "sha256": "98d14396062ef2189cf364faf863f4d2ee62481dff9dacbaf4641fa9663c0492"
+    },
+    {
+      "kind": "客户端装备列表",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17-zh_CN.json.gz",
+      "byteSize": 96301,
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20",
+      "decompressedByteSize": 680850,
+      "decompressedSha256": "98febe7dcc32bd1f3d0b1955494dcac57baf4877afea5f0c93c057c179cbcf64"
+    },
+    {
+      "kind": "客户端装备对象",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+      "byteSize": 1577238,
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "decompressedByteSize": 15923188,
+      "decompressedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "kind": "客户端中文绑定文本",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+      "byteSize": 8350124,
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "decompressedByteSize": 32784742,
+      "decompressedSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "kind": "官方装备资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json",
+      "byteSize": 691131,
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "kind": "前批效果冻结请求",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\六件装备公式结果补录\\09-冻结请求.json",
+      "byteSize": 13922,
+      "sha256": "1fba98ec7bd3967d4f825d2f978fc30f83a5a94fef175fbd3c2be2fbc2c4bbd0"
+    },
+    {
+      "kind": "前批效果写入回读",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\六件装备公式结果补录\\04-写入与即时回读.json",
+      "byteSize": 124160,
+      "sha256": "22a9a3eced3809e6656dafc563e5cc2edff33d613604403e19b5ed7dd4917da0"
+    },
+    {
+      "kind": "已有装备接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备\\item_6631.json",
+      "byteSize": 1479,
+      "sha256": "5a72c1461fef260012771bc667a6b49271c26fd467bc68165c9a4ebfb79d03e1"
+    },
+    {
+      "kind": "已有装备图片接口记录",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备图片\\item_6631.json",
+      "byteSize": 995,
+      "sha256": "a5d9ee0e0c07715dcb6731e7a54f5176cd931379266bd019c68e83b7423ea4fa"
+    },
+    {
+      "kind": "已有装备图片文件",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\装备图片\\source-images\\6631.png",
+      "byteSize": 7091,
+      "sha256": "f24121688bf9d5f1e31b47a0d432d82416cda050667633af8f5b7688570acf98"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十八批剩余自身效果\\最终候选.json",
+    "equipment": {
+      "equipmentKey": "item_6631",
+      "equipmentName": "挺进破坏者",
+      "skillKey": "item_6631_active",
+      "source": {
+        "path": "Items/6631",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_6631_Name",
+            "key": "item_6631_name",
+            "text": "挺进破坏者"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_6631_Brief",
+            "key": "item_6631_brief",
+            "text": "战斗机动力"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_6631_Tooltip",
+            "key": "item_6631_tooltip",
+            "text": "<passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>{{ Item_Melee_Ranged_Split_Dynamic }}物理伤害</physicalDamage>。"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_6631_Colloquialism",
+            "key": "item_6631_colloquialism",
+            "text": ";Stridebreaker;tingjinpohuaizhe;tjphz"
+          },
+          {
+            "binding": "keyActive",
+            "sourceKey": "Item_6631_Active",
+            "key": "item_6631_active",
+            "text": "%i:activeEffect% <active>破阵冲击波</active> {{Item_Cooldown}}<br>对附近的敌人们造成<physicalDamage>@SlashDamage@物理伤害</physicalDamage>和@MSSlow*-100@%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的@ActiveMS*100@%移动速度</speed>，持续@Duration@秒。"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Hydra",
+            "key": "item_unique_hydra",
+            "text": "唯一：九头蛇"
+          },
+          {
+            "binding": "keyActiveExternal",
+            "sourceKey": "Item_6631_ActiveExternal",
+            "key": "item_6631_activeexternal",
+            "text": "%i:activeEffect% <active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和@MSSlow*-100@%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的@ActiveMS*100@%移动速度</speed>，持续@Duration@秒。"
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_6631_TooltipExtendedRules",
+            "key": "item_6631_tooltipextendedrules",
+            "text": "<rules><passive>顺劈</passive>不会在建筑物上触发。<br>你在施放<passive>破阵冲击波</passive>期间可以移动。</rules>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_6631_TooltipExternal",
+            "key": "item_6631_tooltipexternal",
+            "text": "<passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>"
+          }
+        ],
+        "official": {
+          "name": "挺进破坏者",
+          "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>25%</attention>攻击速度<br><attention>450</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br><active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和35%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的35%移动速度</speed>，持续3秒。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3077",
+            "3044",
+            "1042"
+          ],
+          "image": {
+            "full": "6631.png",
+            "sprite": "item6.png",
+            "group": "item",
+            "x": 48,
+            "y": 0,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 750,
+            "purchasable": true,
+            "total": 3300,
+            "sell": 2310
+          },
+          "tags": [
+            "Health",
+            "Damage",
+            "AttackSpeed",
+            "Slow"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 450,
+            "FlatPhysicalDamageMod": 40,
+            "PercentAttackSpeedMod": 0.25
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 6631,
+          "name": "挺进破坏者",
+          "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>25%</attention>攻击速度<br><attention>450</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和35%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的35%移动速度</speed>，持续3秒。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3077,
+            3044,
+            1042
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "Damage",
+            "AttackSpeed",
+            "Slow"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 750,
+          "priceTotal": 3300,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/6631_Fighter_T4_StrideBreaker.png"
+        },
+        "client": {
+          "spellName": "6631Active",
+          "mDisplayName": "Item_6631_Name",
+          "itemID": 6631,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{b45aafc5}",
+            "{cf1a44c0}"
+          ],
+          "mItemAdviceAttributes": [
+            "{705ee247}",
+            "{39b1adc9}"
+          ],
+          "price": 750,
+          "clickable": true,
+          "mItemCalloutSpectator": true,
+          "ShowCooldownVfxToAllies": false,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3077",
+            "Items/3044",
+            "Items/1042"
+          ],
+          "mEffectAmount": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mDataValues": [
+            {
+              "mName": "Cooldown",
+              "mValue": 15,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ADRatio",
+              "mValue": 0.800000011920929,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Haste",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MSSlow",
+              "mValue": -0.3499999940395355,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Duration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "FlatMS",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "CleaveRadius",
+              "mValue": 450,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ActiveMS",
+              "mValue": 0.3499999940395355,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "PassiveRadius",
+              "mValue": 350,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MoveSpeedMod",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MoveSpeedDuration",
+              "mValue": 2,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "DecayRate",
+              "mValue": 0.800000011920929,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxProcPerAuto",
+              "mValue": 10,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "ARAM": {
+              "DataValues": [
+                {
+                  "mName": "ADRatio",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "ActiveMS",
+                  "mValue": 0.44999998807907104,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "{bffdf499}": {
+              "DataValues": [
+                {
+                  "mName": "ADRatio",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "ActiveMS",
+                  "mValue": 0.44999998807907104,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            }
+          },
+          "mItemCalculations": {
+            "SlashDamage": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MeleeItemCalcValue": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.4000000059604645,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "RangedItemCalcValue": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.20000000298023224,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ChampRange": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mDefaultGameCalculation": "{792cf56b}",
+              "mConditionalGameCalculation": "{06387172}",
+              "mConditionalCalculationRequirements": {
+                "__type": "IsRangedCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            },
+            "{792cf56b}": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{06387172}": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mNumber": 2,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mFlatHPPoolMod": 450,
+          "mFlatPhysicalDamageMod": 40,
+          "mPercentAttackSpeedMod": 0.25,
+          "mCategories": [
+            "Health",
+            "Damage",
+            "AttackSpeed",
+            "Slow"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            1
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "6631",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_6631_Name",
+                "keyBrief": "Item_6631_Brief",
+                "keyTooltip": "Item_6631_Tooltip",
+                "keyColloquialism": "Item_6631_Colloquialism",
+                "keyActive": "Item_6631_Active",
+                "keySecondaryBrief": "Item_Unique_Hydra",
+                "keyActiveExternal": "Item_6631_ActiveExternal",
+                "keyTooltipExtendedRules": "Item_6631_TooltipExtendedRules",
+                "keyTooltipExternal": "Item_6631_TooltipExternal"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AttackSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Health",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_6631_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_6631_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_6631_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/6631_fighter_t4_stridebreaker.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6631_Fighter_T4_StrideBreaker.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6631_Fighter_T4_StrideBreaker.png",
+            "epicness": 6,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{3f6405d9}": "Items/6631/Particles/Whipchain_Slash",
+              "{7121dc2b}": "Items/6631/Particles/Whipchain_Slow",
+              "{3a1f9578}": "Items/6631/Particles/Whipchain_Haste",
+              "{204e512e}": "Items/6631/Particles/Whipchain_Haste_Trail",
+              "{548973ff}": "Items/6631/Particles/Item_Stridebreaker_6631_Haste",
+              "{256a45b9}": "Items/6631/Particles/6631_Shockwave"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6631_active",
+          "name": "挺进破坏者·破阵冲击波",
+          "description": "只保留主动技能对当前敌方英雄的物理伤害公式、减速和自身衰减移动速度参数。被动顺劈及主动附近其他目标支路属于多目标/空间范围，本候选不创建空被动技能。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 10,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "主动冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15000,
+            "levelValues": null,
+            "description": "客户端Cooldown明确15秒，按秒转毫秒。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "active_damage_ad_ratio",
+            "name": "主动伤害总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端SlashDamage的mStat2且默认formula0节点绑定ADRatio=0.8；按同版旁证映射总攻击力。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "主动减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.35,
+            "levelValues": null,
+            "description": "客户端MSSlow原值为-0.35，中文绑定以@MSSlow*-100@%显示，候选保存正向减速比例0.35。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "self_move_speed_ratio",
+            "name": "命中英雄后自身移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.35,
+            "levelValues": null,
+            "description": "客户端ActiveMS明确35%。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "duration_ms",
+            "name": "自身移动速度持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端Duration明确3秒，按秒转毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "decay_rate",
+            "name": "自身移动速度衰减率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端DecayRate明确0.8；具体衰减算法和节拍未证，仅保留原数值。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "active_damage",
+            "name": "主动对当前英雄物理伤害",
+            "description": "客户端SlashDamage：0.8×总攻击力；本公式只供单个当前英雄目标使用。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_damage_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6631",
+          "skillKey": "item_6631_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6631"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "被动顺劈",
+            "reason": "攻击附近多个目标的独立伤害支路，属于多目标范围外。"
+          },
+          {
+            "component": "主动附近其他目标与半径字段",
+            "reason": "本候选仅保留当前一对一敌方英雄分支，不新增纯空间半径和第三者目标。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "衰减节拍",
+            "reason": "DecayRate有数值但没有当前候选可验证的时间函数，不把它展开成线性或固定跳数。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "主动技能目标与控制",
+            "reason": "主动施放、单个当前英雄目标、减速命中和自身移速衰减尚未接线，不生成默认DAMAGE。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "来源",
+          "key": "MeleeItemCalcValue/RangedItemCalcValue",
+          "reason": "被动顺劈的多目标攻击伤害，范围外。"
+        },
+        {
+          "kind": "来源",
+          "key": "CleaveRadius/PassiveRadius/MaxProcPerAuto",
+          "reason": "多目标或纯空间字段，范围外。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "主动命中资格",
+          "reason": "仅保留公式和明确参数；当前目标、伤害资格及控制事件尚未接线。"
+        },
+        {
+          "component": "衰减算法",
+          "reason": "只保存DecayRate源值，不猜时间节拍。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mItemCalculations/SlashDamage/mFormulaParts",
+          "accepted": "mStat2默认formula0×ADRatio=0.8"
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 15
+        },
+        {
+          "pointer": "/mDataValues/ADRatio",
+          "accepted": 0.8
+        },
+        {
+          "pointer": "/mDataValues/MSSlow",
+          "accepted": -0.35
+        },
+        {
+          "pointer": "/mDataValues/ActiveMS",
+          "accepted": 0.35
+        },
+        {
+          "pointer": "/mDataValues/Duration",
+          "accepted": 3
+        },
+        {
+          "pointer": "/mDataValues/DecayRate",
+          "accepted": 0.8
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyActive",
+          "acceptedKey": "Item_6631_Active"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_6631",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6631",
+        "apiWrites": 0
+      }
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\item-16.17.1-zh_CN.json",
+    "itemKey": "6631",
+    "item": {
+      "name": "挺进破坏者",
+      "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>25%</attention>攻击速度<br><attention>450</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br><active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和35%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的35%移动速度</speed>，持续3秒。</mainText>",
+      "colloq": "",
+      "plaintext": "",
+      "from": [
+        "3077",
+        "3044",
+        "1042"
+      ],
+      "image": {
+        "full": "6631.png",
+        "sprite": "item6.png",
+        "group": "item",
+        "x": 48,
+        "y": 0,
+        "w": 48,
+        "h": 48
+      },
+      "gold": {
+        "base": 750,
+        "purchasable": true,
+        "total": 3300,
+        "sell": 2310
+      },
+      "tags": [
+        "Health",
+        "Damage",
+        "AttackSpeed",
+        "Slow"
+      ],
+      "maps": {
+        "11": true,
+        "12": true,
+        "22": false,
+        "30": false,
+        "453": true
+      },
+      "stats": {
+        "FlatHPPoolMod": 450,
+        "FlatPhysicalDamageMod": 40,
+        "PercentAttackSpeedMod": 0.25
+      },
+      "depth": 3
+    }
+  },
+  "clientList": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17-zh_CN.json.gz",
+    "item": {
+      "id": 6631,
+      "name": "挺进破坏者",
+      "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>25%</attention>攻击速度<br><attention>450</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和35%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的35%移动速度</speed>，持续3秒。</mainText>",
+      "active": true,
+      "inStore": true,
+      "from": [
+        3077,
+        3044,
+        1042
+      ],
+      "to": [],
+      "categories": [
+        "Health",
+        "Damage",
+        "AttackSpeed",
+        "Slow"
+      ],
+      "maxStacks": 1,
+      "requiredChampion": "",
+      "requiredAlly": "",
+      "requiredBuffCurrencyName": "",
+      "requiredBuffCurrencyCost": 0,
+      "specialRecipe": 0,
+      "isEnchantment": false,
+      "price": 750,
+      "priceTotal": 3300,
+      "displayInItemSets": true,
+      "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/6631_Fighter_T4_StrideBreaker.png"
+    }
+  },
+  "clientExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+    "pointer": "Items/6631",
+    "dataValues": {
+      "Cooldown": 15,
+      "ADRatio": 0.800000011920929,
+      "Haste": null,
+      "MSSlow": -0.3499999940395355,
+      "Duration": 3,
+      "FlatMS": null,
+      "CleaveRadius": 450,
+      "ActiveMS": 0.3499999940395355,
+      "PassiveRadius": 350,
+      "MoveSpeedMod": null,
+      "MoveSpeedDuration": 2,
+      "DecayRate": 0.800000011920929,
+      "MaxProcPerAuto": 10
+    },
+    "calculations": {
+      "SlashDamage": {
+        "mFormulaParts": [
+          {
+            "mStat": 2,
+            "mDataValue": "ADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "MeleeItemCalcValue": {
+        "mFormulaParts": [
+          {
+            "mStat": 2,
+            "mCoefficient": 0.4000000059604645,
+            "__type": "StatByCoefficientCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "RangedItemCalcValue": {
+        "mFormulaParts": [
+          {
+            "mStat": 2,
+            "mCoefficient": 0.20000000298023224,
+            "__type": "StatByCoefficientCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      }
+    }
+  },
+  "clientStringtableExtraction": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+    "version": 5,
+    "pointer": "entries/item_6631_active、entries/generatedtip_item_6631_description",
+    "entries": {
+      "item_6631_name": "挺进破坏者",
+      "item_6631_brief": "战斗机动力",
+      "item_6631_tooltip": "<passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>{{ Item_Melee_Ranged_Split_Dynamic }}物理伤害</physicalDamage>。",
+      "item_6631_active": "%i:activeEffect% <active>破阵冲击波</active> {{Item_Cooldown}}<br>对附近的敌人们造成<physicalDamage>@SlashDamage@物理伤害</physicalDamage>和@MSSlow*-100@%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的@ActiveMS*100@%移动速度</speed>，持续@Duration@秒。",
+      "item_6631_activeexternal": "%i:activeEffect% <active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和@MSSlow*-100@%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的@ActiveMS*100@%移动速度</speed>，持续@Duration@秒。",
+      "item_6631_tooltipextendedrules": "<rules><passive>顺劈</passive>不会在建筑物上触发。<br>你在施放<passive>破阵冲击波</passive>期间可以移动。</rules>",
+      "generatedtip_item_6631_description": "<section></section><section><attention>%i:scaleAD%@FlatPhysicalDamageMod@</attention>攻击力<br><attention>%i:scaleAS%@PercentAttackSpeedMod*100@%</attention>攻击速度<br><attention>%i:scaleHealth%@FlatHPPoolMod@</attention>生命值</section><section><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>{{ Item_Melee_Ranged_Split_Dynamic }}物理伤害</physicalDamage>。</section><section>%i:activeEffect% <active>破阵冲击波</active> {{Item_Cooldown}}<br>对附近的敌人们造成<physicalDamage>@SlashDamage@物理伤害</physicalDamage>和@MSSlow*-100@%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的@ActiveMS*100@%移动速度</speed>，持续@Duration@秒。</section><section><flavorText></flavorText></section>"
+    }
+  },
+  "priorEffectEvidence": {
+    "freezePath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\六件装备公式结果补录\\09-冻结请求.json",
+    "effectPost": {
+      "effectKey": "active_hit",
+      "name": "破阵冲击波主动命中",
+      "description": "在运行时确认破阵冲击波实际命中当前英雄后结算0.8×总攻击力物理伤害；范围命中、减速、自身移速和冷却尚未接线。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "damage",
+          "name": "破阵冲击波物理伤害",
+          "target": "TARGET",
+          "resultType": "DAMAGE",
+          "description": "仅保存当前英雄目标的一次主动伤害。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "active_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "vampRules": []
+          }
+        }
+      ]
+    },
+    "readbackPath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\六件装备公式结果补录\\04-写入与即时回读.json",
+    "effectReadback": {
+      "createdAt": "2026-09-12T04:02:51.960846Z",
+      "description": "在运行时确认破阵冲击波实际命中当前英雄后结算0.8×总攻击力物理伤害；范围命中、减速、自身移速和冷却尚未接线。",
+      "effectKey": "active_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "破阵冲击波主动命中",
+      "results": [
+        {
+          "description": "仅保存当前英雄目标的一次主动伤害。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "破阵冲击波物理伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "active_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "item_6631_active",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-12T04:02:51.960846Z"
+    }
+  },
+  "acceptedFacts": {
+    "scope": {
+      "skillKey": "item_6631_active",
+      "effectKey": "active_hit",
+      "eventType": "SKILL_HIT",
+      "sourceSkillKey": "item_6631_active",
+      "targetCategory": "CHAMPION",
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT"
+    },
+    "existingEffect": {
+      "resultKey": "damage",
+      "resultType": "DAMAGE",
+      "target": "TARGET",
+      "formulaKey": "active_damage",
+      "damageTypeKey": "physics",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT"
+    }
+  },
+  "excluded": [
+    "不重复创建 active_hit 或任何其他效果、参数、公式、过程和内部状态。",
+    "不补主动施放过程、范围命中生产、附近其他目标、减速、自身移动速度或衰减算法。",
+    "不新增或解释主动冷却、每目标冷却、触发次数、吸血或法术护盾字段。",
+    "不新增 DAMAGE_DEALT 技能伤害分支。",
+    "不把静态来源、接口 GET 或本脚本检查当作战斗运行时证明。"
+  ]
+}

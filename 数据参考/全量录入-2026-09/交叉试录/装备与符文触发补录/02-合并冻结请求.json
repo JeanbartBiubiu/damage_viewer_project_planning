@@ -1,0 +1,479 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 2,
+  "revision": "rev2",
+  "generatedAt": "2026-09-12T14:29:28.458Z",
+  "status": "READY",
+  "writable": true,
+  "gameId": "lol",
+  "fixedVersion": "16.17.1",
+  "methodPolicy": "GET_ONLY_PRECHECK_THEN_FOUR_POSTS",
+  "authorizationValueRecorded": false,
+  "sourceSnapshotSha256": "87811d099c41feb51145d58676020dbe787c18bbd60e2f23dea2d28a0bba1243",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 96,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 100
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 96,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_HIT": 50,
+      "BASIC_ATTACK_HIT": 9,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "DAMAGE_DEALT": 2,
+      "SKILL_USED": 1,
+      "KILL": 1
+    },
+    "conditionTypeCounts": {
+      "TARGET_CATEGORY_CHECK": 9,
+      "LIFECYCLE_CHECK": 5,
+      "EVENT_VALUE_COMPARE": 5
+    },
+    "stableRead": true,
+    "twoRoundRuleKeySetStable": true,
+    "twoRoundRuleDetailStable": true
+  },
+  "writeBoundary": {
+    "businessWriteCount": 4,
+    "order": [
+      {
+        "id": "black",
+        "route": "/skills/item_3071_passive/trigger-rules",
+        "detailRoute": "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion"
+      },
+      {
+        "id": "magic",
+        "route": "/skills/item_3042_passive/trigger-rules",
+        "detailRoute": "/skills/item_3042_passive/trigger-rules/on_basic_attack_hit_to_champion"
+      },
+      {
+        "id": "stridebreaker",
+        "route": "/skills/item_6631_active/trigger-rules",
+        "detailRoute": "/skills/item_6631_active/trigger-rules/actual_hit"
+      },
+      {
+        "id": "triumph",
+        "route": "/skills/rune_9111_passive/trigger-rules",
+        "detailRoute": "/skills/rune_9111_passive/trigger-rules/on_champion_kill"
+      }
+    ],
+    "methods": [
+      "POST"
+    ],
+    "expectedStatus": 201,
+    "onlyFrozenRoutes": true,
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true,
+    "noRerunExistingRules": true,
+    "noReplayIfReportExists": true
+  },
+  "requests": [
+    {
+      "id": "black",
+      "name": "黑色切割者",
+      "skillKey": "item_3071_passive",
+      "ownerKey": "item_3071",
+      "ownerKind": "equipment",
+      "ruleKey": "on_physical_damage_dealt_to_champion",
+      "method": "POST",
+      "route": "/skills/item_3071_passive/trigger-rules",
+      "detailRoute": "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "on_physical_damage_dealt_to_champion",
+        "name": "对英雄造成物理伤害触发切割",
+        "description": "来源对象对英雄造成物理伤害后，在当前目标上执行已有的 armor_shred；当前接口的物理伤害目录键为 physics。perTargetCooldown 保持 null，不把客户端 10 毫秒字段解释为逐目标冷却。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "DAMAGE_DEALT",
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_counterparty",
+            "name": "伤害承受对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_armor_shred",
+            "name": "执行切割目标护甲削减",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "armor_shred"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "bodySha256": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8",
+      "sourceExpectedStatus": 201,
+      "sourceExpectedStatusDefaulted": false
+    },
+    {
+      "id": "magic",
+      "name": "魔切",
+      "skillKey": "item_3042_passive",
+      "ownerKey": "item_3042",
+      "ownerKind": "equipment",
+      "ruleKey": "on_basic_attack_hit_to_champion",
+      "method": "POST",
+      "route": "/skills/item_3042_passive/trigger-rules",
+      "detailRoute": "/skills/item_3042_passive/trigger-rules/on_basic_attack_hit_to_champion",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "on_basic_attack_hit_to_champion",
+        "name": "普攻命中英雄触发魔切冲击",
+        "description": "普通攻击命中英雄后，对当前目标执行既有冲击攻击特效伤害；不接入技能伤害分支，不设置未经证实的冷却。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "BASIC_ATTACK_HIT",
+          "detail": {}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_on_hit_damage_from_max_mana",
+            "name": "执行冲击攻击特效伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "on_hit_damage_from_max_mana"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "bodySha256": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a",
+      "sourceExpectedStatus": null,
+      "sourceExpectedStatusDefaulted": true
+    },
+    {
+      "id": "stridebreaker",
+      "name": "挺进破坏者",
+      "skillKey": "item_6631_active",
+      "ownerKey": "item_6631",
+      "ownerKind": "equipment",
+      "ruleKey": "actual_hit",
+      "method": "POST",
+      "route": "/skills/item_6631_active/trigger-rules",
+      "detailRoute": "/skills/item_6631_active/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "破阵冲击波命中英雄",
+        "description": "仅在运行时确认 item_6631_active 已命中英雄后，在当前目标上执行已有的 active_hit；本批不生成范围命中，不接入减速、自身移动速度、衰减或冷却。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "item_6631_active"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_active_hit",
+            "name": "执行破阵冲击波主动命中",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "active_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "bodySha256": "2ce647f2f4269fc3b1cbd5dc8cf0efccce6f2603d448b58a0681c04bb951c809",
+      "sourceExpectedStatus": 201,
+      "sourceExpectedStatusDefaulted": false
+    },
+    {
+      "id": "triumph",
+      "name": "凯旋",
+      "skillKey": "rune_9111_passive",
+      "ownerKey": "rune_9111",
+      "ownerKind": "rune",
+      "ruleKey": "on_champion_kill",
+      "method": "POST",
+      "route": "/skills/rune_9111_passive/trigger-rules",
+      "detailRoute": "/skills/rune_9111_passive/trigger-rules/on_champion_kill",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "on_champion_kill",
+        "name": "击杀英雄触发凯旋治疗",
+        "description": "严格一对一模型中，来源对象击杀当前英雄目标后，在当前目标上下文执行已有的 triumph_heal；KILL 没有 EVENT_SOURCE，已有结果 target=SOURCE，因此治疗技能拥有者。多人助攻和完整参与击杀不由本规则描述。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "KILL",
+          "detail": {}
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "被击杀对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_triumph_heal",
+            "name": "执行凯旋治疗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "triumph_heal"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "bodySha256": "27678748b1a5cfbad4202af4e27385ece67efcc152497408ef710d731d518b34",
+      "sourceExpectedStatus": null,
+      "sourceExpectedStatusDefaulted": false
+    }
+  ],
+  "protection": {
+    "candidateDetailsMustBe404": [
+      "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+      "/skills/item_3042_passive/trigger-rules/on_basic_attack_hit_to_champion",
+      "/skills/item_6631_active/trigger-rules/actual_hit",
+      "/skills/rune_9111_passive/trigger-rules/on_champion_kill"
+    ],
+    "targetNonRuleSnapshotSha256": {
+      "black": "ffd01976f64b2961bd9fdbba9a10586a39f153e0aa4a76bf99e1b1554e42085f",
+      "magic": "dc61daecb351d852174b70520edd13235f82193eba9f23d0615a9dbabdfb90fb",
+      "stridebreaker": "1bc707fce37f6ed00dc96553f7ffdc437d524596f3ebdbe3944e8bbbec36d233",
+      "triumph": "72b40d34dee6582998f3d788c6466ac51e1ab3fe4f8c03b3bdd02279b68667dd"
+    },
+    "targetSkills": [
+      "item_3071_passive",
+      "item_3042_passive",
+      "item_6631_active",
+      "rune_9111_passive"
+    ],
+    "existingRuleCount": 96,
+    "existingRuleDetailsSaved": true,
+    "existingRuleListsSaved": true,
+    "expectedFinalRuleCount": 100,
+    "expectedNewRuleRefs": [
+      "item_3071_passive/on_physical_damage_dealt_to_champion",
+      "item_3042_passive/on_basic_attack_hit_to_champion",
+      "item_6631_active/actual_hit",
+      "rune_9111_passive/on_champion_kill"
+    ],
+    "sourceInitializedCount": 24
+  },
+  "targetBefore": [
+    {
+      "id": "black",
+      "skillKey": "item_3071_passive",
+      "ownerKey": "item_3071",
+      "ownerKind": "equipment",
+      "candidateRuleKey": "on_physical_damage_dealt_to_champion",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "armor_shred_duration_ms",
+          "armor_shred_max_stacks",
+          "armor_shred_ratio_per_stack",
+          "damage_internal_cooldown_ms",
+          "heated_move_speed_client_value",
+          "heated_move_speed_duration_ms",
+          "heated_move_speed_ranged_value"
+        ],
+        "formulas": [],
+        "effects": [
+          "armor_shred"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "ffd01976f64b2961bd9fdbba9a10586a39f153e0aa4a76bf99e1b1554e42085f"
+    },
+    {
+      "id": "magic",
+      "skillKey": "item_3042_passive",
+      "ownerKey": "item_3042",
+      "ownerKind": "equipment",
+      "candidateRuleKey": "on_basic_attack_hit_to_champion",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "bonus_ad_from_max_mana_ratio",
+          "champ_range_default_value",
+          "champ_range_ranged_value",
+          "melee_ability_max_mana_damage_ratio",
+          "on_hit_max_mana_damage_ratio",
+          "ranged_ability_max_mana_damage_ratio"
+        ],
+        "formulas": [
+          "bonus_attack_damage_from_max_mana",
+          "champ_range_default",
+          "champ_range_ranged",
+          "melee_ability_damage_from_max_mana",
+          "on_hit_damage_from_max_mana",
+          "ranged_ability_damage_from_max_mana"
+        ],
+        "effects": [
+          "bonus_attack_damage_from_max_mana",
+          "on_hit_damage_from_max_mana"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": [
+          "initialize_bonus_attack_damage_from_max_mana"
+        ]
+      },
+      "nonRuleSnapshotSha256": "dc61daecb351d852174b70520edd13235f82193eba9f23d0615a9dbabdfb90fb"
+    },
+    {
+      "id": "stridebreaker",
+      "skillKey": "item_6631_active",
+      "ownerKey": "item_6631",
+      "ownerKind": "equipment",
+      "candidateRuleKey": "actual_hit",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "active_damage_ad_ratio",
+          "cooldown_ms",
+          "decay_rate",
+          "duration_ms",
+          "self_move_speed_ratio",
+          "slow_ratio"
+        ],
+        "formulas": [
+          "active_damage"
+        ],
+        "effects": [
+          "active_hit"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "1bc707fce37f6ed00dc96553f7ffdc437d524596f3ebdbe3944e8bbbec36d233"
+    },
+    {
+      "id": "triumph",
+      "skillKey": "rune_9111_passive",
+      "ownerKey": "rune_9111",
+      "ownerKind": "rune",
+      "candidateRuleKey": "on_champion_kill",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "maximum_health_ratio",
+          "missing_health_ratio"
+        ],
+        "formulas": [
+          "triumph_heal"
+        ],
+        "effects": [
+          "triumph_heal"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "72b40d34dee6582998f3d788c6466ac51e1ab3fe4f8c03b3bdd02279b68667dd"
+    }
+  ],
+  "excluded": [
+    "不修改四个目标的主体、关系、代表图片、参数、公式、效果、过程或内部状态。",
+    "不修改旧 96 条规则，不把 KILL 的 CURRENT_TARGET 改成 EVENT_SOURCE。",
+    "凯旋不描述多人助攻或完整参与击杀，不录入额外 20 金币。",
+    "不把静态来源、GET 预检或页面验收当作战斗运行时或 Wasm 证明。"
+  ]
+}

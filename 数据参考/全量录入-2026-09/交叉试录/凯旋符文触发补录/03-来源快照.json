@@ -1,0 +1,586 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T12:45:12.520Z",
+  "sourcePolicy": "冻结官方16.17.1与客户端16.17；候选只记录已见事实，不把缺失事件语义补成已有字段。",
+  "target": {
+    "runeKey": "rune_9111",
+    "skillKey": "rune_9111_passive",
+    "runeName": "凯旋",
+    "skillName": "符文·凯旋"
+  },
+  "sourceFiles": [
+    {
+      "kind": "规划真源：冻结来源",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文机制盘点\\冻结来源.json",
+      "byteSize": 212301,
+      "sha256": "086ed2d4e8a62f851648faf4687e53650f760a25ea51328dccd245217578fda1"
+    },
+    {
+      "kind": "规划候选：下一批最多12项",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文机制盘点\\下一批最多12项.json",
+      "byteSize": 76658,
+      "sha256": "a22d0f1cf63b51cc47fc128f532c596e608719c25710b41a0756cd637479b9f4"
+    },
+    {
+      "kind": "规划索引：逐项机器清单",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文机制盘点\\逐项机器清单.json",
+      "byteSize": 113066,
+      "sha256": "419c74a3a22f88f7be5d6499f788914d838712c2c95c61012f168cca9878668b"
+    },
+    {
+      "kind": "官方原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备符文\\官方原始资料\\runesReforged-16.17.1-zh_CN.json",
+      "byteSize": 36166,
+      "sha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0"
+    },
+    {
+      "kind": "客户端提取资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备符文\\客户端提取资料\\perks-16.17-zh_CN.json",
+      "byteSize": 102473,
+      "sha256": "be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b"
+    }
+  ],
+  "runeSourcePointers": {
+    "official": {
+      "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+      "pointer": "/2/slots/1/runes/1",
+      "raw": {
+        "id": 9111,
+        "key": "Triumph",
+        "icon": "perk-images/Styles/Precision/Triumph.png",
+        "name": "凯旋",
+        "shortDesc": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会回复你5%的已损失生命值并提供额外20金币。",
+        "longDesc": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。<br><br><hr><br><i>“最危险的游戏带来最伟大的荣光。”<br>—诺克萨斯清算人</i>"
+      }
+    },
+    "client": {
+      "file": "客户端提取资料/perks-16.17-zh_CN.json",
+      "pointer": "/42",
+      "raw": {
+        "id": 9111,
+        "name": "凯旋",
+        "majorChangePatchVersion": "",
+        "tooltip": "参与击杀会<healing>回复你@MaxHealthCalc@外加5%的已损失生命值</healing>并提供额外的<gold>20金币</gold>。<br><br>已回复的生命值总和：<healing>@f1@</healing><br>提供的额外金币总和：<gold>@f2@</gold>",
+        "shortDesc": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会回复你5%的已损失生命值并提供额外20金币。",
+        "longDesc": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。<br><br><hr><br><i>“最危险的游戏带来最伟大的荣光。”<br>—诺克萨斯清算人</i>",
+        "recommendationDescriptor": "",
+        "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Precision/Triumph.png",
+        "endOfGameStatDescs": [
+          "回复生命值总和：@eogvar1@",
+          "提供的额外金币总和：@eogvar2@"
+        ],
+        "recommendationDescriptorAttributes": {
+          "kDurability": 2,
+          "kHealing": 8
+        }
+      }
+    }
+  },
+  "planningRuneItem": {
+    "runeKey": "rune_9111",
+    "id": 9111,
+    "name": "凯旋",
+    "category": "MINOR",
+    "pathKey": "rune_path_8000",
+    "pathName": "精密",
+    "slotIndex": 1,
+    "source": {
+      "official": {
+        "file": "官方原始资料/runesReforged-16.17.1-zh_CN.json",
+        "pointer": "/2/slots/1/runes/1",
+        "raw": {
+          "id": 9111,
+          "key": "Triumph",
+          "icon": "perk-images/Styles/Precision/Triumph.png",
+          "name": "凯旋",
+          "shortDesc": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会回复你5%的已损失生命值并提供额外20金币。",
+          "longDesc": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。<br><br><hr><br><i>“最危险的游戏带来最伟大的荣光。”<br>—诺克萨斯清算人</i>"
+        }
+      },
+      "client": {
+        "file": "客户端提取资料/perks-16.17-zh_CN.json",
+        "pointer": "/42",
+        "raw": {
+          "id": 9111,
+          "name": "凯旋",
+          "majorChangePatchVersion": "",
+          "tooltip": "参与击杀会<healing>回复你@MaxHealthCalc@外加5%的已损失生命值</healing>并提供额外的<gold>20金币</gold>。<br><br>已回复的生命值总和：<healing>@f1@</healing><br>提供的额外金币总和：<gold>@f2@</gold>",
+          "shortDesc": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会回复你5%的已损失生命值并提供额外20金币。",
+          "longDesc": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。<br><br><hr><br><i>“最危险的游戏带来最伟大的荣光。”<br>—诺克萨斯清算人</i>",
+          "recommendationDescriptor": "",
+          "iconPath": "/lol-game-data/assets/v1/perk-images/Styles/Precision/Triumph.png",
+          "endOfGameStatDescs": [
+            "回复生命值总和：@eogvar1@",
+            "提供的额外金币总和：@eogvar2@"
+          ],
+          "recommendationDescriptorAttributes": {
+            "kDurability": 2,
+            "kHealing": 8
+          }
+        }
+      }
+    },
+    "text": {
+      "officialLong": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。“最危险的游戏带来最伟大的荣光。”—诺克萨斯清算人",
+      "officialShort": "参与击杀会回复你5%的已损失生命值并提供额外20金币。",
+      "clientLong": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。“最危险的游戏带来最伟大的荣光。”—诺克萨斯清算人",
+      "clientTooltip": "参与击杀会回复你@MaxHealthCalc@外加5%的已损失生命值并提供额外的20金币。已回复的生命值总和：@f1@提供的额外金币总和：@f2@"
+    }
+  },
+  "planningCandidate": {
+    "id": 9111,
+    "runeKey": "rune_9111",
+    "skillKey": "rune_9111_passive",
+    "name": "凯旋",
+    "scope": "保存完整治疗数值公式与独立自身治疗，不自动触发",
+    "sourceReferences": {
+      "official": "/2/slots/1/runes/1",
+      "client": "/42"
+    },
+    "remainingFacts": [
+      "参与击杀事件是否包含助攻及准确治疗时点；当前KILL不能假冒所有参与击杀"
+    ],
+    "stage": "参数/公式及独立效果候选",
+    "parameters": [
+      {
+        "parameterKey": "missing_health_ratio",
+        "name": "已损生命治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "5%已损失生命值",
+        "sortOrder": 10
+      },
+      {
+        "parameterKey": "maximum_health_ratio",
+        "name": "最大生命治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.025,
+        "levelValues": null,
+        "description": "2.5%最大生命值",
+        "sortOrder": 10
+      }
+    ],
+    "formulas": [
+      {
+        "formulaKey": "triumph_heal",
+        "name": "凯旋治疗值",
+        "description": "最大生命与已损生命来自SOURCE不同属性视图",
+        "sortOrder": 10,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "MISSING"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_ratio"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "maximum_health_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "effects": [
+      {
+        "effectKey": "triumph_heal",
+        "name": "凯旋独立治疗",
+        "description": "独立数值结果；没有自动初始化或命中/击杀触发规则。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "result",
+            "name": "凯旋独立治疗",
+            "description": null,
+            "sortOrder": 10,
+            "resultType": "DIRECT_HEAL",
+            "target": "SOURCE",
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "triumph_heal"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {}
+          }
+        ]
+      }
+    ],
+    "triggerRules": [],
+    "notIncluded": [
+      "金币全部排除；参与击杀回调、延迟及去重未配，不用SOURCE_INITIALIZED治疗。"
+    ],
+    "checks": [
+      {
+        "attributes": {
+          "maximumHealth": 2000,
+          "currentHealth": 500
+        },
+        "expression": "1500×0.05 + 2000×0.025",
+        "expected": 125
+      },
+      {
+        "attributes": {
+          "maximumHealth": 2000,
+          "currentHealth": 2000
+        },
+        "expression": "0×0.05 + 2000×0.025",
+        "expected": 50
+      }
+    ],
+    "skillBody": {
+      "skillKey": "rune_9111_passive",
+      "name": "符文·凯旋",
+      "description": "本批仅录入：保存完整治疗数值公式与独立自身治疗，不自动触发。其他分支见候选剩余事实，未代表完整符文机制。",
+      "maxLevel": 1,
+      "status": "ENABLED",
+      "sortOrder": 0,
+      "skillCategoryKeys": [
+        "passive"
+      ]
+    },
+    "relationBody": {
+      "runeKey": "rune_9111",
+      "skillKey": "rune_9111_passive",
+      "sortOrder": 0
+    },
+    "executionQualification": {
+      "eligible": "仅作为已核准参与击杀后的独立治疗候选；原文中的参与击杀对象资格、助攻及准确时点仍待补证，不等同任何KILL事件。",
+      "requiredInputs": [
+        "SOURCE hp TOTAL最大生命",
+        "SOURCE hp CURRENT当前生命并据此形成MISSING",
+        "合法参与击杀及治疗时点"
+      ],
+      "notDefaulted": [
+        "满血",
+        "所有目标击杀均合格",
+        "零延迟",
+        "自动触发"
+      ]
+    },
+    "numericResultMeaning": "公式值和结果valueRule表示配置数值，不是已按当前生命/资源上限结算的实际恢复量。"
+  },
+  "contractEvidence": [
+    {
+      "path": "C:\\project\\damage_backend_dev\\server\\data_manage\\src\\main\\java\\xyz\\game\\datamanage\\model\\skilltrigger\\SkillTriggerTargetContext.java",
+      "sha256": "5c0c79152b473208c0702d55d8ae2316483b7f99acf0b1a72c8cda65a271abe0",
+      "matches": [
+        {
+          "line": 3,
+          "text": "public enum SkillTriggerTargetContext {"
+        },
+        {
+          "line": 4,
+          "text": "    CURRENT_TARGET,"
+        },
+        {
+          "line": 5,
+          "text": "    EVENT_SOURCE"
+        }
+      ]
+    },
+    {
+      "path": "C:\\project\\damage_backend_dev\\server\\data_manage\\src\\main\\java\\xyz\\game\\datamanage\\model\\skilltrigger\\SkillTriggerEventCapabilities.java",
+      "sha256": "5ce1334561efb45a66463a462dc16cead152b77bc92feb1df35c9abb963b28ef",
+      "matches": [
+        {
+          "line": 11,
+          "text": "    private static final Set<SkillTriggerEventType> EVENT_SOURCE_EVENTS = EnumSet.of("
+        },
+        {
+          "line": 25,
+          "text": "        SkillTriggerEventType.KILL"
+        },
+        {
+          "line": 32,
+          "text": "        return eventType != null && EVENT_SOURCE_EVENTS.contains(eventType);"
+        },
+        {
+          "line": 40,
+          "text": "        return eventType == SkillTriggerEventType.SKILL_HIT && sourceSkillKey != null && !sourceSkillKey.isBlank();"
+        },
+        {
+          "line": 50,
+          "text": "                BLOCKED, IMMUNE, KILLED, LINK_INDEX, LINK_COUNT, SKILL_HIT_SPELL_SHIELD_BLOCKED -> SkillTriggerValueDomain.INTEGER;"
+        },
+        {
+          "line": 77,
+          "text": "                || valueKey == SkillTriggerEventValueKey.KILLED;"
+        },
+        {
+          "line": 82,
+          "text": "            case SKILL_HIT -> valueKey == SkillTriggerEventValueKey.HIT_INDEX"
+        },
+        {
+          "line": 83,
+          "text": "                || valueKey == SkillTriggerEventValueKey.SKILL_HIT_SPELL_SHIELD_BLOCKED;"
+        },
+        {
+          "line": 140,
+          "text": "            Map.entry(SkillTriggerEventType.SKILL_USED, \"该次技能使用的显式目标；没有时为来源对象\"),"
+        },
+        {
+          "line": 143,
+          "text": "            Map.entry(SkillTriggerEventType.SKILL_HIT, \"本次技能命中的对象\"),"
+        },
+        {
+          "line": 156,
+          "text": "            Map.entry(SkillTriggerEventType.KILL, \"本次被击杀对象\"),"
+        }
+      ]
+    },
+    {
+      "path": "C:\\project\\damage_backend_dev\\server\\data_manage\\src\\main\\java\\xyz\\game\\datamanage\\support\\authoring\\SkillTargetCategoryConditionSemantics.java",
+      "sha256": "81547bcedf8b2276856f67093ebf92907dd841d0210b9a06973150a2bf7320a7",
+      "matches": [
+        {
+          "line": 41,
+          "text": "            || eventType == SkillTriggerEventType.KILL"
+        },
+        {
+          "line": 55,
+          "text": "                    if (\"TARGET_CATEGORY_CHECK\".equals(condition.path(\"conditionType\").asText())) {"
+        }
+      ]
+    },
+    {
+      "path": "C:\\project\\damage_backend_dev\\server\\data_manage\\src\\test\\java\\xyz\\game\\datamanage\\support\\authoring\\SkillTargetCategoryConditionSemanticsTest.java",
+      "sha256": "17e3a04600949b182d554c6dfd5dfff987a70e4ee373309261201037cb143731",
+      "matches": [
+        {
+          "line": 25,
+          "text": "    void killCategoryCheckReadsTheKilledObjectAsCurrentTarget() {"
+        },
+        {
+          "line": 40,
+          "text": "    @ValueSource(strings = {\"SKILL_HIT\", \"BASIC_ATTACK_HIT\", \"KILL\", \"DAMAGE_PENDING\", \"DAMAGE_DEALT\", \"DAMAGE_TAKEN\"})"
+        }
+      ]
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\web\\src\\types\\skillTriggerRule.ts",
+      "sha256": "67e6edb1e232fe1eb4ac40024e8028d400864cf16570fd4668461d4a2a7eef2c",
+      "matches": [
+        {
+          "line": 58,
+          "text": "export type SkillTriggerSubject = 'SOURCE' | 'CURRENT_TARGET' | 'EVENT_SOURCE';"
+        },
+        {
+          "line": 113,
+          "text": "export type SkillTriggerTargetContext = 'CURRENT_TARGET' | 'EVENT_SOURCE';"
+        },
+        {
+          "line": 173,
+          "text": "  subject: 'SOURCE' | 'CURRENT_TARGET';"
+        },
+        {
+          "line": 179,
+          "text": "  subject: 'SOURCE' | 'CURRENT_TARGET';"
+        },
+        {
+          "line": 191,
+          "text": "  subject: 'SOURCE' | 'CURRENT_TARGET';"
+        },
+        {
+          "line": 577,
+          "text": "  targetContext: SkillTriggerTargetContext;"
+        },
+        {
+          "line": 588,
+          "text": "  targetContext: SkillTriggerTargetContext;"
+        },
+        {
+          "line": 615,
+          "text": "  targetContext: SkillTriggerTargetContext;"
+        }
+      ]
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\文档记录\\详细设计\\项目\\条件事件与动态输入供值管理详细设计.md",
+      "sha256": "6088d68e2b585408225bbf78ff4e2341b4322351ad2fbddc21441179acd9bb00",
+      "matches": [
+        {
+          "line": 153,
+          "text": "      \"actionType\": \"EXECUTE_EFFECT\","
+        },
+        {
+          "line": 155,
+          "text": "      \"targetContext\": \"CURRENT_TARGET\","
+        },
+        {
+          "line": 163,
+          "text": "      \"actionType\": \"EXECUTE_EFFECT\","
+        },
+        {
+          "line": 165,
+          "text": "      \"targetContext\": \"CURRENT_TARGET\","
+        },
+        {
+          "line": 207,
+          "text": "| `STATUS_CHANGED` | 指定对象的战斗状态施加或移除 | `subject = SOURCE / CURRENT_TARGET`、`statusKey`、`change = APPLY / REMOVE`。 |"
+        },
+        {
+          "line": 211,
+          "text": "| `ENTITY_DIED` | 指定对象死亡 | `subject = SOURCE / CURRENT_TARGET`。 |"
+        },
+        {
+          "line": 212,
+          "text": "| `ENTITY_UNTARGETABLE` | 指定对象变为不可选取 | `subject = SOURCE / CURRENT_TARGET`。 |"
+        },
+        {
+          "line": 228,
+          "text": "“来源对象”固定表示运行时拥有当前技能的对象。每种事件必须按下表确定“当前目标”；表中回退到来源对象后，当前目标始终存在。“事件来源对象”只表示造成受到伤害、控制或状态变化的另一对象，只有表中标记“有”的事件可以在条件、动作或每目标冷却中选择 `EVENT_SOURCE`。"
+        },
+        {
+          "line": 230,
+          "text": "| `eventType` | 当前目标固定绑定 | `EVENT_SOURCE` | 允许的事件值 |"
+        },
+        {
+          "line": 298,
+          "text": "        \"subject\": \"CURRENT_TARGET\","
+        },
+        {
+          "line": 320,
+          "text": "1. `subject` 允许 `SOURCE`、`CURRENT_TARGET`、`EVENT_SOURCE`；事件不提供事件来源对象时不得选择后者。"
+        },
+        {
+          "line": 362,
+          "text": "每个动作包含 `actionKey/name/actionType/sortOrder/targetContext/detail/runtimeInputBindings/resultModifiers`。"
+        },
+        {
+          "line": 365,
+          "text": "2. `EXECUTE_EFFECT` 和 `START_PROCESS` 的 `targetContext` 固定为 `CURRENT_TARGET` 或 `EVENT_SOURCE`；事件不提供事件来源对象时不得选择后者。`FAIL_PROCESS` 的 `targetContext` 必须为 null，因为它结束来源对象当前技能下的指定过程，不重新选择一个动作目标。"
+        },
+        {
+          "line": 369,
+          "text": "### 7.2 执行效果 `EXECUTE_EFFECT`"
+        },
+        {
+          "line": 373,
+          "text": "未来执行上下文中，效果结果的 `SOURCE` 仍是技能拥有者；`TARGET` 是 `targetContext` 选定的对象。阶段 7.2 的目标枚举不增加“事件来源对象”。"
+        },
+        {
+          "line": 414,
+          "text": "3. `EXECUTE_EFFECT` 和 `START_PROCESS` 的可达公式只按下方封闭收集表确定，不由实现按字段名称猜测或递归到未直接执行的其他规则。"
+        },
+        {
+          "line": 423,
+          "text": "| `EXECUTE_EFFECT` | 目标效果全部结果的 `valueRule.formulaKey`，以及生命周期的持续时间、最大层数、每次施加层数和周期间隔四个公式键。生命周期操作没有独立明细公式，需要数值时仍包含在结果 `valueRule` 中。 |"
+        },
+        {
+          "line": 447,
+          "text": "1. 来源动作必须是同一规则中排序更早的 `EXECUTE_EFFECT`。"
+        },
+        {
+          "line": 455,
+          "text": "固定结果修正只从属于 `EXECUTE_EFFECT`，每项包含："
+        },
+        {
+          "line": 481,
+          "text": "  \"targetContext\": \"CURRENT_TARGET\""
+        },
+        {
+          "line": 485,
+          "text": "公式必须属于当前技能、不得引用 `RUNTIME_INPUT` 参数，未来按正毫秒解释。`targetContext` 使用第 7.1 节相同语义；事件不提供事件来源对象时不能选择 `EVENT_SOURCE`。"
+        },
+        {
+          "line": 504,
+          "text": "| `EXECUTE_EFFECT` | 无生命周期效果的每个结果产生精确 `RESULT_AVAILABLE(effectKey,resultKey)`；有生命周期效果产生 `LIFECYCLE_MOMENT(effectKey,APPLICATION)`，可能施加至满层时同时可能产生 `FULL_STACKS`，有周期时可能产生 `PERIODIC`，有自然到期时可能产生 `NATURAL_END`。 |"
+        },
+        {
+          "line": 505,
+          "text": "| `EXECUTE_EFFECT` 的伤害结果 | `target=TARGET` 可能产生 `DAMAGE_DEALT`、`HEALTH_THRESHOLD_CROSSED(CURRENT_TARGET,DOWNWARD)`、`KILL`、`ENTITY_DIED(CURRENT_TARGET)`；`target=SOURCE` 可能产生 `DAMAGE_TAKEN`、`HEALTH_THRESHOLD_CROSSED(SOURCE,DOWNWARD)`、`ENTITY_DIED(SOURCE)`。 |"
+        },
+        {
+          "line": 506,
+          "text": "| `EXECUTE_EFFECT` 的直接治疗或属性变化结果 | 直接治疗按结果目标可能产生相同 subject 的 `HEALTH_THRESHOLD_CROSSED(...,UPWARD)`；属性变化只在 `attributeKey` 与阈值事件相同且 subject 与结果目标一致时匹配，`INCREASE` 只向上、`DECREASE` 只向下、`SET` 两个方向都可能。普通护盾、资源和冷却变化不产生生命阈值事件。 |"
+        },
+        {
+          "line": 507,
+          "text": "| `EXECUTE_EFFECT` 的状态操作或持续状态结果 | 按相同 `statusKey` 和 `APPLY/REMOVE` 产生 `STATUS_CHANGED`；持续状态自然或提前结束还可能产生对应 `REMOVE`。 |"
+        },
+        {
+          "line": 508,
+          "text": "| `EXECUTE_EFFECT` 的生命周期操作结果 | `INCREASE/SET` 可能令目标效果产生 `FULL_STACKS`；`DECREASE/SET/CONSUME/REMOVE` 可能令目标效果产生 `EARLY_REMOVE`；`REFRESH` 不产生生命周期时点。 |"
+        },
+        {
+          "line": 580,
+          "text": "无效引用原因至少区分：`UNKNOWN_SKILL`、`UNKNOWN_PROCESS`、`UNKNOWN_STEP`、`UNKNOWN_EFFECT`、`UNKNOWN_RESULT`、`UNKNOWN_LIFECYCLE`、`UNKNOWN_STATUS`、`UNKNOWN_ATTRIBUTE`、`UNKNOWN_INTERNAL_STATE`、`UNKNOWN_MODE_OPTION`、`UNKNOWN_FORMULA`、`UNKNOWN_PARAMETER`、`EVENT_VALUE_NOT_AVAILABLE`、`EVENT_SOURCE_NOT_AVAILABLE`、`RESULT_NOT_IMMEDIATELY_AVAILABLE` 和 `REFERENCE_TYPE_MISMATCH`。"
+        }
+      ]
+    }
+  ],
+  "contractFacts": {
+    "actionTargetContexts": [
+      "CURRENT_TARGET",
+      "EVENT_SOURCE"
+    ],
+    "eventSourceEvents": [
+      "SOURCE_INITIALIZED",
+      "DAMAGE_PENDING",
+      "DAMAGE_TAKEN",
+      "STATUS_CHANGED",
+      "CONTROL_RECEIVED",
+      "SPELL_SHIELD_BLOCKED"
+    ],
+    "killHasEventSource": false,
+    "killCurrentTargetBinding": "本次被击杀对象",
+    "killRequiresEmptyDetail": true,
+    "killTargetCategoryCheckSupported": true,
+    "frontendActionTargetContexts": [
+      "CURRENT_TARGET",
+      "EVENT_SOURCE"
+    ]
+  },
+  "requestedSemantic": {
+    "eventType": "KILL",
+    "targetCategoryCheck": {
+      "conditionType": "TARGET_CATEGORY_CHECK",
+      "categories": [
+        "CHAMPION"
+      ]
+    },
+    "executeEffect": {
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "triumph_heal",
+      "requestedTargetContext": "EVENT_SOURCE",
+      "normalizedFrom": "CURRENT_SOURCE"
+    },
+    "excludedBranch": "额外的20金币",
+    "note": "以上是语义请求快照，不是可提交的接口请求体。"
+  }
+}

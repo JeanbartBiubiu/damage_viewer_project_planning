@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-12T14:44:33.299Z",
+  "status": "PASS",
+  "scope": "黑色切割者、魔切、挺进破坏者与凯旋四条触发规则",
+  "baseline": {
+    "skillCount": 1062,
+    "ruleCount": 96,
+    "sourceInitializedCount": 24
+  },
+  "final": {
+    "skillCount": 1062,
+    "ruleCount": 100,
+    "sourceInitializedCount": 24
+  },
+  "preparation": {
+    "getCount": 2404,
+    "businessWrites": 0
+  },
+  "firstGateFailure": {
+    "file": "06-首写门禁失败.json",
+    "getCount": 0,
+    "businessWrites": 0,
+    "resolved": true
+  },
+  "cursorReview": {
+    "file": "05-Cursor独立评审.json",
+    "runId": "run-668e341b-85a9-43c3-ab55-4cd2c5995c20",
+    "status": "READY",
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "businessWrites": 0
+  },
+  "protectedWrite": {
+    "file": "06-写入与即时回读.json",
+    "getCount": 3751,
+    "businessWriteCount": 4,
+    "responseStatuses": [
+      201,
+      201,
+      201,
+      201
+    ]
+  },
+  "independentReadback": {
+    "file": "07-独立GET回读.json",
+    "getCount": 1253,
+    "methods": {
+      "GET": 1253
+    },
+    "businessWrites": 0
+  },
+  "browserAcceptance": {
+    "file": "08-页面验收.json",
+    "browser": "Playwright Chromium 真实页面",
+    "methods": {
+      "GET": 280
+    },
+    "businessWrites": 0,
+    "screenshotCount": 15,
+    "diagnostics": {
+      "consoleErrors": 0,
+      "pageErrors": 0,
+      "requestFailures": 0,
+      "errorResponses": 0
+    }
+  },
+  "cuaObservation": {
+    "status": "UNAVAILABLE",
+    "reason": "Codex auth token is unavailable",
+    "impact": "不影响已完成的 Playwright Chromium 真实页面验收和截图人工目视核对"
+  },
+  "runtimeBoundary": "未执行战斗运行或 Wasm 验证。",
+  "files": [
+    {
+      "path": "01-合并方案.md",
+      "bytes": 5270,
+      "sha256": "37abcedd04e3b3d31545a1bf2964845deeb8aea1fd14c5940db3f03dcf9bdd3d"
+    },
+    {
+      "path": "02-合并冻结请求.json",
+      "bytes": 15981,
+      "sha256": "f6c9b114c008d87c909f0ea4c7b91928daf5c4069fabd1b0eec96993b7ea0005"
+    },
+    {
+      "path": "03-来源散列快照.json",
+      "bytes": 11028,
+      "sha256": "87811d099c41feb51145d58676020dbe787c18bbd60e2f23dea2d28a0bba1243"
+    },
+    {
+      "path": "04-共享写前现值.json",
+      "bytes": 1985635,
+      "sha256": "988cdcc0e19a40aa08f622e014eac24fbb10789bab78cad6e09f9b5e0be5f89a"
+    },
+    {
+      "path": "05-Cursor独立评审-首轮门禁前.json",
+      "bytes": 3824,
+      "sha256": "6508fba2f9fc4988e2aa42b2d420828805a0b7f83c4ce52fcadc42d4c88ddbad"
+    },
+    {
+      "path": "05-Cursor独立评审.json",
+      "bytes": 4561,
+      "sha256": "f449579f5e67a5abe0754226ad4b3bff912dac29476374e809e50a1906aa06e8"
+    },
+    {
+      "path": "05-Cursor评审占位.json",
+      "bytes": 3900,
+      "sha256": "95ad9afbd02f1b07d27131ed131efc87efa8b1a40d0f95297fdf4747baed956b"
+    },
+    {
+      "path": "06-首写门禁失败.json",
+      "bytes": 1425,
+      "sha256": "16a7c19119769b4b56460c9163ce2afea6d660c7ce3793b427f7c837a2e53d2c"
+    },
+    {
+      "path": "06-写入与即时回读.json",
+      "bytes": 15619,
+      "sha256": "782f818edc5823671e06a55d995aeb9bbc1eb6f1eeade60d34fe43d075ab4995"
+    },
+    {
+      "path": "07-独立GET回读.json",
+      "bytes": 2514,
+      "sha256": "0ea552246745aa68411dd566ba4039aee4bb71d19291cd9aafc219321be54639"
+    },
+    {
+      "path": "08-页面验收.json",
+      "bytes": 6084,
+      "sha256": "09e0ebf51df207608d50db1b9a53107571dba7667bd4c5c6bb0ad01e597440e3"
+    },
+    {
+      "path": "08-页面验收断言修订.json",
+      "bytes": 1334,
+      "sha256": "005985d9fc410897ac03e28040868efbeced3ac5b5656987d75811c574d56dc8"
+    },
+    {
+      "path": "独立GET回读.mjs",
+      "bytes": 16434,
+      "sha256": "86070b7869b70807d2eebb3fb726daa10aa7f40d4ced4a52f3398816e6531871"
+    },
+    {
+      "path": "受保护写入.mjs",
+      "bytes": 32260,
+      "sha256": "93b445a4b714f794c34a13682b17c0b5de8cac74c503c06aa69606b2e25ad348"
+    },
+    {
+      "path": "页面截图/item_3042_passive-列表图片.png",
+      "bytes": 104300,
+      "sha256": "937f1a46230ceba5c3dabba9e4f4b3fb2c9905773d0f1d24deeb931c0ff3054f"
+    },
+    {
+      "path": "页面截图/item_3042_passive-damage结果.png",
+      "bytes": 90951,
+      "sha256": "ba4b5351cd6a4ab6507c4371df89b68f52bb2f676a10377cf55f909f44bfa5f9"
+    },
+    {
+      "path": "页面截图/item_3042_passive-on_basic_attack_hit_to_champion规则.png",
+      "bytes": 104261,
+      "sha256": "9fb597fb1dd0ea982539f39310e1aef9d5e7561e39a177d50abfd2a164688e5c"
+    },
+    {
+      "path": "页面截图/item_3042_passive-on_hit_damage_from_max_mana公式.png",
+      "bytes": 184347,
+      "sha256": "82563fbaa4a571e774b36fef899b96c50906469335dfc738fddce42e51fb48b1"
+    },
+    {
+      "path": "页面截图/item_3071_passive-列表图片.png",
+      "bytes": 103427,
+      "sha256": "8913ef27b4091673226e957ae8fc58a90ca12109f1baaae810d4e86795ecbb3e"
+    },
+    {
+      "path": "页面截图/item_3071_passive-armor_reduction结果.png",
+      "bytes": 116653,
+      "sha256": "785f1fb440a5c5266fef7a3107e4662a527016ed4e38635cd8100c7e2a392aea"
+    },
+    {
+      "path": "页面截图/item_3071_passive-on_physical_damage_dealt_to_champion规则.png",
+      "bytes": 106198,
+      "sha256": "f8222bfe3d90425d2186cb4442dc9e03281640ab476dd3b2f48ecbbc33abc3f9"
+    },
+    {
+      "path": "页面截图/item_6631_active-列表图片.png",
+      "bytes": 102845,
+      "sha256": "b46b2bed0617af4db136cbf087948694c164bb705bb9e1774a197239146e23eb"
+    },
+    {
+      "path": "页面截图/item_6631_active-active_damage公式.png",
+      "bytes": 167541,
+      "sha256": "f71c3028e8824b95cfa16da520d2ecb3339a389abf9807e7c8a7fd4976787be5"
+    },
+    {
+      "path": "页面截图/item_6631_active-actual_hit规则.png",
+      "bytes": 109016,
+      "sha256": "6fe0ace29f3edade2325b6f13e7ac9a2a349a9af5189a56fec4000bf4881d85f"
+    },
+    {
+      "path": "页面截图/item_6631_active-damage结果.png",
+      "bytes": 113463,
+      "sha256": "ad0ee86a800f2c0c56d0f70e5e48b0768f40459cd34d986a5f91a1dfa58774ad"
+    },
+    {
+      "path": "页面截图/rune_9111_passive-列表图片.png",
+      "bytes": 102368,
+      "sha256": "6773794ab08565a4b3eeb15b469f34713ad7ad034e9c79070266ab455ab53ee4"
+    },
+    {
+      "path": "页面截图/rune_9111_passive-on_champion_kill规则.png",
+      "bytes": 117119,
+      "sha256": "61153af9c41e28dad4ff7768c7dce871035a4dddc5ee69198592e65c554da2e6"
+    },
+    {
+      "path": "页面截图/rune_9111_passive-result结果.png",
+      "bytes": 81549,
+      "sha256": "702faab19b5be1b3a433927f1f3bae4fc78100cf6c76d87f20a6e9992841a65e"
+    },
+    {
+      "path": "页面截图/rune_9111_passive-triumph_heal公式.png",
+      "bytes": 146672,
+      "sha256": "4abae641515239945359135923dc2b7007f3d4a48a939b67604009b1d9736ccc"
+    },
+    {
+      "path": "只读页面验收.mjs",
+      "bytes": 14798,
+      "sha256": "ff49b8392a3c852a57a1fed8bf5418185826945811258c09513ae11d3fdc903d"
+    },
+    {
+      "path": "准备合并只读.mjs",
+      "bytes": 34377,
+      "sha256": "930ffe47261a7044403e6e974f165e2c5ea0912aceb4a8a215bc242356fbb935"
+    },
+    {
+      "path": "Cursor终审只读检查.mjs",
+      "bytes": 10232,
+      "sha256": "5bb47a1b2c26aabbe86556000a231697299f21d55b8d3fd7250756cc84b5e623"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4064,
+      "sha256": "73c90f8534607e0bba8bb33cb094314ab9e77b8f7f8704dedc107aa8905b33a7"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev2",
+  "reviewer": "Cursor",
+  "status": "PENDING",
+  "finished": false,
+  "accepted": false,
+  "scope": "黑色切割者、魔切、挺进破坏者和凯旋四条触发规则的一次合并受保护录入",
+  "requiredBeforeWrite": {
+    "independentReviewRequired": true,
+    "status": "READY",
+    "finished": true,
+    "accepted": true,
+    "revision": "rev2",
+    "reviewedFiles": [
+      "README.md",
+      "01-合并方案.md",
+      "02-合并冻结请求.json",
+      "03-来源散列快照.json",
+      "04-共享写前现值.json",
+      "受保护写入.mjs",
+      "独立GET回读.mjs",
+      "只读页面验收.mjs",
+      "05-Cursor评审占位.json"
+    ],
+    "requiredChecks": [
+      "四条请求的事件、明细、英雄类别条件、CURRENT_TARGET 和已有效果键逐项一致",
+      "四条请求的 expectedStatus 都是 201，且冻结顺序和唯一 POST 边界未扩大",
+      "全技能 1062、旧规则 96、SOURCE_INITIALIZED 24、两轮规则键集合稳定",
+      "四个候选详情为 404，目标关系、代表图片和所有非规则组成被保存并受保护",
+      "凯旋 KILL 的 CURRENT_TARGET 解释为被击杀英雄；已有 triumph_heal 结果 target=SOURCE；不混淆 EVENT_SOURCE、助攻和 20 金币",
+      "受保护写入、独立 GET 回读和页面脚本均保持 GET/POST 分类及零重放门禁"
+    ],
+    "approvedInputHashes": {
+      "required": true,
+      "requiredFiles": [
+        "README.md",
+        "01-合并方案.md",
+        "02-合并冻结请求.json",
+        "03-来源散列快照.json",
+        "04-共享写前现值.json",
+        "受保护写入.mjs",
+        "独立GET回读.mjs",
+        "只读页面验收.mjs"
+      ],
+      "valueFormat": "每个文件都必须是当前文件的 64 位 SHA-256；须与批准散列 JSON 相同；写入器首写前逐个复核当前散列"
+    },
+    "writeAllowlistAudit": {
+      "auditAvailable": true,
+      "runDeltaCount": 0,
+      "outsideScopeCount": 0,
+      "runDeltaOutsideScopeCount": 0
+    },
+    "toolEvents": {
+      "allTerminalCallsCompleted": true,
+      "anyTruncated": false
+    },
+    "approvedHashFile": "批准散列.json",
+    "approvedHashRequirements": [
+      "批准散列 JSON 必须按文件名给出 README、01、02、03、04、受保护写入、独立 GET 回读和页面脚本的 SHA-256，并给出 05-Cursor 独立评审证据文件的 SHA-256",
+      "批准散列必须对应当前 rev2 文件，任一散列不匹配都禁止首写",
+      "Cursor 评审证据中的 approvedInputHashes 必须覆盖上述八个输入文件，并且与批准散列 JSON 和首写前当前文件逐项相等"
+    ]
+  },
+  "evidenceToProvide": {
+    "reviewEvidenceFile": "05-Cursor独立评审.json",
+    "mustState": [
+      "独立评审已完成且 accepted=true",
+      "revision=rev2",
+      "status=READY",
+      "finished=true",
+      "业务写入数为 0",
+      "未遗漏四项或扩大写入范围",
+      "approvedInputHashes 覆盖 README、01-04、受保护写入、独立 GET 回读和页面验收脚本，且均为当前文件 SHA-256",
+      "writeAllowlistAudit.auditAvailable=true",
+      "writeAllowlistAudit.runDeltaCount=0",
+      "writeAllowlistAudit.outsideScopeCount=0",
+      "writeAllowlistAudit.runDeltaOutsideScopeCount=0",
+      "toolEvents.allTerminalCallsCompleted=true",
+      "toolEvents.anyTruncated=false"
+    ],
+    "mustNotClaim": [
+      "本占位文件不能作为已评审证据",
+      "不能把 PENDING 或 finished=false 当作通过",
+      "不能把静态来源、GET 或页面证据写成战斗运行时证明"
+    ]
+  },
+  "reviewNotes": "本文件只是后续 Cursor 独立评审的门禁占位，当前明确未评审、未接受。完成真实评审后应另存 05-Cursor独立评审.json，并由批准散列 JSON 固定所有写前文件。"
+}
