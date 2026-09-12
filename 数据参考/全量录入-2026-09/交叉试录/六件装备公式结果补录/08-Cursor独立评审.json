@@ -1,0 +1,28 @@
+{
+  "capturedAt": "2026-09-12T04:02:05.850Z",
+  "runId": "run-5b0cc481-b3e9-4077-967f-dd732da3dcd5",
+  "requestId": "c7b68d0b-d77b-4a13-bf13-373e90ddff06",
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "verdict": "READY",
+  "reviewedPlanRevision": 1,
+  "blockers": [],
+  "writeAllowlistAudit": {
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaCount": 0
+  },
+  "review": "对照冻结请求、已保存公式、魔宗现网形状和管理契约后，这 7 次新增本身可以写。\n\nVERDICT: READY  \nREVIEWED_PLAN_REV: 1  \nBLOCKERS: NONE  \nNON_BLOCKING:\n- `item_3042` 快照里敬畏仍是 `pass: =>Manamune`，2% 最大法力转攻击力需读同哈希来源中的魔宗 `id=3004` 及已保存公式；这不否定本次结果，但不能把快照正文当成已展开的敬畏文本。\n- 魔宗同构效果已另有 `SOURCE_INITIALIZED → EXECUTE_EFFECT`；本批只复制持续读取形状、不写触发。接线装配时必须单独裁定魔切事件，不能把“已保存持续效果”当成已经生效。\n- `item_3042_passive` 已有近战 4%/远程 3% 技能冲击公式，且自身标明缺 `AbilityTADRatio`。本次不组成是对的，但不能解释成冲击技能伤害已覆盖。\n- 目标侧伤害 `spellShieldBlockScope: null` 按契约表示法术护盾不处理该结果。卢登和挺进破坏者若以后自动执行，必须按方案第 8 条重审，不能沿用空值当战斗语义。\n\n独立核过的哈希与写前状态一致：冻结请求 `1fba98ec…bbd0`，写前现值 `f13cb27f…6877`，来源快照 `5dffaaa4…3fb1f`，完整来源 `17769e08…56f4`。预检文件 142 项均为 PASS、无 FAIL；现值文件 64 项写前检查均为 PASS。当前服务只读确认六个目标技能效果列表为空，7 个候选效果均 404，`physics`/`magic`、`attack_damage`/`mana`/`hp`、`attribute_flat_add` 均存在。受保护写入器记录为 110 次 GET、0 次写入。\n\n所选 8 个结果都能被现有来源和已保存公式撑住，没有把未接线机制写成完整战斗。魔切敬畏复用 `mana TOTAL × 0.02`；管理契约里法力的 `TOTAL` 同时表示最大值，与魔宗 `id=3004` 的 “2% maximum mana” 及魔切已保存参数一致。冲击英雄伤害是 `TOTAL × 0.012` 的普攻额外物理伤害。守护天使是同一效果内的 `hp BASE × 0.5` 直接治疗和 `mana TOTAL × 1` 法力恢复，效果生命周期为 null，没有把 4 秒复活写成效果持续。亡者板甲只落 100 层端点 `1×基础攻击力 + 0.4×100`。挺进破坏者只落当前英雄一次 `0.8×总攻击力`。冰脉是 `1.5×基础攻击力` 强化普攻额外物理伤害。卢登是严格一对一、满 6 层全部打在主目标时的 `(75 + 5% 法术强度) × 2`。\n\n物理/魔法、交付方式和目标选择与来源一致。冲击、满层沉船者、咒刃为 `physics + BASIC_ATTACK + DIRECT + TARGET`；破阵冲击波为 `physics + SKILL + DIRECT + TARGET`；回声为 `magic + SKILL + DIRECT + TARGET`。伤害均 `DISALLOWED` 且不可暴击，与已保存装备伤害样本及“本批按管理契约保存为直接伤害且不可暴击”一致。属性加在 `SOURCE`，伤害加在 `TARGET`。\n\n魔切持续攻击力与现网 `item_3004_passive/bonus_attack_damage_from_max_mana` 同构：单来源、单层、`EXPLICIT_ONLY`、`PERSISTENT + MOMENT_EVALUATION + SHARED`、`attribute_flat_add`。乘区 `attribute_flat_add` 为启用中的属性固定加算。魔宗是靠单独触发才执行该效果；本批目标技能过程与触发仍为空，因此只会保存组成，不会被现有数据配置自动执行。TinyGo 侧敬畏 provider 只挂 `item_3004`，不会因为这次写入而套到魔切。\n\n`vampRules: []` 符合当前类型说明：技能侧吸血只保留例外，空数组不是否认装备全局吸血。魔切和冰脉来源带 `OnHitAppliesLifeSteal`，方案把它留到装备属性与游戏级结算，与七项装备已保存的攻击特效伤害样本一致。`spellShieldBlockScope: null` 对 `DIRECT_HEAL`、`SOURCE` 和持续属性是契约强制；对尚未连接的目标伤害也合法，含义是法术护盾不处理该结果。方案已要求连接自动执行前按具体事件重审吸血和法术护盾。\n\n未发现会使这 7 次 POST 本身写错的既有引用、目标筛选、范围或阶段边界。候选效果均不存在；结果只引用同技能已有公式；乘区和属性引用有效。范围选取、英雄过滤、层数曲线、充能消费、复活时序和冷却仍是待接线缺口，方案已标明，不能当成已完成的战斗机制。"
+}
