@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev3",
+  "startedAt": "2026-09-12T16:27:43.289Z",
+  "status": "FAILED",
+  "authorizationValueRecorded": false,
+  "approvedHashes": {
+    "批次配置.mjs": "ecfe3b6cd8cad6e953a4b6e2f19ff3ff5730bf65379c3d00d59dbf0bd23be447",
+    "00-独立语义评审.json": "d04bb9dc7371177efa2e1526cf7e1164a662e5f4e65247572cfecc4c1c34010a",
+    "README.md": "108073f73bc9d83e1d85285bea3dec2b3fbc941528b9011dfb9d64bd5f886e68",
+    "01-合并方案.md": "fe5c4319aff7c432cfce1df71719e88d9629ca9c83d48c6f7f0f28ac658a87c8",
+    "02-合并冻结请求.json": "0fa66e33ee615b5fd511e2b501f5a116c4222de967665bd35eaff923c015658d",
+    "03-来源散列快照.json": "88758468f8efa996c6f5abb5ad288d8a13c3e5145be940e3c8413dec18d61e89",
+    "04-共享写前现值.json": "87dc81f8d93854f0af60c1bd63b0247604426ed4ef936aad14e63987a85f587e",
+    "受保护写入.mjs": "a6aaa8a208abb1c7dd1f39204afe5495d509c30d0cbdcf2ee547f3c70462873e",
+    "独立GET回读.mjs": "26474def457ee5952635f94251baee07c7c0dd8a01379248617ba0899faaf000",
+    "只读页面验收.mjs": "d9fdceca4662aa7726616f9590059a82ae1f455948771515f08d03666685f1e1",
+    "05-Cursor独立评审.json": "50a9ca565d3d3bdd2b276608367fdaee4440d20b9ca55dfdd696e8460a29e386"
+  },
+  "cursorReview": {
+    "file": "05-Cursor独立评审.json",
+    "status": "READY",
+    "accepted": true,
+    "revision": "rev3",
+    "businessWrites": 0,
+    "approvedInputHashes": {
+      "批次配置.mjs": "ecfe3b6cd8cad6e953a4b6e2f19ff3ff5730bf65379c3d00d59dbf0bd23be447",
+      "00-独立语义评审.json": "d04bb9dc7371177efa2e1526cf7e1164a662e5f4e65247572cfecc4c1c34010a",
+      "README.md": "108073f73bc9d83e1d85285bea3dec2b3fbc941528b9011dfb9d64bd5f886e68",
+      "01-合并方案.md": "fe5c4319aff7c432cfce1df71719e88d9629ca9c83d48c6f7f0f28ac658a87c8",
+      "02-合并冻结请求.json": "0fa66e33ee615b5fd511e2b501f5a116c4222de967665bd35eaff923c015658d",
+      "03-来源散列快照.json": "88758468f8efa996c6f5abb5ad288d8a13c3e5145be940e3c8413dec18d61e89",
+      "04-共享写前现值.json": "87dc81f8d93854f0af60c1bd63b0247604426ed4ef936aad14e63987a85f587e",
+      "受保护写入.mjs": "a6aaa8a208abb1c7dd1f39204afe5495d509c30d0cbdcf2ee547f3c70462873e",
+      "独立GET回读.mjs": "26474def457ee5952635f94251baee07c7c0dd8a01379248617ba0899faaf000",
+      "只读页面验收.mjs": "d9fdceca4662aa7726616f9590059a82ae1f455948771515f08d03666685f1e1"
+    },
+    "writeAllowlistAudit": {
+      "auditAvailable": true,
+      "outsideScopeCount": 0,
+      "runDeltaOutsideScopeCount": 0,
+      "runDeltaCount": 0,
+      "diffBytes": 0
+    },
+    "toolEvents": {
+      "uniqueToolCallCount": 1,
+      "terminalStatuses": {
+        "call-4050a60a-9c8b-45f2-b37f-e6f4cb35661e-0\nfc_97797816-5c2e-9bc4-a5a3-eb45d46cb622_0": "completed"
+      },
+      "allTerminalCallsCompleted": true,
+      "anyTruncated": false
+    }
+  },
+  "preflight": {
+    "rounds": [],
+    "targetRounds": []
+  },
+  "writes": [],
+  "finalReadback": null,
+  "businessWriteCount": 0,
+  "getCount": 1194,
+  "error": {
+    "message": "盖伦 W 缺少效果\n\nfalse !== true\n"
+  },
+  "completedAt": "2026-09-12T16:27:48.897Z"
+}

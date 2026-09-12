@@ -1,0 +1,441 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev4",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-12T16:35:39.801Z",
+  "sourcePolicy": "固定四个通过独立语义评审的上游候选目录；先按上游声明的散列口径验真，再为合并证据统一记录原始文件散列。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "semanticReviewSha256": "d04bb9dc7371177efa2e1526cf7e1164a662e5f4e65247572cfecc4c1c34010a",
+  "sourceDirectories": [
+    {
+      "id": "garen",
+      "name": "盖伦 W",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\盖伦W触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\盖伦W触发补录\\02-冻结请求.json",
+          "sha256": "482a933e452db9564436734f4509d12aae65f9c3fbc8977face06d1fc13bca85"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\盖伦W触发补录\\03-来源快照.json",
+          "sha256": "5d11fe588d84b55da7a3636de2b083316cc375ace1541141503c5da60930ea1b"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\盖伦W触发补录\\04-写入前现值.json",
+          "sha256": "8f65ef436eb24477c2108667cd11d06ba8aabfb7cc1fa3ebf3ba2ed2e758903a"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\盖伦W触发补录\\05-只读准备报告.json",
+          "sha256": "e22b3904a81d7b525e70575ada9e2b401c36a35f5d48d5c5ff4282b1a6849557"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "固定英雄机制候选",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第六批\\完整候选.json",
+          "byteSize": 342255,
+          "sha256": "a593bd1f49c1ab6f424bd76b7ad4dbef1e0e7154f00d0347dc90c7c1e39126ac"
+        },
+        {
+          "kind": "官方中文英雄资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Garen.json",
+          "byteSize": 13028,
+          "sha256": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f"
+        },
+        {
+          "kind": "客户端英雄原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Garen.json.gz",
+          "byteSize": 7555,
+          "sha256": "6cfa44116bbcfbb5edfe1573eedd2f3bb18d2d0092cde71ec76531933068de61",
+          "decompressedByteSize": 47339,
+          "decompressedSha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e"
+        },
+        {
+          "kind": "已有角色接口记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\英雄全量核对\\champion_garen.json",
+          "byteSize": 1295,
+          "sha256": "08b7e8c84090994de57b29b9910f726eed048b4fa9a6da4e178e7cee4d26e57d"
+        },
+        {
+          "kind": "已有技能接口记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\garen_w.json",
+          "byteSize": 1945,
+          "sha256": "edb6eb0a4dacbc21299b470d3d08b4ab8976495c3f8363007abd4f28b42fb034"
+        },
+        {
+          "kind": "已有角色技能关系记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\relations_champion_garen.json",
+          "byteSize": 2791,
+          "sha256": "89daa23fe01d858b41c1cc614537e9336111930e98a37f0f44dfd89c8b1c18ec"
+        },
+        {
+          "kind": "技能代表图文件",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\02_技能\\Garen\\W_GarenW.png",
+          "byteSize": 5947,
+          "sha256": "4b653d35ceedddc2fc715e934307114c567c92aebd5b34708bdc5c077ce410eb"
+        },
+        {
+          "kind": "角色代表图文件",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\01_角色\\Garen.png",
+          "byteSize": 30705,
+          "sha256": "53018603962e1867b391071f159bb4c60d57919422585c33bfd36551e97f3752"
+        }
+      ],
+      "upstreamSourceSnapshot": "5d11fe588d84b55da7a3636de2b083316cc375ace1541141503c5da60930ea1b"
+    },
+    {
+      "id": "vex",
+      "name": "愁云使者 W",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\愁云使者W触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\愁云使者W触发补录\\02-冻结请求.json",
+          "sha256": "68b498825f0ffa66f2f85ec9efece05557f4441db6570926eae69eea3b047e6e"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\愁云使者W触发补录\\03-来源快照.json",
+          "sha256": "de985e07bfe5a84fcf86b02e469a3f2f6f1fe7fe8dcaede2f306129379b414c5"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\愁云使者W触发补录\\04-写入前现值.json",
+          "sha256": "e30696daa93f42b295bdc91cf8d887959562cc90d1ae2759eed22c9638c4c3fc"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\愁云使者W触发补录\\05-只读准备报告.json",
+          "sha256": "a2735483a74fad9d14bdf9bf1b39a7221c775d35e5507c67ae04377b9fdf4c9a"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "固定英雄机制候选",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第三十四批\\修订一\\完整候选.json",
+          "byteSize": 441195,
+          "sha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b"
+        },
+        {
+          "kind": "官方中文英雄资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Vex.json",
+          "byteSize": 11137,
+          "sha256": "5e4c0eccbd8ce0947883690b57a6a208cbc3cfddb8943d53fa3878ca7a3d1a1c"
+        },
+        {
+          "kind": "客户端英雄原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Vex.json.gz",
+          "byteSize": 7576,
+          "sha256": "d200bc9a07b60d391886cbdbee5bfa66317efbf60a46ff5efffbb31860140f2b",
+          "decompressedByteSize": 51010,
+          "decompressedSha256": "e0c8d923b81cc8b3dd8ea14e4fa8a135e1f1c8f1fdfca9fcc35b722069c5300d"
+        },
+        {
+          "kind": "已有角色接口记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\英雄全量核对\\champion_vex.json",
+          "byteSize": 1107,
+          "sha256": "321e8fd78e2b60703d49e5ed032743c954b6eb5c1d2f130d5832f8185ef2ce17"
+        },
+        {
+          "kind": "已有技能接口记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\vex_w.json",
+          "byteSize": 1087,
+          "sha256": "2d5fc93eaf9321c8ea788bebf495d13a86f8665574932835e5d094bea041f707"
+        },
+        {
+          "kind": "已有角色技能关系记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\relations_champion_vex.json",
+          "byteSize": 1618,
+          "sha256": "78bf1f5e4452e0146ccb2fbc7c07f5e37c091dc3ba6ba313e46b85bd8292c09a"
+        },
+        {
+          "kind": "技能代表图文件",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\02_技能\\Vex\\W_VexW.png",
+          "byteSize": 5717,
+          "sha256": "0baf9df9cebd9aad48ebe44d3ab33b56cd8d0880a5fa1506fd9771a08a4553dd"
+        },
+        {
+          "kind": "角色代表图文件",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\01_角色\\Vex.png",
+          "byteSize": 29332,
+          "sha256": "aaa93d7fab2d5d469778128ccdbe59bde00e601da065d17e3ae7bce4fe53c758"
+        }
+      ],
+      "upstreamSourceSnapshot": "de985e07bfe5a84fcf86b02e469a3f2f6f1fe7fe8dcaede2f306129379b414c5"
+    },
+    {
+      "id": "kassadin",
+      "name": "虚空行者 Q",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\虚空行者Q护盾触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\虚空行者Q护盾触发补录\\02-冻结请求.json",
+          "sha256": "93b91572c5ba4ab7ed36977758e2677e1ebac5fa2ca954b1dc01290af78a8f29"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\虚空行者Q护盾触发补录\\03-来源快照.json",
+          "sha256": "5c467d39b08634ed29d1cd5af8d2828b1fa1c74d3b26523f7588ca1f8f7e1a26"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\虚空行者Q护盾触发补录\\04-写入前现值.json",
+          "sha256": "40635efa9f4617b7cb89edfbe8079fc07dca5797cf54150773b67deaee95c26f"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\虚空行者Q护盾触发补录\\05-只读准备报告.json",
+          "sha256": "1de4dbfae165f835dc19a61a000fe1963afcbe8888b03dbd05bae1e45b56d742"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "固定英雄机制候选",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十三批\\完整候选.json",
+          "byteSize": 360105,
+          "sha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0"
+        },
+        {
+          "kind": "官方中文英雄资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Kassadin.json",
+          "byteSize": 11848,
+          "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+        },
+        {
+          "kind": "客户端英雄原始资料",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Kassadin.json.gz",
+          "byteSize": 6741,
+          "sha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+          "decompressedByteSize": 41633,
+          "decompressedSha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785"
+        },
+        {
+          "kind": "已有角色接口记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\英雄全量核对\\champion_kassadin.json",
+          "byteSize": 1031,
+          "sha256": "ae10b6daa9bde70b942d5ac745a0ad6ef624ac9131f70b4ac497a7cb068e0fa7"
+        },
+        {
+          "kind": "已有技能接口记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\kassadin_q.json",
+          "byteSize": 1366,
+          "sha256": "50104116c8bb42c29ce1a3b8121387c6694feb6535bbaf06659d09124582c93d"
+        },
+        {
+          "kind": "已有角色技能关系记录",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\技能\\records\\relations_champion_kassadin.json",
+          "byteSize": 1709,
+          "sha256": "43b6289cb031949dae048e4c95450f32f8434620dd2f0cad7071adcd18f7d7cb"
+        },
+        {
+          "kind": "技能代表图文件",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\02_技能\\Kassadin\\Q_NullLance.png",
+          "byteSize": 5948,
+          "sha256": "4864e561932f18a966e1b9b067f1e2c9625900ce22b359de102b12dd6f6bb2f2"
+        },
+        {
+          "kind": "角色代表图文件",
+          "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄技能全量页面输入\\images\\01_角色\\Kassadin.png",
+          "byteSize": 29874,
+          "sha256": "a7616e721346eef6a2af65470f98757e4ad184a53685d412edec583dd5989a15"
+        }
+      ],
+      "upstreamSourceSnapshot": "5c467d39b08634ed29d1cd5af8d2828b1fa1c74d3b26523f7588ca1f8f7e1a26"
+    },
+    {
+      "id": "ivern",
+      "name": "艾翁 Q",
+      "directory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\艾翁Q触发补录",
+      "upstreamStatus": "READY_FOR_INDEPENDENT_REVIEW",
+      "files": [
+        {
+          "name": "02-冻结请求.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\艾翁Q触发补录\\02-冻结请求.json",
+          "sha256": "93355a72dcaadacc0fb1beb677e829840f15ae5da314acb3c6e8f71751082671"
+        },
+        {
+          "name": "03-来源快照.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\艾翁Q触发补录\\03-来源快照.json",
+          "sha256": "1a68612aa8a40fb8c6f67efd5b6bb1cbef5f38e2bec043b95d4feefe883ff0af"
+        },
+        {
+          "name": "04-写入前现值.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\艾翁Q触发补录\\04-写入前现值.json",
+          "sha256": "373106e43477a7880d1b164fcb75af3c4f4b7577aac4f4bc9011776cd5a43995"
+        },
+        {
+          "name": "05-只读准备报告.json",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\艾翁Q触发补录\\05-只读准备报告.json",
+          "sha256": "1abddea52b7ce7570b98f680eb4f75916bf90d113709ed57196842e53a9f70be"
+        }
+      ],
+      "sourceFiles": [
+        {
+          "kind": "艾翁 Q 候选与已有组成",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\修订一\\完整候选.json",
+          "byteSize": 635859,
+          "sha256": "b096abfa799364c3956cea44ba33ba18c0db3d274f65430667e751c5a020b01f"
+        },
+        {
+          "kind": "艾翁客户端16.17原始资料",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\参考资料\\客户端原文\\Ivern.json.gz",
+          "byteSize": 8567,
+          "sha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196",
+          "decompressedByteSize": 58989,
+          "decompressedSha256": "40e544c50fe387702ee3cbc82e41bf2296be3996640cf077b517a2ec7724d03e"
+        },
+        {
+          "kind": "艾翁官方16.17.1中文资料",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\参考资料\\官方中文\\Ivern.json",
+          "byteSize": 12109,
+          "sha256": "944b848a16ce275abfe73bff480a001eafdf014df9f849b436cba47231a95be3"
+        },
+        {
+          "kind": "艾翁官方16.17.1英文资料",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\参考资料\\官方英文\\Ivern.json",
+          "byteSize": 11841,
+          "sha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712"
+        },
+        {
+          "kind": "艾翁来源绑定与当前文本",
+          "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\来源绑定与当前文本.json",
+          "byteSize": 322040,
+          "sha256": "a136cc45cb66b7854d09a30978a6f3496eca4bb092619b816bb602244d499419"
+        }
+      ],
+      "upstreamSourceSnapshot": "1a68612aa8a40fb8c6f67efd5b6bb1cbef5f38e2bec043b95d4feefe883ff0af"
+    }
+  ],
+  "acceptedFacts": {
+    "garen": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "garen_w",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actionEffectKeys": [
+        "upfront_shield",
+        "upfront_tenacity"
+      ],
+      "effectChecks": [
+        {
+          "effectKey": "upfront_shield",
+          "resultKey": "shield",
+          "resultTarget": "SOURCE",
+          "valueKind": "FORMULA",
+          "valueKey": "shield",
+          "durationParameterKey": "upfront_duration_ms"
+        },
+        {
+          "effectKey": "upfront_tenacity",
+          "resultKey": "tenacity",
+          "resultTarget": "SOURCE",
+          "valueKind": "PARAMETER",
+          "valueKey": "tenacity_ratio",
+          "durationParameterKey": "upfront_duration_ms"
+        }
+      ]
+    },
+    "vex": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "vex_w",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actionEffectKeys": [
+        "self_shield"
+      ],
+      "effectChecks": [
+        {
+          "effectKey": "self_shield",
+          "resultKey": "shield",
+          "resultTarget": "SOURCE",
+          "valueKind": "FORMULA",
+          "valueKey": "shield_value"
+        }
+      ]
+    },
+    "kassadin": {
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "kassadin_q",
+        "useKind": "ACTIVE"
+      },
+      "condition": null,
+      "targetContext": "CURRENT_TARGET",
+      "actionEffectKeys": [
+        "magic_shield"
+      ],
+      "effectChecks": [
+        {
+          "effectKey": "magic_shield",
+          "resultKey": "shield",
+          "resultTarget": "SOURCE",
+          "valueKind": "FORMULA",
+          "valueKey": "magic_shield_amount",
+          "absorbedDamageTypeKey": "magic"
+        }
+      ]
+    },
+    "ivern": {
+      "eventType": "SKILL_HIT",
+      "eventDetail": {
+        "sourceSkillKey": "ivern_q"
+      },
+      "condition": {
+        "conditionType": "TARGET_CATEGORY_CHECK",
+        "categories": [
+          "CHAMPION"
+        ]
+      },
+      "targetContext": "CURRENT_TARGET",
+      "actionEffectKeys": [
+        "damage"
+      ],
+      "effectChecks": [
+        {
+          "effectKey": "damage",
+          "resultKey": "damage",
+          "resultTarget": "TARGET",
+          "valueKind": "FORMULA",
+          "valueKey": "magic_damage"
+        }
+      ]
+    }
+  },
+  "requests": [
+    {
+      "id": "garen",
+      "ruleKey": "on_used",
+      "bodySha256": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165"
+    },
+    {
+      "id": "vex",
+      "ruleKey": "on_used",
+      "bodySha256": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51"
+    },
+    {
+      "id": "kassadin",
+      "ruleKey": "on_used",
+      "bodySha256": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6"
+    },
+    {
+      "id": "ivern",
+      "ruleKey": "actual_hit",
+      "bodySha256": "a5fbdbcfe2c0287bd069bf321d0c06ed406fa87040bbce015c47ea0d491167c7"
+    }
+  ]
+}

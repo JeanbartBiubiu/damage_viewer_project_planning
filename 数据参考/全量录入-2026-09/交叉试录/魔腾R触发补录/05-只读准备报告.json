@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T15:49:16.239Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "fixedVersion": "16.17.1",
+  "scope": {
+    "skillKey": "nocturne_r",
+    "effectKey": "arrival_damage",
+    "eventType": "SKILL_HIT",
+    "sourceSkillKey": "nocturne_r",
+    "targetCategory": "CHAMPION",
+    "actionTargetContext": "CURRENT_TARGET",
+    "skippedEffects": [
+      "视野压缩",
+      "空间突进",
+      "初施资源",
+      "基础冷却"
+    ]
+  },
+  "checks": {
+    "characterSubject": true,
+    "skillSubject": true,
+    "characterAttributes": true,
+    "characterSkillRelation": true,
+    "characterRepresentativeImage": true,
+    "skillRepresentativeImage": true,
+    "parametersAndFormula": true,
+    "initialDamageEffect": true,
+    "noUnprovenControlEffect": true,
+    "candidateAbsent": true,
+    "targetRuleBaselineEmpty": true,
+    "globalOldRulesComplete": true,
+    "globalTwoPassStable": true,
+    "noBusinessWrite": true
+  },
+  "getSummary": {
+    "getCount": 2361,
+    "businessWrites": 0,
+    "statusCounts": {
+      "200": 2360,
+      "404": 1
+    },
+    "targetGetCount": 23,
+    "globalSkillListGetCount": 2,
+    "globalTriggerRuleListGetCount": 2125,
+    "globalTriggerRuleDetailGetCount": 208,
+    "candidateDetailGetCount": 1
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 104,
+    "eventTypeCounts": {
+      "DAMAGE_TAKEN": 3,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "SKILL_HIT": 54,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_PENDING": 1,
+      "KILL": 2,
+      "SKILL_USED": 2
+    },
+    "sourceInitializedCount": 24,
+    "stableRead": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleCount": true,
+      "firstSkillCount": 1062,
+      "secondSkillCount": 1062,
+      "firstRuleCount": 104,
+      "secondRuleCount": 104,
+      "firstRuleKeysSha256": "ddfede95c17b5b130448e067362bf4300deb9b183a25d0914aec53ff40d078ec",
+      "secondRuleKeysSha256": "ddfede95c17b5b130448e067362bf4300deb9b183a25d0914aec53ff40d078ec"
+    }
+  },
+  "candidate": {
+    "ruleKey": "actual_hit",
+    "detailRoute": "/skills/nocturne_r/trigger-rules/actual_hit",
+    "preflightStatus": 404,
+    "frozenBodySha256": "76bcf9de6ad98a2f043a55a8f786115100d5c565bc99d19df3a84daf7f440895",
+    "body": {
+      "ruleKey": "actual_hit",
+      "name": "实际抵达英雄触发鬼影重重伤害",
+      "description": "仅消费宿主确认的 nocturne_r 第二段实际抵达英雄命中，并在当前目标上执行已有的 arrival_damage；视野、空间突进、初施资源与基础冷却不在本条规则中。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_HIT",
+        "detail": {
+          "sourceSkillKey": "nocturne_r"
+        }
+      },
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "命中对象为英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "actionKey": "execute_arrival_damage",
+          "name": "执行鬼影重重抵达伤害",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "arrival_damage"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    }
+  },
+  "conflicts": [],
+  "excluded": [
+    "视野压缩",
+    "空间突进",
+    "初施资源",
+    "基础冷却"
+  ]
+}

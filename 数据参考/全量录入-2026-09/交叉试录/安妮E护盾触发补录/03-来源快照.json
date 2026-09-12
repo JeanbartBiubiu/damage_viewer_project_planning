@@ -1,0 +1,790 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:31:37.131Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取本地候选、规划来源和固定资料，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "安妮候选与批次记录",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第二批\\录入候选.json",
+      "byteSize": 238562,
+      "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272"
+    },
+    {
+      "kind": "安妮客户端来源散列记录",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第二批\\来源冻结\\annie-来源与哈希.json",
+      "byteSize": 471,
+      "sha256": "4dd3fdaa33ece9aba2c907d7342c977f5a0ea9cdfdc28ddc59e14ae29718f824"
+    },
+    {
+      "kind": "安妮客户端技能提取记录",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第二批\\来源冻结\\annie-客户端主技能提取.json",
+      "byteSize": 31009,
+      "sha256": "d344af838d613fe0ab2173d92f078391e4e02085af85ca940e49b1b4aedf2c89"
+    },
+    {
+      "kind": "安妮客户端完整原文",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Annie.json.gz",
+      "byteSize": 8163,
+      "sha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38",
+      "decompressedByteSize": 57093,
+      "decompressedSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961"
+    },
+    {
+      "kind": "安妮官方中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Annie.json",
+      "byteSize": 14075,
+      "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735"
+    },
+    {
+      "kind": "安妮官方英文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Annie.json",
+      "byteSize": 13051,
+      "sha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第二批\\录入候选.json",
+    "batch": null,
+    "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+    "source": {
+      "hero": "Annie",
+      "rootPath": "Characters/Annie/CharacterRecords/Root",
+      "spellPath": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+      "clientSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961",
+      "officialSha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735"
+    },
+    "write": {
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10000,
+          "levelValues": null,
+          "description": "当前主技能无 cooldownTime，采用官方16.17.1基础冷却；不借用其他同名旧对象。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "base_shield",
+          "name": "基础护盾",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 95,
+            "3": 130,
+            "4": 165,
+            "5": 200
+          },
+          "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "name": "护盾持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null,
+          "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "base_return_damage",
+          "name": "基础伤害回敬",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 25,
+            "2": 35,
+            "3": 45,
+            "4": 55,
+            "5": 65
+          },
+          "description": "客户端当前根绑定 DataValues.DamageReflection 取索引1至5。",
+          "sortOrder": 50
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "name": "护盾法强倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null,
+          "description": "客户端 ShieldBlockTotal.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+          "sortOrder": 60
+        },
+        {
+          "parameterKey": "return_ap_ratio",
+          "name": "回敬法强倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null,
+          "description": "客户端 DamageReturn.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+          "sortOrder": 70
+        },
+        {
+          "parameterKey": "move_speed_duration_ms",
+          "name": "移速衰减持续（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null,
+          "description": "客户端当前根绑定 DataValues.MovementSpeedDuration 取索引1至5。",
+          "sortOrder": 80
+        },
+        {
+          "parameterKey": "move_speed_ratio",
+          "name": "初始移动速度提升比例",
+          "valueType": "DECIMAL",
+          "valueMode": "CHARACTER_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.217647059,
+            "3": 0.235294118,
+            "4": 0.252941176,
+            "5": 0.270588235,
+            "6": 0.288235294,
+            "7": 0.305882353,
+            "8": 0.323529412,
+            "9": 0.341176471,
+            "10": 0.358823529,
+            "11": 0.376470588,
+            "12": 0.394117647,
+            "13": 0.411764706,
+            "14": 0.429411765,
+            "15": 0.447058824,
+            "16": 0.464705882,
+            "17": 0.482352941,
+            "18": 0.5
+          },
+          "description": "当前计算式角色等级1至18线性插值；比例1表示100%。",
+          "sortOrder": 90
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "shield",
+          "name": "熔岩自护盾",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_shield"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "ShieldBlockTotal：60/95/130/165/200+0.4总法强。",
+          "sortOrder": 10
+        },
+        {
+          "formulaKey": "return_damage",
+          "name": "熔岩伤害回敬",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_return_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "return_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "DamageReturn：25/35/45/55/65+0.4总法强。",
+          "sortOrder": 20
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "mana_cost",
+          "name": "施放法力消耗",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "molten_shield",
+          "name": "熔岩自护盾",
+          "description": "自身护盾：结果目标与实例范围均为来源对象。独立组成，施加及刷新条件另行接线。",
+          "sortOrder": 20,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "shield",
+              "name": "普通护盾",
+              "resultType": "NORMAL_SHIELD",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "shield"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "absorbedDamageTypeKey": null,
+                "decayMode": "NONE"
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "return_damage",
+          "name": "护盾伤害回敬",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "sortOrder": 30,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "护盾伤害回敬",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "description": null,
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "return_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "REFLECTED",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ],
+      "processes": [],
+      "internalStates": [],
+      "triggerRules": []
+    },
+    "pending": [
+      {
+        "kind": "配置",
+        "component": "护盾施加和伤害回敬",
+        "reason": "回敬仅限护盾激活期间被攻击/技能损伤，且每名攻击者每盾一次，不能监听所有受伤无限反伤；先记录独立组成。"
+      },
+      {
+        "kind": "配置",
+        "component": "移速与历史字段",
+        "reason": "现说明使用MoveSpeedCalc等级20%至50%衰减；旧MovementSpeed和DamageReduction没有当前引用，不录为额外减伤或固定移速。"
+      }
+    ],
+    "excluded": [
+      {
+        "component": "友军与提伯斯护盾",
+        "reason": "本轮保留安妮自身；队友和独立提伯斯不录。"
+      }
+    ]
+  },
+  "client": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Annie.json.gz",
+    "excerpt": {
+      "objectPath": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+      "spellTags": [
+        "PositiveEffect_Boon",
+        "Trait_DamageAbility",
+        "Trait_Shield",
+        "Trait_Target_Directional",
+        "Trait_AoE"
+      ],
+      "dataValues": {
+        "ShieldDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "DamageReflection": [
+          15,
+          25,
+          35,
+          45,
+          55,
+          65,
+          75
+        ],
+        "MovementSpeed": [
+          0.10000000149011612,
+          0.15000000596046448,
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645
+        ],
+        "MovementSpeedDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "ShieldAmount": [
+          25,
+          60,
+          95,
+          130,
+          165,
+          200,
+          235
+        ]
+      },
+      "calculations": {
+        "ShieldBlockTotal": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldAmount",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.4000000059604645,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "castRange": [
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800
+      ],
+      "targetingType": {
+        "__type": "TargetOrLocation"
+      },
+      "mana": [
+        60,
+        65,
+        70,
+        75,
+        80,
+        85
+      ]
+    }
+  },
+  "official": {
+    "zh": {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Annie.json",
+      "pointer": "data.Annie.spells[id=AnnieE]",
+      "excerpt": {
+        "id": "AnnieE",
+        "name": "熔岩护盾",
+        "description": "为安妮或一名友军提供一层护盾、一个爆发性的移动速度加成并且对任何用攻击或技能袭击她的敌人造成伤害。",
+        "tooltip": "安妮为一名友方英雄提供持续{{ shieldduration }}秒的<shield>{{ shieldblocktotal }}护盾值</shield>，以及在{{ movementspeedduration }}秒里持续衰减的<speed>{{ movespeedcalc }}移动速度</speed>。当护盾处于激活状态时，敌人用攻击或技能对护盾造成伤害时会受到<magicDamage>{{ damagereturn }}魔法伤害</magicDamage>，每个护盾受到一次伤害。<br /><br />提伯斯在被召唤出来时总会获得<spellName>熔岩护盾</spellName>的效果。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "护盾值",
+            "伤害回敬",
+            "@AbilityResourceName@消耗"
+          ],
+          "effect": [
+            "{{ shieldamount }} -> {{ shieldamountNL }}",
+            "{{ damagereflection }} -> {{ damagereflectionNL }}",
+            "{{ cost }} -> {{ costNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "cost": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "range": [
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "image": {
+          "full": "AnnieE.png",
+          "sprite": "spell1.png",
+          "group": "spell",
+          "x": 384,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "en": {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Annie.json",
+      "pointer": "data.Annie.spells[id=AnnieE]",
+      "excerpt": {
+        "id": "AnnieE",
+        "name": "Molten Shield",
+        "description": "Grants Annie or an ally a shield, a burst of Move Speed, and damages enemies who strike her with attacks or spells.",
+        "tooltip": "Annie grants an ally champion <shield>{{ shieldblocktotal }} Shield</shield> for {{ shieldduration }} seconds and <speed>{{ movespeedcalc }} Decaying Move Speed</speed> for {{ movementspeedduration }} seconds. While the shield holds, enemies who hit the shielded ally with an Attack or Ability receive <magicDamage>{{ damagereturn }} magic damage</magicDamage> once per shield.<br /><br />Tibbers always gains the effects of <spellName>Molten Shield</spellName> when summoned.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Shield Health",
+            "Damage Reflection",
+            "@AbilityResourceName@ Cost"
+          ],
+          "effect": [
+            "{{ shieldamount }} -> {{ shieldamountNL }}",
+            "{{ damagereflection }} -> {{ damagereflectionNL }}",
+            "{{ cost }} -> {{ costNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "cost": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "range": [
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "image": {
+          "full": "AnnieE.png",
+          "sprite": "spell1.png",
+          "group": "spell",
+          "x": 384,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        }
+      }
+    }
+  },
+  "acceptedFacts": {
+    "trigger": {
+      "skillKey": "annie_e",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "annie_e",
+        "useKind": "ACTIVE"
+      },
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "molten_shield"
+    },
+    "targetSemantics": "动作使用 CURRENT_TARGET；已有 molten_shield 的结果 target 为 SOURCE，本批严格只保留安妮自身护盾。",
+    "boundary": [
+      "只消费宿主已确认合法的主动使用事件。",
+      "不表达友军、提伯斯、护盾反伤或移动速度分支。",
+      "不重复执行法力消耗或冷却，不新增参数、公式或效果。"
+    ]
+  },
+  "sourceChecks": {
+    "candidatePresent": true,
+    "candidateEffectPresent": true,
+    "candidateFormulaPresent": true,
+    "candidateResultSelfShield": true,
+    "candidateLifecycleSource": true,
+    "candidateClientHash": true,
+    "candidateOfficialHash": true,
+    "clientShieldTag": true,
+    "clientShieldDuration": true,
+    "clientShieldCalculation": true,
+    "officialZhShieldText": true,
+    "officialEnShieldText": true,
+    "officialSpellRank": true
+  }
+}

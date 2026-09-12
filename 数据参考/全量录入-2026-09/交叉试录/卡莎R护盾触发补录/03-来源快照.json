@@ -1,0 +1,723 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:31:09.511Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取本地候选、规划来源和固定资料，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "卡莎候选与批次记录",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第三十二批\\完整候选.json",
+      "byteSize": 808172,
+      "sha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d"
+    },
+    {
+      "kind": "卡莎来源散列汇总",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第三十二批\\来源哈希汇总.json",
+      "byteSize": 11065,
+      "sha256": "74a322d6b4914c4ee54b5cba09bdffb89adf0917276512b220d0f85c79262b34"
+    },
+    {
+      "kind": "卡莎输入版本",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第三十二批\\输入包\\输入版本.json",
+      "byteSize": 4212,
+      "sha256": "08d40948c9bcd29b2acb2d235563dba3957606dca0ba2a564d4d3a8c717de7e4"
+    },
+    {
+      "kind": "卡莎客户端完整原文",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Kaisa.json.gz",
+      "byteSize": 13650,
+      "sha256": "12ed60666fb33870d7881b132eddf71fc75154a376728511883d311a6b09b650",
+      "decompressedByteSize": 152299,
+      "decompressedSha256": "ffe63aea302f2df392e6043c488994a50dd1afd0bf17cbfcb8303fad9694346e"
+    },
+    {
+      "kind": "卡莎官方中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Kaisa.json",
+      "byteSize": 16116,
+      "sha256": "3674cf8819906208e57279a1aad7d9abdd817f38fda4c3749f64e8edc4fc6374"
+    },
+    {
+      "kind": "卡莎官方英文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Kaisa.json",
+      "byteSize": 15451,
+      "sha256": "5f26c894f2f9646cf4023b2384ecad1c4d64502ab7d0a92f00d9e9c09a46e037"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第三十二批\\完整候选.json",
+    "batch": "英雄机制第三十二批",
+    "sha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+    "source": {
+      "hero": "Kaisa",
+      "heroName": "卡莎",
+      "heroKey": "champion_kaisa",
+      "slot": "R",
+      "resourceType": "法力",
+      "rootPath": "Characters/Kaisa/CharacterRecords/Root",
+      "spellPath": "Characters/Kaisa/Spells/KaisaRAbility/KaisaR",
+      "bindingAvailable": true,
+      "clientFile": "参考资料/客户端原文/Kaisa.json.gz",
+      "clientSha256": "ffe63aea302f2df392e6043c488994a50dd1afd0bf17cbfcb8303fad9694346e",
+      "clientCompressedSha256": "12ed60666fb33870d7881b132eddf71fc75154a376728511883d311a6b09b650",
+      "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+      "officialZhFile": "参考资料/官方中文/Kaisa.json",
+      "officialZhSha256": "3674cf8819906208e57279a1aad7d9abdd817f38fda4c3749f64e8edc4fc6374",
+      "officialEnFile": "参考资料/官方英文/Kaisa.json",
+      "officialEnSha256": "5f26c894f2f9646cf4023b2384ecad1c4d64502ab7d0a92f00d9e9c09a46e037",
+      "currentBoundText": {
+        "keyName": {
+          "sourceKey": "Spell_KaisaR_Name",
+          "text": "猎手本能"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KaisaR_Summary",
+          "text": "卡莎突进到一个敌方英雄身边。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KaisaR_Tooltip",
+          "text": "卡莎跃迁到一个位置上，该位置处于一名身上带有<keywordMajor>电浆</keywordMajor>效果的敌方英雄的附近，并获得持续@RShieldDuration@秒的<shield>@RCalculatedShieldValue@护盾值</shield>。"
+        }
+      },
+      "raw": {
+        "dataValues": {
+          "RBaseValue": [
+            50,
+            100,
+            150,
+            200,
+            250,
+            300,
+            350
+          ],
+          "RRange": [
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500
+          ],
+          "RShieldDuration": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "RTotalADRatio": [
+            0.44999998807907104,
+            0.8999999761581421,
+            1.350000023841858,
+            1.7999999523162842,
+            2.25,
+            2.700000047683716,
+            3.1500000953674316
+          ],
+          "RAPRatio": [
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158
+          ]
+        },
+        "calculations": {
+          "RCalculatedShieldValue": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "RBaseValue",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mDataValue": "RTotalADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "RAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "spellCastTime": 0.25,
+        "mCastTime": null,
+        "cooldownTime": [
+          130,
+          130,
+          100,
+          70,
+          70,
+          70,
+          70
+        ],
+        "mMaxAmmo": null,
+        "mAmmoRechargeTime": null,
+        "mDoesNotConsumeMana": null,
+        "mDoesNotConsumeCooldown": null
+      },
+      "officialEvidence": {
+        "path": "data.Kaisa.spells[3]",
+        "name": "Killer Instinct",
+        "description": "Kai'Sa dashes near an enemy champion.",
+        "tooltip": "Kai'Sa warps near an enemy champion affected by <keywordMajor>Plasma</keywordMajor> and gains <shield>{{ rcalculatedshieldvalue }} Shield</shield> for {{ rshieldduration }} seconds.{{ spellmodifierdescriptionappend }}"
+      },
+      "currentTextPath": "来源绑定与当前文本.json -> Kaisa/R/currentTexts"
+    },
+    "write": {
+      "parameters": [
+        {
+          "parameterKey": "shield_base_value",
+          "name": "基础护盾值",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100,
+            "2": 150,
+            "3": 200
+          },
+          "description": "客户端RCalculatedShieldValue树RBaseValue取等级1至3，为100/150/200。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "total_attack_damage_ratio",
+          "name": "总攻击力比例",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.8999999761581421,
+            "2": 1.350000023841858,
+            "3": 1.7999999523162842
+          },
+          "description": "当前RCalculatedShieldValue树RTotalADRatio取等级1至3，为0.9/1.35/1.8，取来源总攻击力。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "name": "法术强度比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.2000000476837158,
+          "levelValues": null,
+          "description": "当前RCalculatedShieldValue树RAPRatio约1.2。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "name": "护盾持续时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null,
+          "description": "当前正文和RShieldDuration=2秒，转换为2000毫秒。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "基础施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null,
+          "description": "当前根spellCastTime；仅保存来源字段，不代表命中、位移或效果事件已接线。",
+          "sortOrder": 1000
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "shield_value",
+          "name": "猎手本能自身护盾值",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_base_value"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "total_attack_damage_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "当前RCalculatedShieldValue=基础值+总攻击力比例+1.2×法强；只用于自身护盾结果。",
+          "sortOrder": 10
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "self_shield",
+          "name": "猎手本能自身护盾",
+          "description": "只定义当前护盾值和2000毫秒生命周期；有电浆敌方英雄附近的跃迁资格与施放时点待接。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "shield",
+              "name": "自身护盾",
+              "resultType": "NORMAL_SHIELD",
+              "target": "SOURCE",
+              "description": "护盾数值来自当前猎手本能计算树；跃迁和有电浆英雄资格由事件层接线。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "shield_value"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "absorbedDamageTypeKey": null,
+                "decayMode": "NONE"
+              }
+            }
+          ]
+        }
+      ],
+      "processes": [],
+      "internalStates": [],
+      "triggerRules": []
+    },
+    "pending": [
+      {
+        "item": "有电浆敌方英雄资格、附近判定与位移时点",
+        "reason": "正文关系明确，事件接线待后续运行层。"
+      }
+    ],
+    "excluded": [
+      {
+        "item": "RRange",
+        "reason": "位移几何范围不建立无消费者公式。"
+      },
+      {
+        "item": "他人护盾",
+        "reason": "当前正文明确护盾归卡莎自身，不能当作友军结果。"
+      }
+    ]
+  },
+  "client": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Kaisa.json.gz",
+    "excerpt": {
+      "objectPath": "Characters/Kaisa/Spells/KaisaRAbility/KaisaR",
+      "spellTags": [
+        "PositiveEffect_MoveBlock",
+        "Trait_Ultimate",
+        "Trait_AttackReset",
+        "Trait_Shield"
+      ],
+      "dataValues": {
+        "RBaseValue": [
+          50,
+          100,
+          150,
+          200,
+          250,
+          300,
+          350
+        ],
+        "RShieldDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "RTotalADRatio": [
+          0.44999998807907104,
+          0.8999999761581421,
+          1.350000023841858,
+          1.7999999523162842,
+          2.25,
+          2.700000047683716,
+          3.1500000953674316
+        ],
+        "RAPRatio": [
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158
+        ]
+      },
+      "calculations": {
+        "RCalculatedShieldValue": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "RBaseValue",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "RTotalADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "RAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "spellCastTime": 0.25,
+      "cooldownTime": [
+        130,
+        130,
+        100,
+        70,
+        70,
+        70,
+        70
+      ],
+      "castRangeDisplayOverride": [
+        1500,
+        2000,
+        2500,
+        3000,
+        3500,
+        4000,
+        4500
+      ],
+      "castRadius": [
+        525,
+        525,
+        525,
+        525,
+        525,
+        525,
+        525
+      ],
+      "targetingType": {
+        "__type": "Location"
+      },
+      "mana": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ]
+    }
+  },
+  "official": {
+    "zh": {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Kaisa.json",
+      "pointer": "data.Kaisa.spells[id=KaisaR]",
+      "excerpt": {
+        "id": "KaisaR",
+        "name": "猎手本能",
+        "description": "卡莎突进到一个敌方英雄身边。",
+        "tooltip": "卡莎跃迁到一个位置上，该位置处于一名身上带有<keywordMajor>电浆</keywordMajor>效果的敌方英雄的附近，并获得持续{{ rshieldduration }}秒的<shield>{{ rcalculatedshieldvalue }}护盾值</shield>。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "距离",
+            "冷却时间",
+            "护盾值",
+            "攻击力收益"
+          ],
+          "effect": [
+            "{{ rrange }} -> {{ rrangeNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ rbasevalue }} -> {{ rbasevalueNL }}",
+            "{{ rtotaladratio*100.000000 }}% -> {{ rtotaladrationl*100.000000 }}%"
+          ]
+        },
+        "maxrank": 3,
+        "cooldown": [
+          130,
+          100,
+          70
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "range": [
+          2000,
+          2500,
+          3000
+        ],
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "image": {
+          "full": "KaisaR.png",
+          "sprite": "spell6.png",
+          "group": "spell",
+          "x": 336,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        }
+      }
+    },
+    "en": {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Kaisa.json",
+      "pointer": "data.Kaisa.spells[id=KaisaR]",
+      "excerpt": {
+        "id": "KaisaR",
+        "name": "Killer Instinct",
+        "description": "Kai'Sa dashes near an enemy champion.",
+        "tooltip": "Kai'Sa warps near an enemy champion affected by <keywordMajor>Plasma</keywordMajor> and gains <shield>{{ rcalculatedshieldvalue }} Shield</shield> for {{ rshieldduration }} seconds.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Range",
+            "Cooldown",
+            "Shield Amount",
+            "Attack Damage Ratio"
+          ],
+          "effect": [
+            "{{ rrange }} -> {{ rrangeNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ rbasevalue }} -> {{ rbasevalueNL }}",
+            "{{ rtotaladratio*100.000000 }}% -> {{ rtotaladrationl*100.000000 }}%"
+          ]
+        },
+        "maxrank": 3,
+        "cooldown": [
+          130,
+          100,
+          70
+        ],
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "range": [
+          2000,
+          2500,
+          3000
+        ],
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "image": {
+          "full": "KaisaR.png",
+          "sprite": "spell6.png",
+          "group": "spell",
+          "x": 336,
+          "y": 48,
+          "w": 48,
+          "h": 48
+        }
+      }
+    }
+  },
+  "acceptedFacts": {
+    "trigger": {
+      "skillKey": "kaisa_r",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "eventDetail": {
+        "sourceSkillKey": "kaisa_r",
+        "useKind": "ACTIVE"
+      },
+      "targetContext": "CURRENT_TARGET",
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "self_shield"
+    },
+    "targetSemantics": "动作使用 CURRENT_TARGET；已有 self_shield 的结果 target 为 SOURCE，因此护盾只落在卡莎自身。",
+    "boundary": [
+      "只消费宿主已确认合法的主动使用事件。",
+      "不表达电浆资格、附近判定、跃迁、位移落点或空间范围。",
+      "不重复执行施放资格、法力消耗或冷却，不新增参数、公式或效果。"
+    ]
+  },
+  "sourceChecks": {
+    "candidatePresent": true,
+    "candidateEffectPresent": true,
+    "candidateFormulaPresent": true,
+    "candidateResultSelfShield": true,
+    "candidateLifecycleSource": true,
+    "candidateClientHash": true,
+    "candidateCompressedClientHash": true,
+    "candidateOfficialZhHash": true,
+    "candidateOfficialEnHash": true,
+    "clientShieldTag": true,
+    "clientShieldDuration": true,
+    "clientShieldCalculation": true,
+    "officialZhShieldText": true,
+    "officialEnShieldText": true,
+    "officialSpellRank": true
+  }
+}

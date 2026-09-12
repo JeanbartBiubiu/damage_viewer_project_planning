@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-13T00:11:44.4185718+08:00",
+  "reviewer": "Luna Max 独立语义评审",
+  "methodPolicy": "LOCAL_FILES_ONLY",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "verdict": "REVISE",
+  "accepted": [
+    {
+      "id": "garen",
+      "skillKey": "garen_w",
+      "ruleKey": "on_used",
+      "scope": "只连接短时护盾与短时韧性两个已有动作，不代表主动减伤已覆盖。",
+      "reason": "两个动作均作用于来源对象并使用同一 750 毫秒持续时间，主动使用事件足以表达本次窄范围。"
+    },
+    {
+      "id": "vex",
+      "skillKey": "vex_w",
+      "ruleKey": "on_used",
+      "scope": "只连接主动使用时的自身护盾，不包含范围伤害与暮气。",
+      "reason": "自身护盾结果目标为来源对象，主动使用事件可准确表达。"
+    },
+    {
+      "id": "kassadin",
+      "skillKey": "kassadin_q",
+      "ruleKey": "on_used",
+      "scope": "只连接主动使用时的自身魔法护盾，不包含目标伤害与打断。",
+      "reason": "护盾结果目标为来源对象且只吸收魔法伤害，主动使用事件可准确表达。"
+    },
+    {
+      "id": "ivern",
+      "skillKey": "ivern_q",
+      "ruleKey": "actual_hit",
+      "scope": "只连接命中英雄时的一次直接伤害，不包含禁锢、重施突进与野怪分支。",
+      "reason": "技能命中事件、英雄类别条件和当前目标动作能够准确界定该窄效果。"
+    }
+  ],
+  "deferred": [
+    {
+      "id": "kaisa",
+      "skillKey": "kaisa_r",
+      "ruleKey": "on_used",
+      "reason": "现有资料只声明宿主应确认电浆合格目标和合法阶段，没有宿主事件生产或运行证据；当前前端只保存规则。",
+      "neededEvidence": "证明宿主仅在电浆资格成立且合法技能使用阶段产生对应事件。"
+    },
+    {
+      "id": "annie",
+      "skillKey": "annie_e",
+      "ruleKey": "on_used",
+      "reason": "技能可施放给安妮、友军或提伯斯；当前规则不能区分显式目标是否为来源对象，结果目标为来源对象无法补足该判断。",
+      "neededEvidence": "增加自施目标身份条件或提供已明确区分自施目标的宿主事件。"
+    },
+    {
+      "id": "ashe",
+      "skillKey": "ashe_w",
+      "ruleKey": "actual_hit",
+      "reason": "当前资料只声明宿主应按同次施放和同一目标去重，没有去重运行证据；不能用逐目标冷却替代不同施放身份。",
+      "neededEvidence": "证明宿主对一次施放命中同一目标只产生一次技能命中事件。"
+    },
+    {
+      "id": "nocturne",
+      "skillKey": "nocturne_r",
+      "ruleKey": "actual_hit",
+      "reason": "当前资料只把第二段实际抵达写成宿主前置契约，没有证明宿主不会在第一段或位移过程中产生同类命中事件。",
+      "neededEvidence": "证明宿主只在第二段实际抵达目标时产生该技能命中事件。"
+    }
+  ],
+  "evidence": [
+    "卡莎R护盾触发补录/05-只读准备报告.json",
+    "安妮E护盾触发补录/03-来源快照.json",
+    "艾希W触发补录/README.md",
+    "魔腾R触发补录/01-来源方案.md",
+    "web/README.md"
+  ],
+  "decision": {
+    "writeCandidateIds": [
+      "garen",
+      "vex",
+      "kassadin",
+      "ivern"
+    ],
+    "expectedRuleCountBefore": 104,
+    "expectedRuleCountAfter": 108
+  },
+  "limits": [
+    "本评审证明当前数据表达是否安全，不证明战斗宿主、TinyGo 或 Wasm 已产生相应事件。"
+  ]
+}

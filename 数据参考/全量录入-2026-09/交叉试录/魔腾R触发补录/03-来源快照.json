@@ -1,0 +1,606 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:47:50.530Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取当前交叉试录候选和固定资料，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "魔腾 R 候选与已有组成",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\完整候选.json",
+      "byteSize": 332093,
+      "sha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35"
+    },
+    {
+      "kind": "魔腾客户端16.17原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nocturne.json.gz",
+      "byteSize": 7550,
+      "sha256": "c3ac14c59e9250017a85f0b588fca29c66aaacf50c009f80e9d2b2a06804ac53",
+      "decompressedByteSize": 51608,
+      "decompressedSha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30"
+    },
+    {
+      "kind": "魔腾官方16.17.1中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nocturne.json",
+      "byteSize": 11943,
+      "sha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5"
+    },
+    {
+      "kind": "魔腾技能来源冻结与哈希汇总",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\来源冻结\\来源与哈希汇总.json",
+      "byteSize": 8255,
+      "sha256": "538058f5b171e4462bbd6a4c5e3b05d997b0c2a1fcc0653d66a9ceaca186038b"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第七批\\完整候选.json",
+    "fileSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+    "revision": null,
+    "skill": {
+      "skillKey": "nocturne_r",
+      "name": "鬼影重重",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Nocturne",
+        "rootPath": "Characters/Nocturne/CharacterRecords/Root",
+        "spellPath": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+        "clientSha256": "de77651d4f8a34d2947bf7a5f38ca02928ae65fb10cb9c684bfaf101001a5b30",
+        "officialSha256": "870f40f74748180f55b831a9a4cba36edb53a69bab912b5a1adb106eac913df5",
+        "currentBoundText": {
+          "binding": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_NocturneR_Name",
+              "key": "spell_nocturner_name",
+              "text": "鬼影重重"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NocturneR_Summary",
+              "key": "spell_nocturner_summary",
+              "text": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NocturneR_Tooltip",
+              "key": "spell_nocturner_tooltip",
+              "text": "魔腾使地图变暗，降低所有敌方英雄的视野半径并移除其友方视野，持续@ParanoiaDuration@秒。魔腾能够在持续期间<recast>再次施放</recast>这个技能，来突进到一名敌方英雄的身边并造成<physicalDamage>@Damage@物理伤害</physicalDamage>。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_NocturneR_TooltipSimple",
+              "key": "spell_nocturner_tooltipsimple",
+              "text": "移除敌方英雄的友军视野，持续@ParanoiaDuration@秒。<br><br>在此期间再次激活此技能即可突进至一名敌方英雄并造成伤害。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 140000,
+              "2": 115000,
+              "3": 90000
+            },
+            "description": "当前根Cooldown.values索引1起，官方逐级相同。",
+            "sortOrder": 10
+          },
+          {
+            "description": "DDragon16.17.1 Nocturne.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "再次施放抵达目标基础伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 275,
+              "3": 400
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "recast_window_ms",
+            "name": "再次施放允许窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.ParanoiaDuration 取索引1至3。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "鬼影重重额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.2,
+            "levelValues": null,
+            "description": "当前Damage树明确额外攻击力系数1.2。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "arrival_damage",
+            "name": "再次施放实际抵达伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "150/275/400+1.2额外攻击力；只在再次施放实际抵达时交付一次。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "arrival_damage",
+            "name": "鬼影重重抵达物理伤害",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "鬼影重重抵达物理伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "arrival_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "physics",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "parameterKey": "cooldown_ms",
+          "source": "Cooldown.values+official.cooldown",
+          "values": [
+            140000,
+            115000,
+            90000
+          ]
+        },
+        {
+          "parameterKey": "mana_cost",
+          "source": "manaValues.values+official.cost",
+          "values": [
+            100,
+            100,
+            100
+          ]
+        },
+        {
+          "parameterKey": "base_damage",
+          "source": "DataValues.BaseDamage",
+          "raw": [
+            150,
+            150,
+            275,
+            400,
+            525,
+            650,
+            775
+          ],
+          "offset": 1,
+          "values": [
+            150,
+            275,
+            400
+          ],
+          "scale": 1
+        },
+        {
+          "parameterKey": "recast_window_ms",
+          "source": "DataValues.ParanoiaDuration",
+          "raw": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "offset": 1,
+          "values": [
+            6000,
+            6000,
+            6000
+          ],
+          "scale": 1000
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "source": "官方说明或明确计算派生",
+          "values": [
+            1.2
+          ]
+        }
+      ],
+      "pending": [
+        {
+          "kind": "配置",
+          "component": "初施与再施分阶段及一次命中",
+          "reason": "6秒窗口中允许再次施放；法力与基础冷却应归于合法初施，真实抵达才伤害。当前只保留独立成本、冷却和伤害，未把初施与再施都接actual_hit或重复消耗。"
+        },
+        {
+          "kind": "配置",
+          "component": "黑暗庇护在飞行中保持",
+          "reason": "NocturneW当前扩展有保持激活提醒；飞行结束、1.5秒普通期限与成功格挡的组合需接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "component": "纯视野、飞行空间与全地图目标遍历",
+          "reason": "视野压缩、移除队友视野及空间导航后置；6秒再次施放依赖和对本次敌方英雄的实际伤害保留。"
+        }
+      ],
+      "reusedParameters": [
+        "mana_cost"
+      ],
+      "disposition": {
+        "范围外": [
+          {
+            "component": "纯视野、飞行空间与全地图目标遍历",
+            "reason": "视野压缩、移除队友视野及空间导航后置；6秒再次施放依赖和对本次敌方英雄的实际伤害保留。"
+          }
+        ],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "kind": "配置",
+            "component": "初施与再施分阶段及一次命中",
+            "reason": "6秒窗口中允许再次施放；法力与基础冷却应归于合法初施，真实抵达才伤害。当前只保留独立成本、冷却和伤害，未把初施与再施都接actual_hit或重复消耗。"
+          },
+          {
+            "kind": "配置",
+            "component": "黑暗庇护在飞行中保持",
+            "reason": "NocturneW当前扩展有保持激活提醒；飞行结束、1.5秒普通期限与成功格挡的组合需接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存或未接线不表示完整机制"
+    }
+  },
+  "client": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nocturne.json.gz",
+    "pointer": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+    "excerpt": {
+      "objectPath": "Characters/Nocturne/Spells/NocturneParanoiaAbility/NocturneParanoia",
+      "dataValues": [
+        {
+          "name": "ParanoiaDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "TrackDistance",
+          "values": [
+            3500,
+            3500,
+            4250,
+            5000,
+            5750,
+            6500,
+            7250
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            150,
+            150,
+            275,
+            400,
+            525,
+            650,
+            775
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DashSpeed",
+          "values": [
+            1800,
+            1800,
+            1800,
+            1800,
+            1800,
+            1800,
+            1800
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.2000000476837158,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "spellCastTime": 0.25,
+      "cooldownTime": [
+        140,
+        140,
+        115,
+        90,
+        90,
+        90,
+        90
+      ],
+      "cooldown": {
+        "values": [
+          140,
+          140,
+          115,
+          90,
+          90,
+          90,
+          90
+        ],
+        "__type": "{0a0eddc9}"
+      },
+      "mana": [
+        100,
+        100,
+        100,
+        0,
+        0,
+        0
+      ],
+      "castRange": [
+        2500,
+        2500,
+        3250,
+        4000,
+        2500,
+        2500,
+        2500
+      ],
+      "castRadius": [
+        1500,
+        1500,
+        1500,
+        1500,
+        1500,
+        1500,
+        1500
+      ],
+      "missileSpeed": 20,
+      "mSpellTags": [
+        "Trait_Ultimate",
+        "Trait_ChannelSpell",
+        "Trait_DamageAbility",
+        "Trait_RecastOrReplaceSpell"
+      ],
+      "targetingType": {
+        "__type": "SelfAoe"
+      },
+      "targeterDefinitions": [
+        {
+          "useCasterBoundingBox": false,
+          "__type": "TargeterDefinitionRange"
+        },
+        {
+          "useCasterBoundingBox": false,
+          "__type": "TargeterDefinitionMinimap"
+        }
+      ]
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nocturne.json",
+    "pointer": "data/Nocturne/spells[id=NocturneParanoia]",
+    "excerpt": {
+      "id": "NocturneParanoia",
+      "name": "鬼影重重",
+      "description": "魔腾减少所有敌方英雄的视野范围，并在此过程中移除敌方英雄的友军的视野。魔腾能够借机突进到附近的敌方英雄身边。",
+      "tooltip": "魔腾使地图变暗，降低所有敌方英雄的视野半径并移除其友方视野，持续{{ paranoiaduration }}秒。魔腾能够在持续期间<recast>再次施放</recast>这个技能，来突进到一名敌方英雄的身边并造成<physicalDamage>{{ damage }}物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "伤害",
+          "距离",
+          "冷却时间"
+        ],
+        "effect": [
+          "{{ basedamage }} -> {{ basedamageNL }}",
+          "{{ castrange }} -> {{ castrangeNL }}",
+          "{{ cooldown }} -> {{ cooldownNL }}"
+        ]
+      },
+      "maxrank": 3,
+      "cooldown": [
+        140,
+        115,
+        90
+      ],
+      "cost": [
+        100,
+        100,
+        100
+      ],
+      "effect": [
+        null,
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "image": {
+        "full": "NocturneParanoia.png",
+        "sprite": "spell10.png",
+        "group": "spell",
+        "x": 336,
+        "y": 48,
+        "w": 48,
+        "h": 48
+      }
+    }
+  },
+  "acceptedFacts": {
+    "directHitEffect": "arrival_damage：再次施放后实际抵达目标的一次物理伤害，结果目标为 TARGET。",
+    "formula": "arrival_damage=base_damage+bonus_ad_ratio×来源额外攻击力。",
+    "stageBoundary": "SKILL_HIT 只接实际抵达目标这一段的命中交付，不把初施、视野或空间移动当作伤害。",
+    "resourceBoundary": "mana_cost 与 cooldown 属于施法过程，命中规则不重复执行。"
+  }
+}

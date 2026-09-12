@@ -1,0 +1,524 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:44:46.138Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取规划来源和已有实录，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "艾希技能候选与已有组成",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\艾希技能实录第一批\\录入候选.json",
+      "byteSize": 13393,
+      "sha256": "5544d664c2b82db9f17e9d98c6aba1576fb80d7bdc9549d05484804b6659ef01"
+    },
+    {
+      "kind": "艾希客户端16.17原始资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\艾希拉克丝客户端补证\\ashe.bin.json",
+      "byteSize": 100290,
+      "sha256": "9b2e4e241134f8e93153a752fe54f65c2dddccc795b9c9d575ec45111fccafd2"
+    },
+    {
+      "kind": "艾希官方16.17.1中文资料",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Ashe.json",
+      "byteSize": 16326,
+      "sha256": "6da1288d3a252541b543aeb4837a4a6b8399984b2ad437025b231f276ee356fb"
+    },
+    {
+      "kind": "艾希技能已有实录回读",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\艾希技能实录第一批\\实录回读.json",
+      "byteSize": 30763,
+      "sha256": "bd864ecb3b585fc58d40e3c4c01a4778b30e6269c012eed1520ddcf5102d91ba"
+    },
+    {
+      "kind": "艾希技能已有独立核对",
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\艾希技能实录第一批\\独立核对.json",
+      "byteSize": 31033,
+      "sha256": "ed86a0fda820ebee2bec85369741685daca78afc82a512f329efea7fa327dcb5"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\艾希技能实录第一批\\录入候选.json",
+    "fileSha256": "5544d664c2b82db9f17e9d98c6aba1576fb80d7bdc9549d05484804b6659ef01",
+    "sourceHash": "9b2e4e241134f8e93153a752fe54f65c2dddccc795b9c9d575ec45111fccafd2",
+    "skill": {
+      "skillKey": "ashe_w",
+      "maxLevel": 5,
+      "parameters": [
+        {
+          "parameterKey": "base_damage",
+          "name": "W 基础物理伤害",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 95,
+            "3": 130,
+            "4": 165,
+            "5": 200
+          },
+          "description": "冻结资料：客户端 16.17 Volley 主对象 DataValues.BaseDamage，取等级 1～5；仅基础伤害。",
+          "sortOrder": 0
+        },
+        {
+          "parameterKey": "bonus_ad_ratio",
+          "name": "W 额外攻击力比例",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null,
+          "description": "Volley.TotalDamage 的 mStat=2、mStatFormula=2、ADRatio=1；额外攻击力口径与冻结 Wiki 及同版本星蚀公式旁证一致。",
+          "sortOrder": 10
+        },
+        {
+          "parameterKey": "arrow_count",
+          "name": "W 箭矢数量",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 7,
+            "2": 8,
+            "3": 9,
+            "4": 10,
+            "5": 11
+          },
+          "description": "采用当前说明绑定的 NumberOfArrowsTooltip；同一目标只受一次伤害，不能将箭数当作伤害次数。",
+          "sortOrder": 20
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "W 冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 18000,
+            "2": 14500,
+            "3": 11000,
+            "4": 7500,
+            "5": 4000
+          },
+          "description": "客户端 cooldownTime 索引 1～5，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+          "sortOrder": 30
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "W 法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 75,
+            "2": 70,
+            "3": 65,
+            "4": 60,
+            "5": 55
+          },
+          "description": "客户端六位 mana 数组取索引 0～4；与 DDragon 16.17.1 一致，不套用冷却数组的偏移。",
+          "sortOrder": 40
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "name": "W 施法时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null,
+          "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+          "sortOrder": 50
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "hit_damage",
+          "name": "W 一次命中物理伤害",
+          "description": "基础伤害 + 100%额外攻击力。当前 Volley 主对象，不使用旧 VolleyRank2～5 子对象。",
+          "sortOrder": 0,
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "effects": [
+        {
+          "effectKey": "hit_damage",
+          "name": "W 一次命中物理伤害",
+          "description": "仅一次实际命中的伤害；多箭同目标去重、英雄强化减速和命中事件接线待补，不能按箭数重复执行。",
+          "sortOrder": 0,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "一次命中伤害",
+              "target": "TARGET",
+              "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+              "sortOrder": 0,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": "RESULT",
+              "resultType": "DAMAGE",
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "hit_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "mana_cost",
+          "name": "W 施放法力消耗",
+          "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "name": "消耗法力",
+              "target": "SOURCE",
+              "description": null,
+              "sortOrder": 0,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "resultType": "RESOURCE_CHANGE",
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "client": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\艾希拉克丝客户端补证\\ashe.bin.json",
+    "pointer": "Characters/Ashe/Spells/VolleyAbility/Volley",
+    "excerpt": {
+      "objectPath": "Characters/Ashe/Spells/VolleyAbility/Volley",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            25,
+            60,
+            95,
+            130,
+            165,
+            200,
+            235
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "NumberOfArrowsTooltip",
+          "values": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ADRatio",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "spellCastTime": 0.25,
+      "cooldownTime": [
+        18,
+        18,
+        14.5,
+        11,
+        7.5,
+        4,
+        4
+      ],
+      "cooldown": {
+        "values": [
+          18,
+          18,
+          14.5,
+          11,
+          7.5,
+          4,
+          4
+        ],
+        "__type": "{0a0eddc9}"
+      },
+      "mana": [
+        75,
+        70,
+        65,
+        60,
+        55,
+        50
+      ],
+      "castRange": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+      ],
+      "castRadius": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "missileSpeed": 902,
+      "mSpellTags": [
+        "Trait_DamageAbility",
+        "Trait_SignatureSpell",
+        "Trait_Ranged_StopsFirstHit",
+        "Trait_AoE"
+      ],
+      "targetingType": {
+        "__type": "Cone"
+      },
+      "dataValuesModeOverride": {
+        "cherry": {
+          "SpellDataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                25,
+                65,
+                105,
+                145,
+                185,
+                225,
+                265
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "__type": "SpellDataValueVector"
+        }
+      }
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Ashe.json",
+    "pointer": "data/Ashe/spells[id=Volley]",
+    "excerpt": {
+      "id": "Volley",
+      "name": "万箭齐发",
+      "description": "艾希向前方的锥形范围射出多支箭，对敌人造成额外伤害。也会触发冰霜射击的效果。",
+      "tooltip": "艾希射出一排共{{ numberofarrowstooltip }}支箭矢，每支箭矢造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>。敌方单位可以一次性格挡多支箭矢，但只会受到一次伤害。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "已发射的箭矢数",
+          "伤害",
+          "冷却时间",
+          "@AbilityResourceName@消耗"
+        ],
+        "effect": [
+          "{{ numberofarrowstooltip }} -> {{ numberofarrowstooltipNL }}",
+          "{{ basedamage }} -> {{ basedamageNL }}",
+          "{{ cooldown }} -> {{ cooldownNL }}",
+          "{{ cost }} -> {{ costNL }}"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        18,
+        14.5,
+        11,
+        7.5,
+        4
+      ],
+      "cost": [
+        75,
+        70,
+        65,
+        60,
+        55
+      ],
+      "effect": [
+        null,
+        [
+          5,
+          7,
+          9,
+          11,
+          13
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "image": {
+        "full": "Volley.png",
+        "sprite": "spell1.png",
+        "group": "spell",
+        "x": 240,
+        "y": 144,
+        "w": 48,
+        "h": 48
+      }
+    }
+  },
+  "acceptedFacts": {
+    "directHitEffect": "hit_damage：单次实际命中物理伤害，结果目标为 TARGET。",
+    "arrowBoundary": "官方说明允许同一目标一次性格挡多支箭但只受到一次伤害；箭数不作为伤害次数。",
+    "formula": "hit_damage=base_damage+bonus_ad_ratio×来源额外攻击力。",
+    "resourceBoundary": "mana_cost 与 cooldown 属于施法过程，命中规则不重复执行。"
+  }
+}

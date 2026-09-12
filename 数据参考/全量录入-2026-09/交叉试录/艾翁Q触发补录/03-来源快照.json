@@ -1,0 +1,1179 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-12T15:46:21.104Z",
+  "sourcePolicy": "固定客户端16.17与官方16.17.1；只读取当前交叉试录候选和固定资料，不使用外部最新资料覆盖。",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sourceFiles": [
+    {
+      "kind": "艾翁 Q 候选与已有组成",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\修订一\\完整候选.json",
+      "byteSize": 635859,
+      "sha256": "b096abfa799364c3956cea44ba33ba18c0db3d274f65430667e751c5a020b01f"
+    },
+    {
+      "kind": "艾翁客户端16.17原始资料",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\参考资料\\客户端原文\\Ivern.json.gz",
+      "byteSize": 8567,
+      "sha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196",
+      "decompressedByteSize": 58989,
+      "decompressedSha256": "40e544c50fe387702ee3cbc82e41bf2296be3996640cf077b517a2ec7724d03e"
+    },
+    {
+      "kind": "艾翁官方16.17.1中文资料",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\参考资料\\官方中文\\Ivern.json",
+      "byteSize": 12109,
+      "sha256": "944b848a16ce275abfe73bff480a001eafdf014df9f849b436cba47231a95be3"
+    },
+    {
+      "kind": "艾翁官方16.17.1英文资料",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\参考资料\\官方英文\\Ivern.json",
+      "byteSize": 11841,
+      "sha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712"
+    },
+    {
+      "kind": "艾翁来源绑定与当前文本",
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\来源绑定与当前文本.json",
+      "byteSize": 322040,
+      "sha256": "a136cc45cb66b7854d09a30978a6f3496eca4bb092619b816bb602244d499419"
+    }
+  ],
+  "candidate": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\修订一\\完整候选.json",
+    "fileSha256": "b096abfa799364c3956cea44ba33ba18c0db3d274f65430667e751c5a020b01f",
+    "revision": "hero48-source-v1-luna-candidate-revision-1",
+    "skill": {
+      "skillKey": "ivern_q",
+      "name": "艾翁·根深敌固",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Ivern",
+        "heroName": "艾翁",
+        "heroKey": "champion_ivern",
+        "slot": "Q",
+        "resourceType": "法力",
+        "rootPath": "Characters/Ivern/CharacterRecords/Root",
+        "spellPath": "Characters/Ivern/Spells/IvernQAbility/IvernQ",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Ivern.json.gz",
+        "clientSha256": "40e544c50fe387702ee3cbc82e41bf2296be3996640cf077b517a2ec7724d03e",
+        "clientCompressedSha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196",
+        "clientContentSha256": "40e544c50fe387702ee3cbc82e41bf2296be3996640cf077b517a2ec7724d03e",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Ivern.json",
+        "officialZhSha256": "944b848a16ce275abfe73bff480a001eafdf014df9f849b436cba47231a95be3",
+        "officialEnFile": "参考资料/官方英文/Ivern.json",
+        "officialEnSha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_IvernQ_Name",
+            "text": "根深敌固"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_IvernQ_Summary",
+            "text": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_IvernQ_Tooltip",
+            "text": "艾翁召唤一束荆棘，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并<status>禁锢</status>命中的第一个敌人@RootDuration@秒。友军在攻击<status>禁锢</status>的敌人时会冲刺到攻击距离处。<br><br><recast>再次施放：</recast>艾翁直接冲刺到这个被<status>禁锢</status>的敌人身边。<br><br><rules>命中非史诗级野怪会使<spellName>{{ Spell_IvernQ_Name }}</spellName>的冷却时间缩减50%。</rules>"
+          }
+        },
+        "dynamicText": null,
+        "raw": {
+          "dataValues": {
+            "DashSpeed": [
+              1500,
+              1500,
+              1500,
+              1500,
+              1500,
+              1500,
+              1500
+            ],
+            "BaseDamage": [
+              35,
+              80,
+              125,
+              170,
+              215,
+              260,
+              305
+            ],
+            "RootDuration": [
+              1.5,
+              1.600000023841858,
+              1.7000000476837158,
+              1.7999999523162842,
+              1.899999976158142,
+              2,
+              2.0999999046325684
+            ],
+            "APRatio": [
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071
+            ]
+          },
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "fields": {
+            "mEffectAmount": null,
+            "mCastTime": 0.25,
+            "spellCastTime": 0.25,
+            "spellTotalTime": 1,
+            "mChannelDuration": null,
+            "cooldownTime": [
+              15,
+              14,
+              13,
+              12,
+              11,
+              10,
+              9
+            ],
+            "Cooldown": {
+              "values": [
+                15,
+                14,
+                13,
+                12,
+                11,
+                10,
+                9
+              ],
+              "{0a3e0478}": 15,
+              "__type": "{0a0eddc9}"
+            },
+            "mana": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "manaValues": {
+              "values": [
+                60,
+                60,
+                60,
+                60,
+                60,
+                60
+              ],
+              "{0a3e0478}": 60,
+              "__type": "{630af303}"
+            },
+            "mMaxAmmo": null,
+            "mAmmoRechargeTime": null,
+            "mDoesNotConsumeMana": null,
+            "mDoesNotConsumeCooldown": null,
+            "mTargetingTypeData": {
+              "__type": "Direction"
+            },
+            "mClientData": {
+              "mTooltipData": {
+                "mObjectName": "IvernQ",
+                "mFormat": "{d7c27163}",
+                "mLocKeys": {
+                  "keyName": "Spell_IvernQ_Name",
+                  "keySummary": "Spell_IvernQ_Summary",
+                  "keyTooltip": "Spell_IvernQ_Tooltip"
+                },
+                "mLists": {
+                  "LevelUp": {
+                    "levelCount": 5,
+                    "Elements": [
+                      {
+                        "type": "RootDuration",
+                        "typeIndex": 1,
+                        "nameOverride": "Spell_ListType_RootDuration",
+                        "__type": "TooltipInstanceListElement"
+                      },
+                      {
+                        "type": "BaseDamage",
+                        "typeIndex": 5,
+                        "nameOverride": "Spell_ListType_Damage",
+                        "__type": "TooltipInstanceListElement"
+                      },
+                      {
+                        "type": "Cooldown",
+                        "__type": "TooltipInstanceListElement"
+                      }
+                    ],
+                    "__type": "TooltipInstanceList"
+                  }
+                },
+                "__type": "TooltipInstanceSpell"
+              },
+              "mTargeterDefinitions": [
+                {
+                  "hideWithLineIndicator": true,
+                  "useCasterBoundingBox": false,
+                  "__type": "TargeterDefinitionRange"
+                },
+                {
+                  "endLocator": {
+                    "basePosition": 3,
+                    "__type": "DrawablePositionLocator"
+                  },
+                  "lineStopsAtEndPosition": false,
+                  "lineWidth": {
+                    "mPerLevelValues": [
+                      75,
+                      75,
+                      75,
+                      75,
+                      75,
+                      75
+                    ],
+                    "mValueType": 2,
+                    "__type": "FloatPerSpellLevel"
+                  },
+                  "__type": "TargeterDefinitionLine"
+                }
+              ],
+              "__type": "SpellDataResourceClient"
+            },
+            "castRange": [
+              1150,
+              1150,
+              1150,
+              1150,
+              1150,
+              1150,
+              1150
+            ],
+            "castRangeDisplayOverride": [
+              1125,
+              1125,
+              1125,
+              1125,
+              1125,
+              1125,
+              1125
+            ],
+            "castRadius": [
+              210,
+              210,
+              210,
+              210,
+              210,
+              210,
+              210
+            ],
+            "missileSpeed": 1300,
+            "mMissileSpec": {
+              "mMissileWidth": 80,
+              "movementComponent": {
+                "mUseHeightOffsetAtEnd": true,
+                "mTracksTarget": false,
+                "mTargetHeightAugment": 50,
+                "mOffsetInitialTargetHeight": 50,
+                "mStartBoneName": "C_Buffbone_Glb_Layout_Loc",
+                "mProjectTargetToCastRange": true,
+                "mSpeed": 1300,
+                "__type": "FixedSpeedMovement"
+              },
+              "heightSolver": {
+                "__type": "BlendedLinearHeightSolver"
+              },
+              "verticalFacing": {
+                "__type": "VerticalFacingFaceTarget"
+              },
+              "behaviors": [
+                {
+                  "__type": "CastOnHit"
+                },
+                {
+                  "__type": "DestroyOnMovementComplete"
+                },
+                {
+                  "__type": "DestroyOnHit"
+                }
+              ],
+              "__type": "MissileSpecification"
+            },
+            "mSpellTags": [
+              "Trait_ImmobilizingCCSpell",
+              "Trait_SignatureSpell",
+              "Trait_DamageAbility",
+              "Trait_SignatureSpell",
+              "Trait_Ranged_StopsFirstHit"
+            ],
+            "mAffectsTypeFlags": 6154
+          }
+        },
+        "officialEvidence": {
+          "zh": {
+            "id": "IvernQ",
+            "name": "根深敌固",
+            "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。",
+            "tooltip": "艾翁召唤一束荆棘，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并<status>禁锢</status>命中的第一个敌人{{ rootduration }}秒。友军在攻击<status>禁锢</status>的敌人时会冲刺到攻击距离处。<br /><br /><recast>再次施放：</recast>艾翁直接冲刺到这个被<status>禁锢</status>的敌人身边。<br /><br /><rules>命中非史诗级野怪会使<spellName>根深敌固</spellName>的冷却时间缩减50%。</rules>{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "禁锢时长",
+                "伤害",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ rootduration }} -> {{ rootdurationNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cooldownBurn": "14/13/12/11/10",
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "costBurn": "60",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              1125,
+              1125,
+              1125,
+              1125,
+              1125
+            ],
+            "rangeBurn": "1125",
+            "image": {
+              "full": "IvernQ.png",
+              "sprite": "spell5.png",
+              "group": "spell",
+              "x": 288,
+              "y": 96,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          },
+          "en": {
+            "id": "IvernQ",
+            "name": "Rootcaller",
+            "description": "Ivern conjures a vine, dealing damage and rooting enemy targets hit. Ivern's allies can dash to the rooted target.",
+            "tooltip": "Ivern conjures a vine dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and <status>Rooting</status> the first enemy hit for {{ rootduration }} seconds. Allies that Attack a <status>Rooted</status> enemy dash into Attack Range. <br /><br /><recast>Recast:</recast> Ivern dashes directly onto the <status>Rooted</status> enemy.<br /><br /><rules>Hitting non-epic monsters reduces <spellName>Rootcaller's</spellName> cooldown by 50%.</rules>{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "Root Duration",
+                "Damage",
+                "Cooldown"
+              ],
+              "effect": [
+                "{{ rootduration }} -> {{ rootdurationNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cooldownBurn": "14/13/12/11/10",
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "costBurn": "60",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              1125,
+              1125,
+              1125,
+              1125,
+              1125
+            ],
+            "rangeBurn": "1125",
+            "image": {
+              "full": "IvernQ.png",
+              "sprite": "spell5.png",
+              "group": "spell",
+              "x": 288,
+              "y": 96,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        },
+        "currentTextPath": "输入包/来源绑定与当前文本.json -> Ivern/Q/currentTexts",
+        "dynamicTextPath": null,
+        "officialMaxRank": 5
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "根深敌固基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 125,
+              "3": 170,
+              "4": 215,
+              "5": 260
+            },
+            "description": "当前根BaseDamage按保护最高等级从索引1开始映射；索引0为占位。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "root_duration_ms",
+            "name": "禁锢持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1600,
+              "2": 1700,
+              "3": 1800,
+              "4": 1900,
+              "5": 2000
+            },
+            "description": "RootDuration源值为秒，逐等级精确转换为整数毫秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.699999988,
+            "levelValues": null,
+            "description": "TotalDamage第二分支读取APRatio和来源总法强。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "dash_speed",
+            "name": "再次施放冲刺速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "再次施放冲向同一被禁锢敌人，DashSpeed固定1500。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "m_cast_time_ms",
+            "name": "mCastTime（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根mCastTime=0.25秒，精确转换为250毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "spell_cast_time_ms",
+            "name": "spellCastTime（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "cast_range",
+            "name": "实际施法距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1150,
+            "levelValues": null,
+            "description": "当前根castRange索引1为1150；不与显示距离混用。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "display_range",
+            "name": "显示距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1125,
+            "levelValues": null,
+            "description": "当前根显示距离1125，单独保留。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "cast_radius",
+            "name": "技能半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 210,
+            "levelValues": null,
+            "description": "当前根castRadius=210。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "missile_speed",
+            "name": "弹道速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1300,
+            "levelValues": null,
+            "description": "当前根missileSpeed=1300。",
+            "sortOrder": 100
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "根深敌固魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamage=BaseDamage+APRatio×来源总法强。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "root_duration",
+            "name": "根深敌固禁锢持续",
+            "expression": {
+              "nodeType": "PARAMETER",
+              "parameterKey": "root_duration_ms"
+            },
+            "description": "RootDuration直接读取当前技能等级数组。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "damage",
+            "name": "根深敌固魔法伤害",
+            "description": "唯一敌人本体伤害；禁锢与再次施放冲刺的同一目标条件由事件层接线。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "根深敌固魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": "RESULT",
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "magic_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "damageTypeKey": "magic",
+                  "deliveryKind": "SKILL",
+                  "originKind": "DIRECT",
+                  "critical": {
+                    "mode": "DISALLOWED",
+                    "multiplierValue": null
+                  },
+                  "vampRules": []
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "复用冻结公共法力参数；仅记录基础消耗。",
+            "sortOrder": 900,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": "不表示战斗事件已经接线。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "protectedExisting": {
+        "subject": true,
+        "compositionLists": true,
+        "protectionSnapshot": "输入包/参考资料/当前20槽保护快照.json"
+      },
+      "excluded": [
+        "友军突进、非史诗野怪冷却减半和其他目标分支排除。"
+      ],
+      "pending": [
+        "命中第一个敌人、禁锢、再次施放冲向同一目标的时序待运行层接线。"
+      ],
+      "proofs": [
+        {
+          "type": "root-bound-source",
+          "path": "输入包/来源绑定与当前文本.json -> Ivern/Q"
+        },
+        {
+          "type": "fixed-source-version",
+          "client": "16.17",
+          "official": "16.17.1",
+          "build": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        {
+          "type": "cursor-source-review",
+          "runId": "run-11377753-2ce7-49b1-8cce-cc5070d0cd39",
+          "verdict": "READY",
+          "reviewedPlanRev": "hero48-source-v1"
+        }
+      ],
+      "proofNote": "当前文本消费TotalDamage和RootDuration；mCastTime、spellCastTime、实际距离、显示距离、半径和弹速分开记录。",
+      "currentSubject": {
+        "createdAt": "2026-09-06T18:18:37.484312Z",
+        "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾翁·根深敌固",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ivern_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:37.484312Z"
+      }
+    }
+  },
+  "client": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\参考资料\\客户端原文\\Ivern.json.gz",
+    "pointer": "Characters/Ivern/Spells/IvernQAbility/IvernQ",
+    "excerpt": {
+      "objectPath": "Characters/Ivern/Spells/IvernQAbility/IvernQ",
+      "dataValues": [
+        {
+          "name": "DashSpeed",
+          "values": [
+            1500,
+            1500,
+            1500,
+            1500,
+            1500,
+            1500,
+            1500
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            35,
+            80,
+            125,
+            170,
+            215,
+            260,
+            305
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "RootDuration",
+          "values": [
+            1.5,
+            1.600000023841858,
+            1.7000000476837158,
+            1.7999999523162842,
+            1.899999976158142,
+            2,
+            2.0999999046325684
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "mCastTime": 0.25,
+      "spellCastTime": 0.25,
+      "cooldownTime": [
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9
+      ],
+      "cooldown": {
+        "values": [
+          15,
+          14,
+          13,
+          12,
+          11,
+          10,
+          9
+        ],
+        "{0a3e0478}": 15,
+        "__type": "{0a0eddc9}"
+      },
+      "mana": [
+        60,
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "castRange": [
+        1150,
+        1150,
+        1150,
+        1150,
+        1150,
+        1150,
+        1150
+      ],
+      "castRangeDisplayOverride": [
+        1125,
+        1125,
+        1125,
+        1125,
+        1125,
+        1125,
+        1125
+      ],
+      "castRadius": [
+        210,
+        210,
+        210,
+        210,
+        210,
+        210,
+        210
+      ],
+      "missileSpeed": 1300,
+      "mSpellTags": [
+        "Trait_ImmobilizingCCSpell",
+        "Trait_SignatureSpell",
+        "Trait_DamageAbility",
+        "Trait_SignatureSpell",
+        "Trait_Ranged_StopsFirstHit"
+      ],
+      "targetingType": {
+        "__type": "Direction"
+      },
+      "missileBehaviors": [
+        {
+          "__type": "CastOnHit"
+        },
+        {
+          "__type": "DestroyOnMovementComplete"
+        },
+        {
+          "__type": "DestroyOnHit"
+        }
+      ]
+    }
+  },
+  "official": {
+    "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第四十八批\\最终验收\\固定来源输入\\参考资料\\官方中文\\Ivern.json",
+    "pointer": "data/Ivern/spells[id=IvernQ]",
+    "excerpt": {
+      "id": "IvernQ",
+      "name": "根深敌固",
+      "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。",
+      "tooltip": "艾翁召唤一束荆棘，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并<status>禁锢</status>命中的第一个敌人{{ rootduration }}秒。友军在攻击<status>禁锢</status>的敌人时会冲刺到攻击距离处。<br /><br /><recast>再次施放：</recast>艾翁直接冲刺到这个被<status>禁锢</status>的敌人身边。<br /><br /><rules>命中非史诗级野怪会使<spellName>根深敌固</spellName>的冷却时间缩减50%。</rules>{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "禁锢时长",
+          "伤害",
+          "冷却时间"
+        ],
+        "effect": [
+          "{{ rootduration }} -> {{ rootdurationNL }}",
+          "{{ basedamage }} -> {{ basedamageNL }}",
+          "{{ cooldown }} -> {{ cooldownNL }}"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        14,
+        13,
+        12,
+        11,
+        10
+      ],
+      "cost": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "effect": [
+        null,
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "image": {
+        "full": "IvernQ.png",
+        "sprite": "spell5.png",
+        "group": "spell",
+        "x": 288,
+        "y": 96,
+        "w": 48,
+        "h": 48
+      }
+    }
+  },
+  "acceptedFacts": {
+    "directHitEffect": "damage：命中目标的一次魔法伤害，结果目标为 TARGET。",
+    "formula": "magic_damage=base_damage+ap_ratio×来源总法强。",
+    "hitBoundary": "只把运行时已经确认的实际命中英雄接入伤害；禁锢、再次施放突进、友军和野怪分支另行处理。",
+    "resourceBoundary": "mana_cost 与 cooldown 属于施法过程，命中规则不重复执行。"
+  }
+}

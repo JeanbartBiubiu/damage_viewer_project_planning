@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 2,
+  "createdAt": "2026-09-12T16:27:05.998Z",
+  "status": "READY",
+  "verdict": "READY",
+  "accepted": true,
+  "revision": "rev3",
+  "reviewedPlanRevision": 3,
+  "resultStatus": "finished",
+  "runId": "run-f7a2bcc6-9a88-4f98-92c4-e60bd64ab156",
+  "requestId": "d1a93fe0-80b4-4f46-a116-2b22e019e1c2",
+  "agentId": "agent-588eba83-0810-429f-b7a8-0e30b1a237c5",
+  "runtimeUsed": "sdk",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "command": "node \"数据参考\\全量录入-2026-09\\交叉试录\\八项英雄触发补录\\Cursor终审只读检查.mjs\"",
+  "reviewedFiles": [
+    "批次配置.mjs",
+    "00-独立语义评审.json",
+    "README.md",
+    "01-合并方案.md",
+    "02-合并冻结请求.json",
+    "03-来源散列快照.json",
+    "04-共享写前现值.json",
+    "受保护写入.mjs",
+    "独立GET回读.mjs",
+    "只读页面验收.mjs"
+  ],
+  "approvedInputHashes": {
+    "批次配置.mjs": "ecfe3b6cd8cad6e953a4b6e2f19ff3ff5730bf65379c3d00d59dbf0bd23be447",
+    "00-独立语义评审.json": "d04bb9dc7371177efa2e1526cf7e1164a662e5f4e65247572cfecc4c1c34010a",
+    "README.md": "108073f73bc9d83e1d85285bea3dec2b3fbc941528b9011dfb9d64bd5f886e68",
+    "01-合并方案.md": "fe5c4319aff7c432cfce1df71719e88d9629ca9c83d48c6f7f0f28ac658a87c8",
+    "02-合并冻结请求.json": "0fa66e33ee615b5fd511e2b501f5a116c4222de967665bd35eaff923c015658d",
+    "03-来源散列快照.json": "88758468f8efa996c6f5abb5ad288d8a13c3e5145be940e3c8413dec18d61e89",
+    "04-共享写前现值.json": "87dc81f8d93854f0af60c1bd63b0247604426ed4ef936aad14e63987a85f587e",
+    "受保护写入.mjs": "a6aaa8a208abb1c7dd1f39204afe5495d509c30d0cbdcf2ee547f3c70462873e",
+    "独立GET回读.mjs": "26474def457ee5952635f94251baee07c7c0dd8a01379248617ba0899faaf000",
+    "只读页面验收.mjs": "d9fdceca4662aa7726616f9590059a82ae1f455948771515f08d03666685f1e1"
+  },
+  "checker": {
+    "status": "READY",
+    "verdict": "READY",
+    "baseline": {
+      "getCount": 2554,
+      "statusCounts": {
+        "200": 2546,
+        "404": 8
+      },
+      "skillCount": 1062,
+      "ruleCount": 104,
+      "sourceInitializedCount": 24,
+      "oldRuleDetails": 104,
+      "candidateStatuses": [
+        {
+          "id": "garen",
+          "status": 404
+        },
+        {
+          "id": "vex",
+          "status": 404
+        },
+        {
+          "id": "kassadin",
+          "status": 404
+        },
+        {
+          "id": "ivern",
+          "status": 404
+        }
+      ]
+    },
+    "requests": [
+      {
+        "id": "garen",
+        "route": "/skills/garen_w/trigger-rules",
+        "detailRoute": "/skills/garen_w/trigger-rules/on_used",
+        "bodySha256": "5ef22f335786b92c1094b14959c64c4bbf79865d783d8de74ecddc2d39b29165"
+      },
+      {
+        "id": "vex",
+        "route": "/skills/vex_w/trigger-rules",
+        "detailRoute": "/skills/vex_w/trigger-rules/on_used",
+        "bodySha256": "24af4666a301d860d92bcc50a47895d93d0f920500649b8ccb06b7920c688d51"
+      },
+      {
+        "id": "kassadin",
+        "route": "/skills/kassadin_q/trigger-rules",
+        "detailRoute": "/skills/kassadin_q/trigger-rules/on_used",
+        "bodySha256": "5f1b77b387e98e239c84a9cb3eb2690eb5e19cb84b50e25e40276709346e50c6"
+      },
+      {
+        "id": "ivern",
+        "route": "/skills/ivern_q/trigger-rules",
+        "detailRoute": "/skills/ivern_q/trigger-rules/actual_hit",
+        "bodySha256": "a5fbdbcfe2c0287bd069bf321d0c06ed406fa87040bbce015c47ea0d491167c7"
+      }
+    ],
+    "semanticReview": {
+      "verdict": "REVISE",
+      "accepted": [
+        {
+          "id": "garen",
+          "skillKey": "garen_w",
+          "ruleKey": "on_used",
+          "scope": "只连接短时护盾与短时韧性两个已有动作，不代表主动减伤已覆盖。",
+          "reason": "两个动作均作用于来源对象并使用同一 750 毫秒持续时间，主动使用事件足以表达本次窄范围。"
+        },
+        {
+          "id": "vex",
+          "skillKey": "vex_w",
+          "ruleKey": "on_used",
+          "scope": "只连接主动使用时的自身护盾，不包含范围伤害与暮气。",
+          "reason": "自身护盾结果目标为来源对象，主动使用事件可准确表达。"
+        },
+        {
+          "id": "kassadin",
+          "skillKey": "kassadin_q",
+          "ruleKey": "on_used",
+          "scope": "只连接主动使用时的自身魔法护盾，不包含目标伤害与打断。",
+          "reason": "护盾结果目标为来源对象且只吸收魔法伤害，主动使用事件可准确表达。"
+        },
+        {
+          "id": "ivern",
+          "skillKey": "ivern_q",
+          "ruleKey": "actual_hit",
+          "scope": "只连接命中英雄时的一次直接伤害，不包含禁锢、重施突进与野怪分支。",
+          "reason": "技能命中事件、英雄类别条件和当前目标动作能够准确界定该窄效果。"
+        }
+      ],
+      "deferred": [
+        {
+          "id": "kaisa",
+          "skillKey": "kaisa_r",
+          "ruleKey": "on_used",
+          "reason": "现有资料只声明宿主应确认电浆合格目标和合法阶段，没有宿主事件生产或运行证据；当前前端只保存规则。",
+          "neededEvidence": "证明宿主仅在电浆资格成立且合法技能使用阶段产生对应事件。"
+        },
+        {
+          "id": "annie",
+          "skillKey": "annie_e",
+          "ruleKey": "on_used",
+          "reason": "技能可施放给安妮、友军或提伯斯；当前规则不能区分显式目标是否为来源对象，结果目标为来源对象无法补足该判断。",
+          "neededEvidence": "增加自施目标身份条件或提供已明确区分自施目标的宿主事件。"
+        },
+        {
+          "id": "ashe",
+          "skillKey": "ashe_w",
+          "ruleKey": "actual_hit",
+          "reason": "当前资料只声明宿主应按同次施放和同一目标去重，没有去重运行证据；不能用逐目标冷却替代不同施放身份。",
+          "neededEvidence": "证明宿主对一次施放命中同一目标只产生一次技能命中事件。"
+        },
+        {
+          "id": "nocturne",
+          "skillKey": "nocturne_r",
+          "ruleKey": "actual_hit",
+          "reason": "当前资料只把第二段实际抵达写成宿主前置契约，没有证明宿主不会在第一段或位移过程中产生同类命中事件。",
+          "neededEvidence": "证明宿主只在第二段实际抵达目标时产生该技能命中事件。"
+        }
+      ],
+      "businessWrites": 0,
+      "fileWrites": 0
+    },
+    "semanticChecks": {
+      "garen": {
+        "eventType": "SKILL_USED",
+        "conditionKind": "NONE",
+        "actionEffectKeys": [
+          "upfront_shield",
+          "upfront_tenacity"
+        ],
+        "effectChecks": [
+          {
+            "effectKey": "upfront_shield",
+            "resultKey": "shield",
+            "resultTarget": "SOURCE",
+            "valueKind": "FORMULA",
+            "valueKey": "shield",
+            "durationParameterKey": "upfront_duration_ms"
+          },
+          {
+            "effectKey": "upfront_tenacity",
+            "resultKey": "tenacity",
+            "resultTarget": "SOURCE",
+            "valueKind": "PARAMETER",
+            "valueKey": "tenacity_ratio",
+            "durationParameterKey": "upfront_duration_ms"
+          }
+        ]
+      },
+      "vex": {
+        "eventType": "SKILL_USED",
+        "conditionKind": "NONE",
+        "actionEffectKeys": [
+          "self_shield"
+        ],
+        "effectChecks": [
+          {
+            "effectKey": "self_shield",
+            "resultKey": "shield",
+            "resultTarget": "SOURCE",
+            "valueKind": "FORMULA",
+            "valueKey": "shield_value"
+          }
+        ]
+      },
+      "kassadin": {
+        "eventType": "SKILL_USED",
+        "conditionKind": "NONE",
+        "actionEffectKeys": [
+          "magic_shield"
+        ],
+        "effectChecks": [
+          {
+            "effectKey": "magic_shield",
+            "resultKey": "shield",
+            "resultTarget": "SOURCE",
+            "valueKind": "FORMULA",
+            "valueKey": "magic_shield_amount",
+            "absorbedDamageTypeKey": "magic"
+          }
+        ]
+      },
+      "ivern": {
+        "eventType": "SKILL_HIT",
+        "conditionKind": "CHAMPION",
+        "actionEffectKeys": [
+          "damage"
+        ],
+        "effectChecks": [
+          {
+            "effectKey": "damage",
+            "resultKey": "damage",
+            "resultTarget": "TARGET",
+            "valueKind": "FORMULA",
+            "valueKey": "magic_damage"
+          }
+        ]
+      }
+    },
+    "guardChecks": {
+      "explicitWriteSwitch": true,
+      "replayLock": true,
+      "approvedHashes": true,
+      "terminalCompletion": true,
+      "writerMethodsBounded": true,
+      "exactArrayLength": true,
+      "readbackGetOnly": true,
+      "boundedNullNormalization": true,
+      "browserWriteCount": true,
+      "browserNoTokenLiteral": true,
+      "browserTargetFilter": true
+    },
+    "blockers": [],
+    "limits": [
+      "静态、GET与管理页面证据不等于宿主事件、战斗运行或Wasm证明。"
+    ]
+  },
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "writeAllowlistAudit": {
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaCount": 0,
+    "diffBytes": 0
+  },
+  "toolEvents": {
+    "uniqueToolCallCount": 1,
+    "terminalStatuses": {
+      "call-4050a60a-9c8b-45f2-b37f-e6f4cb35661e-0\nfc_97797816-5c2e-9bc4-a5a3-eb45d46cb622_0": "completed"
+    },
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false
+  },
+  "artifacts": {
+    "directory": ".agents/artifacts/eight-candidate-four-write-review-r2-20260913",
+    "summarySha256": "61c563fc556b5af8a14a662ab3ac456cb6b8f0beb6b894e9b748b5ce4166f2ca",
+    "reviewSha256": "1881c6af7aa0aff5cf0e92742e6a07f632e5ffa7d0b41c32015f0982eb9e6578",
+    "eventsSha256": "78ae14d4bbc38f918469b660be6f62d1876a06f79a04c78f186a593f6c752ee8",
+    "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "rejectedAttempt": {
+    "directory": ".agents/artifacts/eight-candidate-four-write-review-r1-20260913",
+    "reason": "既有八个上游未跟踪目录未列入审计清单，outsideScopeCount 为 56；runDeltaCount 为 0，但不采用该次证据。"
+  },
+  "limits": [
+    "静态、GET与管理页面证据不等于宿主事件、战斗运行或Wasm证明。"
+  ]
+}
