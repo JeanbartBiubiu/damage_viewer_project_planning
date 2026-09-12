@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T16:44:11.385Z",
+  "generatedAt": "2026-09-12T18:09:38.759Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -6679,6 +6679,144 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项英雄触发补录/11-证据清单.json",
         "sha256": "c7abd778ac6b12b1ab50ea45f6755a76bbf6c19724f65e10ea44bc1233883b1c",
         "commit": "109c2e70f49ee1738a2aaacdc2686b6b86b9e17b"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "sixHeroActiveTriggerBackfill": {
+      "at": "2026-09-12T18:09:38.759Z",
+      "status": "六项英雄主动触发完成独立语义复核、Cursor终审、受保护写入、独立GET回读和真实页面验收；赛恩W与蔚P按阶段或事件证据缺口暂缓",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "tristana_q",
+        "twitch_r",
+        "vayne_r",
+        "masteryi_r",
+        "skarner_w",
+        "diana_w",
+        "sion_w",
+        "vi_p"
+      ],
+      "created": {
+        "triggerRules": 6
+      },
+      "semantics": [
+        "崔丝塔娜Q、图奇R、薇恩R与黛安娜W的既有cast过程已经统一处理消耗、冷却和效果，规则只启动过程，不重复直接执行效果。",
+        "易R没有既有过程，主动使用时按攻击速度、移动速度的顺序执行两个已有效果。",
+        "斯卡纳W没有既有过程，主动使用时直接执行已有自身护盾效果。"
+      ],
+      "deferred": [
+        {
+          "skillKey": "sion_w",
+          "ruleKey": "on_used",
+          "reason": "当前主动使用事件不能区分首次施放与再次施放；直接刷新全部护盾会把再次施放错误处理为重新获得护盾。"
+        },
+        {
+          "skillKey": "vi_p",
+          "reason": "被动冷却断点、状态以及Q、E、R实际命中产生资格均未证明，不能只用现有命中事件猜测。"
+        }
+      ],
+      "preparation": {
+        "GETs": 2656,
+        "status200": 2644,
+        "expected404": 12,
+        "businessWrites": 0,
+        "priorRuleCount": 108,
+        "skillCount": 1062,
+        "sourceInitializedCount": 24,
+        "sourceSnapshotSha256": "33d9c4bbe716dfcc308971244c87af0b052f008de242d5bf33e44aefe5fe985c",
+        "frozenRequestSha256": "936793a0d1428fc6a488349efbfc77d7ae1d8068a41eee54ad0e6a96eda3c1cd",
+        "baselineSha256": "9c9b99de4a4fc6d3fdcf2bc1e4b2e31b82de50b012b31d241e52fb6aea304586"
+      },
+      "cursorReview": {
+        "runId": "run-3b4ec4db-dae0-42ae-93d6-09b650c299b5",
+        "requestId": "eb6078e9-8c52-403a-b48e-b0cefe7cf0b4",
+        "agentId": "agent-14cb87d9-75d7-4c02-9366-410b1b6b5c2c",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "sdkVersion": "1.0.24",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 1,
+        "completedToolCalls": 1,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false,
+        "auditAvailable": true,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "writer": {
+        "protectedGETs": 4008,
+        "businessWrites": 6,
+        "POST": 6,
+        "status201": 6,
+        "immediateReadbacks": 6,
+        "replayedWrites": 0,
+        "priorRuleCount": 108,
+        "finalRuleCount": 114,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 1340,
+        "businessWrites": 0,
+        "priorRulesUnchanged": 108,
+        "newRulesMatched": 6,
+        "skillCount": 1062,
+        "finalRuleCount": 114,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 299,
+        "businessWrites": 0,
+        "skills": [
+          "tristana_q",
+          "twitch_r",
+          "vayne_r",
+          "masteryi_r",
+          "skarner_w",
+          "diana_w"
+        ],
+        "checks": 7,
+        "listImagesVisible": 6,
+        "imageNaturalSize": "64x64",
+        "processDetailsVisible": 4,
+        "directEffectDetailsVisible": 3,
+        "triggerDetailsVisible": 6,
+        "screenshots": 20,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "protected": {
+        "priorRulesUnchanged": 108,
+        "skillSubjectsUnchanged": true,
+        "ownerRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "experienceIssues": [
+        "创建主动触发前必须先查既有施法过程；过程已承担消耗、冷却和效果时，规则只能启动过程，否则会重复结算。",
+        "直接执行多个效果时必须冻结动作顺序，并在独立回读和页面中分别核对效果详情与规则动作。",
+        "首次施放、再次施放或被动冷却资格无法由当前事件区分时应暂缓，不能用刷新、逐目标冷却或普通命中近似。",
+        "上游候选可能声明原始文件散列或规范对象散列；合并准备先按各自声明验真，再统一记录当前批次原始文件散列。"
+      ],
+      "pending": [
+        "赛恩W等待首次施放与再次施放的阶段事件或条件；蔚P等待冷却断点、状态和命中资格生产证据。",
+        "六条新增规则尚未执行战斗运行或Wasm验收。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/09-证据清单.json",
+        "sha256": "6a76e07bdc8f93fcd7bdb94a771ac3d643b10bd62c58f78a18d96663827c648e",
+        "commit": "ff7e428ef9caeae206ebf6b9f86707c2a56906c6"
       },
       "runtimeValidation": "未执行"
     }
