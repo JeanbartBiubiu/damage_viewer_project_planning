@@ -1,0 +1,357 @@
+{
+  "scope": {
+    "gameId": "lol",
+    "skillKey": "item_3040_passive",
+    "apiBase": "http://127.0.0.1:8080/api/admin/games/lol"
+  },
+  "requestAudit": {
+    "actualGetCount": 20,
+    "successfulGetCount": 20,
+    "writeRequestCount": 0,
+    "writeMethodsIssued": [],
+    "allStatuses": [200],
+    "paths": [
+      "/skills/item_3040_passive",
+      "/skills/item_3040_passive/parameters",
+      "/skills/item_3040_passive/formulas",
+      "/skills/item_3040_passive/effects",
+      "/skills/item_3040_passive/trigger-rules",
+      "/skills/item_3040_passive/representative-image",
+      "/equipment-skill-relations?skillKey=item_3040_passive",
+      "/equipment/item_3040",
+      "/equipment/item_3040/representative-image",
+      "/skills/item_3040_passive/parameters/bonus_ap_from_max_mana_ratio",
+      "/skills/item_3040_passive/parameters/lifeline_health_threshold_ratio",
+      "/skills/item_3040_passive/parameters/lifeline_shield_duration_ms",
+      "/skills/item_3040_passive/parameters/lifeline_cooldown_ms",
+      "/skills/item_3040_passive/parameters/lifeline_shield_resource_ratio",
+      "/skills/item_3040_passive/formulas/bonus_ap_from_max_mana",
+      "/skills/item_3040_passive/formulas/lifeline_shield_value",
+      "/skills/item_3040_passive/formulas/lifeline_health_threshold_value",
+      "/skills/item_3040_passive/effects/lifeline_shield",
+      "/skills/item_3040_passive/trigger-rules/on_damage_cross_below_lifeline_threshold",
+      "/equipment-skill-relations?equipmentKey=item_3040"
+    ]
+  },
+  "skill": {
+    "status": 200,
+    "skillKey": "item_3040_passive",
+    "name": "炽天使之拥·敬畏与救主灵刃",
+    "statusValue": "ENABLED",
+    "maxLevel": 1,
+    "skillCategoryKeys": ["passive"],
+    "description": "敬畏公式保留现有配置。救主灵刃在待处理伤害使持有者生命值从不低于最大生命值30%降到低于30%时，先获得最大法力值18%的3秒普通护盾；同一持有者冷却90秒。管理配置已接线，战斗运行时未验证。"
+  },
+  "parameters": {
+    "aggregate": {
+      "status": 200,
+      "count": 5,
+      "keys": [
+        "bonus_ap_from_max_mana_ratio",
+        "lifeline_health_threshold_ratio",
+        "lifeline_shield_duration_ms",
+        "lifeline_cooldown_ms",
+        "lifeline_shield_resource_ratio"
+      ],
+      "values": {
+        "bonus_ap_from_max_mana_ratio": 0.02,
+        "lifeline_health_threshold_ratio": 0.3,
+        "lifeline_shield_duration_ms": 3000,
+        "lifeline_cooldown_ms": 90000,
+        "lifeline_shield_resource_ratio": 0.18
+      }
+    },
+    "resourceInputDeleted": true,
+    "details": {
+      "bonus_ap_from_max_mana_ratio": {
+        "status": 200,
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL",
+        "fixedValue": 0.02
+      },
+      "lifeline_health_threshold_ratio": {
+        "status": 200,
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL",
+        "fixedValue": 0.3
+      },
+      "lifeline_shield_duration_ms": {
+        "status": 200,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER",
+        "fixedValue": 3000
+      },
+      "lifeline_cooldown_ms": {
+        "status": 200,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER",
+        "fixedValue": 90000
+      },
+      "lifeline_shield_resource_ratio": {
+        "status": 200,
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL",
+        "fixedValue": 0.18
+      }
+    }
+  },
+  "formulas": {
+    "aggregate": {
+      "status": 200,
+      "count": 3,
+      "keys": [
+        "bonus_ap_from_max_mana",
+        "lifeline_shield_value",
+        "lifeline_health_threshold_value"
+      ]
+    },
+    "details": {
+      "bonus_ap_from_max_mana": {
+        "status": 200,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "mana",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_ap_from_max_mana_ratio"
+            }
+          ]
+        }
+      },
+      "lifeline_shield_value": {
+        "status": 200,
+        "description": "来源最大法力值的0.18倍；最大法力值直接读取SOURCE mana TOTAL。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "lifeline_shield_resource_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "mana",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      },
+      "lifeline_health_threshold_value": {
+        "status": 200,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "lifeline_health_threshold_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "effect": {
+    "aggregate": {
+      "status": 200,
+      "count": 1,
+      "effectKey": "lifeline_shield",
+      "lifecycleEnabled": true
+    },
+    "detail": {
+      "status": 200,
+      "effectKey": "lifeline_shield",
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "lifeline_shield_duration_ms"
+        },
+        "instanceScope": "SOURCE",
+        "expiryMode": "ALL_AT_ONCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL"
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "lifeline_shield_value"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE"
+          }
+        }
+      ]
+    }
+  },
+  "triggerRule": {
+    "aggregate": {
+      "status": 200,
+      "count": 1,
+      "ruleKey": "on_damage_cross_below_lifeline_threshold",
+      "eventType": "DAMAGE_PENDING",
+      "conditionGroupCount": 1,
+      "actionCount": 1,
+      "perTargetCooldownEnabled": true
+    },
+    "detail": {
+      "status": 200,
+      "eventSource": {
+        "eventType": "DAMAGE_PENDING",
+        "detail": {
+          "damageTypeKey": null,
+          "deliveryKind": "ANY",
+          "originKind": "ANY"
+        }
+      },
+      "conditionGroups": [
+        {
+          "groupKey": "cross_below_lifeline_threshold",
+          "conditions": [
+            {
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "eventValueKey": "HEALTH_BEFORE",
+              "comparator": "GTE",
+              "comparisonValue": {
+                "kind": "FORMULA",
+                "formulaKey": "lifeline_health_threshold_value"
+              }
+            },
+            {
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "eventValueKey": "PROJECTED_HEALTH_AFTER",
+              "comparator": "LT",
+              "comparisonValue": {
+                "kind": "FORMULA",
+                "formulaKey": "lifeline_health_threshold_value"
+              }
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "actionType": "EXECUTE_EFFECT",
+          "targetContext": "CURRENT_TARGET",
+          "effectKey": "lifeline_shield",
+          "runtimeInputBindings": []
+        }
+      ],
+      "perTargetCooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "lifeline_cooldown_ms"
+        },
+        "targetContext": "CURRENT_TARGET"
+      },
+      "maxTriggersPerProcess": null
+    }
+  },
+  "relationAndImages": {
+    "equipmentRelation": {
+      "status": 200,
+      "items": [
+        {
+          "equipmentKey": "item_3040",
+          "equipmentName": "炽天使之拥",
+          "skillKey": "item_3040_passive",
+          "skillName": "炽天使之拥·敬畏与救主灵刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "skillRepresentativeImage": {
+      "status": 200,
+      "image": {
+        "enabled": true,
+        "imageKey": "item_3040",
+        "name": "item_3040"
+      }
+    },
+    "equipmentRepresentativeImage": {
+      "status": 200,
+      "image": {
+        "enabled": true,
+        "imageKey": "item_3040",
+        "name": "item_3040"
+      }
+    }
+  },
+  "bonusApComparison": {
+    "preWriteEvidence": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\四项装备自身护盾结果补录\\03-写入前现值.json",
+    "formulaKey": "bonus_ap_from_max_mana",
+    "comparisonFields": [
+      "formulaKey",
+      "name",
+      "description",
+      "sortOrder",
+      "expression",
+      "createdAt",
+      "updatedAt"
+    ],
+    "equal": true,
+    "conclusion": "敬畏的最大法力转法术强度参数和公式未被本次写入改动；技能顶层说明按本次接线更新。"
+  },
+  "assertions": {
+    "resourceInputDeleted": true,
+    "shieldRatioIs018": true,
+    "healthThresholdRatioIs03": true,
+    "cooldownIs90000ms": true,
+    "shieldFormulaUsesSourceManaTotalTimes018": true,
+    "healthThresholdFormulaUsesSourceHpTotalTimes03": true,
+    "triggerUsesDamagePending": true,
+    "triggerUsesHealthBeforeGteAndProjectedHealthAfterLt": true,
+    "actionTargetIsCurrentTarget": true,
+    "cooldownTargetIsCurrentTarget": true,
+    "triggerHasNoRuntimeBindings": true,
+    "shieldIsThreeSecondNormalFullDamageShield": true,
+    "bonusApFormulaUnchanged": true,
+    "equipmentRelationUnchanged": true,
+    "representativeImageUnchanged": true
+  },
+  "blockers": [],
+  "knownLimitations": [
+    "接口回读只能证明管理数据已接线，不能证明战斗运行时、护盾吸收顺序或90秒冷却消费。",
+    "装备详情原始说明仍保留“0法术强度”和“0护盾值”占位文字；本次写入未改动该来源文本。"
+  ]
+}

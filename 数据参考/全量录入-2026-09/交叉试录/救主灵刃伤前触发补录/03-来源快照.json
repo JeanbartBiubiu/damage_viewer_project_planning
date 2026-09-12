@@ -1,0 +1,588 @@
+{
+  "capturedAt": "2026-09-12T07:05:15.877Z",
+  "normalized": {
+    "path": "数据参考/lol-wiki-current-items/current-items.normalized.json",
+    "sha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4",
+    "fetchedAt": "2026-06-18T12:57:54.813Z",
+    "items": [
+      {
+        "name": "Armored Advance",
+        "raw": {
+          "id": 3174,
+          "nickname": [
+            "boots"
+          ],
+          "tier": 3,
+          "type": [
+            "Boots"
+          ],
+          "req": "Requires completion of the {{tip|Midlane Quest}} to obtain. Once the quest is completed, {{ii|Plated Steelcaps}} is upgraded into this item for free. If {{ii|Plated Steelcaps}} is in the inventory at the time of quest completion, it is automatically upgraded into these boots.",
+          "caption": "\"<i>Nothin' more glorious than the single advance of a thousand soldiers.</i> —Captain Farron\"",
+          "modes": {
+            "classic sr 5v5": true,
+            "aram": false,
+            "nb": false,
+            "ar": false
+          },
+          "stats": {
+            "armor": 35,
+            "msflat": 45
+          },
+          "effects": {
+            "pass": "=>Plated Steelcaps",
+            "pass2": {
+              "name": "Noxian Endurance",
+              "unique": true,
+              "description": "Taking {{as|physical damage}} from champions grants you a {{tip|shield}} that absorbs {{pp|100 to 200|color=pd}} {{as|(+ 8% '''bonus''' health)}} {{as|physical damage}} for 5 seconds.",
+              "cd": "15"
+            }
+          },
+          "recipe": [
+            "Plated Steelcaps"
+          ],
+          "buy": "=>Plated Steelcaps"
+        },
+        "id": 3174,
+        "tier": 3,
+        "type": [
+          "Boots"
+        ],
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": false,
+          "nb": false,
+          "ar": false
+        },
+        "stats": {
+          "armor": 35,
+          "msflat": 45
+        },
+        "effects": {
+          "pass": "=>Plated Steelcaps",
+          "pass2": {
+            "name": "Noxian Endurance",
+            "unique": true,
+            "description": "Taking {{as|physical damage}} from champions grants you a {{tip|shield}} that absorbs {{pp|100 to 200|color=pd}} {{as|(+ 8% '''bonus''' health)}} {{as|physical damage}} for 5 seconds.",
+            "cd": "15"
+          }
+        },
+        "recipe": [
+          "Plated Steelcaps"
+        ],
+        "buy": "=>Plated Steelcaps",
+        "nickname": [
+          "boots"
+        ]
+      },
+      {
+        "name": "Chainlaced Crushers",
+        "raw": {
+          "id": 3173,
+          "nickname": [
+            "boots"
+          ],
+          "tier": 3,
+          "type": [
+            "Boots"
+          ],
+          "req": "Requires completion of the {{tip|Midlane Quest}} to obtain. Once the quest is completed, {{ii|Mercury's Treads}} is upgraded into this item for free. If {{ii|Mercury's Treads}} is in the inventory at the time of quest completion, it is automatically upgraded into these boots.",
+          "caption": "\"Noxus and magic have a vast, varied history…\"",
+          "modes": {
+            "classic sr 5v5": true,
+            "aram": false,
+            "nb": false,
+            "ar": false
+          },
+          "stats": {
+            "mr": 30,
+            "msflat": 45,
+            "tenacity": "=>Mercury's Treads"
+          },
+          "effects": {
+            "pass": {
+              "name": "Noxian Persistence",
+              "unique": true,
+              "description": "Taking {{as|magic damage}} from champions grants you a {{tip|shield}} that absorbs {{pp|100 to 200|color=md}} {{as|(+ 8% '''bonus''' health)}} {{as|magic damage}} for 5 seconds.",
+              "cd": "15"
+            }
+          },
+          "recipe": [
+            "Mercury's Treads"
+          ],
+          "buy": "=>Mercury's Treads"
+        },
+        "id": 3173,
+        "tier": 3,
+        "type": [
+          "Boots"
+        ],
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": false,
+          "nb": false,
+          "ar": false
+        },
+        "stats": {
+          "mr": 30,
+          "msflat": 45,
+          "tenacity": "=>Mercury's Treads"
+        },
+        "effects": {
+          "pass": {
+            "name": "Noxian Persistence",
+            "unique": true,
+            "description": "Taking {{as|magic damage}} from champions grants you a {{tip|shield}} that absorbs {{pp|100 to 200|color=md}} {{as|(+ 8% '''bonus''' health)}} {{as|magic damage}} for 5 seconds.",
+            "cd": "15"
+          }
+        },
+        "recipe": [
+          "Mercury's Treads"
+        ],
+        "buy": "=>Mercury's Treads",
+        "nickname": [
+          "boots"
+        ]
+      },
+      {
+        "name": "Seraph's Embrace",
+        "raw": {
+          "id": 3040,
+          "tier": 4,
+          "type": "=>Archangel's Staff",
+          "itemlimit": "Lifeline",
+          "modes": {
+            "classic sr 5v5": true,
+            "aram": true,
+            "nb": true,
+            "ar": true
+          },
+          "stats": {
+            "ap": 70,
+            "ah": 25,
+            "mana": 1000
+          },
+          "effects": {
+            "pass": {
+              "name": "Awe",
+              "unique": true,
+              "description": "Grants {{as|ability power}} equal to {{as|2% '''bonus''' mana}}."
+            },
+            "pass2": {
+              "name": "Lifeline",
+              "unique": true,
+              "description": "If you would take damage that would reduce you below {{as|30% of your '''maximum''' health}}, you first gain a {{tip|shield}} for 3 seconds that absorbs damage equal to {{as|18% '''maximum''' mana}} for 3 seconds.",
+              "cd": "90"
+            }
+          },
+          "recipe": [
+            "Archangel's Staff"
+          ],
+          "buy": "=>Archangel's Staff"
+        },
+        "id": 3040,
+        "tier": 4,
+        "type": "=>Archangel's Staff",
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "stats": {
+          "ap": 70,
+          "ah": 25,
+          "mana": 1000
+        },
+        "effects": {
+          "pass": {
+            "name": "Awe",
+            "unique": true,
+            "description": "Grants {{as|ability power}} equal to {{as|2% '''bonus''' mana}}."
+          },
+          "pass2": {
+            "name": "Lifeline",
+            "unique": true,
+            "description": "If you would take damage that would reduce you below {{as|30% of your '''maximum''' health}}, you first gain a {{tip|shield}} for 3 seconds that absorbs damage equal to {{as|18% '''maximum''' mana}} for 3 seconds.",
+            "cd": "90"
+          }
+        },
+        "recipe": [
+          "Archangel's Staff"
+        ],
+        "buy": "=>Archangel's Staff"
+      }
+    ]
+  },
+  "upgradedShoesClientSource": {
+    "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第二十批升级鞋/冻结来源.json",
+    "sha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "gameSourceBuild": "16.17.8104348",
+    "shoes": [
+      {
+        "equipmentKey": "item_3173",
+        "name": "带链碾碎者",
+        "rawSha256": "d846f39cf9b4ced5214109ebb18a78cdfbc8fcc89b4c106915622e8a253ea80a",
+        "shieldCalculation": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 90,
+              "mBreakpoints": [
+                {
+                  "mLevel": 9,
+                  "mBonusPerLevelAtAndAfter": 10,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mDataValue": "ShieldAmount",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "bindings": [
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyName",
+            "key": "Item_3173_Name",
+            "text": "带链碾碎者"
+          },
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+            "key": "Item_3173_Tooltip",
+            "text": "<passive>诺克萨斯的不懈</passive>{{ Item_Cooldown }}<br>在受到来自英雄的魔法伤害后，获得一个持续@ShieldDuration@秒的<shield>@ShieldAmountCalc@</shield><magicDamage>魔法</magicDamage><shield>护盾</shield>。"
+          },
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyInventoryOnlyText",
+            "key": "Item_3173_InventoryOnlyText",
+            "text": "护盾已格挡的伤害值：<attention>@f5@</attention>"
+          },
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyFlavorText",
+            "key": "Item_3173_FlavorText",
+            "text": "诺克萨斯和魔法有一段浩瀚广阔、丰富多彩的历史……"
+          }
+        ]
+      },
+      {
+        "equipmentKey": "item_3174",
+        "name": "装甲战靴",
+        "rawSha256": "e7a6c29796bbbb8582ef75b80c877cbcfd6683390d8001c5c6aef95eea362317",
+        "shieldCalculation": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 90,
+              "mBreakpoints": [
+                {
+                  "mLevel": 9,
+                  "mBonusPerLevelAtAndAfter": 10,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mDataValue": "ShieldAmount",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "bindings": [
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyName",
+            "key": "Item_3174_Name",
+            "text": "装甲战靴"
+          },
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+            "key": "Item_3174_Tooltip",
+            "text": "<passive>镀板</passive><br>使即将到来的攻击伤害降低@DamageReduction*100@%。<br><br><passive>诺克萨斯的耐久</passive> {{ Item_Cooldown }}<br>在受到来自英雄的物理伤害后，获得一个持续@ShieldDuration@秒的<shield>@ShieldAmountCalc@</shield><physicalDamage>物理</physicalDamage><shield>护盾</shield>。"
+          },
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyShopOnlyText",
+            "key": "Item_3172_ShopOnlyText",
+            "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+          },
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyInventoryOnlyText",
+            "key": "Item_3174_InventoryOnlyText",
+            "text": "护盾已格挡的伤害值：<attention>@f5@</attention>"
+          },
+          {
+            "path": "mItemDataClient.mTooltipData.mLocKeys.keyFlavorText",
+            "key": "Item_3174_FlavorText",
+            "text": "“没有什么比一千名士兵的一次前进更光荣的了。” - 法荣队长"
+          }
+        ]
+      }
+    ]
+  },
+  "seraphClientSource": {
+    "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十六批成长与触发装备/冻结来源.json",
+    "sha256": "5a1ac9819cf064de2b6f743dfd0f3a512857224650746e423fdf9ebeed343cc2",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "item": {
+      "id": 3040,
+      "equipmentKey": "item_3040",
+      "name": "炽天使之拥",
+      "path": "Items/3040",
+      "object": {
+        "mDisplayName": "Item_3040_Name",
+        "itemID": 3040,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{2bb000ae}",
+          "Items/ItemGroups/LifelineItems",
+          "{33df72dd}"
+        ],
+        "price": 2900,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "specialRecipe": 3003,
+        "epicness": 5,
+        "mScripts": [
+          "3040"
+        ],
+        "mDataValues": [
+          {
+            "mName": "APFromMana",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "HealthThreshold",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "ShieldDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "LifelineCooldown",
+            "mValue": 90,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 90,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "LifelineCooldown",
+                "mValue": 75,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "Cooldown",
+                "mValue": 75,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{bffdf499}": {
+            "DataValues": [
+              {
+                "mName": "LifelineCooldown",
+                "mValue": 75,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "Cooldown",
+                "mValue": 75,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mItemCalculations": {
+          "ShieldValue": {
+            "mFormulaParts": [
+              {
+                "mCoefficient": 0.18000000715255737,
+                "__type": "AbilityResourceByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "BonusAPCalc": {
+            "tooltipOnly": true,
+            "mFormulaParts": [
+              {
+                "mCoefficient": 0.019999999552965164,
+                "mStatFormula": 2,
+                "__type": "AbilityResourceByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAbilityHasteMod": 25,
+        "mFlatMagicDamageMod": 70,
+        "flatMPPoolMod": 1000,
+        "mCategories": [
+          "SpellDamage",
+          "Mana",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mForceLoad": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3040",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3040_Name",
+              "keyBrief": "Item_3040_Brief",
+              "keyTooltip": "Item_3040_Tooltip",
+              "keyTooltipInventory": "Item_3040_TooltipDynamic",
+              "keyInventoryOnlyText": "Item_3040_InventoryOnlyText",
+              "keySecondaryBrief": "Item_Unique_Manaflow"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3040_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3040_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3040_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3048_mage_t3_seraphsembrace.dds",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{4af87836}": "Items/3040/Particles/3040_Shield"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "bound": {
+        "keyName": {
+          "sourceKey": "Item_3040_Name",
+          "key": "item_3040_name",
+          "text": "炽天使之拥"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3040_Brief",
+          "key": "item_3040_brief",
+          "text": "法力值增长"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3040_Tooltip",
+          "key": "item_3040_tooltip",
+          "text": "<passive>敬畏</passive><br>获得<scaleAP>@BonusAPCalc@法术强度</scaleAP>。<br><br><passive>救主灵刃</passive> {{ Item_Cooldown }}<br>在受到将使你的生命值跌到@HealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>@ShieldValue@护盾值</shield>。"
+        },
+        "keyTooltipInventory": {
+          "sourceKey": "Item_3040_TooltipDynamic",
+          "key": "item_3040_tooltipdynamic",
+          "text": "<passive>敬畏</passive><br>获得<scaleAP>@BonusAPCalc@法术强度</scaleAP>。<br><br><passive>救主灵刃</passive> {{ Item_Cooldown }}<br>在受到将使你的生命值跌到@HealthThreshold*100@%以下的伤害时，提供持续@ShieldDuration@秒的<shield>@ShieldValue@护盾值</shield>。"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3040_InventoryOnlyText",
+          "key": "item_3040_inventoryonlytext",
+          "text": "护盾抵消的伤害：<attention>@f5@</attention>"
+        },
+        "keySecondaryBrief": {
+          "sourceKey": "Item_Unique_Manaflow",
+          "key": "item_unique_manaflow",
+          "text": "半唯一：法力流"
+        }
+      },
+      "official": {
+        "name": "炽天使之拥",
+        "description": "<mainText><stats><attention>70</attention>法术强度<br><attention>1000</attention>法力<br><attention>25</attention>技能急速</stats><br><br><passive>敬畏</passive><br>获得<scaleAP>0法术强度</scaleAP>。<br><br><passive>救主灵刃</passive> (0秒)<br>在受到将使你的生命值跌到30%以下的伤害时，提供持续3秒的<shield>0护盾值</shield>。</mainText>",
+        "colloq": "",
+        "plaintext": "",
+        "specialRecipe": 3003,
+        "inStore": false,
+        "image": {
+          "full": "3040.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 336,
+          "y": 144,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 2900,
+          "purchasable": false,
+          "total": 2900,
+          "sell": 2030
+        },
+        "tags": [
+          "SpellDamage",
+          "Mana",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {
+          "FlatMPPoolMod": 1000,
+          "FlatMagicDamageMod": 70
+        }
+      }
+    }
+  },
+  "contract": {
+    "path": "文档记录/详细设计/项目/持续修正与伤前保护详细设计.md",
+    "sha256": "71a8cc491e0eb2104ef161a29442042bba3a934e9352e0be13d3c66ba9d9029f"
+  },
+  "unresolved": [
+    "3173/3174 的伤害事件来源英雄类别当前不能通用保存。",
+    "3173/3174 的客户端等级计算树与100至200公开正文存在差异，本批不写等级数组。",
+    "3040 的极地大乱斗75秒冷却覆盖无法放入当前单一参数。",
+    "3040 敬畏当前读取总法力值，而公开正文写额外法力值；本批保护该既有公式。"
+  ]
+}
