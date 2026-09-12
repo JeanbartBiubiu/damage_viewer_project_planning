@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T15:29:54.398Z",
+  "generatedAt": "2026-09-12T16:44:11.385Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -6531,6 +6531,154 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/英雄装备四项触发补录/证据清单.json",
         "sha256": "b35e7b71d9a28691274ad7c005507763cfce31b0f1630b8296ca8e5d2be01f99",
         "commit": "c2f148ae474d74bc5f3f0cf47df9ddc31327347c"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "eightHeroCandidateReviewFourTriggerBackfill": {
+      "at": "2026-09-12T16:44:11.385Z",
+      "status": "八项英雄候选完成独立语义复核，盖伦W、愁云使者W、卡萨丁Q与艾翁Q四条规则完成受保护写入、独立GET回读和真实页面验收；其余四项按证据缺口暂缓",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "garen_w",
+        "vex_w",
+        "kassadin_q",
+        "ivern_q",
+        "kaisa_r",
+        "annie_e",
+        "ashe_w",
+        "nocturne_r"
+      ],
+      "created": {
+        "triggerRules": 4
+      },
+      "semantics": [
+        "盖伦W主动使用时依次执行已有upfront_shield和upfront_tenacity，各持续750毫秒；主动减伤仍未覆盖。",
+        "愁云使者W主动使用时只执行已有self_shield，不包含范围伤害与暮气。",
+        "卡萨丁Q主动使用时只执行已有magic_shield，护盾只吸收魔法伤害；目标伤害和打断不混入。",
+        "艾翁Q实际命中英雄时执行已有damage；禁锢、重施突进、友军和野怪分支不混入。"
+      ],
+      "deferred": [
+        {
+          "skillKey": "kaisa_r",
+          "ruleKey": "on_used",
+          "reason": "未证明宿主只在电浆资格成立且合法技能阶段产生使用事件。"
+        },
+        {
+          "skillKey": "annie_e",
+          "ruleKey": "on_used",
+          "reason": "当前规则不能区分显式目标是安妮本人、友军还是提伯斯，来源目标结果不能补足自施资格。"
+        },
+        {
+          "skillKey": "ashe_w",
+          "ruleKey": "actual_hit",
+          "reason": "未证明宿主按同次施放和同一目标去重多支箭的命中事件。"
+        },
+        {
+          "skillKey": "nocturne_r",
+          "ruleKey": "actual_hit",
+          "reason": "未证明宿主只在第二段实际抵达目标时产生命中事件。"
+        }
+      ],
+      "preparation": {
+        "GETs": 2554,
+        "status200": 2546,
+        "expected404": 8,
+        "businessWrites": 0,
+        "priorRuleCount": 104,
+        "skillCount": 1062,
+        "sourceInitializedCount": 24,
+        "sourceSnapshotSha256": "e7495be67e882f2fb0e8c5722ec2bf12899879ade837b81d4417e107df8e7f3e",
+        "frozenRequestSha256": "431c7f2d549120e491b362e47a59d459a2b20fcaebd2e91ad557a952332ca807",
+        "baselineSha256": "d8f12502b144964fc6eff9aba09b19967d930a6cdabafd4e0acc3a025e36f5f7"
+      },
+      "cursorReview": {
+        "runId": "run-772541dc-5a17-4793-90dd-7c7654ea0a19",
+        "requestId": "e942dafa-7835-42af-8946-ec5a5d121e53",
+        "resultStatus": "finished",
+        "planRevision": 4,
+        "verdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 1,
+        "completedToolCalls": 1,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false,
+        "auditAvailable": true,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "firstWriterPreflightFailure": {
+        "GETs": 1194,
+        "businessWrites": 0,
+        "writeRecords": 0,
+        "reason": "写入器仍按旧版单效果配置字段读取，未遍历新版effectChecks，因而在盖伦W效果检查处安全停止。",
+        "recovery": "保留失败原件，修正写入器和独立回读器后重新执行完整纯GET准备及修订4 Cursor终审；未重放任何成功写入。"
+      },
+      "writer": {
+        "protectedGETs": 3847,
+        "businessWrites": 4,
+        "POST": 4,
+        "status201": 4,
+        "immediateReadbacks": 4,
+        "replayedWrites": 0,
+        "priorRuleCount": 104,
+        "finalRuleCount": 108,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 1285,
+        "businessWrites": 0,
+        "priorRulesUnchanged": 104,
+        "newRulesMatched": 4,
+        "skillCount": 1062,
+        "finalRuleCount": 108,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 264,
+        "businessWrites": 0,
+        "skills": [
+          "garen_w",
+          "vex_w",
+          "kassadin_q",
+          "ivern_q"
+        ],
+        "checks": 5,
+        "screenshots": 16,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "protected": {
+        "priorRulesUnchanged": 104,
+        "skillSubjectsUnchanged": true,
+        "ownerRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "experienceIssues": [
+        "规则保存接口能消费事件，不等于宿主已经按正确资格、阶段或同次施放去重生产事件；两类证据必须分开。",
+        "可指定友军或召唤物的护盾技能需要明确的目标身份条件或宿主分流事件，结果目标为SOURCE不能证明本次实际选择了自己。",
+        "批次配置由单效果升级为多效果检查后，准备器、写入器和独立回读器必须同步消费同一结构；本批旧读取方式在任何POST前被门禁拦截。",
+        "Cursor允许路径需要包含实际读取的上游候选目录；首轮范围过窄导致56项范围外报告，扩大到确切任务父目录后重新完整终审。"
+      ],
+      "pending": [
+        "卡莎R、艾希W和魔腾R等待宿主事件资格、阶段或去重证据；安妮E等待自施目标身份能力。",
+        "四条新增规则尚未执行战斗运行或Wasm验收。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/八项英雄触发补录/11-证据清单.json",
+        "sha256": "c7abd778ac6b12b1ab50ea45f6755a76bbf6c19724f65e10ea44bc1233883b1c",
+        "commit": "109c2e70f49ee1738a2aaacdc2686b6b86b9e17b"
       },
       "runtimeValidation": "未执行"
     }
