@@ -1,0 +1,449 @@
+{
+  "capturedAt": "2026-09-12T04:06:29.888Z",
+  "requestPolicy": {
+    "method": "GET_ONLY",
+    "getCount": 21,
+    "businessWriteIssued": false,
+    "authorizationValueRecorded": false
+  },
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas/bonus_attack_damage_from_max_mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/effects/bonus_attack_damage_from_max_mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/formulas/on_hit_damage_from_max_mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3042_passive/effects/on_hit_damage_from_max_mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3026_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3026_passive/formulas/revive_base_health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3026_passive/effects/revive_restore",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3026_passive/formulas/revive_max_mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/formulas/max_bonus_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/effects/max_momentum_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6631_active/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6631_active/formulas/active_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6631_active/effects/active_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6662_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6662_passive/formulas/spellblade_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6662_passive/effects/spellblade_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6655_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6655_passive/formulas/single_target_max_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_6655_passive/effects/single_target_max_damage",
+      "status": 200
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "item_3042_passive",
+      "effectKey": "bonus_attack_damage_from_max_mana",
+      "resultKey": "bonus_attack_damage",
+      "formulaKey": "bonus_attack_damage_from_max_mana",
+      "attributes": {
+        "SOURCE.mana.TOTAL": 2500
+      },
+      "expected": 50,
+      "fixedParameters": {
+        "bonus_ad_from_max_mana_ratio": 0.02,
+        "on_hit_max_mana_damage_ratio": 0.012,
+        "ranged_ability_max_mana_damage_ratio": 0.03,
+        "melee_ability_max_mana_damage_ratio": 0.04,
+        "champ_range_default_value": 1,
+        "champ_range_ranged_value": 2
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "mana",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_ad_from_max_mana_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 50,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3042_passive",
+      "effectKey": "on_hit_damage_from_max_mana",
+      "resultKey": "damage",
+      "formulaKey": "on_hit_damage_from_max_mana",
+      "attributes": {
+        "SOURCE.mana.TOTAL": 2500
+      },
+      "expected": 30,
+      "fixedParameters": {
+        "bonus_ad_from_max_mana_ratio": 0.02,
+        "on_hit_max_mana_damage_ratio": 0.012,
+        "ranged_ability_max_mana_damage_ratio": 0.03,
+        "melee_ability_max_mana_damage_ratio": 0.04,
+        "champ_range_default_value": 1,
+        "champ_range_ranged_value": 2
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "mana",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "on_hit_max_mana_damage_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 30,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3026_passive",
+      "effectKey": "revive_restore",
+      "resultKey": "health_restore",
+      "formulaKey": "revive_base_health",
+      "attributes": {
+        "SOURCE.hp.BASE": 800
+      },
+      "expected": 400,
+      "fixedParameters": {
+        "stasis_duration_ms": 4000,
+        "revive_base_hp_ratio": 0.5,
+        "revive_max_mana_ratio": 1,
+        "revive_cooldown_ms": 300000
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BASE",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "revive_base_hp_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 400,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3026_passive",
+      "effectKey": "revive_restore",
+      "resultKey": "mana_restore",
+      "formulaKey": "revive_max_mana",
+      "attributes": {
+        "SOURCE.mana.TOTAL": 1200
+      },
+      "expected": 1200,
+      "fixedParameters": {
+        "stasis_duration_ms": 4000,
+        "revive_base_hp_ratio": 0.5,
+        "revive_max_mana_ratio": 1,
+        "revive_cooldown_ms": 300000
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "mana",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "revive_max_mana_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 1200,
+      "passed": true
+    },
+    {
+      "skillKey": "item_3742_passive",
+      "effectKey": "max_momentum_hit",
+      "resultKey": "damage",
+      "formulaKey": "max_bonus_damage",
+      "attributes": {
+        "SOURCE.attack_damage.BASE": 100
+      },
+      "expected": 140,
+      "fixedParameters": {
+        "max_movement_speed": 20,
+        "max_stacks": 100,
+        "bonus_damage_per_stack": 0.4,
+        "max_stacks_base_ad_ratio": 1,
+        "duration_to_max_stack_ms": 4000,
+        "slow_resist_ratio": 0.15
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_stacks_base_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BASE",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_damage_per_stack"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_stacks"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "actual": 140,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6631_active",
+      "effectKey": "active_hit",
+      "resultKey": "damage",
+      "formulaKey": "active_damage",
+      "attributes": {
+        "SOURCE.attack_damage.TOTAL": 250
+      },
+      "expected": 200,
+      "fixedParameters": {
+        "cooldown_ms": 15000,
+        "active_damage_ad_ratio": 0.8,
+        "slow_ratio": 0.35,
+        "self_move_speed_ratio": 0.35,
+        "duration_ms": 3000,
+        "decay_rate": 0.8
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_damage_ad_ratio"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6662_passive",
+      "effectKey": "spellblade_damage",
+      "resultKey": "damage",
+      "formulaKey": "spellblade_damage",
+      "attributes": {
+        "SOURCE.attack_damage.BASE": 100
+      },
+      "expected": 150,
+      "fixedParameters": {
+        "slow_ratio_melee": 0.25,
+        "slow_ratio_ranged": 0.125,
+        "slow_field_duration_ms": 2000,
+        "spellblade_multiplier": 1.5,
+        "spellblade_cooldown_ms": 1500,
+        "item_cooldown_ms": 1500
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "spellblade_multiplier"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BASE",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "effectKey": "single_target_max_damage",
+      "resultKey": "damage",
+      "formulaKey": "single_target_max_damage",
+      "attributes": {
+        "SOURCE.ability_power.TOTAL": 300
+      },
+      "expected": 180,
+      "fixedParameters": {
+        "cooldown_ms": 12000,
+        "echo_base_damage": 75,
+        "echo_scaling_ratio": 0.05,
+        "max_echo_charges": 6,
+        "remaining_echo_count": 5,
+        "repeat_echo_damage_ratio": 0.2,
+        "single_target_multiplier": 2
+      },
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "echo_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "echo_scaling_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "single_target_multiplier"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "actual": 180,
+      "passed": true
+    }
+  ],
+  "invariants": {
+    "guardianAngelManaUsesTotal": true,
+    "deadMansPlateFullStackEndpoint": true,
+    "ludensStrictOneVsOneMultiplier": true
+  },
+  "passed": true
+}

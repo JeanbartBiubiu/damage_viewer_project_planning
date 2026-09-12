@@ -1,0 +1,375 @@
+{
+  "planRevision": 1,
+  "plannedWrites": 7,
+  "plannedResults": 8,
+  "writeOrder": [
+    "POST /skills/item_3042_passive/effects (bonus_attack_damage_from_max_mana)",
+    "POST /skills/item_3042_passive/effects (on_hit_damage_from_max_mana)",
+    "POST /skills/item_3026_passive/effects (revive_restore)",
+    "POST /skills/item_3742_passive/effects (max_momentum_hit)",
+    "POST /skills/item_6631_active/effects (active_hit)",
+    "POST /skills/item_6662_passive/effects (spellblade_damage)",
+    "POST /skills/item_6655_passive/effects (single_target_max_damage)"
+  ],
+  "source": {
+    "normalizedPath": "数据参考/lol-wiki-current-items/current-items.normalized.json",
+    "normalizedSha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4",
+    "sourceSnapshotSha256": "5dffaaa46096c780cced244e17f517e22a84d0ee1e94395d788e3b7c2363fb1f",
+    "itemIds": [
+      3042,
+      3026,
+      3742,
+      6631,
+      6662,
+      6655
+    ]
+  },
+  "targets": [
+    {
+      "skillKey": "item_3042_passive",
+      "equipmentKey": "item_3042",
+      "sourceItemId": 3042,
+      "effectPosts": [
+        {
+          "effectKey": "bonus_attack_damage_from_max_mana",
+          "name": "敬畏最大法力转额外攻击力",
+          "description": "复用已核对的2%最大法力值公式，持续向持有者提供额外攻击力。",
+          "sortOrder": 10,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "bonus_attack_damage",
+              "name": "最大法力提供的额外攻击力",
+              "target": "SOURCE",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "description": "按当前总最大法力值动态读取额外攻击力；装备启用与卸除由后续运行装配负责。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "MOMENT_EVALUATION",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": null,
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "bonus_attack_damage_from_max_mana"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "attack_damage",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "on_hit_damage_from_max_mana",
+          "name": "冲击英雄攻击特效伤害",
+          "description": "复用已核对的1.2%最大法力值公式保存普攻对英雄的额外物理伤害；攻击命中、英雄目标资格及吸血全局规则尚未接线。",
+          "sortOrder": 20,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "冲击英雄攻击特效伤害",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存当前英雄目标的一次攻击特效伤害，不表示普攻事件已连接。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "on_hit_damage_from_max_mana"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3026_passive",
+      "equipmentKey": "item_3026",
+      "sourceItemId": 3026,
+      "effectPosts": [
+        {
+          "effectKey": "revive_restore",
+          "name": "重生结束恢复",
+          "description": "保存复活结束时恢复50%基础生命值和100%最大法力值的两个独立结果；致命伤害、4秒复活、无敌、不可选取、无法行动和300秒冷却尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "health_restore",
+              "name": "重生生命恢复",
+              "target": "SOURCE",
+              "resultType": "DIRECT_HEAL",
+              "description": "仅保存复活结束时的生命恢复量，不表示致命伤害和复活时序已经接线。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "revive_base_health"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {}
+            },
+            {
+              "resultKey": "mana_restore",
+              "name": "重生法力恢复",
+              "target": "SOURCE",
+              "resultType": "RESOURCE_CHANGE",
+              "description": "仅保存复活结束时的法力恢复量，不表示致命伤害和复活时序已经接线。",
+              "sortOrder": 20,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "revive_max_mana"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_3742_passive",
+      "equipmentKey": "item_3742",
+      "sourceItemId": 3742,
+      "effectPosts": [
+        {
+          "effectKey": "max_momentum_hit",
+          "name": "满层沉船者命中",
+          "description": "使用现有满100层端点公式保存下一次普攻的额外物理伤害；移动积攒、中间层数、消费和实际命中尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "满层沉船者额外物理伤害",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "只表示100层端点的一次主目标伤害，不外推0至99层曲线。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "max_bonus_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_6631_active",
+      "equipmentKey": "item_6631",
+      "sourceItemId": 6631,
+      "effectPosts": [
+        {
+          "effectKey": "active_hit",
+          "name": "破阵冲击波主动命中",
+          "description": "在运行时确认破阵冲击波实际命中当前英雄后结算0.8×总攻击力物理伤害；范围命中、减速、自身移速和冷却尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "破阵冲击波物理伤害",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存当前英雄目标的一次主动伤害。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "active_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_6662_passive",
+      "equipmentKey": "item_6662",
+      "sourceItemId": 6662,
+      "effectPosts": [
+        {
+          "effectKey": "spellblade_damage",
+          "name": "咒刃额外物理伤害",
+          "description": "使用现有1.5×基础攻击力公式保存强化普攻对当前目标的额外物理伤害；施放后10秒资格、攻击消费、冰冷地带、冷却和吸血全局规则尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "咒刃额外物理伤害",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅保存主目标单次额外伤害，不表示普攻触发和冰冷地带已经连接。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "spellblade_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "physics",
+                "deliveryKind": "BASIC_ATTACK",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "equipmentKey": "item_6655",
+      "sourceItemId": 6655,
+      "effectPosts": [
+        {
+          "effectKey": "single_target_max_damage",
+          "name": "单目标满充能回声伤害",
+          "description": "使用现有单目标总倍率公式保存严格一对一且6层回声全部结算到主目标时的魔法伤害；充能、技能伤害触发、弹道和12秒冷却尚未接线。",
+          "sortOrder": 10,
+          "lifecycle": null,
+          "results": [
+            {
+              "resultKey": "damage",
+              "name": "单目标满充能回声魔法伤害",
+              "target": "TARGET",
+              "resultType": "DAMAGE",
+              "description": "仅适用于没有额外目标且6层全部消费的严格一对一场景。",
+              "sortOrder": 10,
+              "lifecycleBehavior": null,
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "FORMULA",
+                  "formulaKey": "single_target_max_damage"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "vampRules": []
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "explicitGaps": [
+    "守护天使的致命伤害事件、4秒复活状态、无敌、不可选取、无法行动和冷却尚无完整通用接线。",
+    "魔切和冰脉的攻击命中、英雄目标筛选、施法后资格与消费尚未组成；吸血由全局装备属性与结算规则负责，当前技能侧不重复填充临时吸血规则。",
+    "亡者的板甲仅保存100层端点；移动积攒、0至99层公式、消费和命中尚未组成。",
+    "挺进破坏者仅保存当前英雄目标伤害；范围选取、减速和自身衰减移动速度尚未组成。",
+    "卢登仅保存严格一对一、满6层端点；充能、技能伤害触发、弹道和冷却尚未组成。"
+  ]
+}
