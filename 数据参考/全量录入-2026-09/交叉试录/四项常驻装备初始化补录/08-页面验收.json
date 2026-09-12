@@ -1,0 +1,135 @@
+{
+  "capturedAt": "2026-09-12T10:54:57.477Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "visibleCodexBrowserControl": "更新后仍缺少 Codex 浏览器授权令牌，改由同机真实 Chromium 完成验收。",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 254
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "item_2422_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "有点神奇之鞋·额外移速代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": null,
+      "effect": {
+        "effectKey": "magical_footwear_additional_speed",
+        "resultKey": "attribute_bonus",
+        "detailObserved": true
+      },
+      "trigger": {
+        "ruleKey": "initialize_magical_footwear_additional_speed",
+        "eventLabel": "来源对象初始化完成",
+        "actionName": "执行有点神奇之鞋额外移速"
+      }
+    },
+    {
+      "area": "item_3742_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "亡者的板甲·沉船者代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": null,
+      "effect": {
+        "effectKey": "unsinkable_slow_resist",
+        "resultKey": "slow_resist",
+        "detailObserved": true
+      },
+      "trigger": {
+        "ruleKey": "initialize_unsinkable_slow_resist",
+        "eventLabel": "来源对象初始化完成",
+        "actionName": "执行不沉减速抗性"
+      }
+    },
+    {
+      "area": "item_3042_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "魔切·敬畏与冲击代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": null,
+      "effect": {
+        "effectKey": "bonus_attack_damage_from_max_mana",
+        "resultKey": "bonus_attack_damage",
+        "detailObserved": true
+      },
+      "trigger": {
+        "ruleKey": "initialize_bonus_attack_damage_from_max_mana",
+        "eventLabel": "来源对象初始化完成",
+        "actionName": "执行敬畏额外攻击力"
+      }
+    },
+    {
+      "area": "item_3040_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "炽天使之拥·敬畏与救主灵刃代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "parameterKey": "ap_from_bonus_mana_ratio",
+        "formulaKey": "ap_from_bonus_mana",
+        "bonusManaVisible": true,
+        "oldKeysAbsent": true
+      },
+      "effect": {
+        "effectKey": "ap_from_bonus_mana",
+        "resultKey": "ap_from_bonus_mana",
+        "detailObserved": true
+      },
+      "trigger": {
+        "ruleKey": "initialize_ap_from_bonus_mana",
+        "eventLabel": "来源对象初始化完成",
+        "actionName": "执行敬畏法术强度"
+      }
+    }
+  ],
+  "screenshots": [
+    "item_2422_passive-列表图片.png",
+    "item_2422_passive-初始化规则.png",
+    "item_2422_passive-结果详情.png",
+    "item_3040_passive-列表图片.png",
+    "item_3040_passive-初始化规则.png",
+    "item_3040_passive-结果详情.png",
+    "item_3040_passive-额外法力公式.png",
+    "item_3042_passive-列表图片.png",
+    "item_3042_passive-初始化规则.png",
+    "item_3042_passive-结果详情.png",
+    "item_3742_passive-列表图片.png",
+    "item_3742_passive-初始化规则.png",
+    "item_3742_passive-结果详情.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "1d5b4790877ded0423c20d18b0029505b3f330ca007d82b9d3397011b1f47b53"
+}

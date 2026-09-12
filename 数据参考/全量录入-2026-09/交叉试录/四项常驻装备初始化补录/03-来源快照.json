@@ -1,0 +1,592 @@
+{
+  "capturedAt": "2026-09-12T10:13:02.989Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "sources": [
+    {
+      "path": "C:/project/damage_web_dev/数据参考/lol-wiki-current-items/current-items.normalized.json",
+      "sha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十六批成长与触发装备/冻结来源.json",
+      "sha256": "5a1ac9819cf064de2b6f743dfd0f3a512857224650746e423fdf9ebeed343cc2"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文生成装备第一批/候选与来源.json",
+      "sha256": "d8f769c5c407406bd38d1154115334403e92141001b5c5a39e2b049c45e3f92f"
+    }
+  ],
+  "normalizedMetadata": {
+    "fetchedAt": "2026-06-18T12:57:54.813Z",
+    "revision": {
+      "pageid": 1459270,
+      "revid": 4030984,
+      "timestamp": "2026-06-17T23:47:20Z",
+      "title": "Module:ItemData/data"
+    },
+    "source": {
+      "apiUrl": "https://wiki.leagueoflegends.com/en-us/api.php?action=query&prop=revisions&rvprop=ids|timestamp|content&rvslots=main&titles=Module:ItemData/data&format=json&origin=*",
+      "moduleUrl": "https://wiki.leagueoflegends.com/en-us/Module:ItemData/data",
+      "title": "Module:ItemData/data"
+    }
+  },
+  "sourceItems": [
+    {
+      "name": "Dead Man's Plate",
+      "raw": {
+        "id": 3742,
+        "nickname": [
+          "dmp",
+          "dreadnought",
+          "gangplank",
+          "juggernaut"
+        ],
+        "tier": 3,
+        "type": [
+          "Legendary"
+        ],
+        "itemlimit": "Momentum",
+        "caption": "\"There's only one way you'll get this armor from me...\" - forgotten namesake",
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "menu": {
+          "fighter": true,
+          "tank": true
+        },
+        "stats": {
+          "armor": 55,
+          "hp": 350,
+          "ms": 4
+        },
+        "effects": {
+          "pass": {
+            "name": "Shipwrecker",
+            "unique": true,
+            "description": "While moving, generates 7 stacks of ''Momentum'' every {{fd|0.25}} seconds, granting up to {{as|20 '''bonus''' movement speed}} at 100 stacks after {{fd|3.75}} seconds of moving. Basic attacks consume all stacks to deal {{as|{{pp|0 to 40 for 11|0 to 100|type=Momentum|label1=stacks of Momentum|formula=0.4 for every 1 stack of Momentum, capped at 40}}|physical damage}} {{as|(+ {{pp|0 to 100 for 11|0 to 100|key=%|type=Momentum|label1=stacks of Momentum|formula=1% for every 1 stack of Momentum, capped at 100}} '''base''' AD)}} {{as|'''bonus''' physical damage}} [[on-hit]]."
+          },
+          "pass2": {
+            "name": "Unsinkable",
+            "unique": true,
+            "description": "Gain 15% {{tip|slow resist}}."
+          }
+        },
+        "recipe": [
+          "Winged Moonplate",
+          "Ruby Crystal",
+          "Chain Vest"
+        ],
+        "buy": 2900
+      },
+      "id": 3742,
+      "tier": 3,
+      "type": [
+        "Legendary"
+      ],
+      "modes": {
+        "classic sr 5v5": true,
+        "aram": true,
+        "nb": true,
+        "ar": true
+      },
+      "menu": {
+        "fighter": true,
+        "tank": true
+      },
+      "stats": {
+        "armor": 55,
+        "hp": 350,
+        "ms": 4
+      },
+      "effects": {
+        "pass": {
+          "name": "Shipwrecker",
+          "unique": true,
+          "description": "While moving, generates 7 stacks of ''Momentum'' every {{fd|0.25}} seconds, granting up to {{as|20 '''bonus''' movement speed}} at 100 stacks after {{fd|3.75}} seconds of moving. Basic attacks consume all stacks to deal {{as|{{pp|0 to 40 for 11|0 to 100|type=Momentum|label1=stacks of Momentum|formula=0.4 for every 1 stack of Momentum, capped at 40}}|physical damage}} {{as|(+ {{pp|0 to 100 for 11|0 to 100|key=%|type=Momentum|label1=stacks of Momentum|formula=1% for every 1 stack of Momentum, capped at 100}} '''base''' AD)}} {{as|'''bonus''' physical damage}} [[on-hit]]."
+        },
+        "pass2": {
+          "name": "Unsinkable",
+          "unique": true,
+          "description": "Gain 15% {{tip|slow resist}}."
+        }
+      },
+      "recipe": [
+        "Winged Moonplate",
+        "Ruby Crystal",
+        "Chain Vest"
+      ],
+      "buy": 2900,
+      "nickname": [
+        "dmp",
+        "dreadnought",
+        "gangplank",
+        "juggernaut"
+      ]
+    },
+    {
+      "name": "Manamune",
+      "raw": {
+        "id": 3004,
+        "nickname": [
+          "Muramana",
+          "tear"
+        ],
+        "tags": [
+          "HasOnHit"
+        ],
+        "tier": 3,
+        "type": "=>Muramana",
+        "itemlimit": "Manaflow",
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "menu": {
+          "fighter": true,
+          "marksman": true,
+          "assassin": true,
+          "onhit effects": true
+        },
+        "stats": {
+          "ad": 35,
+          "ah": 15,
+          "mana": 500
+        },
+        "effects": {
+          "pass": {
+            "name": "Awe",
+            "unique": true,
+            "description": "Grants {{as|'''bonus''' attack damage}} equal to {{as|2% '''maximum''' mana}}."
+          },
+          "pass2": {
+            "name": "Manaflow",
+            "unique": true,
+            "description": "Grants a charge every 8 seconds, up to 4 charges. Consumes a charge [[on-hit]] and whenever affecting an enemy or ally with an [[champion ability|ability]] to grant {{as|3 '''bonus''' mana}}, increased to {{as|6|mana}} for champion targets, up to a '''maximum''' of {{as|360 '''bonus''' mana}}. Can only be triggered once per {{tip|cast instance}}."
+          },
+          "pass3": {
+            "description": "Transforms into {{ii|Muramana}} at {{as|360 '''bonus''' mana}}."
+          }
+        },
+        "recipe": [
+          "Tear of the Goddess",
+          "Caulfield's Warhammer",
+          "Long Sword"
+        ],
+        "buy": 2900
+      },
+      "id": 3004,
+      "tier": 3,
+      "type": "=>Muramana",
+      "modes": {
+        "classic sr 5v5": true,
+        "aram": true,
+        "nb": true,
+        "ar": true
+      },
+      "menu": {
+        "fighter": true,
+        "marksman": true,
+        "assassin": true,
+        "onhit effects": true
+      },
+      "stats": {
+        "ad": 35,
+        "ah": 15,
+        "mana": 500
+      },
+      "effects": {
+        "pass": {
+          "name": "Awe",
+          "unique": true,
+          "description": "Grants {{as|'''bonus''' attack damage}} equal to {{as|2% '''maximum''' mana}}."
+        },
+        "pass2": {
+          "name": "Manaflow",
+          "unique": true,
+          "description": "Grants a charge every 8 seconds, up to 4 charges. Consumes a charge [[on-hit]] and whenever affecting an enemy or ally with an [[champion ability|ability]] to grant {{as|3 '''bonus''' mana}}, increased to {{as|6|mana}} for champion targets, up to a '''maximum''' of {{as|360 '''bonus''' mana}}. Can only be triggered once per {{tip|cast instance}}."
+        },
+        "pass3": {
+          "description": "Transforms into {{ii|Muramana}} at {{as|360 '''bonus''' mana}}."
+        }
+      },
+      "recipe": [
+        "Tear of the Goddess",
+        "Caulfield's Warhammer",
+        "Long Sword"
+      ],
+      "buy": 2900,
+      "tags": [
+        "HasOnHit"
+      ],
+      "nickname": [
+        "Muramana",
+        "tear"
+      ]
+    },
+    {
+      "name": "Muramana",
+      "raw": {
+        "id": 3042,
+        "tags": [
+          "HasOnHit",
+          "OnHitAppliesLifeSteal"
+        ],
+        "tier": 4,
+        "type": [
+          "Legendary"
+        ],
+        "limit": "Limited to 1 '''Manamune'''.",
+        "modes": "=>Manamune",
+        "menu": "=>Manamune",
+        "stats": {
+          "ad": "=>Manamune",
+          "ah": "=>Manamune",
+          "mana": 1000
+        },
+        "effects": {
+          "pass": "=>Manamune",
+          "pass2": {
+            "name": "Shock",
+            "unique": true,
+            "description": "Basic attacks [[on-hit]] against champions deal {{as|{{as|{{fd|1.2}}% '''maximum''' mana}} '''bonus''' physical damage}}.",
+            "description2": "Dealing {{tip|ability damage}} to champions with a {{tip|champion ability}} deals {{as|{{as|{{rd|4%|3%}} '''maximum''' mana}} '''bonus''' physical damage|physical damage}}, unless the damage also counts as {{tip|proc damage}} or {{tip|indirect damage}}. This can only be triggered on the same target once every {{fd|6.5}} seconds from the same cast instance."
+          }
+        },
+        "recipe": [
+          "Manamune"
+        ],
+        "buy": "=>Manamune"
+      },
+      "id": 3042,
+      "tier": 4,
+      "type": [
+        "Legendary"
+      ],
+      "modes": "=>Manamune",
+      "menu": "=>Manamune",
+      "stats": {
+        "ad": "=>Manamune",
+        "ah": "=>Manamune",
+        "mana": 1000
+      },
+      "effects": {
+        "pass": "=>Manamune",
+        "pass2": {
+          "name": "Shock",
+          "unique": true,
+          "description": "Basic attacks [[on-hit]] against champions deal {{as|{{as|{{fd|1.2}}% '''maximum''' mana}} '''bonus''' physical damage}}.",
+          "description2": "Dealing {{tip|ability damage}} to champions with a {{tip|champion ability}} deals {{as|{{as|{{rd|4%|3%}} '''maximum''' mana}} '''bonus''' physical damage|physical damage}}, unless the damage also counts as {{tip|proc damage}} or {{tip|indirect damage}}. This can only be triggered on the same target once every {{fd|6.5}} seconds from the same cast instance."
+        }
+      },
+      "recipe": [
+        "Manamune"
+      ],
+      "buy": "=>Manamune",
+      "tags": [
+        "HasOnHit",
+        "OnHitAppliesLifeSteal"
+      ]
+    },
+    {
+      "name": "Seraph's Embrace",
+      "raw": {
+        "id": 3040,
+        "tier": 4,
+        "type": "=>Archangel's Staff",
+        "itemlimit": "Lifeline",
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": true
+        },
+        "stats": {
+          "ap": 70,
+          "ah": 25,
+          "mana": 1000
+        },
+        "effects": {
+          "pass": {
+            "name": "Awe",
+            "unique": true,
+            "description": "Grants {{as|ability power}} equal to {{as|2% '''bonus''' mana}}."
+          },
+          "pass2": {
+            "name": "Lifeline",
+            "unique": true,
+            "description": "If you would take damage that would reduce you below {{as|30% of your '''maximum''' health}}, you first gain a {{tip|shield}} for 3 seconds that absorbs damage equal to {{as|18% '''maximum''' mana}} for 3 seconds.",
+            "cd": "90"
+          }
+        },
+        "recipe": [
+          "Archangel's Staff"
+        ],
+        "buy": "=>Archangel's Staff"
+      },
+      "id": 3040,
+      "tier": 4,
+      "type": "=>Archangel's Staff",
+      "modes": {
+        "classic sr 5v5": true,
+        "aram": true,
+        "nb": true,
+        "ar": true
+      },
+      "stats": {
+        "ap": 70,
+        "ah": 25,
+        "mana": 1000
+      },
+      "effects": {
+        "pass": {
+          "name": "Awe",
+          "unique": true,
+          "description": "Grants {{as|ability power}} equal to {{as|2% '''bonus''' mana}}."
+        },
+        "pass2": {
+          "name": "Lifeline",
+          "unique": true,
+          "description": "If you would take damage that would reduce you below {{as|30% of your '''maximum''' health}}, you first gain a {{tip|shield}} for 3 seconds that absorbs damage equal to {{as|18% '''maximum''' mana}} for 3 seconds.",
+          "cd": "90"
+        }
+      },
+      "recipe": [
+        "Archangel's Staff"
+      ],
+      "buy": "=>Archangel's Staff"
+    },
+    {
+      "name": "Slightly Magical Boots",
+      "raw": {
+        "id": 2422,
+        "tier": 1,
+        "type": [
+          "Distributed",
+          "Boots"
+        ],
+        "limit": "Only available with {{ri|Magical Footwear}}. Replaces {{ii|Boots}} and is gained automatically at no cost after some time. Cannot be purchased beforehand.",
+        "modes": {
+          "classic sr 5v5": true,
+          "aram": true,
+          "nb": true,
+          "ar": false
+        },
+        "menu": "=>Boots",
+        "stats": {
+          "msflat": "=>Boots"
+        },
+        "effects": {
+          "pass": {
+            "name": "Slightly Quicker",
+            "unique": true,
+            "description": "Gain {{as|10 '''bonus''' movement speed}}."
+          }
+        },
+        "buy": 0,
+        "sell": 90
+      },
+      "id": 2422,
+      "tier": 1,
+      "type": [
+        "Distributed",
+        "Boots"
+      ],
+      "modes": {
+        "classic sr 5v5": true,
+        "aram": true,
+        "nb": true,
+        "ar": false
+      },
+      "menu": "=>Boots",
+      "stats": {
+        "msflat": "=>Boots"
+      },
+      "effects": {
+        "pass": {
+          "name": "Slightly Quicker",
+          "unique": true,
+          "description": "Gain {{as|10 '''bonus''' movement speed}}."
+        }
+      },
+      "buy": 0
+    }
+  ],
+  "runeGeneratedItem2422": null,
+  "analogousLiveShape": {
+    "skillKey": "item_3003_passive",
+    "parameter": {
+      "createdAt": "2026-09-07T18:19:46.604792Z",
+      "description": "每1点额外法力提供0.01点法术强度，小数0.01表示1%。",
+      "fixedValue": 0.01,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "敬畏额外法力转法术强度比例",
+      "parameterKey": "ap_from_bonus_mana_ratio",
+      "skillKey": "item_3003_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:19:46.604792Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "formula": {
+      "createdAt": "2026-09-07T18:19:49.619429Z",
+      "description": "按来源对象额外法力值乘以敬畏比例计算法术强度。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "mana",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BONUS",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_from_bonus_mana_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "ap_from_bonus_mana",
+      "gameId": "lol",
+      "name": "额外法力转法术强度",
+      "skillKey": "item_3003_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:19:49.619429Z"
+    },
+    "effect": {
+      "createdAt": "2026-09-07T18:20:23.115882Z",
+      "description": "装备持有者按当前额外法力值获得1%法术强度。",
+      "effectKey": "ap_from_bonus_mana",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "敬畏额外法力转法术强度",
+      "results": [
+        {
+          "description": "每1点额外法力提供0.01点法术强度；按当前时点读取。",
+          "detail": {
+            "attributeKey": "ability_power",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "额外法力提供的法术强度",
+          "resultKey": "ap_from_bonus_mana",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "ap_from_bonus_mana",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "item_3003_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:20:23.115882Z"
+    },
+    "triggerRule": {
+      "actions": [
+        {
+          "actionKey": "execute_ap_from_bonus_mana",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "ap_from_bonus_mana"
+          },
+          "name": "执行敬畏属性效果",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "装备生效时建立按当前额外法力读取的敬畏属性效果；法力流技能命中筛选不在本规则中扩大。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化敬畏额外法力转法术强度",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_ap_from_bonus_mana",
+      "sortOrder": 10
+    }
+  },
+  "acceptedFacts": {
+    "item_2422": {
+      "directMoveSpeed": 25,
+      "additionalMoveSpeed": 10
+    },
+    "item_3742": {
+      "directAttributesExcludeSlowResist": true,
+      "slowResist": 0.15
+    },
+    "item_3042": {
+      "directAttackDamage": 35,
+      "manaValueKind": "TOTAL",
+      "ratio": 0.02
+    },
+    "item_3040": {
+      "directAbilityPower": 70,
+      "manaValueKind": "BONUS",
+      "ratio": 0.02
+    }
+  },
+  "replacementSafety": {
+    "oldFormula": "bonus_ap_from_max_mana",
+    "oldFormulaIncomingReferences": [],
+    "oldParameter": "bonus_ap_from_max_mana_ratio",
+    "oldParameterReferencesBeforeFormulaDeletion": [
+      {
+        "kind": "formulas",
+        "key": "bonus_ap_from_max_mana"
+      }
+    ],
+    "deletionOrder": [
+      "formula",
+      "parameter"
+    ]
+  },
+  "excluded": [
+    "四件装备主体属性、装备技能关系和图片保持不变",
+    "亡者的板甲移动积攒与强化攻击不接线",
+    "魔切冲击攻击和技能伤害不接线",
+    "有点神奇之鞋升级继承过程不接线",
+    "不修改炽天使之拥救主灵刃现有组成",
+    "不声称战斗运行时、装备卸除或升级过程已经验证"
+  ]
+}
