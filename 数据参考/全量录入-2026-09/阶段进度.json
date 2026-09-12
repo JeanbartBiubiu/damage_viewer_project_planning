@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T12:22:08.693Z",
+  "generatedAt": "2026-09-12T14:40:51.690Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -6303,6 +6303,112 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/奥拉夫W与盖伦R触发补录/证据清单.json",
         "sha256": "e0dab5d9baa1a3bc7a060d94640da17e4e6dd95f4e17661045969762425f3302",
         "commit": "e60c521967f2cc378a4159cb4f196d75488d17bc"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "equipmentRuneTriggerBackfill": {
+      "at": "2026-09-12T14:40:51.690Z",
+      "status": "黑色切割者、魔切、挺进破坏者和凯旋四条规则完成触发接线，Cursor修正后终审、受保护写入、独立GET回读和真实页面通过",
+      "skills": [
+        "item_3071_passive",
+        "item_3042_passive",
+        "item_6631_active",
+        "rune_9111_passive"
+      ],
+      "created": {
+        "triggerRules": 4
+      },
+      "writer": {
+        "preparationGETs": 2404,
+        "protectedGETs": 3751,
+        "businessWrites": 4,
+        "POST": 4,
+        "status201": 4,
+        "immediateReadbacks": 4,
+        "replayedWrites": 0,
+        "priorRuleCount": 96,
+        "finalRuleCount": 100,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 1253,
+        "writes": 0,
+        "priorRulesUnchanged": 96,
+        "newRulesMatched": 4,
+        "nonRuleTargetsUnchanged": 4,
+        "finalRuleCount": 100,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 280,
+        "businessWrites": 0,
+        "localImageCacheRecords": 3279,
+        "skills": [
+          "item_3071_passive",
+          "item_3042_passive",
+          "item_6631_active",
+          "rune_9111_passive"
+        ],
+        "listImagesVisible": 4,
+        "imageNaturalSize": "64x64",
+        "screenshots": 15,
+        "formulaEffectResultAndTriggerDetailsVisible": true,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-668e341b-85a9-43c3-ab55-4cd2c5995c20",
+        "requestId": "4d4bcc65-7d8c-40cc-8c05-4703294dc108",
+        "resultStatus": "finished",
+        "planRevision": 2,
+        "verdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 1,
+        "completedToolCalls": 1,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0,
+        "rejectedPriorRuns": 3
+      },
+      "protected": {
+        "priorRulesUnchanged": 96,
+        "skillSubjectsUnchanged": true,
+        "ownerRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "semantics": [
+        "黑色切割者使用DAMAGE_DEALT与物理伤害目录键physics，对英雄当前目标执行armor_shred；客户端10毫秒字段未推断为逐目标冷却。",
+        "魔切仅接普通攻击命中英雄分支，执行on_hit_damage_from_max_mana，不扩大到所有技能命中。",
+        "挺进破坏者只在item_6631_active实际命中英雄后执行active_hit，不生成范围命中或附带移速、减速。",
+        "凯旋只覆盖严格1V1本人击杀；KILL的当前目标为被击杀英雄，triumph_heal结果目标SOURCE仍治疗技能拥有者；多人助攻和20金币排除。"
+      ],
+      "experienceIssues": [
+        "请求体散列生成器和写入器必须共用对象键递归排序后的规范形式；首次门禁在任何网络请求前以GET 0、业务写入0拦住不一致，修正后重新准备和终审。",
+        "Cursor评审允许路径应覆盖任务父目录；仅允许合并子目录会把其他既有未跟踪候选计为范围外变化。",
+        "结果查看窗口不一定重复显示结果名称，列表伤害类型显示目录键physics；页面验收应分别用稳定标识输入值、实际字段结构和目录键断言。",
+        "动作目标上下文与效果结果目标是两层语义；CURRENT_TARGET不会把已有SOURCE治疗改成治疗被击杀对象。"
+      ],
+      "pending": [
+        "凯旋多人助攻与完整参与击杀不在严格1V1规则范围内。",
+        "四条规则尚未执行战斗运行或Wasm验收。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/装备与符文触发补录/证据清单.json",
+        "sha256": "00fd65037afcd0a729d6c2596adbda77e2ee83cf687dbefa7cc2d3b5b8e2d800",
+        "commit": "d93f4ccc9691a13599f80914d97cbe8e203289c3"
       },
       "runtimeValidation": "未执行"
     }
