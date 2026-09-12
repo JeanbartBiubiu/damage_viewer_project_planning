@@ -1,0 +1,75 @@
+{
+  "verifiedOn": "2026-09-12",
+  "status": "PASS",
+  "verifier": "persistent_result_independent_readback",
+  "model": "Luna Max",
+  "evidenceBoundary": "独立代理自行执行管理接口纯 GET 回读，不复用写入器结论；未执行 Wasm 战斗运行。",
+  "target": {
+    "gameId": "lol",
+    "equipmentKey": "item_3742",
+    "skillKey": "item_3742_passive",
+    "effectKey": "unsinkable_slow_resist",
+    "resultKey": "slow_resist"
+  },
+  "requestPolicy": {
+    "method": "GET_ONLY",
+    "getCount": 20,
+    "allResponsesStatus": 200,
+    "businessWriteIssued": 0,
+    "authorizationValueRecorded": false
+  },
+  "hashChecks": {
+    "plan": true,
+    "frozen": true,
+    "baseline": true,
+    "sourceSnapshot": true,
+    "preflight": true,
+    "progressApprovedPayload": true,
+    "writerFileStillMatchesWriteIntent": false,
+    "writerFileDifferenceReason": "写入完成后修复了汇总断言把 authorizationValueRecorded=false 误当失败的问题；write-intent 保留写入时原文件哈希。"
+  },
+  "assertions": {
+    "newEffectAndResultMatchFrozenFields": true,
+    "existingMaxMomentumHitEqualsBaseline": true,
+    "skillSubjectUnchanged": true,
+    "equipmentRelationUnchanged": true,
+    "representativeImageUnchanged": true,
+    "parametersAndFormulasUnchanged": true,
+    "processesStatesRulesEmpty": true,
+    "slowResistParameterFixedValue": 0.15,
+    "resultBindingCorrect": true,
+    "resultAddsFifteenPercentagePoints": true,
+    "attributeAndModifierCatalogsUnchanged": true
+  },
+  "observed": {
+    "effectKeys": [
+      "max_momentum_hit",
+      "unsinkable_slow_resist"
+    ],
+    "componentCounts": {
+      "parameters": 6,
+      "formulas": 1,
+      "effects": 2,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "result": {
+      "attributeKey": "slow_resist_percent",
+      "operation": "INCREASE",
+      "modifierZoneKey": "attribute_flat_add",
+      "target": "SOURCE",
+      "value": {
+        "kind": "PARAMETER",
+        "parameterKey": "slow_resist_ratio"
+      },
+      "percentagePoints": 15
+    },
+    "sourceNormalizedSha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4"
+  },
+  "recordedWriteHistory": {
+    "apiWritesIssued": 1,
+    "writeStatus": 201,
+    "immediateReadbackStatus": 200
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "capturedAt": "2026-09-12T05:00:38.146Z",
+  "requestPolicy": {
+    "method": "GET_ONLY",
+    "getCount": 4,
+    "businessWriteIssued": false,
+    "authorizationValueRecorded": false
+  },
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters/slow_resist_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/effects/unsinkable_slow_resist",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/slow_resist_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    }
+  ],
+  "case": {
+    "parameterKey": "slow_resist_ratio",
+    "fixedValue": 0.15,
+    "fixedMultiplier": 1,
+    "actualIncrease": 0.15,
+    "interpretation": "减速抗性比例增加0.15，即增加15个百分点。"
+  },
+  "attribute": {
+    "attributeKey": "slow_resist_percent",
+    "createdAt": "2026-09-08T14:32:32.234108Z",
+    "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+    "gameId": "lol",
+    "maxValue": null,
+    "minValue": null,
+    "name": "减速抗性比例",
+    "sortOrder": 421,
+    "status": "ENABLED",
+    "updatedAt": "2026-09-08T14:32:32.234108Z",
+    "valueType": "DECIMAL"
+  },
+  "modifierZone": {
+    "applicationStage": "ATTRIBUTE_FLAT",
+    "calculationMode": "FLAT_ADD",
+    "createdAt": "2026-09-06T16:50:52.756989Z",
+    "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+    "domain": "ATTRIBUTE",
+    "gameId": "lol",
+    "modifierZoneKey": "attribute_flat_add",
+    "name": "属性固定加算",
+    "sortOrder": 10,
+    "status": "ENABLED",
+    "updatedAt": "2026-09-06T16:50:52.756989Z"
+  },
+  "passed": true
+}
