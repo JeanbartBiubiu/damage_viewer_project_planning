@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T12:59:05.812Z",
+  "verdict": "READY",
+  "methodPolicy": "GET_ONLY",
+  "businessWrites": 0,
+  "authMode": "NO_AUTH_HEADER",
+  "hashes": {
+    "sourceSnapshot": "19307dffc71b326bd96edeb236e6b16dd514229482139acb4b6f57f643e0aeea",
+    "frozenRequest": "0e4ef8f011e80d1f288b8cf9da8f92a29ff0572871005dbd2f6fecf523bc2b33",
+    "baseline": "760d31f7599dea507e23e56cd96a0898390f71bacf215681296d0e65bf25e42d"
+  },
+  "getStats": {
+    "total": 2284,
+    "statusCounts": {
+      "200": 2283,
+      "404": 1
+    },
+    "expected404": [
+      "/skills/item_6631_active/trigger-rules/actual_hit"
+    ],
+    "unexpectedStatusCount": 0
+  },
+  "currentBaseline": {
+    "skillCount": 1062,
+    "triggerRuleCount": 96,
+    "eventTypeCounts": {
+      "BASIC_ATTACK_HIT": 9,
+      "DAMAGE_DEALT": 2,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_TAKEN": 3,
+      "KILL": 1,
+      "SKILL_HIT": 50,
+      "SKILL_USED": 1,
+      "SOURCE_INITIALIZED": 24,
+      "SPELL_SHIELD_BLOCKED": 5
+    },
+    "targetCategoryConditionCount": 9,
+    "skillHitCategoryRuleCount": 4,
+    "allRuleDetailGets": 96,
+    "allRuleDetailStatuses200": true
+  },
+  "targetChecks": {
+    "equipmentStatus": 200,
+    "equipmentAttributesStatus": 200,
+    "equipmentRelationStatus": 200,
+    "skillStatus": 200,
+    "parameterCount": 6,
+    "formulaCount": 1,
+    "effectKeys": [
+      "active_hit"
+    ],
+    "processCount": 0,
+    "internalStateCount": 0,
+    "ruleKeysBefore": [],
+    "newRuleDetailStatus": 404,
+    "physicsKeyPresent": true,
+    "activeHitPresent": true
+  },
+  "stableRead": {
+    "stableSkillKeys": true,
+    "stableRuleKeys": true,
+    "stableRuleCount": true,
+    "firstSkillCount": 1062,
+    "secondSkillCount": 1062,
+    "firstRuleCount": 96,
+    "secondRuleCount": 96,
+    "firstRuleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023",
+    "secondRuleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023"
+  },
+  "plannedPost": {
+    "count": 1,
+    "route": "/skills/item_6631_active/trigger-rules",
+    "detailRoute": "/skills/item_6631_active/trigger-rules/actual_hit",
+    "ruleKey": "actual_hit",
+    "eventType": "SKILL_HIT",
+    "sourceSkillKey": "item_6631_active",
+    "targetCategory": [
+      "CHAMPION"
+    ],
+    "targetContext": "CURRENT_TARGET",
+    "effectKey": "active_hit",
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null
+  },
+  "nextStep": "主负责人独立评审 02-冻结请求.json 后，只执行其中唯一 POST；返回 201 后立即 GET 新规则详情并核对冻结字段。"
+}

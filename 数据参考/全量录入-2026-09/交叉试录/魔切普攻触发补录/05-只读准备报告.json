@@ -1,0 +1,568 @@
+{
+  "generatedAt": "2026-09-12T12:47:09.840Z",
+  "verdict": "READY",
+  "failedChecks": [],
+  "methodPolicy": "LOCAL_SOURCE_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "fixedVersion": "16.17.1",
+  "scope": {
+    "skillKey": "item_3042_passive",
+    "effectKey": "on_hit_damage_from_max_mana",
+    "eventType": "BASIC_ATTACK_HIT",
+    "targetCategory": "CHAMPION",
+    "actionTargetContext": "CURRENT_TARGET",
+    "skillDamageBranchIncluded": false
+  },
+  "checks": {
+    "skillSubject": true,
+    "equipmentSubject": true,
+    "directAttributes": true,
+    "equipmentRelation": true,
+    "equipmentRepresentativeImage": true,
+    "skillRepresentativeImage": true,
+    "onHitParameter": true,
+    "onHitFormula": true,
+    "onHitEffect": true,
+    "onHitDamageResult": true,
+    "existingInitializationRule": true,
+    "candidateAbsent": true,
+    "targetRuleBaselineOnlyInitialization": true,
+    "basicAttackCategoryCurrentTargetPrecedent": true,
+    "noNewModifierZoneRequired": true,
+    "noSkillDamageBranch": true,
+    "noCooldownInvented": true
+  },
+  "getSummary": {
+    "getCount": 1198,
+    "businessWrites": 0,
+    "statusCounts": {
+      "200": 1197,
+      "404": 1
+    },
+    "targetGetCount": 39,
+    "globalSkillListGetCount": 1,
+    "globalTriggerRuleListGetCount": 1062,
+    "globalTriggerRuleDetailGetCount": 96
+  },
+  "currentBaseline": {
+    "skillCount": 1062,
+    "triggerRuleCount": 96,
+    "targetCategoryConditionCount": 9,
+    "basicAttackRuleCount": 9,
+    "basicAttackChampionCurrentTargetCount": 1,
+    "damageEventRuleCount": 6,
+    "damageEventCategoryRuleCount": 3,
+    "targetSkillRuleKeys": [
+      "initialize_bonus_attack_damage_from_max_mana"
+    ],
+    "triggerRuleSha256": "bdcc79a4d58f26540ce744aac229ed9e47fd17a0319c7bd83636ab26cd612ae9",
+    "modifierZoneKeys": [
+      "attribute_flat_add",
+      "attribute_percent_bonus",
+      "item_3047_basic_damage_reduction",
+      "item_3071_armor_reduction",
+      "item_3143_critical_damage_reduction",
+      "item_8010_magic_resistance_reduction"
+    ]
+  },
+  "candidate": {
+    "ruleKey": "on_basic_attack_hit_to_champion",
+    "detailRoute": "/skills/item_3042_passive/trigger-rules/on_basic_attack_hit_to_champion",
+    "preflightStatus": 404,
+    "frozenBodySha256": "206f4ef043f9f3fd793db052841b2327a42fdcaefa3366270454fa6a71d42c0a",
+    "body": {
+      "ruleKey": "on_basic_attack_hit_to_champion",
+      "name": "普攻命中英雄触发魔切冲击",
+      "description": "普通攻击命中英雄后，对当前目标执行既有冲击攻击特效伤害；不接入技能伤害分支，不设置未经证实的冷却。",
+      "sortOrder": 20,
+      "eventSource": {
+        "eventType": "BASIC_ATTACK_HIT",
+        "detail": {}
+      },
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "命中对象为英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "actionKey": "execute_on_hit_damage_from_max_mana",
+          "name": "执行冲击攻击特效伤害",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "on_hit_damage_from_max_mana"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    }
+  },
+  "protectedFacts": {
+    "item3042SourceObjectPath": "Items/3042",
+    "clientRatios": {
+      "bonusAttackDamage": 0.019999999552965164,
+      "onHitDamage": 0.012000000104308128,
+      "rangedAbilityDamage": 0.029999999329447746,
+      "meleeAbilityDamage": 0.03999999910593033
+    },
+    "sourceLockout": 6.5,
+    "existingRuntimeData": {
+      "effectKey": "on_hit_damage_from_max_mana",
+      "formulaKey": "on_hit_damage_from_max_mana",
+      "damageTypeKey": "physics",
+      "deliveryKind": "BASIC_ATTACK",
+      "originKind": "DIRECT",
+      "lifecycle": null
+    },
+    "phaseProgress": {
+      "generatedAt": "2026-09-12T12:22:08.693Z",
+      "sourceVersion": "16.17.1",
+      "equipmentExistingFormulaResultBackfill": {
+        "at": "2026-09-12T04:23:54.377Z",
+        "status": "六件装备技能的七项效果和八项现有公式结果新增，独立评审、受保护写入、独立回读、公式核算和代表页面通过",
+        "skills": [
+          "item_3042_passive",
+          "item_3026_passive",
+          "item_3742_passive",
+          "item_6631_active",
+          "item_6662_passive",
+          "item_6655_passive"
+        ],
+        "runtimeValidation": "未执行",
+        "pending": [
+          "魔切和冰脉的攻击命中、英雄目标资格、施放后资格、消费、冷却、吸血和法术护盾处理仍待接线。",
+          "守护天使的致命伤害、4秒复活、无敌、不可选取、无法行动和冷却仍待接线。",
+          "亡者的板甲的移动积攒、0至99层曲线、消费和来源3.75秒与当前4秒的冲突仍待核对。",
+          "挺进破坏者的范围选择、减速、自身移动速度、衰减和冷却仍待接线。",
+          "卢登的充能、技能伤害触发、额外目标、弹道、消费和冷却仍待接线。"
+        ]
+      },
+      "persistentEquipmentInitializationBackfill": {
+        "at": "2026-09-12T11:00:35.758Z",
+        "status": "四项装备常驻属性完成初始化接线，双轮独立评审、受保护恢复、Luna独立回读和真实页面通过",
+        "skills": [
+          "item_2422_passive",
+          "item_3742_passive",
+          "item_3042_passive",
+          "item_3040_passive"
+        ],
+        "runtimeValidation": "未执行",
+        "pending": [
+          "四项SOURCE_INITIALIZED规则尚未做装备装配、卸除和战斗属性聚合的运行验证。",
+          "魔切冲击、亡者板甲动量攻击和鞋类升级继承继续按后续机制批次补录。"
+        ]
+      }
+    },
+    "existingTargetRuleKeys": [
+      "initialize_bonus_attack_damage_from_max_mana"
+    ],
+    "existingInitializationRuleDetail": {
+      "actions": [
+        {
+          "actionKey": "execute_bonus_attack_damage_from_max_mana",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "bonus_attack_damage_from_max_mana"
+          },
+          "name": "执行敬畏额外攻击力",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "装备生效时建立按当前最大法力值动态读取的额外攻击力效果；冲击伤害不在本规则执行。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化敬畏最大法力转攻击力",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_bonus_attack_damage_from_max_mana",
+      "sortOrder": 10
+    },
+    "basicAttackChampionCurrentTargetPrecedent": [
+      {
+        "skillKey": "sivir_r",
+        "ruleKey": "active_attack_refund",
+        "data": {
+          "actions": [
+            {
+              "actionKey": "attack_basic_refund",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "attack_basic_refund"
+              },
+              "name": "执行attack_basic_refund",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "hunt_active",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "PRESENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "on_the_hunt",
+                    "subject": null
+                  },
+                  "sortOrder": 20
+                }
+              ],
+              "groupKey": "required",
+              "name": "必要条件",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只接收指定真实事件；不自行生成命中或补造事件。",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "狩猎期间攻击英雄返还基础技能冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "active_attack_refund",
+          "sortOrder": 10
+        }
+      }
+    ],
+    "damageEventContractExamples": [
+      {
+        "skillKey": "item_3040_passive",
+        "ruleKey": "on_damage_cross_below_lifeline_threshold",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_PENDING"
+        },
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "health_before_at_or_above_threshold",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "GTE",
+                  "comparisonValue": {
+                    "formulaKey": "lifeline_health_threshold_value",
+                    "kind": "FORMULA"
+                  },
+                  "eventValueKey": "HEALTH_BEFORE"
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "projected_health_below_threshold",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "LT",
+                  "comparisonValue": {
+                    "formulaKey": "lifeline_health_threshold_value",
+                    "kind": "FORMULA"
+                  },
+                  "eventValueKey": "PROJECTED_HEALTH_AFTER"
+                },
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "cross_below_lifeline_threshold",
+            "name": "向下越过救主灵刃阈值",
+            "sortOrder": 10
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_lifeline_shield",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "lifeline_shield"
+            },
+            "name": "执行救主灵刃护盾",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "perTargetCooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "lifeline_cooldown_ms"
+          },
+          "targetContext": "CURRENT_TARGET"
+        },
+        "maxTriggersPerProcess": null
+      },
+      {
+        "skillKey": "item_3075_passive",
+        "ruleKey": "reflect_on_basic_attack_taken",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "DIRECT"
+          },
+          "eventType": "DAMAGE_TAKEN"
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_thorn_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "thorn_damage"
+            },
+            "name": "执行荆棘反伤",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      {
+        "skillKey": "item_3076_passive",
+        "ruleKey": "reflect_on_basic_attack_taken",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "DIRECT"
+          },
+          "eventType": "DAMAGE_TAKEN"
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_thorn_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "thorn_damage"
+            },
+            "name": "执行荆棘反伤",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      {
+        "skillKey": "item_3803_passive",
+        "ruleKey": "on_damage_taken_from_champion_restore_mana",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_TAKEN"
+        },
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_counterparty",
+            "name": "伤害来源对象为英雄",
+            "sortOrder": 10
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_mana_from_hero_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mana_from_hero_damage"
+            },
+            "name": "执行受击回蓝",
+            "resultModifiers": [],
+            "runtimeInputBindings": [
+              {
+                "bindingKey": "bind_raw_damage",
+                "detail": {
+                  "eventValueKey": "RAW_DAMAGE"
+                },
+                "parameterKey": "damage_input",
+                "sourceType": "EVENT_VALUE"
+              }
+            ],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      {
+        "skillKey": "item_4629_passive",
+        "ruleKey": "on_magic_damage_dealt_to_champion",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_DEALT"
+        },
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_counterparty",
+            "name": "伤害承受对象为英雄",
+            "sortOrder": 10
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_spelldance_move_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spelldance_move_speed"
+            },
+            "name": "执行咒舞自身移动速度",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      {
+        "skillKey": "item_4629_passive",
+        "ruleKey": "on_real_damage_dealt_to_champion",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": "real",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_DEALT"
+        },
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_counterparty",
+            "name": "伤害承受对象为英雄",
+            "sortOrder": 10
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_spelldance_move_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spelldance_move_speed"
+            },
+            "name": "执行咒舞自身移动速度",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    ]
+  },
+  "expectedBusinessWrite": {
+    "count": 1,
+    "method": "POST",
+    "route": "/skills/item_3042_passive/trigger-rules",
+    "immediateReadback": "/skills/item_3042_passive/trigger-rules/on_basic_attack_hit_to_champion",
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "postConditions": [
+    "新规则详情为200，事件为BASIC_ATTACK_HIT。",
+    "规则只有CHAMPION类别条件和CURRENT_TARGET执行既有效果动作。",
+    "既有效果、公式、参数、装备主体、直接属性、关系、代表图和初始化规则散列不变。",
+    "技能伤害分支、冷却、叠层、吸血和运行时验证不在本次写入。"
+  ],
+  "pendingFacts": [
+    "基础攻击命中事件是否由TinyGo运行链发出，以及多目标时当前目标如何确定。",
+    "PerCastIDLockout=6.5的单位、共享范围和触发计数。",
+    "额外物理伤害进入基础攻击、护甲、减伤、暴击和吸血流程的先后顺序。",
+    "伤害型技能3%/4%分支、远近程条件和缺少的攻击力比例组成。"
+  ]
+}

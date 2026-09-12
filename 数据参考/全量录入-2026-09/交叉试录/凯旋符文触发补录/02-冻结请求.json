@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T12:45:22.192Z",
+  "status": "REVISE",
+  "writable": false,
+  "methodPolicy": "GET_ONLY",
+  "sourceSnapshotSha256": "8238f380465593829329d3b0984153051156ef96f775502ddee7bb1eab3a3d12",
+  "target": {
+    "runeKey": "rune_9111",
+    "skillKey": "rune_9111_passive",
+    "runeName": "凯旋",
+    "skillName": "符文·凯旋"
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 96,
+    "sourceInitializedCount": 24,
+    "killRuleCount": 1
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 96,
+    "sourceInitializedCount": 24,
+    "killRuleCount": 1,
+    "eventCounts": {
+      "SKILL_HIT": 50,
+      "BASIC_ATTACK_HIT": 9,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "DAMAGE_DEALT": 2,
+      "SKILL_USED": 1,
+      "KILL": 1
+    },
+    "conditionCounts": {
+      "TARGET_CATEGORY_CHECK": 9,
+      "LIFECYCLE_CHECK": 5,
+      "EVENT_VALUE_COMPARE": 5
+    },
+    "stableRead": true
+  },
+  "targetBefore": {
+    "subject": {
+      "createdAt": "2026-09-09T01:35:14.553927Z",
+      "description": "本批仅录入：保存完整治疗数值公式与独立自身治疗，不自动触发。其他分支见候选剩余事实，未代表完整符文机制。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "符文·凯旋",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "rune_9111_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-09T01:35:14.553927Z"
+    },
+    "rune": {
+      "category": "MINOR",
+      "createdAt": "2026-09-08T18:47:29.883463Z",
+      "description": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。\n\n\n“最危险的游戏带来最伟大的荣光。”\n—诺克萨斯清算人",
+      "gameId": "lol",
+      "name": "凯旋",
+      "runeKey": "rune_9111",
+      "updatedAt": "2026-09-08T18:47:29.883463Z"
+    },
+    "relationRows": [
+      {
+        "gameId": "lol",
+        "runeKey": "rune_9111",
+        "runeName": "凯旋",
+        "skillKey": "rune_9111_passive",
+        "skillName": "符文·凯旋",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      }
+    ],
+    "filteredRelationRows": [
+      {
+        "gameId": "lol",
+        "runeKey": "rune_9111",
+        "runeName": "凯旋",
+        "skillKey": "rune_9111_passive",
+        "skillName": "符文·凯旋",
+        "skillStatus": "ENABLED",
+        "sortOrder": 0
+      }
+    ],
+    "representativeImage": {
+      "image": {
+        "enabled": true,
+        "imageKey": "rune_9111",
+        "name": "符文·凯旋"
+      }
+    },
+    "componentCounts": {
+      "parameters": 2,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 0,
+      "internal-states": 0,
+      "trigger-rules": 0
+    },
+    "componentKeys": {
+      "parameters": [
+        "maximum_health_ratio",
+        "missing_health_ratio"
+      ],
+      "formulas": [
+        "triumph_heal"
+      ],
+      "effects": [
+        "triumph_heal"
+      ],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    }
+  },
+  "existingKillEvidence": {
+    "skillKey": "tristana_w",
+    "ruleKey": "own_kill_reset",
+    "present": true,
+    "detail": {
+      "actions": [
+        {
+          "actionKey": "reset_jump",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "reset_jump"
+          },
+          "name": "重置火箭跳跃冷却",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_only",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "killed_target",
+          "name": "被击杀对象",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只表达来源对象本人完成英雄击杀时的冷却重置；不表示参与击杀，也不包含满层爆炸分支。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "KILL"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "本人击杀英雄重置火箭跳跃",
+      "perTargetCooldown": null,
+      "ruleKey": "own_kill_reset",
+      "sortOrder": 20
+    },
+    "purpose": "只证明当前 KILL + TARGET_CATEGORY_CHECK(CHAMPION) 组合已存在；不把它当作凯旋规则。"
+  },
+  "requestedSemantic": {
+    "eventType": "KILL",
+    "targetCategoryCheck": {
+      "conditionType": "TARGET_CATEGORY_CHECK",
+      "categories": [
+        "CHAMPION"
+      ]
+    },
+    "executeEffect": {
+      "actionType": "EXECUTE_EFFECT",
+      "effectKey": "triumph_heal",
+      "requestedTargetContext": "EVENT_SOURCE",
+      "normalizedFrom": "CURRENT_SOURCE"
+    },
+    "excludedBranch": "额外的20金币",
+    "note": "以上是语义请求快照，不是可提交的接口请求体。"
+  },
+  "exclusions": [
+    {
+      "branch": "额外的20金币",
+      "included": false,
+      "reason": "与1V1伤害、治疗和属性结果无关，冻结来源与候选都要求排除。"
+    }
+  ],
+  "protocolCheck": {
+    "supportedTargetContexts": [
+      "CURRENT_TARGET",
+      "EVENT_SOURCE"
+    ],
+    "killCurrentTargetBinding": "本次被击杀对象",
+    "killHasEventSource": false,
+    "requestedTargetContext": "EVENT_SOURCE",
+    "requestedTargetContextSupported": false
+  },
+  "conflicts": [
+    {
+      "severity": "阻塞",
+      "field": "KILL.targetContext",
+      "requested": "EVENT_SOURCE",
+      "supported": [
+        "CURRENT_TARGET",
+        "EVENT_SOURCE"
+      ],
+      "requestedSemanticName": "CURRENT_SOURCE",
+      "currentTargetBinding": "本次被击杀对象",
+      "eventSourceAvailable": false,
+      "reason": "用户语义中的来源对象已按现行枚举标准化为 EVENT_SOURCE；但当前后端能力表明确 KILL 不提供事件来源，不能把 EVENT_SOURCE 写入一个无法提供来源的 KILL 事件。"
+    }
+  ],
+  "limitations": [
+    {
+      "severity": "需补证",
+      "fact": "参与击杀",
+      "currentCandidate": "KILL",
+      "reason": "冻结来源明确说参与击杀，但当前 KILL 事件仅表示来源对象完成击杀；不能把它宣称为包含助攻的完整参与击杀。"
+    },
+    {
+      "severity": "需补定",
+      "fact": "ruleKey、名称、顺序",
+      "reason": "任务只给出触发语义，没有给出可提交的稳定规则键及展示字段；本轮不凭空生成。"
+    }
+  ],
+  "gates": {
+    "baselineMatches": true,
+    "targetDataMatches": true,
+    "existingKillEvidenceMatches": true,
+    "stableRead": true,
+    "requestedTargetContextSupported": false,
+    "readyForPost": false
+  },
+  "plannedRuleAdds": 0,
+  "plannedWrites": 0,
+  "writes": [],
+  "singlePostBoundary": null
+}

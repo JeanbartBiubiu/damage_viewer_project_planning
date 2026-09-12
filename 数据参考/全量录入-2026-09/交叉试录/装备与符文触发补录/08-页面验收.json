@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 2,
+  "capturedAt": "2026-09-12T14:40:51.690Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 280
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "item_3071_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "黑色切割者·切割代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": null,
+      "effect": {
+        "effectKey": "armor_shred",
+        "resultKey": "armor_reduction",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_physical_damage_dealt_to_champion",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "item_3042_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "魔切·敬畏与冲击代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "on_hit_damage_from_max_mana",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "on_hit_damage_from_max_mana",
+        "resultKey": "damage",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_basic_attack_hit_to_champion",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "item_6631_active",
+      "passed": true,
+      "representativeImage": {
+        "alt": "挺进破坏者·破阵冲击波代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "active_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "active_hit",
+        "resultKey": "damage",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "rune_9111_passive",
+      "passed": true,
+      "representativeImage": {
+        "alt": "符文·凯旋代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "triumph_heal",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "triumph_heal",
+        "resultKey": "result",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_champion_kill",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "item_3042_passive-damage结果.png",
+    "item_3042_passive-on_basic_attack_hit_to_champion规则.png",
+    "item_3042_passive-on_hit_damage_from_max_mana公式.png",
+    "item_3042_passive-列表图片.png",
+    "item_3071_passive-armor_reduction结果.png",
+    "item_3071_passive-on_physical_damage_dealt_to_champion规则.png",
+    "item_3071_passive-列表图片.png",
+    "item_6631_active-active_damage公式.png",
+    "item_6631_active-actual_hit规则.png",
+    "item_6631_active-damage结果.png",
+    "item_6631_active-列表图片.png",
+    "rune_9111_passive-on_champion_kill规则.png",
+    "rune_9111_passive-result结果.png",
+    "rune_9111_passive-triumph_heal公式.png",
+    "rune_9111_passive-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": [
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/udyr_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/leblanc_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/zaahen_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/aatrox_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/yasuo_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/item_3742_passive/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/udyr_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/leblanc_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/zaahen_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/aatrox_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/yasuo_p/representative-image",
+        "error": "net::ERR_ABORTED"
+      },
+      {
+        "method": "GET",
+        "url": "http://127.0.0.1:8080/api/admin/games/lol/skills/item_3742_passive/representative-image",
+        "error": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "ff49b8392a3c852a57a1fed8bf5418185826945811258c09513ae11d3fdc903d"
+}

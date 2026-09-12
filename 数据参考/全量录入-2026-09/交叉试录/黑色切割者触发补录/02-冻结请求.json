@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-12T12:43:34.231Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "writable": true,
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceSnapshotSha256": "61fa5627c55f1570da6331a0f10a3199e674d5ba69a1a70f06322716844eca1c",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 96,
+    "sourceInitializedCount": 24,
+    "damageDealtRuleCount": 2
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 96,
+    "sourceInitializedCount": 24,
+    "damageDealtRuleCount": 2,
+    "stableRead": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleCount": true,
+      "firstSkillCount": 1062,
+      "secondSkillCount": 1062,
+      "firstRuleCount": 96,
+      "secondRuleCount": 96,
+      "firstRuleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023",
+      "secondRuleKeysSha256": "2053880a8945cb80fa5daec9077b6c6544f991eeac4c027238e1c46ed8225023"
+    }
+  },
+  "targetBefore": {
+    "equipmentKey": "item_3071",
+    "skillKey": "item_3071_passive",
+    "ruleKeys": [],
+    "newRuleDetailStatus": 404
+  },
+  "plannedWrites": 1,
+  "writes": [
+    {
+      "id": "item_3071_passive-on_physical_damage_dealt_to_champion",
+      "kind": "新增触发规则",
+      "method": "POST",
+      "route": "/skills/item_3071_passive/trigger-rules",
+      "detailRoute": "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+      "expectedStatus": 201,
+      "body": {
+        "ruleKey": "on_physical_damage_dealt_to_champion",
+        "name": "对英雄造成物理伤害触发切割",
+        "description": "来源对象对英雄造成物理伤害后，在当前目标上执行已有的 armor_shred；当前接口的物理伤害目录键为 physics。perTargetCooldown 保持 null，不把客户端 10 毫秒字段解释为逐目标冷却。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "DAMAGE_DEALT",
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_counterparty",
+            "name": "伤害承受对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_armor_shred",
+            "name": "执行切割目标护甲削减",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "armor_shred"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "conflicts": [],
+  "excluded": [
+    "不把 damage_internal_cooldown_ms=10 解释为 perTargetCooldown。",
+    "不新增热烈移动速度效果或其触发规则。",
+    "不新增伤害类型、效果、参数、公式或乘区。",
+    "不把静态来源、接口 GET 或本脚本检查当作战斗运行时证明。"
+  ]
+}

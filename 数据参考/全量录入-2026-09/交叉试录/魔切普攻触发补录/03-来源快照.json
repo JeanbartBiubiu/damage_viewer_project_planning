@@ -1,0 +1,152 @@
+{
+  "capturedAt": "2026-09-12T12:47:05.550Z",
+  "methodPolicy": "LOCAL_SOURCE_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "fixedVersion": "16.17.1",
+  "sources": [
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十六批成长与触发装备\\冻结来源.json",
+      "sha256": "5a1ac9819cf064de2b6f743dfd0f3a512857224650746e423fdf9ebeed343cc2"
+    },
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十六批成长与触发装备\\生成候选.mjs",
+      "sha256": "178de086c65595378038f6733c5cbea2400394c9d68bce5f0c8c5ad2ab4bce42"
+    },
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十六批成长与触发装备\\独立核算.mjs",
+      "sha256": "3fb50002f11bf414e30d9afdcb81f74df40c7bb529963e2a2e227082b314c073"
+    },
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十六批成长与触发装备\\最终独立全量回读.json",
+      "sha256": "24531837ef161f7c90b2ca29a182d133726c27983890d1411fc4493be99045fa"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\六件装备公式结果补录\\02-补录方案.md",
+      "sha256": "7cc1879923f1f7fa1185027bf32123738a5c94c5545790007e7c67d781bb4036"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\六件装备公式结果补录\\03-写入前现值.json",
+      "sha256": "f13cb27f44d2f261f222288619f06ba6ae3663894cbf57ad74dd65df334f6877"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\六件装备公式结果补录\\06-公式算例.json",
+      "sha256": "2c5acc71e7d9db8fc5d194f1b02d7ffdf13ddfdbc50baac7e7af5a9c3b89f0fc"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\四项常驻装备初始化补录\\01-来源与方案.md",
+      "sha256": "53b25afe8954396468ec40c0e5388d6ea6b13c7fef7e0631eb123fe428222781"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\四项常驻装备初始化补录\\06-写入与即时回读.json",
+      "sha256": "0cb773810d8a623755e16005b4f06347be018465e77e37dcda3a49abad3502c7"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\伤害事件对方类别装备补录\\01-来源与方案.md",
+      "sha256": "43e46bbd7d3abff6882b5db8981e0a5fd00fb18dd8851eb4cb6704195a84b805"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\伤害事件对方类别装备补录\\02-冻结请求.json",
+      "sha256": "20d72445b6247fe7b7a9344ec2f10b9c26f969ab83edf9660df39731ae503350"
+    },
+    {
+      "path": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\伤害事件对方类别装备补录\\06-写入与即时回读.json",
+      "sha256": "ddac0db6087f85ac01467de8f0108b143e1106b71aeb935f3a923cd43fa0d529"
+    },
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\阶段进度.json",
+      "sha256": "397998c1350245addbf029d3f4294fde923e7da1763fe7bbfd447cfce8ad30d8"
+    }
+  ],
+  "item3042SourceFacts": {
+    "equipmentKey": "item_3042",
+    "sourcePath": "Items/3042",
+    "clientDataValues": {
+      "BonusADManaRatioTOOLTIPONLY": 0.019999999552965164,
+      "OnHitManaRatioTOOLTIPONLY": 0.012000000104308128,
+      "AbilityManaRatioRangedTOOLTIPONLY": 0.029999999329447746,
+      "AbilityManaRatioMeleeTOOLTIPONLY": 0.03999999910593033,
+      "PerCastIDLockout": 6.5
+    },
+    "clientCalculationCoefficients": {
+      "BonusADFromMana": [
+        0.019999999552965164
+      ],
+      "OnHitDamage": [
+        0.012000000104308128
+      ],
+      "MeleeItemCalcValue": [
+        0.03999999910593033
+      ],
+      "RangedItemCalcValue": [
+        0.029999999329447746
+      ]
+    },
+    "directStats": {
+      "attackDamage": 35,
+      "mana": 1000,
+      "abilityHaste": 15
+    },
+    "boundAttackTooltip": "<passive>敬畏</passive><br>获得<scaleAD>@BonusADFromMana@额外攻击力</scaleAD>。<br><br><passive>冲击</passive><br>攻击会对英雄造成额外的<physicalDamage>@OnHitDamage@物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br>伤害型技能会对英雄造成<physicalDamage>{{ Item_Melee_Ranged_Split }}额外物理伤害</physicalDamage>。",
+    "boundExternalTooltip": "<passive>敬畏</passive><br>获得<scaleAD>@BonusADManaRatioTOOLTIPONLY*100@%最大法力值的额外攻击力</scaleAD>。<br><br><passive>冲击</passive><br>攻击会对英雄造成<physicalDamage>@OnHitManaRatioTOOLTIPONLY*100@%最大法力值的额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br>伤害型技能会对英雄造成<physicalDamage>@AbilityManaRatioRangedTOOLTIPONLY*100@% - @AbilityManaRatioMeleeTOOLTIPONLY*100@%最大法力值的额外物理伤害</physicalDamage>。",
+    "officialDescription": "<mainText><stats><attention>35</attention>攻击力<br><attention>1000</attention>法力<br><attention>15</attention>技能急速</stats><br><br><passive>敬畏</passive><br>获得<scaleAD>2%最大法力值的额外攻击力</scaleAD>。<br><br><passive>冲击</passive><br>攻击会对英雄造成<physicalDamage>1.2%最大法力值的额外物理伤害</physicalDamage><OnHit>攻击特效</OnHit>。<br>伤害型技能会对英雄造成<physicalDamage>3% - 4%最大法力值的额外物理伤害</physicalDamage>。</mainText>",
+    "lockoutInterpretation": "只保存来源值6.5；单位、事件类型和共享范围未确认，不换算或接入冷却。"
+  },
+  "phaseProgress": {
+    "generatedAt": "2026-09-12T12:22:08.693Z",
+    "sourceVersion": "16.17.1",
+    "equipmentExistingFormulaResultBackfill": {
+      "at": "2026-09-12T04:23:54.377Z",
+      "status": "六件装备技能的七项效果和八项现有公式结果新增，独立评审、受保护写入、独立回读、公式核算和代表页面通过",
+      "skills": [
+        "item_3042_passive",
+        "item_3026_passive",
+        "item_3742_passive",
+        "item_6631_active",
+        "item_6662_passive",
+        "item_6655_passive"
+      ],
+      "runtimeValidation": "未执行",
+      "pending": [
+        "魔切和冰脉的攻击命中、英雄目标资格、施放后资格、消费、冷却、吸血和法术护盾处理仍待接线。",
+        "守护天使的致命伤害、4秒复活、无敌、不可选取、无法行动和冷却仍待接线。",
+        "亡者的板甲的移动积攒、0至99层曲线、消费和来源3.75秒与当前4秒的冲突仍待核对。",
+        "挺进破坏者的范围选择、减速、自身移动速度、衰减和冷却仍待接线。",
+        "卢登的充能、技能伤害触发、额外目标、弹道、消费和冷却仍待接线。"
+      ]
+    },
+    "persistentEquipmentInitializationBackfill": {
+      "at": "2026-09-12T11:00:35.758Z",
+      "status": "四项装备常驻属性完成初始化接线，双轮独立评审、受保护恢复、Luna独立回读和真实页面通过",
+      "skills": [
+        "item_2422_passive",
+        "item_3742_passive",
+        "item_3042_passive",
+        "item_3040_passive"
+      ],
+      "runtimeValidation": "未执行",
+      "pending": [
+        "四项SOURCE_INITIALIZED规则尚未做装备装配、卸除和战斗属性聚合的运行验证。",
+        "魔切冲击、亡者板甲动量攻击和鞋类升级继承继续按后续机制批次补录。"
+      ]
+    }
+  },
+  "acceptedFacts": {
+    "skillKey": "item_3042_passive",
+    "effectKey": "on_hit_damage_from_max_mana",
+    "formulaKey": "on_hit_damage_from_max_mana",
+    "eventType": "BASIC_ATTACK_HIT",
+    "targetCategory": "CHAMPION",
+    "actionTargetContext": "CURRENT_TARGET",
+    "formulaMeaning": "SOURCE的mana总值乘on_hit_max_mana_damage_ratio；实库参数应为0.012。",
+    "noCooldownConversion": true,
+    "noSkillDamageBranch": true
+  },
+  "excluded": [
+    "DAMAGE_DEALT 技能伤害分支",
+    "AbilityManaRatioRangedTOOLTIPONLY 与 AbilityManaRatioMeleeTOOLTIPONLY 的运行接线",
+    "PerCastIDLockout=6.5 的单位换算、共享范围和冷却规则",
+    "吸血、护甲、减伤、暴击及技能伤害流程的新增字段",
+    "装备主体、直接属性、关系、代表图、参数、公式、效果、过程、内部状态和既有初始化规则的改写",
+    "任何业务写入、Git 操作和目标目录以外的文件写入"
+  ]
+}
