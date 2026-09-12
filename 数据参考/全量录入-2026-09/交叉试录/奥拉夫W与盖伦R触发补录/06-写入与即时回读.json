@@ -1,0 +1,142 @@
+{
+  "startedAt": "2026-09-12T12:02:28.809Z",
+  "status": "PASS",
+  "authorizationValueRecorded": false,
+  "preflight": [
+    {
+      "targetGetCount": 2262,
+      "targetCount": 2,
+      "skillCount": 1062,
+      "ruleCount": 94,
+      "sourceInitializedCount": 24,
+      "secondScanSkillCount": 1062,
+      "secondScanRuleCount": 94,
+      "businessWrites": 0
+    }
+  ],
+  "writes": [
+    {
+      "id": "olaf_w-on_used",
+      "method": "POST",
+      "route": "/skills/olaf_w/trigger-rules",
+      "detailRoute": "/skills/olaf_w/trigger-rules/on_used",
+      "bodySha256": "e908da6c879e2ed80510e9766f9caf217ea89f229540311c9e6ee09fcfe9a683",
+      "status": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/olaf_w/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动挺过去过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "以主动 SKILL_USED 为输入；CURRENT_TARGET 没有显式目标时回退来源对象，启动已有 cast 过程，由过程管理法力、冷却、护盾与攻速。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "olaf_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "挺过去主动使用启动过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "garen_r-on_hit",
+      "method": "POST",
+      "route": "/skills/garen_r/trigger-rules",
+      "detailRoute": "/skills/garen_r/trigger-rules/on_hit",
+      "bodySha256": "46daf1061572be8d56ae4559205005db2588a69ce6c0b63a549e342739d03d06",
+      "status": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/garen_r/trigger-rules/on_hit",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "justice_damage"
+              },
+              "name": "执行效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 0,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "category",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 0
+                }
+              ],
+              "groupKey": "allowed_target",
+              "name": "允许的命中目标",
+              "sortOrder": 0
+            }
+          ],
+          "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "garen_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "德玛西亚正义实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "on_hit",
+          "sortOrder": 0
+        }
+      }
+    }
+  ],
+  "finalReadback": [
+    {
+      "getCount": 3469,
+      "targetCount": 2,
+      "skillCount": 1062,
+      "ruleCount": 96,
+      "sourceInitializedCount": 24,
+      "targetKeys": [
+        "olaf_w",
+        "garen_r"
+      ],
+      "businessWrites": 2
+    }
+  ],
+  "businessWriteCount": 2,
+  "error": null,
+  "completedAt": "2026-09-12T12:02:47.955Z",
+  "getCount": 3469,
+  "writeCount": 2
+}

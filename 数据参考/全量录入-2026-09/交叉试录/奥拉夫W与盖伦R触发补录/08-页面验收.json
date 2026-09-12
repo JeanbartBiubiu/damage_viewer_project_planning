@@ -1,0 +1,83 @@
+{
+  "capturedAt": "2026-09-12T12:10:31.310Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 187
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "olaf_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "奥拉夫·挺过去代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_used",
+        "expectedTextsVisible": true,
+        "useKind": "主动"
+      }
+    },
+    {
+      "area": "garen_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "盖伦·德玛西亚正义代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "damage",
+        "targetMissingHealthVisible": true
+      },
+      "effect": {
+        "effectKey": "justice_damage",
+        "resultKey": "damage",
+        "trueDamageVisible": true
+      },
+      "trigger": {
+        "ruleKey": "on_hit",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "garen_r-on_hit规则.png",
+    "garen_r-伤害公式.png",
+    "garen_r-列表图片.png",
+    "garen_r-结果详情.png",
+    "olaf_w-cast过程.png",
+    "olaf_w-on_used规则.png",
+    "olaf_w-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "dd2ec57ceda06b7da57ec943b4f05fbfce102b66973749787050a336604d9d58"
+}
