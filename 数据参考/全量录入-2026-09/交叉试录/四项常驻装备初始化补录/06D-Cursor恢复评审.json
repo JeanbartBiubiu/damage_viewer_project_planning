@@ -1,0 +1,35 @@
+{
+  "runId": "run-10b17465-2ef9-488f-b124-b3a260cf0211",
+  "requestId": "adf7099e-8b86-4d61-a0e0-750c192188fc",
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "effort": "high",
+    "fast": false,
+    "sdkVersion": "1.0.24"
+  },
+  "verdict": "READY",
+  "reviewedPlanRevision": 2,
+  "approvedHashes": {
+    "06A-失败诊断与恢复方案.md": "cf2f1644f0009dc82d1f77d7ece5947d9b663c953821be1374b68436ece9c749",
+    "06B-恢复冻结请求.json": "cf8e6e3c4fa1e62c4caffeeedc8fc46c286f33d4cc63840a089e59f8a79d386e",
+    "06C-恢复写入前现值.json": "9905c794e2c1631bad2e74a532fbf00bb40825b5ccc58f5c1fa5161b31fb8afe",
+    "恢复受保护写入.mjs": "23831d353ae308fdb9157bd5a6cb8e9807fc58aee9c49313b161414a423dfb2c"
+  },
+  "blockers": [],
+  "writeAllowlistAudit": {
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "runDeltaOutsideScopeCount": 0
+  },
+  "toolEvents": {
+    "uniqueCallCount": 40,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false
+  },
+  "shellCommandsAudited": true,
+  "apiWrites": 0,
+  "artifactSummary": "C:/project/damage_web_dev/.agents/artifacts/persistent-items-recovery-review-20260912/run-1/summary.json",
+  "artifactSummarySha256": "d51bbeb5c97a58c945263fde0da63bfda9a52539dcccf88e191fef8be55af5c4"
+}
