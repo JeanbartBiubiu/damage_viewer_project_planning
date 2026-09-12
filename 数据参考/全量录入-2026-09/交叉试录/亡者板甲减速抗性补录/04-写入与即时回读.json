@@ -1,0 +1,674 @@
+{
+  "recoveredAt": "2026-09-12T04:54:05.542Z",
+  "recoveryReason": "原写入器末尾汇总断言误把 authorizationValueRecorded=false 当成失败；依据已保存写入进度和全量纯 GET 回读恢复最终报告，未重放业务写入。",
+  "requestPolicy": {
+    "method": "GET_ONLY_RECOVERY",
+    "getCount": 20,
+    "businessWriteIssued": false,
+    "authorizationValueRecorded": false
+  },
+  "originalWrite": {
+    "apiWritesIssued": 1,
+    "writeStatus": 201,
+    "immediateReadbackStatus": 200,
+    "approvedPayloadSha256": "b726d22e8c09791009408a416e3474c58c27c82df949fc168e6317ae3a40ba55"
+  },
+  "assertions": {
+    "frozenEffectExact": true,
+    "existingMomentumEffectUnchanged": true,
+    "protectedSubjectParametersFormulaUnchanged": true,
+    "relationImageCatalogsUnchanged": true,
+    "processesStatesAndRulesRemainEmpty": true,
+    "slowResistParameterEqualsPoint15": true,
+    "fixedAddZoneConfirmed": true,
+    "authorizationValueRecorded": false
+  },
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3742&skillKey=item_3742_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters/max_movement_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters/max_stacks",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters/bonus_damage_per_stack",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters/max_stacks_base_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters/duration_to_max_stack_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/parameters/slow_resist_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/formulas/max_bonus_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/effects/max_momentum_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/effects/unsinkable_slow_resist",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/slow_resist_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    }
+  ],
+  "finalState": {
+    "subject": {
+      "method": "GET",
+      "route": "/skills/item_3742_passive",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:52:31.294502Z",
+        "description": "保留移动积攒上限、下一次攻击的最大额外物理伤害、达到满层时间和自身减速抗性。最大攻击公式使用基础攻击力窄映射；移动过程和中间层数不按端点猜曲线。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "亡者的板甲·沉船者",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3742_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T06:52:31.294502Z"
+      }
+    },
+    "equipmentRelation": {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3742&skillKey=item_3742_passive",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3742",
+            "equipmentName": "亡者的板甲",
+            "gameId": "lol",
+            "skillKey": "item_3742_passive",
+            "skillName": "亡者的板甲·沉船者",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    },
+    "representativeImage": {
+      "method": "GET",
+      "route": "/skills/item_3742_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3742",
+          "name": "item_3742"
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/item_3742_passive/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T06:52:32.349019Z",
+              "description": "客户端MaxMovementSpeed明确20。",
+              "fixedValue": 20,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "最大额外移动速度",
+              "parameterKey": "max_movement_speed",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T06:52:32.349019Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T06:52:33.342074Z",
+              "description": "客户端MaxStacks明确100。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "最大层数",
+              "parameterKey": "max_stacks",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T06:52:33.342074Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T06:52:34.330019Z",
+              "description": "客户端BonusDamagePerStack明确0.4。",
+              "fixedValue": 0.4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "每层额外伤害常数",
+              "parameterKey": "bonus_damage_per_stack",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T06:52:34.330019Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T06:52:35.307888Z",
+              "description": "客户端MaxStacksADRatio为mStat2/formula1×1；按同版具名旁证映射基础攻击力。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "满层基础攻击力系数",
+              "parameterKey": "max_stacks_base_ad_ratio",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T06:52:35.307888Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T06:52:36.327355Z",
+              "description": "客户端DurationToMaxStack明确4秒，按秒转毫秒。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "达到最大层数时间（毫秒）",
+              "parameterKey": "duration_to_max_stack_ms",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T06:52:36.327355Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T06:52:37.326852Z",
+              "description": "客户端SlowResistTooltip明确15%。",
+              "fixedValue": 0.15,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "减速效能降低比例",
+              "parameterKey": "slow_resist_ratio",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T06:52:37.326852Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          ]
+        },
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/parameters/max_movement_speed",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:52:32.349019Z",
+              "description": "客户端MaxMovementSpeed明确20。",
+              "fixedValue": 20,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "最大额外移动速度",
+              "parameterKey": "max_movement_speed",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T06:52:32.349019Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/parameters/max_stacks",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:52:33.342074Z",
+              "description": "客户端MaxStacks明确100。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "最大层数",
+              "parameterKey": "max_stacks",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T06:52:33.342074Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/parameters/bonus_damage_per_stack",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:52:34.330019Z",
+              "description": "客户端BonusDamagePerStack明确0.4。",
+              "fixedValue": 0.4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "每层额外伤害常数",
+              "parameterKey": "bonus_damage_per_stack",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T06:52:34.330019Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/parameters/max_stacks_base_ad_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:52:35.307888Z",
+              "description": "客户端MaxStacksADRatio为mStat2/formula1×1；按同版具名旁证映射基础攻击力。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "满层基础攻击力系数",
+              "parameterKey": "max_stacks_base_ad_ratio",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T06:52:35.307888Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/parameters/duration_to_max_stack_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:52:36.327355Z",
+              "description": "客户端DurationToMaxStack明确4秒，按秒转毫秒。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "达到最大层数时间（毫秒）",
+              "parameterKey": "duration_to_max_stack_ms",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T06:52:36.327355Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/parameters/slow_resist_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:52:37.326852Z",
+              "description": "客户端SlowResistTooltip明确15%。",
+              "fixedValue": 0.15,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "减速效能降低比例",
+              "parameterKey": "slow_resist_ratio",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T06:52:37.326852Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/item_3742_passive/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T06:52:38.356119Z",
+              "description": "客户端MaxDamageCalc：1×基础攻击力+0.4×100；仅表达满层端点，不表示中间层数。",
+              "formulaKey": "max_bonus_damage",
+              "gameId": "lol",
+              "name": "满层下一次攻击额外物理伤害",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T06:52:38.356119Z"
+            }
+          ]
+        },
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/formulas/max_bonus_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:52:38.356119Z",
+              "description": "客户端MaxDamageCalc：1×基础攻击力+0.4×100；仅表达满层端点，不表示中间层数。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_stacks_base_ad_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BASE",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_damage_per_stack"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_stacks"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "max_bonus_damage",
+              "gameId": "lol",
+              "name": "满层下一次攻击额外物理伤害",
+              "skillKey": "item_3742_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T06:52:38.356119Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/item_3742_passive/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-12T04:02:50.628626Z",
+              "description": "使用现有满100层端点公式保存下一次普攻的额外物理伤害；移动积攒、中间层数、消费和实际命中尚未接线。",
+              "effectKey": "max_momentum_hit",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "满层沉船者命中",
+              "resultCount": 1,
+              "skillKey": "item_3742_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-12T04:02:50.628626Z"
+            },
+            {
+              "createdAt": "2026-09-12T04:52:12.905774Z",
+              "description": "持有者持续获得15%减速抗性；装备装配、卸除和多个来源的组合规则尚未接线。",
+              "effectKey": "unsinkable_slow_resist",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "不沉减速抗性",
+              "resultCount": 1,
+              "skillKey": "item_3742_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-12T04:52:12.905774Z"
+            }
+          ]
+        },
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/effects/max_momentum_hit",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-12T04:02:50.628626Z",
+              "description": "使用现有满100层端点公式保存下一次普攻的额外物理伤害；移动积攒、中间层数、消费和实际命中尚未接线。",
+              "effectKey": "max_momentum_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "满层沉船者命中",
+              "results": [
+                {
+                  "description": "只表示100层端点的一次主目标伤害，不外推0至99层曲线。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "physics",
+                    "deliveryKind": "BASIC_ATTACK",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "满层沉船者额外物理伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "max_bonus_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3742_passive",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-12T04:02:50.628626Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/item_3742_passive/effects/unsinkable_slow_resist",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-12T04:52:12.905774Z",
+              "description": "持有者持续获得15%减速抗性；装备装配、卸除和多个来源的组合规则尚未接线。",
+              "effectKey": "unsinkable_slow_resist",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": null,
+                "expiryMode": "EXPLICIT_ONLY",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": null,
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "不沉减速抗性",
+              "results": [
+                {
+                  "description": "向来源增加0.15减速抗性比例；1表示100%。",
+                  "detail": {
+                    "attributeKey": "slow_resist_percent",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "不沉减速抗性",
+                  "resultKey": "slow_resist",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "slow_resist_ratio"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "item_3742_passive",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-12T04:52:12.905774Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/item_3742_passive/processes",
+          "status": 200,
+          "data": []
+        },
+        "details": []
+      },
+      "internal-states": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/item_3742_passive/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "details": []
+      },
+      "trigger-rules": {
+        "list": {
+          "method": "GET",
+          "route": "/skills/item_3742_passive/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "details": []
+      }
+    }
+  },
+  "catalogs": {
+    "slowResist": {
+      "method": "GET",
+      "route": "/attributes/slow_resist_percent",
+      "status": 200,
+      "data": {
+        "attributeKey": "slow_resist_percent",
+        "createdAt": "2026-09-08T14:32:32.234108Z",
+        "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "减速抗性比例",
+        "sortOrder": 421,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-08T14:32:32.234108Z",
+        "valueType": "DECIMAL"
+      }
+    },
+    "flatAdd": {
+      "method": "GET",
+      "route": "/modifier-zones/attribute_flat_add",
+      "status": 200,
+      "data": {
+        "applicationStage": "ATTRIBUTE_FLAT",
+        "calculationMode": "FLAT_ADD",
+        "createdAt": "2026-09-06T16:50:52.756989Z",
+        "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+        "domain": "ATTRIBUTE",
+        "gameId": "lol",
+        "modifierZoneKey": "attribute_flat_add",
+        "name": "属性固定加算",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T16:50:52.756989Z"
+      }
+    }
+  }
+}

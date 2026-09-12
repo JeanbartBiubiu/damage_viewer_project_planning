@@ -1,0 +1,88 @@
+{
+  "planRevision": 1,
+  "plannedWrites": 1,
+  "plannedResults": 1,
+  "writeOrder": [
+    "POST /skills/item_3742_passive/effects (unsinkable_slow_resist)"
+  ],
+  "source": {
+    "normalizedPath": "数据参考/lol-wiki-current-items/current-items.normalized.json",
+    "normalizedSha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4",
+    "sourceSnapshotSha256": "62c3f3c581316dbd90676be604528947cff38b48bd137d61ca579ab4c4e87464",
+    "itemIds": [
+      3742
+    ]
+  },
+  "targets": [
+    {
+      "skillKey": "item_3742_passive",
+      "equipmentKey": "item_3742",
+      "sourceItemId": 3742,
+      "expectedExistingEffectKeys": [
+        "max_momentum_hit"
+      ],
+      "effectPosts": [
+        {
+          "effectKey": "unsinkable_slow_resist",
+          "name": "不沉减速抗性",
+          "description": "持有者持续获得15%减速抗性；装备装配、卸除和多个来源的组合规则尚未接线。",
+          "sortOrder": 20,
+          "lifecycle": {
+            "durationValue": null,
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "slow_resist",
+              "name": "不沉减速抗性",
+              "target": "SOURCE",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "description": "向来源增加0.15减速抗性比例；1表示100%。",
+              "sortOrder": 10,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "REPLACE",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "slow_resist_ratio"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": 0,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "attributeKey": "slow_resist_percent",
+                "operation": "INCREASE",
+                "modifierZoneKey": "attribute_flat_add"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "explicitGaps": [
+    "亡者的板甲减速抗性为持续静态结果；装备装配、卸除和多个减速抗性来源的组合规则尚未接线。",
+    "无穷饥渴缺少近远程互斥，贾修缺少战斗计时和结束重置；两项均不写半成品。",
+    "焚天来源与实库公式数值冲突，死亡之舞与狂妄属于击杀后收益，三项均不写。"
+  ]
+}
