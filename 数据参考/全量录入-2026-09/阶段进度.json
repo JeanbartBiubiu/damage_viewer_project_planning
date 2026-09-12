@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T06:19:32.107Z",
+  "generatedAt": "2026-09-12T07:25:30.937Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -5829,6 +5829,125 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/两项装备伤害减免补录/证据清单.json",
         "sha256": "bb2d4a38dd865ce8479fc0d9ae534da476177a98b2aac24dfd8c42e634879eb0",
         "commit": "2afbbebb"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "seraphsEmbraceLifelineBackfill": {
+      "at": "2026-09-12T07:25:30.937Z",
+      "status": "炽天使之拥救主灵刃完成伤前触发静态配置，独立评审、受保护写入、独立回读和真实页面通过",
+      "skills": [
+        "item_3040_passive"
+      ],
+      "created": {
+        "formulas": 1,
+        "triggerRules": 1
+      },
+      "updated": {
+        "skills": 1,
+        "parameters": 1,
+        "formulas": 1,
+        "effects": 1
+      },
+      "deleted": {
+        "parameters": 1
+      },
+      "sourceDecision": "待处理伤害使持有者生命值从不低于最大生命值30%降到低于30%时，在普通护盾吸收和扣血前先获得最大法力值18%的3秒普通护盾；同一持有者冷却90秒。双条件表达向下越阈值，动作与冷却对象均为当前目标。",
+      "preparation": {
+        "GETs": 18,
+        "businessWrites": 0,
+        "candidate404": 2
+      },
+      "writer": {
+        "protectedPreflightGETs": 18,
+        "businessWrites": 7,
+        "POST": 2,
+        "PUT": 4,
+        "DELETE": 1,
+        "immediateReadbacks": 7,
+        "finalGETs": 18,
+        "replayedWrites": 0,
+        "passed": true
+      },
+      "independentAgent": {
+        "model": "Luna Max",
+        "GETs": 20,
+        "writes": 0,
+        "parameterCount": 5,
+        "formulaCount": 3,
+        "effectCount": 1,
+        "triggerRuleCount": 1,
+        "mismatches": 0,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 166,
+        "businessWrites": 0,
+        "localImageCacheRecords": 3279,
+        "skill": "item_3040_passive",
+        "listImageVisible": true,
+        "imageNaturalSize": "64x64",
+        "parameterCount": 5,
+        "runtimeParameterCount": 0,
+        "formulaCount": 3,
+        "effectAndResultDetailsVisible": true,
+        "triggerDetailsVisible": true,
+        "effectRepresentativeImage": "未设置",
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "cursorReview": {
+        "runId": "run-d298e748-7091-4d09-9304-aa92d8b204b7",
+        "requestId": "2d1a184a-25cf-47c8-b56b-26e955d9d7df",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 85,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "protected": {
+        "aweParameterUnchanged": true,
+        "aweFormulaUnchanged": true,
+        "equipmentRelationUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "shieldResultShapeUnchanged": true,
+        "processesRemainEmpty": true,
+        "internalStatesRemainEmpty": true,
+        "items3173And3174Unchanged": true
+      },
+      "formulaChecks": {
+        "shieldAtMaxMana1000": 180,
+        "thresholdAtMaxHealth2000": 600,
+        "crossingCases": 3,
+        "passed": true
+      },
+      "experienceIssues": [
+        "公式、效果和规则详情均异步加载；页面验收必须等待稳定标识出现，不能读取加载中的空草稿。",
+        "效果子表已有图片列，但救主灵刃效果没有代表图片，页面显示未设置；后续统一评估是否复用所属技能图片。",
+        "极地大乱斗75秒冷却覆盖缺少模式参数承载，当前只保存默认90秒。",
+        "敬畏公开文本使用额外法力值的2%，现有公式读取总法力值；本批保护旧公式，后续单独核对。"
+      ],
+      "pending": [
+        "战斗运行仍需实际产生待处理伤害事件，并验证护盾先于扣血、护盾吸收和90秒冷却消费。",
+        "带链碾碎者与装甲战靴需要按伤害事件来源对象类别筛选英雄，当前伤害事件没有该字段。",
+        "两件升级鞋现有公式依赖未绑定运行时输入，且客户端90起点计算树与公开100至200文本冲突；裁定前不写等级数组或触发规则。",
+        "装甲战靴现有10%镀板减伤参数仍没有对应结果与规则。"
+      ],
+      "requestSha256": "3a300d57363bd56034a119508a88829676e1d80a9745475e28304be7b3f86bb0",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/救主灵刃伤前触发补录/证据清单.json",
+        "sha256": "82ba2673c39635432d5d3ff7c69eabb923e870ea8ede2d7afb45153f033560f5",
+        "commit": "9cb25197"
       },
       "runtimeValidation": "未执行"
     }
