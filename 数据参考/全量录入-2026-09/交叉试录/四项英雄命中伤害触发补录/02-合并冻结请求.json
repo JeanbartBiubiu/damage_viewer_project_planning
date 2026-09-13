@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T06:32:43.459Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 4
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 126,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 130
+  },
+  "sourceSnapshotSha256": "700944dc8a51ab367fe136432f9c5125f189773064cffcce1369ce2c198b354c",
+  "batchSha256": "80061c717b08433a02fbce43781f0796281eab3736ad43ce3b7265c96b7f32a7",
+  "scriptHashes": [
+    {
+      "name": "01-合并方案.md",
+      "sha256": "c628354518e4496c79518b20a390aa9cd5ba6c7b697ba45174ef67519337c206"
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "6075e9345f27c3f35073b2f164b81459f9c57350cd2b25c73bb2da0faf99510c"
+    },
+    {
+      "name": "准备合并只读.mjs",
+      "sha256": "504cb9367aeeb644e97979a7f3c282750b3f1a6eeca60b48286a6cdff134ab2c"
+    },
+    {
+      "name": "受保护写入.mjs",
+      "sha256": "1e5cf93c20119db3695c53092674f263ef3c5dc0df40b4ed26471c6e17aecc96"
+    },
+    {
+      "name": "独立GET回读.mjs",
+      "sha256": "80629b4f643d0cd3ba5757bfac3018cdb1c860c495311991627e05634dbdab4d"
+    },
+    {
+      "name": "只读页面验收.mjs",
+      "sha256": "3a2f5b7548d4efc04e9a59add87f437371a90622036e608b08a9e87a368e75fd"
+    }
+  ],
+  "requests": [
+    {
+      "id": "azir_r",
+      "name": "阿兹尔 R",
+      "skillKey": "azir_r",
+      "ownerKey": "champion_azir",
+      "ruleKey": "actual_hit",
+      "effectKey": "charge_damage",
+      "formulaKey": "magic_damage",
+      "method": "POST",
+      "route": "/skills/azir_r/trigger-rules",
+      "detailRoute": "/skills/azir_r/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "f6446d3bfb27792d2b82c97f6efd10188e8b70b63cd059dbae9c9ec9efbd4a34",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "命中英雄触发禁军之墙伤害",
+        "description": "仅消费宿主确认的 azir_r 实际英雄命中，并在当前目标上执行已有的 charge_damage；击退、碰撞、墙体构建、法力消耗和冷却不在本条规则中。管理保存不证明宿主已经生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "azir_r"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_charge_damage",
+            "name": "执行禁军之墙命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "charge_damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "azir_e",
+      "name": "阿兹尔 E",
+      "skillKey": "azir_e",
+      "ownerKey": "champion_azir",
+      "ruleKey": "actual_hit",
+      "effectKey": "dash_damage",
+      "formulaKey": "magic_damage",
+      "method": "POST",
+      "route": "/skills/azir_e/trigger-rules",
+      "detailRoute": "/skills/azir_e/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "3bd36d2c842a78e7a6cb4036c1c6bb9fca90d45bf3ecafb4728dbdfb6d57010f",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "命中英雄触发流沙移形伤害",
+        "description": "仅消费宿主在已有合资格士兵突进后确认的 azir_e 实际英雄命中，并在当前目标上执行已有的 dash_damage；士兵资格、突进、中断、护盾、法力消耗和冷却不在本条规则中。管理保存不证明宿主已经生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "azir_e"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_dash_damage",
+            "name": "执行流沙移形命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "dash_damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "yorick_e",
+      "name": "约里克 E",
+      "skillKey": "yorick_e",
+      "ownerKey": "champion_yorick",
+      "ruleKey": "actual_hit",
+      "effectKey": "max_health_damage",
+      "formulaKey": "max_health_magic_damage",
+      "method": "POST",
+      "route": "/skills/yorick_e/trigger-rules",
+      "detailRoute": "/skills/yorick_e/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "443bfd7b90b092eb79692716bbf74a294eda36451f76e9015a648ecb1121c95b",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "命中英雄触发哀伤之雾伤害",
+        "description": "仅消费宿主确认的 yorick_e 实际英雄命中，并在当前目标上执行已有的 max_health_damage；减速、标记、护甲削减、召唤物、兵野分支、法力消耗和冷却不在本条规则中。管理保存不证明宿主已经生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "yorick_e"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_max_health_damage",
+            "name": "执行哀伤之雾命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "max_health_damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "viego_w",
+      "name": "佛耶戈 W",
+      "skillKey": "viego_w",
+      "ownerKey": "champion_viego",
+      "ruleKey": "actual_hit",
+      "effectKey": "damage",
+      "formulaKey": "magic_damage",
+      "method": "POST",
+      "route": "/skills/viego_w/trigger-rules",
+      "detailRoute": "/skills/viego_w/trigger-rules/actual_hit",
+      "expectedStatus": 201,
+      "bodySha256": "939b1f69fedae18021eda8cf85afed37d6edf2cdc4eb56b8ed8c8aaf19a36085",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "命中英雄触发千载幽咽伤害",
+        "description": "仅消费宿主确认的 viego_w 第一个实际英雄命中，并在当前目标上执行已有的 damage；蓄力、冲刺、晕眩、自身减速、法力消耗和冷却不在本条规则中。管理保存不证明宿主已经生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "viego_w"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_damage",
+            "name": "执行千载幽咽命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "damage"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "四条规则可由管理接口保存；Wasm组装、宿主命中事件生产和战斗运行尚未验证。"
+}

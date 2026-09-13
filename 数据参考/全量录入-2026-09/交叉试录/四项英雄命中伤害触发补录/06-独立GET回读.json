@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "startedAt": "2026-09-13T06:33:49.574Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "methods": {
+    "GET": 1306
+  },
+  "getCount": 1306,
+  "businessWrites": 0,
+  "targets": [
+    {
+      "id": "azir_r",
+      "skillKey": "azir_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "f6446d3bfb27792d2b82c97f6efd10188e8b70b63cd059dbae9c9ec9efbd4a34",
+      "frozenBodySha256": "f6446d3bfb27792d2b82c97f6efd10188e8b70b63cd059dbae9c9ec9efbd4a34",
+      "normalizedStoredSkillHitUseKindNull": true,
+      "nonRuleSnapshotSha256": "90f6da89f28f8a6a97dafa65df1502cce7a900c4a37d94ccd02a3ed0c40db49f"
+    },
+    {
+      "id": "azir_e",
+      "skillKey": "azir_e",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "3bd36d2c842a78e7a6cb4036c1c6bb9fca90d45bf3ecafb4728dbdfb6d57010f",
+      "frozenBodySha256": "3bd36d2c842a78e7a6cb4036c1c6bb9fca90d45bf3ecafb4728dbdfb6d57010f",
+      "normalizedStoredSkillHitUseKindNull": true,
+      "nonRuleSnapshotSha256": "d9d4a43e4c6e29621c0994a3189fd73883ba2c0bbc5b5d68d67e05afef5bf1de"
+    },
+    {
+      "id": "yorick_e",
+      "skillKey": "yorick_e",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "443bfd7b90b092eb79692716bbf74a294eda36451f76e9015a648ecb1121c95b",
+      "frozenBodySha256": "443bfd7b90b092eb79692716bbf74a294eda36451f76e9015a648ecb1121c95b",
+      "normalizedStoredSkillHitUseKindNull": true,
+      "nonRuleSnapshotSha256": "629ac5d3b6945d67af05a4647b986547b45e7282e874b9a948790100d3ddc7a2"
+    },
+    {
+      "id": "viego_w",
+      "skillKey": "viego_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "939b1f69fedae18021eda8cf85afed37d6edf2cdc4eb56b8ed8c8aaf19a36085",
+      "frozenBodySha256": "939b1f69fedae18021eda8cf85afed37d6edf2cdc4eb56b8ed8c8aaf19a36085",
+      "normalizedStoredSkillHitUseKindNull": true,
+      "nonRuleSnapshotSha256": "2a4a99546327eb84c38f65b7f4fc938b8aee9b7350c97696f7a890735742a8a7"
+    }
+  ],
+  "global": {
+    "skillCount": 1062,
+    "ruleCount": 130,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_USED": 23,
+      "SKILL_HIT": 59,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "KILL": 2
+    },
+    "ruleKeysSha256": "402f9b4f088c20cd420a45671c8d760d4bc5946d4f11a12831622a8416954625",
+    "priorRulesUnchanged": 126,
+    "newRulesMatched": 4,
+    "targetNonRuleSnapshotsUnchanged": 4
+  },
+  "error": null,
+  "completedAt": "2026-09-13T06:33:56.503Z",
+  "runtimeValidation": "未执行；本报告证明实库规则与受保护对象回读。"
+}
