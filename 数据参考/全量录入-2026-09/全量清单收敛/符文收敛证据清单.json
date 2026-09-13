@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T10:15:12.111Z",
+  "status": "PASS",
+  "scope": "符文69项逐项唯一结论",
+  "currentReadback": {
+    "getCount": 209,
+    "businessWrites": 0,
+    "runeSubjects": 69,
+    "mountedSkills": 60,
+    "explicitExclusions": 9,
+    "runeImages": 69,
+    "skillImages": 60,
+    "completeStaticShardDetails": 9
+  },
+  "conclusions": {
+    "已录入": 3,
+    "明确排除": 9,
+    "资料待核": 34,
+    "系统暂缓": 23
+  },
+  "openQueueItems": 57,
+  "priorFailedReadOnlyAttempt": {
+    "outcome": "在图片键同名假设处停止；未生成证据文件",
+    "correction": "改为核对符文与其技能复用同一张启用图片，不要求图片资源键等于符文键",
+    "businessWrites": 0,
+    "evidenceFileWritten": false,
+    "exactCompletedGetCountRecorded": false
+  },
+  "otherGroupStatus": {
+    "equipment": "FULL_COVERAGE_WITH_OPEN_QUEUE"
+  },
+  "files": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备符文/符文待录清单.json",
+      "role": "固定16.17.1符文与碎片身份清单",
+      "sha256": "fa24d0ef27877f91867fb6f80171e16373961bba8a4831f1eb37eee86a04f3ee"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/API实录/符文机制盘点/逐项机器清单.json",
+      "role": "62项普通符文范围与缺口盘点",
+      "sha256": "419c74a3a22f88f7be5d6499f788914d838712c2c95c61012f168cca9878668b"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/API实录/符文效果第一批/候选与边界.json",
+      "role": "五项首批碎片完整或仅参数边界",
+      "sha256": "0536707d23a90f95f3affe07f85b000c86f1b33cfe867d4600f4957059298177"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/API实录/符文效果第六批/最终候选.json",
+      "role": "剩余碎片来源与缺口",
+      "sha256": "c4da75bce82f5312a7ba62e94f669daaa9212f649a0758683f3352ac6bfac259"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/API实录/符文效果第六批/当前实录状态.json",
+      "role": "69项最终挂载与范围排除证据",
+      "sha256": "7f9f0a12f938baa2e1160de04a62c64b5fe63adb405563e4d04761420024c1e3"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/核对符文清单.mjs",
+      "role": "符文当前回读、集成和检查脚本",
+      "sha256": "d1770ca63dce169317ac939bbfc8fa880e32de546ed57d7023f85511aca21346"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/符文清单当前回读证据.json",
+      "role": "209次当前GET回读证据",
+      "sha256": "bc55f406016a8cff02afeb2a664fbc927211421c324baddf2d9823e8d5b17e25"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/阶段进度.json",
+      "role": "唯一逐项结论真源",
+      "sha256": "dca27cf06725ecbc4e7ed3bdacaa0bd78d723a3b33d6eefa99a630fea333bf3e"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/README.md",
+      "role": "执行顺序与失败恢复记录",
+      "sha256": "cfc781c6fcca4b7c39433230aa7ac622dd002dcf9632e0acbcaada2a3dfbfc88"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/系统精简实施说明.md",
+      "role": "系统边界与符文覆盖",
+      "sha256": "f82db83970c47df786d2cbfc94afb2c2f4ddbddcb5b05d67838c75fd17ac83bd"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/英雄装备符文全量实录.md",
+      "role": "符文实录与开放队列",
+      "sha256": "f861690ee4873d846eee8f2e037cd671dae3bd2d7e93220dfa780699b7eaa76d"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+      "role": "符文逐项结论规则",
+      "sha256": "56691a2efb4f4d093c4103467e2de2e616336a0b65ace1225a19bb78b2302c48"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/生成符文收敛证据清单.mjs",
+      "role": "本证据清单生成器",
+      "sha256": "228f09db0e8dfc22407535ec811f7d089dfe31ec224446ff9c17acb56355b166"
+    }
+  ],
+  "boundary": "符文69项已全部形成唯一结论；34项资料待核和23项系统暂缓仍需继续处理。四类清单均已覆盖，但合计1131项开放队列使整体Goal不能完成。"
+}
