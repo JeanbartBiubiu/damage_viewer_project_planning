@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T10:33:24.143Z",
+  "status": "PASS",
+  "source": "02-冻结请求.json与07-独立GET回读.json自动交集",
+  "targetCount": 4,
+  "targets": [
+    {
+      "id": "rakan_r_initial_move_speed",
+      "skillKey": "rakan_r",
+      "ownerKey": "champion_rakan",
+      "effectKey": "self_initial_move_speed",
+      "ruleKey": "on_used",
+      "ruleName": "惊鸿过隙主动初始移速",
+      "eventType": "SKILL_USED",
+      "actionKey": "execute_self_initial_move_speed",
+      "actionName": "执行惊鸿过隙初始移动速度",
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "volibear_r_attack_range",
+      "skillKey": "volibear_r",
+      "ownerKey": "champion_volibear",
+      "effectKey": "attack_range",
+      "ruleKey": "on_used",
+      "ruleName": "天声震落主动攻击距离",
+      "eventType": "SKILL_USED",
+      "actionKey": "execute_attack_range",
+      "actionName": "执行天声震落额外攻击距离",
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "akshan_q_champion_hit_move_speed",
+      "skillKey": "akshan_q",
+      "ownerKey": "champion_akshan",
+      "effectKey": "champion_hit_move_speed",
+      "ruleKey": "actual_champion_hit",
+      "ruleName": "命中英雄触发去而复还移速",
+      "eventType": "SKILL_HIT",
+      "actionKey": "execute_champion_hit_move_speed",
+      "actionName": "执行去而复还命中英雄自身移速",
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 1
+    },
+    {
+      "id": "jarvaniv_e_self_attack_speed",
+      "skillKey": "jarvaniv_e",
+      "ownerKey": "champion_jarvaniv",
+      "effectKey": "self_attack_speed",
+      "ruleKey": "initialize_self_attack_speed",
+      "ruleName": "初始化德邦军旗被动攻击速度",
+      "eventType": "SOURCE_INITIALIZED",
+      "actionKey": "execute_self_attack_speed",
+      "actionName": "执行德邦军旗自身被动攻击速度",
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "targetSha256": "bad51b23c219171b1f25fc97fd181784693c580957f2e6cd08065daf99db7760",
+  "boundary": "只包含已写入且独立回读通过的四项；没有把暂缓分支加入页面目标。"
+}

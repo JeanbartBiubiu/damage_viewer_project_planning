@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "frozenAt": "2026-09-13T10:31:19.970Z",
+  "status": "FROZEN",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十一批/最终验收/候选过程/修订二/完整候选.json",
+      "sha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
+      "byteSize": 541326
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十四批/完整候选.json",
+      "sha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+      "byteSize": 435015
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十七批/修订二/完整候选.json",
+      "sha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
+      "byteSize": 523712
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+      "sha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+      "byteSize": 458473
+    }
+  ],
+  "scriptFiles": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "8da57df90eff8b65d0f6b89b97d88e8437d775e60c2e18d8228bbe467058d618",
+      "byteSize": 1364
+    },
+    {
+      "name": "README.md",
+      "sha256": "7411a5c2d51ae3500b00134558516cd68160043d072a5d0061676602b7ba30ae",
+      "byteSize": 768
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "9561b9cb6a580651141fe3f2f3de29dc8bc16420b844f1073e450039d3f78d96",
+      "byteSize": 5143
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "e67afbd1b3c3d607448bfeba948c3391daaad835c32e87d0c45a5090a3e07cd6",
+      "byteSize": 19345
+    },
+    {
+      "name": "独立GET回读.mjs",
+      "sha256": "7d182dd7c0986ca3508c6b1784fb4b1c7ad696e5fbc2edc72b95090a1f3009ca",
+      "byteSize": 8980
+    },
+    {
+      "name": "生成页面目标.mjs",
+      "sha256": "3b3d98043ae6f193c1c7ea725b1bf6e1dc8ff57bc8a9ffee2d68d658df6f3faa",
+      "byteSize": 2270
+    },
+    {
+      "name": "生成证据清单.mjs",
+      "sha256": "26ad29387fbe6230210c60a5d00d2019f80924a6c9d6f54621ff6acfa6d7c02f",
+      "byteSize": 4687
+    }
+  ],
+  "scope": [
+    {
+      "skillKey": "rakan_r",
+      "ruleKey": "on_used",
+      "effectKey": "self_initial_move_speed"
+    },
+    {
+      "skillKey": "volibear_r",
+      "ruleKey": "on_used",
+      "effectKey": "attack_range"
+    },
+    {
+      "skillKey": "akshan_q",
+      "ruleKey": "actual_champion_hit",
+      "effectKey": "champion_hit_move_speed"
+    },
+    {
+      "skillKey": "jarvaniv_e",
+      "ruleKey": "initialize_self_attack_speed",
+      "effectKey": "self_attack_speed"
+    }
+  ]
+}

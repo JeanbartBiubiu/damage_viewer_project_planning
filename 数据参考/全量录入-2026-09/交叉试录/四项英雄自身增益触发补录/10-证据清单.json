@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T10:50:46.759Z",
+  "status": "PASS",
+  "scope": "洛R、沃利贝尔R、阿克尚Q、嘉文E四项已有自身增益触发规则",
+  "frozenBatchSha256": "b4823956a9a5cf275830a933f4fae391228ef92a86952bad1dfd10e8f27173bb",
+  "sourceSnapshotSha256": "9ef573e77081d8bf1de21a80780812f029fa7baeb795b23f3254c17cb77700d2",
+  "prepare": {
+    "getCount": 1286,
+    "statusCounts": {
+      "200": 1282,
+      "404": 4
+    },
+    "businessWrites": 0
+  },
+  "write": {
+    "businessWrites": 4,
+    "alreadyLanded": 0,
+    "recoveryMode": false,
+    "requestAudit": {
+      "requestCount": 100,
+      "methods": {
+        "GET": 96,
+        "POST": 4
+      },
+      "statuses": {
+        "200": 92,
+        "201": 4,
+        "404": 4
+      },
+      "nonGetPaths": [
+        {
+          "method": "POST",
+          "path": "/skills/rakan_r/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/volibear_r/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/akshan_q/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/jarvaniv_e/trigger-rules"
+        }
+      ]
+    }
+  },
+  "independent": {
+    "getCount": 1286,
+    "skillCount": 1062,
+    "ruleCount": 135,
+    "sourceInitializedCount": 25,
+    "oldRulesCount": 131,
+    "businessWrites": 0
+  },
+  "browser": {
+    "targetCount": 4,
+    "getRequests": null,
+    "nonGetRequests": 0,
+    "screenshots": 4,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "failedRequests": 0,
+    "businessWrites": 0
+  },
+  "files": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "8da57df90eff8b65d0f6b89b97d88e8437d775e60c2e18d8228bbe467058d618",
+      "byteSize": 1364
+    },
+    {
+      "name": "README.md",
+      "sha256": "7411a5c2d51ae3500b00134558516cd68160043d072a5d0061676602b7ba30ae",
+      "byteSize": 768
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "9561b9cb6a580651141fe3f2f3de29dc8bc16420b844f1073e450039d3f78d96",
+      "byteSize": 5143
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "e67afbd1b3c3d607448bfeba948c3391daaad835c32e87d0c45a5090a3e07cd6",
+      "byteSize": 19345
+    },
+    {
+      "name": "独立GET回读.mjs",
+      "sha256": "7d182dd7c0986ca3508c6b1784fb4b1c7ad696e5fbc2edc72b95090a1f3009ca",
+      "byteSize": 8980
+    },
+    {
+      "name": "生成页面目标.mjs",
+      "sha256": "3b3d98043ae6f193c1c7ea725b1bf6e1dc8ff57bc8a9ffee2d68d658df6f3faa",
+      "byteSize": 2270
+    },
+    {
+      "name": "生成证据清单.mjs",
+      "sha256": "26ad29387fbe6230210c60a5d00d2019f80924a6c9d6f54621ff6acfa6d7c02f",
+      "byteSize": 4687
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "6bc1a2529b8fb4cee506aa4ba5c2f8adf09d7189c11fcd3fc66457b910b90de6",
+      "byteSize": 8389
+    },
+    {
+      "name": "03-来源散列快照.json",
+      "sha256": "9ef573e77081d8bf1de21a80780812f029fa7baeb795b23f3254c17cb77700d2",
+      "byteSize": 2800
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "fae4d01fb70a4b5c72db210514bf76651103f0ad5126f952b553c9ec1ee9ce63",
+      "byteSize": 258145
+    },
+    {
+      "name": "05-只读准备报告.json",
+      "sha256": "34bf716c500d49e95ef6a92e5db55dba244ef2ee626e0b8d7f596b8211cb96fb",
+      "byteSize": 566
+    },
+    {
+      "name": "06-写入流水.jsonl",
+      "sha256": "a9cad506dec0ac8a6a842aacb72a98e523123400cbf0c28f1eec4654eb4f500b",
+      "byteSize": 881
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "04a50e4e8b99637bc7200a63cdd4f6b03f68a44dc9e0ca0016db7998519b19a3",
+      "byteSize": 2916
+    },
+    {
+      "name": "07-独立GET回读.json",
+      "sha256": "64b245f363f30f97fa246c04452e4b8545a39ca975d118dd8e44007db658d8f8",
+      "byteSize": 2185
+    },
+    {
+      "name": "08-页面目标.json",
+      "sha256": "cda91f2374cae3cd58e134f72c4323eaae9c6ba6f8af3a6e111c1261c542c1e7",
+      "byteSize": 2308
+    },
+    {
+      "name": "09-页面验收.json",
+      "sha256": "d3bd7f0042d31faba1b2a6393fb59c8079019f707b3c7e2e25fe00ce334a735c",
+      "byteSize": 6947
+    },
+    {
+      "name": "录入体验报告.md",
+      "sha256": "7ad3193be5616368edffa08491bac6e5c36c1387def1fe6015a189bc7ba6ae41",
+      "byteSize": 2741
+    }
+  ],
+  "boundary": "四条管理规则、两路GET回读和真实页面通过；Wasm组装、宿主事件生产及真实战斗未执行。其余伤害、控制、生命、衰减和空间分支仍在开放队列。"
+}
