@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T13:12:42.000Z",
+  "generatedAt": "2026-09-13T13:28:43.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -8553,6 +8553,126 @@
         "commit": "9b495766aa0d900f8e58d71c7c2c394feb641489"
       },
       "runtimeValidation": "未执行"
+    },
+    "sixHeroCastProcessEntryBackfillFourth": {
+      "at": "2026-09-13T13:28:43.000Z",
+      "status": "特朗德尔Q/E/R、沃里克R、贾克斯W和魔腾E六项已有主动施法过程完成冻结、纯GET准备、独立批准、受保护写入、独立回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "trundle_q",
+        "trundle_e",
+        "trundle_r",
+        "warwick_r",
+        "jax_w",
+        "nocturne_e"
+      ],
+      "created": {
+        "triggerRules": 6,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "rules": [
+        "trundle_q/on_used：主动使用后启动cast过程",
+        "trundle_e/on_used：主动使用后启动cast过程",
+        "trundle_r/on_used：主动使用后启动cast过程",
+        "warwick_r/on_used：主动使用后启动cast过程",
+        "jax_w/on_used：主动使用后启动cast过程",
+        "nocturne_e/on_used：主动使用后启动cast过程"
+      ],
+      "sharedRunner": {
+        "version": "protected-trigger-batch-v1",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+        "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+        "commit": "1a248a4cbf85f447d41f443a57e1e8677723b323"
+      },
+      "freeze": {
+        "revision": "rev1",
+        "batchSha256": "17b1706bfb3f0e0456ad9a15ddbac031e731ac7d503bacf45cb326cd717e311d",
+        "sourceSnapshotSha256": "a20427e0886a28a15b0927c875442191347d2e6d4d7761c233e6017ef01fb69d"
+      },
+      "preparation": {
+        "getCount": 1357,
+        "status200": 1351,
+        "expected404": 6,
+        "skillCount": 1062,
+        "ruleCount": 158,
+        "sourceInitializedCount": 29,
+        "bodyRulesSha256": "6f0583881f7f10db67f2858678d91f30d9d39042878b1ceee4b482e3f4fc9f14",
+        "metadataRulesSha256": "83b2039ed3d25636006b1aad6a7889d905bdaa364e7c1a9f3b0e658b831e301a",
+        "businessWrites": 0
+      },
+      "independentApproval": {
+        "status": "APPROVED",
+        "getCount": 1357,
+        "approvedBatchSha256": "17b1706bfb3f0e0456ad9a15ddbac031e731ac7d503bacf45cb326cd717e311d",
+        "approvalDecisionSha256": "bae07d6a05b560eb6e479b28ec7ec3b2d3945c15f2f4fbd2442d52a331e49083",
+        "bodyRulesSha256": "6f0583881f7f10db67f2858678d91f30d9d39042878b1ceee4b482e3f4fc9f14",
+        "metadataRulesSha256": "83b2039ed3d25636006b1aad6a7889d905bdaa364e7c1a9f3b0e658b831e301a",
+        "businessWrites": 0
+      },
+      "writer": {
+        "getCount": 142,
+        "postCount": 6,
+        "created": 6,
+        "alreadyLanded": 0,
+        "recoveryMode": false,
+        "immediateReadback": "PASS"
+      },
+      "independentReadback": {
+        "getCount": 1357,
+        "skillCount": 1062,
+        "ruleCount": 164,
+        "sourceInitializedCount": 29,
+        "oldRulesCount": 158,
+        "oldBodyRulesSha256": "6f0583881f7f10db67f2858678d91f30d9d39042878b1ceee4b482e3f4fc9f14",
+        "oldMetadataRulesSha256": "83b2039ed3d25636006b1aad6a7889d905bdaa364e7c1a9f3b0e658b831e301a",
+        "oldRulesUnchanged": true,
+        "targetNonRuleCompositionUnchanged": true,
+        "businessWrites": 0
+      },
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 6,
+        "images": "六项列表图均64×64且加载完成",
+        "imageCache": "复用同一浏览器会话已同步的3279条本地图片缓存",
+        "processesAndRules": "特朗德尔Q强化普攻等待及其余五个实际步骤、法力挂接、主动使用事件和启动过程动作与冻结请求一致",
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0,
+        "exactBrowserGetCount": null,
+        "postBrowserGetReadback": 1069
+      },
+      "exploration": {
+        "getCount": 24,
+        "businessWrites": 0,
+        "result": "结合上一批全量扫描和旧规则不变回读确认队列剩14项，再以24次定点GET确认本批六项目标。"
+      },
+      "corrections": [
+        "特朗德尔Q按强化下一次普通攻击、7秒窗口和攻击命中消费摘要验收，不套用普通延迟步骤。",
+        "截图循环在沃里克R后因父弹窗未及时消失停止；保留已完成四张截图，关闭残留弹窗后只补后两项，没有保存或业务写入。"
+      ],
+      "pending": [
+        "特朗德尔Q的实际普攻、额外伤害、暴击组合、攻击力转移、减速与法术护盾边界仍未接。",
+        "特朗德尔E的冰柱生成、初始击退、不可通行地形、邻近减速和范围边界仍未接。",
+        "特朗德尔R的吸取周期、伤害与治疗时点、目标双抗快照、偷取累积及返还仍未接。",
+        "沃里克R的碰撞资格、引导中断、三次伤害分配、治疗、压制、攻击特效和施法时间冲突仍未接。",
+        "贾克斯W的下次普攻或跳斩互斥消费、强化窗口、额外伤害和普攻重置仍未接。",
+        "魔腾E的伤害跳频、灵链持续资格、恐惧状态、行动限制与朝目标移动速度仍未接。",
+        "Wasm组装、宿主技能使用与普攻命中事件、真实战斗均未执行。"
+      ],
+      "systemConclusion": "现有技能使用事件和启动过程动作足以连接六个已保存cast过程，强化普攻等待也由通用过程步骤表达；没有新增表、字段或兼容层依据。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第四批/10-证据清单.json",
+        "sha256": "269ef26f234f9f938672292387fa11976413c53adebe1873dc48fdae2192d940",
+        "commit": "6063e064e8063dcf88fd992ad0569b580df38852"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -8663,6 +8783,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第三批/10-证据清单.json",
         "sha256": "50235beb8a11a8e1a5fcaca7aaf3840a6349c4655454f72c0b97b2721a5a0bbd",
         "commit": "9b495766aa0d900f8e58d71c7c2c394feb641489"
+      },
+      "sixHeroCastProcessEntryBackfillFourth": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第四批/10-证据清单.json",
+        "sha256": "269ef26f234f9f938672292387fa11976413c53adebe1873dc48fdae2192d940",
+        "commit": "6063e064e8063dcf88fd992ad0569b580df38852"
       }
     },
     "coverage": {
@@ -16896,7 +17022,7 @@
         "name": "贾克斯·蓄力一击",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和立即步骤已有入口；下次普攻或跳斩互斥消费、强化窗口、额外伤害和普攻重置仍有来源或配置缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -16907,7 +17033,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillFourth"
         ]
       },
       {
@@ -21982,7 +22109,7 @@
         "name": "魔腾·无言恐惧",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口1个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和立即步骤已有入口；伤害跳频、灵链持续资格、恐惧状态、行动限制与朝目标移动速度仍有来源、系统或配置缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
@@ -21993,7 +22120,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillFourth"
         ]
       },
       {
@@ -27110,7 +27238,7 @@
         "name": "特朗德尔·利齿撕咬",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast过程及7秒强化普攻等待，法力消耗与基础冷却已有入口；实际普攻、额外伤害、暴击组合、攻击力转移、减速与法术护盾边界仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -27121,7 +27249,8 @@
         "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillFourth"
         ]
       },
       {
@@ -27157,7 +27286,7 @@
         "name": "特朗德尔·寒冰之柱",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；冰柱生成、初始击退、不可通行地形、邻近减速和范围边界仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -27168,7 +27297,8 @@
         "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillFourth"
         ]
       },
       {
@@ -27180,7 +27310,7 @@
         "name": "特朗德尔·强权至上",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口0个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；吸取周期、伤害与治疗时点、目标双抗快照、偷取累积及返还仍有来源缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
@@ -27191,7 +27321,8 @@
         "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillFourth"
         ]
       },
       {
@@ -29029,7 +29160,7 @@
         "name": "沃里克·无尽束缚",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口1个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和立即步骤已有入口；碰撞资格、引导中断、三次伤害分配、治疗、压制、攻击特效和施法时间冲突仍有来源或配置缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
@@ -29040,7 +29171,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillFourth"
         ]
       },
       {
