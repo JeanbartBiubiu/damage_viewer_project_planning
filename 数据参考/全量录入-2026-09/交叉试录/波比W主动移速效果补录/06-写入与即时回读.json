@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-09-13T08:38:21.427Z",
+  "status": "PASS",
+  "approvedBatchSha256": "3483b292cd3ada6929ee311a9a92136859705a1a2dd006cc63559cb4324b53ff",
+  "allowedOperations": [
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/effects"
+    }
+  ],
+  "authorizationValueRecorded": false,
+  "getCount": 39,
+  "postCount": 1,
+  "statusCounts": {
+    "200": 38,
+    "201": 1,
+    "404": 1
+  },
+  "replayedWrites": 0,
+  "recoveryReadPerformed": false,
+  "completedAt": "2026-09-13T08:38:23.912Z",
+  "candidateBeforeStatus": 404,
+  "postResponse": {
+    "method": "POST",
+    "route": "/skills/poppy_w/effects",
+    "status": 201,
+    "data": {
+      "createdAt": "2026-09-13T08:38:24.518419Z",
+      "description": "主动使用后自身获得40%移动速度，持续2000毫秒；这里只保存效果定义，主动施法事件与反突进领域仍未接线。",
+      "effectKey": "active_move_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "active_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "坚定风采主动移动速度",
+      "results": [
+        {
+          "description": "将40个百分数点乘0.01后固定增加到来源对象的移动速度比例。",
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "坚定风采主动移动速度",
+          "resultKey": "move_speed_gain",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 0.01,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "active_haste_percent_points"
+            }
+          }
+        }
+      ],
+      "skillKey": "poppy_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-13T08:38:24.518419Z"
+    }
+  },
+  "immediateReadback": {
+    "method": "GET",
+    "route": "/skills/poppy_w/effects/active_move_speed",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-13T08:38:24.518419Z",
+      "description": "主动使用后自身获得40%移动速度，持续2000毫秒；这里只保存效果定义，主动施法事件与反突进领域仍未接线。",
+      "effectKey": "active_move_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "active_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "坚定风采主动移动速度",
+      "results": [
+        {
+          "description": "将40个百分数点乘0.01后固定增加到来源对象的移动速度比例。",
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "坚定风采主动移动速度",
+          "resultKey": "move_speed_gain",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 0.01,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "active_haste_percent_points"
+            }
+          }
+        }
+      ],
+      "skillKey": "poppy_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-13T08:38:24.518419Z"
+    }
+  },
+  "effectKeysAfter": [
+    "active_move_speed",
+    "mana_cost"
+  ],
+  "bodySha256": "433994799fe772e04b5a42a8ae5dc4e2ff544ce0b422127a4e4ebdd1dbe9619e",
+  "targetBeforeSnapshotSha256": "1244def0bd30df7f6100689f9397ecd6f9133abc83fc455243d4e4c429c77f5d",
+  "boundary": "一次受保护POST与即时GET回读通过；独立全量规则与目标组成回读、页面和运行验证另行执行。"
+}

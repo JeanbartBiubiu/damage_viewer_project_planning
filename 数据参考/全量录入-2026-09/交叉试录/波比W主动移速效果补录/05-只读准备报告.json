@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "completedAt": "2026-09-13T08:34:58.922Z",
+  "status": "READY_FOR_MAIN_REVIEW",
+  "methodPolicy": "GET_ONLY",
+  "getCount": 37,
+  "postCount": 0,
+  "statusCounts": {
+    "200": 36,
+    "404": 1
+  },
+  "skillCount": 1062,
+  "ruleCheckpointCount": 131,
+  "sourceInitializedCheckpointCount": 24,
+  "candidateStatus": 404,
+  "existingEffectKeys": [
+    "mana_cost"
+  ],
+  "targetSnapshotSha256": "1244def0bd30df7f6100689f9397ecd6f9133abc83fc455243d4e4c429c77f5d",
+  "baselineSha256": "642e065a5bad6fb56304c6fd5d54b96d5368ed318cf25e052cfe20ffcda9aad2",
+  "sourceSnapshotSha256": "03a7683270531708cdcb45627feca8069de1ac86a8cc91e5247e6ceeccaffa94",
+  "frozenBatchSha256": "3483b292cd3ada6929ee311a9a92136859705a1a2dd006cc63559cb4324b53ff",
+  "repeatedFullBaselineCount": 0,
+  "businessWrites": 0,
+  "boundary": "纯GET预检只读取技能目录、波比目标组成、同类现行效果与目录；全量131条规则沿用上一批独立检查点，写后再独立全量回读。"
+}
