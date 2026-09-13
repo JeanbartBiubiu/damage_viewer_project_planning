@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T13:52:38.000Z",
+  "generatedAt": "2026-09-13T14:06:27.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -8791,6 +8791,110 @@
         "commit": "8f708558591c204bd80fc95f137d927eeb7362be"
       },
       "runtimeValidation": "未执行"
+    },
+    "singleHeroCastProcessEntryBackfillSixth": {
+      "at": "2026-09-13T14:06:27.000Z",
+      "status": "蔚E已有主动施法过程完成冻结、纯GET准备、独立批准、受保护写入、独立回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "vi_e"
+      ],
+      "created": {
+        "triggerRules": 1,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "rules": [
+        "vi_e/on_used：主动使用后启动无普通冷却的cast过程"
+      ],
+      "sharedRunner": {
+        "version": "protected-trigger-batch-v1",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+        "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+        "commit": "1a248a4cbf85f447d41f443a57e1e8677723b323"
+      },
+      "freeze": {
+        "revision": "rev1",
+        "batchSha256": "fe49de80757f89cd6aa3e295655ec8e15ed4a17c73008813186a19dd04df12da",
+        "sourceSnapshotSha256": "b90ddb3bf2f24e981ed2ce4ec7ac110174552f365b5296da0a99fe8e7a50fbc7"
+      },
+      "preparation": {
+        "getCount": 1253,
+        "status200": 1252,
+        "expected404": 1,
+        "skillCount": 1062,
+        "ruleCount": 167,
+        "sourceInitializedCount": 29,
+        "bodyRulesSha256": "c5b52dd19a8ceec7a9ab8e48bdbd704c35db2f2f99c199872ff25af13bff265b",
+        "metadataRulesSha256": "9ae4e5a4ff402f72834c6cfe9fc48dc71749769f03e80306cee94c07370ca0f1",
+        "businessWrites": 0
+      },
+      "independentApproval": {
+        "status": "APPROVED",
+        "getCount": 1253,
+        "approvedBatchSha256": "fe49de80757f89cd6aa3e295655ec8e15ed4a17c73008813186a19dd04df12da",
+        "approvalDecisionSha256": "7731689f9bf9b6228545bc1a55109603c5977890d37a7633a9424891538b4514",
+        "bodyRulesSha256": "c5b52dd19a8ceec7a9ab8e48bdbd704c35db2f2f99c199872ff25af13bff265b",
+        "metadataRulesSha256": "9ae4e5a4ff402f72834c6cfe9fc48dc71749769f03e80306cee94c07370ca0f1",
+        "businessWrites": 0
+      },
+      "writer": {
+        "getCount": 24,
+        "postCount": 1,
+        "created": 1,
+        "alreadyLanded": 0,
+        "recoveryMode": false,
+        "immediateReadback": "PASS"
+      },
+      "independentReadback": {
+        "getCount": 1253,
+        "skillCount": 1062,
+        "ruleCount": 168,
+        "sourceInitializedCount": 29,
+        "oldRulesCount": 167,
+        "oldBodyRulesSha256": "c5b52dd19a8ceec7a9ab8e48bdbd704c35db2f2f99c199872ff25af13bff265b",
+        "oldMetadataRulesSha256": "9ae4e5a4ff402f72834c6cfe9fc48dc71749769f03e80306cee94c07370ca0f1",
+        "oldRulesUnchanged": true,
+        "targetNonRuleCompositionUnchanged": true,
+        "businessWrites": 0
+      },
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 1,
+        "images": "蔚E列表图64×64且加载完成",
+        "imageCache": "复用同一浏览器会话已同步的3279条本地图片缓存",
+        "processesAndRules": "cast过程明确无普通冷却，立即步骤、法力挂接、主动使用事件和启动过程动作与冻结请求一致",
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0,
+        "exactBrowserGetCount": null,
+        "postBrowserGetReadback": 1064
+      },
+      "exploration": {
+        "getCount": 4,
+        "businessWrites": 0,
+        "result": "蔚E没有再次施放，当前cast过程的cooldown为null，只挂接法力消耗；其余四个候选仍有蓄力或再次施放歧义。"
+      },
+      "corrections": [
+        "最初将五个剩余对象一并视为阶段复杂；逐项读取后把无再次施放且无普通冷却的蔚E重新归入可安全接入项。"
+      ],
+      "pending": [
+        "蔚E的两次弹药、恢复时间、1秒静态冷却、强化窗口、普攻替换、伤害、身后范围和法术护盾资格仍未接。",
+        "Wasm组装、宿主技能使用与普通攻击事件、真实战斗均未执行。"
+      ],
+      "systemConclusion": "现有技能使用事件和启动过程动作足以保存蔚E每次主动使用的法力消耗；当前过程明确不配置普通冷却，因此没有新增表、字段或兼容层依据。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/单项英雄施法过程入口补录第六批/10-证据清单.json",
+        "sha256": "edcdfea4e047b72875c653be976f493d989a1ff3521d1c9118bcfef62defe1ab",
+        "commit": "e9c0612a7869112a903e5e2b2bbb4abd47114ecb"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -8913,6 +9017,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/10-证据清单.json",
         "sha256": "ce4451068753f4f748a4158717762d973c66390575f7611acb04f6e9b5442369",
         "commit": "8f708558591c204bd80fc95f137d927eeb7362be"
+      },
+      "singleHeroCastProcessEntryBackfillSixth": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/单项英雄施法过程入口补录第六批/10-证据清单.json",
+        "sha256": "edcdfea4e047b72875c653be976f493d989a1ff3521d1c9118bcfef62defe1ab",
+        "commit": "e9c0612a7869112a903e5e2b2bbb4abd47114ecb"
       }
     },
     "coverage": {
@@ -28686,7 +28796,7 @@
         "name": "蔚·透体之劲",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "reason": "已补录主动使用后启动无普通冷却的cast过程，每次使用的法力消耗已有入口；两次弹药、恢复时间、强化窗口、普攻替换、伤害、范围与法术护盾资格仍有来源或配置缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -28697,7 +28807,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "singleHeroCastProcessEntryBackfillSixth"
         ]
       },
       {
