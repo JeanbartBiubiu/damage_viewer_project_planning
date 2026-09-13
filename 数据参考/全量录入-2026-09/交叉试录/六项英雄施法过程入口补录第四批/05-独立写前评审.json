@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T13:22:51.427Z",
+  "status": "APPROVED",
+  "reviewer": "既有独立来源复核加新进程完整事件明细GET契约检查",
+  "approvedBatchSha256": "17b1706bfb3f0e0456ad9a15ddbac031e731ac7d503bacf45cb326cd717e311d",
+  "preflightSha256": "b3d6e417982ee2c36a6d983880951330e591132c77967bd03aa3527486d2b2dc",
+  "bodyRulesSha256": "6f0583881f7f10db67f2858678d91f30d9d39042878b1ceee4b482e3f4fc9f14",
+  "metadataRulesSha256": "83b2039ed3d25636006b1aad6a7889d905bdaa364e7c1a9f3b0e658b831e301a",
+  "targetNonRuleSha256": [
+    {
+      "id": "trundle_q_start_cast",
+      "sha256": "c8b87380ca172e87e0914a45244e4300b0a84c863ca083d8640f1aa3f87ee4e5"
+    },
+    {
+      "id": "trundle_e_start_cast",
+      "sha256": "8bf0a037dcd0583492fa01b4d29130f76c88b2c5800697105922228c6db4644e"
+    },
+    {
+      "id": "trundle_r_start_cast",
+      "sha256": "39d64c20de9f16b561c10fef0919203210d7871a9ac8d68c0459b051bf5848b5"
+    },
+    {
+      "id": "warwick_r_start_cast",
+      "sha256": "371b7dd798a0bd4f7ac1ede40ff35c8b80091d550acc0d38f2151ea2462ae02f"
+    },
+    {
+      "id": "jax_w_start_cast",
+      "sha256": "3eb36f0a0a4f52182bb3088c2f180831b62ac3b8b8ddaa32c78304a5cf8ddf14"
+    },
+    {
+      "id": "nocturne_e_start_cast",
+      "sha256": "73ac72e8049b5cff9dea635d60891455d915c7086ab74a863cb3f08afe277489"
+    }
+  ],
+  "approvalDecisionSha256": "bae07d6a05b560eb6e479b28ec7ec3b2d3945c15f2f4fbd2442d52a331e49083",
+  "getCount": 1357,
+  "statusCounts": {
+    "200": 1351,
+    "404": 6
+  },
+  "skillCount": 1062,
+  "ruleCount": 158,
+  "sourceInitializedCount": 29,
+  "businessWrites": 0,
+  "requestPathsSha256": "49fa95a5c5e6f9688407fcabc8c8fa17dae8087fd289425411a9f2f35334efcb",
+  "boundary": "独立批准只覆盖冻结的六个主动使用入口；不批准各技能剩余攻击、命中、伤害、治疗、控制、地形、状态或阶段分支。"
+}
