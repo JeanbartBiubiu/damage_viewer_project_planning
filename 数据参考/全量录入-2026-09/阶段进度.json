@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T05:37:14.280Z",
+  "generatedAt": "2026-09-13T06:36:56.602Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7191,6 +7191,112 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/09-证据清单.json",
         "sha256": "81ea50b3c752708772a95e43495fca02dde4e66ab8befa70981c481158bee3b7",
         "commit": "e8ce353cf7defab5609a61a1c60742ed31daee8d"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "fourHeroSkillHitDamageTriggerBackfill": {
+      "at": "2026-09-13T06:36:56.602Z",
+      "status": "阿兹尔R、阿兹尔E、约里克E和佛耶戈W四条实际英雄命中伤害规则完成冻结、受保护写入、独立GET回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "azir_r",
+        "azir_e",
+        "yorick_e",
+        "viego_w"
+      ],
+      "created": {
+        "triggerRules": 4
+      },
+      "semantics": [
+        "四条规则只消费对应技能的实际英雄命中，唯一类别条件为英雄，唯一动作在当前目标执行已有伤害效果。",
+        "阿兹尔R执行charge_damage，阿兹尔E执行dash_damage，约里克E执行max_health_damage，佛耶戈W执行damage。",
+        "规则不复制主体、参数、公式、效果或过程，也不填运行输入绑定、结果修正、逐目标冷却和过程触发上限。",
+        "阿兹尔E只有宿主先确认已有合资格士兵并生产实际突进命中事件时语义成立。"
+      ],
+      "preparation": {
+        "GETs": 1302,
+        "businessWrites": 0,
+        "priorRuleCount": 126,
+        "skillCount": 1062,
+        "sourceInitializedCount": 24,
+        "expected404": 4,
+        "sharedFullBaselineCount": 1,
+        "repeatedFullBaselineCount": 0,
+        "batchSha256": "80061c717b08433a02fbce43781f0796281eab3736ad43ce3b7265c96b7f32a7"
+      },
+      "review": {
+        "cursor": "普通低风险成熟结构，按现行流程跳过",
+        "sourceObjectsHashed": 4,
+        "frozenRequests": 4
+      },
+      "writer": {
+        "protectedGETs": 121,
+        "businessWrites": 4,
+        "POST": 4,
+        "status201": 4,
+        "immediateReadbacks": 4,
+        "replayedWrites": 0,
+        "expectedFinalRuleCount": 130,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 1306,
+        "businessWrites": 0,
+        "priorRulesUnchanged": 126,
+        "newRulesMatched": 4,
+        "nonRuleTargetsUnchanged": 4,
+        "skillCount": 1062,
+        "finalRuleCount": 130,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 267,
+        "businessWrites": 0,
+        "skills": [
+          "azir_r",
+          "azir_e",
+          "yorick_e",
+          "viego_w"
+        ],
+        "checks": 5,
+        "listImagesVisible": 4,
+        "imageNaturalSize": "64x64",
+        "formulaDetailsVisible": 4,
+        "effectDetailsVisible": 4,
+        "triggerDetailsVisible": 4,
+        "screenshots": 16,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "protected": {
+        "priorRulesUnchanged": 126,
+        "skillSubjectsUnchanged": true,
+        "ownerRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "experienceIssues": [
+        "一次共享全量基线加写前定点保护，把写入阶段GET降为121次；完整最终集合只由独立回读重新读取。",
+        "稳定的已有伤害效果接线继续使用接口批量写入和真实页面只读抽样，无需逐条页面手工新建。",
+        "后端仅在技能命中明细中补回useKind空值，独立比较只规范化这一固定位置，其余结构完整比较。",
+        "本批没有形成新增表、字段或页面修正需求；当前缺口仍在宿主事件生产和Wasm组装。"
+      ],
+      "pending": [
+        "四条新增规则尚未组装进Wasm输入，也未执行宿主命中事件或真实战斗验证。",
+        "阿兹尔E的士兵资格、突进命中和中断时点必须由宿主先保证；管理说明不能代替生产证据。",
+        "凯隐W因形态不可区分暂缓，乌迪尔R因持续过程、节拍、跟踪、觉醒和运行输入不足暂缓。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄命中伤害触发补录/08-证据清单.json",
+        "sha256": "e4cee46d9e1e08874445cb18cf237efd91e5fbaad9982a6a86ba6fdf5c6097f8",
+        "commit": "0d7378190183209b44d7cc2f441e8a6296335d33"
       },
       "runtimeValidation": "未执行"
     }
