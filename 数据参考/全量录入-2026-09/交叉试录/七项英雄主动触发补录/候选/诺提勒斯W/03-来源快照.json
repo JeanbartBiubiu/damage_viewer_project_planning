@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:12.047Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "nautilus",
+    "name": "诺提勒斯 W",
+    "skillKey": "nautilus_w",
+    "ownerKey": "champion_nautilus",
+    "acceptedEvent": {
+      "sourceSkillKey": "nautilus_w",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_shield",
+        "name": "执行泰坦之怒自身护盾",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "shield"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "shield",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "resultTarget": "SOURCE",
+        "valueKind": "FORMULA",
+        "valueKey": "shield_value",
+        "durationParameterKey": "shield_duration_ms"
+      }
+    ],
+    "omitted": [
+      "护盾存在期间普通攻击附伤及周围目标",
+      "法力消耗、冷却和战斗施放资格"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批/最终候选.json",
+      "sha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+      "bytes": 157327
+    }
+  ]
+}

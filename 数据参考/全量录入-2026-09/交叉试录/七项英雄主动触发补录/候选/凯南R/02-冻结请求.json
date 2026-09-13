@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T04:02:13.142Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "43c6e25ec031243bf11e03b1f92249848c3a3f47a3be1cd6f5c20567235156d2",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "kennen",
+      "method": "POST",
+      "route": "/skills/kennen_r/trigger-rules",
+      "detailRoute": "/skills/kennen_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "ed56a8bc52a199288b34f4dbb03d3539c14967946ba836690b67968134611287",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "万雷天牢引主动使用",
+        "description": "接收 kennen_r 主动使用；依次执行已有 armor 与 magic_resistance。周期伤害、后续命中增幅、雷缚印层数、实际首末跳和战斗施放资格留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "kennen_r"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_armor",
+            "name": "执行万雷天牢引自身护甲",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "armor"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "execute_magic_resistance",
+            "name": "执行万雷天牢引自身魔法抗性",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "magic_resistance"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "周期伤害及后续命中增幅",
+    "雷缚印层数与首末跳时点"
+  ]
+}

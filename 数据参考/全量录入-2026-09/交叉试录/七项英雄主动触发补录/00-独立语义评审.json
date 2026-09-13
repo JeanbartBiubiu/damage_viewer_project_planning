@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-13T11:59:05+08:00",
+  "verdict": "READY_WITH_DEFERRED",
+  "scope": "管理作者数据语义、动态输入绑定与现有组成复用；不把管理保存、宿主事件生产和战斗运行视为同一项证据。",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "getCount": 132,
+  "decision": {
+    "writeCandidateIds": [
+      "nautilus",
+      "missfortune",
+      "aatrox",
+      "kennen",
+      "sivir",
+      "renekton"
+    ],
+    "deferredCandidateIds": [
+      "ambessa"
+    ],
+    "expectedRuleCountBefore": 114,
+    "expectedRuleCountAfter": 120
+  },
+  "accepted": [
+    {
+      "id": "nautilus",
+      "skillKey": "nautilus_w",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "nautilus_w",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "EXECUTE_EFFECT:shield"
+      ],
+      "reason": "已有 shield 完整定义自身普通护盾、等级数值、6000毫秒持续时间和刷新方式，且不依赖动态输入；未形成效果的攻击附伤不会被本动作执行。",
+      "omitted": [
+        "法力消耗与冷却",
+        "护盾存在期间的当前目标和附近目标攻击附伤",
+        "两秒伤害的周期与总量分配"
+      ],
+      "evidence": [
+        "GET /skills/nautilus_w/effects/shield 为200",
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批/最终候选.json"
+      ]
+    },
+    {
+      "id": "missfortune",
+      "skillKey": "missfortune_w",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "missfortune_w",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "EXECUTE_EFFECT:active_attack_speed"
+      ],
+      "reason": "已有 active_attack_speed 独立表达自身四秒攻击速度增益，等级参数不依赖动态输入；两阶段移速及受击清除不改变该结果本身。",
+      "omitted": [
+        "被动基础移速与满额移速状态",
+        "主动时达到满额移速及受击清除",
+        "厄运的眷顾冷却返还",
+        "法力消耗与基础冷却"
+      ],
+      "evidence": [
+        "GET /skills/missfortune_w/effects/active_attack_speed 为200",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json"
+      ]
+    },
+    {
+      "id": "aatrox",
+      "skillKey": "aatrox_r",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "aatrox_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "EXECUTE_EFFECT:attack_damage_amp"
+      ],
+      "reason": "已有 attack_damage_amp 独立表达自身攻击力百分比增幅、等级值和基础十秒持续时间，不依赖动态输入。",
+      "omitted": [
+        "衰减移动速度与自身治疗增幅",
+        "参与击杀延长和移速刷新",
+        "小兵恐惧及未收敛的施法时间"
+      ],
+      "evidence": [
+        "GET /skills/aatrox_r/effects/attack_damage_amp 为200",
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十九批/修订一候选.json"
+      ]
+    },
+    {
+      "id": "kennen",
+      "skillKey": "kennen_r",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "kennen_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "EXECUTE_EFFECT:armor",
+        "EXECUTE_EFFECT:magic_resistance"
+      ],
+      "reason": "已有 armor 与 magic_resistance 分别表达三秒自身护甲和魔抗，等级参数相同、修改属性不同且不依赖动态输入。",
+      "omitted": [
+        "每500毫秒周期伤害与首末次时点",
+        "同一目标后续命中伤害提高",
+        "雷缚印层数和附近多目标处理"
+      ],
+      "evidence": [
+        "GET /skills/kennen_r/effects/armor 为200",
+        "GET /skills/kennen_r/effects/magic_resistance 为200",
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十四批/最终候选.json"
+      ]
+    },
+    {
+      "id": "sivir",
+      "skillKey": "sivir_w",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "sivir_w",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动 cast 过程在开始时处理冷却和法力，并在 activate 步骤执行四秒攻击速度；规则只启动过程可避免重复结算。",
+      "omitted": [
+        "强化攻击次数与消费",
+        "弹射目标选择、额外目标伤害和共享暴击",
+        "小兵斩杀"
+      ],
+      "evidence": [
+        "GET /skills/sivir_w/processes/cast 为200",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json"
+      ]
+    },
+    {
+      "id": "renekton",
+      "skillKey": "renekton_r",
+      "ruleKey": "on_used",
+      "event": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "renekton_r",
+          "useKind": "ACTIVE"
+        }
+      },
+      "actions": [
+        "START_PROCESS:cast"
+      ],
+      "reason": "已有主动 cast 过程在开始时处理冷却，并在 start 步骤完成时执行十五秒最大生命增加；规则只启动过程，避免重复执行 dominance_health。",
+      "omitted": [
+        "当前生命值随最大生命值变化的资源语义",
+        "施放时和周期怒气",
+        "周期范围伤害、体型变化及技能范围交互"
+      ],
+      "evidence": [
+        "GET /skills/renekton_r/processes/cast 为200",
+        "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/完整候选.json"
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "id": "ambessa",
+      "skillKey": "ambessa_w",
+      "ruleKey": "on_used",
+      "reason": "self_shield 的 shield_value 可达 RUNTIME_INPUT 参数 shield_base_at_character_level，但拟议动作没有绑定；当前 SKILL_USED 事件、内部状态和已支持绑定来源都不能提供角色等级。空绑定会被后端以400.INVALID_RUNTIME_INPUT_BINDING和BINDING_MISSING拒绝。",
+      "resolveBeforeWrite": [
+        "提供有来源证据的角色等级运行值绑定",
+        "或调整已保存参数和公式，使护盾基础值不再依赖未供给的动态输入"
+      ],
+      "evidence": [
+        "GET /skills/ambessa_w/formulas/shield_value 为200",
+        "GET /skills/ambessa_w/internal-states 为200且列表为空",
+        "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java:1783",
+        "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十七批/修订二/完整候选.json"
+      ]
+    }
+  ],
+  "runtimeBoundary": "当前结论只放行作者数据保存；未证明SKILL_USED宿主投影、TinyGo或Wasm端到端执行。"
+}

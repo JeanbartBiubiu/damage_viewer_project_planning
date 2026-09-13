@@ -1,0 +1,968 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:13.506Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 120
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "43c6e25ec031243bf11e03b1f92249848c3a3f47a3be1cd6f5c20567235156d2",
+  "frozenRequestSha256": "4050a284f21bac7168ef1c1659ddecafa9037b4ee5404fa780d28bfb3552b01c",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/kennen_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:59.474409Z",
+          "description": "凯南召唤出一团风暴，会对周围的所有敌方英雄造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "凯南·秘奥义！万雷天牢引",
+          "skillCategoryKeys": [],
+          "skillKey": "kennen_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:59.474409Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_kennen",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_kennen",
+          "createdAt": "2026-09-06T17:19:17.112624Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "凯南",
+          "updatedAt": "2026-09-06T17:19:17.112624Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_kennen/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_kennen",
+          "levelValues": {
+            "1": {
+              "move_speed": 335,
+              "hp": 580,
+              "hp_regen": 5.5,
+              "armor": 29,
+              "magic_resistance": 30,
+              "attack_damage": 48,
+              "attack_speed": 0.625,
+              "attack_range": 550
+            },
+            "2": {
+              "move_speed": 335,
+              "hp": 650.56,
+              "hp_regen": 5.968,
+              "armor": 32.564,
+              "magic_resistance": 30.936,
+              "attack_damage": 50.7,
+              "attack_speed": 0.641891,
+              "attack_range": 550
+            },
+            "3": {
+              "move_speed": 335,
+              "hp": 724.55,
+              "hp_regen": 6.45875,
+              "armor": 36.30125,
+              "magic_resistance": 31.9175,
+              "attack_damage": 53.53125,
+              "attack_speed": 0.659604,
+              "attack_range": 550
+            },
+            "4": {
+              "move_speed": 335,
+              "hp": 801.97,
+              "hp_regen": 6.97225,
+              "armor": 40.21175,
+              "magic_resistance": 32.9445,
+              "attack_damage": 56.49375,
+              "attack_speed": 0.678137,
+              "attack_range": 550
+            },
+            "5": {
+              "move_speed": 335,
+              "hp": 882.82,
+              "hp_regen": 7.5085,
+              "armor": 44.2955,
+              "magic_resistance": 34.017,
+              "attack_damage": 59.5875,
+              "attack_speed": 0.697491,
+              "attack_range": 550
+            },
+            "6": {
+              "move_speed": 335,
+              "hp": 967.1,
+              "hp_regen": 8.0675,
+              "armor": 48.5525,
+              "magic_resistance": 35.135,
+              "attack_damage": 62.8125,
+              "attack_speed": 0.717667,
+              "attack_range": 550
+            },
+            "7": {
+              "move_speed": 335,
+              "hp": 1054.81,
+              "hp_regen": 8.64925,
+              "armor": 52.98275,
+              "magic_resistance": 36.2985,
+              "attack_damage": 66.16875,
+              "attack_speed": 0.738664,
+              "attack_range": 550
+            },
+            "8": {
+              "move_speed": 335,
+              "hp": 1145.95,
+              "hp_regen": 9.25375,
+              "armor": 57.58625,
+              "magic_resistance": 37.5075,
+              "attack_damage": 69.65625,
+              "attack_speed": 0.760482,
+              "attack_range": 550
+            },
+            "9": {
+              "move_speed": 335,
+              "hp": 1240.52,
+              "hp_regen": 9.881,
+              "armor": 62.363,
+              "magic_resistance": 38.762,
+              "attack_damage": 73.275,
+              "attack_speed": 0.78312,
+              "attack_range": 550
+            },
+            "10": {
+              "move_speed": 335,
+              "hp": 1338.52,
+              "hp_regen": 10.531,
+              "armor": 67.313,
+              "magic_resistance": 40.062,
+              "attack_damage": 77.025,
+              "attack_speed": 0.80658,
+              "attack_range": 550
+            },
+            "11": {
+              "move_speed": 335,
+              "hp": 1439.95,
+              "hp_regen": 11.20375,
+              "armor": 72.43625,
+              "magic_resistance": 41.4075,
+              "attack_damage": 80.90625,
+              "attack_speed": 0.830861,
+              "attack_range": 550
+            },
+            "12": {
+              "move_speed": 335,
+              "hp": 1544.81,
+              "hp_regen": 11.89925,
+              "armor": 77.73275,
+              "magic_resistance": 42.7985,
+              "attack_damage": 84.91875,
+              "attack_speed": 0.855964,
+              "attack_range": 550
+            },
+            "13": {
+              "move_speed": 335,
+              "hp": 1653.1,
+              "hp_regen": 12.6175,
+              "armor": 83.2025,
+              "magic_resistance": 44.235,
+              "attack_damage": 89.0625,
+              "attack_speed": 0.881887,
+              "attack_range": 550
+            },
+            "14": {
+              "move_speed": 335,
+              "hp": 1764.82,
+              "hp_regen": 13.3585,
+              "armor": 88.8455,
+              "magic_resistance": 45.717,
+              "attack_damage": 93.3375,
+              "attack_speed": 0.908631,
+              "attack_range": 550
+            },
+            "15": {
+              "move_speed": 335,
+              "hp": 1879.97,
+              "hp_regen": 14.12225,
+              "armor": 94.66175,
+              "magic_resistance": 47.2445,
+              "attack_damage": 97.74375,
+              "attack_speed": 0.936197,
+              "attack_range": 550
+            },
+            "16": {
+              "move_speed": 335,
+              "hp": 1998.55,
+              "hp_regen": 14.90875,
+              "armor": 100.65125,
+              "magic_resistance": 48.8175,
+              "attack_damage": 102.28125,
+              "attack_speed": 0.964584,
+              "attack_range": 550
+            },
+            "17": {
+              "move_speed": 335,
+              "hp": 2120.56,
+              "hp_regen": 15.718,
+              "armor": 106.814,
+              "magic_resistance": 50.436,
+              "attack_damage": 106.95,
+              "attack_speed": 0.993791,
+              "attack_range": 550
+            },
+            "18": {
+              "move_speed": 335,
+              "hp": 2246,
+              "hp_regen": 16.55,
+              "armor": 113.15,
+              "magic_resistance": 52.1,
+              "attack_damage": 111.75,
+              "attack_speed": 1.02382,
+              "attack_range": 550
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_kennen/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_kennen",
+            "name": "champion_kennen"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_kennen",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_kennen",
+              "characterName": "凯南",
+              "gameId": "lol",
+              "skillKey": "kennen_p",
+              "skillName": "凯南·【忍法！雷缚印】",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_kennen",
+              "characterName": "凯南",
+              "gameId": "lol",
+              "skillKey": "kennen_q",
+              "skillName": "凯南·奥义！千鸟",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_kennen",
+              "characterName": "凯南",
+              "gameId": "lol",
+              "skillKey": "kennen_w",
+              "skillName": "凯南·奥义！电刃",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_kennen",
+              "characterName": "凯南",
+              "gameId": "lol",
+              "skillKey": "kennen_e",
+              "skillName": "凯南·奥义！雷铠",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_kennen",
+              "characterName": "凯南",
+              "gameId": "lol",
+              "skillKey": "kennen_r",
+              "skillName": "凯南·秘奥义！万雷天牢引",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=kennen_r",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_kennen",
+              "characterName": "凯南",
+              "gameId": "lol",
+              "skillKey": "kennen_r",
+              "skillName": "凯南·秘奥义！万雷天牢引",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/kennen_r/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_kennen_r",
+            "name": "kennen_r"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/kennen_r/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kennen_r/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T06:39:56.725138Z",
+              "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "kennen_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T06:39:56.725138Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T06:39:57.742719Z",
+              "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 40,
+                "2": 80,
+                "3": 120
+              },
+              "name": "每次命中基础伤害",
+              "parameterKey": "base_tick_damage",
+              "skillKey": "kennen_r",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T06:39:57.742719Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T06:39:58.707055Z",
+              "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+              "fixedValue": 0.25,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法强系数",
+              "parameterKey": "ap_ratio",
+              "skillKey": "kennen_r",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T06:39:58.707055Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T06:39:59.652927Z",
+              "description": "客户端当前根绑定 DataValues.DamageAmp 取索引1至3。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "后续命中提升比例",
+              "parameterKey": "successive_damage_ratio",
+              "skillKey": "kennen_r",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T06:39:59.652927Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T06:40:00.624394Z",
+              "description": "客户端当前根绑定 DataValues.KennenRTickRate 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+              "fixedValue": 500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "原周期间隔（毫秒）",
+              "parameterKey": "tick_interval_ms",
+              "skillKey": "kennen_r",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T06:40:00.624394Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T06:40:01.525562Z",
+              "description": "客户端当前根绑定 DataValues.KennenRDefenses 取索引1至3。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 25,
+                "2": 50,
+                "3": 75
+              },
+              "name": "护甲与魔抗增加",
+              "parameterKey": "bonus_resistances",
+              "skillKey": "kennen_r",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T06:40:01.525562Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T06:40:02.556943Z",
+              "description": "客户端当前根绑定 DataValues.KennenRDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+              "fixedValue": 3000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "风暴持续时间（毫秒）",
+              "parameterKey": "duration_ms",
+              "skillKey": "kennen_r",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T06:40:02.556943Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T06:40:03.743556Z",
+              "description": "当前长文敌人只会被这个技能施加3层印记。",
+              "fixedValue": 3,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "本次R最多施加印记",
+              "parameterKey": "maximum_marks",
+              "skillKey": "kennen_r",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T06:40:03.743556Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:47.545877Z",
+              "description": "DDragon16.17.1 Kennen.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 120000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "kennen_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:47.545877Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "ap_ratio",
+          "base_tick_damage",
+          "bonus_resistances",
+          "cast_time_ms",
+          "cooldown_ms",
+          "duration_ms",
+          "maximum_marks",
+          "successive_damage_ratio",
+          "tick_interval_ms"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/ap_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:39:58.707055Z",
+              "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+              "fixedValue": 0.25,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法强系数",
+              "parameterKey": "ap_ratio",
+              "skillKey": "kennen_r",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T06:39:58.707055Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/base_tick_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:39:57.742719Z",
+              "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 40,
+                "2": 80,
+                "3": 120
+              },
+              "name": "每次命中基础伤害",
+              "parameterKey": "base_tick_damage",
+              "skillKey": "kennen_r",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T06:39:57.742719Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/bonus_resistances",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:40:01.525562Z",
+              "description": "客户端当前根绑定 DataValues.KennenRDefenses 取索引1至3。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 25,
+                "2": 50,
+                "3": 75
+              },
+              "name": "护甲与魔抗增加",
+              "parameterKey": "bonus_resistances",
+              "skillKey": "kennen_r",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T06:40:01.525562Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/cast_time_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:39:56.725138Z",
+              "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "kennen_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T06:39:56.725138Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:38:47.545877Z",
+              "description": "DDragon16.17.1 Kennen.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 120000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "kennen_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:47.545877Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:40:02.556943Z",
+              "description": "客户端当前根绑定 DataValues.KennenRDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+              "fixedValue": 3000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "风暴持续时间（毫秒）",
+              "parameterKey": "duration_ms",
+              "skillKey": "kennen_r",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T06:40:02.556943Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/maximum_marks",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:40:03.743556Z",
+              "description": "当前长文敌人只会被这个技能施加3层印记。",
+              "fixedValue": 3,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "本次R最多施加印记",
+              "parameterKey": "maximum_marks",
+              "skillKey": "kennen_r",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T06:40:03.743556Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/successive_damage_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:39:59.652927Z",
+              "description": "客户端当前根绑定 DataValues.DamageAmp 取索引1至3。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "后续命中提升比例",
+              "parameterKey": "successive_damage_ratio",
+              "skillKey": "kennen_r",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T06:39:59.652927Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/parameters/tick_interval_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:40:00.624394Z",
+              "description": "客户端当前根绑定 DataValues.KennenRTickRate 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+              "fixedValue": 500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "原周期间隔（毫秒）",
+              "parameterKey": "tick_interval_ms",
+              "skillKey": "kennen_r",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T06:40:00.624394Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kennen_r/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T06:40:04.730914Z",
+              "description": "本式每次伤害，不把3秒持续总伤当单跳。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+              "formulaKey": "base_tick_damage",
+              "gameId": "lol",
+              "name": "未叠后续加成的单次伤害",
+              "skillKey": "kennen_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T06:40:04.730914Z"
+            }
+          ]
+        },
+        "keys": [
+          "base_tick_damage"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/formulas/base_tick_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:40:04.730914Z",
+              "description": "本式每次伤害，不把3秒持续总伤当单跳。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_tick_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "base_tick_damage",
+              "gameId": "lol",
+              "name": "未叠后续加成的单次伤害",
+              "skillKey": "kennen_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T06:40:04.730914Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kennen_r/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T06:40:05.784865Z",
+              "description": "独立持续属性；应用、取消与实际触发分别核对。",
+              "effectKey": "armor",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "风暴护甲",
+              "resultCount": 1,
+              "skillKey": "kennen_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T06:40:05.784865Z"
+            },
+            {
+              "createdAt": "2026-09-09T06:40:06.705731Z",
+              "description": "独立持续属性；应用、取消与实际触发分别核对。",
+              "effectKey": "magic_resistance",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "风暴魔法抗性",
+              "resultCount": 1,
+              "skillKey": "kennen_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T06:40:06.705731Z"
+            }
+          ]
+        },
+        "keys": [
+          "armor",
+          "magic_resistance"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/effects/armor",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:40:05.784865Z",
+              "description": "独立持续属性；应用、取消与实际触发分别核对。",
+              "effectKey": "armor",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "风暴护甲",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "armor",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "风暴护甲",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "bonus_resistances"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "kennen_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T06:40:05.784865Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kennen_r/effects/magic_resistance",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T06:40:06.705731Z",
+              "description": "独立持续属性；应用、取消与实际触发分别核对。",
+              "effectKey": "magic_resistance",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "风暴魔法抗性",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "magic_resistance",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "风暴魔法抗性",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "bonus_resistances"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "kennen_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T06:40:06.705731Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kennen_r/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kennen_r/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kennen_r/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

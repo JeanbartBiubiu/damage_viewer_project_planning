@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:12.802Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "aatrox",
+    "name": "亚托克斯 R",
+    "skillKey": "aatrox_r",
+    "ownerKey": "champion_aatrox",
+    "acceptedEvent": {
+      "sourceSkillKey": "aatrox_r",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_attack_damage_amp",
+        "name": "执行大灭自身攻击力提升",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "attack_damage_amp"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "attack_damage_amp",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "attack_damage_amp_ratio",
+        "durationParameterKey": "form_duration_ms"
+      }
+    ],
+    "omitted": [
+      "移动速度衰减与自我治疗提升",
+      "参与击杀续时及刷新",
+      "小兵恐惧与施法时长冲突"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十九批/完整候选.json",
+      "sha256": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824",
+      "bytes": 336979
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十九批/修订一候选.json",
+      "sha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+      "bytes": 340003
+    }
+  ]
+}

@@ -1,0 +1,826 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:13.932Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 120
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "4fcda93054507170935a74fdc40db443aa3d9f0755fd2f6bdfc32811692cc77d",
+  "frozenRequestSha256": "a8096ee7dce6fe9d31a5123b0a0218dae331ba396e4968fddc80a6fb3a2a584c",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/sivir_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:23.424733Z",
+          "description": "希维尔的下几次普通攻击将获得额外攻击速度并弹射到周围的目标上，在弹射时造成削减过的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "希维尔·弹射",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "sivir_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:23.424733Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_sivir",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_sivir",
+          "createdAt": "2026-09-06T17:43:43.724416Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "希维尔",
+          "updatedAt": "2026-09-06T17:43:43.724416Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_sivir/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_sivir",
+          "levelValues": {
+            "1": {
+              "move_speed": 335,
+              "hp": 600,
+              "hp_regen": 3.25,
+              "mana": 340,
+              "mana_regen": 6,
+              "armor": 30,
+              "magic_resistance": 33,
+              "attack_damage": 60,
+              "attack_speed": 0.625,
+              "attack_range": 500
+            },
+            "2": {
+              "move_speed": 335,
+              "hp": 674.88,
+              "hp_regen": 3.646,
+              "mana": 372.4,
+              "mana_regen": 6.576,
+              "armor": 32.88,
+              "magic_resistance": 33.792,
+              "attack_damage": 61.8,
+              "attack_speed": 0.6322,
+              "attack_range": 500
+            },
+            "3": {
+              "move_speed": 335,
+              "hp": 753.4,
+              "hp_regen": 4.06125,
+              "mana": 406.375,
+              "mana_regen": 7.18,
+              "armor": 35.9,
+              "magic_resistance": 34.6225,
+              "attack_damage": 63.6875,
+              "attack_speed": 0.63975,
+              "attack_range": 500
+            },
+            "4": {
+              "move_speed": 335,
+              "hp": 835.56,
+              "hp_regen": 4.49575,
+              "mana": 441.925,
+              "mana_regen": 7.812,
+              "armor": 39.06,
+              "magic_resistance": 35.4915,
+              "attack_damage": 65.6625,
+              "attack_speed": 0.64765,
+              "attack_range": 500
+            },
+            "5": {
+              "move_speed": 335,
+              "hp": 921.36,
+              "hp_regen": 4.9495,
+              "mana": 479.05,
+              "mana_regen": 8.472,
+              "armor": 42.36,
+              "magic_resistance": 36.399,
+              "attack_damage": 67.725,
+              "attack_speed": 0.6559,
+              "attack_range": 500
+            },
+            "6": {
+              "move_speed": 335,
+              "hp": 1010.8,
+              "hp_regen": 5.4225,
+              "mana": 517.75,
+              "mana_regen": 9.16,
+              "armor": 45.8,
+              "magic_resistance": 37.345,
+              "attack_damage": 69.875,
+              "attack_speed": 0.6645,
+              "attack_range": 500
+            },
+            "7": {
+              "move_speed": 335,
+              "hp": 1103.88,
+              "hp_regen": 5.91475,
+              "mana": 558.025,
+              "mana_regen": 9.876,
+              "armor": 49.38,
+              "magic_resistance": 38.3295,
+              "attack_damage": 72.1125,
+              "attack_speed": 0.67345,
+              "attack_range": 500
+            },
+            "8": {
+              "move_speed": 335,
+              "hp": 1200.6,
+              "hp_regen": 6.42625,
+              "mana": 599.875,
+              "mana_regen": 10.62,
+              "armor": 53.1,
+              "magic_resistance": 39.3525,
+              "attack_damage": 74.4375,
+              "attack_speed": 0.68275,
+              "attack_range": 500
+            },
+            "9": {
+              "move_speed": 335,
+              "hp": 1300.96,
+              "hp_regen": 6.957,
+              "mana": 643.3,
+              "mana_regen": 11.392,
+              "armor": 56.96,
+              "magic_resistance": 40.414,
+              "attack_damage": 76.85,
+              "attack_speed": 0.6924,
+              "attack_range": 500
+            },
+            "10": {
+              "move_speed": 335,
+              "hp": 1404.96,
+              "hp_regen": 7.507,
+              "mana": 688.3,
+              "mana_regen": 12.192,
+              "armor": 60.96,
+              "magic_resistance": 41.514,
+              "attack_damage": 79.35,
+              "attack_speed": 0.7024,
+              "attack_range": 500
+            },
+            "11": {
+              "move_speed": 335,
+              "hp": 1512.6,
+              "hp_regen": 8.07625,
+              "mana": 734.875,
+              "mana_regen": 13.02,
+              "armor": 65.1,
+              "magic_resistance": 42.6525,
+              "attack_damage": 81.9375,
+              "attack_speed": 0.71275,
+              "attack_range": 500
+            },
+            "12": {
+              "move_speed": 335,
+              "hp": 1623.88,
+              "hp_regen": 8.66475,
+              "mana": 783.025,
+              "mana_regen": 13.876,
+              "armor": 69.38,
+              "magic_resistance": 43.8295,
+              "attack_damage": 84.6125,
+              "attack_speed": 0.72345,
+              "attack_range": 500
+            },
+            "13": {
+              "move_speed": 335,
+              "hp": 1738.8,
+              "hp_regen": 9.2725,
+              "mana": 832.75,
+              "mana_regen": 14.76,
+              "armor": 73.8,
+              "magic_resistance": 45.045,
+              "attack_damage": 87.375,
+              "attack_speed": 0.7345,
+              "attack_range": 500
+            },
+            "14": {
+              "move_speed": 335,
+              "hp": 1857.36,
+              "hp_regen": 9.8995,
+              "mana": 884.05,
+              "mana_regen": 15.672,
+              "armor": 78.36,
+              "magic_resistance": 46.299,
+              "attack_damage": 90.225,
+              "attack_speed": 0.7459,
+              "attack_range": 500
+            },
+            "15": {
+              "move_speed": 335,
+              "hp": 1979.56,
+              "hp_regen": 10.54575,
+              "mana": 936.925,
+              "mana_regen": 16.612,
+              "armor": 83.06,
+              "magic_resistance": 47.5915,
+              "attack_damage": 93.1625,
+              "attack_speed": 0.75765,
+              "attack_range": 500
+            },
+            "16": {
+              "move_speed": 335,
+              "hp": 2105.4,
+              "hp_regen": 11.21125,
+              "mana": 991.375,
+              "mana_regen": 17.58,
+              "armor": 87.9,
+              "magic_resistance": 48.9225,
+              "attack_damage": 96.1875,
+              "attack_speed": 0.76975,
+              "attack_range": 500
+            },
+            "17": {
+              "move_speed": 335,
+              "hp": 2234.88,
+              "hp_regen": 11.896,
+              "mana": 1047.4,
+              "mana_regen": 18.576,
+              "armor": 92.88,
+              "magic_resistance": 50.292,
+              "attack_damage": 99.3,
+              "attack_speed": 0.7822,
+              "attack_range": 500
+            },
+            "18": {
+              "move_speed": 335,
+              "hp": 2368,
+              "hp_regen": 12.6,
+              "mana": 1105,
+              "mana_regen": 19.6,
+              "armor": 98,
+              "magic_resistance": 51.7,
+              "attack_damage": 102.5,
+              "attack_speed": 0.795,
+              "attack_range": 500
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_sivir/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_sivir",
+            "name": "champion_sivir"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_sivir",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_sivir",
+              "characterName": "希维尔",
+              "gameId": "lol",
+              "skillKey": "sivir_p",
+              "skillName": "希维尔·敏锐疾行",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_sivir",
+              "characterName": "希维尔",
+              "gameId": "lol",
+              "skillKey": "sivir_q",
+              "skillName": "希维尔·回旋之刃",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_sivir",
+              "characterName": "希维尔",
+              "gameId": "lol",
+              "skillKey": "sivir_w",
+              "skillName": "希维尔·弹射",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_sivir",
+              "characterName": "希维尔",
+              "gameId": "lol",
+              "skillKey": "sivir_e",
+              "skillName": "希维尔·法术护盾",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_sivir",
+              "characterName": "希维尔",
+              "gameId": "lol",
+              "skillKey": "sivir_r",
+              "skillName": "希维尔·狩猎",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=sivir_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_sivir",
+              "characterName": "希维尔",
+              "gameId": "lol",
+              "skillKey": "sivir_w",
+              "skillName": "希维尔·弹射",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/sivir_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_sivir_w",
+            "name": "sivir_w"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/sivir_w/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/sivir_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-07T17:58:50.808926Z",
+              "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "sivir_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T17:58:50.808926Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:58:51.237059Z",
+              "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+              "fixedValue": 60,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "sivir_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T17:58:51.237059Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:58:51.632541Z",
+              "description": "客户端当前根绑定 DataValues.RicochetAttackSpeed 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.2,
+                "2": 0.25,
+                "3": 0.3,
+                "4": 0.35,
+                "5": 0.4
+              },
+              "name": "额外攻击速度比例",
+              "parameterKey": "bonus_attack_speed_ratio",
+              "skillKey": "sivir_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-07T17:58:51.632541Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-07T17:58:52.101042Z",
+              "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "强化持续（毫秒）",
+              "parameterKey": "buff_duration_ms",
+              "skillKey": "sivir_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-07T17:58:52.101042Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "bonus_attack_speed_ratio",
+          "buff_duration_ms",
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/sivir_w/parameters/bonus_attack_speed_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:58:51.632541Z",
+              "description": "客户端当前根绑定 DataValues.RicochetAttackSpeed 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.2,
+                "2": 0.25,
+                "3": 0.3,
+                "4": 0.35,
+                "5": 0.4
+              },
+              "name": "额外攻击速度比例",
+              "parameterKey": "bonus_attack_speed_ratio",
+              "skillKey": "sivir_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-07T17:58:51.632541Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/sivir_w/parameters/buff_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:58:52.101042Z",
+              "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至5。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "强化持续（毫秒）",
+              "parameterKey": "buff_duration_ms",
+              "skillKey": "sivir_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-07T17:58:52.101042Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/sivir_w/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:58:50.808926Z",
+              "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "sivir_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T17:58:50.808926Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/sivir_w/parameters/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:58:51.237059Z",
+              "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+              "fixedValue": 60,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "sivir_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T17:58:51.237059Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/sivir_w/formulas",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/sivir_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-07T17:58:52.533777Z",
+              "description": "仅施放法力消耗；具体过程单独绑定。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "施放法力消耗",
+              "resultCount": 1,
+              "skillKey": "sivir_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T17:58:52.533777Z"
+            },
+            {
+              "createdAt": "2026-09-07T17:58:52.913991Z",
+              "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+              "effectKey": "ricochet_attack_speed",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "弹射主动攻击速度",
+              "resultCount": 1,
+              "skillKey": "sivir_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T17:58:52.913991Z"
+            }
+          ]
+        },
+        "keys": [
+          "mana_cost",
+          "ricochet_attack_speed"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/sivir_w/effects/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:58:52.533777Z",
+              "description": "仅施放法力消耗；具体过程单独绑定。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "施放法力消耗",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "消耗法力",
+                  "resultKey": "consume_mana",
+                  "resultType": "RESOURCE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "sivir_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T17:58:52.533777Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/sivir_w/effects/ricochet_attack_speed",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:58:52.913991Z",
+              "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+              "effectKey": "ricochet_attack_speed",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "buff_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "弹射主动攻击速度",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "bonus_attack_speed_percent",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "弹射主动攻击速度",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "bonus_attack_speed_ratio"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "sivir_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T17:58:52.913991Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/sivir_w/processes",
+          "status": 200,
+          "data": [
+            {
+              "activationType": "ACTIVE",
+              "createdAt": "2026-09-07T17:58:53.410113Z",
+              "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+              "effectBindingCount": 2,
+              "gameId": "lol",
+              "name": "施放弹射",
+              "processKey": "cast",
+              "skillKey": "sivir_w",
+              "sortOrder": 10,
+              "stateOperationCount": 0,
+              "stepCount": 1,
+              "updatedAt": "2026-09-07T17:58:53.410113Z"
+            }
+          ]
+        },
+        "keys": [
+          "cast"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/sivir_w/processes/cast",
+            "status": 200,
+            "data": {
+              "activationType": "ACTIVE",
+              "cooldown": {
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                "startMoment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              },
+              "createdAt": "2026-09-07T17:58:53.410113Z",
+              "description": "法力和冷却始于主动施放；效果只作用自身，不将过程结束当作敌人命中。",
+              "effectBindings": [
+                {
+                  "bindingKey": "mana_cost",
+                  "effectKey": "mana_cost",
+                  "moment": {
+                    "momentType": "PROCESS_START",
+                    "stepKey": null
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "bindingKey": "ricochet_attack_speed",
+                  "effectKey": "ricochet_attack_speed",
+                  "moment": {
+                    "momentType": "STEP_EXECUTION",
+                    "stepKey": "activate"
+                  },
+                  "sortOrder": 20
+                }
+              ],
+              "gameId": "lol",
+              "name": "施放弹射",
+              "processKey": "cast",
+              "skillKey": "sivir_w",
+              "sortOrder": 10,
+              "stateOperations": [],
+              "steps": [
+                {
+                  "description": null,
+                  "detail": {},
+                  "name": "启用自身效果",
+                  "sortOrder": 10,
+                  "stepKey": "activate",
+                  "stepType": "IMMEDIATE"
+                }
+              ],
+              "updatedAt": "2026-09-07T17:58:53.410113Z"
+            }
+          }
+        ]
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/sivir_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/sivir_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

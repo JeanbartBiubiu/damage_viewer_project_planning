@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T04:02:12.453Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "822fa38591ceae982ac47489e132d32f35255083e7ba5b385d7dca350dbc160b",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "missfortune",
+      "method": "POST",
+      "route": "/skills/missfortune_w/trigger-rules",
+      "detailRoute": "/skills/missfortune_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "ab5464b42c057fd2ffcb737411dcb5c2367401a20eeea1a55e1979b793e6f7a6",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "大步流星主动使用",
+        "description": "接收 missfortune_w 主动使用；无条件执行已有 active_attack_speed。被动移速、主动满额移速状态、受击清除、冷却返还、法力消耗与基础冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "missfortune_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed",
+            "name": "执行大步流星主动攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "active_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "被动与主动移速状态切换及受击清除",
+    "厄运的眷顾冷却返还",
+    "法力消耗与基础冷却"
+  ]
+}

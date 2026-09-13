@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:13.509Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "sivir",
+    "name": "希维尔 W",
+    "skillKey": "sivir_w",
+    "ownerKey": "champion_sivir",
+    "acceptedEvent": {
+      "sourceSkillKey": "sivir_w",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "start_cast",
+        "name": "启动弹射施放过程",
+        "actionType": "START_PROCESS",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "processKey": "cast"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": {
+      "processKey": "cast",
+      "activationType": "ACTIVE",
+      "cooldownParameterKey": "cooldown_ms",
+      "steps": [
+        {
+          "stepKey": "activate",
+          "stepType": "IMMEDIATE",
+          "sortOrder": 10
+        }
+      ],
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "momentType": "PROCESS_START",
+          "stepKey": null,
+          "sortOrder": 10
+        },
+        {
+          "bindingKey": "ricochet_attack_speed",
+          "effectKey": "ricochet_attack_speed",
+          "momentType": "STEP_EXECUTION",
+          "stepKey": "activate",
+          "sortOrder": 20
+        }
+      ]
+    },
+    "effectChecks": [
+      {
+        "effectKey": "ricochet_attack_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "bonus_attack_speed_ratio",
+        "durationParameterKey": "buff_duration_ms"
+      }
+    ],
+    "omitted": [
+      "强化普攻次数及弹射目标",
+      "弹射伤害与同次暴击沿用"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+      "sha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+      "bytes": 266589
+    }
+  ]
+}

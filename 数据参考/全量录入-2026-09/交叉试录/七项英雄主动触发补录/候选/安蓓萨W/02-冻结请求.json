@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-12T18:30:26.112Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "fbb1bef0e05019a020f429dca54e188fd9b33e626b425010c384dc76d649f900",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "ambessa",
+      "method": "POST",
+      "route": "/skills/ambessa_w/trigger-rules",
+      "detailRoute": "/skills/ambessa_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "303f6a5f799b18794728c93ffa27c9bdd3a34123f0dd772aa4de9860aef6de5d",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "铁令主动使用",
+        "description": "接收 ambessa_w 主动使用；无条件执行已有 self_shield。防守姿势、格挡资格、低档与高档范围伤害、能量消耗、基础冷却与延迟留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "ambessa_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_shield",
+            "name": "执行铁令自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "防守姿势及格挡资格",
+    "两档范围伤害",
+    "能量消耗、冷却与225毫秒延迟"
+  ]
+}

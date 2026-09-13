@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:13.141Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "kennen",
+    "name": "凯南 R",
+    "skillKey": "kennen_r",
+    "ownerKey": "champion_kennen",
+    "acceptedEvent": {
+      "sourceSkillKey": "kennen_r",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_armor",
+        "name": "执行万雷天牢引自身护甲",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "armor"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      },
+      {
+        "actionKey": "execute_magic_resistance",
+        "name": "执行万雷天牢引自身魔法抗性",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 20,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "magic_resistance"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "armor",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "bonus_resistances",
+        "durationParameterKey": "duration_ms"
+      },
+      {
+        "effectKey": "magic_resistance",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "bonus_resistances",
+        "durationParameterKey": "duration_ms"
+      }
+    ],
+    "omitted": [
+      "周期伤害及后续命中增幅",
+      "雷缚印层数与首末跳时点"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十四批/最终候选.json",
+      "sha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+      "bytes": 364649
+    }
+  ]
+}

@@ -1,0 +1,594 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "generatedAt": "2026-09-13T04:02:44.224Z",
+  "status": "READY",
+  "writable": true,
+  "gameId": "lol",
+  "fixedVersion": "16.17.1",
+  "methodPolicy": "GET_ONLY_PRECHECK_THEN_6_POSTS",
+  "authorizationValueRecorded": false,
+  "semanticReviewSha256": "4bdef5f1f8d596fa183264d33100b8bd664079d4bf2910dc080b700d9a766721",
+  "sourceSnapshotSha256": "073a2210f6ba063d1f21254ddf6dc44111d30ccdcb3cac12cf1e75de9b037217",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 120
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_HIT": 55,
+      "SKILL_USED": 11,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "KILL": 2
+    },
+    "stableRead": true,
+    "stableVerification": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleLists": true,
+      "stableRuleDetails": true,
+      "firstRuleKeysSha256": "b79527bde39efea6e35f218e78261bbbb1a35bb5798542753d21ee2fc6b20e60",
+      "secondRuleKeysSha256": "b79527bde39efea6e35f218e78261bbbb1a35bb5798542753d21ee2fc6b20e60"
+    }
+  },
+  "writeBoundary": {
+    "businessWriteCount": 6,
+    "order": [
+      {
+        "id": "nautilus",
+        "route": "/skills/nautilus_w/trigger-rules",
+        "detailRoute": "/skills/nautilus_w/trigger-rules/on_used"
+      },
+      {
+        "id": "missfortune",
+        "route": "/skills/missfortune_w/trigger-rules",
+        "detailRoute": "/skills/missfortune_w/trigger-rules/on_used"
+      },
+      {
+        "id": "aatrox",
+        "route": "/skills/aatrox_r/trigger-rules",
+        "detailRoute": "/skills/aatrox_r/trigger-rules/on_used"
+      },
+      {
+        "id": "kennen",
+        "route": "/skills/kennen_r/trigger-rules",
+        "detailRoute": "/skills/kennen_r/trigger-rules/on_used"
+      },
+      {
+        "id": "sivir",
+        "route": "/skills/sivir_w/trigger-rules",
+        "detailRoute": "/skills/sivir_w/trigger-rules/on_used"
+      },
+      {
+        "id": "renekton",
+        "route": "/skills/renekton_r/trigger-rules",
+        "detailRoute": "/skills/renekton_r/trigger-rules/on_used"
+      }
+    ],
+    "methods": [
+      "POST"
+    ],
+    "expectedStatus": 201,
+    "onlyFrozenRoutes": true,
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true,
+    "noRerunExistingRules": true,
+    "noReplayIfReportExists": true
+  },
+  "requests": [
+    {
+      "id": "nautilus",
+      "name": "诺提勒斯 W",
+      "skillKey": "nautilus_w",
+      "ownerKey": "champion_nautilus",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/nautilus_w/trigger-rules",
+      "detailRoute": "/skills/nautilus_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "1007cf6a7449610e4c512fe145acc3e6f5047d9e3544021aad2fe0340caee9bb",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "泰坦之怒主动使用",
+        "description": "接收 nautilus_w 主动使用；无条件执行已有 shield 自身护盾。护盾存在期间攻击附伤、基础法力消耗、冷却与战斗施放资格留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "nautilus_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_shield",
+            "name": "执行泰坦之怒自身护盾",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "shield"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "missfortune",
+      "name": "厄运小姐 W",
+      "skillKey": "missfortune_w",
+      "ownerKey": "champion_missfortune",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/missfortune_w/trigger-rules",
+      "detailRoute": "/skills/missfortune_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "ab5464b42c057fd2ffcb737411dcb5c2367401a20eeea1a55e1979b793e6f7a6",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "大步流星主动使用",
+        "description": "接收 missfortune_w 主动使用；无条件执行已有 active_attack_speed。被动移速、主动满额移速状态、受击清除、冷却返还、法力消耗与基础冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "missfortune_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed",
+            "name": "执行大步流星主动攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "active_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "aatrox",
+      "name": "亚托克斯 R",
+      "skillKey": "aatrox_r",
+      "ownerKey": "champion_aatrox",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/aatrox_r/trigger-rules",
+      "detailRoute": "/skills/aatrox_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "9446f3aa0b12a88321dd7409f7beebc5bffb05128aa6051bd3b08d310bf72e2f",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "大灭主动使用",
+        "description": "接收 aatrox_r 主动使用；无条件执行已有 attack_damage_amp。移动速度衰减、自我治疗提升、参与击杀续时与刷新、小兵恐惧及施法时长冲突留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "aatrox_r"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_damage_amp",
+            "name": "执行大灭自身攻击力提升",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_damage_amp"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "kennen",
+      "name": "凯南 R",
+      "skillKey": "kennen_r",
+      "ownerKey": "champion_kennen",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/kennen_r/trigger-rules",
+      "detailRoute": "/skills/kennen_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "ed56a8bc52a199288b34f4dbb03d3539c14967946ba836690b67968134611287",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "万雷天牢引主动使用",
+        "description": "接收 kennen_r 主动使用；依次执行已有 armor 与 magic_resistance。周期伤害、后续命中增幅、雷缚印层数、实际首末跳和战斗施放资格留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "kennen_r"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_armor",
+            "name": "执行万雷天牢引自身护甲",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "armor"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "execute_magic_resistance",
+            "name": "执行万雷天牢引自身魔法抗性",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "magic_resistance"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "sivir",
+      "name": "希维尔 W",
+      "skillKey": "sivir_w",
+      "ownerKey": "champion_sivir",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/sivir_w/trigger-rules",
+      "detailRoute": "/skills/sivir_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "fa1abd42d9391cbf51d942d83493cf4e17e6ceee14061a97bc7beed01f35e18d",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "弹射主动使用",
+        "description": "接收 sivir_w 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程统一处理法力、冷却和 ricochet_attack_speed。后续攻击次数、弹射目标、伤害与同次暴击沿用留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "sivir_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动弹射施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "renekton",
+      "name": "雷克顿 R",
+      "skillKey": "renekton_r",
+      "ownerKey": "champion_renekton",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/renekton_r/trigger-rules",
+      "detailRoute": "/skills/renekton_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "aff9bbe31a2de468031db007e08e3f48f7ae544cd80ed9e61d87d2698744ea79",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "终极统治主动使用",
+        "description": "接收 renekton_r 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程统一处理基础冷却和 dominance_health。当前生命随最大生命变更、施放怒气、周期怒气与范围伤害留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "renekton_r"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动终极统治施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "protection": {
+    "candidateDetailsMustBe404": [
+      "/skills/nautilus_w/trigger-rules/on_used",
+      "/skills/missfortune_w/trigger-rules/on_used",
+      "/skills/aatrox_r/trigger-rules/on_used",
+      "/skills/kennen_r/trigger-rules/on_used",
+      "/skills/sivir_w/trigger-rules/on_used",
+      "/skills/renekton_r/trigger-rules/on_used"
+    ],
+    "targetNonRuleSnapshotSha256": {
+      "nautilus": "4344f5d6cd0290530d70dac97169dc482a4ac632218975f1dbbd1ffb0972b1d4",
+      "missfortune": "10bd948e2802302b419e80c119cc7eae10b838763cd5c0c7c67b6710c371ef8c",
+      "aatrox": "b2c880a36698a394f7068b3ee1cbd4cd6f30d54defe240634ce67e0716af7d9e",
+      "kennen": "553ec2ee8c0a5d0ba0155534773ed79e9efb60ca76447b7501da7144e29425b3",
+      "sivir": "5babe88d3f061bcab65771e378e7ce9a4744bf302cf5cd51fb33d617aa56ed54",
+      "renekton": "cb9cff8333dc057a00e27bafc3db2e628c1ae11d54edc06c6b93ef1c4e1a3607"
+    },
+    "targetSkills": [
+      "nautilus_w",
+      "missfortune_w",
+      "aatrox_r",
+      "kennen_r",
+      "sivir_w",
+      "renekton_r"
+    ],
+    "existingRuleCount": 114,
+    "existingRuleDetailsSaved": true,
+    "existingRuleListsSaved": true,
+    "expectedFinalRuleCount": 120,
+    "expectedNewRuleRefs": [
+      "nautilus_w/on_used",
+      "missfortune_w/on_used",
+      "aatrox_r/on_used",
+      "kennen_r/on_used",
+      "sivir_w/on_used",
+      "renekton_r/on_used"
+    ],
+    "sourceInitializedCount": 24
+  },
+  "targetBefore": [
+    {
+      "id": "nautilus",
+      "name": "诺提勒斯 W",
+      "ownerKind": "character",
+      "ownerKey": "champion_nautilus",
+      "skillKey": "nautilus_w",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "cast_time_ms",
+          "cooldown_ms",
+          "dot_damage_ap_ratio",
+          "dot_damage_base",
+          "dot_total_duration_ms",
+          "mana_cost",
+          "shield_base",
+          "shield_duration_ms",
+          "shield_health_ratio"
+        ],
+        "formulas": [
+          "bonus_magic_damage_total",
+          "shield_value"
+        ],
+        "effects": [
+          "mana_cost",
+          "shield"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "4344f5d6cd0290530d70dac97169dc482a4ac632218975f1dbbd1ffb0972b1d4"
+    },
+    {
+      "id": "missfortune",
+      "name": "厄运小姐 W",
+      "ownerKind": "character",
+      "ownerKey": "champion_missfortune",
+      "skillKey": "missfortune_w",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "active_duration_ms",
+          "bonus_attack_speed_ratio",
+          "cooldown_ms",
+          "first_ms_delay_ms",
+          "full_ms_extra_delay_ms",
+          "love_tap_base_refund_ms",
+          "mana_cost",
+          "passive_base_move_speed",
+          "passive_max_move_speed"
+        ],
+        "formulas": [],
+        "effects": [
+          "active_attack_speed",
+          "mana_cost"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "10bd948e2802302b419e80c119cc7eae10b838763cd5c0c7c67b6710c371ef8c"
+    },
+    {
+      "id": "aatrox",
+      "name": "亚托克斯 R",
+      "ownerKind": "character",
+      "ownerKey": "champion_aatrox",
+      "skillKey": "aatrox_r",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "attack_damage_amp_ratio",
+          "cooldown_ms",
+          "form_duration_ms",
+          "healing_amp_ratio",
+          "movement_speed_bonus_ratio",
+          "takedown_extension_ms"
+        ],
+        "formulas": [],
+        "effects": [
+          "attack_damage_amp"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "b2c880a36698a394f7068b3ee1cbd4cd6f30d54defe240634ce67e0716af7d9e"
+    },
+    {
+      "id": "kennen",
+      "name": "凯南 R",
+      "ownerKind": "character",
+      "ownerKey": "champion_kennen",
+      "skillKey": "kennen_r",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "ap_ratio",
+          "base_tick_damage",
+          "bonus_resistances",
+          "cast_time_ms",
+          "cooldown_ms",
+          "duration_ms",
+          "maximum_marks",
+          "successive_damage_ratio",
+          "tick_interval_ms"
+        ],
+        "formulas": [
+          "base_tick_damage"
+        ],
+        "effects": [
+          "armor",
+          "magic_resistance"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "553ec2ee8c0a5d0ba0155534773ed79e9efb60ca76447b7501da7144e29425b3"
+    },
+    {
+      "id": "sivir",
+      "name": "希维尔 W",
+      "ownerKind": "character",
+      "ownerKey": "champion_sivir",
+      "skillKey": "sivir_w",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "bonus_attack_speed_ratio",
+          "buff_duration_ms",
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "formulas": [],
+        "effects": [
+          "mana_cost",
+          "ricochet_attack_speed"
+        ],
+        "processes": [
+          "cast"
+        ],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "5babe88d3f061bcab65771e378e7ce9a4744bf302cf5cd51fb33d617aa56ed54"
+    },
+    {
+      "id": "renekton",
+      "name": "雷克顿 R",
+      "ownerKind": "character",
+      "ownerKey": "champion_renekton",
+      "skillKey": "renekton_r",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "ap_ratio_per_second",
+          "base_damage_per_second",
+          "bonus_ad_ratio_per_second",
+          "cooldown_ms",
+          "duration_ms",
+          "fury_on_cast",
+          "fury_per_second",
+          "maximum_health_gain"
+        ],
+        "formulas": [
+          "aura_damage_per_second"
+        ],
+        "effects": [
+          "dominance_health"
+        ],
+        "processes": [
+          "cast"
+        ],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "cb9cff8333dc057a00e27bafc3db2e628c1ae11d54edc06c6b93ef1c4e1a3607"
+    }
+  ],
+  "excluded": [
+    "不修改七个目标主体、关系、代表图片、参数、公式、效果、过程或内部状态。",
+    "不修改当前批已存在的旧114条规则。",
+    "未列入各候选冻结动作的伤害、控制、状态、续时、资源或冷却行为不自行补造。",
+    "静态来源、GET预检和页面验收不等于战斗宿主、TinyGo或Wasm运行证明。"
+  ]
+}

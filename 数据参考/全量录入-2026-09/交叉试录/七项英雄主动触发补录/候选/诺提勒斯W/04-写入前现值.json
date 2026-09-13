@@ -1,0 +1,1051 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:12.451Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 120
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "e770a9228c050ebe5a90735559d429e47be19bd0b3b254d2e08f944eea459a8f",
+  "frozenRequestSha256": "3696b11df64226c99bb7dfef4126fee0b41a0b4fce688322f4715fa9e9db596b",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/nautilus_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:35.990679Z",
+          "description": "诺提勒斯获得一个临时护盾。当护盾存在时，他的攻击会对目标及目标周围的敌人造成持续伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "诺提勒斯·泰坦之怒",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "nautilus_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:35.990679Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_nautilus",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_nautilus",
+          "createdAt": "2026-09-06T16:27:24.819655Z",
+          "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+          "gameId": "lol",
+          "name": "诺提勒斯",
+          "updatedAt": "2026-09-06T16:27:24.819655Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_nautilus/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_nautilus",
+          "levelValues": {
+            "1": {
+              "move_speed": 325,
+              "hp": 646,
+              "hp_regen": 8.5,
+              "mana": 400,
+              "mana_regen": 8.65,
+              "armor": 39,
+              "magic_resistance": 32,
+              "attack_damage": 61,
+              "attack_speed": 0.706,
+              "attack_range": 175
+            },
+            "2": {
+              "move_speed": 325,
+              "hp": 718,
+              "hp_regen": 8.896,
+              "mana": 433.84,
+              "mana_regen": 9.01,
+              "armor": 42.564,
+              "magic_resistance": 33.476,
+              "attack_damage": 63.376,
+              "attack_speed": 0.710406,
+              "attack_range": 175
+            },
+            "3": {
+              "move_speed": 325,
+              "hp": 793.5,
+              "hp_regen": 9.31125,
+              "mana": 469.325,
+              "mana_regen": 9.3875,
+              "armor": 46.30125,
+              "magic_resistance": 35.02375,
+              "attack_damage": 65.8675,
+              "attack_speed": 0.715027,
+              "attack_range": 175
+            },
+            "4": {
+              "move_speed": 325,
+              "hp": 872.5,
+              "hp_regen": 9.74575,
+              "mana": 506.455,
+              "mana_regen": 9.7825,
+              "armor": 50.21175,
+              "magic_resistance": 36.64325,
+              "attack_damage": 68.4745,
+              "attack_speed": 0.719862,
+              "attack_range": 175
+            },
+            "5": {
+              "move_speed": 325,
+              "hp": 955,
+              "hp_regen": 10.1995,
+              "mana": 545.23,
+              "mana_regen": 10.195,
+              "armor": 54.2955,
+              "magic_resistance": 38.3345,
+              "attack_damage": 71.197,
+              "attack_speed": 0.724911,
+              "attack_range": 175
+            },
+            "6": {
+              "move_speed": 325,
+              "hp": 1041,
+              "hp_regen": 10.6725,
+              "mana": 585.65,
+              "mana_regen": 10.625,
+              "armor": 58.5525,
+              "magic_resistance": 40.0975,
+              "attack_damage": 74.035,
+              "attack_speed": 0.730174,
+              "attack_range": 175
+            },
+            "7": {
+              "move_speed": 325,
+              "hp": 1130.5,
+              "hp_regen": 11.16475,
+              "mana": 627.715,
+              "mana_regen": 11.0725,
+              "armor": 62.98275,
+              "magic_resistance": 41.93225,
+              "attack_damage": 76.9885,
+              "attack_speed": 0.735651,
+              "attack_range": 175
+            },
+            "8": {
+              "move_speed": 325,
+              "hp": 1223.5,
+              "hp_regen": 11.67625,
+              "mana": 671.425,
+              "mana_regen": 11.5375,
+              "armor": 67.58625,
+              "magic_resistance": 43.83875,
+              "attack_damage": 80.0575,
+              "attack_speed": 0.741343,
+              "attack_range": 175
+            },
+            "9": {
+              "move_speed": 325,
+              "hp": 1320,
+              "hp_regen": 12.207,
+              "mana": 716.78,
+              "mana_regen": 12.02,
+              "armor": 72.363,
+              "magic_resistance": 45.817,
+              "attack_damage": 83.242,
+              "attack_speed": 0.747249,
+              "attack_range": 175
+            },
+            "10": {
+              "move_speed": 325,
+              "hp": 1420,
+              "hp_regen": 12.757,
+              "mana": 763.78,
+              "mana_regen": 12.52,
+              "armor": 77.313,
+              "magic_resistance": 47.867,
+              "attack_damage": 86.542,
+              "attack_speed": 0.753369,
+              "attack_range": 175
+            },
+            "11": {
+              "move_speed": 325,
+              "hp": 1523.5,
+              "hp_regen": 13.32625,
+              "mana": 812.425,
+              "mana_regen": 13.0375,
+              "armor": 82.43625,
+              "magic_resistance": 49.98875,
+              "attack_damage": 89.9575,
+              "attack_speed": 0.759703,
+              "attack_range": 175
+            },
+            "12": {
+              "move_speed": 325,
+              "hp": 1630.5,
+              "hp_regen": 13.91475,
+              "mana": 862.715,
+              "mana_regen": 13.5725,
+              "armor": 87.73275,
+              "magic_resistance": 52.18225,
+              "attack_damage": 93.4885,
+              "attack_speed": 0.766251,
+              "attack_range": 175
+            },
+            "13": {
+              "move_speed": 325,
+              "hp": 1741,
+              "hp_regen": 14.5225,
+              "mana": 914.65,
+              "mana_regen": 14.125,
+              "armor": 93.2025,
+              "magic_resistance": 54.4475,
+              "attack_damage": 97.135,
+              "attack_speed": 0.773014,
+              "attack_range": 175
+            },
+            "14": {
+              "move_speed": 325,
+              "hp": 1855,
+              "hp_regen": 15.1495,
+              "mana": 968.23,
+              "mana_regen": 14.695,
+              "armor": 98.8455,
+              "magic_resistance": 56.7845,
+              "attack_damage": 100.897,
+              "attack_speed": 0.779991,
+              "attack_range": 175
+            },
+            "15": {
+              "move_speed": 325,
+              "hp": 1972.5,
+              "hp_regen": 15.79575,
+              "mana": 1023.455,
+              "mana_regen": 15.2825,
+              "armor": 104.66175,
+              "magic_resistance": 59.19325,
+              "attack_damage": 104.7745,
+              "attack_speed": 0.787182,
+              "attack_range": 175
+            },
+            "16": {
+              "move_speed": 325,
+              "hp": 2093.5,
+              "hp_regen": 16.46125,
+              "mana": 1080.325,
+              "mana_regen": 15.8875,
+              "armor": 110.65125,
+              "magic_resistance": 61.67375,
+              "attack_damage": 108.7675,
+              "attack_speed": 0.794587,
+              "attack_range": 175
+            },
+            "17": {
+              "move_speed": 325,
+              "hp": 2218,
+              "hp_regen": 17.146,
+              "mana": 1138.84,
+              "mana_regen": 16.51,
+              "armor": 116.814,
+              "magic_resistance": 64.226,
+              "attack_damage": 112.876,
+              "attack_speed": 0.802206,
+              "attack_range": 175
+            },
+            "18": {
+              "move_speed": 325,
+              "hp": 2346,
+              "hp_regen": 17.85,
+              "mana": 1199,
+              "mana_regen": 17.15,
+              "armor": 123.15,
+              "magic_resistance": 66.85,
+              "attack_damage": 117.1,
+              "attack_speed": 0.81004,
+              "attack_range": 175
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_nautilus/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_nautilus",
+            "name": "champion_nautilus"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_nautilus",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_nautilus",
+              "characterName": "诺提勒斯",
+              "gameId": "lol",
+              "skillKey": "nautilus_p",
+              "skillName": "诺提勒斯·排山倒海",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_nautilus",
+              "characterName": "诺提勒斯",
+              "gameId": "lol",
+              "skillKey": "nautilus_q",
+              "skillName": "诺提勒斯·疏通航道",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_nautilus",
+              "characterName": "诺提勒斯",
+              "gameId": "lol",
+              "skillKey": "nautilus_w",
+              "skillName": "诺提勒斯·泰坦之怒",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_nautilus",
+              "characterName": "诺提勒斯",
+              "gameId": "lol",
+              "skillKey": "nautilus_e",
+              "skillName": "诺提勒斯·暗流涌动",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_nautilus",
+              "characterName": "诺提勒斯",
+              "gameId": "lol",
+              "skillKey": "nautilus_r",
+              "skillName": "诺提勒斯·深海冲击",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=nautilus_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_nautilus",
+              "characterName": "诺提勒斯",
+              "gameId": "lol",
+              "skillKey": "nautilus_w",
+              "skillName": "诺提勒斯·泰坦之怒",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/nautilus_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_nautilus_w",
+            "name": "nautilus_w"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/nautilus_w/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/nautilus_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T13:45:24.081125Z",
+              "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "nautilus_w",
+              "sortOrder": 5,
+              "updatedAt": "2026-09-09T13:45:24.081125Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T13:45:25.246004Z",
+              "description": "当前根DataValues.ShieldBase取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 50,
+                "2": 60,
+                "3": 70,
+                "4": 80,
+                "5": 90
+              },
+              "name": "泰坦之怒护盾基础值",
+              "parameterKey": "shield_base",
+              "skillKey": "nautilus_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T13:45:25.246004Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T13:45:26.31162Z",
+              "description": "当前根DataValues.ShieldHealthRatio取索引1至5；mStat12按同版根证据取来源生命值总值。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.08,
+                "2": 0.09,
+                "3": 0.1,
+                "4": 0.11,
+                "5": 0.12
+              },
+              "name": "护盾生命值倍率",
+              "parameterKey": "shield_health_ratio",
+              "skillKey": "nautilus_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T13:45:26.31162Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T13:45:27.484803Z",
+              "description": "当前绑定正文明确护盾持续6秒，转毫秒。",
+              "fixedValue": 6000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "护盾持续（毫秒）",
+              "parameterKey": "shield_duration_ms",
+              "skillKey": "nautilus_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T13:45:27.484803Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T13:45:28.600431Z",
+              "description": "当前根DataValues.DotDamageBase取索引1至5；正文称2秒内总额。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 30,
+                "2": 40,
+                "3": 50,
+                "4": 60,
+                "5": 70
+              },
+              "name": "护盾期间额外魔法伤害基础值",
+              "parameterKey": "dot_damage_base",
+              "skillKey": "nautilus_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T13:45:28.600431Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T13:45:29.80109Z",
+              "description": "DotDamageCalc的StatByNamedDataValue DotDamageAPRatio=0.4，按已证mStat0默认来源总法术强度。",
+              "fixedValue": 0.4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "护盾期间额外伤害法术强度倍率",
+              "parameterKey": "dot_damage_ap_ratio",
+              "skillKey": "nautilus_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T13:45:29.80109Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T13:45:30.859049Z",
+              "description": "当前绑定正文明确在2秒里持续造成共计额外伤害；不能解释成每个节拍数值。",
+              "fixedValue": 2000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外伤害总持续（毫秒）",
+              "parameterKey": "dot_total_duration_ms",
+              "skillKey": "nautilus_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T13:45:30.859049Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:51.347927Z",
+              "description": "DDragon16.17.1 Nautilus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "nautilus_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:51.347927Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:51.715818Z",
+              "description": "DDragon16.17.1 Nautilus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 60,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "nautilus_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:51.715818Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "cast_time_ms",
+          "cooldown_ms",
+          "dot_damage_ap_ratio",
+          "dot_damage_base",
+          "dot_total_duration_ms",
+          "mana_cost",
+          "shield_base",
+          "shield_duration_ms",
+          "shield_health_ratio"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/cast_time_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:24.081125Z",
+              "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "nautilus_w",
+              "sortOrder": 5,
+              "updatedAt": "2026-09-09T13:45:24.081125Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:38:51.347927Z",
+              "description": "DDragon16.17.1 Nautilus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "nautilus_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:51.347927Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/dot_damage_ap_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:29.80109Z",
+              "description": "DotDamageCalc的StatByNamedDataValue DotDamageAPRatio=0.4，按已证mStat0默认来源总法术强度。",
+              "fixedValue": 0.4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "护盾期间额外伤害法术强度倍率",
+              "parameterKey": "dot_damage_ap_ratio",
+              "skillKey": "nautilus_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T13:45:29.80109Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/dot_damage_base",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:28.600431Z",
+              "description": "当前根DataValues.DotDamageBase取索引1至5；正文称2秒内总额。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 30,
+                "2": 40,
+                "3": 50,
+                "4": 60,
+                "5": 70
+              },
+              "name": "护盾期间额外魔法伤害基础值",
+              "parameterKey": "dot_damage_base",
+              "skillKey": "nautilus_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T13:45:28.600431Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/dot_total_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:30.859049Z",
+              "description": "当前绑定正文明确在2秒里持续造成共计额外伤害；不能解释成每个节拍数值。",
+              "fixedValue": 2000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外伤害总持续（毫秒）",
+              "parameterKey": "dot_total_duration_ms",
+              "skillKey": "nautilus_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T13:45:30.859049Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:38:51.715818Z",
+              "description": "DDragon16.17.1 Nautilus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 60,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "nautilus_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:51.715818Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/shield_base",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:25.246004Z",
+              "description": "当前根DataValues.ShieldBase取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 50,
+                "2": 60,
+                "3": 70,
+                "4": 80,
+                "5": 90
+              },
+              "name": "泰坦之怒护盾基础值",
+              "parameterKey": "shield_base",
+              "skillKey": "nautilus_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T13:45:25.246004Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/shield_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:27.484803Z",
+              "description": "当前绑定正文明确护盾持续6秒，转毫秒。",
+              "fixedValue": 6000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "护盾持续（毫秒）",
+              "parameterKey": "shield_duration_ms",
+              "skillKey": "nautilus_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T13:45:27.484803Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/parameters/shield_health_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:26.31162Z",
+              "description": "当前根DataValues.ShieldHealthRatio取索引1至5；mStat12按同版根证据取来源生命值总值。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.08,
+                "2": 0.09,
+                "3": 0.1,
+                "4": 0.11,
+                "5": 0.12
+              },
+              "name": "护盾生命值倍率",
+              "parameterKey": "shield_health_ratio",
+              "skillKey": "nautilus_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T13:45:26.31162Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/nautilus_w/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T13:45:32.004814Z",
+              "description": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；供自身NORMAL_SHIELD效果引用，施放事件另行接线。",
+              "formulaKey": "shield_value",
+              "gameId": "lol",
+              "name": "泰坦之怒护盾数值",
+              "skillKey": "nautilus_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T13:45:32.004814Z"
+            },
+            {
+              "createdAt": "2026-09-09T13:45:33.106378Z",
+              "description": "DotDamageCalc=DotDamageBase+0.4×来源总法术强度；正文共2秒总量，不表示单节拍。",
+              "formulaKey": "bonus_magic_damage_total",
+              "gameId": "lol",
+              "name": "护盾期间额外魔法伤害总量",
+              "skillKey": "nautilus_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T13:45:33.106378Z"
+            }
+          ]
+        },
+        "keys": [
+          "bonus_magic_damage_total",
+          "shield_value"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/formulas/bonus_magic_damage_total",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:33.106378Z",
+              "description": "DotDamageCalc=DotDamageBase+0.4×来源总法术强度；正文共2秒总量，不表示单节拍。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "dot_damage_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "dot_damage_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "bonus_magic_damage_total",
+              "gameId": "lol",
+              "name": "护盾期间额外魔法伤害总量",
+              "skillKey": "nautilus_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T13:45:33.106378Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/formulas/shield_value",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:32.004814Z",
+              "description": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；供自身NORMAL_SHIELD效果引用，施放事件另行接线。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "shield_health_ratio"
+                      },
+                      {
+                        "attributeKey": "hp",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "shield_value",
+              "gameId": "lol",
+              "name": "泰坦之怒护盾数值",
+              "skillKey": "nautilus_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T13:45:32.004814Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/nautilus_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T13:45:35.327561Z",
+              "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "施放法力消耗",
+              "resultCount": 1,
+              "skillKey": "nautilus_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T13:45:35.327561Z"
+            },
+            {
+              "createdAt": "2026-09-09T13:45:34.228326Z",
+              "description": "当前根绑定正文明确自身获得持续6秒护盾；只记录成熟NORMAL_SHIELD组成，攻击额外伤害事件另待接。",
+              "effectKey": "shield",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "泰坦之怒自身护盾",
+              "resultCount": 1,
+              "skillKey": "nautilus_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T13:45:34.228326Z"
+            }
+          ]
+        },
+        "keys": [
+          "mana_cost",
+          "shield"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/effects/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:35.327561Z",
+              "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "施放法力消耗",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "消耗法力",
+                  "resultKey": "consume_mana",
+                  "resultType": "RESOURCE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "nautilus_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T13:45:35.327561Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/nautilus_w/effects/shield",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T13:45:34.228326Z",
+              "description": "当前根绑定正文明确自身获得持续6秒护盾；只记录成熟NORMAL_SHIELD组成，攻击额外伤害事件另待接。",
+              "effectKey": "shield",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "shield_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "泰坦之怒自身护盾",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "absorbedDamageTypeKey": null,
+                    "decayMode": "NONE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "泰坦之怒自身护盾",
+                  "resultKey": "shield",
+                  "resultType": "NORMAL_SHIELD",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "shield_value",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "nautilus_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T13:45:34.228326Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/nautilus_w/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/nautilus_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/nautilus_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

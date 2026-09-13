@@ -1,0 +1,747 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:13.138Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 120
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "3524c054c7172411bb9f63f54f181bd30b4bb0c5b2d710db6ea48f6b63e8dfc5",
+  "frozenRequestSha256": "35adee3499fb6cbd5c7d81c105eb7029ee6fed575ee13e394582937c9407d6b4",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/aatrox_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:13.078168Z",
+          "description": "亚托克斯现出他的恶魔形态，恐惧附近的敌方小兵，并获得攻击力、治疗效果提升、以及移动速度。如果他参与了一次击杀，这个效果就会延长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "亚托克斯·大灭",
+          "skillCategoryKeys": [],
+          "skillKey": "aatrox_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:13.078168Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_aatrox",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_aatrox",
+          "createdAt": "2026-09-06T17:01:28.915091Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "亚托克斯",
+          "updatedAt": "2026-09-06T17:01:28.915091Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_aatrox/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_aatrox",
+          "levelValues": {
+            "1": {
+              "move_speed": 345,
+              "hp": 650,
+              "hp_regen": 3,
+              "armor": 38,
+              "magic_resistance": 32,
+              "attack_damage": 60,
+              "attack_speed": 0.651,
+              "attack_range": 175
+            },
+            "2": {
+              "move_speed": 345,
+              "hp": 732.08,
+              "hp_regen": 3.36,
+              "armor": 41.456,
+              "magic_resistance": 33.476,
+              "attack_damage": 63.6,
+              "attack_speed": 0.662718,
+              "attack_range": 175
+            },
+            "3": {
+              "move_speed": 345,
+              "hp": 818.15,
+              "hp_regen": 3.7375,
+              "armor": 45.08,
+              "magic_resistance": 35.02375,
+              "attack_damage": 67.375,
+              "attack_speed": 0.675006,
+              "attack_range": 175
+            },
+            "4": {
+              "move_speed": 345,
+              "hp": 908.21,
+              "hp_regen": 4.1325,
+              "armor": 48.872,
+              "magic_resistance": 36.64325,
+              "attack_damage": 71.325,
+              "attack_speed": 0.687863,
+              "attack_range": 175
+            },
+            "5": {
+              "move_speed": 345,
+              "hp": 1002.26,
+              "hp_regen": 4.545,
+              "armor": 52.832,
+              "magic_resistance": 38.3345,
+              "attack_damage": 75.45,
+              "attack_speed": 0.70129,
+              "attack_range": 175
+            },
+            "6": {
+              "move_speed": 345,
+              "hp": 1100.3,
+              "hp_regen": 4.975,
+              "armor": 56.96,
+              "magic_resistance": 40.0975,
+              "attack_damage": 79.75,
+              "attack_speed": 0.715286,
+              "attack_range": 175
+            },
+            "7": {
+              "move_speed": 345,
+              "hp": 1202.33,
+              "hp_regen": 5.4225,
+              "armor": 61.256,
+              "magic_resistance": 41.93225,
+              "attack_damage": 84.225,
+              "attack_speed": 0.729852,
+              "attack_range": 175
+            },
+            "8": {
+              "move_speed": 345,
+              "hp": 1308.35,
+              "hp_regen": 5.8875,
+              "armor": 65.72,
+              "magic_resistance": 43.83875,
+              "attack_damage": 88.875,
+              "attack_speed": 0.744988,
+              "attack_range": 175
+            },
+            "9": {
+              "move_speed": 345,
+              "hp": 1418.36,
+              "hp_regen": 6.37,
+              "armor": 70.352,
+              "magic_resistance": 45.817,
+              "attack_damage": 93.7,
+              "attack_speed": 0.760694,
+              "attack_range": 175
+            },
+            "10": {
+              "move_speed": 345,
+              "hp": 1532.36,
+              "hp_regen": 6.87,
+              "armor": 75.152,
+              "magic_resistance": 47.867,
+              "attack_damage": 98.7,
+              "attack_speed": 0.776969,
+              "attack_range": 175
+            },
+            "11": {
+              "move_speed": 345,
+              "hp": 1650.35,
+              "hp_regen": 7.3875,
+              "armor": 80.12,
+              "magic_resistance": 49.98875,
+              "attack_damage": 103.875,
+              "attack_speed": 0.793813,
+              "attack_range": 175
+            },
+            "12": {
+              "move_speed": 345,
+              "hp": 1772.33,
+              "hp_regen": 7.9225,
+              "armor": 85.256,
+              "magic_resistance": 52.18225,
+              "attack_damage": 109.225,
+              "attack_speed": 0.811227,
+              "attack_range": 175
+            },
+            "13": {
+              "move_speed": 345,
+              "hp": 1898.3,
+              "hp_regen": 8.475,
+              "armor": 90.56,
+              "magic_resistance": 54.4475,
+              "attack_damage": 114.75,
+              "attack_speed": 0.829211,
+              "attack_range": 175
+            },
+            "14": {
+              "move_speed": 345,
+              "hp": 2028.26,
+              "hp_regen": 9.045,
+              "armor": 96.032,
+              "magic_resistance": 56.7845,
+              "attack_damage": 120.45,
+              "attack_speed": 0.847765,
+              "attack_range": 175
+            },
+            "15": {
+              "move_speed": 345,
+              "hp": 2162.21,
+              "hp_regen": 9.6325,
+              "armor": 101.672,
+              "magic_resistance": 59.19325,
+              "attack_damage": 126.325,
+              "attack_speed": 0.866888,
+              "attack_range": 175
+            },
+            "16": {
+              "move_speed": 345,
+              "hp": 2300.15,
+              "hp_regen": 10.2375,
+              "armor": 107.48,
+              "magic_resistance": 61.67375,
+              "attack_damage": 132.375,
+              "attack_speed": 0.886581,
+              "attack_range": 175
+            },
+            "17": {
+              "move_speed": 345,
+              "hp": 2442.08,
+              "hp_regen": 10.86,
+              "armor": 113.456,
+              "magic_resistance": 64.226,
+              "attack_damage": 138.6,
+              "attack_speed": 0.906843,
+              "attack_range": 175
+            },
+            "18": {
+              "move_speed": 345,
+              "hp": 2588,
+              "hp_regen": 11.5,
+              "armor": 119.6,
+              "magic_resistance": 66.85,
+              "attack_damage": 145,
+              "attack_speed": 0.927675,
+              "attack_range": 175
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_aatrox/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_aatrox",
+            "name": "champion_aatrox"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_aatrox",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_aatrox",
+              "characterName": "亚托克斯",
+              "gameId": "lol",
+              "skillKey": "aatrox_p",
+              "skillName": "亚托克斯·赐死剑气",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_aatrox",
+              "characterName": "亚托克斯",
+              "gameId": "lol",
+              "skillKey": "aatrox_q",
+              "skillName": "亚托克斯·暗裔利刃",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_aatrox",
+              "characterName": "亚托克斯",
+              "gameId": "lol",
+              "skillKey": "aatrox_w",
+              "skillName": "亚托克斯·恶火束链",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_aatrox",
+              "characterName": "亚托克斯",
+              "gameId": "lol",
+              "skillKey": "aatrox_e",
+              "skillName": "亚托克斯·暗影冲决",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_aatrox",
+              "characterName": "亚托克斯",
+              "gameId": "lol",
+              "skillKey": "aatrox_r",
+              "skillName": "亚托克斯·大灭",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=aatrox_r",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_aatrox",
+              "characterName": "亚托克斯",
+              "gameId": "lol",
+              "skillKey": "aatrox_r",
+              "skillName": "亚托克斯·大灭",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/aatrox_r/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_aatrox_r",
+            "name": "aatrox_r"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/aatrox_r/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/aatrox_r/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T12:34:20.50611Z",
+              "description": "当前根绑定 DataValues.RDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+              "fixedValue": 10000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "大灭形态持续时间",
+              "parameterKey": "form_duration_ms",
+              "skillKey": "aatrox_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T12:34:20.50611Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T12:34:21.425198Z",
+              "description": "当前根绑定 DataValues.RMovementSpeedBonus 取索引1至3",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.6,
+                "2": 0.8,
+                "3": 1
+              },
+              "name": "大灭移动速度加成比例",
+              "parameterKey": "movement_speed_bonus_ratio",
+              "skillKey": "aatrox_r",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T12:34:21.425198Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T12:34:22.3958Z",
+              "description": "当前根绑定 DataValues.RTotalADAmp 取索引1至3",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.2,
+                "2": 0.3,
+                "3": 0.4
+              },
+              "name": "大灭攻击力提升比例",
+              "parameterKey": "attack_damage_amp_ratio",
+              "skillKey": "aatrox_r",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T12:34:22.3958Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T12:34:23.312822Z",
+              "description": "当前根绑定 DataValues.RHealingAmp 取索引1至3",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.5,
+                "2": 0.75,
+                "3": 1
+              },
+              "name": "大灭自我治疗效果提升比例",
+              "parameterKey": "healing_amp_ratio",
+              "skillKey": "aatrox_r",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T12:34:23.312822Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T12:34:24.28834Z",
+              "description": "当前根绑定 DataValues.RExtension 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+              "fixedValue": 5000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "参与击杀后的持续延长时间",
+              "parameterKey": "takedown_extension_ms",
+              "skillKey": "aatrox_r",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T12:34:24.28834Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:35:46.904438Z",
+              "description": "DDragon16.17.1 Aatrox.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 120000,
+                "2": 100000,
+                "3": 80000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "aatrox_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:35:46.904438Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "attack_damage_amp_ratio",
+          "cooldown_ms",
+          "form_duration_ms",
+          "healing_amp_ratio",
+          "movement_speed_bonus_ratio",
+          "takedown_extension_ms"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/aatrox_r/parameters/attack_damage_amp_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T12:34:22.3958Z",
+              "description": "当前根绑定 DataValues.RTotalADAmp 取索引1至3",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.2,
+                "2": 0.3,
+                "3": 0.4
+              },
+              "name": "大灭攻击力提升比例",
+              "parameterKey": "attack_damage_amp_ratio",
+              "skillKey": "aatrox_r",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T12:34:22.3958Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/aatrox_r/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T18:35:46.904438Z",
+              "description": "DDragon16.17.1 Aatrox.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 120000,
+                "2": 100000,
+                "3": 80000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "aatrox_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:35:46.904438Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/aatrox_r/parameters/form_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T12:34:20.50611Z",
+              "description": "当前根绑定 DataValues.RDuration 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+              "fixedValue": 10000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "大灭形态持续时间",
+              "parameterKey": "form_duration_ms",
+              "skillKey": "aatrox_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T12:34:20.50611Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/aatrox_r/parameters/healing_amp_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T12:34:23.312822Z",
+              "description": "当前根绑定 DataValues.RHealingAmp 取索引1至3",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.5,
+                "2": 0.75,
+                "3": 1
+              },
+              "name": "大灭自我治疗效果提升比例",
+              "parameterKey": "healing_amp_ratio",
+              "skillKey": "aatrox_r",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T12:34:23.312822Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/aatrox_r/parameters/movement_speed_bonus_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T12:34:21.425198Z",
+              "description": "当前根绑定 DataValues.RMovementSpeedBonus 取索引1至3",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.6,
+                "2": 0.8,
+                "3": 1
+              },
+              "name": "大灭移动速度加成比例",
+              "parameterKey": "movement_speed_bonus_ratio",
+              "skillKey": "aatrox_r",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T12:34:21.425198Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/aatrox_r/parameters/takedown_extension_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T12:34:24.28834Z",
+              "description": "当前根绑定 DataValues.RExtension 取索引1至3；单位秒转毫秒；按正文单位换算为系统值",
+              "fixedValue": 5000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "参与击杀后的持续延长时间",
+              "parameterKey": "takedown_extension_ms",
+              "skillKey": "aatrox_r",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T12:34:24.28834Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/aatrox_r/formulas",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/aatrox_r/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T12:34:25.197339Z",
+              "description": "当前正文明确形态期间提升攻击力；参与击杀刷新和持续上限待接线。",
+              "effectKey": "attack_damage_amp",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "大灭自身攻击力提升",
+              "resultCount": 1,
+              "skillKey": "aatrox_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T12:34:25.197339Z"
+            }
+          ]
+        },
+        "keys": [
+          "attack_damage_amp"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/aatrox_r/effects/attack_damage_amp",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T12:34:25.197339Z",
+              "description": "当前正文明确形态期间提升攻击力；参与击杀刷新和持续上限待接线。",
+              "effectKey": "attack_damage_amp",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "form_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "大灭自身攻击力提升",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "attack_damage",
+                    "modifierZoneKey": "attribute_percent_bonus",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "攻击力提升",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "attack_damage_amp_ratio"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "aatrox_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T12:34:25.197339Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/aatrox_r/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/aatrox_r/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/aatrox_r/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}
