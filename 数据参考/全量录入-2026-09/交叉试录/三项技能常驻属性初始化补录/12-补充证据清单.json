@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T20:04:00+08:00",
+  "status": "PASS_WITH_CORRECTION",
+  "scope": "三项常驻属性初始化批次的旧规则事件明细覆盖口径补充校验",
+  "originalEvidence": {
+    "file": "10-证据清单.json",
+    "sha256": "cc1d02007861bb7b44e3eacfc151d3eb64187157e26ebe9c814946880ca4c3eb",
+    "byteSize": 4417,
+    "limitation": "旧139条规则散列没有覆盖非初始化事件的完整eventSource.detail；三个新增初始化规则及三条POST证据不受影响。"
+  },
+  "correctionFiles": [
+    {
+      "file": "补充完整事件明细回读.mjs",
+      "sha256": "0c040f73c1e643d52d93d98047c84acb1103bb9b7ec7e9e4ced815bd7e3675b4",
+      "byteSize": 9965
+    },
+    {
+      "file": "11-完整事件明细补充回读.json",
+      "sha256": "a4131633ea4a5965e90646ffcebbf7fdc7d0f477def638980fb2d5fbe0129c03",
+      "byteSize": 190060
+    },
+    {
+      "file": "11-补充校验说明.md",
+      "sha256": "b6d5f6d7ee031d3fe7029ca67be99013d2e52f11ce1afdf31ae36c8b999b6016",
+      "byteSize": 1351
+    }
+  ],
+  "apiEvidence": {
+    "methodPolicy": "GET_ONLY",
+    "getCount": 1205,
+    "businessWrites": 0,
+    "skillCount": 1062,
+    "ruleCount": 142,
+    "sourceInitializedCount": 29,
+    "oldRulesCount": 139,
+    "newRulesCount": 3,
+    "priorCanonicalOldRulesSha256": "cc6631f602cd5976e458be90f95e381428ea14f6555fdb31ac6f8e67d8e34d03",
+    "fullOldRulesSha256": "b5853ab2fc83f45c32adbc73e21bc6e103220bf3180a866160707d858cd8b789",
+    "fullAllRulesSha256": "803d62c5f965b9c2e0cbbe57dd89de4f9bac24ce9354e8be55e7c2ad40c6b6d2",
+    "oldRulesAtOrAfterIndependentApproval": 0,
+    "newRulesBeforeIndependentApproval": 0,
+    "latestOldRuleUpdatedAt": "2026-09-13T11:10:31.793725Z"
+  },
+  "writeRouteEvidence": {
+    "postCount": 3,
+    "routes": [
+      "/skills/kogmaw_q/trigger-rules",
+      "/skills/olaf_r/trigger-rules",
+      "/skills/zaahen_r/trigger-rules"
+    ],
+    "otherNonGetRoutes": 0
+  },
+  "backendStaticEvidence": {
+    "worktree": "damage_backend_dev",
+    "commit": "aedc0edb893cb02621776824e4e4f6bf3337cc76",
+    "files": [
+      {
+        "relativePath": "server/data_manage/README.md",
+        "sha256": "9124e5e3e0ff12176d662a29d7aaf47c364cee2b28df9948b27e332767f818e3",
+        "fact": "来源初始化事件只触发一次，不表示复活、换装或等级变化。"
+      },
+      {
+        "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+        "sha256": "15882d977dce66d28854f5a5d6215efe6b66265ad353cfd87b0b70565dd40852",
+        "fact": "创建入口锁定目标父技能并调用insertAggregate，不调用旧规则更新。"
+      },
+      {
+        "relativePath": "server/data_manage/src/main/resources/mapper/skilltrigger/SkillTriggerRuleMapper.xml",
+        "sha256": "f31b994116cb9ee17c283b750185d412cdd9820efba256f1781a131b53a2dd4f",
+        "fact": "insertRule使用单条INSERT写入指定技能与规则键。"
+      }
+    ]
+  },
+  "conclusion": "三个新增规则仍与冻结请求完整一致；写入只新增三个目标键，独立批准后旧139条规则没有更新时间变化。原全量散列的事件明细覆盖不足已明确标注，当前142条完整事件明细已形成后续精确基线。",
+  "boundary": "这是追加的只读证据修正，不覆盖原文件、不重放POST、不声称Wasm、宿主或真实战斗已验证。"
+}
