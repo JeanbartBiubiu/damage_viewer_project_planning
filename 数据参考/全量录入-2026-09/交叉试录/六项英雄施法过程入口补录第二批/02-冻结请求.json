@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T12:39:11.400Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 6
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 146,
+    "sourceInitializedCount": 29,
+    "finalRuleCount": 152,
+    "finalSourceInitializedCount": 29
+  },
+  "sourceSnapshotSha256": "d9c6f6911bd3eb6e754a3bc5a5a3822840d76e7a5c17396f59d5c40caf406330",
+  "requests": [
+    {
+      "id": "ahri_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_ahri",
+      "skillKey": "ahri_w",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/ahri_w/trigger-rules",
+      "detailRoute": "/skills/ahri_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "bodySha256": "c466a044f50fb2f674ecb7a84b3936c020a9e097151936de1518f098bc683222",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动妖异狐火施法过程",
+        "description": "接收ahri_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；狐火实际命中、首个/后续命中计数与移动速度衰减继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "ahri_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动妖异狐火施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "diana_r_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_diana",
+      "skillKey": "diana_r",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/diana_r/trigger-rules",
+      "detailRoute": "/skills/diana_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "bodySha256": "403f688a89c79adf15ef4d9df0773b960c395e50d4cab347986cf2f81506c71f",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动月之降临施法过程",
+        "description": "接收diana_r主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；初始拉入、至少命中一名英雄资格、延迟爆炸、伤害、拖拽与减速继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "diana_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动月之降临施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "lucian_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_lucian",
+      "skillKey": "lucian_e",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/lucian_e/trigger-rules",
+      "detailRoute": "/skills/lucian_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+      "sourceSha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+      "bodySha256": "78debe8ba912fbd837a7cb1746a309619ebd3417961aee4ee830534b3526e5a2",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动冷酷追击施法过程",
+        "description": "接收lucian_e主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；冲刺路径、圣光银弹两发命中资格与冷却返还继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lucian_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动冷酷追击施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "twitch_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_twitch",
+      "skillKey": "twitch_w",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/twitch_w/trigger-rules",
+      "detailRoute": "/skills/twitch_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+      "sourceSha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+      "bodySha256": "f97b4e69f8b9cd35de213654801425362f9464ca51ec447e65bba71625e7543b",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动剧毒之桶施法过程",
+        "description": "接收twitch_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；桶实际命中、停留周期叠毒、减速与毒层统一继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "twitch_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动剧毒之桶施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "warwick_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_warwick",
+      "skillKey": "warwick_q",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/warwick_q/trigger-rules",
+      "detailRoute": "/skills/warwick_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "bodySha256": "bbb5f90aa4f78fe7b57dac0e07edd7419123c61e321245b5ee0a311b902e2e52",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动野兽之口施法过程",
+        "description": "接收warwick_q主动使用并启动已有cast过程，只处理已保存的法力消耗和基础冷却；秒放/蓄力释放、一次性实际撕咬、攻击特效、治疗实际伤害口径与强制位移免疫继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "warwick_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动野兽之口施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "xinzhao_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_xinzhao",
+      "skillKey": "xinzhao_q",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/xinzhao_q/trigger-rules",
+      "detailRoute": "/skills/xinzhao_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "bodySha256": "db9e96b306e83e9b45e68230af4bc57efd9781a2db6846a23117814cf90ba7a5",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动三重爪击施法过程",
+        "description": "接收xinzhao_q主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；三次强化攻击消费、额外伤害、其他技能冷却减少、第三击飞与被动计数继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "xinzhao_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动三重爪击施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "六条规则只启动当前已有cast过程；不产生实际命中、伤害、治疗、控制、叠层或位移，Wasm组装、宿主技能使用事件和真实战斗尚未验证。",
+  "batchSha256": "194bfab3cb2171daceb79216b3bfcb88f6faa88334a7e195f5040d7f1440ff97"
+}

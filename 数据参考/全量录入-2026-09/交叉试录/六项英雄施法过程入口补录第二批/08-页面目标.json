@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "generatedAt": "2026-09-13T12:40:43.754Z",
+  "status": "PASS",
+  "source": "冻结请求与独立GET回读自动交集",
+  "targetCount": 6,
+  "targets": [
+    {
+      "id": "ahri_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_ahri",
+      "skillKey": "ahri_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动妖异狐火施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动妖异狐火施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "diana_r_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_diana",
+      "skillKey": "diana_r",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动月之降临施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动月之降临施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "lucian_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_lucian",
+      "skillKey": "lucian_e",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动冷酷追击施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动冷酷追击施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "twitch_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_twitch",
+      "skillKey": "twitch_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动剧毒之桶施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动剧毒之桶施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "warwick_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_warwick",
+      "skillKey": "warwick_q",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动野兽之口施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动野兽之口施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "xinzhao_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_xinzhao",
+      "skillKey": "xinzhao_q",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动三重爪击施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动三重爪击施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "boundary": "只包含已写入且独立回读通过的六项过程入口；未接伤害、控制和阶段分支不进入页面目标。",
+  "targetSha256": "682906b734e491b6dd9dcfce7a3833ed4060ea30f4738d2a91a30c4747a097ea"
+}
