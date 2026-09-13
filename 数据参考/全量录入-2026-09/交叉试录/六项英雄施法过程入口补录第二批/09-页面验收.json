@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T20:49:35+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://localhost:5173/#/skills",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 6,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "首次进入时本地图片缓存为空，仅执行一次全量同步以写入浏览器本地缓存；技能页只执行关键词查询、打开过程详情、打开规则列表与编辑查看并取消，没有点击保存、删除、新增或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1069,
+      "skillCount": 1062,
+      "ruleCount": 152,
+      "sourceInitializedCount": 29,
+      "targetDetailCount": 6,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "id": "ahri_w_start_cast",
+      "skillKey": "ahri_w",
+      "matched": true,
+      "list": {
+        "name": "阿狸·妖异狐火",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "阿狸·妖异狐火代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放妖异狐火",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动妖异狐火施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "阿狸·妖异狐火（ahri_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动妖异狐火施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "diana_r_start_cast",
+      "skillKey": "diana_r",
+      "matched": true,
+      "list": {
+        "name": "黛安娜·月之降临",
+        "status": "启用",
+        "maxLevel": 3,
+        "imageAlt": "黛安娜·月之降临代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放月之降临",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动月之降临施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "黛安娜·月之降临（diana_r）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动月之降临施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "lucian_e_start_cast",
+      "skillKey": "lucian_e",
+      "matched": true,
+      "list": {
+        "name": "卢锡安·冷酷追击",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "卢锡安·冷酷追击代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放冷酷追击",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动冷酷追击施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "卢锡安·冷酷追击（lucian_e）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动冷酷追击施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "twitch_w_start_cast",
+      "skillKey": "twitch_w",
+      "matched": true,
+      "list": {
+        "name": "图奇·剧毒之桶",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "图奇·剧毒之桶代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放剧毒之桶",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动剧毒之桶施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "图奇·剧毒之桶（twitch_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动剧毒之桶施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "warwick_q_start_cast",
+      "skillKey": "warwick_q",
+      "matched": true,
+      "list": {
+        "name": "沃里克·野兽之口",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "沃里克·野兽之口代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放野兽之口",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施放开始 / start / 立即",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动野兽之口施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "沃里克·野兽之口（warwick_q）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动野兽之口施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "xinzhao_q_start_cast",
+      "skillKey": "xinzhao_q",
+      "matched": true,
+      "list": {
+        "name": "赵信·三重爪击",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "赵信·三重爪击代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放三重爪击",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动三重爪击施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "赵信·三重爪击（xinzhao_q）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动三重爪击施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "ahri_w",
+      "sha256": "cb7af7d839e617fff58e9589985c48a24ce678781c61e16fe5ee7253a4b51635",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "diana_r",
+      "sha256": "c3cb071ce1b6f518f2e013ee9e232c6c9ffc2ad6abec285df2a97f25e9a0b862",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "lucian_e",
+      "sha256": "664fa80c437b3bf0a340f3a3b6970a89e01c2983964d9d8d086f18983f877546",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "twitch_w",
+      "sha256": "3a38faee1327eb96cbe167d803b4ac1dc83afb88b5587ae641971f5979fdf1a3",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "warwick_q",
+      "sha256": "6f810ab10ee72b72051a4556b2b1da30f90c3ff22c30e01b4e0b9c8ad8d7371f",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "xinzhao_q",
+      "sha256": "c3af122aac94516e12eddff5b9786cc40f5e17e4e42d2227b52ec0856f3745cf",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "readOnlyCorrections": [
+    "新建验收页的图片缓存初始为0；通过图片管理执行一次全量同步，浏览器本地缓存收到3279条变化后，六项代表图均完整显示为64×64。该步骤只更新浏览器本地缓存，不是服务端业务写入。",
+    "阿狸W、黛安娜R、卢锡安E、图奇W和赵信Q的过程步骤为延迟；沃里克Q的过程步骤为立即。按各自实际详情核对，没有统一假定施法时长。",
+    "浏览器只读执行环境没有提供网络方法流水，未把不可见的网络信息伪造成精确计数；页面后的独立脚本以1069次GET再次核对总数和六条详情。"
+  ],
+  "boundary": "真实页面确认六个目标保存后可重新打开，列表图、cast过程、步骤、法力挂接、主动使用事件和启动过程动作一致；未点击任何服务端业务写入按钮。实际命中、伤害、治疗、控制、叠层、位移、Wasm、宿主事件和真实战斗未执行。"
+}

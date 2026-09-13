@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T12:40:18.096Z",
+  "status": "PASS",
+  "frozenBatchSha256": "194bfab3cb2171daceb79216b3bfcb88f6faa88334a7e195f5040d7f1440ff97",
+  "preflightSha256": "5d064543b773271ddb031c21e708ea2cc552081a601724141037afa2f50184b4",
+  "reviewSha256": "0364bc28220b51d28e1651fa330abc849b98e36468592339035ad01bc6327a70",
+  "approvalDecisionSha256": "87db13a3cb80198f717d03e22b71220baebd4e535723a756f220b722518cf5db",
+  "recoveryMode": false,
+  "businessWrites": 6,
+  "alreadyLanded": 0,
+  "allowedBusinessMethods": [
+    "POST"
+  ],
+  "before": [
+    {
+      "id": "ahri_w_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "cedfb2d86c76a437cfa9c447bdf819aab1276537bf01d02cc64b27e56ba89a52"
+    },
+    {
+      "id": "diana_r_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "bec4b4fa889ebd0cb6d562ac38cbf5992b642d4b0c2c7a256f7084c75b3956bb"
+    },
+    {
+      "id": "lucian_e_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "ef9093684a9896e693a89d508baffa777d93308dab55364b28914500504ded8c"
+    },
+    {
+      "id": "twitch_w_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "d9a67fff6f1a8c52ffacbf3bb66f6b6f4df63b7658999c80904aa4723d6e0659"
+    },
+    {
+      "id": "warwick_q_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "2a6295154a34616661769e57b9de4bd9f3e9d78a2cf56bb5d2f5ad5cbd0b509b"
+    },
+    {
+      "id": "xinzhao_q_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "f7a152b297fab17f8ef06eae9bc3304ec756ade08cb4e787bf6aef74a3242c6a"
+    }
+  ],
+  "operations": [
+    {
+      "at": "2026-09-13T12:40:09.539Z",
+      "id": "ahri_w_start_cast",
+      "skillKey": "ahri_w",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "c466a044f50fb2f674ecb7a84b3936c020a9e097151936de1518f098bc683222"
+    },
+    {
+      "at": "2026-09-13T12:40:11.178Z",
+      "id": "diana_r_start_cast",
+      "skillKey": "diana_r",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "403f688a89c79adf15ef4d9df0773b960c395e50d4cab347986cf2f81506c71f"
+    },
+    {
+      "at": "2026-09-13T12:40:12.848Z",
+      "id": "lucian_e_start_cast",
+      "skillKey": "lucian_e",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "78debe8ba912fbd837a7cb1746a309619ebd3417961aee4ee830534b3526e5a2"
+    },
+    {
+      "at": "2026-09-13T12:40:14.530Z",
+      "id": "twitch_w_start_cast",
+      "skillKey": "twitch_w",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "f97b4e69f8b9cd35de213654801425362f9464ca51ec447e65bba71625e7543b"
+    },
+    {
+      "at": "2026-09-13T12:40:16.288Z",
+      "id": "warwick_q_start_cast",
+      "skillKey": "warwick_q",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "bbb5f90aa4f78fe7b57dac0e07edd7419123c61e321245b5ee0a311b902e2e52"
+    },
+    {
+      "at": "2026-09-13T12:40:18.096Z",
+      "id": "xinzhao_q_start_cast",
+      "skillKey": "xinzhao_q",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "db9e96b306e83e9b45e68230af4bc57efd9781a2db6846a23117814cf90ba7a5"
+    }
+  ],
+  "requestAudit": {
+    "requestCount": 144,
+    "methods": {
+      "GET": 138,
+      "POST": 6
+    },
+    "statuses": {
+      "200": 132,
+      "201": 6,
+      "404": 6
+    },
+    "nonGetPaths": [
+      {
+        "method": "POST",
+        "path": "/skills/ahri_w/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/diana_r/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/lucian_e/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/twitch_w/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/warwick_q/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/xinzhao_q/trigger-rules"
+      }
+    ]
+  },
+  "boundary": "仅创建独立批准散列覆盖的六条启动cast过程规则并即时回读；其余技能组成和运行边界不变。"
+}
