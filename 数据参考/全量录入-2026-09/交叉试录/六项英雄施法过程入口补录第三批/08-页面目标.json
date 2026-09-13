@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "generatedAt": "2026-09-13T13:09:45.798Z",
+  "status": "PASS",
+  "source": "冻结请求与独立GET回读自动交集",
+  "targetCount": 6,
+  "targets": [
+    {
+      "id": "twitch_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_twitch",
+      "skillKey": "twitch_q",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动埋伏施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动埋伏施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "twitch_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_twitch",
+      "skillKey": "twitch_e",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动毒性爆发施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动毒性爆发施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "veigar_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_veigar",
+      "skillKey": "veigar_e",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动扭曲空间施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动扭曲空间施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "veigar_r_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_veigar",
+      "skillKey": "veigar_r",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动能量爆裂施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动能量爆裂施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "warwick_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_warwick",
+      "skillKey": "warwick_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动鲜血追猎施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动鲜血追猎施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "trundle_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_trundle",
+      "skillKey": "trundle_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动冰封领域施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动冰封领域施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "boundary": "只包含已写入且独立回读通过的六项过程入口；未接伪装、伤害、控制、区域和目标分支不进入页面目标。",
+  "targetSha256": "f02d388bbada5c273bd69f87b35313c0d1b6f0fb293d737195a89b49bf077020"
+}

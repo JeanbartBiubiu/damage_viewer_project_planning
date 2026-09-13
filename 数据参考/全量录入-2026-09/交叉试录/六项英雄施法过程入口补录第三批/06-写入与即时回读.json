@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T13:09:10.173Z",
+  "status": "PASS",
+  "frozenBatchSha256": "35a4cdce57c16b6bc12449d8a5eb44ffd854529942adcff36d7e679561cd65c7",
+  "preflightSha256": "17a314947ae3aa7b8d3328832bf36912ce1f28303ca15d6684f71062426fce69",
+  "reviewSha256": "b6f7ae1dac4332f7f5fcbfa5fae90eda36fb1a5256895bdfc77d0edb56bbfc40",
+  "approvalDecisionSha256": "31787a1b529a56728e805073362401aa849c041460727e8f1ec483c510560784",
+  "recoveryMode": false,
+  "businessWrites": 6,
+  "alreadyLanded": 0,
+  "allowedBusinessMethods": [
+    "POST"
+  ],
+  "before": [
+    {
+      "id": "twitch_q_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "f6fe02d2acb0449459d011caa295f1c94fb258ed3ec20766965c56b89c2c4472"
+    },
+    {
+      "id": "twitch_e_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "27eee58c1553daf5506e92c34e19232caf27a02c3490bad4e83071989d72f681"
+    },
+    {
+      "id": "veigar_e_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "f5024e70f0f98b342b57a6e2dd37c199236bd45fddf6901bb26048736b764cc7"
+    },
+    {
+      "id": "veigar_r_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "6ca56afb945aac87d0f2c9538633bd35783b8cc68f49fbe77d3924ab89cfd781"
+    },
+    {
+      "id": "warwick_w_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "1b03edf7081bee8f63f1e20b3141651ed867ee8924730a6b4e80259c1c18a524"
+    },
+    {
+      "id": "trundle_w_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "8d2084beba441d6bbb431de614549b97fad1a7c9cd313e46e85390facebbfec4"
+    }
+  ],
+  "operations": [
+    {
+      "at": "2026-09-13T13:09:01.830Z",
+      "id": "twitch_q_start_cast",
+      "skillKey": "twitch_q",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "460308900be69e19b676e6b1d98ca2098995fc9e9f46c17d98b2e9f53df31a40"
+    },
+    {
+      "at": "2026-09-13T13:09:03.420Z",
+      "id": "twitch_e_start_cast",
+      "skillKey": "twitch_e",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "dd95939e2a725dce606d897d831361157fb7c6592c8190999c9ace19eb7188b4"
+    },
+    {
+      "at": "2026-09-13T13:09:05.099Z",
+      "id": "veigar_e_start_cast",
+      "skillKey": "veigar_e",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "561adcd451f521e60cccb785588c42d88ea07867700d5739d99bd0c817ba0b05"
+    },
+    {
+      "at": "2026-09-13T13:09:06.738Z",
+      "id": "veigar_r_start_cast",
+      "skillKey": "veigar_r",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "e8441c9952d857ac971a680e3ab9e48442f79a8fdcdeca7081809cee01ed971b"
+    },
+    {
+      "at": "2026-09-13T13:09:08.413Z",
+      "id": "warwick_w_start_cast",
+      "skillKey": "warwick_w",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "0d5c1876960799f068ee5ce9b10e08a800ffbbda5300cb7a2690dcf29577de3f"
+    },
+    {
+      "at": "2026-09-13T13:09:10.173Z",
+      "id": "trundle_w_start_cast",
+      "skillKey": "trundle_w",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "d74636200ebacb411b6e95a5187f52f5444d6bf6f460553749fd3c255be0bebd"
+    }
+  ],
+  "requestAudit": {
+    "requestCount": 152,
+    "methods": {
+      "GET": 146,
+      "POST": 6
+    },
+    "statuses": {
+      "200": 140,
+      "201": 6,
+      "404": 6
+    },
+    "nonGetPaths": [
+      {
+        "method": "POST",
+        "path": "/skills/twitch_q/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/twitch_e/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/veigar_e/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/veigar_r/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/warwick_w/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/trundle_w/trigger-rules"
+      }
+    ]
+  },
+  "boundary": "仅创建独立批准散列覆盖的六条启动cast过程规则并即时回读；其余技能组成和运行边界不变。"
+}
