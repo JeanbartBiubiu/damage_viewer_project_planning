@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T07:24:16.241Z",
+  "generatedAt": "2026-09-13T07:48:45.220Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7475,6 +7475,105 @@
         "commit": "b729ef73978ba503a4e5fd6d6f369289c47a0079"
       },
       "browserValidation": "未执行；本轮没有业务写入",
+      "runtimeValidation": "未执行"
+    },
+    "hecarimWResistanceTriggerBackfill": {
+      "at": "2026-09-13T07:48:45.220Z",
+      "status": "赫卡里姆W主动使用后的自身护甲与魔法抗性规则完成冻结、受保护写入、独立GET回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skill": "hecarim_w",
+      "created": {
+        "triggerRules": 1
+      },
+      "semantics": [
+        "主动使用事件依次执行armor_gain和magic_resistance_gain，动作排序分别为10和20。",
+        "动作目标上下文为当前目标，但两个效果结果目标和实例范围均为来源对象，因此只增加赫卡里姆自身双抗。",
+        "双抗按技能等级读取5、10、15、20、25并持续4000毫秒；本批复用已有参数和效果，不复制组成。",
+        "持续伤害、伤害治疗、周期节拍、附近目标、法力消耗、冷却和施法资格继续暂缓。"
+      ],
+      "preparation": {
+        "GETs": 1223,
+        "businessWrites": 0,
+        "priorRuleCount": 130,
+        "skillCount": 1062,
+        "sourceInitializedCount": 24,
+        "candidateStatus": 404,
+        "sharedFullBaselineCount": 1,
+        "repeatedFullBaselineCount": 0,
+        "batchSha256": "1c614bb258283f36852de2365064fc98f44bd7db4390548201788de4d1518092"
+      },
+      "review": {
+        "cursor": "普通低风险成熟结构，按现行流程跳过",
+        "lunaCandidateCount": 1,
+        "frozenRequests": 1,
+        "bodySha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c"
+      },
+      "writer": {
+        "protectedGETs": 32,
+        "businessWrites": 1,
+        "POST": 1,
+        "status201": 1,
+        "immediateReadbacks": 1,
+        "replayedWrites": 0,
+        "recoveryReadPerformed": false,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 1222,
+        "businessWrites": 0,
+        "priorRulesUnchanged": 130,
+        "newRulesMatched": 1,
+        "nonRuleTargetsUnchanged": 1,
+        "skillCount": 1062,
+        "finalRuleCount": 131,
+        "sourceInitializedCount": 24,
+        "differenceCount": 0,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 174,
+        "businessWrites": 0,
+        "skills": [
+          "hecarim_w"
+        ],
+        "checks": 2,
+        "listImagesVisible": 1,
+        "imageNaturalSize": "64x64",
+        "effectDetailsVisible": 2,
+        "triggerDetailsVisible": 1,
+        "screenshots": 4,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "protected": {
+        "priorRulesUnchanged": 130,
+        "skillSubjectUnchanged": true,
+        "ownerRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "experienceIssues": [
+        "候选只有一项可写时不为凑二至六项混入资格不明对象。",
+        "规则动作的当前目标与效果结果的来源对象是两层语义，冻结、独立回读和页面必须同时核对。",
+        "写入器只做32次定点GET，完整最终集合由新的Luna Max独立读取，避免重复全量写前基线。",
+        "本机Java选择器故障通过仅作用本次进程的Unix域临时目录回退恢复，未改系统或仓库。"
+      ],
+      "pending": [
+        "四秒持续魔法伤害、周期节拍、附近目标和基于实际伤害的自身治疗等待运行上下文。",
+        "法力消耗、冷却、施法时间和战斗施放资格仍未接线。",
+        "新增规则尚未组装进Wasm输入，也未执行宿主主动使用事件或真实战斗验证。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/赫卡里姆W双抗触发补录/09-证据清单.json",
+        "sha256": "89270b541959514af720acfc68590ea63ce57e47f23625ad1d74c1a6fba627bc",
+        "commit": "0e62d71411bdbdd02c04699ea79ceefd58c18078"
+      },
       "runtimeValidation": "未执行"
     }
   },
