@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T09:26:04.760Z",
+  "generatedAt": "2026-09-13T09:33:09.655Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7849,7 +7849,7 @@
   "runtimeValidation": "未执行",
   "inventoryConclusions": {
     "schemaVersion": 1,
-    "status": "进行中：角色主体层173项完成；技能第一阶段已收敛560/865项，仍有305个范围内技能及全部装备、符文待收敛。",
+    "status": "进行中：角色主体层173项完成；技能第二阶段已收敛700/865项，仍有165个范围内技能及全部装备、符文待收敛。",
     "allowedConclusions": [
       "已录入",
       "明确排除",
@@ -7873,6 +7873,13 @@
         "getCount": 1,
         "businessWrites": 0,
         "matchedCandidateBatches": 31
+      },
+      "skillSecondStageCurrentReadback": {
+        "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/技能清单第二阶段当前证据.json",
+        "sha256": "18b2aa48ff2faeae4fb448bdb55641fa3f7592ad6d156b8e59b649a81be48ad9",
+        "getCount": 1,
+        "businessWrites": 0,
+        "matchedCandidateBatches": 9
       }
     },
     "coverage": {
@@ -7889,16 +7896,16 @@
       },
       "skills": {
         "sourceItems": 865,
-        "concludedItems": 560,
+        "concludedItems": 700,
         "conclusions": {
           "已录入": 0,
-          "明确排除": 21,
-          "资料待核": 210,
-          "系统暂缓": 329
+          "明确排除": 24,
+          "资料待核": 308,
+          "系统暂缓": 368
         },
-        "matchedInScopeItems": 550,
+        "matchedInScopeItems": 690,
         "excludedChampionSlots": 10,
-        "remainingInScopeItems": 305,
+        "remainingInScopeItems": 165,
         "status": "PARTIAL_RECONCILIATION"
       },
       "equipment": {
@@ -10164,6 +10171,121 @@
     "boundary": "逐项结论按对象层分开；角色主体已录入不等于其五项技能机制完成。只有四类清单全部收敛且未完成队列处理完毕，才能用于整体完成判定。",
     "skills": [
       {
+        "sourceChampionId": "Aatrox",
+        "sourceNumericId": "266",
+        "championName": "亚托克斯",
+        "slot": "P",
+        "skillKey": "aatrox_p",
+        "name": "亚托克斯·赐死剑气",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Aatrox",
+        "sourceNumericId": "266",
+        "championName": "亚托克斯",
+        "slot": "Q",
+        "skillKey": "aatrox_q",
+        "name": "亚托克斯·暗裔利刃",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Aatrox",
+        "sourceNumericId": "266",
+        "championName": "亚托克斯",
+        "slot": "W",
+        "skillKey": "aatrox_w",
+        "name": "亚托克斯·恶火束链",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Aatrox",
+        "sourceNumericId": "266",
+        "championName": "亚托克斯",
+        "slot": "E",
+        "skillKey": "aatrox_e",
+        "name": "亚托克斯·暗影冲决",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Aatrox",
+        "sourceNumericId": "266",
+        "championName": "亚托克斯",
+        "slot": "R",
+        "skillKey": "aatrox_r",
+        "name": "亚托克斯·大灭",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Akali",
         "sourceNumericId": "84",
         "championName": "阿卡丽",
@@ -10739,6 +10861,121 @@
         ]
       },
       {
+        "sourceChampionId": "Anivia",
+        "sourceNumericId": "34",
+        "championName": "艾尼维亚",
+        "slot": "P",
+        "skillKey": "anivia_p",
+        "name": "艾尼维亚·寒霜涅槃",
+        "conclusion": "明确排除",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：egg_cooldown_ms：完整蛋形态的重生冷却属于范围外；仅保留原始字段证据。；bonus_resists：完整蛋形态额外双抗等级曲线属于范围外；未知等级算法不展开。；minus_one：完整蛋形态双抗显示反号常量只服务范围外显示公式；不单独入库。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Anivia",
+        "sourceNumericId": "34",
+        "championName": "艾尼维亚",
+        "slot": "Q",
+        "skillKey": "anivia_q",
+        "name": "艾尼维亚·寒冰闪耀",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Anivia",
+        "sourceNumericId": "34",
+        "championName": "艾尼维亚",
+        "slot": "W",
+        "skillKey": "anivia_w",
+        "name": "艾尼维亚·寒冰屏障",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Anivia",
+        "sourceNumericId": "34",
+        "championName": "艾尼维亚",
+        "slot": "E",
+        "skillKey": "anivia_e",
+        "name": "艾尼维亚·霜寒刺骨",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Anivia",
+        "sourceNumericId": "34",
+        "championName": "艾尼维亚",
+        "slot": "R",
+        "skillKey": "anivia_r",
+        "name": "艾尼维亚·冰川风暴",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Aphelios",
         "sourceNumericId": "523",
         "championName": "厄斐琉斯",
@@ -10960,6 +11197,121 @@
         "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "AurelionSol",
+        "sourceNumericId": "136",
+        "championName": "奥瑞利安·索尔",
+        "slot": "P",
+        "skillKey": "aurelionsol_p",
+        "name": "奥瑞利安·索尔·星海焕然",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "AurelionSol",
+        "sourceNumericId": "136",
+        "championName": "奥瑞利安·索尔",
+        "slot": "Q",
+        "skillKey": "aurelionsol_q",
+        "name": "奥瑞利安·索尔·星河冲荡",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "AurelionSol",
+        "sourceNumericId": "136",
+        "championName": "奥瑞利安·索尔",
+        "slot": "W",
+        "skillKey": "aurelionsol_w",
+        "name": "奥瑞利安·索尔·星穹流丽",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "AurelionSol",
+        "sourceNumericId": "136",
+        "championName": "奥瑞利安·索尔",
+        "slot": "E",
+        "skillKey": "aurelionsol_e",
+        "name": "奥瑞利安·索尔·星芒凝汇",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "AurelionSol",
+        "sourceNumericId": "136",
+        "championName": "奥瑞利安·索尔",
+        "slot": "R",
+        "skillKey": "aurelionsol_r",
+        "name": "奥瑞利安·索尔·星天落瀑",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -11884,6 +12236,121 @@
         ]
       },
       {
+        "sourceChampionId": "Chogath",
+        "sourceNumericId": "31",
+        "championName": "科加斯",
+        "slot": "P",
+        "skillKey": "chogath_p",
+        "name": "科加斯·肉食者",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Chogath",
+        "sourceNumericId": "31",
+        "championName": "科加斯",
+        "slot": "Q",
+        "skillKey": "chogath_q",
+        "name": "科加斯·破裂",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Chogath",
+        "sourceNumericId": "31",
+        "championName": "科加斯",
+        "slot": "W",
+        "skillKey": "chogath_w",
+        "name": "科加斯·野性尖叫",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Chogath",
+        "sourceNumericId": "31",
+        "championName": "科加斯",
+        "slot": "E",
+        "skillKey": "chogath_e",
+        "name": "科加斯·恐惧之刺",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "候选已保存参数、公式或效果，但没有完整可执行入口；继续按系统接线缺口处理。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Chogath",
+        "sourceNumericId": "31",
+        "championName": "科加斯",
+        "slot": "R",
+        "skillKey": "chogath_r",
+        "name": "科加斯·盛宴",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Corki",
         "sourceNumericId": "42",
         "championName": "库奇",
@@ -12110,6 +12577,121 @@
         "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ekko",
+        "sourceNumericId": "245",
+        "championName": "艾克",
+        "slot": "P",
+        "skillKey": "ekko_p",
+        "name": "艾克·Z型驱动共振",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 1
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ekko",
+        "sourceNumericId": "245",
+        "championName": "艾克",
+        "slot": "Q",
+        "skillKey": "ekko_q",
+        "name": "艾克·时间卷曲器",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 1
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ekko",
+        "sourceNumericId": "245",
+        "championName": "艾克",
+        "slot": "W",
+        "skillKey": "ekko_w",
+        "name": "艾克·时光交错",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口1个、系统缺口3个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 3,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ekko",
+        "sourceNumericId": "245",
+        "championName": "艾克",
+        "slot": "E",
+        "skillKey": "ekko_e",
+        "name": "艾克·相位俯冲",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ekko",
+        "sourceNumericId": "245",
+        "championName": "艾克",
+        "slot": "R",
+        "skillKey": "ekko_r",
+        "name": "艾克·时空断裂",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 2,
+          "configuration": 0,
+          "other": 1
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -12570,6 +13152,236 @@
         "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Fizz",
+        "sourceNumericId": "105",
+        "championName": "菲兹",
+        "slot": "P",
+        "skillKey": "fizz_p",
+        "name": "菲兹·伶俐斗士",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 2
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Fizz",
+        "sourceNumericId": "105",
+        "championName": "菲兹",
+        "slot": "Q",
+        "skillKey": "fizz_q",
+        "name": "菲兹·淘气打击",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Fizz",
+        "sourceNumericId": "105",
+        "championName": "菲兹",
+        "slot": "W",
+        "skillKey": "fizz_w",
+        "name": "菲兹·海石三叉戟",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Fizz",
+        "sourceNumericId": "105",
+        "championName": "菲兹",
+        "slot": "E",
+        "skillKey": "fizz_e",
+        "name": "菲兹·古灵/精怪",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 2,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Fizz",
+        "sourceNumericId": "105",
+        "championName": "菲兹",
+        "slot": "R",
+        "skillKey": "fizz_r",
+        "name": "菲兹·巨鲨强袭",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 1
+        },
+        "batchKey": "heroTwentyFirstBatch",
+        "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Galio",
+        "sourceNumericId": "3",
+        "championName": "加里奥",
+        "slot": "P",
+        "skillKey": "galio_p",
+        "name": "加里奥·巨像重击",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Galio",
+        "sourceNumericId": "3",
+        "championName": "加里奥",
+        "slot": "Q",
+        "skillKey": "galio_q",
+        "name": "加里奥·战争罡风",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "候选已保存参数、公式或效果，但没有完整可执行入口；继续按系统接线缺口处理。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Galio",
+        "sourceNumericId": "3",
+        "championName": "加里奥",
+        "slot": "W",
+        "skillKey": "galio_w",
+        "name": "加里奥·杜朗护盾",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Galio",
+        "sourceNumericId": "3",
+        "championName": "加里奥",
+        "slot": "E",
+        "skillKey": "galio_e",
+        "name": "加里奥·正义冲拳",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "候选已保存参数、公式或效果，但没有完整可执行入口；继续按系统接线缺口处理。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Galio",
+        "sourceNumericId": "3",
+        "championName": "加里奥",
+        "slot": "R",
+        "skillKey": "galio_r",
+        "name": "加里奥·英雄登场",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -14299,6 +15111,121 @@
         ]
       },
       {
+        "sourceChampionId": "Karthus",
+        "sourceNumericId": "30",
+        "championName": "卡尔萨斯",
+        "slot": "P",
+        "skillKey": "karthus_p",
+        "name": "卡尔萨斯·死亡契约",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Karthus",
+        "sourceNumericId": "30",
+        "championName": "卡尔萨斯",
+        "slot": "Q",
+        "skillKey": "karthus_q",
+        "name": "卡尔萨斯·荒芜",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Karthus",
+        "sourceNumericId": "30",
+        "championName": "卡尔萨斯",
+        "slot": "W",
+        "skillKey": "karthus_w",
+        "name": "卡尔萨斯·痛苦之墙",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Karthus",
+        "sourceNumericId": "30",
+        "championName": "卡尔萨斯",
+        "slot": "E",
+        "skillKey": "karthus_e",
+        "name": "卡尔萨斯·亵渎",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Karthus",
+        "sourceNumericId": "30",
+        "championName": "卡尔萨斯",
+        "slot": "R",
+        "skillKey": "karthus_r",
+        "name": "卡尔萨斯·安魂曲",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Kassadin",
         "sourceNumericId": "38",
         "championName": "卡萨丁",
@@ -14755,6 +15682,236 @@
         "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Kennen",
+        "sourceNumericId": "85",
+        "championName": "凯南",
+        "slot": "P",
+        "skillKey": "kennen_p",
+        "name": "凯南·【忍法！雷缚印】",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Kennen",
+        "sourceNumericId": "85",
+        "championName": "凯南",
+        "slot": "Q",
+        "skillKey": "kennen_q",
+        "name": "凯南·奥义！千鸟",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Kennen",
+        "sourceNumericId": "85",
+        "championName": "凯南",
+        "slot": "W",
+        "skillKey": "kennen_w",
+        "name": "凯南·奥义！电刃",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Kennen",
+        "sourceNumericId": "85",
+        "championName": "凯南",
+        "slot": "E",
+        "skillKey": "kennen_e",
+        "name": "凯南·奥义！雷铠",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有7个待处理分支，其中来源或资料缺口5个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 5,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Kennen",
+        "sourceNumericId": "85",
+        "championName": "凯南",
+        "slot": "R",
+        "skillKey": "kennen_r",
+        "name": "凯南·秘奥义！万雷天牢引",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Khazix",
+        "sourceNumericId": "121",
+        "championName": "卡兹克",
+        "slot": "P",
+        "skillKey": "khazix_p",
+        "name": "卡兹克·无形威胁",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Khazix",
+        "sourceNumericId": "121",
+        "championName": "卡兹克",
+        "slot": "Q",
+        "skillKey": "khazix_q",
+        "name": "卡兹克·品尝恐惧",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Khazix",
+        "sourceNumericId": "121",
+        "championName": "卡兹克",
+        "slot": "W",
+        "skillKey": "khazix_w",
+        "name": "卡兹克·虚空突刺",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Khazix",
+        "sourceNumericId": "121",
+        "championName": "卡兹克",
+        "slot": "E",
+        "skillKey": "khazix_e",
+        "name": "卡兹克·跃击",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Khazix",
+        "sourceNumericId": "121",
+        "championName": "卡兹克",
+        "slot": "R",
+        "skillKey": "khazix_r",
+        "name": "卡兹克·虚空来袭",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -15449,6 +16606,121 @@
         ]
       },
       {
+        "sourceChampionId": "Leona",
+        "sourceNumericId": "89",
+        "championName": "蕾欧娜",
+        "slot": "P",
+        "skillKey": "leona_p",
+        "name": "蕾欧娜·日光",
+        "conclusion": "明确排除",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：MarkDuration、TotalDamage及日光触发：当前根绑定正文明确“其他友方英雄”在被标记敌人上造成伤害时才触发；本轮1v1范围移除整P写入，原值和当前正文保留于source/proofs，不把友方触发当作待接事件。；原候选参数：mark_duration_ms、bonus_magic_damage_by_character_level：修订一撤回原候选参数，避免在本轮范围外产生POST意图；没有已有非公共组成可供保护。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Leona",
+        "sourceNumericId": "89",
+        "championName": "蕾欧娜",
+        "slot": "Q",
+        "skillKey": "leona_q",
+        "name": "蕾欧娜·破晓之盾",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Leona",
+        "sourceNumericId": "89",
+        "championName": "蕾欧娜",
+        "slot": "W",
+        "skillKey": "leona_w",
+        "name": "蕾欧娜·日蚀",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 1
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Leona",
+        "sourceNumericId": "89",
+        "championName": "蕾欧娜",
+        "slot": "E",
+        "skillKey": "leona_e",
+        "name": "蕾欧娜·天顶之刃",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Leona",
+        "sourceNumericId": "89",
+        "championName": "蕾欧娜",
+        "slot": "R",
+        "skillKey": "leona_r",
+        "name": "蕾欧娜·日炎耀斑",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Lillia",
         "sourceNumericId": "876",
         "championName": "莉莉娅",
@@ -15560,6 +16832,121 @@
         "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Lissandra",
+        "sourceNumericId": "127",
+        "championName": "丽桑卓",
+        "slot": "P",
+        "skillKey": "lissandra_p",
+        "name": "丽桑卓·冰脉驱役",
+        "conclusion": "明确排除",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "当前候选没有范围内保存组成或待处理分支，全部已识别内容均有具体范围排除依据：ice_servant_slow_ratio：独立冰奴减速专用值属于范围外；仅留原始DataValues证据。；ice_servant_explosion_delay_ms：独立冰奴爆炸等待专用值属于范围外；仅留原始DataValues证据。；ice_servant_base_damage：独立冰奴爆炸基础伤害和等级曲线属于范围外；未知等级算法不展开。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Lissandra",
+        "sourceNumericId": "127",
+        "championName": "丽桑卓",
+        "slot": "Q",
+        "skillKey": "lissandra_q",
+        "name": "丽桑卓·寒冰碎片",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Lissandra",
+        "sourceNumericId": "127",
+        "championName": "丽桑卓",
+        "slot": "W",
+        "skillKey": "lissandra_w",
+        "name": "丽桑卓·冰霜之环",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Lissandra",
+        "sourceNumericId": "127",
+        "championName": "丽桑卓",
+        "slot": "E",
+        "skillKey": "lissandra_e",
+        "name": "丽桑卓·冰川之径",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Lissandra",
+        "sourceNumericId": "127",
+        "championName": "丽桑卓",
+        "slot": "R",
+        "skillKey": "lissandra_r",
+        "name": "丽桑卓·冰封陵墓",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -15790,6 +17177,121 @@
         "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Malzahar",
+        "sourceNumericId": "90",
+        "championName": "玛尔扎哈",
+        "slot": "P",
+        "skillKey": "malzahar_p",
+        "name": "玛尔扎哈·虚空穿越",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Malzahar",
+        "sourceNumericId": "90",
+        "championName": "玛尔扎哈",
+        "slot": "Q",
+        "skillKey": "malzahar_q",
+        "name": "玛尔扎哈·虚空召唤",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Malzahar",
+        "sourceNumericId": "90",
+        "championName": "玛尔扎哈",
+        "slot": "W",
+        "skillKey": "malzahar_w",
+        "name": "玛尔扎哈·虚空虫群",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "候选已保存参数、公式或效果，但没有完整可执行入口；继续按系统接线缺口处理。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Malzahar",
+        "sourceNumericId": "90",
+        "championName": "玛尔扎哈",
+        "slot": "E",
+        "skillKey": "malzahar_e",
+        "name": "玛尔扎哈·煞星幻象",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Malzahar",
+        "sourceNumericId": "90",
+        "championName": "玛尔扎哈",
+        "slot": "R",
+        "skillKey": "malzahar_r",
+        "name": "玛尔扎哈·冥府之握",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroSixteenthBatch",
+        "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -16714,6 +18216,121 @@
         ]
       },
       {
+        "sourceChampionId": "Nautilus",
+        "sourceNumericId": "111",
+        "championName": "诺提勒斯",
+        "slot": "P",
+        "skillKey": "nautilus_p",
+        "name": "诺提勒斯·排山倒海",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Nautilus",
+        "sourceNumericId": "111",
+        "championName": "诺提勒斯",
+        "slot": "Q",
+        "skillKey": "nautilus_q",
+        "name": "诺提勒斯·疏通航道",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Nautilus",
+        "sourceNumericId": "111",
+        "championName": "诺提勒斯",
+        "slot": "W",
+        "skillKey": "nautilus_w",
+        "name": "诺提勒斯·泰坦之怒",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Nautilus",
+        "sourceNumericId": "111",
+        "championName": "诺提勒斯",
+        "slot": "E",
+        "skillKey": "nautilus_e",
+        "name": "诺提勒斯·暗流涌动",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Nautilus",
+        "sourceNumericId": "111",
+        "championName": "诺提勒斯",
+        "slot": "R",
+        "skillKey": "nautilus_r",
+        "name": "诺提勒斯·深海冲击",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentySecondBatch",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Neeko",
         "sourceNumericId": "518",
         "championName": "妮蔻",
@@ -17170,6 +18787,121 @@
         "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Orianna",
+        "sourceNumericId": "61",
+        "championName": "奥莉安娜",
+        "slot": "P",
+        "skillKey": "orianna_p",
+        "name": "奥莉安娜·发条协奏",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Orianna",
+        "sourceNumericId": "61",
+        "championName": "奥莉安娜",
+        "slot": "Q",
+        "skillKey": "orianna_q",
+        "name": "奥莉安娜·指令：攻击",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Orianna",
+        "sourceNumericId": "61",
+        "championName": "奥莉安娜",
+        "slot": "W",
+        "skillKey": "orianna_w",
+        "name": "奥莉安娜·指令：杂音",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Orianna",
+        "sourceNumericId": "61",
+        "championName": "奥莉安娜",
+        "slot": "E",
+        "skillKey": "orianna_e",
+        "name": "奥莉安娜·指令：防卫",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Orianna",
+        "sourceNumericId": "61",
+        "championName": "奥莉安娜",
+        "slot": "R",
+        "skillKey": "orianna_r",
+        "name": "奥莉安娜·指令：冲击波",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -17979,6 +19711,121 @@
         ]
       },
       {
+        "sourceChampionId": "Rammus",
+        "sourceNumericId": "33",
+        "championName": "拉莫斯",
+        "slot": "P",
+        "skillKey": "rammus_p",
+        "name": "拉莫斯·锥刺甲壳",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rammus",
+        "sourceNumericId": "33",
+        "championName": "拉莫斯",
+        "slot": "Q",
+        "skillKey": "rammus_q",
+        "name": "拉莫斯·动力冲刺",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rammus",
+        "sourceNumericId": "33",
+        "championName": "拉莫斯",
+        "slot": "W",
+        "skillKey": "rammus_w",
+        "name": "拉莫斯·尖刺防御",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rammus",
+        "sourceNumericId": "33",
+        "championName": "拉莫斯",
+        "slot": "E",
+        "skillKey": "rammus_e",
+        "name": "拉莫斯·狂乱嘲讽",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rammus",
+        "sourceNumericId": "33",
+        "championName": "拉莫斯",
+        "slot": "R",
+        "skillKey": "rammus_r",
+        "name": "拉莫斯·冲天猛撞",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroTwentiethBatch",
+        "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "RekSai",
         "sourceNumericId": "421",
         "championName": "雷克塞",
@@ -18320,6 +20167,351 @@
         "candidateSha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rengar",
+        "sourceNumericId": "107",
+        "championName": "雷恩加尔",
+        "slot": "P",
+        "skillKey": "rengar_p",
+        "name": "雷恩加尔·无形掠食者",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rengar",
+        "sourceNumericId": "107",
+        "championName": "雷恩加尔",
+        "slot": "Q",
+        "skillKey": "rengar_q",
+        "name": "雷恩加尔·残忍无情",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rengar",
+        "sourceNumericId": "107",
+        "championName": "雷恩加尔",
+        "slot": "W",
+        "skillKey": "rengar_w",
+        "name": "雷恩加尔·战争咆哮",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rengar",
+        "sourceNumericId": "107",
+        "championName": "雷恩加尔",
+        "slot": "E",
+        "skillKey": "rengar_e",
+        "name": "雷恩加尔·套索打击",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口3个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rengar",
+        "sourceNumericId": "107",
+        "championName": "雷恩加尔",
+        "slot": "R",
+        "skillKey": "rengar_r",
+        "name": "雷恩加尔·狩猎律动",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Riven",
+        "sourceNumericId": "92",
+        "championName": "锐雯",
+        "slot": "P",
+        "skillKey": "riven_p",
+        "name": "锐雯·符文之刃",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 0,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Riven",
+        "sourceNumericId": "92",
+        "championName": "锐雯",
+        "slot": "Q",
+        "skillKey": "riven_q",
+        "name": "锐雯·折翼之舞",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Riven",
+        "sourceNumericId": "92",
+        "championName": "锐雯",
+        "slot": "W",
+        "skillKey": "riven_w",
+        "name": "锐雯·震魂怒吼",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Riven",
+        "sourceNumericId": "92",
+        "championName": "锐雯",
+        "slot": "E",
+        "skillKey": "riven_e",
+        "name": "锐雯·勇往直前",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Riven",
+        "sourceNumericId": "92",
+        "championName": "锐雯",
+        "slot": "R",
+        "skillKey": "riven_r",
+        "name": "锐雯·放逐之锋",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroNineteenthBatch",
+        "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rumble",
+        "sourceNumericId": "68",
+        "championName": "兰博",
+        "slot": "P",
+        "skillKey": "rumble_p",
+        "name": "兰博·机械重组",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口4个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rumble",
+        "sourceNumericId": "68",
+        "championName": "兰博",
+        "slot": "Q",
+        "skillKey": "rumble_q",
+        "name": "兰博·纵火盛宴",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rumble",
+        "sourceNumericId": "68",
+        "championName": "兰博",
+        "slot": "W",
+        "skillKey": "rumble_w",
+        "name": "兰博·破碎护盾",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rumble",
+        "sourceNumericId": "68",
+        "championName": "兰博",
+        "slot": "E",
+        "skillKey": "rumble_e",
+        "name": "兰博·电子鱼叉",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Rumble",
+        "sourceNumericId": "68",
+        "championName": "兰博",
+        "slot": "R",
+        "skillKey": "rumble_r",
+        "name": "兰博·恒温灼烧",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -19934,6 +22126,121 @@
         ]
       },
       {
+        "sourceChampionId": "Swain",
+        "sourceNumericId": "50",
+        "championName": "斯维因",
+        "slot": "P",
+        "skillKey": "swain_p",
+        "name": "斯维因·狂食鸦群",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Swain",
+        "sourceNumericId": "50",
+        "championName": "斯维因",
+        "slot": "Q",
+        "skillKey": "swain_q",
+        "name": "斯维因·解脱之触",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Swain",
+        "sourceNumericId": "50",
+        "championName": "斯维因",
+        "slot": "W",
+        "skillKey": "swain_w",
+        "name": "斯维因·帝国视界",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Swain",
+        "sourceNumericId": "50",
+        "championName": "斯维因",
+        "slot": "E",
+        "skillKey": "swain_e",
+        "name": "斯维因·永不复行",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Swain",
+        "sourceNumericId": "50",
+        "championName": "斯维因",
+        "slot": "R",
+        "skillKey": "swain_r",
+        "name": "斯维因·恶魔升华",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Sylas",
         "sourceNumericId": "517",
         "championName": "塞拉斯",
@@ -20040,6 +22347,121 @@
         "batchKey": null,
         "candidateSha256": null,
         "evidenceRefs": [
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Syndra",
+        "sourceNumericId": "134",
+        "championName": "辛德拉",
+        "slot": "P",
+        "skillKey": "syndra_p",
+        "name": "辛德拉·卓尔不凡",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Syndra",
+        "sourceNumericId": "134",
+        "championName": "辛德拉",
+        "slot": "Q",
+        "skillKey": "syndra_q",
+        "name": "辛德拉·暗黑法球",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Syndra",
+        "sourceNumericId": "134",
+        "championName": "辛德拉",
+        "slot": "W",
+        "skillKey": "syndra_w",
+        "name": "辛德拉·驱使念力",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Syndra",
+        "sourceNumericId": "134",
+        "championName": "辛德拉",
+        "slot": "E",
+        "skillKey": "syndra_e",
+        "name": "辛德拉·弱者退散",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Syndra",
+        "sourceNumericId": "134",
+        "championName": "辛德拉",
+        "slot": "R",
+        "skillKey": "syndra_r",
+        "name": "辛德拉·能量倾泻",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -20155,6 +22577,121 @@
         "candidateSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Taliyah",
+        "sourceNumericId": "163",
+        "championName": "塔莉垭",
+        "slot": "P",
+        "skillKey": "taliyah_p",
+        "name": "塔莉垭·浮石冲",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Taliyah",
+        "sourceNumericId": "163",
+        "championName": "塔莉垭",
+        "slot": "Q",
+        "skillKey": "taliyah_q",
+        "name": "塔莉垭·石穿",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Taliyah",
+        "sourceNumericId": "163",
+        "championName": "塔莉垭",
+        "slot": "W",
+        "skillKey": "taliyah_w",
+        "name": "塔莉垭·岩突",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Taliyah",
+        "sourceNumericId": "163",
+        "championName": "塔莉垭",
+        "slot": "E",
+        "skillKey": "taliyah_e",
+        "name": "塔莉垭·撒石阵",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Taliyah",
+        "sourceNumericId": "163",
+        "championName": "塔莉垭",
+        "slot": "R",
+        "skillKey": "taliyah_r",
+        "name": "塔莉垭·墙幔",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -21309,6 +23846,121 @@
         ]
       },
       {
+        "sourceChampionId": "Velkoz",
+        "sourceNumericId": "161",
+        "championName": "维克兹",
+        "slot": "P",
+        "skillKey": "velkoz_p",
+        "name": "维克兹·有机体解构",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Velkoz",
+        "sourceNumericId": "161",
+        "championName": "维克兹",
+        "slot": "Q",
+        "skillKey": "velkoz_q",
+        "name": "维克兹·等离子裂变",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Velkoz",
+        "sourceNumericId": "161",
+        "championName": "维克兹",
+        "slot": "W",
+        "skillKey": "velkoz_w",
+        "name": "维克兹·虚空裂隙",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Velkoz",
+        "sourceNumericId": "161",
+        "championName": "维克兹",
+        "slot": "E",
+        "skillKey": "velkoz_e",
+        "name": "维克兹·构造分解",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Velkoz",
+        "sourceNumericId": "161",
+        "championName": "维克兹",
+        "slot": "R",
+        "skillKey": "velkoz_r",
+        "name": "维克兹·生命形态瓦解射线",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Vex",
         "sourceNumericId": "711",
         "championName": "薇古丝",
@@ -21539,6 +24191,236 @@
         ]
       },
       {
+        "sourceChampionId": "Viktor",
+        "sourceNumericId": "112",
+        "championName": "维克托",
+        "slot": "P",
+        "skillKey": "viktor_p",
+        "name": "维克托·光荣进化",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Viktor",
+        "sourceNumericId": "112",
+        "championName": "维克托",
+        "slot": "Q",
+        "skillKey": "viktor_q",
+        "name": "维克托·虹吸能量",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Viktor",
+        "sourceNumericId": "112",
+        "championName": "维克托",
+        "slot": "W",
+        "skillKey": "viktor_w",
+        "name": "维克托·重力场",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Viktor",
+        "sourceNumericId": "112",
+        "championName": "维克托",
+        "slot": "E",
+        "skillKey": "viktor_e",
+        "name": "维克托·海克斯射线",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Viktor",
+        "sourceNumericId": "112",
+        "championName": "维克托",
+        "slot": "R",
+        "skillKey": "viktor_r",
+        "name": "维克托·奥术风暴",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有8个待处理分支，其中来源或资料缺口6个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 6,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFifteenthBatch",
+        "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Vladimir",
+        "sourceNumericId": "8",
+        "championName": "弗拉基米尔",
+        "slot": "P",
+        "skillKey": "vladimir_p",
+        "name": "弗拉基米尔·血色契约",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Vladimir",
+        "sourceNumericId": "8",
+        "championName": "弗拉基米尔",
+        "slot": "Q",
+        "skillKey": "vladimir_q",
+        "name": "弗拉基米尔·鲜血转换",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有7个待处理分支，其中来源或资料缺口5个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 5,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Vladimir",
+        "sourceNumericId": "8",
+        "championName": "弗拉基米尔",
+        "slot": "W",
+        "skillKey": "vladimir_w",
+        "name": "弗拉基米尔·血红之池",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 1,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Vladimir",
+        "sourceNumericId": "8",
+        "championName": "弗拉基米尔",
+        "slot": "E",
+        "skillKey": "vladimir_e",
+        "name": "弗拉基米尔·血之潮汐",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Vladimir",
+        "sourceNumericId": "8",
+        "championName": "弗拉基米尔",
+        "slot": "R",
+        "skillKey": "vladimir_r",
+        "name": "弗拉基米尔·血之瘟疫",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSeventeenthBatch",
+        "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Volibear",
         "sourceNumericId": "106",
         "championName": "沃利贝尔",
@@ -21765,6 +24647,121 @@
         "candidateSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Xerath",
+        "sourceNumericId": "101",
+        "championName": "泽拉斯",
+        "slot": "P",
+        "skillKey": "xerath_p",
+        "name": "泽拉斯·法力澎湃",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Xerath",
+        "sourceNumericId": "101",
+        "championName": "泽拉斯",
+        "slot": "Q",
+        "skillKey": "xerath_q",
+        "name": "泽拉斯·奥能脉冲",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有9个待处理分支，其中来源或资料缺口7个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 7,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Xerath",
+        "sourceNumericId": "101",
+        "championName": "泽拉斯",
+        "slot": "W",
+        "skillKey": "xerath_w",
+        "name": "泽拉斯·毁灭之眼",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口4个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 4,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Xerath",
+        "sourceNumericId": "101",
+        "championName": "泽拉斯",
+        "slot": "E",
+        "skillKey": "xerath_e",
+        "name": "泽拉斯·冲击法球",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Xerath",
+        "sourceNumericId": "101",
+        "championName": "泽拉斯",
+        "slot": "R",
+        "skillKey": "xerath_r",
+        "name": "泽拉斯·奥术仪式",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
@@ -22804,6 +25801,121 @@
         ]
       },
       {
+        "sourceChampionId": "Ziggs",
+        "sourceNumericId": "115",
+        "championName": "吉格斯",
+        "slot": "P",
+        "skillKey": "ziggs_p",
+        "name": "吉格斯·一触即发",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ziggs",
+        "sourceNumericId": "115",
+        "championName": "吉格斯",
+        "slot": "Q",
+        "skillKey": "ziggs_q",
+        "name": "吉格斯·弹跳炸弹",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口1个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ziggs",
+        "sourceNumericId": "115",
+        "championName": "吉格斯",
+        "slot": "W",
+        "skillKey": "ziggs_w",
+        "name": "吉格斯·定点爆破",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ziggs",
+        "sourceNumericId": "115",
+        "championName": "吉格斯",
+        "slot": "E",
+        "skillKey": "ziggs_e",
+        "name": "吉格斯·海克斯爆破雷区",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ziggs",
+        "sourceNumericId": "115",
+        "championName": "吉格斯",
+        "slot": "R",
+        "skillKey": "ziggs_r",
+        "name": "吉格斯·科学的地狱火炮",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 2,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
         "sourceChampionId": "Zilean",
         "sourceNumericId": "26",
         "championName": "基兰",
@@ -22915,6 +26027,121 @@
         "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Zoe",
+        "sourceNumericId": "142",
+        "championName": "佐伊",
+        "slot": "P",
+        "skillKey": "zoe_p",
+        "name": "佐伊·烟火四射！",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 0,
+          "configuration": 0,
+          "other": 1
+        },
+        "batchKey": "heroEighteenthBatch",
+        "candidateSha256": "71e82f521f48fdb76e16d124f378cc7adc427b9be10c7e166068e079c98d6fc3",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Zoe",
+        "sourceNumericId": "142",
+        "championName": "佐伊",
+        "slot": "Q",
+        "skillKey": "zoe_q",
+        "name": "佐伊·飞星乱入！",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 1
+        },
+        "batchKey": "heroEighteenthBatch",
+        "candidateSha256": "71e82f521f48fdb76e16d124f378cc7adc427b9be10c7e166068e079c98d6fc3",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Zoe",
+        "sourceNumericId": "142",
+        "championName": "佐伊",
+        "slot": "W",
+        "skillKey": "zoe_w",
+        "name": "佐伊·窃法巧手",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有4个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 2,
+          "configuration": 0,
+          "other": 2
+        },
+        "batchKey": "heroEighteenthBatch",
+        "candidateSha256": "71e82f521f48fdb76e16d124f378cc7adc427b9be10c7e166068e079c98d6fc3",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Zoe",
+        "sourceNumericId": "142",
+        "championName": "佐伊",
+        "slot": "E",
+        "skillKey": "zoe_e",
+        "name": "佐伊·催眠气泡",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有6个待处理分支，其中来源或资料缺口1个、系统缺口2个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 2,
+          "configuration": 0,
+          "other": 3
+        },
+        "batchKey": "heroEighteenthBatch",
+        "candidateSha256": "71e82f521f48fdb76e16d124f378cc7adc427b9be10c7e166068e079c98d6fc3",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Zoe",
+        "sourceNumericId": "142",
+        "championName": "佐伊",
+        "slot": "R",
+        "skillKey": "zoe_r",
+        "name": "佐伊·折返跃迁",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "pendingCounts": {
+          "source": 1,
+          "system": 1,
+          "configuration": 0,
+          "other": 1
+        },
+        "batchKey": "heroEighteenthBatch",
+        "candidateSha256": "71e82f521f48fdb76e16d124f378cc7adc427b9be10c7e166068e079c98d6fc3",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
           "heroSourceInventory"
         ]
       },
