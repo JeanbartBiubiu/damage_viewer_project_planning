@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T12:04:00.000Z",
+  "generatedAt": "2026-09-13T12:26:17.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -8200,6 +8200,119 @@
         "correctionCommit": "bb28d9b53eea59162f793ce2789cf9d1571f0666"
       },
       "runtimeValidation": "未执行"
+    },
+    "fourHeroCastProcessEntryBackfill": {
+      "at": "2026-09-13T12:26:17.000Z",
+      "status": "阿狸Q、布兰德W、德莱厄斯E和赵信W四项已有主动施法过程完成冻结、纯GET准备、独立批准、受保护写入、独立回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "ahri_q",
+        "brand_w",
+        "darius_e",
+        "xinzhao_w"
+      ],
+      "created": {
+        "triggerRules": 4,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "rules": [
+        "ahri_q/on_used：主动使用后启动cast过程",
+        "brand_w/on_used：主动使用后启动cast过程",
+        "darius_e/on_used：主动使用后启动cast过程",
+        "xinzhao_w/on_used：主动使用后启动cast过程"
+      ],
+      "sharedRunner": {
+        "version": "protected-trigger-batch-v1",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+        "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+        "commit": "1a248a4cbf85f447d41f443a57e1e8677723b323"
+      },
+      "freeze": {
+        "revision": "rev1",
+        "batchSha256": "726c7cccbf116154e50d6ba2a747851d374abc1e8a746f524ca94c6d5c25e0d8",
+        "sourceSnapshotSha256": "9ba5643668d27c74e8f754b480cbd9568dd08c163defd15a9189f9563c0eeb49"
+      },
+      "preparation": {
+        "getCount": 1298,
+        "status200": 1294,
+        "expected404": 4,
+        "skillCount": 1062,
+        "ruleCount": 142,
+        "sourceInitializedCount": 29,
+        "bodyRulesSha256": "d01675343140f192fec6d73a3fa44031f912094db22ab2af7fa2c8cc98066a25",
+        "metadataRulesSha256": "803d62c5f965b9c2e0cbbe57dd89de4f9bac24ce9354e8be55e7c2ad40c6b6d2",
+        "businessWrites": 0
+      },
+      "independentApproval": {
+        "status": "APPROVED",
+        "getCount": 1298,
+        "approvedBatchSha256": "726c7cccbf116154e50d6ba2a747851d374abc1e8a746f524ca94c6d5c25e0d8",
+        "approvalDecisionSha256": "ab4c0e65f0a64e26aaabcf6d781998ab8903c37691d6680406dc9c17d1f665c3",
+        "bodyRulesSha256": "d01675343140f192fec6d73a3fa44031f912094db22ab2af7fa2c8cc98066a25",
+        "metadataRulesSha256": "803d62c5f965b9c2e0cbbe57dd89de4f9bac24ce9354e8be55e7c2ad40c6b6d2",
+        "businessWrites": 0
+      },
+      "writer": {
+        "getCount": 97,
+        "postCount": 4,
+        "created": 4,
+        "alreadyLanded": 0,
+        "recoveryMode": false,
+        "immediateReadback": "PASS"
+      },
+      "independentReadback": {
+        "getCount": 1298,
+        "skillCount": 1062,
+        "ruleCount": 146,
+        "sourceInitializedCount": 29,
+        "oldRulesCount": 142,
+        "oldBodyRulesSha256": "d01675343140f192fec6d73a3fa44031f912094db22ab2af7fa2c8cc98066a25",
+        "oldMetadataRulesSha256": "803d62c5f965b9c2e0cbbe57dd89de4f9bac24ce9354e8be55e7c2ad40c6b6d2",
+        "oldRulesUnchanged": true,
+        "targetNonRuleCompositionUnchanged": true,
+        "businessWrites": 0
+      },
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 4,
+        "images": "四项列表图均64×64且加载完成",
+        "processesAndRules": "四个cast过程、步骤、法力挂接、主动使用事件和启动过程动作与冻结请求一致",
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0,
+        "exactBrowserGetCount": null,
+        "postBrowserGetReadback": 1067
+      },
+      "exploration": {
+        "getCount": 2141,
+        "businessWrites": 0,
+        "result": "从30个有主动过程但无规则的当前技能中选出四个单次主动过程；再次施放、蓄力、取消和阶段复杂项未进入写入批次。"
+      },
+      "corrections": [
+        "规则编辑取消后父弹窗关闭需要等待控件重新启用；首次等待超时没有保存或业务写入。",
+        "阿狸Q、布兰德W和德莱厄斯E使用延迟步骤，赵信W使用立即步骤；按实际过程分别验收。"
+      ],
+      "pending": [
+        "阿狸Q去返程、魔法与真实伤害、方向和实际命中仍未接。",
+        "布兰德W火柱生成、实际命中、灼烧条件和强化伤害仍未接。",
+        "德莱厄斯E百分比穿透组合、实际拉中、拖拽、击飞和减速仍未接。",
+        "赵信W斩击/刺击阶段、实际命中、伤害、减速、挑战、被动联动和冲突施法时间仍未接。",
+        "Wasm组装、宿主技能使用事件和真实战斗均未执行。"
+      ],
+      "systemConclusion": "现有技能使用事件和启动过程动作足以连接四个已保存cast过程，没有新增表、字段或兼容层依据；过程结束不等于实际命中。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄施法过程入口补录/10-证据清单.json",
+        "sha256": "e5f88fa1ad8c634750796ed9b5d32586f6332a7f611d3430dab5f47a3539d278",
+        "commit": "52ff727b10c7633daaf6529214d4924211096179"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -8292,6 +8405,12 @@
         "correctionRelativePath": "数据参考/全量录入-2026-09/交叉试录/三项技能常驻属性初始化补录/12-补充证据清单.json",
         "correctionSha256": "742ab1953785732020d304733a5e00de7cd64fc70b31fc5facf632889780e0f7",
         "correctionCommit": "bb28d9b53eea59162f793ce2789cf9d1571f0666"
+      },
+      "fourHeroCastProcessEntryBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄施法过程入口补录/10-证据清单.json",
+        "sha256": "e5f88fa1ad8c634750796ed9b5d32586f6332a7f611d3430dab5f47a3539d278",
+        "commit": "52ff727b10c7633daaf6529214d4924211096179"
       }
     },
     "coverage": {
@@ -10750,7 +10869,7 @@
         "name": "阿狸·欺诈宝珠",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；去返程、伤害类型、方向与实际命中仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -10761,7 +10880,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroCastProcessEntryBackfill"
         ]
       },
       {
@@ -12609,7 +12729,7 @@
         "name": "布兰德·烈焰之柱",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；火柱生成、实际命中、灼烧条件与强化伤害仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -12620,7 +12740,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroCastProcessEntryBackfill"
         ]
       },
       {
@@ -13552,7 +13673,7 @@
         "name": "德莱厄斯·无情铁手",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；百分比穿透组合、实际拉中、拖拽、击飞与减速仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -13563,7 +13684,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroCastProcessEntryBackfill"
         ]
       },
       {
@@ -28943,7 +29065,7 @@
         "name": "赵信·风斩电刺",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗和基础冷却已有入口；斩刺阶段、伤害、减速、挑战、被动联动与冲突施法时间仍有来源或配置缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -28954,7 +29076,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroCastProcessEntryBackfill"
         ]
       },
       {
