@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T12:26:17.000Z",
+  "generatedAt": "2026-09-13T12:49:35.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -8313,6 +8313,126 @@
         "commit": "52ff727b10c7633daaf6529214d4924211096179"
       },
       "runtimeValidation": "未执行"
+    },
+    "sixHeroCastProcessEntryBackfillSecond": {
+      "at": "2026-09-13T12:49:35.000Z",
+      "status": "阿狸W、黛安娜R、卢锡安E、图奇W、沃里克Q和赵信Q六项已有主动施法过程完成冻结、纯GET准备、独立批准、受保护写入、独立回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "ahri_w",
+        "diana_r",
+        "lucian_e",
+        "twitch_w",
+        "warwick_q",
+        "xinzhao_q"
+      ],
+      "created": {
+        "triggerRules": 6,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "rules": [
+        "ahri_w/on_used：主动使用后启动cast过程",
+        "diana_r/on_used：主动使用后启动cast过程",
+        "lucian_e/on_used：主动使用后启动cast过程",
+        "twitch_w/on_used：主动使用后启动cast过程",
+        "warwick_q/on_used：主动使用后启动cast过程",
+        "xinzhao_q/on_used：主动使用后启动cast过程"
+      ],
+      "sharedRunner": {
+        "version": "protected-trigger-batch-v1",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+        "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+        "commit": "1a248a4cbf85f447d41f443a57e1e8677723b323"
+      },
+      "freeze": {
+        "revision": "rev1",
+        "batchSha256": "194bfab3cb2171daceb79216b3bfcb88f6faa88334a7e195f5040d7f1440ff97",
+        "sourceSnapshotSha256": "d9c6f6911bd3eb6e754a3bc5a5a3822840d76e7a5c17396f59d5c40caf406330"
+      },
+      "preparation": {
+        "getCount": 1341,
+        "status200": 1335,
+        "expected404": 6,
+        "skillCount": 1062,
+        "ruleCount": 146,
+        "sourceInitializedCount": 29,
+        "bodyRulesSha256": "3339cf273ae4a9c6930b3caedd4054fdb98f27175386cc6d97f0829dff381506",
+        "metadataRulesSha256": "93bdefe86d5e4c95d5cf659b576455cbda46106977d54e4bfcf95d02ff70d927",
+        "businessWrites": 0
+      },
+      "independentApproval": {
+        "status": "APPROVED",
+        "getCount": 1341,
+        "approvedBatchSha256": "194bfab3cb2171daceb79216b3bfcb88f6faa88334a7e195f5040d7f1440ff97",
+        "approvalDecisionSha256": "87db13a3cb80198f717d03e22b71220baebd4e535723a756f220b722518cf5db",
+        "bodyRulesSha256": "3339cf273ae4a9c6930b3caedd4054fdb98f27175386cc6d97f0829dff381506",
+        "metadataRulesSha256": "93bdefe86d5e4c95d5cf659b576455cbda46106977d54e4bfcf95d02ff70d927",
+        "businessWrites": 0
+      },
+      "writer": {
+        "getCount": 138,
+        "postCount": 6,
+        "created": 6,
+        "alreadyLanded": 0,
+        "recoveryMode": false,
+        "immediateReadback": "PASS"
+      },
+      "independentReadback": {
+        "getCount": 1341,
+        "skillCount": 1062,
+        "ruleCount": 152,
+        "sourceInitializedCount": 29,
+        "oldRulesCount": 146,
+        "oldBodyRulesSha256": "3339cf273ae4a9c6930b3caedd4054fdb98f27175386cc6d97f0829dff381506",
+        "oldMetadataRulesSha256": "93bdefe86d5e4c95d5cf659b576455cbda46106977d54e4bfcf95d02ff70d927",
+        "oldRulesUnchanged": true,
+        "targetNonRuleCompositionUnchanged": true,
+        "businessWrites": 0
+      },
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 6,
+        "images": "六项列表图均64×64且加载完成",
+        "imageCache": "新建验收页初始缓存为0，经一次全量同步收到3279条变化后核对；只更新浏览器本地缓存",
+        "processesAndRules": "六个cast过程、步骤、法力挂接、主动使用事件和启动过程动作与冻结请求一致",
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0,
+        "exactBrowserGetCount": null,
+        "postBrowserGetReadback": 1069
+      },
+      "exploration": {
+        "getCount": 24,
+        "businessWrites": 0,
+        "result": "定点确认六个已有主动cast过程、空规则列表、唯一角色关系和启用代表图；各技能的命中、伤害、治疗、控制、叠层、位移或阶段复杂分支未进入写入批次。"
+      },
+      "corrections": [
+        "新建浏览器验收页的本地图片缓存为0；通过图片管理全量同步后再核验，不能把未缓存误判为代表图缺失。",
+        "沃里克Q使用立即步骤，其余五项使用延迟步骤；按实际过程分别验收。"
+      ],
+      "pending": [
+        "阿狸W的狐火实际命中、首个或后续命中计数与移动速度衰减仍未接。",
+        "黛安娜R的初始拉入、英雄命中资格、延迟爆炸、伤害、拖拽与减速仍未接。",
+        "卢锡安E的冲刺路径、圣光银弹两发命中资格与冷却返还仍未接。",
+        "图奇W的桶实际命中、停留周期叠毒、减速与毒层统一仍未接。",
+        "沃里克Q的秒放或蓄力释放、一次实际撕咬、攻击特效、治疗实际伤害口径与强制位移免疫仍未接。",
+        "赵信Q的三次强化攻击消费、额外伤害、其他技能冷却减少、第三击飞与被动计数仍未接。",
+        "Wasm组装、宿主技能使用事件和真实战斗均未执行。"
+      ],
+      "systemConclusion": "现有技能使用事件和启动过程动作足以连接六个已保存cast过程，没有新增表、字段或兼容层依据；过程结束不等于实际命中。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第二批/10-证据清单.json",
+        "sha256": "407e5e5246bca6a5ffaf39bd2e00e89e22e3c9fc0eb78ef26abd9e6d7cbfb639",
+        "commit": "dfc3b716ce7e805d95b192259ab96169660ce602"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -8411,6 +8531,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄施法过程入口补录/10-证据清单.json",
         "sha256": "e5f88fa1ad8c634750796ed9b5d32586f6332a7f611d3430dab5f47a3539d278",
         "commit": "52ff727b10c7633daaf6529214d4924211096179"
+      },
+      "sixHeroCastProcessEntryBackfillSecond": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第二批/10-证据清单.json",
+        "sha256": "407e5e5246bca6a5ffaf39bd2e00e89e22e3c9fc0eb78ef26abd9e6d7cbfb639",
+        "commit": "dfc3b716ce7e805d95b192259ab96169660ce602"
       }
     },
     "coverage": {
@@ -10893,7 +11019,7 @@
         "name": "阿狸·妖异狐火",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；狐火实际命中、首个或后续命中计数与移动速度衰减仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -10904,7 +11030,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillSecond"
         ]
       },
       {
@@ -13812,7 +13939,7 @@
         "name": "黛安娜·月之降临",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；初始拉入、至少命中一名英雄资格、延迟爆炸、伤害、拖拽与减速仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -13823,7 +13950,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillSecond"
         ]
       },
       {
@@ -19426,7 +19554,7 @@
         "name": "卢锡安·冷酷追击",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；冲刺路径、圣光银弹两发命中资格与冷却返还仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -19437,7 +19565,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillSecond"
         ]
       },
       {
@@ -27224,7 +27353,7 @@
         "name": "图奇·剧毒之桶",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；桶实际命中、停留周期叠毒、减速与毒层统一仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -27235,7 +27364,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillSecond"
         ]
       },
       {
@@ -28697,7 +28827,7 @@
         "name": "沃里克·野兽之口",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口2个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗和基础冷却已有入口；秒放或蓄力释放、一次实际撕咬、攻击特效、治疗实际伤害口径与强制位移免疫仍有来源或配置缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -28708,7 +28838,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillSecond"
         ]
       },
       {
@@ -29042,7 +29173,7 @@
         "name": "赵信·三重爪击",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；三次强化攻击消费、额外伤害、其他技能冷却减少、第三击飞与被动计数仍有来源或配置缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -29053,7 +29184,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "sixHeroCastProcessEntryBackfillSecond"
         ]
       },
       {
