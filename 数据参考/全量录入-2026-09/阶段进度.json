@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T08:46:08.289Z",
+  "generatedAt": "2026-09-13T08:50:25.568Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7782,6 +7782,67 @@
         "sha256": "8d2e1c797b790dbc8686fa0d8d3cad2e1f1f0ba2dadc2030ab2288410893941a",
         "commit": "119dd2181c872d0435aca93fa90bc3c9c88737b7"
       },
+      "runtimeValidation": "未执行"
+    },
+    "heroTriggerCandidateReviewSixthRound": {
+      "at": "2026-09-13T08:50:25.568Z",
+      "status": "迦娜E、璐璐W、璐璐R和莫甘娜E完成固定来源、当前组成及目标资格定点复核；四项均因自身施法资格或分支分流未证而暂缓",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "janna_e",
+        "lulu_w",
+        "lulu_r",
+        "morgana_e"
+      ],
+      "decision": {
+        "ready": 0,
+        "deferred": 4,
+        "excluded": 0,
+        "businessWrites": 0
+      },
+      "deferred": [
+        {
+          "skillKey": "janna_e",
+          "reason": "官方只证明友军英雄或防御塔；客户端不透明目标标签没有直接证明自身可选，护盾期间攻击力、衰减和冷却返还也未接线。"
+        },
+        {
+          "skillKey": "lulu_w",
+          "reason": "同一技能存在友方移速攻速增益与敌方变形分支，当前主动使用事件不能区分目标阵营和分支；无条件规则会错误执行自身增益。"
+        },
+        {
+          "skillKey": "lulu_r",
+          "reason": "官方只证明对友方英雄施放；现有自身最大生命结果完整，但没有自身施放资格、击飞减速范围分配或目标身份条件。"
+        },
+        {
+          "skillKey": "morgana_e",
+          "reason": "官方只证明友方英雄目标；现有魔法护盾结果完整，但自身资格和控制免疫结果未证，不能改写成一次性法术护盾。"
+        }
+      ],
+      "getEvidence": {
+        "canonicalGETs": 56,
+        "status200": 56,
+        "nonGetRequests": 0,
+        "fullSkillBaselineGETs": 0,
+        "fullRuleBaselineGETs": 0,
+        "businessWrites": 0,
+        "providedCheckpoint": {
+          "skillCount": 1062,
+          "ruleCount": 131,
+          "sourceInitializedCount": 24
+        }
+      },
+      "findings": [
+        "四项主体、参数、公式和效果均与固定候选结构一致，过程、内部状态和触发规则均为空。",
+        "四项拟执行效果的递归参数闭包均没有RUNTIME_INPUT或缺失引用；本轮阻塞不是数值供给，而是实际施法目标身份、友敌分支或控制免疫语义。",
+        "效果结果写为来源对象只说明最终受益对象，不能证明本次技能允许选择施法者本人。严格一对一场景没有队友也不能替代目标资格证据。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna第六轮英雄触发候选/候选汇总.json",
+        "sha256": "ab09615677e612ef6035af036c7d15984cacc46e6db2322dbc7201905d57576b",
+        "commit": "1628c445750a9e077875d9eca424845d6c442bfb"
+      },
+      "browserValidation": "未执行；本轮没有业务写入",
       "runtimeValidation": "未执行"
     }
   },
