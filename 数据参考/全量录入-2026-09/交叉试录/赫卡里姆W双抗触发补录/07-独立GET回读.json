@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-09-13T07:43:01.061Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 1222,
+  "statusCounts": {
+    "200": 1222
+  },
+  "transportErrorCount": 0,
+  "differenceCount": 0,
+  "differences": [],
+  "issues": [],
+  "approvedBatchSha256": "1c614bb258283f36852de2365064fc98f44bd7db4390548201788de4d1518092",
+  "frozenBodySha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c",
+  "inputEvidence": {
+    "batchSha256": "1c614bb258283f36852de2365064fc98f44bd7db4390548201788de4d1518092",
+    "frozenBodySha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c",
+    "sourceSnapshotSha256": "dec55cedcc39aa38f9f5bd78b297f16c6774d8219f919bd8e6d25b9da0de07df",
+    "baselineSha256": "03ca0a32903b20a40a245a648db797293f679120d7e2e2a9da7fb20a45c26e1f",
+    "preparationSha256": "653e18cda6ba42e95124b8a4df1876dac9d4477ec22a5017604f74bc13fc7b2c",
+    "writeEvidenceSha256": "6cd3a3e04d54257b9acae7528b04d2b9eb05112745ffcf5a3228a011527eea79",
+    "configSha256": "1b61429f74793a97fc1087f7637df0e909fb8e13ebb83dc18e2d8e8461a6fb98",
+    "executorSha256": "8d20d900de00fca98f92665dc009eb59567cbf0b5dc682a4041d9586575bab0c"
+  },
+  "boundary": "本报告仅证明一次独立认证回读：全技能目录、全部技能规则列表、全部131条规则详情，以及赫卡里姆角色/属性/双向关系/代表图和全部五类技能组成均已通过GET核对；不证明页面、Wasm组装、宿主事件生产或真实战斗运行。",
+  "completedAt": "2026-09-13T07:43:06.153Z",
+  "globalReadback": {
+    "skillDirectoryStatus": 200,
+    "skillCount": 1062,
+    "ruleListGetCount": 1062,
+    "ruleDetailGetCount": 131,
+    "ruleCount": 131,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_USED": 24,
+      "SKILL_HIT": 59,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "KILL": 2
+    },
+    "ruleRefsSha256": "6a9c7ec9170ff89849b7de333fe20df6d46c58dac63351aff0c3031960c998ee",
+    "ruleDetailsSha256": "0977aaa127f34b1804ac54bbdebb60fea2a9c7009694d79e5bf2227863246264",
+    "finalRuleSetSha256": "28f6234a1ceb617d2b192487c6d98616582dd804afcf785c1d73e418aa38ca30"
+  },
+  "oldRuleComparison": {
+    "baselineRuleCount": 130,
+    "comparedCount": 130,
+    "differenceCount": 0,
+    "unchanged": true
+  },
+  "newRule": {
+    "id": "hecarim_w/on_used",
+    "listKeyCount": 1,
+    "normalizedSha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c",
+    "equalsFrozenBody": true
+  },
+  "targetReadback": {
+    "staticGetCount": 7,
+    "staticRoutes": [
+      "subject",
+      "owner",
+      "ownerAttributes",
+      "ownerRepresentativeImage",
+      "relationByOwner",
+      "relationBySkill",
+      "skillRepresentativeImage"
+    ],
+    "componentListGetCount": 5,
+    "componentDetailCounts": {
+      "parameters": 11,
+      "formulas": 2,
+      "effects": 3,
+      "processes": 0,
+      "internal-states": 0
+    },
+    "nonRuleSnapshotSha256": "b1b59bc003cdf4726b90e06b5324a7b795ee1f06fadff2906867c2c0a7e1cecd",
+    "matchesWriteBeforeNonRuleSnapshot": true
+  }
+}

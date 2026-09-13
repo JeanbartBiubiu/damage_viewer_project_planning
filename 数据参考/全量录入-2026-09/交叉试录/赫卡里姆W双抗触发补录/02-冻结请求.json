@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "frozenAt": "2026-09-13T07:33:45.048Z",
+  "status": "FROZEN_FOR_MAIN_REVIEW",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 130,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 131
+  },
+  "target": {
+    "ownerKey": "champion_hecarim",
+    "skillKey": "hecarim_w",
+    "ruleKey": "on_used",
+    "effectKeys": [
+      "armor_gain",
+      "magic_resistance_gain"
+    ],
+    "omitted": [
+      "四秒持续魔法伤害、周期节拍与附近目标枚举",
+      "基于实际伤害的自身治疗、友军治疗与兵野治疗上限",
+      "法力消耗、冷却、施法时间与战斗施放资格"
+    ]
+  },
+  "allowedOperations": [
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/trigger-rules"
+    }
+  ],
+  "request": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/trigger-rules",
+    "body": {
+      "ruleKey": "on_used",
+      "name": "恐惧之灵主动使用",
+      "description": "接收 hecarim_w 主动使用；依次执行已有 armor_gain 与 magic_resistance_gain 自身双抗效果。持续伤害、实际伤害治疗、周期节拍、附近目标、法力消耗、冷却和施法资格继续暂缓。管理保存不证明宿主已生产该事件。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SKILL_USED",
+        "detail": {
+          "sourceSkillKey": "hecarim_w",
+          "useKind": "ACTIVE"
+        }
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "execute_armor_gain",
+          "name": "执行恐惧之灵自身护甲",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "armor_gain"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        },
+        {
+          "actionKey": "execute_magic_resistance_gain",
+          "name": "执行恐惧之灵自身魔抗",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 20,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "magic_resistance_gain"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "bodySha256": "cf78066c1eb4222cd7da01cdd15e8627f0134867f8720b234f91bfe15001ae5c"
+  },
+  "sourceSnapshotSha256": "dec55cedcc39aa38f9f5bd78b297f16c6774d8219f919bd8e6d25b9da0de07df",
+  "configSha256": "1b61429f74793a97fc1087f7637df0e909fb8e13ebb83dc18e2d8e8461a6fb98",
+  "executorSha256": "8d20d900de00fca98f92665dc009eb59567cbf0b5dc682a4041d9586575bab0c",
+  "authorizationValueRecorded": false,
+  "batchSha256": "1c614bb258283f36852de2365064fc98f44bd7db4390548201788de4d1518092"
+}
