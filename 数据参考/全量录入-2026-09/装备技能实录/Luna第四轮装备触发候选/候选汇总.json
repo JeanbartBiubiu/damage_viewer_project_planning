@@ -1,0 +1,361 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T07:24:16.2410653Z",
+  "status": "REVIEWED_DEFERRED",
+  "methodPolicy": "GET_ONLY",
+  "businessWrites": 0,
+  "sourceVersion": "16.17/16.17.1",
+  "sources": [
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+      "role": "官方16.17.1装备中文说明、直接属性和装备身份"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20",
+      "role": "客户端16.17装备列表中文说明旁证"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "role": "客户端16.17装备对象、命名数据和计算树"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "role": "客户端16.17中文绑定说明"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/亡者板甲减速抗性补录/10-装备剩余安全候选扫描.json",
+      "sha256": "559d0489afe89244722ede918259ab80fcf122b8cfa67828d2f993d3576d079a",
+      "role": "剩余装备安全候选扫描；两个分区均未发现可直接写入的新候选"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/阶段进度.json",
+      "sha256": "d9b915342378fe82a47f79f3e5e8fbbbebbda6496aea9ff06e880aba42671ab3",
+      "role": "当前阶段装备组成和批次进度"
+    }
+  ],
+  "reviewRounds": [
+    {
+      "name": "六项剩余装备候选定点复核",
+      "targetedGETs": 115,
+      "candidateCompositionGETs": 102,
+      "catalogGETs": 13,
+      "businessWrites": 0,
+      "nonGetRequests": 0,
+      "fullSkillBaselineGETs": 0,
+      "fullRuleBaselineGETs": 0,
+      "candidates": [
+        {
+          "equipmentKey": "item_3145",
+          "equipmentName": "海克斯科技发电机",
+          "skillKey": "item_3145_passive",
+          "effectName": "转速加快",
+          "status": "DEFERRED",
+          "sourceFragments": [
+            {
+              "path": "官方原始资料/item-16.17.1-zh_CN.json",
+              "pointer": "/data/3145/description",
+              "fragment": "对一名敌方英雄造成伤害时会造成额外魔法伤害"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+              "pointer": "Items/3145/mDataValues/Cooldown; Items/3145/mItemCalculations/DamageAmount/mFormulaParts[0]/mNumber",
+              "fragment": "Cooldown=40；DamageAmount=65"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+              "pointer": "entries/item_3145_tooltip",
+              "fragment": "Item_Cooldown、DamageAmount"
+            }
+          ],
+          "existingComposition": {
+            "liveGET": {
+              "skill": 200,
+              "parameters": 2,
+              "formulas": 0,
+              "effects": 0,
+              "processes": 0,
+              "internalStates": 0,
+              "triggerRules": 0,
+              "equipmentRelationItems": 1
+            },
+            "evidencePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十三批常规效果/独立全量回读.json",
+            "evidenceSha256": "d0a4aa27ca382c1f8f131de3c2a2d75eef87412a9c79f5b3a89eb8d39b4c11a9"
+          },
+          "suggestedAddition": "保留65点额外魔法伤害和40秒冷却参数；待合法敌方英雄伤害事件、冷却消费及装备自身附伤递归排除可表达后，再建DAMAGE效果和触发规则。",
+          "reason": "当前不能同时完成广义DAMAGE_DEALT的英雄目标筛选、冷却就绪与消费及自身附伤递归排除；不能缩成普通攻击、技能命中或无条件附伤。"
+        },
+        {
+          "equipmentKey": "item_3144",
+          "equipmentName": "斥候弹弓",
+          "skillKey": "item_3144_passive",
+          "effectName": "靶心",
+          "status": "DEFERRED",
+          "sourceFragments": [
+            {
+              "path": "官方原始资料/item-16.17.1-zh_CN.json",
+              "pointer": "/data/3144/description",
+              "fragment": "对一名敌方英雄造成伤害时会造成额外魔法伤害；攻击可使这个冷却时间缩减1秒"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+              "pointer": "Items/3144/mDataValues/Cooldown; Items/3144/mItemCalculations/DamageAmount/mFormulaParts[0]/mNumber",
+              "fragment": "Cooldown=40；DamageAmount=40"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+              "pointer": "entries/item_3144_tooltip",
+              "fragment": "Item_Cooldown、DamageAmount及攻击减冷却1秒"
+            }
+          ],
+          "existingComposition": {
+            "liveGET": {
+              "skill": 200,
+              "parameters": 3,
+              "formulas": 0,
+              "effects": 0,
+              "processes": 0,
+              "internalStates": 0,
+              "triggerRules": 0,
+              "equipmentRelationItems": 1
+            },
+            "evidencePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十四批常规效果/独立全量回读.json",
+            "evidenceSha256": "e381c6e08409ce25be5bef7ca151a586da2e27ac4b78f517138928911fddd461"
+          },
+          "suggestedAddition": "保留40点额外魔法伤害、40秒冷却和每次符合条件攻击减1000毫秒参数；待伤害触发资格、冷却消费和攻击减冷却时点可表达后再补规则。",
+          "reason": "来源是对敌方英雄造成伤害而非任意普通攻击；还缺持有者冷却消费、攻击命中时点和目标资格，不能用宽泛BASIC_ATTACK_HIT代替。"
+        },
+        {
+          "equipmentKey": "item_3065",
+          "equipmentName": "振奋盔甲",
+          "skillKey": "item_3065_passive",
+          "effectName": "无拘活力",
+          "status": "DEFERRED",
+          "sourceFragments": [
+            {
+              "path": "官方原始资料/item-16.17.1-zh_CN.json",
+              "pointer": "/data/3065/description",
+              "fragment": "你身上的治疗和护盾效果提升25%"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+              "pointer": "Items/3065/mDataValues/HealingIncrease、ShieldIncrease",
+              "fragment": "HealingIncrease=0.25；ShieldIncrease=0.25"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+              "pointer": "entries/item_3065_tooltip、entries/generatedtip_item_3065_externaldescription",
+              "fragment": "自身治疗和护盾效果提升25%"
+            }
+          ],
+          "existingComposition": {
+            "liveGET": {
+              "skill": 200,
+              "parameters": 1,
+              "formulas": 0,
+              "effects": 0,
+              "processes": 0,
+              "internalStates": 0,
+              "triggerRules": 0,
+              "equipmentRelationItems": 1
+            },
+            "evidencePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/Luna第六批/独立最终回读.json",
+            "evidenceSha256": "6c0568a7c8754819f2508d93ea3471a913d9240fa076b2645f46bdac45cea80e"
+          },
+          "suggestedAddition": "待治疗修正乘区和受到护盾修正结构可用后，分别补自身承受治疗与护盾修正；不改成施放强度或普通属性效果。",
+          "reason": "当前只有治疗/护盾增幅参数；治疗修正乘区和受到护盾修正结构均未形成，不能用现有属性目录代替。"
+        },
+        {
+          "equipmentKey": "item_3116",
+          "equipmentName": "瑞莱的冰晶节杖",
+          "skillKey": "item_3116_passive",
+          "effectName": "凝霜（现技能名：冰脉）",
+          "status": "DEFERRED",
+          "sourceFragments": [
+            {
+              "path": "官方原始资料/item-16.17.1-zh_CN.json",
+              "pointer": "/data/3116/description",
+              "fragment": "伤害型技能会使敌人减速30%，持续1秒"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+              "pointer": "Items/3116/mDataValues/SlowAmount、SlowDuration",
+              "fragment": "SlowAmount=0.3；SlowDuration=1"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+              "pointer": "entries/item_3116_tooltip、entries/item_3116_tooltipexternal",
+              "fragment": "伤害型技能使敌人减速30%，持续1秒"
+            }
+          ],
+          "existingComposition": {
+            "liveGET": {
+              "skill": 200,
+              "parameters": 2,
+              "formulas": 0,
+              "effects": 0,
+              "processes": 0,
+              "internalStates": 0,
+              "triggerRules": 0,
+              "equipmentRelationItems": 1
+            },
+            "evidencePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/Luna第五批/逐字段回读证据.json",
+            "evidenceSha256": "ccad276c4016bd885f9c0cad0e28dd547a8a5f0a331d8b16b44f386d858713c9",
+            "pendingEffect": "skill_damage_slow：STATUS_OPERATION/APPLY，statusKey当前为空"
+          },
+          "suggestedAddition": "待登记slow状态并确认伤害型技能命中事件后，补STATUS_OPERATION/APPLY；保留0.3减速和1000毫秒参数。",
+          "reason": "当前GET /statuses只有vertigo（眩晕），没有slow；后端STATUS_OPERATION要求有效statusKey。不能用眩晕、移动速度属性或其他状态近似减速。"
+        },
+        {
+          "equipmentKey": "item_4645",
+          "equipmentName": "影焰",
+          "skillKey": "item_4645_passive",
+          "effectName": "余烬绽放",
+          "status": "DEFERRED",
+          "sourceFragments": [
+            {
+              "path": "官方原始资料/item-16.17.1-zh_CN.json",
+              "pointer": "/data/4645/description",
+              "fragment": "魔法伤害和真实伤害会暴击低于40%生命值的敌人，造成20%提升伤害"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+              "pointer": "Items/4645/mDataValues/HealthThreshold、SpellItemDamageAmp、DamageOverTimeAmp",
+              "fragment": "HealthThreshold=0.4；SpellItemDamageAmp=0.2；DamageOverTimeAmp=0.2"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+              "pointer": "entries/item_4645_tooltip、entries/item_4645_tooltipextendedrules",
+              "fragment": "该暴击伤害修正只影响余烬绽放的额外伤害"
+            }
+          ],
+          "existingComposition": {
+            "liveGET": {
+              "skill": 200,
+              "parameters": 3,
+              "formulas": 1,
+              "effects": 0,
+              "processes": 0,
+              "internalStates": 0,
+              "triggerRules": 0,
+              "equipmentRelationItems": 1
+            },
+            "evidencePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十八批剩余自身效果/最终候选.json",
+            "evidenceSha256": "4863b2119fd7f154d188d207f4b6e465d3719146f35dd1cc2bfb047e4b294a2b"
+          },
+          "suggestedAddition": "待形成能同时表达生命阈值、魔法或真实伤害资格以及仅额外伤害修正的DAMAGE_MODIFIER后，再补效果；不创建无条件20%增伤。",
+          "reason": "当前DAMAGE_MODIFIER要求有效修正区、方向、产生方式、来源性质和暴击过滤；当前DAMAGE修正区只有铁板靴和兰顿，且单一damageTypeKey不能直接表达魔法或真实两类联合资格。"
+        },
+        {
+          "equipmentKey": "item_6694",
+          "equipmentName": "赛瑞尔达的怨恨",
+          "skillKey": "item_6694_passive",
+          "effectName": "严寒",
+          "status": "DEFERRED",
+          "sourceFragments": [
+            {
+              "path": "官方原始资料/item-16.17.1-zh_CN.json",
+              "pointer": "/data/6694/description",
+              "fragment": "伤害型技能会对低于50%生命值的敌人造成持续1秒的30%减速"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+              "pointer": "Items/6694/mDataValues/SlowAmount、SlowDuration、SlowThreshold",
+              "fragment": "SlowAmount=0.3；SlowDuration=1；SlowThreshold=0.5"
+            },
+            {
+              "path": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+              "pointer": "entries/item_6694_tooltip",
+              "fragment": "伤害型技能、低于阈值生命、30%减速和1秒持续"
+            }
+          ],
+          "existingComposition": {
+            "liveGET": {
+              "skill": 200,
+              "parameters": 3,
+              "formulas": 0,
+              "effects": 0,
+              "processes": 0,
+              "internalStates": 0,
+              "triggerRules": 0,
+              "equipmentRelationItems": 1
+            },
+            "evidencePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/第十八批剩余自身效果/最终候选.json",
+            "evidenceSha256": "4863b2119fd7f154d188d207f4b6e465d3719146f35dd1cc2bfb047e4b294a2b"
+          },
+          "suggestedAddition": "待slow状态、伤害型技能资格和目标生命值时点可表达后，补严格低于50%的STATUS_OPERATION/APPLY；保留0.3和1000毫秒参数。",
+          "reason": "同时依赖slow状态、伤害型技能资格和准确生命值时点；不能把阈值近似为任意命中，也不能把严格小于改成小于等于。"
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "ready": [],
+    "deferred": [
+      "item_3145_passive",
+      "item_3144_passive",
+      "item_3065_passive",
+      "item_3116_passive",
+      "item_4645_passive",
+      "item_6694_passive"
+    ],
+    "excluded": [],
+    "status": "NO_READY_CANDIDATE",
+    "reason": "六项均已有来源明确的参数或公式，但完整触发所需的事件资格、冷却、状态、生命阈值或伤害修正区尚未具备；本轮不生成写入请求。"
+  },
+  "commonGaps": [
+    "广义敌方英雄伤害事件的目标资格、冷却消费和装备附伤递归排除",
+    "下一次普通攻击待命/消费不适用于本批，但相关旧候选不得被近似为普通攻击即时触发",
+    "目标生命值阈值的准确事件时点及严格比较",
+    "slow状态及STATUS_OPERATION施加链路",
+    "DAMAGE_MODIFIER修正区、魔法或真实伤害联合资格及仅额外伤害修正",
+    "自身受到治疗和护盾的修正乘区"
+  ],
+  "getEvidence": {
+    "methods": {
+      "GET": 115
+    },
+    "businessWrites": 0,
+    "nonGetRequests": 0,
+    "candidateLists": {
+      "equipmentBody": 6,
+      "equipmentAttributes": 6,
+      "equipmentImages": 6,
+      "equipmentRelations": 6,
+      "skillSubjects": 6,
+      "parameters": 6,
+      "formulas": 6,
+      "effects": 6,
+      "processes": 6,
+      "internalStates": 6,
+      "triggerRules": 6
+    },
+    "catalogObservations": {
+      "statuses": {
+        "route": "/statuses",
+        "status": 200,
+        "enabledKeys": ["vertigo"],
+        "slowKeywordCount": 0
+      },
+      "damageTypes": {
+        "route": "/damage-types",
+        "status": 200,
+        "enabledKeys": ["physics", "magic", "real"]
+      },
+      "damageModifierZones": {
+        "route": "/modifier-zones?domain=DAMAGE",
+        "status": 200,
+        "items": [
+          "item_3047_basic_damage_reduction",
+          "item_3143_critical_damage_reduction"
+        ]
+      }
+    }
+  },
+  "systemConclusion": "当前持久化结构可以保存本批六项已有参数或公式，但不能安全补齐其触发或独立效果。阻塞集中在事件上下文、目标资格、冷却/状态/时点和修正乘区，不形成新增表依据。",
+  "runtimeValidation": "未执行",
+  "browserValidation": "未执行；本轮没有业务写入"
+}
