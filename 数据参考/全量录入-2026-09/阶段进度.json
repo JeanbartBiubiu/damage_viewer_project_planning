@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T10:10:54.313Z",
+  "generatedAt": "2026-09-13T10:40:00.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7906,6 +7906,97 @@
       },
       "browserValidation": "未执行；本轮没有业务写入",
       "runtimeValidation": "未执行"
+    },
+    "fourHeroSelfBuffTriggerBackfill": {
+      "at": "2026-09-13T10:40:00.000Z",
+      "status": "洛R、沃利贝尔R、阿克尚Q和嘉文E四项已有自身增益完成冻结、受保护写入、独立GET回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "rakan_r",
+        "volibear_r",
+        "akshan_q",
+        "jarvaniv_e"
+      ],
+      "created": {
+        "triggerRules": 4,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "rules": [
+        "rakan_r/on_used：主动使用后执行self_initial_move_speed",
+        "volibear_r/on_used：主动使用后执行attack_range",
+        "akshan_q/actual_champion_hit：实际命中英雄后执行champion_hit_move_speed",
+        "jarvaniv_e/initialize_self_attack_speed：来源初始化时执行self_attack_speed"
+      ],
+      "freeze": {
+        "revision": "rev2",
+        "batchSha256": "b4823956a9a5cf275830a933f4fae391228ef92a86952bad1dfd10e8f27173bb",
+        "sourceSnapshotSha256": "9ef573e77081d8bf1de21a80780812f029fa7baeb795b23f3254c17cb77700d2",
+        "requestBodiesUnchangedFromRev1": true
+      },
+      "preparation": {
+        "getCount": 1286,
+        "status200": 1282,
+        "expected404": 4,
+        "skillCount": 1062,
+        "ruleCount": 131,
+        "sourceInitializedCount": 24,
+        "businessWrites": 0
+      },
+      "writer": {
+        "getCount": 96,
+        "postCount": 4,
+        "created": 4,
+        "alreadyLanded": 0,
+        "recoveryMode": false,
+        "immediateReadback": "PASS"
+      },
+      "independentReadback": {
+        "getCount": 1286,
+        "skillCount": 1062,
+        "ruleCount": 135,
+        "sourceInitializedCount": 25,
+        "oldRulesCount": 131,
+        "oldRulesUnchanged": true,
+        "targetNonRuleCompositionUnchanged": true,
+        "businessWrites": 0
+      },
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 4,
+        "images": "四项列表图均64×64且加载完成",
+        "effectsAndRules": "四项效果、事件、条件组数和动作摘要与冻结请求一致",
+        "consoleErrors": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0,
+        "exactBrowserGetCount": null,
+        "postBrowserGetReadback": 1067
+      },
+      "corrections": [
+        "第一版独立检查器按候选摘要把预期GET数写成1280；规范预检实际为1286，在任何业务写入前修正并保留首版证据。",
+        "第二版首次准备因未注入进程令牌在任何接口请求前停止；随后按标准命令重新执行。",
+        "并行Luna代理在开始工作前收到503认证不可用，没有文件或业务请求，由主负责人接手。",
+        "浏览器控件按实际可访问名称和页面中文术语定位；只读断言失败没有重放业务写入。"
+      ],
+      "pending": [
+        "洛R触敌伤害、魅惑、首次触敌衰减移速与完整施法资源仍未接。",
+        "沃利贝尔R生命增益、跳跃落点、压中伤害、减速及建筑物分支仍未接。",
+        "阿克尚Q去返程次数、伤害、显形和移速衰减仍未接。",
+        "嘉文E落点伤害、附近友军光环、旗帜连接与控制仍未接。",
+        "Wasm组装、宿主事件生产和真实战斗均未执行。"
+      ],
+      "systemConclusion": "现有技能触发规则、目标类别条件、动作和生命周期结构足以保存四项分支，没有新增表、字段或兼容层依据。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄自身增益触发补录/10-证据清单.json",
+        "sha256": "de66444af50f66d1d5be3abfc3c63baac3547c918b3f9ba2d076b2d2ce73a7b0",
+        "commit": "7b98351e7798edde2ae496a210056833955cc81d"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -7977,6 +8068,12 @@
       "equipmentEffectReview": {
         "relativePath": "数据参考/全量录入-2026-09/装备效果候选/逐件审阅.json",
         "sha256": "7ff2b02e46199d8e3a41aae84888b9df0cb9c7206b5d7e4a8c647efef565bb05"
+      },
+      "fourHeroSelfBuffTriggerBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄自身增益触发补录/10-证据清单.json",
+        "sha256": "de66444af50f66d1d5be3abfc3c63baac3547c918b3f9ba2d076b2d2ce73a7b0",
+        "commit": "7b98351e7798edde2ae496a210056833955cc81d"
       }
     },
     "coverage": {
@@ -10665,7 +10762,7 @@
         "name": "阿克尚·去而复还",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "实际命中英雄后的自身移动速度规则已保存并完成两路GET与页面验收；去返程次数、伤害、显形和移速衰减仍缺事件或时序接线。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -10676,7 +10773,8 @@
         "candidateSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroSelfBuffTriggerBackfill"
         ]
       },
       {
@@ -16111,7 +16209,7 @@
         "name": "嘉文四世·德邦军旗",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "自身被动攻击速度来源初始化规则已保存并完成两路GET与页面验收；军旗落点伤害、友军光环、旗帜连接和控制仍缺事件或目标接线。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -16122,7 +16220,8 @@
         "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroSelfBuffTriggerBackfill"
         ]
       },
       {
@@ -22459,7 +22558,7 @@
         "name": "洛·惊鸿过隙",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "主动使用后的4秒初始移动速度规则已保存并完成两路GET与页面验收；触敌伤害、魅惑、首次触敌衰减移速和完整施法资源仍未接线。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -22470,7 +22569,8 @@
         "candidateSha256": "d0e2ecf93dce78d41da7e01190a8092704120a198c255625086c9cb1513017a5",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroSelfBuffTriggerBackfill"
         ]
       },
       {
@@ -28204,7 +28304,7 @@
         "name": "沃利贝尔·天声震落",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口1个。",
+        "reason": "主动使用后的12秒额外攻击距离规则已保存并完成两路GET与页面验收；压中伤害来源结果、生命增益、跳跃落点、减速和建筑物分支仍有资料及系统缺口。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
@@ -28215,7 +28315,8 @@
         "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroSelfBuffTriggerBackfill"
         ]
       },
       {
