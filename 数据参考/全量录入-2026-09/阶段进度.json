@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T04:17:13.310Z",
+  "generatedAt": "2026-09-13T05:37:14.280Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7037,6 +7037,161 @@
         }
       ],
       "browserValidation": "未执行；本批没有写入业务数据",
+      "runtimeValidation": "未执行"
+    },
+    "tenHeroCandidateReviewSixTriggerBackfill": {
+      "at": "2026-09-13T05:37:14.280Z",
+      "status": "十项英雄主动触发完成独立语义复核，其中六条规则完成Cursor终审、受保护写入、独立GET回读和真实页面验收；艾希Q、提莫W、沃利贝尔E与兰博W因资格、互斥状态、时点或动态输入缺口暂缓",
+      "sourceVersion": "16.17.1",
+      "reviewedSkills": [
+        "blitzcrank_w",
+        "draven_w",
+        "garen_q",
+        "kogmaw_w",
+        "monkeyking_e",
+        "drmundo_r",
+        "ashe_q",
+        "teemo_w",
+        "volibear_e",
+        "rumble_w"
+      ],
+      "created": {
+        "triggerRules": 6
+      },
+      "semantics": [
+        "布里茨W、德莱文W、盖伦Q、克格莫W、孙悟空E与蒙多R均只执行已有且不依赖未供给动态输入的自身攻击速度、移动速度或攻击距离等独立增益。",
+        "每条规则只接入一次主动使用入口，不混入移动速度衰减、强化普攻、附带伤害、分身、生命回复或周期行为。",
+        "孙悟空E只执行来源自身攻击速度，不按分身或目标数量重复。"
+      ],
+      "deferred": [
+        {
+          "skillKey": "ashe_q",
+          "ruleKey": "on_used",
+          "reason": "当前技能使用事件没有四层全神贯注的合法激活资格，也不能完成层数消费。"
+        },
+        {
+          "skillKey": "teemo_w",
+          "ruleKey": "on_used",
+          "reason": "主动完整移速必须与被动互斥，并在三秒后按受击资格恢复；直接执行会在后续接线时重复叠加。"
+        },
+        {
+          "skillKey": "volibear_e",
+          "ruleKey": "on_used",
+          "reason": "护盾只在延时落雷且来源仍处于区域内时成立，当前事件没有落地时点和区域资格。"
+        },
+        {
+          "skillKey": "rumble_w",
+          "ruleKey": "on_used",
+          "reason": "普通与危险温度分支必须互斥，当前事件没有热量快照，护盾还缺少来源生命值动态输入。"
+        }
+      ],
+      "preparation": {
+        "candidateGETs": 1337,
+        "mergedGETs": 2674,
+        "status200": 2662,
+        "expected404": 12,
+        "businessWrites": 0,
+        "priorRuleCount": 120,
+        "skillCount": 1062,
+        "sourceInitializedCount": 24,
+        "sourceSnapshotSha256": "84578cc8d435df677ed33ae6f736d117f8ad7732dba28491d77aa46a9a3e9c38",
+        "frozenRequestSha256": "aef42e9bb761ba6575df7f3c4d1a3004be8b3c6e46714a4ced048f432c0a4d1e",
+        "baselineSha256": "5da4c84dd1a27d7a7f019291b0f1f042298597b8ce339c919e83bd7299ac94f1"
+      },
+      "cursorReview": {
+        "runId": "run-3c252b43-37db-405c-945d-8cf7d2bdc0b4",
+        "requestId": "ccefae2f-f2dc-49fc-8469-ac9a6150c343",
+        "agentId": "agent-5cba11df-4130-4a99-9913-4709382d02ab",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "sdkVersion": "1.0.24",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 34,
+        "completedToolCalls": 34,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false,
+        "auditAvailable": true,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0,
+        "invalidAttemptsExcluded": 2
+      },
+      "writer": {
+        "protectedGETs": 4035,
+        "businessWrites": 6,
+        "POST": 6,
+        "status201": 6,
+        "immediateReadbacks": 6,
+        "replayedWrites": 0,
+        "priorRuleCount": 120,
+        "finalRuleCount": 126,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 1349,
+        "businessWrites": 0,
+        "priorRulesUnchanged": 120,
+        "newRulesMatched": 6,
+        "nonRuleTargetsUnchanged": 6,
+        "skillCount": 1062,
+        "finalRuleCount": 126,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 314,
+        "businessWrites": 0,
+        "skills": [
+          "blitzcrank_w",
+          "draven_w",
+          "garen_q",
+          "kogmaw_w",
+          "monkeyking_e",
+          "drmundo_r"
+        ],
+        "checks": 7,
+        "listImagesVisible": 6,
+        "imageNaturalSize": "64x64",
+        "formulaDetailsVisible": 1,
+        "directEffectDetailsVisible": 6,
+        "triggerDetailsVisible": 6,
+        "screenshots": 19,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "protected": {
+        "priorRulesUnchanged": 120,
+        "skillSubjectsUnchanged": true,
+        "ownerRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "experienceIssues": [
+        "独立语义评审将初始十项可写判断收敛为六项，避免绕过层数资格、互斥状态、落地时点和动态输入。",
+        "真实页面验收对象必须与冻结请求中的技能、规则和效果键机器比对；本批在写入前发现沿用上一批清单并修正。",
+        "独立自身增益在参数、公式和结果完整且无动态输入时可以稳定批量接线，不需要新增表或管理页面。",
+        "运行时事件上下文、资格条件、互斥状态和动态输入供值是当前主要缺口，继续压低表数不能解决。"
+      ],
+      "pending": [
+        "艾希Q、提莫W、沃利贝尔E与兰博W按本批暂缓原因等待通用运行能力后返回。",
+        "六条新增规则未覆盖各技能其余并列机制，也尚未执行宿主事件、战斗运行或Wasm验收。",
+        "后续代理按每批二至六项语义对象工作；每批全量基线只读一次，Cursor只处理高风险终审或稳定大批机械操作。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/09-证据清单.json",
+        "sha256": "81ea50b3c752708772a95e43495fca02dde4e66ab8befa70981c481158bee3b7",
+        "commit": "e8ce353cf7defab5609a61a1c60742ed31daee8d"
+      },
       "runtimeValidation": "未执行"
     }
   },
