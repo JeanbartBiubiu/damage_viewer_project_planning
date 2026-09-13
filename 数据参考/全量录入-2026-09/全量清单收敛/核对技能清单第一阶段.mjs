@@ -323,7 +323,10 @@ function runCheckStage() {
   assert.equal(ledger.coverage.skills.sourceItems, 865);
   assert(ledger.coverage.skills.concludedItems >= 560);
   assert(ledger.coverage.skills.remainingInScopeItems <= 305);
-  assert.equal(ledger.coverage.skills.status, 'PARTIAL_RECONCILIATION');
+  assert.equal(
+    ledger.coverage.skills.status,
+    ledger.coverage.skills.remainingInScopeItems === 0 ? 'FULL_COVERAGE_WITH_OPEN_QUEUE' : 'PARTIAL_RECONCILIATION'
+  );
   assert.equal(ledger.evidence.skillFirstStageCurrentReadback.sha256, fileSha(outputPath));
   assert(ledger.skills.every(item => ledger.allowedConclusions.includes(item.conclusion)), '技能结论含非法枚举');
   process.stdout.write(JSON.stringify({ status: 'PASS', phaseItemsVerified: expectedEntries.length, currentSkillItems: ledger.skills.length, currentConclusions: ledger.coverage.skills.conclusions, remainingInScopeItems: ledger.coverage.skills.remainingInScopeItems, evidenceSha256: fileSha(outputPath) }, null, 2));

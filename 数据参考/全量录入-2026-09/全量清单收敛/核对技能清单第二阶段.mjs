@@ -274,12 +274,12 @@ function runCheckStage() {
   const evidence = readJson(outputPath);
   const stage = readJson(stagePath);
   const ledger = stage.inventoryConclusions;
-  assert.equal(ledger.skills.length, 700);
-  assert.equal(new Set(ledger.skills.map(item => item.sourceChampionId + '/' + item.slot)).size, 700);
+  assert(ledger.skills.length >= 700, '技能结论不能少于第二阶段已收敛的700项');
+  assert.equal(new Set(ledger.skills.map(item => item.sourceChampionId + '/' + item.slot)).size, ledger.skills.length);
   assert.equal(ledger.coverage.skills.sourceItems, 865);
-  assert.equal(ledger.coverage.skills.concludedItems, 700);
-  assert.equal(ledger.coverage.skills.remainingInScopeItems, 165);
-  assert.equal(ledger.coverage.skills.matchedInScopeItems, 690);
+  assert.equal(ledger.coverage.skills.concludedItems, ledger.skills.length);
+  assert(ledger.coverage.skills.remainingInScopeItems <= 165, '后续阶段不能增加未收敛技能数');
+  assert(ledger.coverage.skills.matchedInScopeItems >= 690, '后续阶段不能减少已匹配范围内技能数');
   assert.deepEqual(ledger.coverage.skills.conclusions, distribution(ledger.skills));
   assert.equal(ledger.evidence.skillSecondStageCurrentReadback.sha256, fileSha(outputPath));
   const expected = new Map(entriesFromEvidence(evidence).map(item => [item.sourceChampionId + '/' + item.slot, item]));
