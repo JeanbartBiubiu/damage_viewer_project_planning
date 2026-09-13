@@ -1,0 +1,2850 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T04:05:21.214Z",
+  "title": "Luna第二轮装备触发候选",
+  "scope": {
+    "writeDirectory": "数据参考/全量录入-2026-09/装备技能实录/Luna第二轮装备触发候选",
+    "allowedOperation": "仅 GET 资料核对与候选准备",
+    "fixedClientVersion": "16.17",
+    "fixedOfficialVersion": "16.17.1",
+    "businessWrites": 0,
+    "nonGetRequests": 0,
+    "tokenRecorded": false,
+    "gitUsed": false,
+    "browserUsed": false
+  },
+  "selectionPolicy": {
+    "requiredCount": "3至5项",
+    "direct1v1Only": true,
+    "reuseExistingGenericEventEffectProcess": true,
+    "excluded": [
+      "经验",
+      "金币",
+      "视野",
+      "纯队友效果",
+      "竞技场",
+      "大乱斗",
+      "需要新增运行机制才能正确表达的效果"
+    ],
+    "noGuessing": true,
+    "selectionResult": "三项均为严格一对一相关，并存在可复用的现有效果或通用事件范式；三项均因触发时序、状态、冷却或完整效果缺口暂缓，未形成可安全写入请求。"
+  },
+  "sourceEvidence": {
+    "fixedVersions": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "officialVersionField": "16.17.1",
+    "files": {
+      "official": {
+        "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+        "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+      },
+      "clientItems": {
+        "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+        "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+      },
+      "clientValues": {
+        "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+        "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+      },
+      "normalizedItems": {
+        "path": "C:/project/damage_web_dev/数据参考/lol-wiki-current-items/current-items.normalized.json",
+        "sha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4"
+      }
+    },
+    "sourceSelectionNote": "官方数据用于16.17.1中文说明；客户端物品表和cdtb用于16.17数值/键；现有规范化资料只作固定版本语义交叉核对，不替代真实 API。"
+  },
+  "catalog": {
+    "route": "/skills",
+    "status": 200,
+    "total": 1062
+  },
+  "damageTypes": {
+    "route": "/damage-types",
+    "status": 200,
+    "data": {
+      "items": [
+        {
+          "createdAt": "2026-08-26T05:59:09.635701Z",
+          "damageTypeKey": "physics",
+          "description": null,
+          "gameId": "lol",
+          "name": "物理伤害",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:09.635701Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:58:49.612762Z",
+          "damageTypeKey": "real",
+          "description": null,
+          "gameId": "lol",
+          "name": "真实伤害",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:58:49.612762Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:15.870937Z",
+          "damageTypeKey": "magic",
+          "description": null,
+          "gameId": "lol",
+          "name": "魔法伤害",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:15.870937Z"
+        }
+      ],
+      "total": 3
+    }
+  },
+  "genericReuseEvidence": [
+    {
+      "skillKey": "masteryi_r",
+      "ruleKey": "on_used",
+      "purpose": "SKILL_USED 后顺序执行自身效果",
+      "route": "/skills/masteryi_r/trigger-rules/on_used",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "attack_speed"
+            },
+            "name": "执行高原血统额外攻击速度",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          },
+          {
+            "actionKey": "execute_move_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "move_speed"
+            },
+            "name": "执行高原血统额外移动速度",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 20,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收 masteryi_r 主动使用；无条件在 CURRENT_TARGET 上依次执行已有 attack_speed 和 move_speed。两个效果结果 target=SOURCE，均使用 duration_ms（7000毫秒）；相关的减速免疫、击杀/助攻延长、普通技能冷却变化、法力消耗和基础冷却留待后续规则补录。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "masteryi_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "高原血统主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      },
+      "sha256": "7fb2c58994d6cafccf0b531ee00e71729e0ac03712f7f5f8502b13627480d9ef"
+    },
+    {
+      "skillKey": "diana_w",
+      "ruleKey": "on_used",
+      "purpose": "SKILL_USED 后启动已有施放过程",
+      "route": "/skills/diana_w/trigger-rules/on_used",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动苍白之瀑施放过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收 diana_w 主动使用；无条件在 CURRENT_TARGET 上启动已有 cast 过程，由该过程绑定法力、冷却和 pale_cascade_shield。该效果结果为 target=SOURCE 的一次普通护盾，使用 shield 公式并持续 shield_duration_ms（5000毫秒）；相关的法球碰撞伤害、最后一颗法球后的额外护盾与刷新留待后续规则补录。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "diana_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "苍白之瀑主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      },
+      "sha256": "896bebc9c8d3878bacff22417d662455bec6e950d446ade8fc260b4cd46ec338"
+    },
+    {
+      "skillKey": "item_6631_active",
+      "ruleKey": "actual_hit",
+      "purpose": "SKILL_HIT 加英雄目标条件后执行效果",
+      "route": "/skills/item_6631_active/trigger-rules/actual_hit",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_active_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "active_hit"
+            },
+            "name": "执行破阵冲击波主动命中",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "命中对象为英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "仅在运行时确认 item_6631_active 已命中英雄后，在当前目标上执行已有的 active_hit；本批不生成范围命中，不接入减速、自身移动速度、衰减或冷却。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "item_6631_active",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "破阵冲击波命中英雄",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "sha256": "965b933ac7a3fdc6e58a41db5b1cb3940333c034ef511bb14570408ee7378163"
+    },
+    {
+      "skillKey": "item_3071_passive",
+      "ruleKey": "on_physical_damage_dealt_to_champion",
+      "purpose": "DAMAGE_DEALT 加英雄目标条件后执行效果",
+      "route": "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_armor_shred",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "armor_shred"
+            },
+            "name": "执行切割目标护甲削减",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_counterparty",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_counterparty",
+            "name": "伤害承受对象为英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "来源对象对英雄造成物理伤害后，在当前目标上执行已有的 armor_shred；当前接口的物理伤害目录键为 physics。perTargetCooldown 保持 null，不把客户端 10 毫秒字段解释为逐目标冷却。",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": "physics",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "eventType": "DAMAGE_DEALT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "对英雄造成物理伤害触发切割",
+        "perTargetCooldown": null,
+        "ruleKey": "on_physical_damage_dealt_to_champion",
+        "sortOrder": 10
+      },
+      "sha256": "cacd4107f9f33421d59ec58166d47cd33b5e4a2f620ecebf74249b03146c66f8"
+    },
+    {
+      "skillKey": "item_1043_passive",
+      "ruleKey": "resolve_on_basic_attack_hit",
+      "purpose": "BASIC_ATTACK_HIT 后执行效果",
+      "route": "/skills/item_1043_passive/trigger-rules/resolve_on_basic_attack_hit",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_on_hit_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "on_hit_damage"
+            },
+            "name": "执行叮刺额外伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "按客户端攻击附带文案监听已有普通攻击命中事件；技能触发攻击特效的范围不在本批扩大。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击命中结算叮刺",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_basic_attack_hit",
+        "sortOrder": 10
+      },
+      "sha256": "739aa1d0484719a0276e17d89c81ddbfd130e2b0cff55dd17cc50e5d6287cd17"
+    },
+    {
+      "skillKey": "item_3075_passive",
+      "ruleKey": "reflect_on_basic_attack_taken",
+      "purpose": "DAMAGE_TAKEN 后使用事件来源目标执行效果",
+      "route": "/skills/item_3075_passive/trigger-rules/reflect_on_basic_attack_taken",
+      "status": 200,
+      "data": {
+        "actions": [
+          {
+            "actionKey": "execute_thorn_damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "thorn_damage"
+            },
+            "name": "执行荆棘反伤",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "按冻结说明把直接的普通攻击伤害筛选为受击事件，并以事件来源对象作为反伤目标；重伤状态另因共享状态目录缺失而待补。",
+        "eventSource": {
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "DIRECT"
+          },
+          "eventType": "DAMAGE_TAKEN"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "受到普攻命中后反伤",
+        "perTargetCooldown": null,
+        "ruleKey": "reflect_on_basic_attack_taken",
+        "sortOrder": 10
+      },
+      "sha256": "2ba8a9c0ae067e552d207ede88a7a152f1331293ef09314d3b9fbed002ef5c10"
+    }
+  ],
+  "candidates": [
+    {
+      "equipmentId": 3139,
+      "equipmentKey": "item_3139",
+      "equipmentName": "水银弯刀",
+      "skillKey": "item_3139_active",
+      "focus": "主动移速增益（仅自身）",
+      "status": "DEFERRED",
+      "readyForIndependentReview": false,
+      "direct1v1": {
+        "eligible": true,
+        "reason": "效果作用于持有者或当前敌方英雄，直接影响一对一伤害、抗性、控制或生存结果。",
+        "modeScope": "只按经典召唤师峡谷一对一语义评估；不带入竞技场、大乱斗或其他模式覆盖。"
+      },
+      "source": {
+        "id": 3139,
+        "official": {
+          "name": "水银弯刀",
+          "description": "<mainText><stats><attention>50</attention>攻击力<br><attention>35</attention>魔法抗性<br><attention>10%</attention>生命偷取</stats><br><br><br><br><active>主动</active> <br><active>水银</active><br>移除所有控制类减益效果(<keyword>浮空</keyword>除外)，并提供移动速度。</mainText>",
+          "colloq": ";水银;水银饰带;净化;应对控制;克制控制;Mercurial Scimitar;shuiyinwandao;sywd",
+          "plaintext": "主动施放来移除所有控制类减益效果并提供巨幅移速",
+          "from": [
+            "3140",
+            "1037",
+            "1053"
+          ],
+          "image": {
+            "full": "3139.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 240,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 125,
+            "purchasable": true,
+            "total": 3200,
+            "sell": 2240
+          },
+          "tags": [
+            "SpellBlock",
+            "Damage",
+            "LifeSteal",
+            "Active",
+            "NonbootsMovement",
+            "Tenacity"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatSpellBlockMod": 35,
+            "FlatPhysicalDamageMod": 50,
+            "PercentLifeStealMod": 0.1
+          },
+          "effect": {
+            "Effect1Amount": "0.5",
+            "Effect2Amount": "2",
+            "Effect3Amount": "90"
+          },
+          "depth": 3
+        },
+        "client": {
+          "id": 3139,
+          "name": "水银弯刀",
+          "description": "<mainText><stats><attention>50</attention>攻击力<br><attention>35</attention>魔法抗性<br><attention>10%</attention>生命偷取</stats><br><br><br><br> <active>主动</active> <br><active>水银</active><br>移除所有控制类减益效果(<keyword>浮空</keyword>除外)，并提供移动速度。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3140,
+            1037,
+            1053
+          ],
+          "to": [],
+          "categories": [
+            "SpellBlock",
+            "Damage",
+            "LifeSteal",
+            "Active",
+            "NonbootsMovement",
+            "Tenacity"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 125,
+          "priceTotal": 3200,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3139_Marksman_T3_MercurialScimitar.png"
+        },
+        "clientValues": {
+          "spellName": "ItemMercurial",
+          "mDisplayName": "Item_3139_Name",
+          "itemID": 3139,
+          "mEffectAmount": [
+            0.5,
+            2,
+            90,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mDataValues": [
+            {
+              "mName": "Cooldown",
+              "mValue": 90,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MSDuration",
+              "mValue": 2,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MoveSpeed",
+              "mValue": 0.5,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": null,
+          "mCategories": [
+            "SpellBlock",
+            "Damage",
+            "LifeSteal",
+            "Active",
+            "NonbootsMovement",
+            "Tenacity"
+          ],
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/Quicksilver"
+          ],
+          "recipeItemLinks": [
+            "Items/3140",
+            "Items/1037",
+            "Items/1053"
+          ],
+          "mAbilityHasteMod": null,
+          "mFlatSpellBlockMod": 35,
+          "mFlatPhysicalDamageMod": 50,
+          "mPercentLifeStealMod": 0.10000000149011612,
+          "mFlatHPPoolMod": null,
+          "mFlatMagicDamageMod": null,
+          "mPercentMagicPenetrationMod": null
+        },
+        "normalized": {
+          "name": "Mercurial Scimitar",
+          "raw": {
+            "id": 3139,
+            "nickname": [
+              "merc scim",
+              "qss",
+              "quicksilver sash",
+              "silvermere dawn"
+            ],
+            "tier": 3,
+            "type": [
+              "Legendary"
+            ],
+            "itemlimit": "Quicksilver",
+            "modes": {
+              "classic sr 5v5": true,
+              "aram": true,
+              "nb": true,
+              "ar": true
+            },
+            "menu": {
+              "fighter": true,
+              "marksman": true,
+              "movement": true
+            },
+            "stats": {
+              "ad": 50,
+              "lifesteal": 10,
+              "mr": 35
+            },
+            "effects": {
+              "act": {
+                "name": "Quicksilver",
+                "unique": true,
+                "description": "Removes all {{tip|crowd control}} debuffs (except {{tip|Airborne}}) from your champion and grants {{as|50% '''bonus total''' movement speed}} and {{tip|ghosted|ghosting}} for 2 seconds.",
+                "cd": "90"
+              }
+            },
+            "recipe": [
+              "Quicksilver Sash",
+              "Pickaxe",
+              "Vampiric Scepter"
+            ],
+            "buy": 3200
+          },
+          "id": 3139,
+          "tier": 3,
+          "type": [
+            "Legendary"
+          ],
+          "modes": {
+            "classic sr 5v5": true,
+            "aram": true,
+            "nb": true,
+            "ar": true
+          },
+          "menu": {
+            "fighter": true,
+            "marksman": true,
+            "movement": true
+          },
+          "stats": {
+            "ad": 50,
+            "lifesteal": 10,
+            "mr": 35
+          },
+          "effects": {
+            "act": {
+              "name": "Quicksilver",
+              "unique": true,
+              "description": "Removes all {{tip|crowd control}} debuffs (except {{tip|Airborne}}) from your champion and grants {{as|50% '''bonus total''' movement speed}} and {{tip|ghosted|ghosting}} for 2 seconds.",
+              "cd": "90"
+            }
+          },
+          "recipe": [
+            "Quicksilver Sash",
+            "Pickaxe",
+            "Vampiric Scepter"
+          ],
+          "buy": 3200,
+          "nickname": [
+            "merc scim",
+            "qss",
+            "quicksilver sash",
+            "silvermere dawn"
+          ]
+        },
+        "sourceSnapshotSha256": "b14fb488ec0fa2ecf599033adbe56dba2f6b34889ecc916b2a0869d50f0b6544"
+      },
+      "current": {
+        "skill": {
+          "route": "/skills/item_3139_active",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-08T15:19:52.192179Z",
+            "description": "当前绑定主动移除全部控制类减益但浮空除外，并给自身50%移动速度持续2秒，冷却90秒。独立移速组成保留；通用解控与浮空例外未完整表达，当前不接部分解控冒充水银。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "水银弯刀·水银",
+            "skillCategoryKeys": [],
+            "skillKey": "item_3139_active",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T15:19:52.192179Z"
+          }
+        },
+        "components": {
+          "parameters": {
+            "route": "/skills/item_3139_active/parameters",
+            "status": 200,
+            "count": 3,
+            "keys": [
+              "active_cooldown_ms",
+              "move_speed_ratio",
+              "move_speed_duration_ms"
+            ],
+            "list": [
+              {
+                "createdAt": "2026-09-08T15:19:52.799051Z",
+                "description": "当前根Cooldown=90秒，绑定Item_Cooldown模板明确读取该值。",
+                "fixedValue": 90000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "水银主动冷却",
+                "parameterKey": "active_cooldown_ms",
+                "skillKey": "item_3139_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-08T15:19:52.799051Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-08T15:19:53.352436Z",
+                "description": "当前根MoveSpeed=0.5，绑定主动说明×100显示50%。",
+                "fixedValue": 0.5,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "水银自身移动速度比例",
+                "parameterKey": "move_speed_ratio",
+                "skillKey": "item_3139_active",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-08T15:19:53.352436Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-08T15:19:53.859857Z",
+                "description": "当前根MSDuration=2秒，换算2000毫秒。",
+                "fixedValue": 2000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "水银自身移速持续时间",
+                "parameterKey": "move_speed_duration_ms",
+                "skillKey": "item_3139_active",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-08T15:19:53.859857Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ],
+            "details": {
+              "active_cooldown_ms": {
+                "route": "/skills/item_3139_active/parameters/active_cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T15:19:52.799051Z",
+                  "description": "当前根Cooldown=90秒，绑定Item_Cooldown模板明确读取该值。",
+                  "fixedValue": 90000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "水银主动冷却",
+                  "parameterKey": "active_cooldown_ms",
+                  "skillKey": "item_3139_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-08T15:19:52.799051Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              "move_speed_ratio": {
+                "route": "/skills/item_3139_active/parameters/move_speed_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T15:19:53.352436Z",
+                  "description": "当前根MoveSpeed=0.5，绑定主动说明×100显示50%。",
+                  "fixedValue": 0.5,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "水银自身移动速度比例",
+                  "parameterKey": "move_speed_ratio",
+                  "skillKey": "item_3139_active",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-08T15:19:53.352436Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              "move_speed_duration_ms": {
+                "route": "/skills/item_3139_active/parameters/move_speed_duration_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T15:19:53.859857Z",
+                  "description": "当前根MSDuration=2秒，换算2000毫秒。",
+                  "fixedValue": 2000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "水银自身移速持续时间",
+                  "parameterKey": "move_speed_duration_ms",
+                  "skillKey": "item_3139_active",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-08T15:19:53.859857Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          },
+          "formulas": {
+            "route": "/skills/item_3139_active/formulas",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          },
+          "effects": {
+            "route": "/skills/item_3139_active/effects",
+            "status": 200,
+            "count": 1,
+            "keys": [
+              "quicksilver_move_speed"
+            ],
+            "list": [
+              {
+                "createdAt": "2026-09-08T15:19:54.494688Z",
+                "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+                "effectKey": "quicksilver_move_speed",
+                "gameId": "lol",
+                "lifecycleEnabled": true,
+                "name": "水银自身移动速度",
+                "resultCount": 1,
+                "skillKey": "item_3139_active",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-08T15:19:54.494688Z"
+              }
+            ],
+            "details": {
+              "quicksilver_move_speed": {
+                "route": "/skills/item_3139_active/effects/quicksilver_move_speed",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T15:19:54.494688Z",
+                  "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+                  "effectKey": "quicksilver_move_speed",
+                  "gameId": "lol",
+                  "lifecycle": {
+                    "applicationStacksValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "durationValue": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "move_speed_duration_ms"
+                    },
+                    "expiryMode": "ALL_AT_ONCE",
+                    "firstPeriodicExecution": null,
+                    "instanceScope": "SOURCE",
+                    "maxStacksValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "periodicIntervalValue": null,
+                    "reapplicationDurationMode": "REFRESH_ALL",
+                    "reapplicationStackMode": "KEEP"
+                  },
+                  "name": "水银自身移动速度",
+                  "results": [
+                    {
+                      "description": "自身增加50个百分点移速加成，持续2秒；不表示50点固定移速，也不包含解除控制。",
+                      "detail": {
+                        "attributeKey": "move_speed_percent",
+                        "modifierZoneKey": "attribute_flat_add",
+                        "operation": "INCREASE"
+                      },
+                      "lifecycleBehavior": {
+                        "moment": "PERSISTENT",
+                        "periodicExecutionMode": null,
+                        "reapplicationValueMode": "REPLACE",
+                        "stackValueMode": "SHARED",
+                        "valueReadMode": "APPLICATION_SNAPSHOT"
+                      },
+                      "name": "水银自身移动速度",
+                      "resultKey": "move_speed",
+                      "resultType": "ATTRIBUTE_CHANGE",
+                      "sortOrder": 10,
+                      "spellShieldBlockScope": null,
+                      "target": "SOURCE",
+                      "valueRule": {
+                        "fixedMaxValue": null,
+                        "fixedMinValue": 0,
+                        "fixedMultiplier": 1,
+                        "value": {
+                          "kind": "PARAMETER",
+                          "parameterKey": "move_speed_ratio"
+                        }
+                      }
+                    }
+                  ],
+                  "skillKey": "item_3139_active",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-08T15:19:54.494688Z"
+                }
+              }
+            }
+          },
+          "processes": {
+            "route": "/skills/item_3139_active/processes",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          },
+          "internal-states": {
+            "route": "/skills/item_3139_active/internal-states",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          },
+          "trigger-rules": {
+            "route": "/skills/item_3139_active/trigger-rules",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          }
+        },
+        "owner": {
+          "equipment": {
+            "route": "/equipment/item_3139",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T18:10:52.968564Z",
+              "description": "来源：官方16.17.1装备3139。 原始说明：50攻击力\n35魔法抗性\n10%生命偷取\n\n\n\n主动 \n水银\n移除所有控制类减益效果(浮空除外)，并提供移动速度。 被动与主动效果尚待配置。",
+              "equipmentKey": "item_3139",
+              "gameId": "lol",
+              "name": "水银弯刀",
+              "updatedAt": "2026-09-06T18:10:52.968564Z"
+            }
+          },
+          "attributes": {
+            "route": "/equipment/item_3139/attributes",
+            "status": 200,
+            "data": {
+              "attributeValues": {
+                "magic_resistance": 35,
+                "attack_damage": 50,
+                "life_steal_percent": 0.1
+              },
+              "equipmentKey": "item_3139"
+            }
+          },
+          "representativeImage": {
+            "route": "/equipment/item_3139/representative-image",
+            "status": 200,
+            "data": {
+              "image": {
+                "enabled": true,
+                "imageKey": "item_3139",
+                "name": "item_3139"
+              }
+            }
+          },
+          "relation": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3139",
+            "status": 200,
+            "data": {
+              "items": [
+                {
+                  "equipmentKey": "item_3139",
+                  "equipmentName": "水银弯刀",
+                  "gameId": "lol",
+                  "skillKey": "item_3139_active",
+                  "skillName": "水银弯刀·水银",
+                  "skillStatus": "ENABLED",
+                  "sortOrder": 10
+                }
+              ],
+              "total": 1
+            }
+          }
+        },
+        "ruleExistence": {
+          "list": {
+            "route": "/skills/item_3139_active/trigger-rules",
+            "status": 200,
+            "count": 0,
+            "keys": []
+          },
+          "checked": {
+            "route": "/skills/item_3139_active/trigger-rules/on_used",
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+                "details": {
+                  "ruleKey": "on_used"
+                },
+                "message": "技能触发规则不存在"
+              }
+            }
+          }
+        },
+        "currentSnapshotSha256": "f41c619029b21631fdef9951add570dc3cada76399093349a98e73657857b6e1"
+      },
+      "proposal": {
+        "event": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "item_3139_active",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditions": [],
+        "actions": [
+          {
+            "sortOrder": 10,
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "quicksilver_move_speed"
+            },
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "actionResultTarget": "SOURCE（现有效果结果定义）",
+        "effectBoundValue": {
+          "move_speed_ratio": 0.5,
+          "move_speed_duration_ms": 2000
+        },
+        "cooldown": {
+          "parameterKey": "active_cooldown_ms",
+          "value": 90000,
+          "finding": "参数已保存，当前过程和规则均为空，未有本次接线的冷却消费/防重复证据。"
+        },
+        "omitted": [
+          "移除控制类减益",
+          "浮空例外",
+          "幽灵状态",
+          "完整主动冷却接线"
+        ],
+        "requestReady": false
+      },
+      "runtimeInputBindingCheck": {
+        "existingActionBindings": [
+          {
+            "skillKey": "masteryi_r",
+            "ruleKey": "on_used",
+            "actions": [
+              {
+                "actionKey": "execute_attack_speed",
+                "runtimeInputBindings": []
+              },
+              {
+                "actionKey": "execute_move_speed",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "diana_w",
+            "ruleKey": "on_used",
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_6631_active",
+            "ruleKey": "actual_hit",
+            "actions": [
+              {
+                "actionKey": "execute_active_hit",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_3071_passive",
+            "ruleKey": "on_physical_damage_dealt_to_champion",
+            "actions": [
+              {
+                "actionKey": "execute_armor_shred",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_1043_passive",
+            "ruleKey": "resolve_on_basic_attack_hit",
+            "actions": [
+              {
+                "actionKey": "execute_on_hit_damage",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_3075_passive",
+            "ruleKey": "reflect_on_basic_attack_taken",
+            "actions": [
+              {
+                "actionKey": "execute_thorn_damage",
+                "runtimeInputBindings": []
+              }
+            ]
+          }
+        ],
+        "finding": "SKILL_USED 的主动使用字段和 EXECUTE_EFFECT 范式已存在；移速结果自行读取 SOURCE，不需要额外目标输入，但解控/幽灵和完整冷却仍无绑定。"
+      },
+      "cooldownStateTiming": {
+        "cooldown": "90000毫秒参数已存在，接线证据不足",
+        "state": "内部状态列表为空",
+        "timing": "SKILL_USED 时可辨识，控制移除/幽灵时序未表示",
+        "target": "结果 SOURCE；动作上下文 CURRENT_TARGET",
+        "branch": {
+          "applicable": false,
+          "finding": "固定来源没有近战/远程分支；本候选不新增分支，也不猜测来源属性条件。"
+        }
+      },
+      "omitted": [
+        "移除控制类减益",
+        "浮空例外",
+        "幽灵状态",
+        "完整主动冷却接线"
+      ],
+      "deferredReasons": [
+        "固定来源同时要求解控（浮空除外）与移速；当前只保存 quicksilver_move_speed，未有解控/幽灵效果，接入一条移速动作会把主动效果误报为完整水银。",
+        "90秒参数存在，但当前过程和触发规则均为空，不能证明主动冷却在这条规则上消费并阻止重复。"
+      ],
+      "experience": {
+        "apiOnly": true,
+        "browserUsed": false,
+        "apiBoundary": "可从真实 GET 读取技能根记录、参数/公式/效果及其详情、装备属性、代表图片、装备关系和规则空列表；拟议规则详情均返回404。",
+        "pageBoundary": "未运行浏览器。管理页可以作为现有字段查看入口，但在缺少上述运行时语义前不应提交规则；本记录不把页面未验证当成运行时证明。"
+      }
+    },
+    {
+      "equipmentId": 8010,
+      "equipmentKey": "item_8010",
+      "equipmentName": "放血者的诅咒",
+      "skillKey": "item_8010_passive",
+      "focus": "魔法伤害后的目标魔抗削减",
+      "status": "DEFERRED",
+      "readyForIndependentReview": false,
+      "direct1v1": {
+        "eligible": true,
+        "reason": "效果作用于持有者或当前敌方英雄，直接影响一对一伤害、抗性、控制或生存结果。",
+        "modeScope": "只按经典召唤师峡谷一对一语义评估；不带入竞技场、大乱斗或其他模式覆盖。"
+      },
+      "source": {
+        "id": 8010,
+        "official": {
+          "name": "放血者的诅咒",
+          "description": "<mainText><stats><attention>65</attention>法术强度<br><attention>400</attention>生命值<br><attention>15</attention>技能急速</stats><br><br><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续6秒的<scaleMR>7.5%魔法抗性削减</scaleMR>。(可叠加4次)。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3147",
+            "3108"
+          ],
+          "image": {
+            "full": "8010.png",
+            "sprite": "item8.png",
+            "group": "item",
+            "x": 288,
+            "y": 0,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 750,
+            "purchasable": true,
+            "total": 2900,
+            "sell": 2030
+          },
+          "tags": [
+            "Health",
+            "SpellDamage",
+            "CooldownReduction",
+            "MagicPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 400,
+            "FlatMagicDamageMod": 65
+          },
+          "depth": 3
+        },
+        "client": {
+          "id": 8010,
+          "name": "放血者的诅咒",
+          "description": "<mainText><stats><attention>65</attention>法术强度<br><attention>400</attention>生命值<br><attention>15</attention>技能急速</stats><br><br><passive>恶劣衰朽</passive><br>用技能或被动对英雄造成<magicDamage>魔法伤害</magicDamage>时，会对其造成持续6秒的<scaleMR>7.5%魔法抗性削减</scaleMR>。(可叠加4次)。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3147,
+            3108
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "SpellDamage",
+            "CooldownReduction",
+            "MagicPenetration"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 750,
+          "priceTotal": 2900,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/8010_BloodlettersCurse.png"
+        },
+        "clientValues": {
+          "spellName": null,
+          "mDisplayName": "Item_8010_Name",
+          "itemID": 8010,
+          "mEffectAmount": null,
+          "mDataValues": [
+            {
+              "mName": "ShredPerStack",
+              "mValue": 0.07500000298023224,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "DebuffDuration",
+              "mValue": 6,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "InternalCD",
+              "mValue": 0.30000001192092896,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxStacks",
+              "mValue": 4,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": null,
+          "mCategories": [
+            "Health",
+            "SpellDamage",
+            "CooldownReduction",
+            "MagicPenetration"
+          ],
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{6219a9e8}",
+            "Items/ItemGroups/VoidPen"
+          ],
+          "recipeItemLinks": [
+            "Items/3147",
+            "Items/3108"
+          ],
+          "mAbilityHasteMod": 15,
+          "mFlatSpellBlockMod": null,
+          "mFlatPhysicalDamageMod": null,
+          "mPercentLifeStealMod": null,
+          "mFlatHPPoolMod": 400,
+          "mFlatMagicDamageMod": 65,
+          "mPercentMagicPenetrationMod": null
+        },
+        "normalized": {
+          "name": "Bloodletter's Curse",
+          "raw": {
+            "id": 8010,
+            "tier": 3,
+            "type": [
+              "Legendary"
+            ],
+            "itemlimit": "Blight",
+            "modes": {
+              "classic sr 5v5": true,
+              "aram": true,
+              "nb": true,
+              "ar": false
+            },
+            "menu": {
+              "mage": true
+            },
+            "stats": {
+              "ap": 65,
+              "hp": 400,
+              "ah": 15
+            },
+            "effects": {
+              "pass": {
+                "name": "Vile Decay",
+                "unique": true,
+                "description": "Dealing {{as|magic damage}} to an enemy champion with a [[champion ability]] applies a stack of ''Vile Decay'' to them for 6 seconds, stacking up to 4 times and up to once per basic attack or ability per {{tip|cast instance}} every {{fd|0.3}} seconds. Each stack inflicts {{as|{{fd|7.5}}% magic resistance reduction}}, up to {{as|30%|mr}} at 4 stacks."
+              }
+            },
+            "recipe": [
+              "Haunting Guise",
+              "Fiendish Codex"
+            ],
+            "buy": 2900
+          },
+          "id": 8010,
+          "tier": 3,
+          "type": [
+            "Legendary"
+          ],
+          "modes": {
+            "classic sr 5v5": true,
+            "aram": true,
+            "nb": true,
+            "ar": false
+          },
+          "menu": {
+            "mage": true
+          },
+          "stats": {
+            "ap": 65,
+            "hp": 400,
+            "ah": 15
+          },
+          "effects": {
+            "pass": {
+              "name": "Vile Decay",
+              "unique": true,
+              "description": "Dealing {{as|magic damage}} to an enemy champion with a [[champion ability]] applies a stack of ''Vile Decay'' to them for 6 seconds, stacking up to 4 times and up to once per basic attack or ability per {{tip|cast instance}} every {{fd|0.3}} seconds. Each stack inflicts {{as|{{fd|7.5}}% magic resistance reduction}}, up to {{as|30%|mr}} at 4 stacks."
+            }
+          },
+          "recipe": [
+            "Haunting Guise",
+            "Fiendish Codex"
+          ],
+          "buy": 2900
+        },
+        "sourceSnapshotSha256": "ecb669fcf8c8414ba19aeb287322989b5c990412a49ceab412b8149f9df7d043"
+      },
+      "current": {
+        "skill": {
+          "route": "/skills/item_8010_passive",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-07T18:49:05.299983Z",
+            "description": "保存技能或被动对英雄造成魔法伤害时的7.5%魔抗削减、6秒持续和最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前不挂宽泛触发规则，不把每次合法魔法伤害直接当作独立层。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "放血者的诅咒·恶劣衰朽",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_8010_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.121924Z"
+          }
+        },
+        "components": {
+          "parameters": {
+            "route": "/skills/item_8010_passive/parameters",
+            "status": 200,
+            "count": 4,
+            "keys": [
+              "mr_shred_ratio_per_stack",
+              "mr_shred_duration_ms",
+              "mr_shred_max_stacks",
+              "magic_damage_internal_cooldown_ms"
+            ],
+            "list": [
+              {
+                "createdAt": "2026-09-07T18:49:05.790686Z",
+                "description": "每层降低目标魔法抗性7.5%，小数0.075表示7.5个百分点。",
+                "fixedValue": 0.075,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "恶劣衰朽每层魔抗削减",
+                "parameterKey": "mr_shred_ratio_per_stack",
+                "skillKey": "item_8010_passive",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T18:49:05.790686Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-07T18:49:06.298958Z",
+                "description": "魔抗削减持续6秒，单位：毫秒。",
+                "fixedValue": 6000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "恶劣衰朽持续时间",
+                "parameterKey": "mr_shred_duration_ms",
+                "skillKey": "item_8010_passive",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-07T18:49:06.298958Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:49:06.879495Z",
+                "description": "最多4层；第四层后再次触发不增加层数。",
+                "fixedValue": 4,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "恶劣衰朽最大层数",
+                "parameterKey": "mr_shred_max_stacks",
+                "skillKey": "item_8010_passive",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-07T18:49:06.879495Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:49:07.367994Z",
+                "description": "客户端InternalCD=0.3秒，单位：毫秒；具体按技能或被动伤害的计数时点待核。",
+                "fixedValue": 300,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "恶劣衰朽内部间隔",
+                "parameterKey": "magic_damage_internal_cooldown_ms",
+                "skillKey": "item_8010_passive",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T18:49:07.367994Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ],
+            "details": {
+              "mr_shred_ratio_per_stack": {
+                "route": "/skills/item_8010_passive/parameters/mr_shred_ratio_per_stack",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:49:05.790686Z",
+                  "description": "每层降低目标魔法抗性7.5%，小数0.075表示7.5个百分点。",
+                  "fixedValue": 0.075,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "恶劣衰朽每层魔抗削减",
+                  "parameterKey": "mr_shred_ratio_per_stack",
+                  "skillKey": "item_8010_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-07T18:49:05.790686Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              "mr_shred_duration_ms": {
+                "route": "/skills/item_8010_passive/parameters/mr_shred_duration_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:49:06.298958Z",
+                  "description": "魔抗削减持续6秒，单位：毫秒。",
+                  "fixedValue": 6000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "恶劣衰朽持续时间",
+                  "parameterKey": "mr_shred_duration_ms",
+                  "skillKey": "item_8010_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-07T18:49:06.298958Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              "mr_shred_max_stacks": {
+                "route": "/skills/item_8010_passive/parameters/mr_shred_max_stacks",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:49:06.879495Z",
+                  "description": "最多4层；第四层后再次触发不增加层数。",
+                  "fixedValue": 4,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "恶劣衰朽最大层数",
+                  "parameterKey": "mr_shred_max_stacks",
+                  "skillKey": "item_8010_passive",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-07T18:49:06.879495Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              "magic_damage_internal_cooldown_ms": {
+                "route": "/skills/item_8010_passive/parameters/magic_damage_internal_cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:49:07.367994Z",
+                  "description": "客户端InternalCD=0.3秒，单位：毫秒；具体按技能或被动伤害的计数时点待核。",
+                  "fixedValue": 300,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "恶劣衰朽内部间隔",
+                  "parameterKey": "magic_damage_internal_cooldown_ms",
+                  "skillKey": "item_8010_passive",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-07T18:49:07.367994Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          },
+          "formulas": {
+            "route": "/skills/item_8010_passive/formulas",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          },
+          "effects": {
+            "route": "/skills/item_8010_passive/effects",
+            "status": 200,
+            "count": 1,
+            "keys": [
+              "magic_resistance_shred"
+            ],
+            "list": [
+              {
+                "createdAt": "2026-09-07T18:49:07.915806Z",
+                "description": "技能或被动对英雄造成魔法伤害时应用7.5%魔抗削减，持续6秒，最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前未挂触发规则，避免宽泛复用。",
+                "effectKey": "magic_resistance_shred",
+                "gameId": "lol",
+                "lifecycleEnabled": true,
+                "name": "恶劣衰朽目标魔抗削减",
+                "resultCount": 1,
+                "skillKey": "item_8010_passive",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-08T02:16:40.132953Z"
+              }
+            ],
+            "details": {
+              "magic_resistance_shred": {
+                "route": "/skills/item_8010_passive/effects/magic_resistance_shred",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:49:07.915806Z",
+                  "description": "技能或被动对英雄造成魔法伤害时应用7.5%魔抗削减，持续6秒，最多4层；同一段技能施放对每个英雄至多增加一层，另有300毫秒限制。当前未挂触发规则，避免宽泛复用。",
+                  "effectKey": "magic_resistance_shred",
+                  "gameId": "lol",
+                  "lifecycle": {
+                    "applicationStacksValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "durationValue": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mr_shred_duration_ms"
+                    },
+                    "expiryMode": "ALL_AT_ONCE",
+                    "firstPeriodicExecution": null,
+                    "instanceScope": "TARGET",
+                    "maxStacksValue": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mr_shred_max_stacks"
+                    },
+                    "periodicIntervalValue": null,
+                    "reapplicationDurationMode": "REFRESH_ALL",
+                    "reapplicationStackMode": "INCREASE"
+                  },
+                  "name": "恶劣衰朽目标魔抗削减",
+                  "results": [
+                    {
+                      "description": "每层降低目标7.5%魔法抗性；同一段技能施放对每个英雄至多一层，另有300毫秒限制；达到第四层后不再增加层数。",
+                      "detail": {
+                        "attributeKey": "magic_resistance",
+                        "modifierZoneKey": "item_8010_magic_resistance_reduction",
+                        "operation": "DECREASE"
+                      },
+                      "lifecycleBehavior": {
+                        "moment": "PERSISTENT",
+                        "periodicExecutionMode": null,
+                        "reapplicationValueMode": null,
+                        "stackValueMode": "PER_STACK",
+                        "valueReadMode": "APPLICATION_SNAPSHOT"
+                      },
+                      "name": "目标魔法抗性降低",
+                      "resultKey": "magic_resistance_reduction",
+                      "resultType": "ATTRIBUTE_CHANGE",
+                      "sortOrder": 10,
+                      "spellShieldBlockScope": null,
+                      "target": "TARGET",
+                      "valueRule": {
+                        "fixedMaxValue": null,
+                        "fixedMinValue": 0,
+                        "fixedMultiplier": 1,
+                        "value": {
+                          "kind": "PARAMETER",
+                          "parameterKey": "mr_shred_ratio_per_stack"
+                        }
+                      }
+                    }
+                  ],
+                  "skillKey": "item_8010_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-08T02:16:40.132953Z"
+                }
+              }
+            }
+          },
+          "processes": {
+            "route": "/skills/item_8010_passive/processes",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          },
+          "internal-states": {
+            "route": "/skills/item_8010_passive/internal-states",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          },
+          "trigger-rules": {
+            "route": "/skills/item_8010_passive/trigger-rules",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          }
+        },
+        "owner": {
+          "equipment": {
+            "route": "/equipment/item_8010",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T18:11:31.904496Z",
+              "description": "来源：官方16.17.1装备8010。 原始说明：65法术强度\n400生命值\n15技能急速\n\n恶劣衰朽\n用技能或被动对英雄造成魔法伤害时，会对其造成持续6秒的7.5%魔法抗性削减。(可叠加4次)。 被动与主动效果尚待配置。",
+              "equipmentKey": "item_8010",
+              "gameId": "lol",
+              "name": "放血者的诅咒",
+              "updatedAt": "2026-09-06T18:11:31.904496Z"
+            }
+          },
+          "attributes": {
+            "route": "/equipment/item_8010/attributes",
+            "status": 200,
+            "data": {
+              "attributeValues": {
+                "hp": 400,
+                "ability_power": 65,
+                "ability_haste": 15
+              },
+              "equipmentKey": "item_8010"
+            }
+          },
+          "representativeImage": {
+            "route": "/equipment/item_8010/representative-image",
+            "status": 200,
+            "data": {
+              "image": {
+                "enabled": true,
+                "imageKey": "item_8010",
+                "name": "item_8010"
+              }
+            }
+          },
+          "relation": {
+            "route": "/equipment-skill-relations?equipmentKey=item_8010",
+            "status": 200,
+            "data": {
+              "items": [
+                {
+                  "equipmentKey": "item_8010",
+                  "equipmentName": "放血者的诅咒",
+                  "gameId": "lol",
+                  "skillKey": "item_8010_passive",
+                  "skillName": "放血者的诅咒·恶劣衰朽",
+                  "skillStatus": "ENABLED",
+                  "sortOrder": 10
+                }
+              ],
+              "total": 1
+            }
+          }
+        },
+        "ruleExistence": {
+          "list": {
+            "route": "/skills/item_8010_passive/trigger-rules",
+            "status": 200,
+            "count": 0,
+            "keys": []
+          },
+          "checked": {
+            "route": "/skills/item_8010_passive/trigger-rules/on_magic_damage_dealt_to_champion",
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+                "details": {
+                  "ruleKey": "on_magic_damage_dealt_to_champion"
+                },
+                "message": "技能触发规则不存在"
+              }
+            }
+          }
+        },
+        "currentSnapshotSha256": "9cf25d913f53af3e04ce08ccb53a503a1f9163a969a87b75f423399c94e172bf"
+      },
+      "proposal": {
+        "event": {
+          "eventType": "DAMAGE_DEALT",
+          "detail": {
+            "damageTypeKey": "magic",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          }
+        },
+        "conditions": [
+          {
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            }
+          }
+        ],
+        "actions": [
+          {
+            "sortOrder": 10,
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "magic_resistance_shred"
+            },
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "actionResultTarget": "TARGET（现有效果结果定义）",
+        "effectBoundValue": {
+          "mr_shred_ratio_per_stack": 0.075,
+          "mr_shred_duration_ms": 6000,
+          "mr_shred_max_stacks": 4
+        },
+        "internalCooldown": {
+          "parameterKey": "magic_damage_internal_cooldown_ms",
+          "value": 300,
+          "finding": "参数已保存，但没有按施法实例、来源对象和目标对象去重的现有状态/运行时输入绑定。"
+        },
+        "omitted": [
+          "同一普攻或技能施放实例对每个英雄至多一层",
+          "300毫秒门控的准确计数时点",
+          "技能/被动来源筛选之外的伤害来源",
+          "近战/远程分支（来源未提供）"
+        ],
+        "requestReady": false
+      },
+      "runtimeInputBindingCheck": {
+        "existingActionBindings": [
+          {
+            "skillKey": "masteryi_r",
+            "ruleKey": "on_used",
+            "actions": [
+              {
+                "actionKey": "execute_attack_speed",
+                "runtimeInputBindings": []
+              },
+              {
+                "actionKey": "execute_move_speed",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "diana_w",
+            "ruleKey": "on_used",
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_6631_active",
+            "ruleKey": "actual_hit",
+            "actions": [
+              {
+                "actionKey": "execute_active_hit",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_3071_passive",
+            "ruleKey": "on_physical_damage_dealt_to_champion",
+            "actions": [
+              {
+                "actionKey": "execute_armor_shred",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_1043_passive",
+            "ruleKey": "resolve_on_basic_attack_hit",
+            "actions": [
+              {
+                "actionKey": "execute_on_hit_damage",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_3075_passive",
+            "ruleKey": "reflect_on_basic_attack_taken",
+            "actions": [
+              {
+                "actionKey": "execute_thorn_damage",
+                "runtimeInputBindings": []
+              }
+            ]
+          }
+        ],
+        "finding": "DAMAGE_DEALT 与 TARGET_CATEGORY_CHECK 范式已存在；当前动作没有运行时输入绑定可读取施法实例或300毫秒门控。"
+      },
+      "cooldownStateTiming": {
+        "cooldown": "300毫秒内部间隔参数已存在，未绑定",
+        "state": "内部状态列表为空；效果自身只表达层数生命周期",
+        "timing": "每次魔法伤害可辨识，但施法实例去重时点未表示",
+        "target": "目标英雄，动作上下文 CURRENT_TARGET",
+        "branch": {
+          "applicable": false,
+          "finding": "固定来源没有近战/远程分支；本候选不新增分支，也不猜测来源属性条件。"
+        }
+      },
+      "omitted": [
+        "同一普攻或技能施放实例对每个英雄至多一层",
+        "300毫秒门控的准确计数时点",
+        "技能/被动来源筛选之外的伤害来源",
+        "近战/远程分支（来源未提供）"
+      ],
+      "deferredReasons": [
+        "DAMAGE_DEALT、magic 伤害键和英雄目标条件均有现成范式，但直接挂规则会对同一施法实例的多段魔法伤害重复加层。",
+        "现有效果生命周期能表达6秒、最多4层和刷新/累加，仍缺施法实例去重、来源筛选及300毫秒门控状态；perTargetCooldown 不能替代这些语义。"
+      ],
+      "experience": {
+        "apiOnly": true,
+        "browserUsed": false,
+        "apiBoundary": "可从真实 GET 读取技能根记录、参数/公式/效果及其详情、装备属性、代表图片、装备关系和规则空列表；拟议规则详情均返回404。",
+        "pageBoundary": "未运行浏览器。管理页可以作为现有字段查看入口，但在缺少上述运行时语义前不应提交规则；本记录不把页面未验证当成运行时证明。"
+      }
+    },
+    {
+      "equipmentId": 3137,
+      "equipmentKey": "item_3137",
+      "equipmentName": "蜕生",
+      "skillKey": "item_3137_passive",
+      "focus": "伤害后击杀窗口内的自身治疗",
+      "status": "DEFERRED",
+      "readyForIndependentReview": false,
+      "direct1v1": {
+        "eligible": true,
+        "reason": "效果作用于持有者或当前敌方英雄，直接影响一对一伤害、抗性、控制或生存结果。",
+        "modeScope": "只按经典召唤师峡谷一对一语义评估；不带入竞技场、大乱斗或其他模式覆盖。"
+      },
+      "source": {
+        "id": 3137,
+        "official": {
+          "name": "蜕生",
+          "description": "<mainText><stats><attention>75</attention>法术强度<br><attention>30%</attention>法术穿透<br><attention>20</attention>技能急速</stats><br><br><passive>死中焕生</passive><br>每当一个敌方英雄在被你造成伤害后的3秒内阵亡时，在其所在位置生成一个新星，来为友军们<healing>治疗生命值</healing>。</mainText>",
+          "colloq": ";Cryptbloom",
+          "plaintext": "主动施放来移除所有减益并提供巨幅移速",
+          "from": [
+            "4630",
+            "3108",
+            "3108"
+          ],
+          "image": {
+            "full": "3137.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 192,
+            "y": 432,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 200,
+            "purchasable": true,
+            "total": 3000,
+            "sell": 2100
+          },
+          "tags": [
+            "SpellDamage",
+            "MagicPenetration",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 75
+          },
+          "depth": 3
+        },
+        "client": {
+          "id": 3137,
+          "name": "蜕生",
+          "description": "<mainText><stats><attention>75</attention>法术强度<br><attention>30%</attention>法术穿透<br><attention>20</attention>技能急速</stats><br><br><passive>死中焕生</passive><br>每当一个敌方英雄在被你造成伤害后的3秒内阵亡时，在其所在位置生成一个新星，来为友军们<healing>治疗生命值</healing>。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            4630,
+            3108,
+            3108
+          ],
+          "to": [],
+          "categories": [
+            "SpellDamage",
+            "MagicPenetration",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 200,
+          "priceTotal": 3000,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3137_Cryptbloom.png"
+        },
+        "clientValues": {
+          "spellName": null,
+          "mDisplayName": "Item_3137_Name",
+          "itemID": 3137,
+          "mEffectAmount": [
+            0
+          ],
+          "mDataValues": [
+            {
+              "mName": "BaseHeal",
+              "mValue": 100,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "HealAPRatio",
+              "mValue": 0.20000000298023224,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ItemCooldown",
+              "mValue": 60,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "TakedownWindow",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 60,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "TotalHealAmount": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "HealAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mCategories": [
+            "SpellDamage",
+            "MagicPenetration",
+            "AbilityHaste"
+          ],
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/VoidPen"
+          ],
+          "recipeItemLinks": [
+            "Items/4630",
+            "Items/3108",
+            "Items/3108"
+          ],
+          "mAbilityHasteMod": 20,
+          "mFlatSpellBlockMod": null,
+          "mFlatPhysicalDamageMod": null,
+          "mPercentLifeStealMod": null,
+          "mFlatHPPoolMod": null,
+          "mFlatMagicDamageMod": 75,
+          "mPercentMagicPenetrationMod": 0.30000001192092896
+        },
+        "normalized": {
+          "name": "Cryptbloom",
+          "raw": {
+            "id": 3137,
+            "tier": 3,
+            "type": [
+              "Legendary"
+            ],
+            "itemlimit": "Blight",
+            "caption": "\"From death, life.\"",
+            "modes": {
+              "classic sr 5v5": true,
+              "aram": true,
+              "nb": true,
+              "ar": true
+            },
+            "menu": {
+              "mage": true
+            },
+            "stats": {
+              "ap": 75,
+              "ah": 20,
+              "mpen": 30
+            },
+            "effects": {
+              "pass": {
+                "name": "Life From Death",
+                "unique": true,
+                "description": "Scoring a {{tip|takedown}} against an enemy champion while alive and within 3 seconds of damaging them summons a nova that radiates from the location of their death over {{fd|1.75}} seconds, {{tip|heal|healing}} you and allied champions hit for 100 {{as|(+ 20% AP)}}.",
+                "cd": "60"
+              }
+            },
+            "recipe": [
+              "Blighting Jewel",
+              "Fiendish Codex",
+              "Fiendish Codex"
+            ],
+            "buy": 3000
+          },
+          "id": 3137,
+          "tier": 3,
+          "type": [
+            "Legendary"
+          ],
+          "modes": {
+            "classic sr 5v5": true,
+            "aram": true,
+            "nb": true,
+            "ar": true
+          },
+          "menu": {
+            "mage": true
+          },
+          "stats": {
+            "ap": 75,
+            "ah": 20,
+            "mpen": 30
+          },
+          "effects": {
+            "pass": {
+              "name": "Life From Death",
+              "unique": true,
+              "description": "Scoring a {{tip|takedown}} against an enemy champion while alive and within 3 seconds of damaging them summons a nova that radiates from the location of their death over {{fd|1.75}} seconds, {{tip|heal|healing}} you and allied champions hit for 100 {{as|(+ 20% AP)}}.",
+              "cd": "60"
+            }
+          },
+          "recipe": [
+            "Blighting Jewel",
+            "Fiendish Codex",
+            "Fiendish Codex"
+          ],
+          "buy": 3000
+        },
+        "sourceSnapshotSha256": "eb72f5fa9dec78bb8182f5cd04bf3f42942be2ab633dd6d056b9775c4b0a32c7"
+      },
+      "current": {
+        "skill": {
+          "route": "/skills/item_3137_passive",
+          "status": 200,
+          "data": {
+            "createdAt": "2026-09-09T05:09:53.646383Z",
+            "description": "保留命中敌方英雄后3秒内阵亡触发的新星自身治疗100+0.2法强及60秒冷却；当前统计文案明确存在自我治疗，不能整项当作仅队友效果删除。",
+            "gameId": "lol",
+            "maxLevel": 1,
+            "name": "蜕生·死中焕生",
+            "skillCategoryKeys": [
+              "passive"
+            ],
+            "skillKey": "item_3137_passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-09T05:09:53.646383Z"
+          }
+        },
+        "components": {
+          "parameters": {
+            "route": "/skills/item_3137_passive/parameters",
+            "status": 200,
+            "count": 4,
+            "keys": [
+              "base_heal",
+              "ap_heal_ratio",
+              "cooldown_ms",
+              "takedown_window_ms"
+            ],
+            "list": [
+              {
+                "createdAt": "2026-09-09T05:09:54.586732Z",
+                "description": "当前根BaseHeal明确数值。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "新星基础治疗",
+                "parameterKey": "base_heal",
+                "skillKey": "item_3137_passive",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T05:09:54.586732Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T05:09:55.478076Z",
+                "description": "当前根HealAPRatio明确数值。",
+                "fixedValue": 0.2,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "新星法强治疗系数",
+                "parameterKey": "ap_heal_ratio",
+                "skillKey": "item_3137_passive",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-09T05:09:55.478076Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              {
+                "createdAt": "2026-09-09T05:09:56.348623Z",
+                "description": "当前根Cooldown明确数值，秒转成毫秒。",
+                "fixedValue": 60000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "死中焕生冷却（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "item_3137_passive",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-09T05:09:56.348623Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-09T05:09:57.243064Z",
+                "description": "当前根TakedownWindow明确数值，秒转成毫秒。",
+                "fixedValue": 3000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "伤害后目标阵亡窗口（毫秒）",
+                "parameterKey": "takedown_window_ms",
+                "skillKey": "item_3137_passive",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-09T05:09:57.243064Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ],
+            "details": {
+              "base_heal": {
+                "route": "/skills/item_3137_passive/parameters/base_heal",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:54.586732Z",
+                  "description": "当前根BaseHeal明确数值。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "新星基础治疗",
+                  "parameterKey": "base_heal",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T05:09:54.586732Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              "ap_heal_ratio": {
+                "route": "/skills/item_3137_passive/parameters/ap_heal_ratio",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:55.478076Z",
+                  "description": "当前根HealAPRatio明确数值。",
+                  "fixedValue": 0.2,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "新星法强治疗系数",
+                  "parameterKey": "ap_heal_ratio",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 20,
+                  "updatedAt": "2026-09-09T05:09:55.478076Z",
+                  "valueMode": "FIXED",
+                  "valueType": "DECIMAL"
+                }
+              },
+              "cooldown_ms": {
+                "route": "/skills/item_3137_passive/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:56.348623Z",
+                  "description": "当前根Cooldown明确数值，秒转成毫秒。",
+                  "fixedValue": 60000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "死中焕生冷却（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 30,
+                  "updatedAt": "2026-09-09T05:09:56.348623Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              },
+              "takedown_window_ms": {
+                "route": "/skills/item_3137_passive/parameters/takedown_window_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:57.243064Z",
+                  "description": "当前根TakedownWindow明确数值，秒转成毫秒。",
+                  "fixedValue": 3000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "伤害后目标阵亡窗口（毫秒）",
+                  "parameterKey": "takedown_window_ms",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 40,
+                  "updatedAt": "2026-09-09T05:09:57.243064Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          },
+          "formulas": {
+            "route": "/skills/item_3137_passive/formulas",
+            "status": 200,
+            "count": 1,
+            "keys": [
+              "self_healing"
+            ],
+            "list": [
+              {
+                "createdAt": "2026-09-09T05:09:58.081217Z",
+                "description": "100+0.2法强；当前库存统计明确自我治疗，实际自身在新星内的资格不默认。",
+                "formulaKey": "self_healing",
+                "gameId": "lol",
+                "name": "新星对自身治疗值",
+                "skillKey": "item_3137_passive",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-09T05:09:58.081217Z"
+              }
+            ],
+            "details": {
+              "self_healing": {
+                "route": "/skills/item_3137_passive/formulas/self_healing",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-09T05:09:58.081217Z",
+                  "description": "100+0.2法强；当前库存统计明确自我治疗，实际自身在新星内的资格不默认。",
+                  "expression": {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "base_heal"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_heal_ratio"
+                          },
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  "formulaKey": "self_healing",
+                  "gameId": "lol",
+                  "name": "新星对自身治疗值",
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-09T05:09:58.081217Z"
+                }
+              }
+            }
+          },
+          "effects": {
+            "route": "/skills/item_3137_passive/effects",
+            "status": 200,
+            "count": 1,
+            "keys": [
+              "self_heal"
+            ],
+            "list": [
+              {
+                "createdAt": "2026-09-11T14:53:34.288208Z",
+                "description": "使用现有自身治疗公式保存一次自身直接治疗；参与击杀资格、3秒窗口、1.75秒新星、盟友范围和60秒冷却尚未接线。",
+                "effectKey": "self_heal",
+                "gameId": "lol",
+                "lifecycleEnabled": false,
+                "name": "死中焕生自身治疗",
+                "resultCount": 1,
+                "skillKey": "item_3137_passive",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-11T14:53:34.288208Z"
+              }
+            ],
+            "details": {
+              "self_heal": {
+                "route": "/skills/item_3137_passive/effects/self_heal",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-11T14:53:34.288208Z",
+                  "description": "使用现有自身治疗公式保存一次自身直接治疗；参与击杀资格、3秒窗口、1.75秒新星、盟友范围和60秒冷却尚未接线。",
+                  "effectKey": "self_heal",
+                  "gameId": "lol",
+                  "lifecycle": null,
+                  "name": "死中焕生自身治疗",
+                  "results": [
+                    {
+                      "description": "仅保存施法者自身治疗，不能代表范围内盟友目标。",
+                      "detail": {},
+                      "lifecycleBehavior": null,
+                      "name": "死中焕生自身治疗",
+                      "resultKey": "heal",
+                      "resultType": "DIRECT_HEAL",
+                      "sortOrder": 10,
+                      "spellShieldBlockScope": null,
+                      "target": "SOURCE",
+                      "valueRule": {
+                        "fixedMaxValue": null,
+                        "fixedMinValue": 0,
+                        "fixedMultiplier": 1,
+                        "value": {
+                          "formulaKey": "self_healing",
+                          "kind": "FORMULA"
+                        }
+                      }
+                    }
+                  ],
+                  "skillKey": "item_3137_passive",
+                  "sortOrder": 10,
+                  "updatedAt": "2026-09-11T14:53:34.288208Z"
+                }
+              }
+            }
+          },
+          "processes": {
+            "route": "/skills/item_3137_passive/processes",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          },
+          "internal-states": {
+            "route": "/skills/item_3137_passive/internal-states",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          },
+          "trigger-rules": {
+            "route": "/skills/item_3137_passive/trigger-rules",
+            "status": 200,
+            "count": 0,
+            "keys": [],
+            "list": [],
+            "details": {}
+          }
+        },
+        "owner": {
+          "equipment": {
+            "route": "/equipment/item_3137",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T18:10:52.32724Z",
+              "description": "来源：官方16.17.1装备3137。 原始说明：75法术强度\n30%法术穿透\n20技能急速\n\n死中焕生\n每当一个敌方英雄在被你造成伤害后的3秒内阵亡时，在其所在位置生成一个新星，来为友军们治疗生命值。 被动与主动效果尚待配置。",
+              "equipmentKey": "item_3137",
+              "gameId": "lol",
+              "name": "蜕生",
+              "updatedAt": "2026-09-06T18:10:52.32724Z"
+            }
+          },
+          "attributes": {
+            "route": "/equipment/item_3137/attributes",
+            "status": 200,
+            "data": {
+              "attributeValues": {
+                "magic_pen_percent": 0.3,
+                "ability_power": 75,
+                "ability_haste": 20
+              },
+              "equipmentKey": "item_3137"
+            }
+          },
+          "representativeImage": {
+            "route": "/equipment/item_3137/representative-image",
+            "status": 200,
+            "data": {
+              "image": {
+                "enabled": true,
+                "imageKey": "item_3137",
+                "name": "item_3137"
+              }
+            }
+          },
+          "relation": {
+            "route": "/equipment-skill-relations?equipmentKey=item_3137",
+            "status": 200,
+            "data": {
+              "items": [
+                {
+                  "equipmentKey": "item_3137",
+                  "equipmentName": "蜕生",
+                  "gameId": "lol",
+                  "skillKey": "item_3137_passive",
+                  "skillName": "蜕生·死中焕生",
+                  "skillStatus": "ENABLED",
+                  "sortOrder": 10
+                }
+              ],
+              "total": 1
+            }
+          }
+        },
+        "ruleExistence": {
+          "list": {
+            "route": "/skills/item_3137_passive/trigger-rules",
+            "status": 200,
+            "count": 0,
+            "keys": []
+          },
+          "checked": {
+            "route": "/skills/item_3137_passive/trigger-rules/on_enemy_champion_death_after_damage",
+            "status": 404,
+            "data": {
+              "error": {
+                "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+                "details": {
+                  "ruleKey": "on_enemy_champion_death_after_damage"
+                },
+                "message": "技能触发规则不存在"
+              }
+            }
+          }
+        },
+        "currentSnapshotSha256": "c7e5b72d1b897fb2b938c25325c29bbbf5ea12246bc0a443d637ed1caf0ed16e"
+      },
+      "proposal": {
+        "damageEvidence": {
+          "eventType": "DAMAGE_DEALT",
+          "detail": {
+            "damageTypeKey": "ANY",
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "conditions": [
+            {
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            }
+          ]
+        },
+        "resolutionEvent": {
+          "eventType": null,
+          "meaning": "敌方英雄在伤害后窗口内被击杀/获得击杀参与且来源仍存活；事件键与取件时点待核。"
+        },
+        "conditions": [
+          "伤害来源与敌方英雄目标必须关联",
+          "伤害到击杀参与的间隔不超过3000毫秒",
+          "触发时来源仍存活",
+          "持有者冷却可用"
+        ],
+        "actions": [
+          {
+            "sortOrder": 10,
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "actionResultTarget": "SOURCE（现有自身治疗结果定义）",
+        "effectBoundValue": {
+          "base_heal": 100,
+          "ap_heal_ratio": 0.2
+        },
+        "timing": {
+          "takedown_window_ms": 3000,
+          "nova_duration_ms": 1750,
+          "cooldown_ms": 60000,
+          "finding": "参数和公式已保存，但没有击杀关联状态、延迟新星过程或持有者冷却状态。"
+        },
+        "omitted": [
+          "敌方英雄击杀/击杀参与事件键",
+          "伤害来源与目标的3秒关联",
+          "来源存活条件",
+          "1.75秒新星过程与范围命中",
+          "60秒持有者冷却",
+          "纯盟友范围治疗（本1V1候选只评估自身治疗）"
+        ],
+        "requestReady": false
+      },
+      "runtimeInputBindingCheck": {
+        "existingActionBindings": [
+          {
+            "skillKey": "masteryi_r",
+            "ruleKey": "on_used",
+            "actions": [
+              {
+                "actionKey": "execute_attack_speed",
+                "runtimeInputBindings": []
+              },
+              {
+                "actionKey": "execute_move_speed",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "diana_w",
+            "ruleKey": "on_used",
+            "actions": [
+              {
+                "actionKey": "start_cast",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_6631_active",
+            "ruleKey": "actual_hit",
+            "actions": [
+              {
+                "actionKey": "execute_active_hit",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_3071_passive",
+            "ruleKey": "on_physical_damage_dealt_to_champion",
+            "actions": [
+              {
+                "actionKey": "execute_armor_shred",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_1043_passive",
+            "ruleKey": "resolve_on_basic_attack_hit",
+            "actions": [
+              {
+                "actionKey": "execute_on_hit_damage",
+                "runtimeInputBindings": []
+              }
+            ]
+          },
+          {
+            "skillKey": "item_3075_passive",
+            "ruleKey": "reflect_on_basic_attack_taken",
+            "actions": [
+              {
+                "actionKey": "execute_thorn_damage",
+                "runtimeInputBindings": []
+              }
+            ]
+          }
+        ],
+        "finding": "现有 EXECUTE_EFFECT 可执行 SOURCE 治疗公式，但没有运行时输入绑定把伤害者、目标、击杀参与、存活和时间窗口传给该动作。"
+      },
+      "cooldownStateTiming": {
+        "cooldown": "60000毫秒参数已存在，未绑定持有者冷却",
+        "state": "内部状态和过程列表为空",
+        "timing": "3秒窗口和1.75秒新星未表示",
+        "target": "结果 SOURCE；范围盟友部分不纳入本候选",
+        "branch": {
+          "applicable": false,
+          "finding": "固定来源没有近战/远程分支；本候选不新增分支，也不猜测来源属性条件。"
+        }
+      },
+      "omitted": [
+        "敌方英雄击杀/击杀参与事件键",
+        "伤害来源与目标的3秒关联",
+        "来源存活条件",
+        "1.75秒新星过程与范围命中",
+        "60秒持有者冷却",
+        "纯盟友范围治疗（本1V1候选只评估自身治疗）"
+      ],
+      "deferredReasons": [
+        "100+0.2 AP 公式和自身 DIRECT_HEAL 结果已保存，但 effect 的 lifecycleEnabled=false 且生命周期为空。",
+        "触发必须关联伤害、3秒击杀参与窗口、来源存活、60秒冷却和1.75秒新星时序，当前过程/内部状态/规则目录都没有对应接线。"
+      ],
+      "experience": {
+        "apiOnly": true,
+        "browserUsed": false,
+        "apiBoundary": "可从真实 GET 读取技能根记录、参数/公式/效果及其详情、装备属性、代表图片、装备关系和规则空列表；拟议规则详情均返回404。",
+        "pageBoundary": "未运行浏览器。管理页可以作为现有字段查看入口，但在缺少上述运行时语义前不应提交规则；本记录不把页面未验证当成运行时证明。"
+      }
+    }
+  ],
+  "decision": {
+    "ready": [],
+    "deferred": [
+      "item_3139_active",
+      "item_8010_passive",
+      "item_3137_passive"
+    ],
+    "status": "NO_READY_CANDIDATE",
+    "reason": "真实 GET 确认三项技能规则列表均为空，三个拟议规则详情均为404；现有事件/效果只能覆盖局部，不能安全表达各自必要的冷却、状态、来源筛选或时序。"
+  },
+  "getSummary": {
+    "exploratoryGetCount": 61,
+    "captureGetCount": 59,
+    "totalGetCount": 120,
+    "methods": {
+      "GET": 120,
+      "POST": 0,
+      "PUT": 0,
+      "PATCH": 0,
+      "DELETE": 0
+    },
+    "httpStatusCounts": {
+      "200": 56,
+      "404": 3
+    },
+    "businessWrites": 0,
+    "nonGetRequests": 0,
+    "captureRoutes": [
+      {
+        "route": "/skills/item_3139_active",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/parameters",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/parameters/active_cooldown_ms",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/parameters/move_speed_ratio",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/parameters/move_speed_duration_ms",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/formulas",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/effects",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/effects/quicksilver_move_speed",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/processes",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/internal-states",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/trigger-rules",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_3139",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_3139/attributes",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_3139/representative-image",
+        "status": 200
+      },
+      {
+        "route": "/equipment-skill-relations?equipmentKey=item_3139",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3139_active/trigger-rules/on_used",
+        "status": 404
+      },
+      {
+        "route": "/skills/item_8010_passive",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/parameters",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/parameters/mr_shred_ratio_per_stack",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/parameters/mr_shred_duration_ms",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/parameters/mr_shred_max_stacks",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/parameters/magic_damage_internal_cooldown_ms",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/formulas",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/effects",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/effects/magic_resistance_shred",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/processes",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/internal-states",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/trigger-rules",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_8010",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_8010/attributes",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_8010/representative-image",
+        "status": 200
+      },
+      {
+        "route": "/equipment-skill-relations?equipmentKey=item_8010",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_8010_passive/trigger-rules/on_magic_damage_dealt_to_champion",
+        "status": 404
+      },
+      {
+        "route": "/skills/item_3137_passive",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/parameters",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/parameters/base_heal",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/parameters/ap_heal_ratio",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/parameters/takedown_window_ms",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/formulas",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/formulas/self_healing",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/effects",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/effects/self_heal",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/processes",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/internal-states",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/trigger-rules",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_3137",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_3137/attributes",
+        "status": 200
+      },
+      {
+        "route": "/equipment/item_3137/representative-image",
+        "status": 200
+      },
+      {
+        "route": "/equipment-skill-relations?equipmentKey=item_3137",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3137_passive/trigger-rules/on_enemy_champion_death_after_damage",
+        "status": 404
+      },
+      {
+        "route": "/skills",
+        "status": 200
+      },
+      {
+        "route": "/damage-types",
+        "status": 200
+      },
+      {
+        "route": "/skills/masteryi_r/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "route": "/skills/diana_w/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_6631_active/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3071_passive/trigger-rules/on_physical_damage_dealt_to_champion",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_1043_passive/trigger-rules/resolve_on_basic_attack_hit",
+        "status": 200
+      },
+      {
+        "route": "/skills/item_3075_passive/trigger-rules/reflect_on_basic_attack_taken",
+        "status": 200
+      }
+    ]
+  }
+}
