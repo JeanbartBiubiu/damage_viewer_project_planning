@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T06:46:57.773Z",
+  "status": "REVIEWED_DEFERRED",
+  "methodPolicy": "GET_ONLY",
+  "businessWrites": 0,
+  "sourceVersion": "16.17/16.17.1",
+  "sources": [
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/lol-wiki-current-items/current-items.normalized.json",
+      "sha256": "17769e0891a0cfc3873abe3d74f1806e8b7a1bc5b21258308c0612121f4b56f4"
+    }
+  ],
+  "reviewRounds": [
+    {
+      "name": "第一组复杂触发复核",
+      "targetedGETs": 42,
+      "candidates": [
+        {
+          "skillKey": "item_3156_passive",
+          "name": "玛莫提乌斯之噬·救主灵刃",
+          "status": "DEFERRED",
+          "reason": "缺少近战远程互斥条件，且全能吸血进入、续期和退出时点未表达。"
+        },
+        {
+          "skillKey": "item_6676_passive",
+          "name": "收集者·死",
+          "status": "DEFERRED",
+          "reason": "伤害后事件没有目标生命值变化后数据，现有斩杀比较为小于等于而来源要求严格小于。"
+        },
+        {
+          "skillKey": "item_3153_passive",
+          "name": "破败王者之刃·雾之锋",
+          "status": "DEFERRED",
+          "reason": "缺少近战远程分支及按目标三次攻击计数窗口；不能让两个伤害效果同时执行。"
+        },
+        {
+          "skillKey": "item_3508_passive",
+          "name": "夺萃之镰·咒刃",
+          "status": "DEFERRED",
+          "reason": "缺少技能使用后待命、下一次普攻消费及1.5秒冷却状态。"
+        },
+        {
+          "skillKey": "item_6692_passive",
+          "name": "星蚀·永升之月",
+          "status": "DEFERRED",
+          "reason": "缺少同一目标两次独立命中计数、两秒时间窗、去重、近战远程分支和触发冷却。"
+        },
+        {
+          "skillKey": "item_3084_passive",
+          "name": "心之钢·庞然吞食",
+          "status": "DEFERRED",
+          "reason": "缺少距离跟踪、充能完成、下一次普攻消费及每目标冷却。"
+        }
+      ]
+    },
+    {
+      "name": "第二组剩余候选复核",
+      "targetedEvidenceGETs": 78,
+      "totalGETs": 306,
+      "candidates": [
+        {
+          "skillKey": "item_3044_passive",
+          "name": "净蚀·狂怒",
+          "priority": 1,
+          "status": "DEFERRED",
+          "reason": "近战20与远程10必须互斥，当前事件和条件没有攻击来源类型。"
+        },
+        {
+          "skillKey": "item_3181_passive",
+          "name": "破舰者·船长",
+          "priority": 2,
+          "status": "DEFERRED",
+          "reason": "缺少按目标第五击计数、十秒窗口、消费顺序、英雄筛选和近战远程分支。"
+        },
+        {
+          "skillKey": "item_3057_passive",
+          "name": "耀光·咒刃",
+          "priority": 3,
+          "status": "DEFERRED",
+          "reason": "缺少技能使用到下一击的待命状态、失效、消费、刷新和命中后冷却。"
+        },
+        {
+          "skillKey": "item_6653_passive",
+          "name": "兰德里的折磨·折磨与受苦",
+          "priority": 4,
+          "status": "DEFERRED",
+          "reason": "缺少伤害型技能筛选、六跳调度、重复命中刷新和受苦层数增伤。"
+        },
+        {
+          "skillKey": "item_3121_passive",
+          "name": "末日寒冬·敬畏与永续",
+          "priority": 5,
+          "status": "DEFERRED",
+          "reason": "缺少定身或近战减速条件分流、持有者冷却和当前法力运行值。"
+        },
+        {
+          "skillKey": "item_3173_passive",
+          "name": "带链碾碎者·诺克萨斯的不懈",
+          "priority": 6,
+          "status": "DEFERRED",
+          "reason": "官方零占位与现有100至200等级值来源尚未统一，同时缺英雄魔法伤害筛选、冷却和等级输入。"
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "ready": 0,
+    "deferred": 12,
+    "excluded": 0
+  },
+  "commonGaps": [
+    "近战与远程来源类型及互斥条件",
+    "下一次普通攻击的待命和消费状态",
+    "按目标计数、时间窗和独立命中去重",
+    "伤害结算后的生命值上下文与严格阈值",
+    "区域、距离、控制类型和伤害来源资格",
+    "持有者或逐目标冷却及持续节拍"
+  ],
+  "systemConclusion": "现有持久化结构已经保存主要参数、公式和效果；共同阻塞位于事件上下文、条件、状态和时序，没有新增表依据。",
+  "runtimeValidation": "未执行",
+  "browserValidation": "未执行；本轮没有业务写入"
+}
