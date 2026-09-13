@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T07:48:45.220Z",
+  "generatedAt": "2026-09-13T08:10:57.985Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7574,6 +7574,66 @@
         "sha256": "89270b541959514af720acfc68590ea63ce57e47f23625ad1d74c1a6fba627bc",
         "commit": "0e62d71411bdbdd02c04699ea79ceefd58c18078"
       },
+      "runtimeValidation": "未执行"
+    },
+    "heroTriggerCandidateReviewFifthRound": {
+      "at": "2026-09-13T08:10:57.985Z",
+      "status": "永恩W、亚索P、波比W和慎P完成固定来源与真实接口定点复核；四项均有具体组成或来源，但没有可安全冻结的完整规则",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "yone_w",
+        "yasuo_p",
+        "poppy_w",
+        "shen_p"
+      ],
+      "decision": {
+        "ready": 0,
+        "deferred": 4,
+        "excluded": 0,
+        "businessWrites": 0
+      },
+      "deferred": [
+        {
+          "skillKey": "yone_w",
+          "reason": "已有首个英雄自身护盾效果和命中骨架，但公式依赖无默认shield_level_base_value运行输入，当前技能命中事件没有合法供值。"
+        },
+        {
+          "skillKey": "yasuo_p",
+          "reason": "缺移动积攒剑意、满槽及受英雄或野怪伤害资格，护盾公式也依赖无默认等级基础值。"
+        },
+        {
+          "skillKey": "poppy_w",
+          "reason": "来源明确主动移动速度40%、持续2秒，但当前只保存法力消耗效果，缺独立移速效果及主动接线。"
+        },
+        {
+          "skillKey": "shen_p",
+          "reason": "缺47至120角色等级护盾值完整求值、冷却缩短等级求值、护盾资格和内部冷却状态，两个现有输入均无默认值。"
+        }
+      ],
+      "getEvidence": {
+        "canonicalGETs": 44,
+        "status200": 44,
+        "compositionGETs": 28,
+        "detailGETs": 16,
+        "repeatedExplorationGETs": 88,
+        "totalObservedGETs": 132,
+        "fullSkillBaselineGETs": 0,
+        "fullRuleBaselineGETs": 0,
+        "businessWrites": 0,
+        "nonGetRequests": 0
+      },
+      "findings": [
+        "永恩W的技能命中、英雄目标和执行护盾骨架可表达，但缺动态输入时仍不得冻结写请求。",
+        "波比W主动移速属于应保留的范围内组成，当前缺效果应记系统暂缓而非范围排除。",
+        "亚索P和慎P都需要角色等级数值、资格或状态链，不能把无默认运行输入补零。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna第五轮英雄触发候选/候选汇总.json",
+        "sha256": "21ae7fa1c15afed18de2341b5b3202ea3d091c62810c1fd768f9983bd864fe5c",
+        "commit": "024d1cefd06a98471abc5a80eb7c8205afe2a094"
+      },
+      "browserValidation": "未执行；本轮没有业务写入",
       "runtimeValidation": "未执行"
     }
   },
