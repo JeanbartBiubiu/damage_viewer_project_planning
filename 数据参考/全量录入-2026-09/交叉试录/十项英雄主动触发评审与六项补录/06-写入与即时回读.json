@@ -1,0 +1,1035 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "startedAt": "2026-09-13T05:31:52.935Z",
+  "status": "PASS",
+  "authorizationValueRecorded": false,
+  "approvedHashes": {
+    "批次配置.mjs": "6c1de7455f2799da2dc42997eac863cc8603e9574850a3bcd9738df3aeb976d9",
+    "00-独立语义评审.json": "58202b42d0c77c14476b0c601dc9490471c6cb6e3cf75c40a1d0abddb09c68d3",
+    "README.md": "d9836879fc0b68f552c2e9003a9041a3e7cad847660af10045bdb440d5a6c2bd",
+    "01-合并方案.md": "3a0ad63593a129cfd70ca001f943511c3c65ddfd6c49d715b797a42869907108",
+    "02-合并冻结请求.json": "aef42e9bb761ba6575df7f3c4d1a3004be8b3c6e46714a4ced048f432c0a4d1e",
+    "03-来源散列快照.json": "84578cc8d435df677ed33ae6f736d117f8ad7732dba28491d77aa46a9a3e9c38",
+    "04-共享写前现值.json": "5da4c84dd1a27d7a7f019291b0f1f042298597b8ce339c919e83bd7299ac94f1",
+    "受保护写入.mjs": "8af813f083d6f74d55fad0a472c6139821bebd756ebf665b55fbeeafa47f1eb2",
+    "独立GET回读.mjs": "d186d82213491e67f26f129c7e843624876f0e69025eed1bcfd6cb6ba0f211e6",
+    "只读页面验收.mjs": "b053b3fd61739f5727677c8527b8e9dbacaf6611ffb89766ba819b1325797dc8",
+    "Cursor终审只读检查.mjs": "d5e643c8a80d45a839af8f3bd4011312b50baafc5d4af3e492f54cf6784a0436",
+    "05-Cursor独立评审.json": "c5617e05a003cbcd06868a537b282a9961e080831b0e803b3c0a328196d226dc"
+  },
+  "cursorReview": {
+    "file": "05-Cursor独立评审.json",
+    "status": "READY",
+    "accepted": true,
+    "revision": "rev1",
+    "reviewedPlanRevision": 1,
+    "resultStatus": "finished",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "checker": {
+      "status": "READY",
+      "verdict": "READY",
+      "planRevision": 1,
+      "semanticReview": {
+        "verdict": "READY_WITH_DEFERRED",
+        "accepted": [
+          {
+            "id": "blitzcrank",
+            "skillKey": "blitzcrank_w",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "effectKey": "attack_speed_boost",
+            "reason": "自身独立五秒攻击速度，无目标分支和动态输入。",
+            "mustOmit": [
+              "移动速度及衰减",
+              "结束后的自身减速",
+              "法力消耗和战斗冷却"
+            ]
+          },
+          {
+            "id": "draven",
+            "skillKey": "draven_w",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "effectKey": "attack_speed_gain",
+            "reason": "自身独立三秒攻击速度，可由一次成功施放启动。",
+            "mustOmit": [
+              "移动速度及衰减",
+              "接斧刷新冷却",
+              "法力消耗和战斗冷却"
+            ]
+          },
+          {
+            "id": "garen",
+            "skillKey": "garen_q",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "effectKey": "move_speed",
+            "reason": "自身移动速度在施放时开始，取值和持续时间均已有合法参数。",
+            "mustOmit": [
+              "强化普攻伤害与沉默",
+              "移除减速",
+              "战斗冷却"
+            ]
+          },
+          {
+            "id": "kogmaw",
+            "skillKey": "kogmaw_w",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "effectKey": "attack_range",
+            "reason": "自身独立八秒攻击距离效果，无动态输入。",
+            "mustOmit": [
+              "攻击附带目标最大生命魔法伤害",
+              "法力消耗和战斗冷却"
+            ]
+          },
+          {
+            "id": "monkeyking",
+            "skillKey": "monkeyking_e",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "effectKey": "self_attack_speed",
+            "reason": "最终效果已收敛为来源自身攻击速度；一次已接受的主动施放只执行一次，不按分身或目标数量重复。",
+            "mustOmit": [
+              "分身与额外目标攻击速度",
+              "突进伤害",
+              "法力消耗和战斗冷却"
+            ]
+          },
+          {
+            "id": "drmundo",
+            "skillKey": "drmundo_r",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "effectKey": "speed_boost",
+            "reason": "自身独立十秒移动速度，当前取值不依赖运行时输入。",
+            "mustOmit": [
+              "生命回复与最大生命",
+              "附近敌方英雄数量修正",
+              "周期治疗和战斗冷却"
+            ]
+          }
+        ],
+        "deferred": [
+          {
+            "id": "ashe",
+            "skillKey": "ashe_q",
+            "ruleKey": "on_used",
+            "reason": "必须满足四层全神贯注才可激活；当前 SKILL_USED 没有层数资格，直接执行会绕过施放门槛。",
+            "missingCapability": [
+              "合法施放资格",
+              "层数积累与消耗",
+              "后续强化普攻结算"
+            ]
+          },
+          {
+            "id": "teemo",
+            "skillKey": "teemo_w",
+            "ruleKey": "on_used",
+            "reason": "主动效果保存的是完整移速，需要先移除被动并在三秒后按受击资格恢复；直接执行会与后续被动叠加。",
+            "missingCapability": [
+              "被动与主动互斥",
+              "受击失效资格",
+              "到期恢复"
+            ]
+          },
+          {
+            "id": "volibear",
+            "skillKey": "volibear_e",
+            "ruleKey": "on_used",
+            "reason": "护盾只在延时落雷且来源处于区域内时成立；使用事件过早且没有站位资格。",
+            "missingCapability": [
+              "落雷时点",
+              "区域内资格"
+            ]
+          },
+          {
+            "id": "rumble",
+            "skillKey": "rumble_w",
+            "ruleKey": "on_used",
+            "reason": "普通与危险温度分支必须互斥，当前事件没有热量快照；护盾还缺 source_health_for_shield 动态绑定。",
+            "missingCapability": [
+              "热量快照",
+              "互斥分支",
+              "来源生命值动态输入"
+            ]
+          }
+        ],
+        "businessWrites": 0,
+        "fileWrites": 0
+      },
+      "baseline": {
+        "getCount": 2674,
+        "statusCounts": {
+          "200": 2662,
+          "404": 12
+        },
+        "skillCount": 1062,
+        "ruleCount": 120,
+        "sourceInitializedCount": 24,
+        "oldRuleDetails": 120,
+        "candidateStatuses": [
+          {
+            "id": "blitzcrank",
+            "status": 404
+          },
+          {
+            "id": "draven",
+            "status": 404
+          },
+          {
+            "id": "garen",
+            "status": 404
+          },
+          {
+            "id": "kogmaw",
+            "status": 404
+          },
+          {
+            "id": "monkeyking",
+            "status": 404
+          },
+          {
+            "id": "drmundo",
+            "status": 404
+          }
+        ]
+      },
+      "requests": [
+        {
+          "id": "blitzcrank",
+          "route": "/skills/blitzcrank_w/trigger-rules",
+          "detailRoute": "/skills/blitzcrank_w/trigger-rules/on_used",
+          "bodySha256": "d6e24b2a925b424dccc7837da422c6d5199085c605a1ae5f2795d9ded234d427"
+        },
+        {
+          "id": "draven",
+          "route": "/skills/draven_w/trigger-rules",
+          "detailRoute": "/skills/draven_w/trigger-rules/on_used",
+          "bodySha256": "e0ef634680c97a064993616bdb58059985e47cbbc99abcde0ac2a879d8ab7054"
+        },
+        {
+          "id": "garen",
+          "route": "/skills/garen_q/trigger-rules",
+          "detailRoute": "/skills/garen_q/trigger-rules/on_used",
+          "bodySha256": "0cfa9ec07575743468072adb5e9d0815f3bd1beefdcdf3217739b96ead4c407c"
+        },
+        {
+          "id": "kogmaw",
+          "route": "/skills/kogmaw_w/trigger-rules",
+          "detailRoute": "/skills/kogmaw_w/trigger-rules/on_used",
+          "bodySha256": "e7c00412a9e057b6537411ad4b0a9f274ed0b3f86fd081d34d3b667f5315e54d"
+        },
+        {
+          "id": "monkeyking",
+          "route": "/skills/monkeyking_e/trigger-rules",
+          "detailRoute": "/skills/monkeyking_e/trigger-rules/on_used",
+          "bodySha256": "f09fc296086ce5379a03c5add640d7d009c061e283164461c2ecec64fbab1115"
+        },
+        {
+          "id": "drmundo",
+          "route": "/skills/drmundo_r/trigger-rules",
+          "detailRoute": "/skills/drmundo_r/trigger-rules/on_used",
+          "bodySha256": "5a50c951a0fee9e7600b95596505d354a3be8bbabb9be3ba27fd344ab095790d"
+        }
+      ],
+      "semanticChecks": {
+        "blitzcrank": {
+          "eventType": "SKILL_USED",
+          "eventDetail": {
+            "sourceSkillKey": "blitzcrank_w",
+            "useKind": "ACTIVE"
+          },
+          "conditionKind": "NONE",
+          "actions": [
+            {
+              "actionKey": "execute_attack_speed_boost",
+              "name": "执行过载运转攻击速度",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "attack_speed_boost"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "processCheck": null,
+          "effectChecks": [
+            {
+              "effectKey": "attack_speed_boost",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "resultTarget": "SOURCE",
+              "valueKind": "PARAMETER",
+              "valueKey": "attack_speed_ratio",
+              "durationParameterKey": "duration_ms"
+            }
+          ]
+        },
+        "draven": {
+          "eventType": "SKILL_USED",
+          "eventDetail": {
+            "sourceSkillKey": "draven_w",
+            "useKind": "ACTIVE"
+          },
+          "conditionKind": "NONE",
+          "actions": [
+            {
+              "actionKey": "execute_attack_speed_gain",
+              "name": "执行血性冲刺攻击速度",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "attack_speed_gain"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "processCheck": null,
+          "effectChecks": [
+            {
+              "effectKey": "attack_speed_gain",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "resultTarget": "SOURCE",
+              "valueKind": "PARAMETER",
+              "valueKey": "attack_speed_gain_ratio",
+              "durationParameterKey": "attack_speed_duration_ms"
+            }
+          ]
+        },
+        "garen": {
+          "eventType": "SKILL_USED",
+          "eventDetail": {
+            "sourceSkillKey": "garen_q",
+            "useKind": "ACTIVE"
+          },
+          "conditionKind": "NONE",
+          "actions": [
+            {
+              "actionKey": "execute_move_speed",
+              "name": "执行致命打击移动速度",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "move_speed"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "processCheck": null,
+          "effectChecks": [
+            {
+              "effectKey": "move_speed",
+              "resultKey": "move_speed",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "resultTarget": "SOURCE",
+              "valueKind": "PARAMETER",
+              "valueKey": "move_speed_ratio",
+              "durationParameterKey": "move_duration_ms"
+            }
+          ]
+        },
+        "kogmaw": {
+          "eventType": "SKILL_USED",
+          "eventDetail": {
+            "sourceSkillKey": "kogmaw_w",
+            "useKind": "ACTIVE"
+          },
+          "conditionKind": "NONE",
+          "actions": [
+            {
+              "actionKey": "execute_attack_range",
+              "name": "执行生化弹幕攻击距离",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "attack_range"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "processCheck": null,
+          "effectChecks": [
+            {
+              "effectKey": "attack_range",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "resultTarget": "SOURCE",
+              "valueKind": "PARAMETER",
+              "valueKey": "bonus_attack_range",
+              "durationParameterKey": "duration_ms"
+            }
+          ]
+        },
+        "monkeyking": {
+          "eventType": "SKILL_USED",
+          "eventDetail": {
+            "sourceSkillKey": "monkeyking_e",
+            "useKind": "ACTIVE"
+          },
+          "conditionKind": "NONE",
+          "actions": [
+            {
+              "actionKey": "execute_self_attack_speed",
+              "name": "执行腾云突击自身攻击速度",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "self_attack_speed"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "processCheck": null,
+          "effectChecks": [
+            {
+              "effectKey": "self_attack_speed",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "resultTarget": "SOURCE",
+              "valueKind": "FORMULA",
+              "valueKey": "attack_speed_ratio",
+              "durationParameterKey": "attack_speed_duration_ms"
+            }
+          ]
+        },
+        "drmundo": {
+          "eventType": "SKILL_USED",
+          "eventDetail": {
+            "sourceSkillKey": "drmundo_r",
+            "useKind": "ACTIVE"
+          },
+          "conditionKind": "NONE",
+          "actions": [
+            {
+              "actionKey": "execute_speed_boost",
+              "name": "执行极限剂量移动速度",
+              "actionType": "EXECUTE_EFFECT",
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET",
+              "detail": {
+                "effectKey": "speed_boost"
+              },
+              "runtimeInputBindings": [],
+              "resultModifiers": []
+            }
+          ],
+          "processCheck": null,
+          "effectChecks": [
+            {
+              "effectKey": "speed_boost",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "resultTarget": "SOURCE",
+              "valueKind": "PARAMETER",
+              "valueKey": "speed_boost_ratio",
+              "durationParameterKey": "duration_ms"
+            }
+          ]
+        }
+      },
+      "deferred": [
+        {
+          "id": "ashe",
+          "skillKey": "ashe_q",
+          "ruleKey": "on_used",
+          "reason": "射手的专注必须先满足四层全神贯注；当前 SKILL_USED 没有层数资格，不能证明该事件只代表合法激活，直接执行攻速会绕过门槛。"
+        },
+        {
+          "id": "teemo",
+          "skillKey": "teemo_w",
+          "ruleKey": "on_used",
+          "reason": "active_move_speed 保存的是主动期间完整移速；当前规则不能移除被动移速、在三秒后按受击资格恢复，直接执行会在被动接线后产生重复叠加。"
+        },
+        {
+          "id": "volibear",
+          "skillKey": "volibear_e",
+          "ruleKey": "on_used",
+          "reason": "shield 在延时雷云落地且沃利贝尔处于区域内才获得；当前 SKILL_USED 没有落地时点与站位资格，直接执行会错误地无条件加盾。"
+        },
+        {
+          "id": "rumble",
+          "skillKey": "rumble_w",
+          "ruleKey": "on_used",
+          "reason": "普通与危险温度效果必须互斥；当前事件没有热量快照，护盾还依赖 source_health_for_shield 动态输入，单条无条件规则不能完整且稳定地表达。"
+        }
+      ],
+      "guardChecks": {
+        "explicitWriteSwitch": true,
+        "replayLock": true,
+        "approvedHashes": true,
+        "terminalCompletion": true,
+        "writerMethodsBounded": true,
+        "writerActionsExact": true,
+        "writerProcessChecks": true,
+        "writerEffectChecks": true,
+        "writerOutput": true,
+        "readbackGetOnly": true,
+        "readbackProcessChecks": true,
+        "readbackEffectChecks": true,
+        "browserWriteCount": true,
+        "browserNoFixedTokenValue": true,
+        "browserTargetFilter": true,
+        "noPreviousBatchFiles": true
+      },
+      "reviewedFiles": [
+        "批次配置.mjs",
+        "00-独立语义评审.json",
+        "README.md",
+        "01-合并方案.md",
+        "02-合并冻结请求.json",
+        "03-来源散列快照.json",
+        "04-共享写前现值.json",
+        "受保护写入.mjs",
+        "独立GET回读.mjs",
+        "只读页面验收.mjs",
+        "Cursor终审只读检查.mjs"
+      ],
+      "approvedInputHashes": {
+        "批次配置.mjs": "6c1de7455f2799da2dc42997eac863cc8603e9574850a3bcd9738df3aeb976d9",
+        "00-独立语义评审.json": "58202b42d0c77c14476b0c601dc9490471c6cb6e3cf75c40a1d0abddb09c68d3",
+        "README.md": "d9836879fc0b68f552c2e9003a9041a3e7cad847660af10045bdb440d5a6c2bd",
+        "01-合并方案.md": "3a0ad63593a129cfd70ca001f943511c3c65ddfd6c49d715b797a42869907108",
+        "02-合并冻结请求.json": "aef42e9bb761ba6575df7f3c4d1a3004be8b3c6e46714a4ced048f432c0a4d1e",
+        "03-来源散列快照.json": "84578cc8d435df677ed33ae6f736d117f8ad7732dba28491d77aa46a9a3e9c38",
+        "04-共享写前现值.json": "5da4c84dd1a27d7a7f019291b0f1f042298597b8ce339c919e83bd7299ac94f1",
+        "受保护写入.mjs": "8af813f083d6f74d55fad0a472c6139821bebd756ebf665b55fbeeafa47f1eb2",
+        "独立GET回读.mjs": "d186d82213491e67f26f129c7e843624876f0e69025eed1bcfd6cb6ba0f211e6",
+        "只读页面验收.mjs": "b053b3fd61739f5727677c8527b8e9dbacaf6611ffb89766ba819b1325797dc8",
+        "Cursor终审只读检查.mjs": "d5e643c8a80d45a839af8f3bd4011312b50baafc5d4af3e492f54cf6784a0436"
+      },
+      "businessWrites": 0,
+      "blockers": [],
+      "limits": [
+        "静态、GET与管理页面证据不等于宿主事件、战斗运行或Wasm证明。"
+      ]
+    },
+    "businessWrites": 0,
+    "approvedInputHashes": {
+      "批次配置.mjs": "6c1de7455f2799da2dc42997eac863cc8603e9574850a3bcd9738df3aeb976d9",
+      "00-独立语义评审.json": "58202b42d0c77c14476b0c601dc9490471c6cb6e3cf75c40a1d0abddb09c68d3",
+      "README.md": "d9836879fc0b68f552c2e9003a9041a3e7cad847660af10045bdb440d5a6c2bd",
+      "01-合并方案.md": "3a0ad63593a129cfd70ca001f943511c3c65ddfd6c49d715b797a42869907108",
+      "02-合并冻结请求.json": "aef42e9bb761ba6575df7f3c4d1a3004be8b3c6e46714a4ced048f432c0a4d1e",
+      "03-来源散列快照.json": "84578cc8d435df677ed33ae6f736d117f8ad7732dba28491d77aa46a9a3e9c38",
+      "04-共享写前现值.json": "5da4c84dd1a27d7a7f019291b0f1f042298597b8ce339c919e83bd7299ac94f1",
+      "受保护写入.mjs": "8af813f083d6f74d55fad0a472c6139821bebd756ebf665b55fbeeafa47f1eb2",
+      "独立GET回读.mjs": "d186d82213491e67f26f129c7e843624876f0e69025eed1bcfd6cb6ba0f211e6",
+      "只读页面验收.mjs": "b053b3fd61739f5727677c8527b8e9dbacaf6611ffb89766ba819b1325797dc8",
+      "Cursor终审只读检查.mjs": "d5e643c8a80d45a839af8f3bd4011312b50baafc5d4af3e492f54cf6784a0436"
+    },
+    "writeAllowlistAudit": {
+      "kind": "audited-write-allowlist",
+      "osSandbox": false,
+      "auditAvailable": true,
+      "outsideScopeCount": 0,
+      "outsideScopePaths": [],
+      "runDeltaOutsideScopeCount": 0,
+      "runDeltaOutsideScopePaths": [],
+      "runDeltaCount": 0,
+      "failClosed": false
+    },
+    "toolEvents": {
+      "parseableEventCount": 1633,
+      "uniqueToolCallCount": 34,
+      "terminalStatuses": {
+        "call-71d8720f-a306-43d5-b28d-5c8f1ea1fed3-0\nfc_34831af5-ee7f-9c2d-8909-ab982d1868ec_0": "completed",
+        "call-71d8720f-a306-43d5-b28d-5c8f1ea1fed3-1\nfc_34831af5-ee7f-9c2d-8909-ab982d1868ec_1": "completed",
+        "call-71d8720f-a306-43d5-b28d-5c8f1ea1fed3-2\nfc_34831af5-ee7f-9c2d-8909-ab982d1868ec_2": "completed",
+        "call-71d8720f-a306-43d5-b28d-5c8f1ea1fed3-3\nfc_34831af5-ee7f-9c2d-8909-ab982d1868ec_3": "completed",
+        "call-71d8720f-a306-43d5-b28d-5c8f1ea1fed3-4\nfc_34831af5-ee7f-9c2d-8909-ab982d1868ec_4": "completed",
+        "call-b563f9e5-1ace-485d-8eda-61bd9b54aaf1-5\nfc_3dcc1108-9a60-936d-872f-ca97518080b8_0": "completed",
+        "call-b563f9e5-1ace-485d-8eda-61bd9b54aaf1-6\nfc_3dcc1108-9a60-936d-872f-ca97518080b8_1": "completed",
+        "call-b563f9e5-1ace-485d-8eda-61bd9b54aaf1-7\nfc_3dcc1108-9a60-936d-872f-ca97518080b8_2": "completed",
+        "call-b563f9e5-1ace-485d-8eda-61bd9b54aaf1-8\nfc_3dcc1108-9a60-936d-872f-ca97518080b8_3": "completed",
+        "call-b563f9e5-1ace-485d-8eda-61bd9b54aaf1-9\nfc_3dcc1108-9a60-936d-872f-ca97518080b8_4": "completed",
+        "call-b563f9e5-1ace-485d-8eda-61bd9b54aaf1-10\nfc_3dcc1108-9a60-936d-872f-ca97518080b8_5": "completed",
+        "call-9c6019f8-0061-44f3-8ae0-9dc110783249-11\nfc_310477a6-5785-97c1-8e2b-c973593cf672_0": "completed",
+        "call-9c6019f8-0061-44f3-8ae0-9dc110783249-12\nfc_310477a6-5785-97c1-8e2b-c973593cf672_1": "completed",
+        "call-9c6019f8-0061-44f3-8ae0-9dc110783249-13\nfc_310477a6-5785-97c1-8e2b-c973593cf672_2": "completed",
+        "call-9c6019f8-0061-44f3-8ae0-9dc110783249-14\nfc_310477a6-5785-97c1-8e2b-c973593cf672_3": "completed",
+        "call-9c6019f8-0061-44f3-8ae0-9dc110783249-15\nfc_310477a6-5785-97c1-8e2b-c973593cf672_4": "completed",
+        "call-0ea7f207-9377-4abd-a564-4021b91b2844-16\nfc_b4d3577a-9bc3-9b07-b705-f82701792edd_0": "completed",
+        "call-0ea7f207-9377-4abd-a564-4021b91b2844-17\nfc_b4d3577a-9bc3-9b07-b705-f82701792edd_1": "completed",
+        "call-523bccb9-3ef6-4820-bde1-84b5f827ac93-18\nfc_478f9d08-4a4e-96cf-95df-7ca07c4afe61_0": "completed",
+        "call-523bccb9-3ef6-4820-bde1-84b5f827ac93-19\nfc_478f9d08-4a4e-96cf-95df-7ca07c4afe61_1": "completed",
+        "call-523bccb9-3ef6-4820-bde1-84b5f827ac93-20\nfc_478f9d08-4a4e-96cf-95df-7ca07c4afe61_2": "completed",
+        "call-20cc21a3-bccf-492b-978e-3da5b3ea1b06-21\nfc_f7675bce-48b4-96d7-b1b3-d6e1cfff34e3_0": "completed",
+        "call-20cc21a3-bccf-492b-978e-3da5b3ea1b06-22\nfc_f7675bce-48b4-96d7-b1b3-d6e1cfff34e3_1": "completed",
+        "call-e8f1627f-f1eb-4e49-9518-5ffff501b0d6-23\nfc_110ec26d-4f2d-9c20-8036-8dd43bf89b55_0": "completed",
+        "call-e8f1627f-f1eb-4e49-9518-5ffff501b0d6-24\nfc_110ec26d-4f2d-9c20-8036-8dd43bf89b55_1": "completed",
+        "call-b19bc7f4-21d6-4766-a250-7ecd08d58026-25\nfc_f1b928a9-2167-95b3-b870-d4ddde656973_0": "completed",
+        "call-b19bc7f4-21d6-4766-a250-7ecd08d58026-26\nfc_f1b928a9-2167-95b3-b870-d4ddde656973_1": "completed",
+        "call-b19bc7f4-21d6-4766-a250-7ecd08d58026-27\nfc_f1b928a9-2167-95b3-b870-d4ddde656973_2": "completed",
+        "call-b17f2a13-5e30-41e4-b177-d16a3a563213-28\nfc_a323a132-79ea-9e35-aa0f-fb7ae3b661d3_0": "completed",
+        "call-b17f2a13-5e30-41e4-b177-d16a3a563213-29\nfc_a323a132-79ea-9e35-aa0f-fb7ae3b661d3_1": "completed",
+        "call-b17f2a13-5e30-41e4-b177-d16a3a563213-30\nfc_a323a132-79ea-9e35-aa0f-fb7ae3b661d3_2": "completed",
+        "call-de2a8926-ffce-42a1-a5cd-7d09dd78e548-31\nfc_ccc76a19-2c22-91f5-aa42-7f1074e59384_0": "completed",
+        "call-de2a8926-ffce-42a1-a5cd-7d09dd78e548-32\nfc_ccc76a19-2c22-91f5-aa42-7f1074e59384_1": "completed",
+        "call-501803bb-7028-448b-bc14-d7fff45319f7-33\nfc_fb239b4e-996a-9729-b218-bb51e25ec248_0": "completed"
+      },
+      "allTerminalCallsCompleted": true,
+      "anyTruncated": false
+    }
+  },
+  "preflight": {
+    "rounds": [
+      {
+        "pass": "写入前第一轮",
+        "skillCount": 1062,
+        "ruleCount": 120,
+        "sourceInitializedCount": 24,
+        "ruleKeysSha256": "784b1e678c6ebab0fa45f29ca78f81dfd86d4657ef4ece557ce084a46d2e98bd"
+      },
+      {
+        "pass": "写入前第二轮",
+        "skillCount": 1062,
+        "ruleCount": 120,
+        "sourceInitializedCount": 24,
+        "ruleKeysSha256": "784b1e678c6ebab0fa45f29ca78f81dfd86d4657ef4ece557ce084a46d2e98bd"
+      }
+    ],
+    "targetRounds": [
+      {
+        "pass": "写入前第一轮",
+        "snapshots": [
+          {
+            "id": "blitzcrank",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "56f79616e1556f5ff6a7d36d875c1c04596c117a27b0999288321759997ffd62"
+          },
+          {
+            "id": "draven",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "b1259443d16c36d44c6ddda2f3d3e23bd0036eca0ee209b9c3a856381458e0c8"
+          },
+          {
+            "id": "garen",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "25a9e81a36696da63267251faa0c5102e440a3cab58c53efa9e1d384f7355cbf"
+          },
+          {
+            "id": "kogmaw",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "7a10438360980e2637ecc9b10fe9f892948b0370ce01569ea36fa4cf75519bfd"
+          },
+          {
+            "id": "monkeyking",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "913a3e504bc9a8444723018d3fc5613899359fde1588ea1054909482c6a37e47"
+          },
+          {
+            "id": "drmundo",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "9d63c960909b0f0fda3648322fcb5efe600d4f04236a822402b66b27e528ac87"
+          }
+        ]
+      },
+      {
+        "pass": "写入前第二轮",
+        "snapshots": [
+          {
+            "id": "blitzcrank",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "56f79616e1556f5ff6a7d36d875c1c04596c117a27b0999288321759997ffd62"
+          },
+          {
+            "id": "draven",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "b1259443d16c36d44c6ddda2f3d3e23bd0036eca0ee209b9c3a856381458e0c8"
+          },
+          {
+            "id": "garen",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "25a9e81a36696da63267251faa0c5102e440a3cab58c53efa9e1d384f7355cbf"
+          },
+          {
+            "id": "kogmaw",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "7a10438360980e2637ecc9b10fe9f892948b0370ce01569ea36fa4cf75519bfd"
+          },
+          {
+            "id": "monkeyking",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "913a3e504bc9a8444723018d3fc5613899359fde1588ea1054909482c6a37e47"
+          },
+          {
+            "id": "drmundo",
+            "candidateDetailStatus": 404,
+            "nonRuleSnapshotSha256": "9d63c960909b0f0fda3648322fcb5efe600d4f04236a822402b66b27e528ac87"
+          }
+        ]
+      }
+    ]
+  },
+  "writes": [
+    {
+      "id": "blitzcrank",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/blitzcrank_w/trigger-rules",
+      "detailRoute": "/skills/blitzcrank_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "d6e24b2a925b424dccc7837da422c6d5199085c605a1ae5f2795d9ded234d427",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/blitzcrank_w/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_attack_speed_boost",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "attack_speed_boost"
+              },
+              "name": "执行过载运转攻击速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 blitzcrank_w 主动使用；执行已有 attack_speed_boost。移动速度及衰减、结束后的自身减速、法力消耗和战斗冷却留待后续接线。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "blitzcrank_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "过载运转主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "draven",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/draven_w/trigger-rules",
+      "detailRoute": "/skills/draven_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "e0ef634680c97a064993616bdb58059985e47cbbc99abcde0ac2a879d8ab7054",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/draven_w/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_attack_speed_gain",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "attack_speed_gain"
+              },
+              "name": "执行血性冲刺攻击速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 draven_w 主动使用；执行已有 attack_speed_gain。移动速度及衰减、接斧刷新冷却、法力消耗和战斗冷却留待后续接线。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "draven_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "血性冲刺主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "garen",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/garen_q/trigger-rules",
+      "detailRoute": "/skills/garen_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "0cfa9ec07575743468072adb5e9d0815f3bd1beefdcdf3217739b96ead4c407c",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/garen_q/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_move_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "move_speed"
+              },
+              "name": "执行致命打击移动速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 garen_q 主动使用；执行已有 move_speed。强化普攻伤害与沉默、移除减速、法力消耗和战斗冷却留待后续接线。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "garen_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "致命打击主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "kogmaw",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/kogmaw_w/trigger-rules",
+      "detailRoute": "/skills/kogmaw_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "e7c00412a9e057b6537411ad4b0a9f274ed0b3f86fd081d34d3b667f5315e54d",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/kogmaw_w/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_attack_range",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "attack_range"
+              },
+              "name": "执行生化弹幕攻击距离",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 kogmaw_w 主动使用；执行已有 attack_range。攻击附带目标最大生命魔法伤害、法力消耗和战斗冷却留待后续接线。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "kogmaw_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "生化弹幕主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "monkeyking",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/monkeyking_e/trigger-rules",
+      "detailRoute": "/skills/monkeyking_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "f09fc296086ce5379a03c5add640d7d009c061e283164461c2ecec64fbab1115",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/monkeyking_e/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_self_attack_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "self_attack_speed"
+              },
+              "name": "执行腾云突击自身攻击速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 monkeyking_e 已接受的主动施放；执行已有 self_attack_speed。分身与额外目标、突进伤害、法力消耗和战斗冷却留待后续接线。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "monkeyking_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "腾云突击主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    },
+    {
+      "id": "drmundo",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/drmundo_r/trigger-rules",
+      "detailRoute": "/skills/drmundo_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "5a50c951a0fee9e7600b95596505d354a3be8bbabb9be3ba27fd344ab095790d",
+      "responseStatus": 201,
+      "immediateReadback": {
+        "method": "GET",
+        "route": "/skills/drmundo_r/trigger-rules/on_used",
+        "status": 200,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_speed_boost",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "speed_boost"
+              },
+              "name": "执行极限剂量移动速度",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 drmundo_r 主动使用；执行已有 speed_boost。当前生命消耗或回复、最大生命提升、持续治疗及高等级强化留待后续接线。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "drmundo_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "极限剂量主动使用",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      }
+    }
+  ],
+  "finalReadback": {
+    "targetSnapshots": [
+      {
+        "id": "blitzcrank",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "56f79616e1556f5ff6a7d36d875c1c04596c117a27b0999288321759997ffd62"
+      },
+      {
+        "id": "draven",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "b1259443d16c36d44c6ddda2f3d3e23bd0036eca0ee209b9c3a856381458e0c8"
+      },
+      {
+        "id": "garen",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "25a9e81a36696da63267251faa0c5102e440a3cab58c53efa9e1d384f7355cbf"
+      },
+      {
+        "id": "kogmaw",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "7a10438360980e2637ecc9b10fe9f892948b0370ce01569ea36fa4cf75519bfd"
+      },
+      {
+        "id": "monkeyking",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "913a3e504bc9a8444723018d3fc5613899359fde1588ea1054909482c6a37e47"
+      },
+      {
+        "id": "drmundo",
+        "candidateDetailStatus": 200,
+        "nonRuleSnapshotSha256": "9d63c960909b0f0fda3648322fcb5efe600d4f04236a822402b66b27e528ac87"
+      }
+    ],
+    "skillCount": 1062,
+    "ruleCount": 126,
+    "sourceInitializedCount": 24,
+    "ruleKeysSha256": "702b6491f6bc2040dfd824085b1fbe5b71feb5e1946352557709971fdc0cc4ca",
+    "newRuleDetails": [
+      {
+        "id": "blitzcrank",
+        "status": 200,
+        "bodySha256": "d6e24b2a925b424dccc7837da422c6d5199085c605a1ae5f2795d9ded234d427"
+      },
+      {
+        "id": "draven",
+        "status": 200,
+        "bodySha256": "e0ef634680c97a064993616bdb58059985e47cbbc99abcde0ac2a879d8ab7054"
+      },
+      {
+        "id": "garen",
+        "status": 200,
+        "bodySha256": "0cfa9ec07575743468072adb5e9d0815f3bd1beefdcdf3217739b96ead4c407c"
+      },
+      {
+        "id": "kogmaw",
+        "status": 200,
+        "bodySha256": "e7c00412a9e057b6537411ad4b0a9f274ed0b3f86fd081d34d3b667f5315e54d"
+      },
+      {
+        "id": "monkeyking",
+        "status": 200,
+        "bodySha256": "f09fc296086ce5379a03c5add640d7d009c061e283164461c2ecec64fbab1115"
+      },
+      {
+        "id": "drmundo",
+        "status": 200,
+        "bodySha256": "5a50c951a0fee9e7600b95596505d354a3be8bbabb9be3ba27fd344ab095790d"
+      }
+    ]
+  },
+  "businessWriteCount": 6,
+  "getCount": 4035,
+  "error": null,
+  "completedAt": "2026-09-13T05:32:32.188Z"
+}

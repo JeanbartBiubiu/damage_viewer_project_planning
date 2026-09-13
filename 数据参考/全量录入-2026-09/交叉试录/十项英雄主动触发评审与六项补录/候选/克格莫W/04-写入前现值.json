@@ -1,0 +1,1038 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:34.576Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 126
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "7d1a98dc6e599c27b1ff27a109bab2183b4a6a78ad698082038d049f41b3553e",
+  "frozenRequestSha256": "c17a054d61dba73e692ed4720b456738b5d69dd65285495ccc4924d737bf9455",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/kogmaw_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:04.483812Z",
+          "description": "克格莫的攻击获得额外距离，并且能够对目标造成额外的魔法伤害，伤害值基于目标的最大生命值%i:OnHit% <OnHit>攻击特效</OnHit>。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "克格莫·生化弹幕",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "kogmaw_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:04.483812Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_kogmaw",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_kogmaw",
+          "createdAt": "2026-09-06T16:55:52.582601Z",
+          "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+          "gameId": "lol",
+          "name": "克格莫",
+          "updatedAt": "2026-09-06T16:55:52.582601Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_kogmaw/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_kogmaw",
+          "levelValues": {
+            "1": {
+              "move_speed": 330,
+              "hp": 635,
+              "hp_regen": 3.75,
+              "mana": 325,
+              "mana_regen": 8.75,
+              "armor": 24,
+              "magic_resistance": 33,
+              "attack_damage": 61,
+              "attack_speed": 0.665,
+              "attack_range": 500
+            },
+            "2": {
+              "move_speed": 330,
+              "hp": 706.28,
+              "hp_regen": 4.146,
+              "mana": 353.8,
+              "mana_regen": 9.254,
+              "armor": 27.204,
+              "magic_resistance": 33.792,
+              "attack_damage": 63.232,
+              "attack_speed": 0.677688,
+              "attack_range": 500
+            },
+            "3": {
+              "move_speed": 330,
+              "hp": 781.025,
+              "hp_regen": 4.56125,
+              "mana": 384,
+              "mana_regen": 9.7825,
+              "armor": 30.56375,
+              "magic_resistance": 34.6225,
+              "attack_damage": 65.5725,
+              "attack_speed": 0.690993,
+              "attack_range": 500
+            },
+            "4": {
+              "move_speed": 330,
+              "hp": 859.235,
+              "hp_regen": 4.99575,
+              "mana": 415.6,
+              "mana_regen": 10.3355,
+              "armor": 34.07925,
+              "magic_resistance": 35.4915,
+              "attack_damage": 68.0215,
+              "attack_speed": 0.704915,
+              "attack_range": 500
+            },
+            "5": {
+              "move_speed": 330,
+              "hp": 940.91,
+              "hp_regen": 5.4495,
+              "mana": 448.6,
+              "mana_regen": 10.913,
+              "armor": 37.7505,
+              "magic_resistance": 36.399,
+              "attack_damage": 70.579,
+              "attack_speed": 0.719454,
+              "attack_range": 500
+            },
+            "6": {
+              "move_speed": 330,
+              "hp": 1026.05,
+              "hp_regen": 5.9225,
+              "mana": 483,
+              "mana_regen": 11.515,
+              "armor": 41.5775,
+              "magic_resistance": 37.345,
+              "attack_damage": 73.245,
+              "attack_speed": 0.734609,
+              "attack_range": 500
+            },
+            "7": {
+              "move_speed": 330,
+              "hp": 1114.655,
+              "hp_regen": 6.41475,
+              "mana": 518.8,
+              "mana_regen": 12.1415,
+              "armor": 45.56025,
+              "magic_resistance": 38.3295,
+              "attack_damage": 76.0195,
+              "attack_speed": 0.750381,
+              "attack_range": 500
+            },
+            "8": {
+              "move_speed": 330,
+              "hp": 1206.725,
+              "hp_regen": 6.92625,
+              "mana": 556,
+              "mana_regen": 12.7925,
+              "armor": 49.69875,
+              "magic_resistance": 39.3525,
+              "attack_damage": 78.9025,
+              "attack_speed": 0.76677,
+              "attack_range": 500
+            },
+            "9": {
+              "move_speed": 330,
+              "hp": 1302.26,
+              "hp_regen": 7.457,
+              "mana": 594.6,
+              "mana_regen": 13.468,
+              "armor": 53.993,
+              "magic_resistance": 40.414,
+              "attack_damage": 81.894,
+              "attack_speed": 0.783776,
+              "attack_range": 500
+            },
+            "10": {
+              "move_speed": 330,
+              "hp": 1401.26,
+              "hp_regen": 8.007,
+              "mana": 634.6,
+              "mana_regen": 14.168,
+              "armor": 58.443,
+              "magic_resistance": 41.514,
+              "attack_damage": 84.994,
+              "attack_speed": 0.801398,
+              "attack_range": 500
+            },
+            "11": {
+              "move_speed": 330,
+              "hp": 1503.725,
+              "hp_regen": 8.57625,
+              "mana": 676,
+              "mana_regen": 14.8925,
+              "armor": 63.04875,
+              "magic_resistance": 42.6525,
+              "attack_damage": 88.2025,
+              "attack_speed": 0.819637,
+              "attack_range": 500
+            },
+            "12": {
+              "move_speed": 330,
+              "hp": 1609.655,
+              "hp_regen": 9.16475,
+              "mana": 718.8,
+              "mana_regen": 15.6415,
+              "armor": 67.81025,
+              "magic_resistance": 43.8295,
+              "attack_damage": 91.5195,
+              "attack_speed": 0.838494,
+              "attack_range": 500
+            },
+            "13": {
+              "move_speed": 330,
+              "hp": 1719.05,
+              "hp_regen": 9.7725,
+              "mana": 763,
+              "mana_regen": 16.415,
+              "armor": 72.7275,
+              "magic_resistance": 45.045,
+              "attack_damage": 94.945,
+              "attack_speed": 0.857966,
+              "attack_range": 500
+            },
+            "14": {
+              "move_speed": 330,
+              "hp": 1831.91,
+              "hp_regen": 10.3995,
+              "mana": 808.6,
+              "mana_regen": 17.213,
+              "armor": 77.8005,
+              "magic_resistance": 46.299,
+              "attack_damage": 98.479,
+              "attack_speed": 0.878056,
+              "attack_range": 500
+            },
+            "15": {
+              "move_speed": 330,
+              "hp": 1948.235,
+              "hp_regen": 11.04575,
+              "mana": 855.6,
+              "mana_regen": 18.0355,
+              "armor": 83.02925,
+              "magic_resistance": 47.5915,
+              "attack_damage": 102.1215,
+              "attack_speed": 0.898762,
+              "attack_range": 500
+            },
+            "16": {
+              "move_speed": 330,
+              "hp": 2068.025,
+              "hp_regen": 11.71125,
+              "mana": 904,
+              "mana_regen": 18.8825,
+              "armor": 88.41375,
+              "magic_resistance": 48.9225,
+              "attack_damage": 105.8725,
+              "attack_speed": 0.920086,
+              "attack_range": 500
+            },
+            "17": {
+              "move_speed": 330,
+              "hp": 2191.28,
+              "hp_regen": 12.396,
+              "mana": 953.8,
+              "mana_regen": 19.754,
+              "armor": 93.954,
+              "magic_resistance": 50.292,
+              "attack_damage": 109.732,
+              "attack_speed": 0.942026,
+              "attack_range": 500
+            },
+            "18": {
+              "move_speed": 330,
+              "hp": 2318,
+              "hp_regen": 13.1,
+              "mana": 1005,
+              "mana_regen": 20.65,
+              "armor": 99.65,
+              "magic_resistance": 51.7,
+              "attack_damage": 113.7,
+              "attack_speed": 0.964583,
+              "attack_range": 500
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_kogmaw/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_kogmaw",
+            "name": "champion_kogmaw"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_kogmaw",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_kogmaw",
+              "characterName": "克格莫",
+              "gameId": "lol",
+              "skillKey": "kogmaw_p",
+              "skillName": "克格莫·来自艾卡西亚的惊喜",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_kogmaw",
+              "characterName": "克格莫",
+              "gameId": "lol",
+              "skillKey": "kogmaw_q",
+              "skillName": "克格莫·腐蚀唾液",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_kogmaw",
+              "characterName": "克格莫",
+              "gameId": "lol",
+              "skillKey": "kogmaw_w",
+              "skillName": "克格莫·生化弹幕",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_kogmaw",
+              "characterName": "克格莫",
+              "gameId": "lol",
+              "skillKey": "kogmaw_e",
+              "skillName": "克格莫·虚空淤泥",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_kogmaw",
+              "characterName": "克格莫",
+              "gameId": "lol",
+              "skillKey": "kogmaw_r",
+              "skillName": "克格莫·活体大炮",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=kogmaw_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_kogmaw",
+              "characterName": "克格莫",
+              "gameId": "lol",
+              "skillKey": "kogmaw_w",
+              "skillName": "克格莫·生化弹幕",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/kogmaw_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_kogmaw_w",
+            "name": "kogmaw_w"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/kogmaw_w/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kogmaw_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T04:29:15.427037Z",
+              "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T04:29:15.427037Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T04:29:16.218178Z",
+              "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 3,
+                "2": 3.75,
+                "3": 4.5,
+                "4": 5.25,
+                "5": 6
+              },
+              "name": "每次附伤最大生命百分比点数",
+              "parameterKey": "max_health_percent_points",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T04:29:16.218178Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T04:29:17.101419Z",
+              "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+              "fixedValue": 0.015,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "每法强增加的最大生命百分比点数",
+              "parameterKey": "ap_percent_points_ratio",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T04:29:17.101419Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T04:29:18.061769Z",
+              "description": "客户端当前根绑定 DataValues.Range 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 130,
+                "2": 150,
+                "3": 170,
+                "4": 190,
+                "5": 210
+              },
+              "name": "生化弹幕额外攻击距离",
+              "parameterKey": "bonus_attack_range",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T04:29:18.061769Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T04:29:18.85287Z",
+              "description": "客户端当前根绑定 DataValues.Duration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+              "fixedValue": 8000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "生化弹幕持续（毫秒）",
+              "parameterKey": "duration_ms",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T04:29:18.85287Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T04:29:19.748348Z",
+              "description": "当前原计算树显式常数；只用于此数学表达式。",
+              "fixedValue": 0.01,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "生化弹幕目标最大生命比例固定系数",
+              "parameterKey": "calculation_constant_1",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T04:29:19.748348Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-07T18:00:15.822368Z",
+              "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 17000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:15.822368Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:00:16.181576Z",
+              "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:16.181576Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "ap_percent_points_ratio",
+          "bonus_attack_range",
+          "calculation_constant_1",
+          "cast_time_ms",
+          "cooldown_ms",
+          "duration_ms",
+          "mana_cost",
+          "max_health_percent_points"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/parameters/ap_percent_points_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:17.101419Z",
+              "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+              "fixedValue": 0.015,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "每法强增加的最大生命百分比点数",
+              "parameterKey": "ap_percent_points_ratio",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T04:29:17.101419Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/parameters/bonus_attack_range",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:18.061769Z",
+              "description": "客户端当前根绑定 DataValues.Range 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 130,
+                "2": 150,
+                "3": 170,
+                "4": 190,
+                "5": 210
+              },
+              "name": "生化弹幕额外攻击距离",
+              "parameterKey": "bonus_attack_range",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T04:29:18.061769Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/parameters/calculation_constant_1",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:19.748348Z",
+              "description": "当前原计算树显式常数；只用于此数学表达式。",
+              "fixedValue": 0.01,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "生化弹幕目标最大生命比例固定系数",
+              "parameterKey": "calculation_constant_1",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T04:29:19.748348Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/parameters/cast_time_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:15.427037Z",
+              "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T04:29:15.427037Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T18:00:15.822368Z",
+              "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 17000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:15.822368Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/parameters/duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:18.85287Z",
+              "description": "客户端当前根绑定 DataValues.Duration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+              "fixedValue": 8000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "生化弹幕持续（毫秒）",
+              "parameterKey": "duration_ms",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T04:29:18.85287Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/parameters/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T18:00:16.181576Z",
+              "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:16.181576Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/parameters/max_health_percent_points",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:16.218178Z",
+              "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 3,
+                "2": 3.75,
+                "3": 4.5,
+                "4": 5.25,
+                "5": 6
+              },
+              "name": "每次附伤最大生命百分比点数",
+              "parameterKey": "max_health_percent_points",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T04:29:16.218178Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kogmaw_w/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T04:29:20.638581Z",
+              "description": "原树明确0.01×(3/3.75/4.5/5.25/6 + 0.015×法强)，不能再多乘或少乘百分比换算；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+              "formulaKey": "on_hit_max_hp_ratio",
+              "gameId": "lol",
+              "name": "生化弹幕目标最大生命比例",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T04:29:20.638581Z"
+            },
+            {
+              "createdAt": "2026-09-09T04:29:21.56056Z",
+              "description": "目标最大生命乘原计算输出比例；只在真实普通攻击附伤时消费。",
+              "formulaKey": "on_hit_damage",
+              "gameId": "lol",
+              "name": "生化弹幕单次附加魔法伤害",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T04:29:21.56056Z"
+            }
+          ]
+        },
+        "keys": [
+          "on_hit_damage",
+          "on_hit_max_hp_ratio"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/formulas/on_hit_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:21.56056Z",
+              "description": "目标最大生命乘原计算输出比例；只在真实普通攻击附伤时消费。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "calculation_constant_1"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "max_health_percent_points"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operands": [
+                              {
+                                "attributeKey": "ability_power",
+                                "attributeOwner": "SOURCE",
+                                "attributeValueKind": "TOTAL",
+                                "nodeType": "ATTRIBUTE"
+                              },
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "ap_percent_points_ratio"
+                              }
+                            ],
+                            "operation": "MULTIPLY"
+                          }
+                        ],
+                        "operation": "ADD"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "TARGET",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "on_hit_damage",
+              "gameId": "lol",
+              "name": "生化弹幕单次附加魔法伤害",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T04:29:21.56056Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/formulas/on_hit_max_hp_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:20.638581Z",
+              "description": "原树明确0.01×(3/3.75/4.5/5.25/6 + 0.015×法强)，不能再多乘或少乘百分比换算；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "calculation_constant_1"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_health_percent_points"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_percent_points_ratio"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "on_hit_max_hp_ratio",
+              "gameId": "lol",
+              "name": "生化弹幕目标最大生命比例",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T04:29:20.638581Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kogmaw_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T04:29:22.52849Z",
+              "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "施放法力消耗",
+              "resultCount": 1,
+              "skillKey": "kogmaw_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T04:29:22.52849Z"
+            },
+            {
+              "createdAt": "2026-09-09T04:29:23.468363Z",
+              "description": "本次W激活持续8秒的额外攻击距离；不把附伤自动接到施放事件。",
+              "effectKey": "attack_range",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "生化弹幕额外攻击距离",
+              "resultCount": 1,
+              "skillKey": "kogmaw_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T04:29:23.468363Z"
+            }
+          ]
+        },
+        "keys": [
+          "attack_range",
+          "mana_cost"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/effects/attack_range",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:23.468363Z",
+              "description": "本次W激活持续8秒的额外攻击距离；不把附伤自动接到施放事件。",
+              "effectKey": "attack_range",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "生化弹幕额外攻击距离",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "attack_range",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "生化弹幕额外攻击距离",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "bonus_attack_range"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "kogmaw_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T04:29:23.468363Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/kogmaw_w/effects/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T04:29:22.52849Z",
+              "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "施放法力消耗",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "消耗法力",
+                  "resultKey": "consume_mana",
+                  "resultType": "RESOURCE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "kogmaw_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T04:29:22.52849Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kogmaw_w/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kogmaw_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/kogmaw_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

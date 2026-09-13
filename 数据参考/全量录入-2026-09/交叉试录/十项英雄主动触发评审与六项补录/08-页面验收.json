@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "capturedAt": "2026-09-13T05:33:43.164Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 314
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "blitzcrank_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "布里茨·过载运转代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "attack_speed_boost",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "draven_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "德莱文·血性冲刺代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "attack_speed_gain",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "garen_q",
+      "passed": true,
+      "representativeImage": {
+        "alt": "盖伦·致命打击代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "move_speed",
+          "resultKey": "move_speed",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "kogmaw_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "克格莫·生化弹幕代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "attack_range",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "monkeyking_e",
+      "passed": true,
+      "representativeImage": {
+        "alt": "孙悟空·腾云突击代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": {
+        "formulaKey": "attack_speed_ratio",
+        "expectedTextsVisible": true
+      },
+      "effects": [
+        {
+          "effectKey": "self_attack_speed",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "drmundo_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "蒙多医生·极限剂量代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": null,
+      "effects": [
+        {
+          "effectKey": "speed_boost",
+          "resultKey": "attribute",
+          "effectExpectedTextsVisible": true,
+          "resultExpectedTextsVisible": true
+        }
+      ],
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "blitzcrank_w-attack_speed_boost结果.png",
+    "blitzcrank_w-on_used规则.png",
+    "blitzcrank_w-列表图片.png",
+    "draven_w-attack_speed_gain结果.png",
+    "draven_w-on_used规则.png",
+    "draven_w-列表图片.png",
+    "drmundo_r-on_used规则.png",
+    "drmundo_r-speed_boost结果.png",
+    "drmundo_r-列表图片.png",
+    "garen_q-move_speed结果.png",
+    "garen_q-on_used规则.png",
+    "garen_q-列表图片.png",
+    "kogmaw_w-attack_range结果.png",
+    "kogmaw_w-on_used规则.png",
+    "kogmaw_w-列表图片.png",
+    "monkeyking_e-attack_speed_ratio公式.png",
+    "monkeyking_e-on_used规则.png",
+    "monkeyking_e-self_attack_speed结果.png",
+    "monkeyking_e-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "b053b3fd61739f5727677c8527b8e9dbacaf6611ffb89766ba819b1325797dc8"
+}

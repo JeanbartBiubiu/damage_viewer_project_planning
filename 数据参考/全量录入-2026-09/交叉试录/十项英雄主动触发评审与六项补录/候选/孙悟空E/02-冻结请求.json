@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T05:10:34.583Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "d495d8bb9c7b1d70f2f1af52e8bd3cbbbd4b0ff12b2cde5bf4f32987d40f92ba",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "monkeyking",
+      "method": "POST",
+      "route": "/skills/monkeyking_e/trigger-rules",
+      "detailRoute": "/skills/monkeyking_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "f09fc296086ce5379a03c5add640d7d009c061e283164461c2ecec64fbab1115",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "腾云突击主动使用",
+        "description": "接收 monkeyking_e 已接受的主动施放；执行已有 self_attack_speed。分身与额外目标、突进伤害、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "monkeyking_e"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_attack_speed",
+            "name": "执行腾云突击自身攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "分身与额外目标攻击速度",
+    "突进伤害",
+    "法力消耗和战斗冷却"
+  ]
+}

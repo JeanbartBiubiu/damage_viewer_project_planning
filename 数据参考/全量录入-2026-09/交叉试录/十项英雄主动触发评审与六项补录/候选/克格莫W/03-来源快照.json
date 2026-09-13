@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:34.181Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "kogmaw",
+    "name": "克格莫 W",
+    "skillKey": "kogmaw_w",
+    "ownerKey": "champion_kogmaw",
+    "acceptedEvent": {
+      "sourceSkillKey": "kogmaw_w",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_attack_range",
+        "name": "执行生化弹幕攻击距离",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "attack_range"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "attack_range",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "bonus_attack_range",
+        "durationParameterKey": "duration_ms"
+      }
+    ],
+    "omitted": [
+      "攻击附带目标最大生命魔法伤害",
+      "法力消耗和战斗冷却"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十批/完整候选.json",
+      "sha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+      "bytes": 402521
+    }
+  ]
+}

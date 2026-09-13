@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "startedAt": "2026-09-13T05:32:41.119Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 1349,
+  "methods": {
+    "GET": 1349
+  },
+  "targets": [
+    {
+      "id": "blitzcrank",
+      "skillKey": "blitzcrank_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "d6e24b2a925b424dccc7837da422c6d5199085c605a1ae5f2795d9ded234d427",
+      "frozenBodySha256": "d6e24b2a925b424dccc7837da422c6d5199085c605a1ae5f2795d9ded234d427",
+      "nonRuleSnapshotSha256": "56f79616e1556f5ff6a7d36d875c1c04596c117a27b0999288321759997ffd62"
+    },
+    {
+      "id": "draven",
+      "skillKey": "draven_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "e0ef634680c97a064993616bdb58059985e47cbbc99abcde0ac2a879d8ab7054",
+      "frozenBodySha256": "e0ef634680c97a064993616bdb58059985e47cbbc99abcde0ac2a879d8ab7054",
+      "nonRuleSnapshotSha256": "b1259443d16c36d44c6ddda2f3d3e23bd0036eca0ee209b9c3a856381458e0c8"
+    },
+    {
+      "id": "garen",
+      "skillKey": "garen_q",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "0cfa9ec07575743468072adb5e9d0815f3bd1beefdcdf3217739b96ead4c407c",
+      "frozenBodySha256": "0cfa9ec07575743468072adb5e9d0815f3bd1beefdcdf3217739b96ead4c407c",
+      "nonRuleSnapshotSha256": "25a9e81a36696da63267251faa0c5102e440a3cab58c53efa9e1d384f7355cbf"
+    },
+    {
+      "id": "kogmaw",
+      "skillKey": "kogmaw_w",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "e7c00412a9e057b6537411ad4b0a9f274ed0b3f86fd081d34d3b667f5315e54d",
+      "frozenBodySha256": "e7c00412a9e057b6537411ad4b0a9f274ed0b3f86fd081d34d3b667f5315e54d",
+      "nonRuleSnapshotSha256": "7a10438360980e2637ecc9b10fe9f892948b0370ce01569ea36fa4cf75519bfd"
+    },
+    {
+      "id": "monkeyking",
+      "skillKey": "monkeyking_e",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "f09fc296086ce5379a03c5add640d7d009c061e283164461c2ecec64fbab1115",
+      "frozenBodySha256": "f09fc296086ce5379a03c5add640d7d009c061e283164461c2ecec64fbab1115",
+      "nonRuleSnapshotSha256": "913a3e504bc9a8444723018d3fc5613899359fde1588ea1054909482c6a37e47"
+    },
+    {
+      "id": "drmundo",
+      "skillKey": "drmundo_r",
+      "candidateDetailStatus": 200,
+      "candidateBodySha256": "5a50c951a0fee9e7600b95596505d354a3be8bbabb9be3ba27fd344ab095790d",
+      "frozenBodySha256": "5a50c951a0fee9e7600b95596505d354a3be8bbabb9be3ba27fd344ab095790d",
+      "nonRuleSnapshotSha256": "9d63c960909b0f0fda3648322fcb5efe600d4f04236a822402b66b27e528ac87"
+    }
+  ],
+  "global": {
+    "skillCount": 1062,
+    "ruleCount": 126,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_USED": 23,
+      "SKILL_HIT": 55,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "KILL": 2
+    },
+    "ruleKeysSha256": "702b6491f6bc2040dfd824085b1fbe5b71feb5e1946352557709971fdc0cc4ca",
+    "oldRuleDetailsExact": true,
+    "newRulesExact": true
+  },
+  "error": null,
+  "completedAt": "2026-09-13T05:32:50.591Z"
+}

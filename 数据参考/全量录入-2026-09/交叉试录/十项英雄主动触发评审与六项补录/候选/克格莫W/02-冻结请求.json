@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T05:10:34.182Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "7d1a98dc6e599c27b1ff27a109bab2183b4a6a78ad698082038d049f41b3553e",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "kogmaw",
+      "method": "POST",
+      "route": "/skills/kogmaw_w/trigger-rules",
+      "detailRoute": "/skills/kogmaw_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "e7c00412a9e057b6537411ad4b0a9f274ed0b3f86fd081d34d3b667f5315e54d",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "生化弹幕主动使用",
+        "description": "接收 kogmaw_w 主动使用；执行已有 attack_range。攻击附带目标最大生命魔法伤害、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "kogmaw_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_range",
+            "name": "执行生化弹幕攻击距离",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_range"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "攻击附带目标最大生命魔法伤害",
+    "法力消耗和战斗冷却"
+  ]
+}

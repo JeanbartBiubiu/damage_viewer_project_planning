@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T05:10:34.990Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "9c64ea0da72b4b28684e7a502a8ad95be088b1925370a3b59ad1940edc1449c4",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "drmundo",
+      "method": "POST",
+      "route": "/skills/drmundo_r/trigger-rules",
+      "detailRoute": "/skills/drmundo_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "5a50c951a0fee9e7600b95596505d354a3be8bbabb9be3ba27fd344ab095790d",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "极限剂量主动使用",
+        "description": "接收 drmundo_r 主动使用；执行已有 speed_boost。当前生命消耗或回复、最大生命提升、持续治疗及高等级强化留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "drmundo_r"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_speed_boost",
+            "name": "执行极限剂量移动速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "speed_boost"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "当前生命消耗或回复",
+    "最大生命提升与持续治疗",
+    "高等级强化和战斗冷却"
+  ]
+}

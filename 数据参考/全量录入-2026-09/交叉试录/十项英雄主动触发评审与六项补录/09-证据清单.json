@@ -1,0 +1,645 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-13T05:37:14.280Z",
+  "batch": "十项英雄主动触发评审与六项补录",
+  "sourceVersion": "16.17.1",
+  "scope": {
+    "reviewed": [
+      "blitzcrank_w",
+      "draven_w",
+      "garen_q",
+      "kogmaw_w",
+      "monkeyking_e",
+      "drmundo_r",
+      "ashe_q",
+      "teemo_w",
+      "volibear_e",
+      "rumble_w"
+    ],
+    "createdRules": [
+      "blitzcrank_w/on_used",
+      "draven_w/on_used",
+      "garen_q/on_used",
+      "kogmaw_w/on_used",
+      "monkeyking_e/on_used",
+      "drmundo_r/on_used"
+    ],
+    "deferred": [
+      {
+        "id": "ashe",
+        "skillKey": "ashe_q",
+        "ruleKey": "on_used",
+        "reason": "必须满足四层全神贯注才可激活；当前 SKILL_USED 没有层数资格，直接执行会绕过施放门槛。",
+        "missingCapability": [
+          "合法施放资格",
+          "层数积累与消耗",
+          "后续强化普攻结算"
+        ]
+      },
+      {
+        "id": "teemo",
+        "skillKey": "teemo_w",
+        "ruleKey": "on_used",
+        "reason": "主动效果保存的是完整移速，需要先移除被动并在三秒后按受击资格恢复；直接执行会与后续被动叠加。",
+        "missingCapability": [
+          "被动与主动互斥",
+          "受击失效资格",
+          "到期恢复"
+        ]
+      },
+      {
+        "id": "volibear",
+        "skillKey": "volibear_e",
+        "ruleKey": "on_used",
+        "reason": "护盾只在延时落雷且来源处于区域内时成立；使用事件过早且没有站位资格。",
+        "missingCapability": [
+          "落雷时点",
+          "区域内资格"
+        ]
+      },
+      {
+        "id": "rumble",
+        "skillKey": "rumble_w",
+        "ruleKey": "on_used",
+        "reason": "普通与危险温度分支必须互斥，当前事件没有热量快照；护盾还缺 source_health_for_shield 动态绑定。",
+        "missingCapability": [
+          "热量快照",
+          "互斥分支",
+          "来源生命值动态输入"
+        ]
+      }
+    ],
+    "beforeRuleCount": 120,
+    "afterRuleCount": 126,
+    "skillCount": 1062,
+    "sourceInitializedCount": 24
+  },
+  "semanticReview": {
+    "accepted": [
+      {
+        "id": "blitzcrank",
+        "skillKey": "blitzcrank_w",
+        "ruleKey": "on_used",
+        "eventType": "SKILL_USED",
+        "effectKey": "attack_speed_boost",
+        "reason": "自身独立五秒攻击速度，无目标分支和动态输入。",
+        "mustOmit": [
+          "移动速度及衰减",
+          "结束后的自身减速",
+          "法力消耗和战斗冷却"
+        ]
+      },
+      {
+        "id": "draven",
+        "skillKey": "draven_w",
+        "ruleKey": "on_used",
+        "eventType": "SKILL_USED",
+        "effectKey": "attack_speed_gain",
+        "reason": "自身独立三秒攻击速度，可由一次成功施放启动。",
+        "mustOmit": [
+          "移动速度及衰减",
+          "接斧刷新冷却",
+          "法力消耗和战斗冷却"
+        ]
+      },
+      {
+        "id": "garen",
+        "skillKey": "garen_q",
+        "ruleKey": "on_used",
+        "eventType": "SKILL_USED",
+        "effectKey": "move_speed",
+        "reason": "自身移动速度在施放时开始，取值和持续时间均已有合法参数。",
+        "mustOmit": [
+          "强化普攻伤害与沉默",
+          "移除减速",
+          "战斗冷却"
+        ]
+      },
+      {
+        "id": "kogmaw",
+        "skillKey": "kogmaw_w",
+        "ruleKey": "on_used",
+        "eventType": "SKILL_USED",
+        "effectKey": "attack_range",
+        "reason": "自身独立八秒攻击距离效果，无动态输入。",
+        "mustOmit": [
+          "攻击附带目标最大生命魔法伤害",
+          "法力消耗和战斗冷却"
+        ]
+      },
+      {
+        "id": "monkeyking",
+        "skillKey": "monkeyking_e",
+        "ruleKey": "on_used",
+        "eventType": "SKILL_USED",
+        "effectKey": "self_attack_speed",
+        "reason": "最终效果已收敛为来源自身攻击速度；一次已接受的主动施放只执行一次，不按分身或目标数量重复。",
+        "mustOmit": [
+          "分身与额外目标攻击速度",
+          "突进伤害",
+          "法力消耗和战斗冷却"
+        ]
+      },
+      {
+        "id": "drmundo",
+        "skillKey": "drmundo_r",
+        "ruleKey": "on_used",
+        "eventType": "SKILL_USED",
+        "effectKey": "speed_boost",
+        "reason": "自身独立十秒移动速度，当前取值不依赖运行时输入。",
+        "mustOmit": [
+          "生命回复与最大生命",
+          "附近敌方英雄数量修正",
+          "周期治疗和战斗冷却"
+        ]
+      }
+    ],
+    "deferred": [
+      {
+        "id": "ashe",
+        "skillKey": "ashe_q",
+        "ruleKey": "on_used",
+        "reason": "必须满足四层全神贯注才可激活；当前 SKILL_USED 没有层数资格，直接执行会绕过施放门槛。",
+        "missingCapability": [
+          "合法施放资格",
+          "层数积累与消耗",
+          "后续强化普攻结算"
+        ]
+      },
+      {
+        "id": "teemo",
+        "skillKey": "teemo_w",
+        "ruleKey": "on_used",
+        "reason": "主动效果保存的是完整移速，需要先移除被动并在三秒后按受击资格恢复；直接执行会与后续被动叠加。",
+        "missingCapability": [
+          "被动与主动互斥",
+          "受击失效资格",
+          "到期恢复"
+        ]
+      },
+      {
+        "id": "volibear",
+        "skillKey": "volibear_e",
+        "ruleKey": "on_used",
+        "reason": "护盾只在延时落雷且来源处于区域内时成立；使用事件过早且没有站位资格。",
+        "missingCapability": [
+          "落雷时点",
+          "区域内资格"
+        ]
+      },
+      {
+        "id": "rumble",
+        "skillKey": "rumble_w",
+        "ruleKey": "on_used",
+        "reason": "普通与危险温度分支必须互斥，当前事件没有热量快照；护盾还缺 source_health_for_shield 动态绑定。",
+        "missingCapability": [
+          "热量快照",
+          "互斥分支",
+          "来源生命值动态输入"
+        ]
+      }
+    ],
+    "businessWrites": 0,
+    "fileWrites": 0
+  },
+  "preparation": {
+    "candidateGETs": 1337,
+    "mergedGETs": 2674,
+    "mergedStatusCounts": {
+      "200": 2662,
+      "404": 12
+    },
+    "businessWrites": 0,
+    "stableVerification": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleLists": true,
+      "stableRuleDetails": true,
+      "firstRuleKeysSha256": "784b1e678c6ebab0fa45f29ca78f81dfd86d4657ef4ece557ce084a46d2e98bd",
+      "secondRuleKeysSha256": "784b1e678c6ebab0fa45f29ca78f81dfd86d4657ef4ece557ce084a46d2e98bd"
+    },
+    "sourceSnapshotSha256": "84578cc8d435df677ed33ae6f736d117f8ad7732dba28491d77aa46a9a3e9c38",
+    "frozenRequestSha256": "aef42e9bb761ba6575df7f3c4d1a3004be8b3c6e46714a4ced048f432c0a4d1e",
+    "baselineSha256": "5da4c84dd1a27d7a7f019291b0f1f042298597b8ce339c919e83bd7299ac94f1"
+  },
+  "cursorReview": {
+    "runId": "run-3c252b43-37db-405c-945d-8cf7d2bdc0b4",
+    "requestId": "ccefae2f-f2dc-49fc-8469-ac9a6150c343",
+    "resultStatus": "finished",
+    "verdict": "READY",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "sdkVersion": "1.0.24",
+    "uniqueToolCalls": 34,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "outsideScopeCount": 0,
+    "businessWrites": 0,
+    "previousInvalidReviewAttempts": [
+      {
+        "directory": ".agents/artifacts/next-six-hero-trigger-final-review-r1-20260913",
+        "accepted": false,
+        "reason": "机器检查器发现暂缓标识数组缺失后主动取消；没有有效结果，也没有业务写入。"
+      },
+      {
+        "directory": ".agents/artifacts/next-six-hero-trigger-final-review-r1-fixed-20260913",
+        "accepted": false,
+        "reason": "页面验收清单仍指向上一批对象后主动取消；没有有效结果，也没有业务写入。"
+      }
+    ]
+  },
+  "writer": {
+    "protectedGETs": 4035,
+    "businessWrites": 6,
+    "POST": 6,
+    "status201": 6,
+    "immediateReadbacks": 6,
+    "replayedWrites": 0,
+    "priorRuleCount": 120,
+    "finalRuleCount": 126,
+    "sourceInitializedCount": 24,
+    "passed": true
+  },
+  "independentReadback": {
+    "GETs": 1349,
+    "methods": {
+      "GET": 1349
+    },
+    "businessWrites": 0,
+    "oldRuleDetailsExact": true,
+    "newRulesExact": true,
+    "checkedTargets": 6,
+    "skillCount": 1062,
+    "finalRuleCount": 126,
+    "sourceInitializedCount": 24,
+    "passed": true
+  },
+  "browser": {
+    "GETs": 314,
+    "businessWrites": 0,
+    "checks": 7,
+    "skills": [
+      "blitzcrank_w",
+      "draven_w",
+      "garen_q",
+      "kogmaw_w",
+      "monkeyking_e",
+      "drmundo_r"
+    ],
+    "listImagesVisible": 6,
+    "formulaDetailsVisible": 1,
+    "directEffectDetailsVisible": 6,
+    "triggerDetailsVisible": 6,
+    "screenshots": 19,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "failedRequests": 0,
+    "errorResponses": 0,
+    "liveFrontend": "127.0.0.1:5173",
+    "liveBackend": "127.0.0.1:8080",
+    "passed": true
+  },
+  "protected": {
+    "priorRulesUnchanged": true,
+    "skillSubjectsAndNonRuleDataUnchanged": true,
+    "candidateRulesOnly": true
+  },
+  "experienceIssues": [
+    "触发规则候选必须由独立语义评审复核；初始十项候选中四项因层数资格、互斥状态、延时站位或动态输入缺失而暂缓。",
+    "页面验收对象清单必须与冻结请求中的技能、规则和效果键机器比对；本批在写入前发现清单沿用上一批对象并修正。",
+    "独立自身增益在已有参数、公式和结果完整且不依赖运行时输入时，可稳定通过规则接口批量接线。",
+    "当前六项在现有表结构与管理页面中均能完整保存和展示，本批不需要新增表或修改前端流程。",
+    "缺口集中在运行时事件时点、资格条件、互斥状态和动态输入提供方式，继续减少表数不能解决这些语义问题。"
+  ],
+  "pending": [
+    "艾希Q等待四层资格及层数消费；提莫W等待被动与主动互斥及受击恢复；沃利贝尔E等待延时落雷和区域资格；兰博W等待热量快照、互斥分支与护盾动态输入。",
+    "布里茨W的移动速度与结束减速、德莱文W的移动速度、盖伦Q的强化普攻、克格莫W的附带伤害、孙悟空E的突进与分身、蒙多R的生命相关部分仍需后续机制接线。",
+    "装备、天赋和后续英雄候选继续按同一流程处理。",
+    "六条新增规则尚未执行宿主事件、战斗运行、TinyGo或Wasm验收。"
+  ],
+  "evidence": {
+    "batchFiles": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/00-独立语义评审.json",
+        "byteSize": 5846,
+        "sha256": "58202b42d0c77c14476b0c601dc9490471c6cb6e3cf75c40a1d0abddb09c68d3"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/01-合并方案.md",
+        "byteSize": 1618,
+        "sha256": "3a0ad63593a129cfd70ca001f943511c3c65ddfd6c49d715b797a42869907108"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/02-合并冻结请求.json",
+        "byteSize": 18903,
+        "sha256": "aef42e9bb761ba6575df7f3c4d1a3004be8b3c6e46714a4ced048f432c0a4d1e"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/03-来源散列快照.json",
+        "byteSize": 19982,
+        "sha256": "84578cc8d435df677ed33ae6f736d117f8ad7732dba28491d77aa46a9a3e9c38"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/04-共享写前现值.json",
+        "byteSize": 3140078,
+        "sha256": "5da4c84dd1a27d7a7f019291b0f1f042298597b8ce339c919e83bd7299ac94f1"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/05-Cursor独立评审.json",
+        "byteSize": 24085,
+        "sha256": "c5617e05a003cbcd06868a537b282a9961e080831b0e803b3c0a328196d226dc"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/06-写入与即时回读.json",
+        "byteSize": 39738,
+        "sha256": "ddc8619a33538ebaa201e47740204f6ac083b18901a99b499eaab4c59dd94361"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/07-独立GET回读.json",
+        "byteSize": 3210,
+        "sha256": "509d32505a2b1810b3f90d5cbce0f1c4e83a974f38ce415e6f89c84bfdcbba33"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/08-页面验收.json",
+        "byteSize": 5479,
+        "sha256": "fed7ffe75cb251f9d30276a8c154e84cab5bfe81b79e6b7891e538ddbacce020"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/独立GET回读.mjs",
+        "byteSize": 20763,
+        "sha256": "d186d82213491e67f26f129c7e843624876f0e69025eed1bcfd6cb6ba0f211e6"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/布里茨W/02-冻结请求.json",
+        "byteSize": 1891,
+        "sha256": "769f8fcf856d1ee7163b05fa7efddbf35d126a11e8b2761bed6185ca8d066483"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/布里茨W/03-来源快照.json",
+        "byteSize": 1577,
+        "sha256": "e663078a75806049a8bd555a7cc214a0a4184914c3ec7445de4902bf38f20180"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/布里茨W/04-写入前现值.json",
+        "byteSize": 38568,
+        "sha256": "9a1c0c0ae724e394f1ca92c5669ea81fd742415efeb5afdd738f119cb43d5321"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/布里茨W/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "7b6649edff8ebe77ae80333eda514cb4d76817722c2cd57c6bf1214566e1e905"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/德莱文W/02-冻结请求.json",
+        "byteSize": 1856,
+        "sha256": "1e13e2b47e18aea15ffa7a657354ff3be925705b41c7d2b1f5ffbf7bba67f601"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/德莱文W/03-来源快照.json",
+        "byteSize": 1560,
+        "sha256": "0d9e6408186a42a29ef16be122ea7ead87137fe70a75c391fa675ccf3a19968b"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/德莱文W/04-写入前现值.json",
+        "byteSize": 31708,
+        "sha256": "9d93b470a41d4b33761160c3e5ec965a7f8200cfb02edc4ae091058ac726f096"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/德莱文W/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "9161bdeaea0608a28fc40713d2ed86da6adef376ebbcb43aca2b6e79841ea77d"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/盖伦Q/02-冻结请求.json",
+        "byteSize": 1815,
+        "sha256": "5d4384d69c4dfcb6052b5cdadf19e3da0c849f1dfc301fec47c123b5ab3ced42"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/盖伦Q/03-来源快照.json",
+        "byteSize": 1497,
+        "sha256": "bfb1160dcbad95ba4adcf33b5a7d569f4c48a34bf0f85f6a0cd40a5e26b5e653"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/盖伦Q/04-写入前现值.json",
+        "byteSize": 31137,
+        "sha256": "129e52b96c7cda98173387c387038cfdb77c7fd1196e0f3961f23cd198f7fc9b"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/盖伦Q/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "68a370a82818a6e5501050ca7854ca92b48d4a3d16e998f9d1762302aaf27783"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/克格莫W/02-冻结请求.json",
+        "byteSize": 1836,
+        "sha256": "c17a054d61dba73e692ed4720b456738b5d69dd65285495ccc4924d737bf9455"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/克格莫W/03-来源快照.json",
+        "byteSize": 1514,
+        "sha256": "7d1a98dc6e599c27b1ff27a109bab2183b4a6a78ad698082038d049f41b3553e"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/克格莫W/04-写入前现值.json",
+        "byteSize": 37448,
+        "sha256": "7a14cbf63636a1c1e0c122efe5ebcaa604e7f2f0bd16d545229a47441400eb14"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/克格莫W/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "92e1f4a11a7f4e48c225c11d8477229360c12996d6a019b5f2f11f7b43012d75"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/蒙多医生R/02-冻结请求.json",
+        "byteSize": 1876,
+        "sha256": "71cdcd4eaa8da6087b2c9d5583e36e2d409bfc416a55cf62b6fe5c1c73a50ccc"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/蒙多医生R/03-来源快照.json",
+        "byteSize": 1562,
+        "sha256": "9c64ea0da72b4b28684e7a502a8ad95be088b1925370a3b59ad1940edc1449c4"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/蒙多医生R/04-写入前现值.json",
+        "byteSize": 44027,
+        "sha256": "4dcca2958ab50d67bbbcc235f74abac5a9bcc3310b0651dae91dfc8f9d38672d"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/蒙多医生R/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "2e5da699238e95904dc00c9e856b68fc3e9476a3316bf85dca7f8a25c96e9b69"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/孙悟空E/02-冻结请求.json",
+        "byteSize": 1894,
+        "sha256": "531e38b2fa13ed34741257886ad0ba925a0dc4b9d6c233288ce6eb1470dc4654"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/孙悟空E/03-来源快照.json",
+        "byteSize": 1615,
+        "sha256": "d495d8bb9c7b1d70f2f1af52e8bd3cbbbd4b0ff12b2cde5bf4f32987d40f92ba"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/孙悟空E/04-写入前现值.json",
+        "byteSize": 34218,
+        "sha256": "affb683873a56d46727d9e5c3d18862a2bace2f965ad690c75bc7568b9be3598"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/候选/孙悟空E/05-只读准备报告.json",
+        "byteSize": 471,
+        "sha256": "bb1af6001bad852d131fd43cb67c0b8a983107adfc45a0f21cd450f0479f41a2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/批次配置.mjs",
+        "byteSize": 7938,
+        "sha256": "6c1de7455f2799da2dc42997eac863cc8603e9574850a3bcd9738df3aeb976d9"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/受保护写入.mjs",
+        "byteSize": 32603,
+        "sha256": "8af813f083d6f74d55fad0a472c6139821bebd756ebf665b55fbeeafa47f1eb2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/blitzcrank_w-列表图片.png",
+        "byteSize": 103253,
+        "sha256": "8440b48cbdbccc417f470a377b242d03a02bc8b96ecb67f52d82765452a35c40"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/blitzcrank_w-attack_speed_boost结果.png",
+        "byteSize": 112619,
+        "sha256": "928e41da0eec18015c784ed5ab190f9745348631576cbdd72d2a33097d0e2907"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/blitzcrank_w-on_used规则.png",
+        "byteSize": 104853,
+        "sha256": "3305c4c13de9ed47bdff9824946531cc333b7012962a0167f56d972e56bafbe2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/draven_w-列表图片.png",
+        "byteSize": 102733,
+        "sha256": "e2ee5e9fe4fd43409aba8f699e492ceeee36f71eee8cafbd8989ca6763d127eb"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/draven_w-attack_speed_gain结果.png",
+        "byteSize": 121043,
+        "sha256": "639cddcf71acb74370bd6b21d34919897d2d8de895c01a5a04b0cd1fe3d21cfe"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/draven_w-on_used规则.png",
+        "byteSize": 102265,
+        "sha256": "a6e493301bbcbbfde0cd1cfc46a207b9530616017936862522bc43e835c7d06e"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/drmundo_r-列表图片.png",
+        "byteSize": 101366,
+        "sha256": "6868a7d384a65793526ad2169e3cee55a84ce343106b7f619f52b715121cd787"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/drmundo_r-on_used规则.png",
+        "byteSize": 103371,
+        "sha256": "7033c1d738fc731f3c7c9ef4261c548248e464f7f336e3e4c26e52773a5f6ca8"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/drmundo_r-speed_boost结果.png",
+        "byteSize": 100636,
+        "sha256": "cb4c840a2baea3ed74019bd84f206fc00e39c0fcb8875041779efa853551ff1e"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/garen_q-列表图片.png",
+        "byteSize": 103200,
+        "sha256": "17616cd9e742ddad8c38a3272eeef67afd48ffc5c8f0ac29050195a9ad5f4d02"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/garen_q-move_speed结果.png",
+        "byteSize": 121969,
+        "sha256": "ad792078bbcee3f7a15f9203861b7cfeec5dd6fe70c5dd1157f18d6c1ea09f97"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/garen_q-on_used规则.png",
+        "byteSize": 92091,
+        "sha256": "0ce8106c9ab6c928baf5f6eedfa845131a11fbc95d0dc37fab36fad396f75484"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/kogmaw_w-列表图片.png",
+        "byteSize": 102858,
+        "sha256": "155ca345dcde24afb31aafbb1f49cdf938815d4de87926aaabf88475b0d57da1"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/kogmaw_w-attack_range结果.png",
+        "byteSize": 114129,
+        "sha256": "62dcb6d310b45e706a4086a653916bd72717fc8f3545464f9e5f166755eb6093"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/kogmaw_w-on_used规则.png",
+        "byteSize": 101284,
+        "sha256": "8f03c52e71c3013b0717a8858c337880964d6c09bcb527b7952832ec5583978d"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/monkeyking_e-列表图片.png",
+        "byteSize": 103101,
+        "sha256": "39b1ff616de8b05241215f8bd406f9d142cf4e0c74dabd490f8d48084fd94cdb"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/monkeyking_e-attack_speed_ratio公式.png",
+        "byteSize": 133049,
+        "sha256": "38da0cc8c9d85d315f30a26b752268d0310152efabe84a93275f59b9af71a8af"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/monkeyking_e-on_used规则.png",
+        "byteSize": 94992,
+        "sha256": "f59cb1a631c9638fb8f81d1bae7767ded9170e0835023c13f77a2829add97fb6"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/页面截图/monkeyking_e-self_attack_speed结果.png",
+        "byteSize": 125953,
+        "sha256": "a82878f5337383f0875733412b3603503ed5dcfd65539e44d467c1bcf0256e61"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/只读页面验收.mjs",
+        "byteSize": 18762,
+        "sha256": "b053b3fd61739f5727677c8527b8e9dbacaf6611ffb89766ba819b1325797dc8"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/准备合并只读.mjs",
+        "byteSize": 29131,
+        "sha256": "cd2943af55354b6995b26ee9128945a52a5f45947df39ac34ecd9d5e4ce5d983"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/准备候选只读.mjs",
+        "byteSize": 11005,
+        "sha256": "9a0038ae15577d57f2244557a106190a9d8e641145c540d1d1eea3417ea439a2"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/Cursor终审只读检查.mjs",
+        "byteSize": 14129,
+        "sha256": "d5e643c8a80d45a839af8f3bd4011312b50baafc5d4af3e492f54cf6784a0436"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/十项英雄主动触发评审与六项补录/README.md",
+        "byteSize": 778,
+        "sha256": "d9836879fc0b68f552c2e9003a9041a3e7cad847660af10045bdb440d5a6c2bd"
+      }
+    ],
+    "cursorArtifacts": {
+      "directory": ".agents/artifacts/next-six-hero-trigger-final-review-r1-browser-fixed-20260913",
+      "summarySha256": "bfb92718fa92e2714ae11b1c9f2868334a0ab5449b3bdfff3873c13d3a1bb38c",
+      "reviewSha256": "f9950b384787f917d6314ba6e9154dbb40375b3aaacbda3081a518a2504dec9b",
+      "eventsSha256": "a7a359c254a63995fe158d2dd9ed5b5c46b9164bc2e945566e9d27c5565ce704",
+      "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "runtimeValidation": "未执行"
+}
