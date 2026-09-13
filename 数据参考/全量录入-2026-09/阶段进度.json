@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T08:13:30.774Z",
+  "generatedAt": "2026-09-13T08:46:08.289Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7603,7 +7603,8 @@
         },
         {
           "skillKey": "poppy_w",
-          "reason": "来源明确主动移动速度40%、持续2秒，但当前只保存法力消耗效果，缺独立移速效果及主动接线。"
+          "reason": "该轮复核时只保存法力消耗效果；后续已补录主动40%移速、持续2秒的独立效果，主动施法与反突进接线仍暂缓。",
+          "followUp": "poppyWActiveMoveSpeedEffectBackfill"
         },
         {
           "skillKey": "shen_p",
@@ -7691,6 +7692,96 @@
         "commit": "463f8ea21de98a10c1e8ee38625e39cc66805cfa"
       },
       "browserValidation": "未执行；本轮没有业务写入",
+      "runtimeValidation": "未执行"
+    },
+    "poppyWActiveMoveSpeedEffectBackfill": {
+      "at": "2026-09-13T08:46:08.289Z",
+      "status": "波比W主动自身40%移动速度、持续2000毫秒的独立效果完成冻结、受保护写入、独立GET回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skill": "poppy_w",
+      "created": {
+        "effects": 1,
+        "results": 1,
+        "triggerRules": 0
+      },
+      "semantics": [
+        "新增active_move_speed效果及move_speed_gain结果，复用既有active_haste_percent_points=40与active_duration_ms=2000。",
+        "40个百分数点乘0.01后增加到以1表示100%的move_speed_percent，使用attribute_flat_add固定加算乘区。",
+        "生命周期属于来源对象，单层，重复施加保持层数并刷新持续时间；结果在施加时留存并替换本来源旧值。",
+        "本批只保存可独立表达的自身移速效果，不伪造主动施法、反突进、缚地、减速、伤害或被动双抗接线。"
+      ],
+      "preparation": {
+        "GETs": 37,
+        "status200": 36,
+        "expected404": 1,
+        "businessWrites": 0,
+        "skillCount": 1062,
+        "priorRuleCheckpoint": 131,
+        "sourceInitializedCheckpoint": 24,
+        "existingEffectKeys": [
+          "mana_cost"
+        ],
+        "repeatedFullBaselineCount": 0,
+        "batchSha256": "3483b292cd3ada6929ee311a9a92136859705a1a2dd006cc63559cb4324b53ff",
+        "bodySha256": "433994799fe772e04b5a42a8ae5dc4e2ff544ce0b422127a4e4ebdd1dbe9619e"
+      },
+      "writer": {
+        "protectedGETs": 39,
+        "businessWrites": 1,
+        "POST": 1,
+        "status201": 1,
+        "immediateReadbacks": 1,
+        "replayedWrites": 0,
+        "recoveryReadPerformed": false,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 1231,
+        "businessWrites": 0,
+        "skillCount": 1062,
+        "ruleCount": 131,
+        "sourceInitializedCount": 24,
+        "ruleRefsSha256": "6a9c7ec9170ff89849b7de333fe20df6d46c58dac63351aff0c3031960c998ee",
+        "ruleDetailsSha256": "0977aaa127f34b1804ac54bbdebb60fea2a9c7009694d79e5bf2227863246264",
+        "rulesMatchPriorCheckpoint": true,
+        "existingEffectUnchanged": true,
+        "newEffectMatched": true,
+        "differenceCount": 0,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 150,
+        "businessWrites": 0,
+        "listImagesVisible": 1,
+        "imageNaturalSize": "64x64",
+        "effectDetailsVisible": 1,
+        "resultDetailsVisible": 1,
+        "screenshots": 2,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "experienceIssues": [
+        "触发规则整体暂缓时，来源、参数、时长和现行结果结构均明确的独立效果仍可单独补录，不把整个技能永久停在同一结论。",
+        "百分数点写入比例属性前必须按属性单位换算；本批用现行洛R同类效果核对0.01倍率和固定加算乘区。",
+        "页面控件值不能从弹窗纯文本推断；只读断言失败只修定位并重跑页面，不重放已经成功的业务写入。"
+      ],
+      "pending": [
+        "主动使用规则、反突进资格、缚地、减速和伤害仍缺事件与状态接线。",
+        "被动双抗、低生命翻倍、法力扣除时点、冷却和施放资格仍按原批次暂缓。",
+        "新效果尚未组装进Wasm输入，也未执行宿主主动事件或真实战斗验证。"
+      ],
+      "systemConclusion": "现有技能效果、结果、生命周期、属性和乘区结构足以保存本次数据，没有新增表、字段或兼容层依据。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/波比W主动移速效果补录/09-证据清单.json",
+        "sha256": "8d2e1c797b790dbc8686fa0d8d3cad2e1f1f0ba2dadc2030ab2288410893941a",
+        "commit": "119dd2181c872d0435aca93fa90bc3c9c88737b7"
+      },
       "runtimeValidation": "未执行"
     }
   },
