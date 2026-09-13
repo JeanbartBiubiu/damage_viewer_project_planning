@@ -23,3 +23,5 @@ Remove-Item Env:DAMAGE_ENTRY_TOKEN
 node 核对技能清单第一阶段.mjs integrate
 node 核对技能清单第一阶段.mjs check-stage
 ```
+
+技能第二阶段使用 `核对技能清单第二阶段.mjs`，扩大到文件名包含“候选”且顶层确有技能对象的证据。它排除第一阶段已有批次，再以批准散列唯一命中9批、140个技能；执行顺序仍是 `readback`、`integrate`、`check-stage`，同样要求临时 `DAMAGE_WEB_ROOT` 与 `DAMAGE_ENTRY_TOKEN`。

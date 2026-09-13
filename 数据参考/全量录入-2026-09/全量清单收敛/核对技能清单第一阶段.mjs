@@ -313,17 +313,20 @@ function runCheckStage() {
   const stage = readJson(stagePath);
   const ledger = stage.inventoryConclusions;
   const expectedEntries = buildSkillEntries(evidence);
-  assert.equal(ledger.skills.length, 560);
-  assert.equal(new Set(ledger.skills.map(item => item.sourceChampionId + '/' + item.slot)).size, 560);
-  assert.deepEqual(ledger.skills, expectedEntries, '阶段进度技能结论与当前证据不一致');
-  assert.deepEqual(ledger.coverage.skills.conclusions, distribution(expectedEntries));
+  assert(ledger.skills.length >= 560, '阶段进度技能结论少于第一阶段覆盖');
+  assert.equal(new Set(ledger.skills.map(item => item.sourceChampionId + '/' + item.slot)).size, ledger.skills.length);
+  const currentById = new Map(ledger.skills.map(item => [item.sourceChampionId + '/' + item.slot, item]));
+  for (const expected of expectedEntries) {
+    const id = expected.sourceChampionId + '/' + expected.slot;
+    assert.deepEqual(currentById.get(id), expected, '第一阶段技能结论与当前证据不一致：' + id);
+  }
   assert.equal(ledger.coverage.skills.sourceItems, 865);
-  assert.equal(ledger.coverage.skills.concludedItems, 560);
-  assert.equal(ledger.coverage.skills.remainingInScopeItems, 305);
+  assert(ledger.coverage.skills.concludedItems >= 560);
+  assert(ledger.coverage.skills.remainingInScopeItems <= 305);
   assert.equal(ledger.coverage.skills.status, 'PARTIAL_RECONCILIATION');
   assert.equal(ledger.evidence.skillFirstStageCurrentReadback.sha256, fileSha(outputPath));
   assert(ledger.skills.every(item => ledger.allowedConclusions.includes(item.conclusion)), '技能结论含非法枚举');
-  process.stdout.write(JSON.stringify({ status: 'PASS', skillItems: ledger.skills.length, conclusions: ledger.coverage.skills.conclusions, remainingInScopeItems: ledger.coverage.skills.remainingInScopeItems, evidenceSha256: fileSha(outputPath) }, null, 2));
+  process.stdout.write(JSON.stringify({ status: 'PASS', phaseItemsVerified: expectedEntries.length, currentSkillItems: ledger.skills.length, currentConclusions: ledger.coverage.skills.conclusions, remainingInScopeItems: ledger.coverage.skills.remainingInScopeItems, evidenceSha256: fileSha(outputPath) }, null, 2));
 }
 
 if (mode === 'readback') await runReadback();
