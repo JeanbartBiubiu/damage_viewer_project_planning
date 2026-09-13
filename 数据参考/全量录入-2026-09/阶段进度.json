@@ -7694,6 +7694,68 @@
       "browserValidation": "未执行；本轮没有业务写入",
       "runtimeValidation": "未执行"
     },
+    "runeTriggerCandidateReviewSecondRound": {
+      "at": "2026-09-13T17:35:14.904+08:00",
+      "status": "星界洞悉、迅捷、复苏和坚定完成固定16.17/16.17.1来源与真实接口定点复核；四项均有唯一暂缓结论",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "rune_8347_passive",
+        "rune_8234_passive",
+        "rune_8453_passive",
+        "rune_8242_passive"
+      ],
+      "decision": {
+        "ready": 0,
+        "deferred": 4,
+        "excluded": 0,
+        "businessWrites": 0,
+        "databaseWrites": 0
+      },
+      "deferred": [
+        {
+          "skillKey": "rune_8347_passive",
+          "reason": "召唤师技能急速18与装备急速10参数明确，但两类合法技能集合和作用范围未冻结，不能合并成通用技能急速28。"
+        },
+        {
+          "skillKey": "rune_8234_passive",
+          "reason": "固定1%移动速度与7%移动加成增效不能合并；增效公式递归依赖运行时提供的合资格移动加成基数，当前没有效果和规则。"
+        },
+        {
+          "skillKey": "rune_8453_passive",
+          "reason": "既有5%基础治疗护盾强度及来源初始化规则语义正确；低生命10%分支仍缺施放方与获得方分流、低于40%采样对象和时点。"
+        },
+        {
+          "skillKey": "rune_8242_passive",
+          "reason": "已有固定双抗效果，但缺受控结束事件、控制类型覆盖和重叠控制续期；不能把控制开始后2秒冒充控制结束后2秒。"
+        }
+      ],
+      "getEvidence": {
+        "canonicalGETs": 77,
+        "repeatedExplorationGETs": 28,
+        "totalObservedGETs": 105,
+        "fullSkillBaselineGETs": 0,
+        "fullRuleBaselineGETs": 0,
+        "fullAttributeBaselineGETs": 0,
+        "businessWrites": 0,
+        "databaseWrites": 0,
+        "nonGetRequests": 0,
+        "allResponses200": true
+      },
+      "findings": [
+        "复苏既有无条件5%初始化规则保持不变，不能把低生命分支混入来源初始化。",
+        "星界洞悉与迅捷的固定参数不等于存在可执行效果；作用范围和运行时基数必须先准确绑定。",
+        "坚定所需的是受控结束与重叠控制生命周期，现有受控开始事件不能近似替代。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna第二轮符文触发候选/候选汇总.json",
+        "sha256": "5f30ea8c4b091b99a2eca61381d1a5e1f896ffeccf13179af77afe71997a0f99",
+        "reportSha256": "bb7f27c276f8f5e61508f5e11ed70c85b77f5e8cc22739235f603e3caee1e2cd",
+        "commit": "d07bfa9f6443a7b157e2075b034cb7aeaa7d6dab"
+      },
+      "browserValidation": "未执行；本轮没有业务写入",
+      "runtimeValidation": "未执行"
+    },
     "poppyWActiveMoveSpeedEffectBackfill": {
       "at": "2026-09-13T08:46:08.289Z",
       "status": "波比W主动自身40%移动速度、持续2000毫秒的独立效果完成冻结、受保护写入、独立GET回读和真实页面验收",
