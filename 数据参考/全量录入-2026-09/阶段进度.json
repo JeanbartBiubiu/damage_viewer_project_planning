@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T10:40:00.000Z",
+  "generatedAt": "2026-09-13T11:16:58.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7997,6 +7997,96 @@
         "commit": "7b98351e7798edde2ae496a210056833955cc81d"
       },
       "runtimeValidation": "未执行"
+    },
+    "fourHeroSelfBuffTriggerBackfillSecond": {
+      "at": "2026-09-13T11:16:58.000Z",
+      "status": "卡牌E、斯卡纳R、萨勒芬妮W和纳亚菲利W四项已有自身增益完成冻结、受保护写入、独立GET回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "twistedfate_e",
+        "skarner_r",
+        "seraphine_w",
+        "naafiri_w"
+      ],
+      "created": {
+        "triggerRules": 4,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "rules": [
+        "twistedfate_e/initialize_permanent_attack_speed：来源初始化时执行permanent_attack_speed",
+        "skarner_r/actual_champion_hit：实际命中英雄后执行self_move_speed",
+        "seraphine_w/on_used：主动使用后执行self_shield",
+        "naafiri_w/on_used：主动使用后依次执行self_attack_damage与self_move_speed"
+      ],
+      "freeze": {
+        "revision": "rev1",
+        "batchSha256": "e968441b2fa3d01c68d6b0d89e44b9b6e08a1c514ffb4666de44b57478ab3d24",
+        "sourceSnapshotSha256": "213331313aaed84068cb7ac8ef06bb5070d193667d1e97f2dd80ea612aa787ef"
+      },
+      "preparation": {
+        "getCount": 1282,
+        "status200": 1278,
+        "expected404": 4,
+        "skillCount": 1062,
+        "ruleCount": 135,
+        "sourceInitializedCount": 25,
+        "businessWrites": 0
+      },
+      "writer": {
+        "getCount": 88,
+        "postCount": 4,
+        "created": 4,
+        "alreadyLanded": 0,
+        "recoveryMode": false,
+        "immediateReadback": "PASS"
+      },
+      "independentReadback": {
+        "getCount": 1282,
+        "skillCount": 1062,
+        "ruleCount": 139,
+        "sourceInitializedCount": 26,
+        "oldRulesCount": 135,
+        "oldRulesUnchanged": true,
+        "targetNonRuleCompositionUnchanged": true,
+        "businessWrites": 0
+      },
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 4,
+        "images": "四项列表图均64×64且加载完成",
+        "effectsAndRules": "五个效果、四种事件详情和五条动作摘要及顺序与冻结请求一致",
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0,
+        "exactBrowserGetCount": null,
+        "postBrowserGetReadback": 1067
+      },
+      "corrections": [
+        "薇古丝W、斯卡纳W和易R已有符合当前契约的规则，在冻结前去重并排除，未重复写入。",
+        "克烈E二段、妮蔻W再次主动、锤石W灵魂数量、普朗克W已损失生命值和卑尔维斯E取消分支因事件或运行输入不完整继续暂缓。",
+        "浏览器后首轮纯GET检查把缺省useKind与回读null当成不同，在1065次GET后停止且没有业务写入；统一两端规范化后完整重跑1067次GET。"
+      ],
+      "pending": [
+        "卡牌E第四次攻击计数、额外伤害、建筑物分支和实际攻击事件仍未接。",
+        "斯卡纳R伤害、压制、拖行、多目标、撼地联动、法力消耗与冷却仍未接。",
+        "萨勒芬妮W友方护盾与移速、自身衰减移速、已有护盾资格、延时治疗和回响重复仍未接。",
+        "纳亚菲利W不可选取、犬群召回、额外犬群、法力消耗和冷却仍未接。",
+        "Wasm组装、宿主事件生产和真实战斗均未执行。"
+      ],
+      "systemConclusion": "现有技能触发规则、目标类别条件、多动作顺序和生命周期结构足以保存四项分支，没有新增表、字段或兼容层依据。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄自身增益触发补录第二批/10-证据清单.json",
+        "sha256": "09236953de9282789f23a538cfc234b7d7a49bec9598471fb9697997c0f6c3c9",
+        "commit": "7496009229c6e637c3345d62e129f5514ef13cd9"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -8074,6 +8164,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄自身增益触发补录/10-证据清单.json",
         "sha256": "de66444af50f66d1d5be3abfc3c63baac3547c918b3f9ba2d076b2d2ce73a7b0",
         "commit": "7b98351e7798edde2ae496a210056833955cc81d"
+      },
+      "fourHeroSelfBuffTriggerBackfillSecond": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄自身增益触发补录第二批/10-证据清单.json",
+        "sha256": "09236953de9282789f23a538cfc234b7d7a49bec9598471fb9697997c0f6c3c9",
+        "commit": "7496009229c6e637c3345d62e129f5514ef13cd9"
       }
     },
     "coverage": {
@@ -20557,7 +20653,7 @@
         "name": "纳亚菲利·暴吼",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后依次执行self_attack_damage与self_move_speed；不可选取、犬群召回、额外犬群、法力消耗与冷却仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -20568,7 +20664,8 @@
         "candidateSha256": "236893b5c78b978396c454075554616b29060bbb8f9d2fe733846f0407faea51",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroSelfBuffTriggerBackfillSecond"
         ]
       },
       {
@@ -24008,7 +24105,7 @@
         "name": "萨勒芬妮·聚和心声",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后的self_shield；友方护盾与移速、自身衰减移速、已有护盾资格、延时治疗和回响重复仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -24019,7 +24116,8 @@
         "candidateSha256": "841a100c48f51a135dbb6d4457ec5523af2030611cbbac1f2212b388be5a8b4e",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroSelfBuffTriggerBackfillSecond"
         ]
       },
       {
@@ -24974,7 +25072,7 @@
         "name": "斯卡纳·毒刺贯体",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录实际命中英雄后的self_move_speed；伤害、压制、拖行、多目标、撼地联动、法力消耗与冷却仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -24985,7 +25083,8 @@
         "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroSelfBuffTriggerBackfillSecond"
         ]
       },
       {
@@ -26786,7 +26885,7 @@
         "name": "崔斯特·卡牌骗术",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录来源初始化永久攻击速度；第四次攻击计数、额外伤害、建筑物分支和实际攻击事件仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -26797,7 +26896,8 @@
         "candidateSha256": "84b2ca1c5cadd804a569482d71b1ba262b95335d71ee9f89b127523574367023",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourHeroSelfBuffTriggerBackfillSecond"
         ]
       },
       {
