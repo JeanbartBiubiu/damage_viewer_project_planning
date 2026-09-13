@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T14:06:27.000Z",
+  "generatedAt": "2026-09-13T14:21:39.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -8895,6 +8895,100 @@
         "commit": "e9c0612a7869112a903e5e2b2bbb4abd47114ecb"
       },
       "runtimeValidation": "未执行"
+    },
+    "fourComplexCastProcessEntryDeferredAudit": {
+      "at": "2026-09-13T14:21:39.000Z",
+      "status": "蔚Q、拉克丝E、沃里克E和贾克斯E四项复杂施法过程入口完成全量纯GET、固定来源、当前契约和真实页面核对，均不写规则",
+      "skills": [
+        "vi_q",
+        "lux_e",
+        "warwick_e",
+        "jax_e"
+      ],
+      "created": {
+        "triggerRules": 0,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "current": {
+        "skillCount": 1062,
+        "ruleCount": 168,
+        "sourceInitializedCount": 29,
+        "activeProcessWithoutRuleCount": 4,
+        "activeProcessWithoutRuleKeys": [
+          "jax_e",
+          "lux_e",
+          "vi_q",
+          "warwick_e"
+        ]
+      },
+      "readOnlyAudit": {
+        "getCount": 2141,
+        "status200": 2137,
+        "expected404": 4,
+        "businessWrites": 0,
+        "postBrowserGetCount": 1067,
+        "postBrowserRuleCount": 168,
+        "postBrowserTarget404": 4
+      },
+      "staticContract": {
+        "status": "PASS",
+        "conclusion": "当前SKILL_USED只保存sourceSkillKey和useKind，没有施放阶段字段；未知字段会在后端写入校验中被拒绝。",
+        "webTypeSha256": "67e6edb1e232fe1eb4ac40024e8028d400864cf16570fd4668461d4a2a7eef2c",
+        "webFormSha256": "a920062d387165c4a9e75de0b8509ba223ef54b05361119d5f3af9c9145c6407",
+        "backendDetailSha256": "8a2961dcd09321c185e961438e6b646b0d06969a205b0590bcbe283f71e5c7d4",
+        "backendServiceSha256": "15882d977dce66d28854f5a5d6215efe6b66265ad353cfd87b0b70565dd40852"
+      },
+      "conclusions": [
+        {
+          "skillKey": "vi_q",
+          "conclusion": "资料待核",
+          "entryDisposition": "系统暂缓",
+          "reason": "过程只表示蓄力开始且无普通冷却；无法区分蓄力开始、正常释放和取消，不能决定成本、正常冷却、取消冷却与返还的唯一时点。"
+        },
+        {
+          "skillKey": "lux_e",
+          "conclusion": "系统暂缓",
+          "entryDisposition": "系统暂缓",
+          "reason": "无法区分首次施放、再次施放和到期爆炸；无条件启动cast会在再次施放时重复成本与冷却。"
+        },
+        {
+          "skillKey": "warwick_e",
+          "conclusion": "系统暂缓",
+          "entryDisposition": "系统暂缓",
+          "reason": "无法区分首次施放、再次施放和自然结束；后两者不应重付初次成本或重启冷却。"
+        },
+        {
+          "skillKey": "jax_e",
+          "conclusion": "系统暂缓",
+          "entryDisposition": "系统暂缓",
+          "reason": "无法区分首次施放、再次施放和自然结束；无条件启动cast会错误重付成本并重启冷却。"
+        }
+      ],
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 4,
+        "images": "四项列表图均64×64且加载完成",
+        "processes": "四个主动cast过程、实际普通冷却状态、步骤和法力挂接可见",
+        "ruleLists": "四项均显示当前技能还没有条件与触发规则",
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0
+      },
+      "queueConclusion": "原30个有主动过程但无规则的技能已全部分类：26项完成入口写入，4项因施放阶段不可区分保留暂缓；没有未分类的简单入口候选。",
+      "systemConclusion": "现有JSON存储无需加表，但管理契约、后端校验和宿主事件缺少一致的施放阶段语义；只改页面字段不能解决。该运行时协议需独立设计和评审。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项复杂施法过程入口暂缓核对/04-证据清单.json",
+        "sha256": "27e0d299f0cf665fc05c4fa92196ef02464f131eeeabff6da55d4a43836155ba",
+        "commit": "3e44cefa06d76377876054961e874fb66cdfcb7f"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -9023,6 +9117,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/单项英雄施法过程入口补录第六批/10-证据清单.json",
         "sha256": "edcdfea4e047b72875c653be976f493d989a1ff3521d1c9118bcfef62defe1ab",
         "commit": "e9c0612a7869112a903e5e2b2bbb4abd47114ecb"
+      },
+      "fourComplexCastProcessEntryDeferredAudit": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项复杂施法过程入口暂缓核对/04-证据清单.json",
+        "sha256": "27e0d299f0cf665fc05c4fa92196ef02464f131eeeabff6da55d4a43836155ba",
+        "commit": "3e44cefa06d76377876054961e874fb66cdfcb7f"
       }
     },
     "coverage": {
@@ -17280,7 +17380,7 @@
         "name": "贾克斯·反击风暴",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已有主动cast过程但未写入口；当前SKILL_USED无法区分首次施放、再次施放和自然结束，无条件启动会重复成本并重启冷却。攻击躲闪、减伤、一次反击和控制仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -17291,7 +17391,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourComplexCastProcessEntryDeferredAudit"
         ]
       },
       {
@@ -20273,7 +20374,7 @@
         "name": "拉克丝·透光奇点",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已有主动cast过程但未写入口；当前SKILL_USED无法区分首次施放、再次施放和到期爆炸，无条件启动会重复成本与冷却。区域、减速、目标筛选和爆炸仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 2,
@@ -20284,7 +20385,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourComplexCastProcessEntryDeferredAudit"
         ]
       },
       {
@@ -28750,7 +28852,7 @@
         "name": "蔚·强能冲拳",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有4个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口3个。",
+        "reason": "已有只表示蓄力开始且无普通冷却的cast过程，但当前SKILL_USED无法区分蓄力开始、正常释放和取消，入口保持系统暂缓；蓄力伤害时点仍有来源缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -28761,7 +28863,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourComplexCastProcessEntryDeferredAudit"
         ]
       },
       {
@@ -29375,7 +29478,7 @@
         "name": "沃里克·远祖嗥叫",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已有主动cast过程但未写入口；当前SKILL_USED无法区分首次施放、再次施放和自然结束，后两者不应重付初次成本或重启冷却。减伤、恐惧和结束联动仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -29386,7 +29489,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "fourComplexCastProcessEntryDeferredAudit"
         ]
       },
       {
