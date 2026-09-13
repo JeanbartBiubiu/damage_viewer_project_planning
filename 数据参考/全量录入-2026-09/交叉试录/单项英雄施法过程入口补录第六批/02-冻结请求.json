@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T14:02:53.082Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 1
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 167,
+    "sourceInitializedCount": 29,
+    "finalRuleCount": 168,
+    "finalSourceInitializedCount": 29
+  },
+  "sourceSnapshotSha256": "b90ddb3bf2f24e981ed2ce4ec7ac110174552f365b5296da0a99fe8e7a50fbc7",
+  "requests": [
+    {
+      "id": "vi_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_vi",
+      "skillKey": "vi_e",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/vi_e/trigger-rules",
+      "detailRoute": "/skills/vi_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json",
+      "sourceSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+      "bodySha256": "652861dc3c7b2b9e0fbe966d39e76f6288bd72bdd2eeb774c30cea1ccab7747c",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动透体之劲施法过程",
+        "description": "接收vi_e主动使用并启动已有cast过程，只处理已保存的法力消耗和立即步骤，不配置普通冷却；两次弹药、恢复时间、1秒静态冷却、强化窗口、普攻替换、伤害、身后范围和法术护盾资格继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "vi_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动透体之劲施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "规则只启动当前已有cast过程并消耗已保存法力；不产生普通冷却、弹药恢复、强化普攻、实际命中或伤害，Wasm组装、宿主技能使用事件和真实战斗尚未验证。",
+  "batchSha256": "fe49de80757f89cd6aa3e295655ec8e15ed4a17c73008813186a19dd04df12da"
+}
