@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T14:24:02.063Z",
+  "status": "PASS",
+  "scope": "蔚Q、拉克丝E、沃里克E和贾克斯E复杂施法过程入口暂缓核对",
+  "current": {
+    "skillCount": 1062,
+    "ruleCount": 168,
+    "sourceInitializedCount": 29,
+    "activeProcessWithoutRuleCount": 4,
+    "candidates": [
+      {
+        "skillKey": "jax_e",
+        "name": "贾克斯·反击风暴",
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+            "effectBindingCount": 1,
+            "name": "施放反击风暴",
+            "processKey": "cast",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1
+          }
+        ]
+      },
+      {
+        "skillKey": "lux_e",
+        "name": "拉克丝·透光奇点",
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "description": "过程只负责法力、施法延迟和冷却。再次施放引爆与 5 秒后自动爆炸未写入，避免把区域命中猜成立即伤害。",
+            "effectBindingCount": 1,
+            "name": "施放透光奇点",
+            "processKey": "cast",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1
+          }
+        ]
+      },
+      {
+        "skillKey": "vi_q",
+        "name": "蔚·强能冲拳",
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "description": "开始蓄力仅绑定已确证法力消耗；正常释放、取消与冷却起算未核，不以一次IMMEDIATE启动普通冷却。",
+            "effectBindingCount": 1,
+            "name": "施放强能冲拳",
+            "processKey": "cast",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1
+          }
+        ]
+      },
+      {
+        "skillKey": "warwick_e",
+        "name": "沃里克·远祖嗥叫",
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "description": "只表达已确证的成本、冷却与施法延迟；不生成敌人命中。",
+            "effectBindingCount": 1,
+            "name": "施放远祖嗥叫",
+            "processKey": "cast",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1
+          }
+        ]
+      }
+    ]
+  },
+  "requestAudit": {
+    "getCount": 2141,
+    "statusCounts": {
+      "200": 2137,
+      "404": 4
+    },
+    "nonGetRequests": []
+  },
+  "staticContract": {
+    "status": "PASS",
+    "conclusion": "当前SKILL_USED只保存sourceSkillKey和useKind；没有施放阶段字段，未知字段会在后端写入校验中被拒绝。",
+    "files": [
+      {
+        "worktree": "damage_web_dev",
+        "relativePath": "web/src/types/skillTriggerRule.ts",
+        "sha256": "67e6edb1e232fe1eb4ac40024e8028d400864cf16570fd4668461d4a2a7eef2c",
+        "line": 142
+      },
+      {
+        "worktree": "damage_web_dev",
+        "relativePath": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+        "sha256": "a920062d387165c4a9e75de0b8509ba223ef54b05361119d5f3af9c9145c6407",
+        "line": 356
+      },
+      {
+        "worktree": "damage_backend_dev",
+        "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerSkillEventDetail.java",
+        "sha256": "8a2961dcd09321c185e961438e6b646b0d06969a205b0590bcbe283f71e5c7d4",
+        "line": 11
+      },
+      {
+        "worktree": "damage_backend_dev",
+        "relativePath": "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+        "sha256": "15882d977dce66d28854f5a5d6215efe6b66265ad353cfd87b0b70565dd40852",
+        "lines": [
+          854,
+          976,
+          2766
+        ]
+      }
+    ]
+  },
+  "browser": {
+    "targetCount": 4,
+    "screenshots": 4,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "pageErrors": 0,
+    "failedRequests": 0,
+    "businessWrites": 0
+  },
+  "conclusions": [
+    {
+      "skillKey": "vi_q",
+      "conclusion": "资料待核",
+      "entryDisposition": "系统暂缓",
+      "reason": "当前过程只表示蓄力开始且没有普通冷却；SKILL_USED无法区分蓄力开始、正常释放和取消，不能决定法力、正常冷却、取消冷却与返还的唯一时点。"
+    },
+    {
+      "skillKey": "lux_e",
+      "conclusion": "系统暂缓",
+      "entryDisposition": "系统暂缓",
+      "reason": "首次施放生成区域，再次施放或到期才爆炸；SKILL_USED无法区分首次与再次施放，无条件启动cast会在再次施放时重复成本与冷却。"
+    },
+    {
+      "skillKey": "warwick_e",
+      "conclusion": "系统暂缓",
+      "entryDisposition": "系统暂缓",
+      "reason": "首次施放开始减伤，再次施放或自然结束只应嗥叫一次且不重付初次成本；SKILL_USED无法区分这些阶段。"
+    },
+    {
+      "skillKey": "jax_e",
+      "conclusion": "系统暂缓",
+      "entryDisposition": "系统暂缓",
+      "reason": "首次施放开始防御，再次施放或自然结束触发一次反击；SKILL_USED无法区分首次与再次施放，无条件启动cast会错误重付成本并重启冷却。"
+    }
+  ],
+  "files": [
+    {
+      "name": "01-核对说明.md",
+      "sha256": "40122c12c167891228ee4e594330c839541b3887bd2b7093c4f6a228312609c3",
+      "byteSize": 1431
+    },
+    {
+      "name": "README.md",
+      "sha256": "df0141d822fb945b1247bb412d9d57a25ef00a0bf3bfe059451b6e656c567fd4",
+      "byteSize": 511
+    },
+    {
+      "name": "只读核对.mjs",
+      "sha256": "88cc14c82a10461d9a3c7b338c1ab0f0cf4de3a6b324f2f3627f3d4a122013ff",
+      "byteSize": 14952
+    },
+    {
+      "name": "02-纯GET核对.json",
+      "sha256": "296ba4c93a9df61c1af3fbf39f2ad6d7a0cfa0c56fc24caf8325294ce0e1a4aa",
+      "byteSize": 16093
+    },
+    {
+      "name": "03-页面验收.json",
+      "sha256": "426f6bee1912e53b028b197b4aecea3a8207e945a6c0fb7299fe1ad2925b8add",
+      "byteSize": 5074
+    },
+    {
+      "name": "核对体验报告.md",
+      "sha256": "3e32a09bd790c72d36a5356300e856681b216a7db31c95efc6c2831d35151d0d",
+      "byteSize": 1718
+    }
+  ],
+  "boundary": "四项只因当前施放阶段不可区分而关闭简单入口候选；不删除已有过程，不写规则，不改变整技能唯一结论。"
+}

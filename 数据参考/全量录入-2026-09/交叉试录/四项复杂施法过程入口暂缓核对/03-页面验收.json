@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T22:21:39+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://localhost:5173/#/skills",
+  "targetCount": 4,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "只查询技能、查看过程详情和打开空规则列表；没有点击新增规则、保存、删除或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1067,
+      "statusCounts": {
+        "200": 1063,
+        "404": 4
+      },
+      "skillCount": 1062,
+      "ruleCount": 168,
+      "sourceInitializedCount": 29,
+      "targetDetailCount": 4,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "skillKey": "vi_q",
+      "matched": true,
+      "ruleListCount": 0,
+      "list": {
+        "name": "蔚·强能冲拳",
+        "imageAlt": "蔚·强能冲拳代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放强能冲拳",
+        "activation": "主动",
+        "ordinaryCooldown": "无普通冷却",
+        "step": "施放开始 / start / 立即",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "ruleList": "当前技能还没有条件与触发规则"
+    },
+    {
+      "skillKey": "lux_e",
+      "matched": true,
+      "ruleListCount": 0,
+      "list": {
+        "name": "拉克丝·透光奇点",
+        "imageAlt": "拉克丝·透光奇点代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放透光奇点",
+        "activation": "主动",
+        "ordinaryCooldown": "配置普通冷却",
+        "step": "施法时间 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "ruleList": "当前技能还没有条件与触发规则"
+    },
+    {
+      "skillKey": "warwick_e",
+      "matched": true,
+      "ruleListCount": 0,
+      "list": {
+        "name": "沃里克·远祖嗥叫",
+        "imageAlt": "沃里克·远祖嗥叫代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放远祖嗥叫",
+        "activation": "主动",
+        "ordinaryCooldown": "配置普通冷却",
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "ruleList": "当前技能还没有条件与触发规则"
+    },
+    {
+      "skillKey": "jax_e",
+      "matched": true,
+      "ruleListCount": 0,
+      "list": {
+        "name": "贾克斯·反击风暴",
+        "imageAlt": "贾克斯·反击风暴代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放反击风暴",
+        "activation": "主动",
+        "ordinaryCooldown": "配置普通冷却",
+        "step": "施放开始 / start / 立即",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "ruleList": "当前技能还没有条件与触发规则"
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "vi_q",
+      "sha256": "802b96bfb3d1e664d81d883e0aa03066861af09a8fb1e7d659885c63f72cb480",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "lux_e",
+      "sha256": "88aa581853fa532dbc4e0bd781b7d996332a37eb00dbd4da6bb4403544a0a589",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "warwick_e",
+      "sha256": "d0fae5a234a563183085bd037f65eed2b03d411b93461f0a56786cc2be9213f2",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "jax_e",
+      "sha256": "61d87aa41b07b0730d9b315d05d02b7f2a1266517d427cf0d7d8ac9fb6a215a6",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "observations": [
+    "蔚Q过程明确无普通冷却，只表示蓄力开始；其他三项当前过程配置普通冷却。",
+    "四项规则列表均显示当前技能还没有条件与触发规则，没有用简单入口覆盖阶段歧义。",
+    "页面后1067次GET确认规则总数仍为168，四个on_used详情仍为404。"
+  ],
+  "boundary": "页面仅证明四个既有过程、图片和空规则现值可见；不证明蓄力、释放、取消、再次施放、自然结束、宿主事件、Wasm或真实战斗。"
+}
