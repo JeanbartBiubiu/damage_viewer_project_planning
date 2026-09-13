@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T06:46:57.773Z",
+  "generatedAt": "2026-09-13T07:24:16.241Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7395,6 +7395,84 @@
         "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna第三轮装备触发候选/候选汇总.json",
         "sha256": "a4e55d87835ebac4c19b440d9b7499931d65219b2f94a9f45db053604fada1f2",
         "commit": "0897216ef271dceeb51c0cf441375bef4c854a8a"
+      },
+      "browserValidation": "未执行；本轮没有业务写入",
+      "runtimeValidation": "未执行"
+    },
+    "equipmentTriggerCandidateReviewFourthRound": {
+      "at": "2026-09-13T07:24:16.241Z",
+      "status": "六项剩余装备技能完成固定来源和真实接口定点复核；可安全直接写入为零，全部形成具体暂缓结论",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "item_3145_passive",
+        "item_3144_passive",
+        "item_3065_passive",
+        "item_3116_passive",
+        "item_4645_passive",
+        "item_6694_passive"
+      ],
+      "decision": {
+        "ready": 0,
+        "deferred": 6,
+        "excluded": 0,
+        "businessWrites": 0
+      },
+      "deferred": [
+        {
+          "skillKey": "item_3145_passive",
+          "reason": "缺广义造成伤害的英雄目标资格、持有者冷却消费和装备自身附伤递归排除。"
+        },
+        {
+          "skillKey": "item_3144_passive",
+          "reason": "缺敌方英雄伤害触发资格、持有者冷却消费及普通攻击减冷却的准确时点。"
+        },
+        {
+          "skillKey": "item_3065_passive",
+          "reason": "自身受到治疗修正和受到护盾修正的结构尚未同时形成，不能改成施放强度或普通属性。"
+        },
+        {
+          "skillKey": "item_3116_passive",
+          "reason": "当前状态目录只有眩晕，没有减速状态，同时还缺伤害型技能资格。"
+        },
+        {
+          "skillKey": "item_4645_passive",
+          "reason": "缺低生命阈值、魔法或真实伤害联合资格及只修正额外伤害的准确伤害修正区。"
+        },
+        {
+          "skillKey": "item_6694_passive",
+          "reason": "同时缺减速状态、伤害型技能资格和严格低于50%生命的准确读取时点。"
+        }
+      ],
+      "getEvidence": {
+        "targetedGETs": 115,
+        "candidateCompositionGETs": 102,
+        "catalogGETs": 13,
+        "fullSkillBaselineGETs": 0,
+        "fullRuleBaselineGETs": 0,
+        "businessWrites": 0,
+        "nonGetRequests": 0
+      },
+      "catalogFindings": {
+        "enabledStatuses": [
+          "vertigo"
+        ],
+        "slowStatusCount": 0,
+        "damageTypes": [
+          "physics",
+          "magic",
+          "real"
+        ],
+        "damageModifierZones": [
+          "item_3047_basic_damage_reduction",
+          "item_3143_critical_damage_reduction"
+        ]
+      },
+      "systemConclusion": "单独增加减速状态仍不能完成伤害型技能资格和生命阈值时点；六项阻塞属于状态、事件、冷却或修正区契约，没有孤立补表或近似写入依据。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna第四轮装备触发候选/候选汇总.json",
+        "sha256": "17c71f488bfbf3e2a5c1d5a54d6289bd0e5c6ba67dc028af45f006ba713c1ef3",
+        "commit": "b729ef73978ba503a4e5fd6d6f369289c47a0079"
       },
       "browserValidation": "未执行；本轮没有业务写入",
       "runtimeValidation": "未执行"
