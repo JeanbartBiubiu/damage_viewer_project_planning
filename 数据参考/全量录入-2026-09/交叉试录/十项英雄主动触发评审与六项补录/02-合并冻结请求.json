@@ -1,0 +1,591 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "generatedAt": "2026-09-13T05:26:20.496Z",
+  "status": "READY",
+  "writable": true,
+  "gameId": "lol",
+  "fixedVersion": "16.17.1",
+  "methodPolicy": "GET_ONLY_PRECHECK_THEN_6_POSTS",
+  "authorizationValueRecorded": false,
+  "semanticReviewSha256": "58202b42d0c77c14476b0c601dc9490471c6cb6e3cf75c40a1d0abddb09c68d3",
+  "sourceSnapshotSha256": "84578cc8d435df677ed33ae6f736d117f8ad7732dba28491d77aa46a9a3e9c38",
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 126
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24,
+    "eventTypeCounts": {
+      "SKILL_USED": 17,
+      "SKILL_HIT": 55,
+      "BASIC_ATTACK_HIT": 10,
+      "SOURCE_INITIALIZED": 24,
+      "DAMAGE_PENDING": 1,
+      "DAMAGE_DEALT": 3,
+      "DAMAGE_TAKEN": 3,
+      "SPELL_SHIELD_BLOCKED": 5,
+      "KILL": 2
+    },
+    "stableRead": true,
+    "stableVerification": {
+      "stableSkillKeys": true,
+      "stableRuleKeys": true,
+      "stableRuleLists": true,
+      "stableRuleDetails": true,
+      "firstRuleKeysSha256": "784b1e678c6ebab0fa45f29ca78f81dfd86d4657ef4ece557ce084a46d2e98bd",
+      "secondRuleKeysSha256": "784b1e678c6ebab0fa45f29ca78f81dfd86d4657ef4ece557ce084a46d2e98bd"
+    }
+  },
+  "writeBoundary": {
+    "businessWriteCount": 6,
+    "order": [
+      {
+        "id": "blitzcrank",
+        "route": "/skills/blitzcrank_w/trigger-rules",
+        "detailRoute": "/skills/blitzcrank_w/trigger-rules/on_used"
+      },
+      {
+        "id": "draven",
+        "route": "/skills/draven_w/trigger-rules",
+        "detailRoute": "/skills/draven_w/trigger-rules/on_used"
+      },
+      {
+        "id": "garen",
+        "route": "/skills/garen_q/trigger-rules",
+        "detailRoute": "/skills/garen_q/trigger-rules/on_used"
+      },
+      {
+        "id": "kogmaw",
+        "route": "/skills/kogmaw_w/trigger-rules",
+        "detailRoute": "/skills/kogmaw_w/trigger-rules/on_used"
+      },
+      {
+        "id": "monkeyking",
+        "route": "/skills/monkeyking_e/trigger-rules",
+        "detailRoute": "/skills/monkeyking_e/trigger-rules/on_used"
+      },
+      {
+        "id": "drmundo",
+        "route": "/skills/drmundo_r/trigger-rules",
+        "detailRoute": "/skills/drmundo_r/trigger-rules/on_used"
+      }
+    ],
+    "methods": [
+      "POST"
+    ],
+    "expectedStatus": 201,
+    "onlyFrozenRoutes": true,
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true,
+    "noRerunExistingRules": true,
+    "noReplayIfReportExists": true
+  },
+  "requests": [
+    {
+      "id": "blitzcrank",
+      "name": "布里茨 W",
+      "skillKey": "blitzcrank_w",
+      "ownerKey": "champion_blitzcrank",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/blitzcrank_w/trigger-rules",
+      "detailRoute": "/skills/blitzcrank_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "d6e24b2a925b424dccc7837da422c6d5199085c605a1ae5f2795d9ded234d427",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "过载运转主动使用",
+        "description": "接收 blitzcrank_w 主动使用；执行已有 attack_speed_boost。移动速度及衰减、结束后的自身减速、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "blitzcrank_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed_boost",
+            "name": "执行过载运转攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_speed_boost"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "draven",
+      "name": "德莱文 W",
+      "skillKey": "draven_w",
+      "ownerKey": "champion_draven",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/draven_w/trigger-rules",
+      "detailRoute": "/skills/draven_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "e0ef634680c97a064993616bdb58059985e47cbbc99abcde0ac2a879d8ab7054",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "血性冲刺主动使用",
+        "description": "接收 draven_w 主动使用；执行已有 attack_speed_gain。移动速度及衰减、接斧刷新冷却、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "draven_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed_gain",
+            "name": "执行血性冲刺攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_speed_gain"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "garen",
+      "name": "盖伦 Q",
+      "skillKey": "garen_q",
+      "ownerKey": "champion_garen",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/garen_q/trigger-rules",
+      "detailRoute": "/skills/garen_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "0cfa9ec07575743468072adb5e9d0815f3bd1beefdcdf3217739b96ead4c407c",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "致命打击主动使用",
+        "description": "接收 garen_q 主动使用；执行已有 move_speed。强化普攻伤害与沉默、移除减速、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "garen_q"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_move_speed",
+            "name": "执行致命打击移动速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "kogmaw",
+      "name": "克格莫 W",
+      "skillKey": "kogmaw_w",
+      "ownerKey": "champion_kogmaw",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/kogmaw_w/trigger-rules",
+      "detailRoute": "/skills/kogmaw_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "e7c00412a9e057b6537411ad4b0a9f274ed0b3f86fd081d34d3b667f5315e54d",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "生化弹幕主动使用",
+        "description": "接收 kogmaw_w 主动使用；执行已有 attack_range。攻击附带目标最大生命魔法伤害、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "kogmaw_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_range",
+            "name": "执行生化弹幕攻击距离",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_range"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "monkeyking",
+      "name": "孙悟空 E",
+      "skillKey": "monkeyking_e",
+      "ownerKey": "champion_monkeyking",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/monkeyking_e/trigger-rules",
+      "detailRoute": "/skills/monkeyking_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "f09fc296086ce5379a03c5add640d7d009c061e283164461c2ecec64fbab1115",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "腾云突击主动使用",
+        "description": "接收 monkeyking_e 已接受的主动施放；执行已有 self_attack_speed。分身与额外目标、突进伤害、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "monkeyking_e"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_self_attack_speed",
+            "name": "执行腾云突击自身攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "drmundo",
+      "name": "蒙多医生 R",
+      "skillKey": "drmundo_r",
+      "ownerKey": "champion_drmundo",
+      "ownerKind": "character",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/drmundo_r/trigger-rules",
+      "detailRoute": "/skills/drmundo_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "5a50c951a0fee9e7600b95596505d354a3be8bbabb9be3ba27fd344ab095790d",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "极限剂量主动使用",
+        "description": "接收 drmundo_r 主动使用；执行已有 speed_boost。当前生命消耗或回复、最大生命提升、持续治疗及高等级强化留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "drmundo_r"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_speed_boost",
+            "name": "执行极限剂量移动速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "speed_boost"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "protection": {
+    "candidateDetailsMustBe404": [
+      "/skills/blitzcrank_w/trigger-rules/on_used",
+      "/skills/draven_w/trigger-rules/on_used",
+      "/skills/garen_q/trigger-rules/on_used",
+      "/skills/kogmaw_w/trigger-rules/on_used",
+      "/skills/monkeyking_e/trigger-rules/on_used",
+      "/skills/drmundo_r/trigger-rules/on_used"
+    ],
+    "targetNonRuleSnapshotSha256": {
+      "blitzcrank": "56f79616e1556f5ff6a7d36d875c1c04596c117a27b0999288321759997ffd62",
+      "draven": "b1259443d16c36d44c6ddda2f3d3e23bd0036eca0ee209b9c3a856381458e0c8",
+      "garen": "25a9e81a36696da63267251faa0c5102e440a3cab58c53efa9e1d384f7355cbf",
+      "kogmaw": "7a10438360980e2637ecc9b10fe9f892948b0370ce01569ea36fa4cf75519bfd",
+      "monkeyking": "913a3e504bc9a8444723018d3fc5613899359fde1588ea1054909482c6a37e47",
+      "drmundo": "9d63c960909b0f0fda3648322fcb5efe600d4f04236a822402b66b27e528ac87"
+    },
+    "targetSkills": [
+      "blitzcrank_w",
+      "draven_w",
+      "garen_q",
+      "kogmaw_w",
+      "monkeyking_e",
+      "drmundo_r"
+    ],
+    "existingRuleCount": 120,
+    "existingRuleDetailsSaved": true,
+    "existingRuleListsSaved": true,
+    "expectedFinalRuleCount": 126,
+    "expectedNewRuleRefs": [
+      "blitzcrank_w/on_used",
+      "draven_w/on_used",
+      "garen_q/on_used",
+      "kogmaw_w/on_used",
+      "monkeyking_e/on_used",
+      "drmundo_r/on_used"
+    ],
+    "sourceInitializedCount": 24
+  },
+  "targetBefore": [
+    {
+      "id": "blitzcrank",
+      "name": "布里茨 W",
+      "ownerKind": "character",
+      "ownerKey": "champion_blitzcrank",
+      "skillKey": "blitzcrank_w",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "attack_speed_ratio",
+          "cast_time_ms",
+          "cooldown_ms",
+          "decay_duration_ms",
+          "duration_ms",
+          "mana_cost",
+          "move_speed_min_ratio",
+          "move_speed_ratio",
+          "slow_duration_ms",
+          "slow_ratio"
+        ],
+        "formulas": [],
+        "effects": [
+          "attack_speed_boost",
+          "mana_cost",
+          "post_overdrive_slow"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "56f79616e1556f5ff6a7d36d875c1c04596c117a27b0999288321759997ffd62"
+    },
+    {
+      "id": "draven",
+      "name": "德莱文 W",
+      "ownerKind": "character",
+      "ownerKey": "champion_draven",
+      "skillKey": "draven_w",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "attack_speed_duration_ms",
+          "attack_speed_gain_ratio",
+          "cooldown_ms",
+          "initial_move_speed_ratio",
+          "mana_cost",
+          "move_speed_duration_ms"
+        ],
+        "formulas": [],
+        "effects": [
+          "attack_speed_gain",
+          "catch_axe_cooldown_reset",
+          "mana_cost"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "b1259443d16c36d44c6ddda2f3d3e23bd0036eca0ee209b9c3a856381458e0c8"
+    },
+    {
+      "id": "garen",
+      "name": "盖伦 Q",
+      "ownerKind": "character",
+      "ownerKey": "champion_garen",
+      "skillKey": "garen_q",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "attack_window_ms",
+          "base_damage",
+          "bonus_ad_ratio",
+          "cooldown_ms",
+          "move_duration_ms",
+          "move_speed_ratio",
+          "silence_duration_ms"
+        ],
+        "formulas": [
+          "bonus_damage"
+        ],
+        "effects": [
+          "bonus_damage",
+          "move_speed"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "25a9e81a36696da63267251faa0c5102e440a3cab58c53efa9e1d384f7355cbf"
+    },
+    {
+      "id": "kogmaw",
+      "name": "克格莫 W",
+      "ownerKind": "character",
+      "ownerKey": "champion_kogmaw",
+      "skillKey": "kogmaw_w",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "ap_percent_points_ratio",
+          "bonus_attack_range",
+          "calculation_constant_1",
+          "cast_time_ms",
+          "cooldown_ms",
+          "duration_ms",
+          "mana_cost",
+          "max_health_percent_points"
+        ],
+        "formulas": [
+          "on_hit_damage",
+          "on_hit_max_hp_ratio"
+        ],
+        "effects": [
+          "attack_range",
+          "mana_cost"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "7a10438360980e2637ecc9b10fe9f892948b0370ce01569ea36fa4cf75519bfd"
+    },
+    {
+      "id": "monkeyking",
+      "name": "孙悟空 E",
+      "ownerKind": "character",
+      "ownerKey": "champion_monkeyking",
+      "skillKey": "monkeyking_e",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "ap_ratio",
+          "attack_speed_duration_ms",
+          "attack_speed_ratio",
+          "base_damage",
+          "cooldown_ms",
+          "dash_speed",
+          "mana_cost"
+        ],
+        "formulas": [
+          "attack_speed_ratio",
+          "damage"
+        ],
+        "effects": [
+          "mana_cost",
+          "self_attack_speed"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "913a3e504bc9a8444723018d3fc5613899359fde1588ea1054909482c6a37e47"
+    },
+    {
+      "id": "drmundo",
+      "name": "蒙多医生 R",
+      "ownerKind": "character",
+      "ownerKey": "champion_drmundo",
+      "skillKey": "drmundo_r",
+      "candidateRuleKey": "on_used",
+      "candidateDetailStatus": 404,
+      "componentKeys": {
+        "parameters": [
+          "bonus_per_nearby_champion_ratio",
+          "cast_time_ms",
+          "cooldown_ms",
+          "duration_ms",
+          "max_health_regeneration_basis",
+          "max_health_regeneration_ratio",
+          "missing_health_gain_basis",
+          "missing_health_max_health_gain_ratio",
+          "nearby_enemy_champion_count",
+          "speed_boost_ratio",
+          "unity"
+        ],
+        "formulas": [
+          "max_health_regeneration_amount",
+          "missing_health_max_health_gain_amount",
+          "nearby_champion_effect_multiplier"
+        ],
+        "effects": [
+          "speed_boost"
+        ],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      },
+      "nonRuleSnapshotSha256": "9d63c960909b0f0fda3648322fcb5efe600d4f04236a822402b66b27e528ac87"
+    }
+  ],
+  "excluded": [
+    "不修改六个写入目标的主体、关系、代表图片、参数、公式、效果、过程或内部状态。",
+    "不修改当前批已存在的旧120条规则。",
+    "四个暂缓候选不写入。",
+    "未列入各候选冻结动作的伤害、控制、状态、续时、资源或冷却行为不自行补造。",
+    "静态来源、GET预检和页面验收不等于战斗宿主、TinyGo或Wasm运行证明。"
+  ]
+}

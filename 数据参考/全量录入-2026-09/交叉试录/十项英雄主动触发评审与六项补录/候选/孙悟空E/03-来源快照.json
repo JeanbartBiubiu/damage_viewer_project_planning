@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:34.582Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "monkeyking",
+    "name": "孙悟空 E",
+    "skillKey": "monkeyking_e",
+    "ownerKey": "champion_monkeyking",
+    "acceptedEvent": {
+      "sourceSkillKey": "monkeyking_e",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_self_attack_speed",
+        "name": "执行腾云突击自身攻击速度",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "self_attack_speed"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "self_attack_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "FORMULA",
+        "valueKey": "attack_speed_ratio",
+        "durationParameterKey": "attack_speed_duration_ms"
+      }
+    ],
+    "omitted": [
+      "分身与额外目标攻击速度",
+      "突进伤害",
+      "法力消耗和战斗冷却"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十四批/最终验收/候选过程/修订三/完整候选.json",
+      "sha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
+      "bytes": 578512
+    }
+  ]
+}

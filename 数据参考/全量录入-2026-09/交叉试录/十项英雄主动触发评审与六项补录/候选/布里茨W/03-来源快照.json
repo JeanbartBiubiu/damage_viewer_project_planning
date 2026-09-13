@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:33.054Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "blitzcrank",
+    "name": "布里茨 W",
+    "skillKey": "blitzcrank_w",
+    "ownerKey": "champion_blitzcrank",
+    "acceptedEvent": {
+      "sourceSkillKey": "blitzcrank_w",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_attack_speed_boost",
+        "name": "执行过载运转攻击速度",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "attack_speed_boost"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "attack_speed_boost",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "attack_speed_ratio",
+        "durationParameterKey": "duration_ms"
+      }
+    ],
+    "omitted": [
+      "移动速度及衰减",
+      "结束后的自身减速",
+      "法力消耗和战斗冷却"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十六批/修订一/完整候选.json",
+      "sha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+      "bytes": 371761
+    }
+  ]
+}

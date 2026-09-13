@@ -1,0 +1,890 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:34.176Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 126
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "bfb1160dcbad95ba4adcf33b5a7d569f4c48a34bf0f85f6a0cd40a5e26b5e653",
+  "frozenRequestSha256": "5d4384d69c4dfcb6052b5cdadf19e3da0c849f1dfc301fec47c123b5ab3ced42",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/garen_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T15:35:02.505001Z",
+          "description": "Q技能。强化下次普攻：额外30/60/90/120/150+50%总攻击力物理伤害；35%移速持续1.4/1.95/2.5/3.05/3.6秒，沉默1.5秒，强化窗口4.5秒，冷却8秒。资料：16.17客户端与官方补证。普攻重置、状态清除及消费规则待处理，不能视为完整技能。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "盖伦·致命打击",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "garen_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T15:35:02.505001Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_garen",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_garen",
+          "createdAt": "2026-09-06T15:21:31.997798Z",
+          "description": "德玛西亚之力·盖伦。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+          "gameId": "lol",
+          "name": "盖伦",
+          "updatedAt": "2026-09-06T15:21:31.997798Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_garen/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_garen",
+          "levelValues": {
+            "1": {
+              "move_speed": 340,
+              "hp": 690,
+              "hp_regen": 8,
+              "armor": 38,
+              "magic_resistance": 32,
+              "attack_damage": 69,
+              "attack_speed": 0.625,
+              "attack_range": 175
+            },
+            "2": {
+              "move_speed": 340,
+              "hp": 760.56,
+              "hp_regen": 8.36,
+              "armor": 41.024,
+              "magic_resistance": 33.116,
+              "attack_damage": 72.24,
+              "attack_speed": 0.641425,
+              "attack_range": 175
+            },
+            "3": {
+              "move_speed": 340,
+              "hp": 834.55,
+              "hp_regen": 8.7375,
+              "armor": 44.195,
+              "magic_resistance": 34.28625,
+              "attack_damage": 75.6375,
+              "attack_speed": 0.658648,
+              "attack_range": 175
+            },
+            "4": {
+              "move_speed": 340,
+              "hp": 911.97,
+              "hp_regen": 9.1325,
+              "armor": 47.513,
+              "magic_resistance": 35.51075,
+              "attack_damage": 79.1925,
+              "attack_speed": 0.67667,
+              "attack_range": 175
+            },
+            "5": {
+              "move_speed": 340,
+              "hp": 992.82,
+              "hp_regen": 9.545,
+              "armor": 50.978,
+              "magic_resistance": 36.7895,
+              "attack_damage": 82.905,
+              "attack_speed": 0.695491,
+              "attack_range": 175
+            },
+            "6": {
+              "move_speed": 340,
+              "hp": 1077.1,
+              "hp_regen": 9.975,
+              "armor": 54.59,
+              "magic_resistance": 38.1225,
+              "attack_damage": 86.775,
+              "attack_speed": 0.715109,
+              "attack_range": 175
+            },
+            "7": {
+              "move_speed": 340,
+              "hp": 1164.81,
+              "hp_regen": 10.4225,
+              "armor": 58.349,
+              "magic_resistance": 39.50975,
+              "attack_damage": 90.8025,
+              "attack_speed": 0.735527,
+              "attack_range": 175
+            },
+            "8": {
+              "move_speed": 340,
+              "hp": 1255.95,
+              "hp_regen": 10.8875,
+              "armor": 62.255,
+              "magic_resistance": 40.95125,
+              "attack_damage": 94.9875,
+              "attack_speed": 0.756742,
+              "attack_range": 175
+            },
+            "9": {
+              "move_speed": 340,
+              "hp": 1350.52,
+              "hp_regen": 11.37,
+              "armor": 66.308,
+              "magic_resistance": 42.447,
+              "attack_damage": 99.33,
+              "attack_speed": 0.778756,
+              "attack_range": 175
+            },
+            "10": {
+              "move_speed": 340,
+              "hp": 1448.52,
+              "hp_regen": 11.87,
+              "armor": 70.508,
+              "magic_resistance": 43.997,
+              "attack_damage": 103.83,
+              "attack_speed": 0.801569,
+              "attack_range": 175
+            },
+            "11": {
+              "move_speed": 340,
+              "hp": 1549.95,
+              "hp_regen": 12.3875,
+              "armor": 74.855,
+              "magic_resistance": 45.60125,
+              "attack_damage": 108.4875,
+              "attack_speed": 0.82518,
+              "attack_range": 175
+            },
+            "12": {
+              "move_speed": 340,
+              "hp": 1654.81,
+              "hp_regen": 12.9225,
+              "armor": 79.349,
+              "magic_resistance": 47.25975,
+              "attack_damage": 113.3025,
+              "attack_speed": 0.849589,
+              "attack_range": 175
+            },
+            "13": {
+              "move_speed": 340,
+              "hp": 1763.1,
+              "hp_regen": 13.475,
+              "armor": 83.99,
+              "magic_resistance": 48.9725,
+              "attack_damage": 118.275,
+              "attack_speed": 0.874797,
+              "attack_range": 175
+            },
+            "14": {
+              "move_speed": 340,
+              "hp": 1874.82,
+              "hp_regen": 14.045,
+              "armor": 88.778,
+              "magic_resistance": 50.7395,
+              "attack_damage": 123.405,
+              "attack_speed": 0.900803,
+              "attack_range": 175
+            },
+            "15": {
+              "move_speed": 340,
+              "hp": 1989.97,
+              "hp_regen": 14.6325,
+              "armor": 93.713,
+              "magic_resistance": 52.56075,
+              "attack_damage": 128.6925,
+              "attack_speed": 0.927608,
+              "attack_range": 175
+            },
+            "16": {
+              "move_speed": 340,
+              "hp": 2108.55,
+              "hp_regen": 15.2375,
+              "armor": 98.795,
+              "magic_resistance": 54.43625,
+              "attack_damage": 134.1375,
+              "attack_speed": 0.955211,
+              "attack_range": 175
+            },
+            "17": {
+              "move_speed": 340,
+              "hp": 2230.56,
+              "hp_regen": 15.86,
+              "armor": 104.024,
+              "magic_resistance": 56.366,
+              "attack_damage": 139.74,
+              "attack_speed": 0.983613,
+              "attack_range": 175
+            },
+            "18": {
+              "move_speed": 340,
+              "hp": 2356,
+              "hp_regen": 16.5,
+              "armor": 109.4,
+              "magic_resistance": 58.35,
+              "attack_damage": 145.5,
+              "attack_speed": 1.012812,
+              "attack_range": 175
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_garen/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "image_64b2a9e8-a4bc-4093-884d-4d2b2d967b2e",
+            "name": "盖伦代表图片_64b2a9e8-a4bc-4093-884d-4d2b2d967b2e"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_garen",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_garen",
+              "characterName": "盖伦",
+              "gameId": "lol",
+              "skillKey": "garen_p",
+              "skillName": "盖伦·坚韧",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_garen",
+              "characterName": "盖伦",
+              "gameId": "lol",
+              "skillKey": "garen_q",
+              "skillName": "盖伦·致命打击",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_garen",
+              "characterName": "盖伦",
+              "gameId": "lol",
+              "skillKey": "garen_w",
+              "skillName": "盖伦·勇气",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_garen",
+              "characterName": "盖伦",
+              "gameId": "lol",
+              "skillKey": "garen_e",
+              "skillName": "盖伦·审判",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_garen",
+              "characterName": "盖伦",
+              "gameId": "lol",
+              "skillKey": "garen_r",
+              "skillName": "盖伦·德玛西亚正义",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=garen_q",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_garen",
+              "characterName": "盖伦",
+              "gameId": "lol",
+              "skillKey": "garen_q",
+              "skillName": "盖伦·致命打击",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/garen_q/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "image_56956507-6115-497a-9016-c81ed27339d0",
+            "name": "盖伦·致命打击代表图片_56956507-6115-497a-9016-c81ed27339d0"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/garen_q/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/garen_q/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-06T15:38:00.875917Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。客户端 BaseDamage。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 30,
+                "2": 60,
+                "3": 90,
+                "4": 120,
+                "5": 150
+              },
+              "name": "强化普攻额外基础伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "garen_q",
+              "sortOrder": 0,
+              "updatedAt": "2026-09-06T15:38:00.875917Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-06T15:38:02.040949Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。完整攻击系数1.5减去普通攻击自带1.0；不能再叠加1.5。",
+              "fixedValue": 0.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外伤害总攻击力系数",
+              "parameterKey": "bonus_ad_ratio",
+              "skillKey": "garen_q",
+              "sortOrder": 1,
+              "updatedAt": "2026-09-06T15:38:02.040949Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-06T15:38:03.1948Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。0.35表示35%。",
+              "fixedValue": 0.35,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "移速提升比例",
+              "parameterKey": "move_speed_ratio",
+              "skillKey": "garen_q",
+              "sortOrder": 2,
+              "updatedAt": "2026-09-06T15:38:03.1948Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-06T15:38:05.096422Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。客户端当前值；官方26.5交叉核对。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 1400,
+                "2": 1950,
+                "3": 2500,
+                "4": 3050,
+                "5": 3600
+              },
+              "name": "移速持续时间（毫秒）",
+              "parameterKey": "move_duration_ms",
+              "skillKey": "garen_q",
+              "sortOrder": 3,
+              "updatedAt": "2026-09-06T15:38:05.096422Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-06T15:38:06.552176Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。韧性是否缩短状态时长属于全局控制规则。",
+              "fixedValue": 1500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "沉默基础时长（毫秒）",
+              "parameterKey": "silence_duration_ms",
+              "skillKey": "garen_q",
+              "sortOrder": 4,
+              "updatedAt": "2026-09-06T15:38:06.552176Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-06T15:38:07.927755Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。客户端AttackWindow。",
+              "fixedValue": 4500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "强化普攻保留时间（毫秒）",
+              "parameterKey": "attack_window_ms",
+              "skillKey": "garen_q",
+              "sortOrder": 5,
+              "updatedAt": "2026-09-06T15:38:07.927755Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-06T15:38:09.319063Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。施放Q时开始。",
+              "fixedValue": 8000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "garen_q",
+              "sortOrder": 6,
+              "updatedAt": "2026-09-06T15:38:09.319063Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "attack_window_ms",
+          "base_damage",
+          "bonus_ad_ratio",
+          "cooldown_ms",
+          "move_duration_ms",
+          "move_speed_ratio",
+          "silence_duration_ms"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/parameters/attack_window_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T15:38:07.927755Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。客户端AttackWindow。",
+              "fixedValue": 4500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "强化普攻保留时间（毫秒）",
+              "parameterKey": "attack_window_ms",
+              "skillKey": "garen_q",
+              "sortOrder": 5,
+              "updatedAt": "2026-09-06T15:38:07.927755Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/parameters/base_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T15:38:00.875917Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。客户端 BaseDamage。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 30,
+                "2": 60,
+                "3": 90,
+                "4": 120,
+                "5": 150
+              },
+              "name": "强化普攻额外基础伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "garen_q",
+              "sortOrder": 0,
+              "updatedAt": "2026-09-06T15:38:00.875917Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/parameters/bonus_ad_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T15:38:02.040949Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。完整攻击系数1.5减去普通攻击自带1.0；不能再叠加1.5。",
+              "fixedValue": 0.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外伤害总攻击力系数",
+              "parameterKey": "bonus_ad_ratio",
+              "skillKey": "garen_q",
+              "sortOrder": 1,
+              "updatedAt": "2026-09-06T15:38:02.040949Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T15:38:09.319063Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。施放Q时开始。",
+              "fixedValue": 8000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "garen_q",
+              "sortOrder": 6,
+              "updatedAt": "2026-09-06T15:38:09.319063Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/parameters/move_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T15:38:05.096422Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。客户端当前值；官方26.5交叉核对。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 1400,
+                "2": 1950,
+                "3": 2500,
+                "4": 3050,
+                "5": 3600
+              },
+              "name": "移速持续时间（毫秒）",
+              "parameterKey": "move_duration_ms",
+              "skillKey": "garen_q",
+              "sortOrder": 3,
+              "updatedAt": "2026-09-06T15:38:05.096422Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/parameters/move_speed_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T15:38:03.1948Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。0.35表示35%。",
+              "fixedValue": 0.35,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "移速提升比例",
+              "parameterKey": "move_speed_ratio",
+              "skillKey": "garen_q",
+              "sortOrder": 2,
+              "updatedAt": "2026-09-06T15:38:03.1948Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/parameters/silence_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T15:38:06.552176Z",
+              "description": "16.17客户端及已冻结盖伦技能补证。韧性是否缩短状态时长属于全局控制规则。",
+              "fixedValue": 1500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "沉默基础时长（毫秒）",
+              "parameterKey": "silence_duration_ms",
+              "skillKey": "garen_q",
+              "sortOrder": 4,
+              "updatedAt": "2026-09-06T15:38:06.552176Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/garen_q/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-06T15:56:00.737784Z",
+              "description": "普通攻击由普通攻击流程结算；这里只增加不暴击的额外部分。来源：16.17固定资料。",
+              "formulaKey": "bonus_damage",
+              "gameId": "lol",
+              "name": "Q 额外伤害",
+              "skillKey": "garen_q",
+              "sortOrder": 0,
+              "updatedAt": "2026-09-06T15:56:00.737784Z"
+            }
+          ]
+        },
+        "keys": [
+          "bonus_damage"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/formulas/bonus_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T15:56:00.737784Z",
+              "description": "普通攻击由普通攻击流程结算；这里只增加不暴击的额外部分。来源：16.17固定资料。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_ratio"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "bonus_damage",
+              "gameId": "lol",
+              "name": "Q 额外伤害",
+              "skillKey": "garen_q",
+              "sortOrder": 0,
+              "updatedAt": "2026-09-06T15:56:00.737784Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/garen_q/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-06T17:08:04.895137Z",
+              "description": "增加移速比例属性的固定数值；移速实际结算顺序与软上限仍待游戏级规则核对。",
+              "effectKey": "move_speed",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "Q 加速",
+              "resultCount": 1,
+              "skillKey": "garen_q",
+              "sortOrder": 0,
+              "updatedAt": "2026-09-06T17:08:04.895137Z"
+            },
+            {
+              "createdAt": "2026-09-06T16:32:02.725112Z",
+              "description": "只配置强化普攻额外部分；普攻本体由普通攻击流程结算，重置攻击和消耗强化次数的触发机制待补。",
+              "effectKey": "bonus_damage",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "Q 强化普攻额外伤害",
+              "resultCount": 1,
+              "skillKey": "garen_q",
+              "sortOrder": 2,
+              "updatedAt": "2026-09-06T16:32:02.725112Z"
+            }
+          ]
+        },
+        "keys": [
+          "bonus_damage",
+          "move_speed"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/effects/bonus_damage",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T16:32:02.725112Z",
+              "description": "只配置强化普攻额外部分；普攻本体由普通攻击流程结算，重置攻击和消耗强化次数的触发机制待补。",
+              "effectKey": "bonus_damage",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "Q 强化普攻额外伤害",
+              "results": [
+                {
+                  "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "physics",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "额外物理伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 0,
+                  "spellShieldBlockScope": null,
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": null,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "bonus_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "garen_q",
+              "sortOrder": 2,
+              "updatedAt": "2026-09-06T16:32:02.725112Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/garen_q/effects/move_speed",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-06T17:08:04.895137Z",
+              "description": "增加移速比例属性的固定数值；移速实际结算顺序与软上限仍待游戏级规则核对。",
+              "effectKey": "move_speed",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "move_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "Q 加速",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "move_speed_percent",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "提升百分比移速",
+                  "resultKey": "move_speed",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 0,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": null,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "move_speed_ratio"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "garen_q",
+              "sortOrder": 0,
+              "updatedAt": "2026-09-06T17:08:04.895137Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/garen_q/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/garen_q/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/garen_q/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

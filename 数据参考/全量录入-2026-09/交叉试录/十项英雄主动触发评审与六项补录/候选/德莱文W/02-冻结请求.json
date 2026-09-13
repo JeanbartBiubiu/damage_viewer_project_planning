@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T05:10:33.427Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "0d9e6408186a42a29ef16be122ea7ead87137fe70a75c391fa675ccf3a19968b",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "draven",
+      "method": "POST",
+      "route": "/skills/draven_w/trigger-rules",
+      "detailRoute": "/skills/draven_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "e0ef634680c97a064993616bdb58059985e47cbbc99abcde0ac2a879d8ab7054",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "血性冲刺主动使用",
+        "description": "接收 draven_w 主动使用；执行已有 attack_speed_gain。移动速度及衰减、接斧刷新冷却、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "draven_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_speed_gain",
+            "name": "执行血性冲刺攻击速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_speed_gain"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "移动速度及衰减",
+    "接斧刷新冷却",
+    "法力消耗和战斗冷却"
+  ]
+}

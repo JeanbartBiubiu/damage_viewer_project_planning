@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:33.786Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "garen",
+    "name": "盖伦 Q",
+    "skillKey": "garen_q",
+    "ownerKey": "champion_garen",
+    "acceptedEvent": {
+      "sourceSkillKey": "garen_q",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_move_speed",
+        "name": "执行致命打击移动速度",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "move_speed"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "move_speed",
+        "resultKey": "move_speed",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "move_speed_ratio",
+        "durationParameterKey": "move_duration_ms"
+      }
+    ],
+    "omitted": [
+      "强化普攻伤害与沉默",
+      "移除减速",
+      "战斗冷却"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/完整候选.json",
+      "sha256": "a593bd1f49c1ab6f424bd76b7ad4dbef1e0e7154f00d0347dc90c7c1e39126ac",
+      "bytes": 342255
+    }
+  ]
+}

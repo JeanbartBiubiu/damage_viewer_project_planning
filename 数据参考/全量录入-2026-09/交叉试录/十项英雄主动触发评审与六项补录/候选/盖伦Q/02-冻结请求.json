@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T05:10:33.787Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "bfb1160dcbad95ba4adcf33b5a7d569f4c48a34bf0f85f6a0cd40a5e26b5e653",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "garen",
+      "method": "POST",
+      "route": "/skills/garen_q/trigger-rules",
+      "detailRoute": "/skills/garen_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "0cfa9ec07575743468072adb5e9d0815f3bd1beefdcdf3217739b96ead4c407c",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "致命打击主动使用",
+        "description": "接收 garen_q 主动使用；执行已有 move_speed。强化普攻伤害与沉默、移除减速、法力消耗和战斗冷却留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "garen_q"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_move_speed",
+            "name": "执行致命打击移动速度",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "强化普攻伤害与沉默",
+    "移除减速",
+    "战斗冷却"
+  ]
+}

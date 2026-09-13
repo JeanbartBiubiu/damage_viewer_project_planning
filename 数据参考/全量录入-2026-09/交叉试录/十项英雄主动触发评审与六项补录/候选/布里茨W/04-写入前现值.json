@@ -1,0 +1,1059 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T05:10:33.424Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 126
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "e663078a75806049a8bd555a7cc214a0a4184914c3ec7445de4902bf38f20180",
+  "frozenRequestSha256": "769f8fcf856d1ee7163b05fa7efddbf35d126a11e8b2761bed6185ca8d066483",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/blitzcrank_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:17:55.394668Z",
+          "description": "布里茨对自己进行了超级充电，它的攻击速度和移动速度得到了显著提升。它会在效果结束后暂时减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "布里茨·过载运转",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:17:55.394668Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_blitzcrank",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_blitzcrank",
+          "createdAt": "2026-09-06T16:12:00.34211Z",
+          "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+          "gameId": "lol",
+          "name": "布里茨",
+          "updatedAt": "2026-09-06T16:12:00.34211Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_blitzcrank/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_blitzcrank",
+          "levelValues": {
+            "1": {
+              "move_speed": 325,
+              "hp": 600,
+              "hp_regen": 7.5,
+              "mana": 267,
+              "mana_regen": 8.5,
+              "armor": 37,
+              "magic_resistance": 32,
+              "attack_damage": 62,
+              "attack_speed": 0.625,
+              "attack_range": 125
+            },
+            "2": {
+              "move_speed": 325,
+              "hp": 678.48,
+              "hp_regen": 8.04,
+              "mana": 295.8,
+              "mana_regen": 9.076,
+              "armor": 40.384,
+              "magic_resistance": 33.476,
+              "attack_damage": 64.52,
+              "attack_speed": 0.630085,
+              "attack_range": 125
+            },
+            "3": {
+              "move_speed": 325,
+              "hp": 760.775,
+              "hp_regen": 8.60625,
+              "mana": 326,
+              "mana_regen": 9.68,
+              "armor": 43.9325,
+              "magic_resistance": 35.02375,
+              "attack_damage": 67.1625,
+              "attack_speed": 0.635417,
+              "attack_range": 125
+            },
+            "4": {
+              "move_speed": 325,
+              "hp": 846.885,
+              "hp_regen": 9.19875,
+              "mana": 357.6,
+              "mana_regen": 10.312,
+              "armor": 47.6455,
+              "magic_resistance": 36.64325,
+              "attack_damage": 69.9275,
+              "attack_speed": 0.640997,
+              "attack_range": 125
+            },
+            "5": {
+              "move_speed": 325,
+              "hp": 936.81,
+              "hp_regen": 9.8175,
+              "mana": 390.6,
+              "mana_regen": 10.972,
+              "armor": 51.523,
+              "magic_resistance": 38.3345,
+              "attack_damage": 72.815,
+              "attack_speed": 0.646823,
+              "attack_range": 125
+            },
+            "6": {
+              "move_speed": 325,
+              "hp": 1030.55,
+              "hp_regen": 10.4625,
+              "mana": 425,
+              "mana_regen": 11.66,
+              "armor": 55.565,
+              "magic_resistance": 40.0975,
+              "attack_damage": 75.825,
+              "attack_speed": 0.652897,
+              "attack_range": 125
+            },
+            "7": {
+              "move_speed": 325,
+              "hp": 1128.105,
+              "hp_regen": 11.13375,
+              "mana": 460.8,
+              "mana_regen": 12.376,
+              "armor": 59.7715,
+              "magic_resistance": 41.93225,
+              "attack_damage": 78.9575,
+              "attack_speed": 0.659218,
+              "attack_range": 125
+            },
+            "8": {
+              "move_speed": 325,
+              "hp": 1229.475,
+              "hp_regen": 11.83125,
+              "mana": 498,
+              "mana_regen": 13.12,
+              "armor": 64.1425,
+              "magic_resistance": 43.83875,
+              "attack_damage": 82.2125,
+              "attack_speed": 0.665786,
+              "attack_range": 125
+            },
+            "9": {
+              "move_speed": 325,
+              "hp": 1334.66,
+              "hp_regen": 12.555,
+              "mana": 536.6,
+              "mana_regen": 13.892,
+              "armor": 68.678,
+              "magic_resistance": 45.817,
+              "attack_damage": 85.59,
+              "attack_speed": 0.672601,
+              "attack_range": 125
+            },
+            "10": {
+              "move_speed": 325,
+              "hp": 1443.66,
+              "hp_regen": 13.305,
+              "mana": 576.6,
+              "mana_regen": 14.692,
+              "armor": 73.378,
+              "magic_resistance": 47.867,
+              "attack_damage": 89.09,
+              "attack_speed": 0.679664,
+              "attack_range": 125
+            },
+            "11": {
+              "move_speed": 325,
+              "hp": 1556.475,
+              "hp_regen": 14.08125,
+              "mana": 618,
+              "mana_regen": 15.52,
+              "armor": 78.2425,
+              "magic_resistance": 49.98875,
+              "attack_damage": 92.7125,
+              "attack_speed": 0.686973,
+              "attack_range": 125
+            },
+            "12": {
+              "move_speed": 325,
+              "hp": 1673.105,
+              "hp_regen": 14.88375,
+              "mana": 660.8,
+              "mana_regen": 16.376,
+              "armor": 83.2715,
+              "magic_resistance": 52.18225,
+              "attack_damage": 96.4575,
+              "attack_speed": 0.69453,
+              "attack_range": 125
+            },
+            "13": {
+              "move_speed": 325,
+              "hp": 1793.55,
+              "hp_regen": 15.7125,
+              "mana": 705,
+              "mana_regen": 17.26,
+              "armor": 88.465,
+              "magic_resistance": 54.4475,
+              "attack_damage": 100.325,
+              "attack_speed": 0.702334,
+              "attack_range": 125
+            },
+            "14": {
+              "move_speed": 325,
+              "hp": 1917.81,
+              "hp_regen": 16.5675,
+              "mana": 750.6,
+              "mana_regen": 18.172,
+              "armor": 93.823,
+              "magic_resistance": 56.7845,
+              "attack_damage": 104.315,
+              "attack_speed": 0.710386,
+              "attack_range": 125
+            },
+            "15": {
+              "move_speed": 325,
+              "hp": 2045.885,
+              "hp_regen": 17.44875,
+              "mana": 797.6,
+              "mana_regen": 19.112,
+              "armor": 99.3455,
+              "magic_resistance": 59.19325,
+              "attack_damage": 108.4275,
+              "attack_speed": 0.718684,
+              "attack_range": 125
+            },
+            "16": {
+              "move_speed": 325,
+              "hp": 2177.775,
+              "hp_regen": 18.35625,
+              "mana": 846,
+              "mana_regen": 20.08,
+              "armor": 105.0325,
+              "magic_resistance": 61.67375,
+              "attack_damage": 112.6625,
+              "attack_speed": 0.72723,
+              "attack_range": 125
+            },
+            "17": {
+              "move_speed": 325,
+              "hp": 2313.48,
+              "hp_regen": 19.29,
+              "mana": 895.8,
+              "mana_regen": 21.076,
+              "armor": 110.884,
+              "magic_resistance": 64.226,
+              "attack_damage": 117.02,
+              "attack_speed": 0.736023,
+              "attack_range": 125
+            },
+            "18": {
+              "move_speed": 325,
+              "hp": 2453,
+              "hp_regen": 20.25,
+              "mana": 947,
+              "mana_regen": 22.1,
+              "armor": 116.9,
+              "magic_resistance": 66.85,
+              "attack_damage": 121.5,
+              "attack_speed": 0.745062,
+              "attack_range": 125
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_blitzcrank/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_blitzcrank",
+            "name": "champion_blitzcrank"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_blitzcrank",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_blitzcrank",
+              "characterName": "布里茨",
+              "gameId": "lol",
+              "skillKey": "blitzcrank_p",
+              "skillName": "布里茨·法力屏障",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_blitzcrank",
+              "characterName": "布里茨",
+              "gameId": "lol",
+              "skillKey": "blitzcrank_q",
+              "skillName": "布里茨·机械飞爪",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_blitzcrank",
+              "characterName": "布里茨",
+              "gameId": "lol",
+              "skillKey": "blitzcrank_w",
+              "skillName": "布里茨·过载运转",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_blitzcrank",
+              "characterName": "布里茨",
+              "gameId": "lol",
+              "skillKey": "blitzcrank_e",
+              "skillName": "布里茨·能量铁拳",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_blitzcrank",
+              "characterName": "布里茨",
+              "gameId": "lol",
+              "skillKey": "blitzcrank_r",
+              "skillName": "布里茨·静电力场",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=blitzcrank_w",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_blitzcrank",
+              "characterName": "布里茨",
+              "gameId": "lol",
+              "skillKey": "blitzcrank_w",
+              "skillName": "布里茨·过载运转",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/blitzcrank_w/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_blitzcrank_w",
+            "name": "blitzcrank_w"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/blitzcrank_w/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/blitzcrank_w/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T15:56:35.168374Z",
+              "description": "当前绑定spellCastTime约0.4043秒，按毫秒四舍五入为404。",
+              "fixedValue": 404,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T15:56:35.168374Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:36.370017Z",
+              "description": "当前正文以MoveSpeedMod*100显示持续衰减的移动速度；保存等级1至5起始比例0.6/0.65/0.7/0.75/0.8，仅作衰减端点输入，不创建固定持续属性效果。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.6,
+                "2": 0.65,
+                "3": 0.7,
+                "4": 0.75,
+                "5": 0.8
+              },
+              "name": "移动速度起始加成比例",
+              "parameterKey": "move_speed_ratio",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T15:56:36.370017Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:37.52942Z",
+              "description": "当前正文以AttackSpeedMod*100显示攻击速度；保存等级1至5比例0.3/0.4/0.5/0.6/0.7，独立于移动速度衰减。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.3,
+                "2": 0.4,
+                "3": 0.5,
+                "4": 0.6,
+                "5": 0.7
+              },
+              "name": "攻击速度加成比例",
+              "parameterKey": "attack_speed_ratio",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T15:56:37.52942Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:38.66206Z",
+              "description": "当前绑定DataValues.Duration=5秒，转换为5000毫秒。",
+              "fixedValue": 5000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "超级充能持续（毫秒）",
+              "parameterKey": "duration_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T15:56:38.66206Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:39.869569Z",
+              "description": "当前正文以MoveSpeedModReduction*100显示30%减速；保存正幅度并使用DECREASE，避免双重负号。",
+              "fixedValue": 0.3,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "结束后移动速度降低比例",
+              "parameterKey": "slow_ratio",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T15:56:39.869569Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:40.982181Z",
+              "description": "当前绑定DataValues.SlowDuration=1.5秒，转换为1500毫秒。",
+              "fixedValue": 1500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "结束后减速持续（毫秒）",
+              "parameterKey": "slow_duration_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T15:56:40.982181Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:42.134032Z",
+              "description": "当前来源扩展文本明确衰减终点为MoveSpeedModMin*100；保存0.1，不把中间曲线猜成线性。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "衰减最低移动速度比例",
+              "parameterKey": "move_speed_min_ratio",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T15:56:42.134032Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:43.306259Z",
+              "description": "当前绑定DataValues.MoveSpeedModMinTime=2.5秒，转换为2500毫秒；只记录时间窗口。",
+              "fixedValue": 2500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "衰减至最低值时间（毫秒）",
+              "parameterKey": "decay_duration_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T15:56:43.306259Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:44.487483Z",
+              "description": "当前绑定cooldownTime各等级为15秒，转换为15000毫秒；当前槽只有mana_cost，故新增冷却参数。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 15000,
+                "2": 15000,
+                "3": 15000,
+                "4": 15000,
+                "5": 15000
+              },
+              "name": "过载运转冷却（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T15:56:44.487483Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:09.630913Z",
+              "description": "DDragon16.17.1 Blitzcrank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 75,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:09.630913Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "attack_speed_ratio",
+          "cast_time_ms",
+          "cooldown_ms",
+          "decay_duration_ms",
+          "duration_ms",
+          "mana_cost",
+          "move_speed_min_ratio",
+          "move_speed_ratio",
+          "slow_duration_ms",
+          "slow_ratio"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/attack_speed_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:37.52942Z",
+              "description": "当前正文以AttackSpeedMod*100显示攻击速度；保存等级1至5比例0.3/0.4/0.5/0.6/0.7，独立于移动速度衰减。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.3,
+                "2": 0.4,
+                "3": 0.5,
+                "4": 0.6,
+                "5": 0.7
+              },
+              "name": "攻击速度加成比例",
+              "parameterKey": "attack_speed_ratio",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T15:56:37.52942Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/cast_time_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:35.168374Z",
+              "description": "当前绑定spellCastTime约0.4043秒，按毫秒四舍五入为404。",
+              "fixedValue": 404,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T15:56:35.168374Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:44.487483Z",
+              "description": "当前绑定cooldownTime各等级为15秒，转换为15000毫秒；当前槽只有mana_cost，故新增冷却参数。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 15000,
+                "2": 15000,
+                "3": 15000,
+                "4": 15000,
+                "5": 15000
+              },
+              "name": "过载运转冷却（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T15:56:44.487483Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/decay_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:43.306259Z",
+              "description": "当前绑定DataValues.MoveSpeedModMinTime=2.5秒，转换为2500毫秒；只记录时间窗口。",
+              "fixedValue": 2500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "衰减至最低值时间（毫秒）",
+              "parameterKey": "decay_duration_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T15:56:43.306259Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:38.66206Z",
+              "description": "当前绑定DataValues.Duration=5秒，转换为5000毫秒。",
+              "fixedValue": 5000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "超级充能持续（毫秒）",
+              "parameterKey": "duration_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T15:56:38.66206Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T16:00:09.630913Z",
+              "description": "DDragon16.17.1 Blitzcrank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 75,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:09.630913Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/move_speed_min_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:42.134032Z",
+              "description": "当前来源扩展文本明确衰减终点为MoveSpeedModMin*100；保存0.1，不把中间曲线猜成线性。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "衰减最低移动速度比例",
+              "parameterKey": "move_speed_min_ratio",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T15:56:42.134032Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/move_speed_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:36.370017Z",
+              "description": "当前正文以MoveSpeedMod*100显示持续衰减的移动速度；保存等级1至5起始比例0.6/0.65/0.7/0.75/0.8，仅作衰减端点输入，不创建固定持续属性效果。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.6,
+                "2": 0.65,
+                "3": 0.7,
+                "4": 0.75,
+                "5": 0.8
+              },
+              "name": "移动速度起始加成比例",
+              "parameterKey": "move_speed_ratio",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T15:56:36.370017Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/slow_duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:40.982181Z",
+              "description": "当前绑定DataValues.SlowDuration=1.5秒，转换为1500毫秒。",
+              "fixedValue": 1500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "结束后减速持续（毫秒）",
+              "parameterKey": "slow_duration_ms",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T15:56:40.982181Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/parameters/slow_ratio",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:39.869569Z",
+              "description": "当前正文以MoveSpeedModReduction*100显示30%减速；保存正幅度并使用DECREASE，避免双重负号。",
+              "fixedValue": 0.3,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "结束后移动速度降低比例",
+              "parameterKey": "slow_ratio",
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T15:56:39.869569Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/blitzcrank_w/formulas",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/blitzcrank_w/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T15:56:45.791205Z",
+              "description": "复用当前已有mana_cost参数；只记录一次施放资源变化。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycleEnabled": false,
+              "name": "过载运转法力消耗",
+              "resultCount": 1,
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T15:56:45.791205Z"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:46.908613Z",
+              "description": "当前正文的攻击速度加成独立持续5000毫秒；不与移动速度衰减共用数值，施放事件待接。",
+              "effectKey": "attack_speed_boost",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "过载运转自身攻击速度加成",
+              "resultCount": 1,
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T15:56:46.908613Z"
+            },
+            {
+              "createdAt": "2026-09-09T15:56:48.13183Z",
+              "description": "这是主持续窗口5000毫秒结束后才开始的独立减速，持续1500毫秒；结束自动衔接事件待接，不在本候选中自动触发。",
+              "effectKey": "post_overdrive_slow",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "过载运转结束后自身减速",
+              "resultCount": 1,
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T15:56:48.13183Z"
+            }
+          ]
+        },
+        "keys": [
+          "attack_speed_boost",
+          "mana_cost",
+          "post_overdrive_slow"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/effects/attack_speed_boost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:46.908613Z",
+              "description": "当前正文的攻击速度加成独立持续5000毫秒；不与移动速度衰减共用数值，施放事件待接。",
+              "effectKey": "attack_speed_boost",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "过载运转自身攻击速度加成",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "bonus_attack_speed_percent",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "过载运转自身攻击速度加成",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "attack_speed_ratio"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T15:56:46.908613Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/effects/mana_cost",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:45.791205Z",
+              "description": "复用当前已有mana_cost参数；只记录一次施放资源变化。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "过载运转法力消耗",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "过载运转法力消耗",
+                  "resultKey": "resource",
+                  "resultType": "RESOURCE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T15:56:45.791205Z"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/blitzcrank_w/effects/post_overdrive_slow",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-09T15:56:48.13183Z",
+              "description": "这是主持续窗口5000毫秒结束后才开始的独立减速，持续1500毫秒；结束自动衔接事件待接，不在本候选中自动触发。",
+              "effectKey": "post_overdrive_slow",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "slow_duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "过载运转结束后自身减速",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "move_speed_percent",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "DECREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "过载运转结束后自身减速",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "slow_ratio"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "blitzcrank_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T15:56:48.13183Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/blitzcrank_w/processes",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/blitzcrank_w/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/blitzcrank_w/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}

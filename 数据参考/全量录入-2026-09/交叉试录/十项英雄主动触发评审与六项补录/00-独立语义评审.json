@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "READY",
+  "verdict": "READY_WITH_DEFERRED",
+  "reviewedAt": "2026-09-13T05:08:56.4895334Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "baseline": {
+    "skillCount": 1062,
+    "ruleCount": 120,
+    "sourceInitializedCount": 24
+  },
+  "reviewRoutes": {
+    "rootGetInspection": {
+      "getCount": 218,
+      "businessWrites": 0,
+      "candidateRuleStatuses": {
+        "200": 0,
+        "404": 10
+      }
+    },
+    "cursorDiscovery": {
+      "artifactDirectory": ".agents/artifacts/next-hero-trigger-candidate-review-r1-20260913",
+      "runId": "run-d92430dd-5721-4178-a227-4c7d98deb4da",
+      "requestId": "d1610efb-3063-45c4-b505-09ea6531fe49",
+      "resultStatus": "finished",
+      "verdict": "READY",
+      "reviewedPlanRevision": 1,
+      "model": {
+        "id": "grok-4.6",
+        "effort": "high",
+        "fast": false
+      },
+      "sdkVersion": "1.0.24",
+      "writeAllowlistAudit": {
+        "auditAvailable": true,
+        "outsideScopeCount": 0,
+        "runDeltaCount": 0,
+        "runDeltaOutsideScopeCount": 0,
+        "failClosed": false
+      },
+      "toolEvents": {
+        "uniqueCalls": 95,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false
+      },
+      "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Cursor 初筛十项均可写；该结论只作为候选发现，最终集合按 Luna Max 的独立语义复核收紧。"
+    },
+    "lunaMaxSemanticReview": {
+      "status": "COMPLETED",
+      "methodPolicy": "GET_ONLY",
+      "businessWrites": 0,
+      "observedSkillCount": 1062,
+      "observedRuleCount": 120,
+      "note": "Luna Max 逐项复核事件时点、资格、分支与重复结算；六项通过，四项暂缓。"
+    }
+  },
+  "accepted": [
+    {
+      "id": "blitzcrank",
+      "skillKey": "blitzcrank_w",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "effectKey": "attack_speed_boost",
+      "reason": "自身独立五秒攻击速度，无目标分支和动态输入。",
+      "mustOmit": ["移动速度及衰减", "结束后的自身减速", "法力消耗和战斗冷却"]
+    },
+    {
+      "id": "draven",
+      "skillKey": "draven_w",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "effectKey": "attack_speed_gain",
+      "reason": "自身独立三秒攻击速度，可由一次成功施放启动。",
+      "mustOmit": ["移动速度及衰减", "接斧刷新冷却", "法力消耗和战斗冷却"]
+    },
+    {
+      "id": "garen",
+      "skillKey": "garen_q",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "effectKey": "move_speed",
+      "reason": "自身移动速度在施放时开始，取值和持续时间均已有合法参数。",
+      "mustOmit": ["强化普攻伤害与沉默", "移除减速", "战斗冷却"]
+    },
+    {
+      "id": "kogmaw",
+      "skillKey": "kogmaw_w",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "effectKey": "attack_range",
+      "reason": "自身独立八秒攻击距离效果，无动态输入。",
+      "mustOmit": ["攻击附带目标最大生命魔法伤害", "法力消耗和战斗冷却"]
+    },
+    {
+      "id": "monkeyking",
+      "skillKey": "monkeyking_e",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "effectKey": "self_attack_speed",
+      "reason": "最终效果已收敛为来源自身攻击速度；一次已接受的主动施放只执行一次，不按分身或目标数量重复。",
+      "mustOmit": ["分身与额外目标攻击速度", "突进伤害", "法力消耗和战斗冷却"]
+    },
+    {
+      "id": "drmundo",
+      "skillKey": "drmundo_r",
+      "ruleKey": "on_used",
+      "eventType": "SKILL_USED",
+      "effectKey": "speed_boost",
+      "reason": "自身独立十秒移动速度，当前取值不依赖运行时输入。",
+      "mustOmit": ["生命回复与最大生命", "附近敌方英雄数量修正", "周期治疗和战斗冷却"]
+    }
+  ],
+  "deferred": [
+    {
+      "id": "ashe",
+      "skillKey": "ashe_q",
+      "ruleKey": "on_used",
+      "reason": "必须满足四层全神贯注才可激活；当前 SKILL_USED 没有层数资格，直接执行会绕过施放门槛。",
+      "missingCapability": ["合法施放资格", "层数积累与消耗", "后续强化普攻结算"]
+    },
+    {
+      "id": "teemo",
+      "skillKey": "teemo_w",
+      "ruleKey": "on_used",
+      "reason": "主动效果保存的是完整移速，需要先移除被动并在三秒后按受击资格恢复；直接执行会与后续被动叠加。",
+      "missingCapability": ["被动与主动互斥", "受击失效资格", "到期恢复"]
+    },
+    {
+      "id": "volibear",
+      "skillKey": "volibear_e",
+      "ruleKey": "on_used",
+      "reason": "护盾只在延时落雷且来源处于区域内时成立；使用事件过早且没有站位资格。",
+      "missingCapability": ["落雷时点", "区域内资格"]
+    },
+    {
+      "id": "rumble",
+      "skillKey": "rumble_w",
+      "ruleKey": "on_used",
+      "reason": "普通与危险温度分支必须互斥，当前事件没有热量快照；护盾还缺 source_health_for_shield 动态绑定。",
+      "missingCapability": ["热量快照", "互斥分支", "来源生命值动态输入"]
+    }
+  ],
+  "decision": {
+    "status": "READY",
+    "writeCandidateIds": ["blitzcrank", "draven", "garen", "kogmaw", "monkeyking", "drmundo"],
+    "deferredCandidateIds": ["ashe", "teemo", "volibear", "rumble"],
+    "acceptedCount": 6,
+    "deferredCount": 4,
+    "plannedBusinessWrites": 6,
+    "expectedRuleCountBefore": 120,
+    "expectedRuleCountAfter": 126,
+    "expectedFinalRuleCount": 126,
+    "sourceInitializedCountUnchanged": 24,
+    "battleRuntimeInScope": false
+  }
+}
