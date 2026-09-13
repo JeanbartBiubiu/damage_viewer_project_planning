@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T09:29:08.039Z",
+  "status": "PASS",
+  "scope": "技能全量清单第一阶段逐项结论",
+  "sourceSkillSlots": 865,
+  "reconciledItems": 560,
+  "conclusions": {
+    "已录入": 0,
+    "明确排除": 21,
+    "资料待核": 210,
+    "系统暂缓": 329
+  },
+  "candidateEvidence": {
+    "candidateFilesScanned": 110,
+    "matchedBatches": 31,
+    "unmatchedBatches": 17,
+    "matchedInScopeSkills": 550,
+    "excludedChampionSlots": 10,
+    "currentSkillDirectoryCount": 1062,
+    "getCount": 1,
+    "businessWrites": 0
+  },
+  "remainingInScopeItems": 305,
+  "files": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/核对技能清单第一阶段.mjs",
+      "role": "技能第一阶段回读、集成和检查脚本",
+      "sha256": "641aaa91936dcf23f88452667161f43dd2fa14466a847b38bf357d35f4b61333"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/技能清单第一阶段当前证据.json",
+      "role": "31批550技能及10排除槽的当前证据",
+      "sha256": "67aaed721edb9d51477f21bf27c746db3da1173494a5ea8bac00dbb7a73deb70"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/阶段进度.json",
+      "role": "唯一逐项结论真源",
+      "sha256": "3928beb18c843c2f8f5b1a547abaeee6514afffb883649f7b62bd36a667e6f47"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/系统精简实施说明.md",
+      "role": "系统边界与未完成说明",
+      "sha256": "f324b55b4406fcadf242d788b77fe1688afa09fd80c5074cb5c068a97def72e0"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/英雄装备符文全量实录.md",
+      "role": "全量实录当前覆盖",
+      "sha256": "884e88749da60ab66b540f0d0fb8c7aad1c688181c417c01ad22e25662837a4c"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+      "role": "逐项分类优先级",
+      "sha256": "98ed9514d426fc223b0f207c4f86bef13cf0a0f20766dca37b9ab417ca1337cc"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/生成技能第一阶段证据清单.mjs",
+      "role": "本证据清单生成器",
+      "sha256": "3f621f0df99207d0c22c40df4cb3aeccf943de048f4567fd8bb27e10241d76d3"
+    }
+  ],
+  "boundary": "当前只完成560/865项技能结论；305个范围内技能尚未收敛，329项系统暂缓仍需通用修正或返回补录。该分布不构成整体完成证据。"
+}

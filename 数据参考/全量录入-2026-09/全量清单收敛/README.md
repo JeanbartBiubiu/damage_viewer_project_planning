@@ -12,3 +12,14 @@
 4. 运行 `node 核对角色清单.mjs check-stage`，重新核对173个来源键、结论枚举、实库映射、覆盖计数和证据散列。
 
 脚本不保存或输出令牌。技能、装备和符文覆盖保持“未收敛”直到各自完成真实映射，不能因为角色层已完成而把总账标为完成。
+
+技能分阶段收敛使用 `核对技能清单第一阶段.mjs`。第一阶段只处理阶段进度中能用已批准候选原始字节散列唯一定位的31批、550个范围内技能，并加入两个排除角色的10个技能槽；其余305个范围内技能明确保持未收敛。候选还有来源缺口时归“资料待核”，只有配置或系统缺口时归“系统暂缓”，全部组成为空且候选只含完整范围排除时归“明确排除”。这只是当前唯一结论的第一阶段，不把未覆盖项默认归类。
+
+```powershell
+$env:DAMAGE_WEB_ROOT='C:\project\damage_web_dev'
+$env:DAMAGE_ENTRY_TOKEN=[guid]::NewGuid().ToString('N')
+node 核对技能清单第一阶段.mjs readback
+Remove-Item Env:DAMAGE_ENTRY_TOKEN
+node 核对技能清单第一阶段.mjs integrate
+node 核对技能清单第一阶段.mjs check-stage
+```

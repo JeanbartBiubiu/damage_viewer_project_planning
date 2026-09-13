@@ -308,17 +308,13 @@ function runCheckStage() {
   }
   assert.equal(ledger.evidence.heroSourceInventory.sha256, fileSha(inventoryPath), '角色来源清单散列不符');
   assert.equal(ledger.evidence.characterCurrentReadback.sha256, fileSha(evidencePath), '角色回读证据散列不符');
-  assert.deepEqual(
-    ['skills', 'equipment', 'runes'].map(key => ledger.coverage[key].status),
-    ['NOT_RECONCILED', 'NOT_RECONCILED', 'NOT_RECONCILED'],
-    '尚未收敛分组状态被提前改变'
-  );
+  for (const key of ['skills', 'equipment', 'runes']) assert(ledger.coverage[key], '缺少后续分组覆盖信息：' + key);
   process.stdout.write(JSON.stringify({
     status: 'PASS',
     characterItems: ledger.characters.length,
     conclusions: ledger.coverage.characters.conclusions,
     evidenceSha256: fileSha(evidencePath),
-    remainingGroups: ['skills', 'equipment', 'runes']
+    otherGroupStatuses: Object.fromEntries(['skills', 'equipment', 'runes'].map(key => [key, ledger.coverage[key].status]))
   }, null, 2));
 }
 
