@@ -6954,6 +6954,90 @@
         "commit": "0790a6443f7c62249907b83fe877bbe558478ffb"
       },
       "runtimeValidation": "未执行"
+    },
+    "equipmentTriggerCandidateReviewTwoRounds": {
+      "at": "2026-09-13T04:05:21.214Z",
+      "status": "两轮八项装备触发候选完成资料复核和真实接口纯GET取证；READY为0，全部按影响战斗正确性的机制缺口暂缓，未生成或执行写请求",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "item_3157_active",
+        "item_3748_active",
+        "item_6676_passive",
+        "item_3032_passive",
+        "item_3153_passive",
+        "item_3139_active",
+        "item_8010_passive",
+        "item_3137_passive"
+      ],
+      "decision": {
+        "ready": [],
+        "deferred": 8,
+        "businessWrites": 0
+      },
+      "deferred": [
+        {
+          "skillKey": "item_3157_active",
+          "reason": "已有伤害免疫效果，但缺持有者冷却过程、防重复状态和凝滞控制限制。"
+        },
+        {
+          "skillKey": "item_3748_active",
+          "reason": "缺主动到下一次普攻的一次性就绪状态，以及近战与远程互斥分支。"
+        },
+        {
+          "skillKey": "item_6676_passive",
+          "reason": "当前执行比较为小于等于，来源要求严格小于；减免后阈值时点也没有事件证据。"
+        },
+        {
+          "skillKey": "item_3032_passive",
+          "reason": "缺30秒持有者冷却、普攻与暴击缩短冷却和永久暴击层数状态。"
+        },
+        {
+          "skillKey": "item_3153_passive",
+          "reason": "缺近战远程分支、目标当前生命供值契约及三次攻击计数窗口。"
+        },
+        {
+          "skillKey": "item_3139_active",
+          "reason": "只有移动速度结果，解控、浮空例外、幽灵和完整冷却没有当前接线。"
+        },
+        {
+          "skillKey": "item_8010_passive",
+          "reason": "缺同一施法实例按目标去重和300毫秒门控，直接按多段魔法伤害会错误叠层。"
+        },
+        {
+          "skillKey": "item_3137_passive",
+          "reason": "缺伤害后击杀参与窗口、来源存活、60秒冷却和1.75秒新星时序。"
+        }
+      ],
+      "getEvidence": {
+        "firstRoundGETs": 879,
+        "secondRoundGETs": 120,
+        "totalGETs": 999,
+        "candidateRuleListsEmpty": 8,
+        "candidateRuleDetails404": 8,
+        "businessWrites": 0,
+        "nonGetRequests": 0
+      },
+      "findings": [
+        "已保存效果和通用事件只能构成表面骨架，不能替代冷却、一次性消费、严格阈值或分支条件。",
+        "装备剩余缺口集中在状态、事件阶段、施法实例去重、窗口计时和动态输入供值，没有形成新增表需求。",
+        "装备候选为0时继续推进英雄安全规则，同时按可解锁候选数量选择下一项通用机制。"
+      ],
+      "evidence": [
+        {
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna下一批装备触发候选/候选汇总.json",
+          "sha256": "04b06e69d7de5890f556f9cda8d5e2e462a39caa6e9b28a2d7314b960d70eb62",
+          "commit": "ee16952b5cb0d0df7671b3c2762cb4726cd5bae5"
+        },
+        {
+          "worktree": "damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna第二轮装备触发候选/候选汇总.json",
+          "sha256": "2997714badb1efbe4270f370789e6f2343ec46f30969887d42faa3751a151dcb",
+          "commit": "3fc4cd63e35e56e7bc64957ebb23bead1b88ebae"
+        }
+      ],
+      "browserValidation": "未执行；本批没有写入业务数据",
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
