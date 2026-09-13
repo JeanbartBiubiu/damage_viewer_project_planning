@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T14:07:35.478Z",
+  "status": "PASS",
+  "scope": "蔚E已有主动施法过程入口规则",
+  "frozenBatchSha256": "fe49de80757f89cd6aa3e295655ec8e15ed4a17c73008813186a19dd04df12da",
+  "sourceSnapshotSha256": "b90ddb3bf2f24e981ed2ce4ec7ac110174552f365b5296da0a99fe8e7a50fbc7",
+  "prepare": {
+    "getCount": 1253,
+    "statusCounts": {
+      "200": 1252,
+      "404": 1
+    },
+    "businessWrites": 0,
+    "bodyRulesSha256": "c5b52dd19a8ceec7a9ab8e48bdbd704c35db2f2f99c199872ff25af13bff265b",
+    "metadataRulesSha256": "9ae4e5a4ff402f72834c6cfe9fc48dc71749769f03e80306cee94c07370ca0f1"
+  },
+  "review": {
+    "status": "APPROVED",
+    "getCount": 1253,
+    "approvedBatchSha256": "fe49de80757f89cd6aa3e295655ec8e15ed4a17c73008813186a19dd04df12da",
+    "approvalDecisionSha256": "7731689f9bf9b6228545bc1a55109603c5977890d37a7633a9424891538b4514",
+    "bodyRulesSha256": "c5b52dd19a8ceec7a9ab8e48bdbd704c35db2f2f99c199872ff25af13bff265b",
+    "metadataRulesSha256": "9ae4e5a4ff402f72834c6cfe9fc48dc71749769f03e80306cee94c07370ca0f1",
+    "businessWrites": 0
+  },
+  "write": {
+    "businessWrites": 1,
+    "alreadyLanded": 0,
+    "recoveryMode": false,
+    "requestAudit": {
+      "requestCount": 25,
+      "methods": {
+        "GET": 24,
+        "POST": 1
+      },
+      "statuses": {
+        "200": 23,
+        "201": 1,
+        "404": 1
+      },
+      "nonGetPaths": [
+        {
+          "method": "POST",
+          "path": "/skills/vi_e/trigger-rules"
+        }
+      ]
+    }
+  },
+  "independent": {
+    "getCount": 1253,
+    "skillCount": 1062,
+    "ruleCount": 168,
+    "sourceInitializedCount": 29,
+    "oldRulesCount": 167,
+    "oldBodyRulesSha256": "c5b52dd19a8ceec7a9ab8e48bdbd704c35db2f2f99c199872ff25af13bff265b",
+    "oldMetadataRulesSha256": "9ae4e5a4ff402f72834c6cfe9fc48dc71749769f03e80306cee94c07370ca0f1",
+    "businessWrites": 0
+  },
+  "browser": {
+    "targetCount": 1,
+    "getRequests": null,
+    "nonGetRequests": 0,
+    "screenshots": 1,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "pageErrors": 0,
+    "failedRequests": 0,
+    "businessWrites": 0
+  },
+  "files": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "18adfe699b42f42ff5f624d43f9167cabb0fa6cf7447b263d2a6f71416fe50b6",
+      "byteSize": 1225
+    },
+    {
+      "name": "README.md",
+      "sha256": "1c26fddf4d2dcba63b20c46b6526de0dd66633856567ad8cf071cf316413c8f0",
+      "byteSize": 698
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "d7671db98184d51a0ad925de50f13307d8a9c907f9faad6fffca76fee06b70f0",
+      "byteSize": 2740
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "ff487e1c4b097d07a3872ce604991995317b80560cb9e7c5680f5723e09081ee",
+      "byteSize": 392
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "42efbd91ccfce73bf6e241bccdbe69e85d411da0779e9916f8da54615b7bc16c",
+      "byteSize": 2661
+    },
+    {
+      "name": "03-来源散列快照.json",
+      "sha256": "b90ddb3bf2f24e981ed2ce4ec7ac110174552f365b5296da0a99fe8e7a50fbc7",
+      "byteSize": 2610
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "675be4ed566d9605d6dd4f453fe8621f7b69543c9c2eb5d0526c8332e0297407",
+      "byteSize": 258346
+    },
+    {
+      "name": "05-只读准备报告.json",
+      "sha256": "60f4a3a2fb3d1e11cd89dd12f0b8967da92091db9867356d0a7a920e41272842",
+      "byteSize": 857
+    },
+    {
+      "name": "05-独立写前评审.json",
+      "sha256": "b5f6d93044788ebe3d67df01a7df347a6e35ad16fb9f1115bc2aefe1364d01cc",
+      "byteSize": 1289
+    },
+    {
+      "name": "06-写入流水.jsonl",
+      "sha256": "47cabd705d55aba1d12a1f4987c31a3623007e53cb8c7f5f2da6bf8bcf8e3a92",
+      "byteSize": 195
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "79711d3726bc280037c9eb385cc75e60afa727feff155f2687f04261c61094f9",
+      "byteSize": 1505
+    },
+    {
+      "name": "07-独立GET回读.json",
+      "sha256": "420bcee8598aee622090acb03b1158fc1bbe9164671d2b39ce468b7e594afbce",
+      "byteSize": 220858
+    },
+    {
+      "name": "08-页面目标.json",
+      "sha256": "5462d4264913f2f0257d4210c5ba0658ac2191a0fea6a22dde5f013147790f47",
+      "byteSize": 1142
+    },
+    {
+      "name": "09-页面验收.json",
+      "sha256": "9d737a4bef6d7045bd0778749df52af5d3c87d20b2cfc49b1c168a352c05c292",
+      "byteSize": 3307
+    },
+    {
+      "name": "录入体验报告.md",
+      "sha256": "244304f554ad08b6384e11d88226464ca9ee22de6a6d6ee54f82f6f748da3ff6",
+      "byteSize": 1800
+    }
+  ],
+  "boundary": "蔚E过程入口、独立批准、两路完整GET回读和真实页面通过；普通冷却、弹药恢复、强化普攻、实际命中、伤害、范围、法术护盾、Wasm组装、宿主事件及真实战斗未执行。"
+}

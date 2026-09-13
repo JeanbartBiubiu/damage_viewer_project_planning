@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T14:04:06.925Z",
+  "status": "PASS",
+  "frozenBatchSha256": "fe49de80757f89cd6aa3e295655ec8e15ed4a17c73008813186a19dd04df12da",
+  "preflightSha256": "675be4ed566d9605d6dd4f453fe8621f7b69543c9c2eb5d0526c8332e0297407",
+  "reviewSha256": "b5f6d93044788ebe3d67df01a7df347a6e35ad16fb9f1115bc2aefe1364d01cc",
+  "approvalDecisionSha256": "7731689f9bf9b6228545bc1a55109603c5977890d37a7633a9424891538b4514",
+  "recoveryMode": false,
+  "businessWrites": 1,
+  "alreadyLanded": 0,
+  "allowedBusinessMethods": [
+    "POST"
+  ],
+  "before": [
+    {
+      "id": "vi_e_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "5f03823cf42c5b4ff42d57a0c8c044f76c867bb243a58670e3afef5518574d5f"
+    }
+  ],
+  "operations": [
+    {
+      "at": "2026-09-13T14:04:06.924Z",
+      "id": "vi_e_start_cast",
+      "skillKey": "vi_e",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "652861dc3c7b2b9e0fbe966d39e76f6288bd72bdd2eeb774c30cea1ccab7747c"
+    }
+  ],
+  "requestAudit": {
+    "requestCount": 25,
+    "methods": {
+      "GET": 24,
+      "POST": 1
+    },
+    "statuses": {
+      "200": 23,
+      "201": 1,
+      "404": 1
+    },
+    "nonGetPaths": [
+      {
+        "method": "POST",
+        "path": "/skills/vi_e/trigger-rules"
+      }
+    ]
+  },
+  "boundary": "仅创建独立批准散列覆盖的一条启动cast过程规则并即时回读；其余技能组成和运行边界不变。"
+}

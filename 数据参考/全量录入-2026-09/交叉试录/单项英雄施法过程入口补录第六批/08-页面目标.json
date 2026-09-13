@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "generatedAt": "2026-09-13T14:04:45.661Z",
+  "status": "PASS",
+  "source": "冻结请求与独立GET回读自动交集",
+  "targetCount": 1,
+  "targets": [
+    {
+      "id": "vi_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_vi",
+      "skillKey": "vi_e",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动透体之劲施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动透体之劲施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "boundary": "只包含已写入且独立回读通过的蔚E过程入口；未接弹药、普攻、伤害和法术护盾分支不进入页面目标。",
+  "targetSha256": "6affd83674567df3dc7f028a21e17cf6bd03cda3f9b136c40c7e756c4ec67550"
+}

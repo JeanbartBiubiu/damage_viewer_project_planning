@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T14:03:47.538Z",
+  "status": "APPROVED",
+  "reviewer": "既有独立来源复核加新进程完整事件明细GET契约检查",
+  "approvedBatchSha256": "fe49de80757f89cd6aa3e295655ec8e15ed4a17c73008813186a19dd04df12da",
+  "preflightSha256": "675be4ed566d9605d6dd4f453fe8621f7b69543c9c2eb5d0526c8332e0297407",
+  "bodyRulesSha256": "c5b52dd19a8ceec7a9ab8e48bdbd704c35db2f2f99c199872ff25af13bff265b",
+  "metadataRulesSha256": "9ae4e5a4ff402f72834c6cfe9fc48dc71749769f03e80306cee94c07370ca0f1",
+  "targetNonRuleSha256": [
+    {
+      "id": "vi_e_start_cast",
+      "sha256": "5f03823cf42c5b4ff42d57a0c8c044f76c867bb243a58670e3afef5518574d5f"
+    }
+  ],
+  "approvalDecisionSha256": "7731689f9bf9b6228545bc1a55109603c5977890d37a7633a9424891538b4514",
+  "getCount": 1253,
+  "statusCounts": {
+    "200": 1252,
+    "404": 1
+  },
+  "skillCount": 1062,
+  "ruleCount": 167,
+  "sourceInitializedCount": 29,
+  "businessWrites": 0,
+  "requestPathsSha256": "09548730b46c9a5ed851d61c76dd2c5930d070d239134cdccc362a43276717c8",
+  "boundary": "独立批准只覆盖冻结的蔚E主动使用入口；不批准弹药、恢复、强化窗口、普攻替换、命中、伤害、范围或法术护盾分支。"
+}

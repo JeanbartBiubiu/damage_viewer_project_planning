@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T22:06:27+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://localhost:5173/#/skills",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 1,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "复用同一浏览器会话已同步的本地图片缓存；技能页只执行关键词查询、打开过程详情、打开规则列表与编辑查看并取消，没有点击保存、删除、新增或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1064,
+      "skillCount": 1062,
+      "ruleCount": 168,
+      "sourceInitializedCount": 29,
+      "targetDetailCount": 1,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "id": "vi_e_start_cast",
+      "skillKey": "vi_e",
+      "matched": true,
+      "list": {
+        "name": "蔚·透体之劲",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "蔚·透体之劲代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放透体之劲",
+        "activation": "主动",
+        "ordinaryCooldown": "无普通冷却",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施放开始 / start / 立即",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动透体之劲施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "蔚·透体之劲（vi_e）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动透体之劲施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "vi_e",
+      "sha256": "3901fe2fb957cf608bb6111411f6582b3574395b55ed7dea55d27fadcba46aca",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "readOnlyCorrections": [
+    "最初把五个剩余对象一并视为阶段复杂；定点读取后确认蔚E没有再次施放，当前cast过程的cooldown明确为null，页面显示无普通冷却，因此可只接法力消耗和立即步骤。其余四项仍暂缓。",
+    "浏览器只读执行环境没有提供网络方法流水，未把不可见的网络信息伪造成精确计数；页面后的独立脚本以1064次GET再次核对总数和目标详情。"
+  ],
+  "boundary": "真实页面确认蔚E保存后可重新打开，列表图、无普通冷却的cast过程、立即步骤、法力挂接、主动使用事件和启动过程动作一致；未点击任何服务端业务写入按钮。弹药恢复、强化普攻、实际命中、伤害、范围、法术护盾、Wasm、宿主事件和真实战斗未执行。"
+}
