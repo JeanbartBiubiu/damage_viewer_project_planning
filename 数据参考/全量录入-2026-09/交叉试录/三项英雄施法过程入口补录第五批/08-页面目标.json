@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "generatedAt": "2026-09-13T13:47:14.444Z",
+  "status": "PASS",
+  "source": "冻结请求与独立GET回读自动交集",
+  "targetCount": 3,
+  "targets": [
+    {
+      "id": "nasus_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_nasus",
+      "skillKey": "nasus_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动枯萎施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动枯萎施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "nasus_r_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_nasus",
+      "skillKey": "nasus_r",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动死神降临施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动死神降临施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "lux_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_lux",
+      "skillKey": "lux_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动曲光屏障施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动曲光屏障施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "boundary": "只包含已写入且独立回读通过的三项过程入口；未接减速、属性、周期伤害、冷却修正和护盾分支不进入页面目标。",
+  "targetSha256": "485ea5241e692fa79d79bde7f9856dafa71fb581e4919952832dac3fc6e313ba"
+}

@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T21:52:38+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://localhost:5173/#/skills",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 3,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "复用同一浏览器会话已同步的本地图片缓存；技能页只执行关键词查询、打开过程详情、打开规则列表与编辑查看并取消，没有点击保存、删除、新增或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1066,
+      "skillCount": 1062,
+      "ruleCount": 167,
+      "sourceInitializedCount": 29,
+      "targetDetailCount": 3,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "id": "nasus_w_start_cast",
+      "skillKey": "nasus_w",
+      "matched": true,
+      "list": {
+        "name": "内瑟斯·枯萎",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "内瑟斯·枯萎代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施法与法力消耗",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法时间 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动枯萎施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "内瑟斯·枯萎（nasus_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动枯萎施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "nasus_r_start_cast",
+      "skillKey": "nasus_r",
+      "matched": true,
+      "list": {
+        "name": "内瑟斯·死神降临",
+        "status": "启用",
+        "maxLevel": 3,
+        "imageAlt": "内瑟斯·死神降临代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施法与法力消耗",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法时间 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动死神降临施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "内瑟斯·死神降临（nasus_r）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动死神降临施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "lux_w_start_cast",
+      "skillKey": "lux_w",
+      "matched": true,
+      "list": {
+        "name": "拉克丝·曲光屏障",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "拉克丝·曲光屏障代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放曲光屏障",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法时间 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动曲光屏障施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "拉克丝·曲光屏障（lux_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动曲光屏障施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "nasus_w",
+      "sha256": "10167b0ed3194c9d0c15726e75d3a1fc16c986cdbcc8c6f4761f12aaaa830a4f",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "nasus_r",
+      "sha256": "8838ebc6faab8faa6a524e60734d735f80eb50c7e8fb21a203a5ccb8b079265a",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "lux_w",
+      "sha256": "5ea8df9c742333ea134d8e5db9d416f1bb5fd7bfacd95ed614eb9a54525a9e6e",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "readOnlyCorrections": [
+    "首次冻结在生成02和03文件前发现拉克丝旧候选项缺少skillKey；将拉克丝W与旧数组结构的内瑟斯W/R一并纳入规范化摘录，并由批次入口逐次核对两份原文件散列与过程正文后再冻结。",
+    "首次合并浏览器辅助在内瑟斯W弹窗已关闭后等待隐藏状态超时，未返回可用截图记录；确认页面无弹窗和无保存后，改为逐目标执行、固定等待并检查可见性，三项全部通过。",
+    "浏览器只读执行环境没有提供网络方法流水，未把不可见的网络信息伪造成精确计数；页面后的独立脚本以1066次GET再次核对总数和三条详情。"
+  ],
+  "boundary": "真实页面确认三个目标保存后可重新打开，列表图、cast过程、步骤、法力挂接、主动使用事件和启动过程动作一致；未点击任何服务端业务写入按钮。实际命中、减速、属性、周期伤害、冷却修正、护盾、Wasm、宿主事件和真实战斗未执行。"
+}

@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T13:54:14.699Z",
+  "status": "PASS",
+  "scope": "内瑟斯W/R和拉克丝W三项已有主动施法过程入口规则",
+  "frozenBatchSha256": "233ca4ffd9a40e1a670a10d2cd31ad0f25f67d7a38827039e42c41e1ca09a3c6",
+  "sourceSnapshotSha256": "6b1b4a751eb3a38ed01cbb315b3865bec729e632c7632b55c82853bc3474d27d",
+  "prepare": {
+    "getCount": 1292,
+    "statusCounts": {
+      "200": 1289,
+      "404": 3
+    },
+    "businessWrites": 0,
+    "bodyRulesSha256": "b49435d596f66f37015dda860033c337599c7f0c31d1b968f1a5e3e1866622b7",
+    "metadataRulesSha256": "ef77cbde3f99ef91b70caac7661336e75c1be8efe7274726640e6057d0d22b0c"
+  },
+  "review": {
+    "status": "APPROVED",
+    "getCount": 1292,
+    "approvedBatchSha256": "233ca4ffd9a40e1a670a10d2cd31ad0f25f67d7a38827039e42c41e1ca09a3c6",
+    "approvalDecisionSha256": "c886894f28683ee27830f37a0fb57b02cb621818b7dcabf38c13d35bdafcc81b",
+    "bodyRulesSha256": "b49435d596f66f37015dda860033c337599c7f0c31d1b968f1a5e3e1866622b7",
+    "metadataRulesSha256": "ef77cbde3f99ef91b70caac7661336e75c1be8efe7274726640e6057d0d22b0c",
+    "businessWrites": 0
+  },
+  "write": {
+    "businessWrites": 3,
+    "alreadyLanded": 0,
+    "recoveryMode": false,
+    "requestAudit": {
+      "requestCount": 71,
+      "methods": {
+        "GET": 68,
+        "POST": 3
+      },
+      "statuses": {
+        "200": 65,
+        "201": 3,
+        "404": 3
+      },
+      "nonGetPaths": [
+        {
+          "method": "POST",
+          "path": "/skills/nasus_w/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/nasus_r/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/lux_w/trigger-rules"
+        }
+      ]
+    }
+  },
+  "independent": {
+    "getCount": 1292,
+    "skillCount": 1062,
+    "ruleCount": 167,
+    "sourceInitializedCount": 29,
+    "oldRulesCount": 164,
+    "oldBodyRulesSha256": "b49435d596f66f37015dda860033c337599c7f0c31d1b968f1a5e3e1866622b7",
+    "oldMetadataRulesSha256": "ef77cbde3f99ef91b70caac7661336e75c1be8efe7274726640e6057d0d22b0c",
+    "businessWrites": 0
+  },
+  "browser": {
+    "targetCount": 3,
+    "getRequests": null,
+    "nonGetRequests": 0,
+    "screenshots": 3,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "pageErrors": 0,
+    "failedRequests": 0,
+    "businessWrites": 0
+  },
+  "files": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "8432ef1d75fb4cf0c0d8e026b3f34ecc927a01254ffd064d9f9377ae2b43816e",
+      "byteSize": 1461
+    },
+    {
+      "name": "README.md",
+      "sha256": "421351f1601cdc45882249b0efd9ed43d61dd353cdccd9eca1f3b5943b1648d0",
+      "byteSize": 740
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "f1deff143d8820d01c10c8eb6a87142d605315538ae8cdc70235518993f0be7b",
+      "byteSize": 4203
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "3efe09dde96c6892e699d5b1c81dc1bfbd5a2445257c468f0055d499129319e0",
+      "byteSize": 2176
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "462d6bde614284e86e9edcf0831496a565afaef617ac1cc202e47014ab15b530",
+      "byteSize": 6208
+    },
+    {
+      "name": "03-来源散列快照.json",
+      "sha256": "6b1b4a751eb3a38ed01cbb315b3865bec729e632c7632b55c82853bc3474d27d",
+      "byteSize": 4285
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "c7a7893b9b8cbcb759acd118c79ebb00d9eaac51db128ff922c3d927a3c8812b",
+      "byteSize": 295032
+    },
+    {
+      "name": "05-只读准备报告.json",
+      "sha256": "a2285acd999f5bf07ffeac9e1bfa629bd29ecb50858a4318449623996c0c44ad",
+      "byteSize": 857
+    },
+    {
+      "name": "05-独立写前评审.json",
+      "sha256": "21ec69a3d836b1eb70516ab3f53a84d43edb637f6ce94a0ca0d62d474d422dcb",
+      "byteSize": 1552
+    },
+    {
+      "name": "06-写入流水.jsonl",
+      "sha256": "b17d9367535d777d7cc7b9154b3070ad94aa8a430c00702b05839090fcea0827",
+      "byteSize": 599
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "33e376ff93fb760612854764f11b3b406d24c9bad19610f3e6534bf76d393f3b",
+      "byteSize": 2537
+    },
+    {
+      "name": "07-独立GET回读.json",
+      "sha256": "00032f291f72dcc824b1e4b119f07fd44ff78fbb3ada16979d01aadb0a72c6a3",
+      "byteSize": 220546
+    },
+    {
+      "name": "08-页面目标.json",
+      "sha256": "88596206a266233bae1aa3c79fc4ddcb4ac33c25ad892fc74e3565670a1b02b0",
+      "byteSize": 2500
+    },
+    {
+      "name": "09-页面验收.json",
+      "sha256": "580c08a460be617eb4031f4041600ec68780d7e74696542d770b4afa261abf9b",
+      "byteSize": 6263
+    },
+    {
+      "name": "录入体验报告.md",
+      "sha256": "cff0f4031a4d1ba44f7ae72ea3d15e0cea7185019da9e22eebb06bbff9f46914",
+      "byteSize": 2512
+    }
+  ],
+  "boundary": "三条过程入口、独立批准、两路完整GET回读和真实页面通过；实际命中、减速、属性、周期伤害、冷却修正、护盾、Wasm组装、宿主事件及真实战斗未执行。"
+}

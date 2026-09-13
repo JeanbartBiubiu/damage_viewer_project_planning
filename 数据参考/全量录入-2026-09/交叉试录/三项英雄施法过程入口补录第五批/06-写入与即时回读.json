@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T13:46:32.243Z",
+  "status": "PASS",
+  "frozenBatchSha256": "233ca4ffd9a40e1a670a10d2cd31ad0f25f67d7a38827039e42c41e1ca09a3c6",
+  "preflightSha256": "c7a7893b9b8cbcb759acd118c79ebb00d9eaac51db128ff922c3d927a3c8812b",
+  "reviewSha256": "21ec69a3d836b1eb70516ab3f53a84d43edb637f6ce94a0ca0d62d474d422dcb",
+  "approvalDecisionSha256": "c886894f28683ee27830f37a0fb57b02cb621818b7dcabf38c13d35bdafcc81b",
+  "recoveryMode": false,
+  "businessWrites": 3,
+  "alreadyLanded": 0,
+  "allowedBusinessMethods": [
+    "POST"
+  ],
+  "before": [
+    {
+      "id": "nasus_w_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "a6483c3cb1de4b8652e9822f455a5c3ae50fed772a9bf8c3613783df5e5c7428"
+    },
+    {
+      "id": "nasus_r_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "e001b0593a01dc561d3e95dc41b15e1945d34c8afef3d30f5644674949143aac"
+    },
+    {
+      "id": "lux_w_start_cast",
+      "ruleSummaries": [],
+      "nonRuleSha256": "7df03cd183e09175e36c6e75c9a4740a03520f6a0835ab454553c324d362a403"
+    }
+  ],
+  "operations": [
+    {
+      "at": "2026-09-13T13:46:28.888Z",
+      "id": "nasus_w_start_cast",
+      "skillKey": "nasus_w",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "34abd5105e6a9f25ac3c41e5232f61bac8c04ed85a9a192ef3eee6ad98a3f55b"
+    },
+    {
+      "at": "2026-09-13T13:46:30.532Z",
+      "id": "nasus_r_start_cast",
+      "skillKey": "nasus_r",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "3dbf14123a13691a5c48c9fbe8c3b7a058dc7e351095893a660520cf2e0b04dd"
+    },
+    {
+      "at": "2026-09-13T13:46:32.243Z",
+      "id": "lux_w_start_cast",
+      "skillKey": "lux_w",
+      "ruleKey": "on_used",
+      "state": "CREATED",
+      "detailSha256": "4112a7736384de0f21c393c95875fb396ca8bc0f3455e6fd37722780b8b8e114"
+    }
+  ],
+  "requestAudit": {
+    "requestCount": 71,
+    "methods": {
+      "GET": 68,
+      "POST": 3
+    },
+    "statuses": {
+      "200": 65,
+      "201": 3,
+      "404": 3
+    },
+    "nonGetPaths": [
+      {
+        "method": "POST",
+        "path": "/skills/nasus_w/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/nasus_r/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/lux_w/trigger-rules"
+      }
+    ]
+  },
+  "boundary": "仅创建独立批准散列覆盖的三条启动cast过程规则并即时回读；其余技能组成和运行边界不变。"
+}
