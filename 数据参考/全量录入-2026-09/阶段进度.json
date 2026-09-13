@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T13:28:43.000Z",
+  "generatedAt": "2026-09-13T13:52:38.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -8673,6 +8673,124 @@
         "commit": "6063e064e8063dcf88fd992ad0569b580df38852"
       },
       "runtimeValidation": "未执行"
+    },
+    "threeHeroCastProcessEntryBackfillFifth": {
+      "at": "2026-09-13T13:52:38.000Z",
+      "status": "内瑟斯W/R和拉克丝W三项已有主动施法过程完成旧版来源适配、冻结、纯GET准备、独立批准、受保护写入、独立回读和真实页面验收",
+      "sourceVersion": "客户端16.17/官方16.17.1",
+      "skills": [
+        "nasus_w",
+        "nasus_r",
+        "lux_w"
+      ],
+      "created": {
+        "triggerRules": 3,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "rules": [
+        "nasus_w/on_used：主动使用后启动cast过程",
+        "nasus_r/on_used：主动使用后启动cast过程",
+        "lux_w/on_used：主动使用后启动cast过程"
+      ],
+      "sourceAdaptation": {
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/旧版规范化来源候选.json",
+        "sha256": "e186836aacf1d8f4f9d5d9398fd45fabf4314217c6a321c149de8e9bb218dbaa",
+        "nasusOriginalSha256": "7f1b5912aec4f745a6ade83e1cf51315a49f0959b743f39e94fb43774fb48272",
+        "luxOriginalSha256": "d12ce83ef0a000c8b854045d7065089cf43687818d617ddbb8968829f6baf9fd",
+        "verification": "批次入口每阶段核对两份原文件散列、等级和过程正文"
+      },
+      "sharedRunner": {
+        "version": "protected-trigger-batch-v1",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+        "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+        "commit": "1a248a4cbf85f447d41f443a57e1e8677723b323"
+      },
+      "freeze": {
+        "revision": "rev1",
+        "batchSha256": "233ca4ffd9a40e1a670a10d2cd31ad0f25f67d7a38827039e42c41e1ca09a3c6",
+        "sourceSnapshotSha256": "6b1b4a751eb3a38ed01cbb315b3865bec729e632c7632b55c82853bc3474d27d"
+      },
+      "preparation": {
+        "getCount": 1292,
+        "status200": 1289,
+        "expected404": 3,
+        "skillCount": 1062,
+        "ruleCount": 164,
+        "sourceInitializedCount": 29,
+        "bodyRulesSha256": "b49435d596f66f37015dda860033c337599c7f0c31d1b968f1a5e3e1866622b7",
+        "metadataRulesSha256": "ef77cbde3f99ef91b70caac7661336e75c1be8efe7274726640e6057d0d22b0c",
+        "businessWrites": 0
+      },
+      "independentApproval": {
+        "status": "APPROVED",
+        "getCount": 1292,
+        "approvedBatchSha256": "233ca4ffd9a40e1a670a10d2cd31ad0f25f67d7a38827039e42c41e1ca09a3c6",
+        "approvalDecisionSha256": "c886894f28683ee27830f37a0fb57b02cb621818b7dcabf38c13d35bdafcc81b",
+        "bodyRulesSha256": "b49435d596f66f37015dda860033c337599c7f0c31d1b968f1a5e3e1866622b7",
+        "metadataRulesSha256": "ef77cbde3f99ef91b70caac7661336e75c1be8efe7274726640e6057d0d22b0c",
+        "businessWrites": 0
+      },
+      "writer": {
+        "getCount": 68,
+        "postCount": 3,
+        "created": 3,
+        "alreadyLanded": 0,
+        "recoveryMode": false,
+        "immediateReadback": "PASS"
+      },
+      "independentReadback": {
+        "getCount": 1292,
+        "skillCount": 1062,
+        "ruleCount": 167,
+        "sourceInitializedCount": 29,
+        "oldRulesCount": 164,
+        "oldBodyRulesSha256": "b49435d596f66f37015dda860033c337599c7f0c31d1b968f1a5e3e1866622b7",
+        "oldMetadataRulesSha256": "ef77cbde3f99ef91b70caac7661336e75c1be8efe7274726640e6057d0d22b0c",
+        "oldRulesUnchanged": true,
+        "targetNonRuleCompositionUnchanged": true,
+        "businessWrites": 0
+      },
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 3,
+        "images": "三项列表图均64×64且加载完成",
+        "imageCache": "复用同一浏览器会话已同步的3279条本地图片缓存",
+        "processesAndRules": "三个cast过程、延迟步骤、法力挂接、主动使用事件和启动过程动作与冻结请求一致",
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0,
+        "exactBrowserGetCount": null,
+        "postBrowserGetReadback": 1066
+      },
+      "exploration": {
+        "getCount": 12,
+        "businessWrites": 0,
+        "result": "三项目标过程与原来源逐字段一致，规则为空、角色关系唯一且代表图启用；其余五个空规则主动过程具有蓄力、充能或再次施放歧义。"
+      },
+      "corrections": [
+        "首次冻结在写文件前因拉克丝旧候选缺少skillKey被拒；扩大最小来源适配并回对两份原文件后重新冻结。",
+        "首次合并浏览器辅助在内瑟斯W弹窗已关闭后等待隐藏状态超时；确认无弹窗和无保存后改为逐目标执行，三项通过。"
+      ],
+      "pending": [
+        "内瑟斯W的渐进减速更新时间、攻击速度降低、控制类别与实际命中仍未接。",
+        "内瑟斯R的自身属性、周期魔法伤害、首次结算与完整次数、Q冷却折半施加时点仍未接。",
+        "拉克丝W的护盾施加时点、去程与回程命中、目标资格和护盾叠加仍未接。",
+        "Wasm组装、宿主技能使用事件和真实战斗均未执行。"
+      ],
+      "systemConclusion": "现有技能使用事件和启动过程动作足以连接三个已保存cast过程；历史来源形状差异在批次证据层做最小适配，不需要新增业务表、字段或兼容层。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/10-证据清单.json",
+        "sha256": "ce4451068753f4f748a4158717762d973c66390575f7611acb04f6e9b5442369",
+        "commit": "8f708558591c204bd80fc95f137d927eeb7362be"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -8789,6 +8907,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第四批/10-证据清单.json",
         "sha256": "269ef26f234f9f938672292387fa11976413c53adebe1873dc48fdae2192d940",
         "commit": "6063e064e8063dcf88fd992ad0569b580df38852"
+      },
+      "threeHeroCastProcessEntryBackfillFifth": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/10-证据清单.json",
+        "sha256": "ce4451068753f4f748a4158717762d973c66390575f7611acb04f6e9b5442369",
+        "commit": "8f708558591c204bd80fc95f137d927eeb7362be"
       }
     },
     "coverage": {
@@ -20015,7 +20139,7 @@
         "name": "拉克丝·曲光屏障",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口0个、配置缺口0个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；护盾施加时点、去程与回程命中、目标资格和护盾叠加仍有来源缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 2,
           "system": 0,
@@ -20026,7 +20150,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "threeHeroCastProcessEntryBackfillFifth"
         ]
       },
       {
@@ -21511,7 +21636,7 @@
         "name": "内瑟斯·枯萎",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；渐进减速更新时间、攻击速度降低、控制类别与实际命中仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -21522,7 +21647,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "threeHeroCastProcessEntryBackfillFifth"
         ]
       },
       {
@@ -21557,7 +21683,7 @@
         "name": "内瑟斯·死神降临",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口0个。",
+        "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；自身属性、周期魔法伤害、首次结算与完整次数、Q冷却折半施加时点仍有来源或系统缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
@@ -21568,7 +21694,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "threeHeroCastProcessEntryBackfillFifth"
         ]
       },
       {
