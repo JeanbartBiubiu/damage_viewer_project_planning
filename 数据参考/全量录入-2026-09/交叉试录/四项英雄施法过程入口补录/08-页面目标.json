@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "generatedAt": "2026-09-13T12:20:13.819Z",
+  "status": "PASS",
+  "source": "冻结请求与独立GET回读自动交集",
+  "targetCount": 4,
+  "targets": [
+    {
+      "id": "ahri_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_ahri",
+      "skillKey": "ahri_q",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动欺诈宝珠施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动欺诈宝珠施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "brand_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_brand",
+      "skillKey": "brand_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动烈焰之柱施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动烈焰之柱施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "darius_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_darius",
+      "skillKey": "darius_e",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动无情铁手施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动无情铁手施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    },
+    {
+      "id": "xinzhao_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_xinzhao",
+      "skillKey": "xinzhao_w",
+      "ruleKey": "on_used",
+      "ruleName": "主动使用启动风斩电刺施法过程",
+      "eventType": "SKILL_USED",
+      "actionReferences": [
+        {
+          "actionKey": "start_cast",
+          "actionName": "启动风斩电刺施法过程",
+          "actionType": "START_PROCESS",
+          "targetContext": "CURRENT_TARGET",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "expectedActionCount": 1,
+      "expectedConditionGroupCount": 0
+    }
+  ],
+  "boundary": "只包含已写入且独立回读通过的四项过程入口；未接伤害与控制分支不进入页面目标。",
+  "targetSha256": "2f8244ee08a7b391d8c7c2f6a9fe90a44cbf3a0a5abca2c32bfba544c2bd1139"
+}

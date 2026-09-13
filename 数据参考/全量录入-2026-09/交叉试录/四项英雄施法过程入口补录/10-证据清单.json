@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T12:27:57.152Z",
+  "status": "PASS",
+  "scope": "阿狸Q、布兰德W、德莱厄斯E和赵信W四项已有主动施法过程入口规则",
+  "frozenBatchSha256": "726c7cccbf116154e50d6ba2a747851d374abc1e8a746f524ca94c6d5c25e0d8",
+  "sourceSnapshotSha256": "9ba5643668d27c74e8f754b480cbd9568dd08c163defd15a9189f9563c0eeb49",
+  "prepare": {
+    "getCount": 1298,
+    "statusCounts": {
+      "200": 1294,
+      "404": 4
+    },
+    "businessWrites": 0,
+    "bodyRulesSha256": "d01675343140f192fec6d73a3fa44031f912094db22ab2af7fa2c8cc98066a25",
+    "metadataRulesSha256": "803d62c5f965b9c2e0cbbe57dd89de4f9bac24ce9354e8be55e7c2ad40c6b6d2"
+  },
+  "review": {
+    "status": "APPROVED",
+    "getCount": 1298,
+    "approvedBatchSha256": "726c7cccbf116154e50d6ba2a747851d374abc1e8a746f524ca94c6d5c25e0d8",
+    "approvalDecisionSha256": "ab4c0e65f0a64e26aaabcf6d781998ab8903c37691d6680406dc9c17d1f665c3",
+    "bodyRulesSha256": "d01675343140f192fec6d73a3fa44031f912094db22ab2af7fa2c8cc98066a25",
+    "metadataRulesSha256": "803d62c5f965b9c2e0cbbe57dd89de4f9bac24ce9354e8be55e7c2ad40c6b6d2",
+    "businessWrites": 0
+  },
+  "write": {
+    "businessWrites": 4,
+    "alreadyLanded": 0,
+    "recoveryMode": false,
+    "requestAudit": {
+      "requestCount": 101,
+      "methods": {
+        "GET": 97,
+        "POST": 4
+      },
+      "statuses": {
+        "200": 93,
+        "201": 4,
+        "404": 4
+      },
+      "nonGetPaths": [
+        {
+          "method": "POST",
+          "path": "/skills/ahri_q/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/brand_w/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/darius_e/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/xinzhao_w/trigger-rules"
+        }
+      ]
+    }
+  },
+  "independent": {
+    "getCount": 1298,
+    "skillCount": 1062,
+    "ruleCount": 146,
+    "sourceInitializedCount": 29,
+    "oldRulesCount": 142,
+    "oldBodyRulesSha256": "d01675343140f192fec6d73a3fa44031f912094db22ab2af7fa2c8cc98066a25",
+    "oldMetadataRulesSha256": "803d62c5f965b9c2e0cbbe57dd89de4f9bac24ce9354e8be55e7c2ad40c6b6d2",
+    "businessWrites": 0
+  },
+  "browser": {
+    "targetCount": 4,
+    "getRequests": null,
+    "nonGetRequests": 0,
+    "screenshots": 4,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "pageErrors": 0,
+    "failedRequests": 0,
+    "businessWrites": 0
+  },
+  "files": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "7dc5686a2d45890b435e5ee9a5da194d3b3e2d5be0be953530d848943774d182",
+      "byteSize": 1335
+    },
+    {
+      "name": "README.md",
+      "sha256": "2c715c9e3bb5a264fdb42e8e5edde4929c5e0ef2975a5104c0ceeb8e196c72b3",
+      "byteSize": 782
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "40c010eab0ee582f123d3ad5904f91bc5e39dadbda1836462a63d8bda2df5f51",
+      "byteSize": 5165
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "ff487e1c4b097d07a3872ce604991995317b80560cb9e7c5680f5723e09081ee",
+      "byteSize": 392
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "1436393ad8542378af9cde56232640bbcdaf20538df07798342499ca16b5b823",
+      "byteSize": 7813
+    },
+    {
+      "name": "03-来源散列快照.json",
+      "sha256": "9ba5643668d27c74e8f754b480cbd9568dd08c163defd15a9189f9563c0eeb49",
+      "byteSize": 5571
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "cb6c1c2d81f568dbf98f19c61583895cba0da46bb1d5e8c526b13ad73e090ec9",
+      "byteSize": 292558
+    },
+    {
+      "name": "05-只读准备报告.json",
+      "sha256": "d5be96696f75ccb04b562a508230a1688b6e4946eecf40d1f551068c3e216ae2",
+      "byteSize": 857
+    },
+    {
+      "name": "05-独立写前评审.json",
+      "sha256": "9f187cc7d8ffa489f3f90268e92198f802e1ed11256ef3c089f4ffc6b17199cc",
+      "byteSize": 1668
+    },
+    {
+      "name": "06-写入流水.jsonl",
+      "sha256": "a07b2914cf62ddb50df02e23a504178879798bbad047c436f203b0d74cd656d3",
+      "byteSize": 808
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "90739f34326e5464b62e32b20d2de2ea805daa8164be4166765428722bc0ae80",
+      "byteSize": 3068
+    },
+    {
+      "name": "07-独立GET回读.json",
+      "sha256": "22fb7ab9bde0cbd69dc40173adb41a4079bd40c9b7e838ad1c4a974bcbb34972",
+      "byteSize": 194485
+    },
+    {
+      "name": "08-页面目标.json",
+      "sha256": "be91a856f191dbd0aaab8400b685d3c351e8a37e95d895729744b5c971b0cc1d",
+      "byteSize": 3160
+    },
+    {
+      "name": "09-页面验收.json",
+      "sha256": "09ab5f8127769c55473890ae729cc7bff2f03ea9da8b138e38164abcfdab484f",
+      "byteSize": 7323
+    },
+    {
+      "name": "录入体验报告.md",
+      "sha256": "51098243635a7348d1c2b3bc712cafe47daeef5bd469ee7f2a23232b335c9a19",
+      "byteSize": 2175
+    }
+  ],
+  "boundary": "四条过程入口、独立批准、两路完整GET回读和真实页面通过；实际命中、伤害、控制、Wasm组装、宿主事件及真实战斗未执行。"
+}

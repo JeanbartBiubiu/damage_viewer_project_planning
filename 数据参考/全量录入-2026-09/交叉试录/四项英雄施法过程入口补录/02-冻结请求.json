@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T12:18:08.887Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 4
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 142,
+    "sourceInitializedCount": 29,
+    "finalRuleCount": 146,
+    "finalSourceInitializedCount": 29
+  },
+  "sourceSnapshotSha256": "9ba5643668d27c74e8f754b480cbd9568dd08c163defd15a9189f9563c0eeb49",
+  "requests": [
+    {
+      "id": "ahri_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_ahri",
+      "skillKey": "ahri_q",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/ahri_q/trigger-rules",
+      "detailRoute": "/skills/ahri_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "bodySha256": "862a93d9a62db8442f328512792ba31d7bfa44d38b7225da4d2dca928b3e36f9",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动欺诈宝珠施法过程",
+        "description": "接收ahri_q主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；去程/返程、魔法/真实伤害、方向与实际命中继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "ahri_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动欺诈宝珠施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "brand_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_brand",
+      "skillKey": "brand_w",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/brand_w/trigger-rules",
+      "detailRoute": "/skills/brand_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+      "sourceSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+      "bodySha256": "68b7203309eca2e27342d06e12c4cbe7ea01e8005a98bbae5343248084402c97",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动烈焰之柱施法过程",
+        "description": "接收brand_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；火柱生成、实际命中、灼烧条件与强化伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "brand_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动烈焰之柱施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "darius_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_darius",
+      "skillKey": "darius_e",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/darius_e/trigger-rules",
+      "detailRoute": "/skills/darius_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "bodySha256": "81959e87ae83838de6239ba94f0d9c607d904d03be360ce69bbe469d1c6ad756",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动无情铁手施法过程",
+        "description": "接收darius_e主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；百分比穿透组合、实际拉中、拖拽、击飞和减速继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "darius_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动无情铁手施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "xinzhao_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_xinzhao",
+      "skillKey": "xinzhao_w",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/xinzhao_w/trigger-rules",
+      "detailRoute": "/skills/xinzhao_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "bodySha256": "d0a1d97743d09cccf407c2f5f4de0f185c835814144e6c92a31f9d754167adab",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动风斩电刺施法过程",
+        "description": "接收xinzhao_w主动使用并启动已有cast过程，只处理已保存的法力消耗和基础冷却；斩击/刺击阶段、实际命中、伤害、减速、挑战、被动联动与冲突施法时间继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "xinzhao_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动风斩电刺施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "四条规则只启动当前已有cast过程；不产生实际命中、伤害或控制，Wasm组装、宿主技能使用事件和真实战斗尚未验证。",
+  "batchSha256": "726c7cccbf116154e50d6ba2a747851d374abc1e8a746f524ca94c6d5c25e0d8"
+}

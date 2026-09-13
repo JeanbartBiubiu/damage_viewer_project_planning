@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "frozenAt": "2026-09-13T12:18:08.887Z",
+  "status": "FROZEN",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "byteSize": 258594
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+      "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+      "byteSize": 238562
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "byteSize": 364681
+    }
+  ],
+  "sourceEntries": [
+    {
+      "skillKey": "ahri_q",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "65607b5729a1e8e851d6b95ee16f504737ff2a2a796f2cc49ff69bcfae70480f",
+      "officialSha256": "d7aa942350ef9d9756df1476a6bd83a3da4cf1dcee1b22107676d5b1a86c6b04"
+    },
+    {
+      "skillKey": "brand_w",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+      "sourceSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d",
+      "officialSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20"
+    },
+    {
+      "skillKey": "darius_e",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "5f3a77780a51fbef22203f792bf7e5b6528af2cd0eb897ca76bd198af813aa39",
+      "officialSha256": "af12c700bff495d4e531a10d4be8f6b68445fe34839bda302d4d8acd74aa89a7"
+    },
+    {
+      "skillKey": "xinzhao_w",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "9c9f041a01f62dbea5f0e7f26b59b0fc63ed6b08ccdf26f5687b313d1703051f",
+      "officialSha256": "151060d8f973f6fee915bd51a5da20c34b1fd8bb2bbd089ffaa6e4412c7aa334"
+    }
+  ],
+  "scriptFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄施法过程入口补录/01-补录方案.md",
+      "sha256": "7dc5686a2d45890b435e5ee9a5da194d3b3e2d5be0be953530d848943774d182",
+      "byteSize": 1335
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄施法过程入口补录/README.md",
+      "sha256": "2c715c9e3bb5a264fdb42e8e5edde4929c5e0ef2975a5104c0ceeb8e196c72b3",
+      "byteSize": 782
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄施法过程入口补录/批次配置.mjs",
+      "sha256": "40c010eab0ee582f123d3ad5904f91bc5e39dadbda1836462a63d8bda2df5f51",
+      "byteSize": 5165
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄施法过程入口补录/批次执行.mjs",
+      "sha256": "ff487e1c4b097d07a3872ce604991995317b80560cb9e7c5680f5723e09081ee",
+      "byteSize": 392
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+      "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+      "byteSize": 40022
+    }
+  ],
+  "scope": [
+    {
+      "skillKey": "ahri_q",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "brand_w",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "darius_e",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "xinzhao_w",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    }
+  ]
+}
