@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T13:07:55.037Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 6
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 152,
+    "sourceInitializedCount": 29,
+    "finalRuleCount": 158,
+    "finalSourceInitializedCount": 29
+  },
+  "sourceSnapshotSha256": "b2fc32c5d949a0f95c97e8b426c462bbe753a45ba4693c22bd969968c587b7d3",
+  "requests": [
+    {
+      "id": "twitch_q_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_twitch",
+      "skillKey": "twitch_q",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/twitch_q/trigger-rules",
+      "detailRoute": "/skills/twitch_q/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+      "sourceSha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+      "bodySha256": "460308900be69e19b676e6b1d98ca2098995fc9e9f46c17d98b2e9f53df31a40",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动埋伏施法过程",
+        "description": "接收twitch_q主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；伪装等待与进出、解除后攻速、移动速度条件和中毒英雄死亡重置继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "twitch_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动埋伏施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "twitch_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_twitch",
+      "skillKey": "twitch_e",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/twitch_e/trigger-rules",
+      "detailRoute": "/skills/twitch_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+      "sourceSha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+      "bodySha256": "dd95939e2a725dce606d897d831361157fb7c6592c8190999c9ace19eb7188b4",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动毒性爆发施法过程",
+        "description": "接收twitch_e主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；目标中毒资格、实际1至6层读取及两部分伤害继续暂缓，不清除毒层。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "twitch_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动毒性爆发施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "veigar_e_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_veigar",
+      "skillKey": "veigar_e",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/veigar_e/trigger-rules",
+      "detailRoute": "/skills/veigar_e/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "bodySha256": "561adcd451f521e60cccb785588c42d88ea07867700d5739d99bd0c817ba0b05",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动扭曲空间施法过程",
+        "description": "接收veigar_e主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；牢笼生成、边缘接触、重复触发、状态归属与眩晕行动限制继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "veigar_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动扭曲空间施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "veigar_r_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_veigar",
+      "skillKey": "veigar_r",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/veigar_r/trigger-rules",
+      "detailRoute": "/skills/veigar_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "bodySha256": "e8441c9952d857ac971a680e3ab9e48442f79a8fdcdeca7081809cee01ed971b",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动能量爆裂施法过程",
+        "description": "接收veigar_r主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；目标当前或已损生命、连续伤害倍率、实际命中与伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "veigar_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动能量爆裂施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "warwick_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_warwick",
+      "skillKey": "warwick_w",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/warwick_w/trigger-rules",
+      "detailRoute": "/skills/warwick_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "bodySha256": "0d5c1876960799f068ee5ce9b10e08a800ffbbda5300cb7a2690dcf29577de3f",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动鲜血追猎施法过程",
+        "description": "接收warwick_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和立即步骤；主动目标选择、未找到英雄冷却返还、攻速档位、朝目标移速和施法时间冲突继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "warwick_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动鲜血追猎施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "trundle_w_start_cast",
+      "ownerKind": "character",
+      "ownerKey": "champion_trundle",
+      "skillKey": "trundle_w",
+      "ruleKey": "on_used",
+      "method": "POST",
+      "route": "/skills/trundle_w/trigger-rules",
+      "detailRoute": "/skills/trundle_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "bodySha256": "d74636200ebacb411b6e95a5187f52f5444d6bf6f460553749fd3c255be0bebd",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动冰封领域施法过程",
+        "description": "接收trundle_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；领域生成、进入、离开、结束、攻击速度、移动速度与治疗提升接线继续暂缓。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "trundle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动冰封领域施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "六条规则只启动当前已有cast过程；不产生伪装、实际命中、伤害、控制、区域增益或目标选择，Wasm组装、宿主技能使用事件和真实战斗尚未验证。",
+  "batchSha256": "35a4cdce57c16b6bc12449d8a5eb44ffd854529942adcff36d7e679561cd65c7"
+}

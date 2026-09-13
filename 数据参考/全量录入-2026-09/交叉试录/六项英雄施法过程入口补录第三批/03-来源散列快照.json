@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "frozenAt": "2026-09-13T13:07:55.037Z",
+  "status": "FROZEN",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+      "sha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+      "byteSize": 266589
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "byteSize": 258594
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "byteSize": 364681
+    }
+  ],
+  "sourceEntries": [
+    {
+      "skillKey": "twitch_q",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+      "sourceSha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "ce403a5dcc34779ad7ba2bf616297221553bc3dadecba4469b0ef4e90f505241",
+      "officialSha256": "11bd82969c5af05144c3d5812864a319a69a5050d8f91abc38a2c21bac7b6b81"
+    },
+    {
+      "skillKey": "twitch_e",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/录入候选.json",
+      "sourceSha256": "c867ac7248907472d59dc39c3b19ed9f3d7d4e78e8a5ea19e98ba68606d4fd90",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "ce403a5dcc34779ad7ba2bf616297221553bc3dadecba4469b0ef4e90f505241",
+      "officialSha256": "11bd82969c5af05144c3d5812864a319a69a5050d8f91abc38a2c21bac7b6b81"
+    },
+    {
+      "skillKey": "veigar_e",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+      "officialSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de"
+    },
+    {
+      "skillKey": "veigar_r",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sourceSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+      "officialSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de"
+    },
+    {
+      "skillKey": "warwick_w",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "edb356788c83b041f25b04d5b59e8d119e6d65852c58d97915dfe70d5b977391",
+      "officialSha256": "1dcdc5ac82bc39bea7dadb420f1b6ff0091b5298e5db9a2ba5d962961899a2dd"
+    },
+    {
+      "skillKey": "trundle_w",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/完整候选.json",
+      "sourceSha256": "45a9e350cee18e57166d7de166dbcc44035e32b4a224da749e7d2189f96f6fef",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "af25e7e708a5618bc5d3bc46249950004f97cb789a913c96ef9cb92c047a9fef",
+      "officialSha256": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e"
+    }
+  ],
+  "scriptFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第三批/01-补录方案.md",
+      "sha256": "e4529015b8238b06b9dde1b111dde8089d24736e3208ed6218aa5d77a2e44d72",
+      "byteSize": 1224
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第三批/README.md",
+      "sha256": "af24779d2f2874aef41c93e8065f8f8741e750449a8cc48b511cd5ddf0beebf1",
+      "byteSize": 750
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第三批/批次配置.mjs",
+      "sha256": "b2643e5ccb5705eafe17e702ac6051c9689471f18a567b94b8faa2f999b4b4df",
+      "byteSize": 6399
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄施法过程入口补录第三批/批次执行.mjs",
+      "sha256": "ff487e1c4b097d07a3872ce604991995317b80560cb9e7c5680f5723e09081ee",
+      "byteSize": 392
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+      "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+      "byteSize": 40022
+    }
+  ],
+  "scope": [
+    {
+      "skillKey": "twitch_q",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "twitch_e",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "veigar_e",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "veigar_r",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "warwick_w",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "trundle_w",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    }
+  ]
+}
