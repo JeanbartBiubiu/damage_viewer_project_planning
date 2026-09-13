@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-12T18:09:38.759Z",
+  "generatedAt": "2026-09-13T04:17:13.310Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -6817,6 +6817,141 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/六项英雄主动触发补录/09-证据清单.json",
         "sha256": "6a76e07bdc8f93fcd7bdb94a771ac3d643b10bd62c58f78a18d96663827c648e",
         "commit": "ff7e428ef9caeae206ebf6b9f86707c2a56906c6"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "sevenHeroActiveTriggerBackfill": {
+      "at": "2026-09-13T04:17:13.310Z",
+      "status": "七项英雄主动触发完成独立语义复核，其中六条规则完成Cursor终审、受保护写入、独立GET回读和真实页面验收；安蓓萨W因角色等级动态输入没有合法来源暂缓",
+      "sourceVersion": "16.17.1",
+      "reviewedSkills": [
+        "nautilus_w",
+        "missfortune_w",
+        "aatrox_r",
+        "kennen_r",
+        "sivir_w",
+        "renekton_r",
+        "ambessa_w"
+      ],
+      "created": {
+        "triggerRules": 6
+      },
+      "semantics": [
+        "诺提勒斯W、厄运小姐W和亚托克斯R主动使用时分别执行已有自身护盾、攻击速度和攻击力增幅效果，不接入尚未形成完整效果的并列机制。",
+        "凯南R主动使用时依次执行已有护甲和魔法抗性效果，两个动作修改不同属性，不混入尚未接线的周期伤害。",
+        "希维尔W与雷克顿R的既有cast过程已经处理冷却、资源或目标效果，规则只启动过程，避免绕过过程或重复结算。"
+      ],
+      "deferred": [
+        {
+          "skillKey": "ambessa_w",
+          "ruleKey": "on_used",
+          "reason": "self_shield可达公式依赖RUNTIME_INPUT参数shield_base_at_character_level；当前SKILL_USED事件、内部状态和支持的绑定来源都不能提供角色等级，空绑定会被后端以INVALID_RUNTIME_INPUT_BINDING和BINDING_MISSING拒绝。"
+        }
+      ],
+      "preparation": {
+        "GETs": 2644,
+        "status200": 2632,
+        "expected404": 12,
+        "businessWrites": 0,
+        "priorRuleCount": 114,
+        "skillCount": 1062,
+        "sourceInitializedCount": 24,
+        "sourceSnapshotSha256": "073a2210f6ba063d1f21254ddf6dc44111d30ccdcb3cac12cf1e75de9b037217",
+        "frozenRequestSha256": "5685a38960a58b4f9b99de150da8bfc0dd80b99c3e3918f1dd7febc4dd030ec2",
+        "baselineSha256": "141d76464e5529d3bd38679692c53830bf259d8157643fc553070845546c34c1"
+      },
+      "cursorReview": {
+        "runId": "run-680e3a81-1eb3-4c85-ad62-e18ee8e2d741",
+        "requestId": "8cd0b710-eb26-455b-9205-4c590033b77f",
+        "agentId": "agent-024b3e6d-dde3-4d94-9b67-ff56357e94f3",
+        "resultStatus": "finished",
+        "planRevision": 1,
+        "verdict": "READY",
+        "sdkVersion": "1.0.24",
+        "model": "grok-4.6",
+        "effort": "high",
+        "fast": false,
+        "uniqueToolCalls": 1,
+        "completedToolCalls": 1,
+        "allTerminalCallsCompleted": true,
+        "anyTruncated": false,
+        "auditAvailable": true,
+        "runDeltaCount": 0,
+        "outsideScopeCount": 0,
+        "apiWrites": 0
+      },
+      "writer": {
+        "protectedGETs": 3990,
+        "businessWrites": 6,
+        "POST": 6,
+        "status201": 6,
+        "immediateReadbacks": 6,
+        "replayedWrites": 0,
+        "priorRuleCount": 114,
+        "finalRuleCount": 120,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 1334,
+        "businessWrites": 0,
+        "priorRulesUnchanged": 114,
+        "newRulesMatched": 6,
+        "nonRuleTargetsUnchanged": 6,
+        "skillCount": 1062,
+        "finalRuleCount": 120,
+        "sourceInitializedCount": 24,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 304,
+        "businessWrites": 0,
+        "skills": [
+          "nautilus_w",
+          "missfortune_w",
+          "aatrox_r",
+          "kennen_r",
+          "sivir_w",
+          "renekton_r"
+        ],
+        "checks": 7,
+        "listImagesVisible": 6,
+        "imageNaturalSize": "64x64",
+        "processDetailsVisible": 2,
+        "directEffectDetailsVisible": 5,
+        "triggerDetailsVisible": 6,
+        "screenshots": 19,
+        "pageErrors": 0,
+        "consoleErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "protected": {
+        "priorRulesUnchanged": 114,
+        "skillSubjectsUnchanged": true,
+        "ownerRelationsUnchanged": true,
+        "representativeImagesUnchanged": true,
+        "nonRuleComponentsUnchanged": true
+      },
+      "experienceIssues": [
+        "触发规则接线前必须遍历效果和过程可达的动态输入；没有合法供值来源时应在任何写入前暂缓。",
+        "已有主动cast过程负责冷却、资源和效果绑定时，触发规则只启动过程；直接执行其中效果会绕过过程或重复应用。",
+        "彼此独立的自身增益可以先接线，但必须保留未接入的一对一机制清单，不能把局部保存描述为完整技能。",
+        "Cursor终审期间出现允许范围外的并行未跟踪文件会使审计不可采用；先提交独立并行报告，再进行最终终审。"
+      ],
+      "pending": [
+        "安蓓萨W等待有证据的角色等级运行值来源，或调整已保存参数和公式以移除未供给的动态输入。",
+        "诺提勒斯W攻击附伤、厄运小姐W移速状态、亚托克斯R移动与治疗增幅、凯南R周期伤害、希维尔W弹射、雷克顿R当前生命与周期行为继续按机制清单处理。",
+        "六条新增规则尚未执行宿主事件、战斗运行或Wasm验收。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/七项英雄主动触发补录/09-证据清单.json",
+        "sha256": "3a8ccdfbf749590e6fe9d2b31f1c67fe7577476b4d69a2eea7ccc141c3163b6a",
+        "commit": "0790a6443f7c62249907b83fe877bbe558478ffb"
       },
       "runtimeValidation": "未执行"
     }
