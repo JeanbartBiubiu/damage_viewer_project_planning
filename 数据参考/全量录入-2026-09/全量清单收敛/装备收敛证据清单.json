@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T10:15:12.179Z",
+  "status": "PASS",
+  "scope": "装备868项逐项唯一结论",
+  "currentReadback": {
+    "getCount": 596,
+    "businessWrites": 0,
+    "sourceItems": 868,
+    "equipmentSubjects": 198,
+    "matchedSourceSubjects": 198,
+    "equipmentSkillRelations": 146,
+    "equipmentImages": 198,
+    "exactPureAttributeItems": 47,
+    "completeScopeItems": 5
+  },
+  "conclusions": {
+    "已录入": 52,
+    "明确排除": 581,
+    "资料待核": 208,
+    "系统暂缓": 27
+  },
+  "openQueueItems": 235,
+  "overall": {
+    "sourceItems": 1975,
+    "concludedItems": 1975,
+    "conclusions": {
+      "已录入": 226,
+      "明确排除": 618,
+      "资料待核": 627,
+      "系统暂缓": 504
+    },
+    "openQueueItems": 1131
+  },
+  "priorExploration": {
+    "getCount": 57,
+    "equipmentListGETs": 4,
+    "equipmentAttributeGETs": 48,
+    "equipmentRelationGETs": 5,
+    "businessWrites": 0,
+    "purpose": "确认当前总数、历史别名、纯属性值映射和第十一批零挂载；规范回读不复用这些过程内结果。"
+  },
+  "allGroups": {
+    "characters": "COMPLETE_FOR_CHARACTER_SUBJECT_SCOPE",
+    "skills": "FULL_COVERAGE_WITH_OPEN_QUEUE",
+    "equipment": "FULL_COVERAGE_WITH_OPEN_QUEUE",
+    "runes": "FULL_COVERAGE_WITH_OPEN_QUEUE"
+  },
+  "files": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备符文/装备全量处置清单.json",
+      "role": "固定16.17.1装备来源清单",
+      "sha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备符文/纯属性装备可录清单.json",
+      "role": "47件纯属性来源与期望值",
+      "sha256": "abc9d9c2a2b418d71fb1a602547298f7fa926fa02618da42c12a216fe949245a"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备效果候选/逐件审阅.json",
+      "role": "134件普通效果装备逐项缺口",
+      "sha256": "7ff2b02e46199d8e3a41aae84888b9df0cb9c7206b5d7e4a8c647efef565bb05"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备效果候选/来源与覆盖.json",
+      "role": "134件逐项审阅覆盖证明",
+      "sha256": "fb49f9b5dfe508320e5c98248ac58c8bc27572e76faa232542256c388443c3bc"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/装备技能实录/第十一批范围与轻灵鞋/独立最终回读.json",
+      "role": "5件当前1V1范围完整证据",
+      "sha256": "db2561689f8dce6e62c80410f6c209b691474660da415b4a820156434e73b88d"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/核对装备清单.mjs",
+      "role": "装备当前回读、集成和检查脚本",
+      "sha256": "d8b756ead6155189ffe68992f2a91cc71a6e82afd704b2b2f2856d230193b51b"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/装备清单当前回读证据.json",
+      "role": "596次当前GET回读证据",
+      "sha256": "9c7a12e36a37fbfcf25d17918b15abc0af65815cc2c2c8f3b52894026494b550"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/阶段进度.json",
+      "role": "唯一逐项结论真源",
+      "sha256": "dca27cf06725ecbc4e7ed3bdacaa0bd78d723a3b33d6eefa99a630fea333bf3e"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/README.md",
+      "role": "执行顺序、调查和代理降级记录",
+      "sha256": "cfc781c6fcca4b7c39433230aa7ac622dd002dcf9632e0acbcaada2a3dfbfc88"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/系统精简实施说明.md",
+      "role": "装备映射边界与总覆盖",
+      "sha256": "f82db83970c47df786d2cbfc94afb2c2f4ddbddcb5b05d67838c75fd17ac83bd"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/英雄装备符文全量实录.md",
+      "role": "装备实录与总开放队列",
+      "sha256": "f861690ee4873d846eee8f2e037cd671dae3bd2d7e93220dfa780699b7eaa76d"
+    },
+    {
+      "relativePath": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+      "role": "装备逐项结论规则",
+      "sha256": "56691a2efb4f4d093c4103467e2de2e616336a0b65ace1225a19bb78b2302c48"
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/生成装备收敛证据清单.mjs",
+      "role": "本证据清单生成器",
+      "sha256": "e238ee6c210faa9ee42a39a949c58e60b7a61e8fea6e177d317dab458a2f9589"
+    }
+  ],
+  "boundary": "装备868项已全部形成唯一结论；208项资料待核和27项系统暂缓仍需继续处理。四类清单均已覆盖，但合计1131项开放队列使整体Goal不能完成。"
+}
