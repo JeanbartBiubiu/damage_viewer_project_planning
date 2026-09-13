@@ -1,0 +1,5647 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T09:17:04.289Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "businessWrites": 0,
+  "getCount": 685,
+  "statusCounts": {
+    "200": 685
+  },
+  "source": {
+    "relativePath": "数据参考/全量录入-2026-09/英雄/英雄资料清单.json",
+    "sha256": "416c70b18ca94b790d897307833390d459641a3c9fee2149ef3e8d69909be08c",
+    "championCount": 173,
+    "inScopeCount": 171,
+    "excludedCount": 2,
+    "sourceSkillSlotCount": 865,
+    "inScopeSkillSlotCount": 855
+  },
+  "current": {
+    "characterCount": 171,
+    "uniqueMappingCount": 171,
+    "characterDetailGETs": 171,
+    "attributeGETs": 171,
+    "representativeImageGETs": 171,
+    "characterSkillRelationGETs": 171,
+    "relationCount": 855,
+    "enabledRepresentativeImageCount": 171,
+    "completeLevelRangeCount": 171
+  },
+  "excluded": [
+    {
+      "sourceChampionId": "Aphelios",
+      "sourceNumericId": "523",
+      "name": "厄斐琉斯",
+      "entryStatus": "约定排除",
+      "exclusionReason": "用户明确后置：厄斐琉斯及完整武器技能集合。"
+    },
+    {
+      "sourceChampionId": "Sylas",
+      "sourceNumericId": "517",
+      "name": "塞拉斯",
+      "entryStatus": "约定排除",
+      "exclusionReason": "用户明确后置：赛拉斯及技能偷取机制。"
+    }
+  ],
+  "mappings": [
+    {
+      "sourceChampionId": "Aatrox",
+      "sourceNumericId": "266",
+      "name": "亚托克斯",
+      "characterKey": "champion_aatrox",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "aatrox_p",
+        "aatrox_q",
+        "aatrox_w",
+        "aatrox_e",
+        "aatrox_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_aatrox",
+      "hashes": {
+        "detail": "9f1e158f7b8b821db675b0f4b30841e5d695baee2bb58031a5750485d3690380",
+        "attributes": "35a2bcf7f973d0d98506b9538777f30e34939a9d0ea4a8bcc2950c2164b47c37",
+        "relations": "17c2ad9674d65ba58cf6afdf19b25c010b89030077988502b192a3cf5582612e",
+        "representativeImage": "1ab676c13e2755f8484fbe3f15dbc4c3c755b90fb92ba5024e0973889ac2527e"
+      }
+    },
+    {
+      "sourceChampionId": "Ahri",
+      "sourceNumericId": "103",
+      "name": "阿狸",
+      "characterKey": "champion_ahri",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ahri_p",
+        "ahri_q",
+        "ahri_w",
+        "ahri_e",
+        "ahri_r"
+      ],
+      "representativeImageKey": "image_765384d4-2926-46c1-b9d6-c06a8d409328",
+      "hashes": {
+        "detail": "aba0fa81ade1e48fdb8e2284becd3c939121cb37db973db0a9d1b1f055ff9d3f",
+        "attributes": "2d2db04f28770216d612a5865c890136a5c7da34bc569e6dfe6b0fe59c7daeee",
+        "relations": "1131d1736f992cc0cef90d85298630098fa33e2a56fb1ead5c154499811a3023",
+        "representativeImage": "ba602166565bd856456eae4df357dd56ad3609e1d7dd1ab7a5152148cca23811"
+      }
+    },
+    {
+      "sourceChampionId": "Akali",
+      "sourceNumericId": "84",
+      "name": "阿卡丽",
+      "characterKey": "champion_akali",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "akali_p",
+        "akali_q",
+        "akali_w",
+        "akali_e",
+        "akali_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_akali",
+      "hashes": {
+        "detail": "420176f728b3e8a00e83e85986cc5c1144ace95d2593a5229c7ea3f1f08ecf38",
+        "attributes": "0f87d564095870006f532fb0cfa167ff594e09b2db742ae5a07d80f536224eb6",
+        "relations": "47d101e7ed6a68070bb8e8b2ea65167fa0087f7aee9b67f73721659cb8f80785",
+        "representativeImage": "ef03d9f95d06a725414ffa728d8f2f5b37ac643891877b492ddbad67014e477d"
+      }
+    },
+    {
+      "sourceChampionId": "Akshan",
+      "sourceNumericId": "166",
+      "name": "阿克尚",
+      "characterKey": "champion_akshan",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "akshan_p",
+        "akshan_q",
+        "akshan_w",
+        "akshan_e",
+        "akshan_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_akshan",
+      "hashes": {
+        "detail": "28d76984f3cba79063b89b08b54886e03a8ca564fdb237975bf0141d32c1c2b1",
+        "attributes": "d17a305bfdaa29e387c86a8b8f2356ea15934f994aa5232a0bad372983f5140c",
+        "relations": "94406ea34d031849536a05e69e00c05c948175b1bcec6e574055846f78a4646f",
+        "representativeImage": "f412f6eff33babad30ca4f5552d475a608f21058b686d64c2266b91ba097bead"
+      }
+    },
+    {
+      "sourceChampionId": "Alistar",
+      "sourceNumericId": "12",
+      "name": "阿利斯塔",
+      "characterKey": "champion_alistar",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "alistar_p",
+        "alistar_q",
+        "alistar_w",
+        "alistar_e",
+        "alistar_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_alistar",
+      "hashes": {
+        "detail": "d32e7f16fb48ebf06c457ca231bad172de880a24311b57daef70f8f3c344516f",
+        "attributes": "9b2524023fcf6b67e11542ef9b4741a6e4635ca15942393a51e70219d6ad6580",
+        "relations": "b56fe600959a67f7df10dc0c51f9548b167090ab993f8f9a188c109f9cf9c0a0",
+        "representativeImage": "b6ba26bd881a1805a494e8703b7f94f6ceb0bac655ea96973246318668fa2b57"
+      }
+    },
+    {
+      "sourceChampionId": "Ambessa",
+      "sourceNumericId": "799",
+      "name": "安蓓萨",
+      "characterKey": "champion_ambessa",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ambessa_p",
+        "ambessa_q",
+        "ambessa_w",
+        "ambessa_e",
+        "ambessa_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_ambessa",
+      "hashes": {
+        "detail": "73d82b60040c4e74b6e8136725d99a6b1e2bb44f0c158287d29f1ec61bb7d663",
+        "attributes": "96c42c24817d2c1a6beb41c31d1fa5e1255aafa4c1814e2672c0db64cbfc4a61",
+        "relations": "1a384d2233b6656de53200e4bc5d0a5da77f7488d28c09f3ba1502796c782a48",
+        "representativeImage": "bdc642c9e37156f1d9fd5f6d9d309450a49c4dcf9158251fa5c6b9d20c135098"
+      }
+    },
+    {
+      "sourceChampionId": "Amumu",
+      "sourceNumericId": "32",
+      "name": "阿木木",
+      "characterKey": "champion_amumu",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "amumu_p",
+        "amumu_q",
+        "amumu_w",
+        "amumu_e",
+        "amumu_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_amumu",
+      "hashes": {
+        "detail": "2d1e7b8bffc3ce725150897d58b960436fb8f1a0ba506608cbf2d40d282bce72",
+        "attributes": "e5642b4ae61be1df09ae4509d03358a06ec066d107dba622955ad52f40bcf4db",
+        "relations": "ffb20c8fdc87993ec47deb89c9e3a37d6242c21dc418f7602b4ee1236774da1e",
+        "representativeImage": "df7fa2a9ebc5fa9dd28de35a739ca116529ce1c4f39e203264cee7a8142882e6"
+      }
+    },
+    {
+      "sourceChampionId": "Anivia",
+      "sourceNumericId": "34",
+      "name": "艾尼维亚",
+      "characterKey": "champion_anivia",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "anivia_p",
+        "anivia_q",
+        "anivia_w",
+        "anivia_e",
+        "anivia_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_anivia",
+      "hashes": {
+        "detail": "f177237b34ad1f6c3ad173f0092bd5fc49185da8e0602699b29836f817af2bd1",
+        "attributes": "4ba4557e8c21e4f637a082c39e9184a8f4f96ca311d85617b1ea1e40b04b69c5",
+        "relations": "2a91f4adcccb60e49ad59eea8b6468bbade7f4beb370c158c3d3196f1ad9888f",
+        "representativeImage": "b8d98c332f81470427bd880a61f5784dcd44e8de01e4af606a060c5f96ac7c54"
+      }
+    },
+    {
+      "sourceChampionId": "Annie",
+      "sourceNumericId": "1",
+      "name": "安妮",
+      "characterKey": "champion_annie",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "annie_p",
+        "annie_q",
+        "annie_w",
+        "annie_e",
+        "annie_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_annie",
+      "hashes": {
+        "detail": "f8f6b6996a95a4ee2efa6adf215be2ef96159373bb65a857b5d12e63c9d4283e",
+        "attributes": "57343429b780a528e252e7c329b87bbc946fc161eb8b9b755fbda2a29b52a21a",
+        "relations": "1f59850f9ccdc61182ea9370212dc91a2ec8bbd27ac1a3e9af9890fffab14243",
+        "representativeImage": "9ee1e18981b278092e6b9e8f19339b21fa7d2a198e610c0211b2f3a48dfb99b8"
+      }
+    },
+    {
+      "sourceChampionId": "Ashe",
+      "sourceNumericId": "22",
+      "name": "艾希",
+      "characterKey": "champion_ashe",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ashe_p",
+        "ashe_q",
+        "ashe_w",
+        "ashe_e",
+        "ashe_r"
+      ],
+      "representativeImageKey": "image_af7e97cc-03c4-421d-a411-3ca230874e62",
+      "hashes": {
+        "detail": "89449e6965768df90425fa0096655fbefd604a2282a53f3a5e10aa8303835b06",
+        "attributes": "8793ad375726fde74adcb8bf523500d5957f37ea9cc113ef9e208acb1845367d",
+        "relations": "64794ba43c2e608fe0aaec8421148bd6dc83dc627781ca4ab9f64602c8b8df2e",
+        "representativeImage": "9dffa6134fb10c69ac8c663a3b9060bdbc0950b9a46f3569abe5daeb181d0af1"
+      }
+    },
+    {
+      "sourceChampionId": "AurelionSol",
+      "sourceNumericId": "136",
+      "name": "奥瑞利安·索尔",
+      "characterKey": "champion_aurelionsol",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "aurelionsol_p",
+        "aurelionsol_q",
+        "aurelionsol_w",
+        "aurelionsol_e",
+        "aurelionsol_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_aurelionsol",
+      "hashes": {
+        "detail": "9e1315bb6314dee19d23d6806ef50e4d0781751a9918296396273d5e3338aeb5",
+        "attributes": "3c41fac4d9be6349898102c23ee2b2513647d928411a199ba62106630113a79f",
+        "relations": "beedd01c8c3e82f15ad0b176464c73742db0150c44ca1135f89de3eb6f28b71f",
+        "representativeImage": "0ba2645c401387ec18e5d8850c2ebc300c67012a4bf298c53470f410a9a2933d"
+      }
+    },
+    {
+      "sourceChampionId": "Aurora",
+      "sourceNumericId": "893",
+      "name": "阿萝拉",
+      "characterKey": "champion_aurora",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "aurora_p",
+        "aurora_q",
+        "aurora_w",
+        "aurora_e",
+        "aurora_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_aurora",
+      "hashes": {
+        "detail": "c04b3fc0d34b1126fbaa653803a982ad01d29cbb90bde9204d6640f8e4e15826",
+        "attributes": "f8cd61e3b31aea0b7a2f90481de600616242d8329b2fc7666c181c40df597684",
+        "relations": "24aefd47fb6819bcbda444120522c6272c9a8dc89f62204a465844afee90e582",
+        "representativeImage": "f95754d8b64b0ee6906b8371fd16b8482d66183ece94e4b5f768b40868bd0ab8"
+      }
+    },
+    {
+      "sourceChampionId": "Azir",
+      "sourceNumericId": "268",
+      "name": "阿兹尔",
+      "characterKey": "champion_azir",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "azir_p",
+        "azir_q",
+        "azir_w",
+        "azir_e",
+        "azir_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_azir",
+      "hashes": {
+        "detail": "75eb49ce29f0b1ecc4b763eec433de7b6905ed0d148ccbfb283ba06e81b4d202",
+        "attributes": "c2f9555dbe5b2eeb8ff0ce492566470900cd433d7202eb7d936385d1042d588e",
+        "relations": "81b00667da96c47dff3dbd215b639645e7ce35183a73d2590836f14a586f6388",
+        "representativeImage": "f4f161583a09ca9f9542bd65aaa846096c41bc9050c5efae6b46d418309b9b66"
+      }
+    },
+    {
+      "sourceChampionId": "Bard",
+      "sourceNumericId": "432",
+      "name": "巴德",
+      "characterKey": "champion_bard",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "bard_p",
+        "bard_q",
+        "bard_w",
+        "bard_e",
+        "bard_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_bard",
+      "hashes": {
+        "detail": "a16c49df7981517a948a1b6ebfe8b50a6b2b9fcb56921413b56a1f1d2c345c70",
+        "attributes": "2e09995f0a7dd6944bf7c7487cbe3b8b31b9329ecd76bad381a77f7fe81d4e66",
+        "relations": "ed86b7c271128c538e301011aeb2b108090257095d0e2841eb58be934070c523",
+        "representativeImage": "5e0b805cf8b066db321527632778bc265981038801def60357416941bdca75e5"
+      }
+    },
+    {
+      "sourceChampionId": "Belveth",
+      "sourceNumericId": "200",
+      "name": "卑尔维斯",
+      "characterKey": "champion_belveth",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "belveth_p",
+        "belveth_q",
+        "belveth_w",
+        "belveth_e",
+        "belveth_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_belveth",
+      "hashes": {
+        "detail": "1971065eaf4f8c5462de4d21379137a81998b743914c709f998c30181622acfb",
+        "attributes": "5ebeaea4fc65b6e970b05f82938373e9d8dc40455300a282782136f190f54f61",
+        "relations": "a238877b0db8c8c8815040e3f6020369dc6296c28e3dbe9e86c44f31cb2741dc",
+        "representativeImage": "655be26f4f86bc635f8e5f97e6dd98c9e30839317a273ad6d2e1e8dc06f661d2"
+      }
+    },
+    {
+      "sourceChampionId": "Blitzcrank",
+      "sourceNumericId": "53",
+      "name": "布里茨",
+      "characterKey": "champion_blitzcrank",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "blitzcrank_p",
+        "blitzcrank_q",
+        "blitzcrank_w",
+        "blitzcrank_e",
+        "blitzcrank_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_blitzcrank",
+      "hashes": {
+        "detail": "8990f158dfafdd95680314f6681ff652d0bae7524b6687bf6c02ee584c86a87c",
+        "attributes": "7483afb6a174a31d2e3c14cfa3c551d00d8edf37fb0a963439eec66f0c82a6b3",
+        "relations": "712d2d828363237a2bb5719c6a800b94a010c33c169796f7e20eee0a2a8fc12f",
+        "representativeImage": "c49b77e379f3387eeb4374704e22b0a0cdb92afc7170b4f8e22da2197a909c64"
+      }
+    },
+    {
+      "sourceChampionId": "Brand",
+      "sourceNumericId": "63",
+      "name": "布兰德",
+      "characterKey": "champion_brand",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "brand_p",
+        "brand_q",
+        "brand_w",
+        "brand_e",
+        "brand_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_brand",
+      "hashes": {
+        "detail": "1381e6d0b3dffe822ab8a494a59dc3ce161cf936fb4ba7fe307bb6545e139f2d",
+        "attributes": "661df7be4ec39f6c4727b531289df6c6d79d89920996a16a946f6ea06763bfe2",
+        "relations": "3801052bd826d023c09b2f2255f39aa45634edcdef7a8fbd9291b9d471fb7975",
+        "representativeImage": "a71cbaa03e958e2e8ded971fdc42d874030b4a82878f0293b8c034568ca472c4"
+      }
+    },
+    {
+      "sourceChampionId": "Braum",
+      "sourceNumericId": "201",
+      "name": "布隆",
+      "characterKey": "champion_braum",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "braum_p",
+        "braum_q",
+        "braum_w",
+        "braum_e",
+        "braum_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_braum",
+      "hashes": {
+        "detail": "c66c0aca682f4644dbb5ce2c921c45ee0ffc3b5d67e83ce6d44ad472315c0932",
+        "attributes": "849a2a9e86f1036ae4cee514e8f2cfadcb680f2e522d1bead5432365d4548f40",
+        "relations": "796d98c8071286452268df569ae3259be89c2a02af111c4d5d2e5146d31fb6eb",
+        "representativeImage": "6086c17f7687fa85116a24d64d31133460fbf1f6a3873d71bf505931426afebe"
+      }
+    },
+    {
+      "sourceChampionId": "Briar",
+      "sourceNumericId": "233",
+      "name": "贝蕾亚",
+      "characterKey": "champion_briar",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "briar_p",
+        "briar_q",
+        "briar_w",
+        "briar_e",
+        "briar_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_briar",
+      "hashes": {
+        "detail": "92cdfa66a0e2d981257ef196a1cdadfa435db2afa30155763113a2fc000ef896",
+        "attributes": "6416e34765ef5f4dcb2003a32d11b3a2552b2a7d0b6be932a2b23b4896ca7e1c",
+        "relations": "230b3d379f5bb0f609f2adf033ddca678b425fdd6871cff3068c8a2031e1f517",
+        "representativeImage": "0172524e2761d0d4c2517f5501fb54a20bfe610e76353650c3db3f2f05d6f424"
+      }
+    },
+    {
+      "sourceChampionId": "Caitlyn",
+      "sourceNumericId": "51",
+      "name": "凯特琳",
+      "characterKey": "champion_caitlyn",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "caitlyn_p",
+        "caitlyn_q",
+        "caitlyn_w",
+        "caitlyn_e",
+        "caitlyn_r"
+      ],
+      "representativeImageKey": "image_16c58ce4-3bdb-4f51-ad19-0d1783f0a970",
+      "hashes": {
+        "detail": "c85d08d0921978564355e2b318250f8c5c443491477b08414de7b8adaf367e5e",
+        "attributes": "be53cb7e72b2ba13e5505414c6085507b26a8eefff4e3e6741b35e9871fd91ea",
+        "relations": "71f114a0c43fa4befcfe55d9dbc8be3d7999aa6107cf3c9b88cc037081b2b73a",
+        "representativeImage": "2afc5d773d4116fe7207adf82a5e60af8c7e572f9c67de38b7593fbd9b1588a3"
+      }
+    },
+    {
+      "sourceChampionId": "Camille",
+      "sourceNumericId": "164",
+      "name": "卡蜜尔",
+      "characterKey": "champion_camille",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "camille_p",
+        "camille_q",
+        "camille_w",
+        "camille_e",
+        "camille_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_camille",
+      "hashes": {
+        "detail": "504fb26a36a89a118f619c82de3412dc4ac56a1449184788dd141e337c0259f7",
+        "attributes": "4ac024419577932d1b08c0ad39c18d3dfab13165c601c2dba7a6dc6823ad5407",
+        "relations": "6d5669c486cae86b557164f10744767414c75fe689288ac4ba64f1d90388e895",
+        "representativeImage": "d8233a6de5963a4569ae6b40cdf0db717780fdc52a44e1848e6edea3de90a22b"
+      }
+    },
+    {
+      "sourceChampionId": "Cassiopeia",
+      "sourceNumericId": "69",
+      "name": "卡西奥佩娅",
+      "characterKey": "champion_cassiopeia",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "cassiopeia_p",
+        "cassiopeia_q",
+        "cassiopeia_w",
+        "cassiopeia_e",
+        "cassiopeia_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_cassiopeia",
+      "hashes": {
+        "detail": "802d3fdb79f07cfb565c2b6952bd4faa1031d16337290f93e03cea8d9eabcead",
+        "attributes": "31e6349710741bf7ce93f1cae614770f610468c51088ade3409200187d30badf",
+        "relations": "f7c5dbff2f9481e0fb3927f7048dc2d59cf9aec8bc5d9da4cea83387a8d08d10",
+        "representativeImage": "52ad99ab9c7bc1f8f7c51892f89aa076ff38e6b44f649efa7563302f8827ae64"
+      }
+    },
+    {
+      "sourceChampionId": "Chogath",
+      "sourceNumericId": "31",
+      "name": "科加斯",
+      "characterKey": "champion_chogath",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "chogath_p",
+        "chogath_q",
+        "chogath_w",
+        "chogath_e",
+        "chogath_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_chogath",
+      "hashes": {
+        "detail": "9b9071af7ea48f86dfd1a726b85243029f1aa2600a62eeb100065a98d789a83b",
+        "attributes": "6715aff29b6a6622a365c9f06cb017fb4d6a6ada45c26cc6d07586e01bd599be",
+        "relations": "fbb23cdccbb2e0a91f6b37b090ac2c5778d1cc842a343fb02be86df9a099beb0",
+        "representativeImage": "badfcec0e62cbe4db6607f6ebc5d07d5fa86982b42d81ceb8e9188b6225fb485"
+      }
+    },
+    {
+      "sourceChampionId": "Corki",
+      "sourceNumericId": "42",
+      "name": "库奇",
+      "characterKey": "champion_corki",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "corki_p",
+        "corki_q",
+        "corki_w",
+        "corki_e",
+        "corki_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_corki",
+      "hashes": {
+        "detail": "352f1f890d9b62d540ebdc71d9683f3720540f85e3745bc2074ad2cadd3ec1da",
+        "attributes": "f5f845f6bac5f7b662e4d3bfe005119b638d1533b81df1cea50bf30c7cf77b7f",
+        "relations": "29c13db3d2e6b0a8e243a6103b84156257ed08f32f86a9b451942a8824be1d6c",
+        "representativeImage": "83b02671f25f838c97818b1e146419416fe28b63cf09f2ecec70589cd5f2da4a"
+      }
+    },
+    {
+      "sourceChampionId": "Darius",
+      "sourceNumericId": "122",
+      "name": "德莱厄斯",
+      "characterKey": "champion_darius",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "darius_p",
+        "darius_q",
+        "darius_w",
+        "darius_e",
+        "darius_r"
+      ],
+      "representativeImageKey": "image_2e3ea725-b5f7-484e-8d9e-6a8be85e04b7",
+      "hashes": {
+        "detail": "19cfcd09d6c8a5dbb5f22d0d70e4c694e81058e53fc6c23dc8b19e2113793271",
+        "attributes": "534b18eff393679a2dea3bd98e1fc18cd5fff6e718b3f3e6c477ee6cb56cecfb",
+        "relations": "4d76b64980650d1590c0cc47a1942451430d0b11b6931866bd7d2409d4cf545e",
+        "representativeImage": "336d158dcda0b1f72f68c21f1aa4f21aa2aed0246e3a5d105afa73755165e9a4"
+      }
+    },
+    {
+      "sourceChampionId": "Diana",
+      "sourceNumericId": "131",
+      "name": "黛安娜",
+      "characterKey": "champion_diana",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "diana_p",
+        "diana_q",
+        "diana_w",
+        "diana_e",
+        "diana_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_diana",
+      "hashes": {
+        "detail": "0d4740f437f85b68cb2bcaffbd511874499964b8abd9dedf897729fc181a9582",
+        "attributes": "748330681970ac60fedb8dc3af63fd929f09e500a0dfa9ab6f081837db896023",
+        "relations": "cb0bf99a977679fe60fa927e1e816f836539e1867c7b3058ce54b611a33439b8",
+        "representativeImage": "873b25e89b1e9c55fc91d5f4f939dc0257b413b55f7f6af2a2f968f28098a9f2"
+      }
+    },
+    {
+      "sourceChampionId": "DrMundo",
+      "sourceNumericId": "36",
+      "name": "蒙多医生",
+      "characterKey": "champion_drmundo",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "drmundo_p",
+        "drmundo_q",
+        "drmundo_w",
+        "drmundo_e",
+        "drmundo_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_drmundo",
+      "hashes": {
+        "detail": "018ba18c0f094fb031e3dc56c77f6d3ae8da7c3d40ddc9abedf58b8113519130",
+        "attributes": "600c72760d6dbcfffd15beac179a8adce375df22c47e8e30ee5f98d8f71ba6e1",
+        "relations": "4a191acc3b50fbd489bf7a0018ef7ef999838647d234e2b0fc44c7563d9ea274",
+        "representativeImage": "dc394434804ecba4fb67f2d5625b0061c34ffe0c51ff68c5fdd612a5fabdd54e"
+      }
+    },
+    {
+      "sourceChampionId": "Draven",
+      "sourceNumericId": "119",
+      "name": "德莱文",
+      "characterKey": "champion_draven",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "draven_p",
+        "draven_q",
+        "draven_w",
+        "draven_e",
+        "draven_r"
+      ],
+      "representativeImageKey": "image_8f42f434-a24e-48ec-86ab-a1e4834406e0",
+      "hashes": {
+        "detail": "bad91af85ddaf2fd9f4578c8211a80062c268605c8afe020a755e2ce2ebe0ae5",
+        "attributes": "74a993db9fec0172282203e86ded1cb9696dd9dc93b9c7dbe2fe02465a0e07bb",
+        "relations": "81b2fea9327364009b04e72b2a19e3fa139e3a8418e229f1205ed78d916f27bd",
+        "representativeImage": "ccb840dcaac81c8eed7697afd914ad66cf272f6d723ffe1c187367e4c1927bae"
+      }
+    },
+    {
+      "sourceChampionId": "Ekko",
+      "sourceNumericId": "245",
+      "name": "艾克",
+      "characterKey": "champion_ekko",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ekko_p",
+        "ekko_q",
+        "ekko_w",
+        "ekko_e",
+        "ekko_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_ekko",
+      "hashes": {
+        "detail": "ef697f876f4c1ee648a30f0e4eceb212c57b47afe635910e9b96fbfdf4144334",
+        "attributes": "e1765042c15be8bbbd05003de9aa1e9f14af1b204c35fa752e38011a9ccd99f4",
+        "relations": "83adc1cb520719ee3c42d342ac3ce2898f2dfbbe045be0622105d709981d2343",
+        "representativeImage": "5ff1211240eb95e2a2d43ccd0f53e38c8592afe2a01c4c8aa83105c0011bd440"
+      }
+    },
+    {
+      "sourceChampionId": "Elise",
+      "sourceNumericId": "60",
+      "name": "伊莉丝",
+      "characterKey": "champion_elise",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "elise_p",
+        "elise_q",
+        "elise_w",
+        "elise_e",
+        "elise_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_elise",
+      "hashes": {
+        "detail": "63f5009b2dc4a69b9182945954c80dfdff20a362e6007f17d7ba87ab59b04e1f",
+        "attributes": "7670d6b0da0cc4ceee79bf86df60275c7a24fcd1b3c81afd3e017ab297e44a4e",
+        "relations": "33b40046f2bf71c44ca2b26e2659efb4256dd403e4680ef8ce3b5b04212787ae",
+        "representativeImage": "be9a91d91ee68b79b79736c31d8e88424ef0d0298f2b9379180a6cdc4287a718"
+      }
+    },
+    {
+      "sourceChampionId": "Evelynn",
+      "sourceNumericId": "28",
+      "name": "伊芙琳",
+      "characterKey": "champion_evelynn",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "evelynn_p",
+        "evelynn_q",
+        "evelynn_w",
+        "evelynn_e",
+        "evelynn_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_evelynn",
+      "hashes": {
+        "detail": "5c24a62195f0ff6377dc07379e362d378107bb7eb1aec09b1294b569dbb1f96c",
+        "attributes": "e07b22d20c91d4774b31ad84074936c4965a0285845d6a1096cf9cc9305dab80",
+        "relations": "ac4df60ab4c9dd0e5ac60baa030156456b48ff2efa1a208ee0fac1a5cec1ff1b",
+        "representativeImage": "2107a8645ece309b5e856debf4b5212ba7ce4865316b4a1fd909ff03649834e8"
+      }
+    },
+    {
+      "sourceChampionId": "Ezreal",
+      "sourceNumericId": "81",
+      "name": "伊泽瑞尔",
+      "characterKey": "ez",
+      "levelCount": 18,
+      "attributeKeys": [
+        "ability_power",
+        "armor",
+        "armor_pen_flat",
+        "armor_pen_percent",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "bonus_attack_speed_percent",
+        "critical_strike_chance",
+        "energy",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ez_p",
+        "ez_q",
+        "ez_w",
+        "ez_e",
+        "ez_r"
+      ],
+      "representativeImageKey": "image_92ec01ec-a7f2-4ad4-901c-dd18b8fa0c73",
+      "hashes": {
+        "detail": "d4dac82f1d96ff5e7730443d28026cbed223018bcf470714c6e609f8edfcba1c",
+        "attributes": "6ef87ce8d77c5b7d9c0d4858e64b5dbbbf6cb8f763b2f363195a21b8ff8b6814",
+        "relations": "c95ec198beb99c17a848fae7fd0eefc44282480152ad9df1444827d71f345491",
+        "representativeImage": "4f135d5e2c687d4403805649a82ff9d34473c725a9ea15df43138be3ffcac693"
+      }
+    },
+    {
+      "sourceChampionId": "Fiddlesticks",
+      "sourceNumericId": "9",
+      "name": "费德提克",
+      "characterKey": "champion_fiddlesticks",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "fiddlesticks_p",
+        "fiddlesticks_q",
+        "fiddlesticks_w",
+        "fiddlesticks_e",
+        "fiddlesticks_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_fiddlesticks",
+      "hashes": {
+        "detail": "ceeb8fc7cebaefa131d584e4fed0ee0626c1ce43bdc13fedb54aef64f52a7c56",
+        "attributes": "ae61704e1ecba647d470d1119a4d2f67b7a8d50cd8aaf6b61328c0c0ca5c7f82",
+        "relations": "720befd00a260a89714f7514a8f3868afb323770f6382545077bad88ca3535d0",
+        "representativeImage": "47dc97c0f3a9a7696aff43ced9a9be7e4f8137811dfca580c57f69e5c35c1b47"
+      }
+    },
+    {
+      "sourceChampionId": "Fiora",
+      "sourceNumericId": "114",
+      "name": "菲奥娜",
+      "characterKey": "champion_fiora",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "fiora_p",
+        "fiora_q",
+        "fiora_w",
+        "fiora_e",
+        "fiora_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_fiora",
+      "hashes": {
+        "detail": "da420799a7fcf00a43e3a4d0c88a99be915be53dca887398dfde16b82a94dcdb",
+        "attributes": "f70d5b666b7690cc078c2aa2e8f9fbac632abd262b9d95524e944f23af78f38c",
+        "relations": "6750b88056344aca767f9194d95faebd52f493195dc645e9470e4584eb0d5078",
+        "representativeImage": "2d48ff9facc2b9b0df02f6fde8c39eb729026b7640110d683b2681107a25d236"
+      }
+    },
+    {
+      "sourceChampionId": "Fizz",
+      "sourceNumericId": "105",
+      "name": "菲兹",
+      "characterKey": "champion_fizz",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "fizz_p",
+        "fizz_q",
+        "fizz_w",
+        "fizz_e",
+        "fizz_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_fizz",
+      "hashes": {
+        "detail": "0fd9c17a711ff51510e549b20e4d12dfbcc3c646983cb310e184e4fe57a3b876",
+        "attributes": "0cf05046c81c266b87265524839b571c8262e3fc5110516100272e5d7b493c7c",
+        "relations": "4516dd00b28297ce2ebe728987b8932dc6d19fc50e45846500e61146c44fd288",
+        "representativeImage": "21e4c36126353748d2d2c957b5f6afa9601ffc1ddf958e54e38e688fc7adbcaf"
+      }
+    },
+    {
+      "sourceChampionId": "Galio",
+      "sourceNumericId": "3",
+      "name": "加里奥",
+      "characterKey": "champion_galio",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "galio_p",
+        "galio_q",
+        "galio_w",
+        "galio_e",
+        "galio_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_galio",
+      "hashes": {
+        "detail": "ba4c289331fe49acc3547073b56fa6b03238bc53662a1a285ce96889756f06e1",
+        "attributes": "4498aa5f089f442439f7cf0bbf6fd13749624c761ab6bd239bced202d15b1439",
+        "relations": "3d207d251efa4c127f41de07612ed530bc3a78a642d0a4ec160c88734426b6c9",
+        "representativeImage": "56234ab4eca2ee52be38ad69a4d2ee9727371a30696563ea72048d6b322f7f2c"
+      }
+    },
+    {
+      "sourceChampionId": "Gangplank",
+      "sourceNumericId": "41",
+      "name": "普朗克",
+      "characterKey": "champion_gangplank",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "gangplank_p",
+        "gangplank_q",
+        "gangplank_w",
+        "gangplank_e",
+        "gangplank_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_gangplank",
+      "hashes": {
+        "detail": "b39b8f0c91704136394c80477025fb8cf007753f9fa9cb17a858ff8fdaefc051",
+        "attributes": "53ba42b333f1d4024d544ada3814dcccdb5f04f9e67142073454d8180eb8e0c5",
+        "relations": "91ebacd7736debfed4efd7cf1b0883e9865a0e7ed0c7d2c11b0e38f7a58a911a",
+        "representativeImage": "bb2c6c685850e0602c6b5d2197a350274325c403956103010afcfddc0f37a00d"
+      }
+    },
+    {
+      "sourceChampionId": "Garen",
+      "sourceNumericId": "86",
+      "name": "盖伦",
+      "characterKey": "champion_garen",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "garen_p",
+        "garen_q",
+        "garen_w",
+        "garen_e",
+        "garen_r"
+      ],
+      "representativeImageKey": "image_64b2a9e8-a4bc-4093-884d-4d2b2d967b2e",
+      "hashes": {
+        "detail": "7723f18b90bcbb7fa979962299e010d6105b98749f1acd463216d161b5514efb",
+        "attributes": "74528526bc1446a53e390855d8898df7f361803cb58eddf1b721f5844ea3d1b0",
+        "relations": "53c237e8177b82a8663b92eb88e7232c89667bca417f522d45bb461cae607eed",
+        "representativeImage": "9957b37b1254e917f54b9c6ad3abef232eabcfc157ef4f2f6822aee3c56740f9"
+      }
+    },
+    {
+      "sourceChampionId": "Gnar",
+      "sourceNumericId": "150",
+      "name": "纳尔",
+      "characterKey": "champion_gnar",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "gnar_p",
+        "gnar_q",
+        "gnar_w",
+        "gnar_e",
+        "gnar_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_gnar",
+      "hashes": {
+        "detail": "bc2d7beb92cf3e0586ea0ccc27c0de33cac10f72628d3b0afcbc2deaac85e308",
+        "attributes": "ef096e98a3e5e5981edf91ef082c278b1ff834538917b3f1307a1557f5ba94a0",
+        "relations": "7328694ef1edc4f7c02619bb3b6ff8ffba37161f39a7a0c15fd485e095d20dcb",
+        "representativeImage": "b5fdbc38a56918d2967d4e69bbb11f131b0ea6f486fda31c668cd70c93e3411d"
+      }
+    },
+    {
+      "sourceChampionId": "Gragas",
+      "sourceNumericId": "79",
+      "name": "古拉加斯",
+      "characterKey": "champion_gragas",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "gragas_p",
+        "gragas_q",
+        "gragas_w",
+        "gragas_e",
+        "gragas_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_gragas",
+      "hashes": {
+        "detail": "6b898a9204a274c176a4a0c01ec8806e6796c8ae151419215f0434c28e643943",
+        "attributes": "b743897cc5f48f68cbac08c045fac9a0e46fe8c67a57e29762889588aa5a8a19",
+        "relations": "0d7d5b91ec0c09c5fafc802854a27401a95188b9c409d47d8e1bdd1c16c0bb6d",
+        "representativeImage": "35248a240f7a3e407b70f1ff510399cb331a4b9cc6fabbe633449af18db0439f"
+      }
+    },
+    {
+      "sourceChampionId": "Graves",
+      "sourceNumericId": "104",
+      "name": "格雷福斯",
+      "characterKey": "champion_graves",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "graves_p",
+        "graves_q",
+        "graves_w",
+        "graves_e",
+        "graves_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_graves",
+      "hashes": {
+        "detail": "55b6f772b82813b2d0ecca1f6fd3cda46bc41f9af0fb030f5de21e2c44670658",
+        "attributes": "665d3bacef30206f9d8f11da4374940e2bc6339564410533d9ee0b5c331e0958",
+        "relations": "d89498010a8b469060b119b8a0c9788aefeee286f1fcd0aa2cd55284ab74f69f",
+        "representativeImage": "17c743e9584e97c3459945486fc49eacf856edffc223b0fdaa135bb14ab16884"
+      }
+    },
+    {
+      "sourceChampionId": "Gwen",
+      "sourceNumericId": "887",
+      "name": "格温",
+      "characterKey": "champion_gwen",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "gwen_p",
+        "gwen_q",
+        "gwen_w",
+        "gwen_e",
+        "gwen_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_gwen",
+      "hashes": {
+        "detail": "6baf07a6bbb63b19c9d49f300f83bcdb9a565a715145735029ebadca77218b5e",
+        "attributes": "7bd2173e87b6186809d608075535819b7a4ca1ee3f7ab08d974b837bbd41114c",
+        "relations": "ef8d32b9409d191d23cdba53ded23ad2a6fd18f12a52ef39dad9534816f5804b",
+        "representativeImage": "4859c8d580763fbe17a0deaeee8bdb24058b33d37e063e520daa8484a1842f9d"
+      }
+    },
+    {
+      "sourceChampionId": "Hecarim",
+      "sourceNumericId": "120",
+      "name": "赫卡里姆",
+      "characterKey": "champion_hecarim",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "hecarim_p",
+        "hecarim_q",
+        "hecarim_w",
+        "hecarim_e",
+        "hecarim_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_hecarim",
+      "hashes": {
+        "detail": "c762b40b7718b7901e3fd14f2ebbb2357387e5591f0c301015a37b47c107ed61",
+        "attributes": "925239186002bb2f544afb258764a64cf8e8654a50b00bed1c24d1f59c6f4f2b",
+        "relations": "7033f00b82661963dbab43620651e3bcdd637801a8d5f8b081bf124a1613d0f1",
+        "representativeImage": "7c0135fdae446849153383c80600dc1e964100b40fc02e0184101f22cead1fa7"
+      }
+    },
+    {
+      "sourceChampionId": "Heimerdinger",
+      "sourceNumericId": "74",
+      "name": "黑默丁格",
+      "characterKey": "champion_heimerdinger",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "heimerdinger_p",
+        "heimerdinger_q",
+        "heimerdinger_w",
+        "heimerdinger_e",
+        "heimerdinger_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_heimerdinger",
+      "hashes": {
+        "detail": "d90e4ecbc4999eab72998bfadca8d2fc686654cca5bc52b629422bb0b9b92279",
+        "attributes": "eb7590039e16597100cc8eec5c6a23a5f29aae0a39e60aaaf36a80b5e5bd5121",
+        "relations": "2ab82cf1185aafa86d3f0a0cbcf344c3bb05502862090aed04971cfd319de3d8",
+        "representativeImage": "238cad442c270bd09cfcd916e4d6ce21f4f12338ceae5647eab2cb544a31031d"
+      }
+    },
+    {
+      "sourceChampionId": "Hwei",
+      "sourceNumericId": "910",
+      "name": "彗",
+      "characterKey": "champion_hwei",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "hwei_p",
+        "hwei_q",
+        "hwei_w",
+        "hwei_e",
+        "hwei_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_hwei",
+      "hashes": {
+        "detail": "467d7b7de3e622d4d92960c21cc2c882303c75b834c742bc736dd2829c30d817",
+        "attributes": "952aea02eff6b76fd9a3716625ea557ea078f421e374d6683688089d060c62f1",
+        "relations": "8c67ce715fe635e4a893e74fb49f7f6f76737b95da1599fc4ec384993f13a258",
+        "representativeImage": "61ee6861c2b08bbe8a438e814e21f2dca8cd72cfdb219db033d4f28e9b86bf37"
+      }
+    },
+    {
+      "sourceChampionId": "Illaoi",
+      "sourceNumericId": "420",
+      "name": "俄洛伊",
+      "characterKey": "champion_illaoi",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "illaoi_p",
+        "illaoi_q",
+        "illaoi_w",
+        "illaoi_e",
+        "illaoi_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_illaoi",
+      "hashes": {
+        "detail": "0a9283fd73ea35be9c5a9348ad48438680f3fb3ad2bed1a61ffc275bf0fe2345",
+        "attributes": "7f3e395a8714ba3ade8f1fec147fcf7f4ff2db40cd9cc54960e0a82a8a3dddfc",
+        "relations": "3353ad9a3ecc685697c3af70a8b8ef6b8f52b41e773cd22f1be5f2b99a7ccb19",
+        "representativeImage": "28ead43cfbda3e2493969818f575167bbc5ec8e545557f04293a8675e41570b2"
+      }
+    },
+    {
+      "sourceChampionId": "Irelia",
+      "sourceNumericId": "39",
+      "name": "艾瑞莉娅",
+      "characterKey": "champion_irelia",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "irelia_p",
+        "irelia_q",
+        "irelia_w",
+        "irelia_e",
+        "irelia_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_irelia",
+      "hashes": {
+        "detail": "d263cf0b0e9475c52bc64079a823e4e5cc46bb1939f07300af00eefce33b20a4",
+        "attributes": "cd0af549d52146ffa56bd4c782213c68ed9d8cf151e90064dd6f505dbb1cb7b5",
+        "relations": "7042f842abedca2145c89b929278395bc9203123cbab1bf6b2476aeb99ed3c56",
+        "representativeImage": "9fffac0e1117244ccaacbbae15de2561295026561cb57092e9e00393e0626ce6"
+      }
+    },
+    {
+      "sourceChampionId": "Ivern",
+      "sourceNumericId": "427",
+      "name": "艾翁",
+      "characterKey": "champion_ivern",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ivern_p",
+        "ivern_q",
+        "ivern_w",
+        "ivern_e",
+        "ivern_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_ivern",
+      "hashes": {
+        "detail": "fcea4a9a5c60192a61a1f0ab59e6a10e52211b9e6e8b5524a82f99867177f10b",
+        "attributes": "8c2d33ad1164f10c0bd447227977f4a80e937d57d5367c08bb8b26d4683203b9",
+        "relations": "da9336d7a2cc383fff2d0ee07447ec46a4baf6941c6d47d366ca7c2d0931f4e3",
+        "representativeImage": "4a1236302c5c32224cff3ae5042bacfcaf9adfd8c277062fae5a9f62cf778a68"
+      }
+    },
+    {
+      "sourceChampionId": "Janna",
+      "sourceNumericId": "40",
+      "name": "迦娜",
+      "characterKey": "champion_janna",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "janna_p",
+        "janna_q",
+        "janna_w",
+        "janna_e",
+        "janna_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_janna",
+      "hashes": {
+        "detail": "dc06e4cb24ce5376698f5ba6173c605e6fe354939a65a6f29fc9e581609dc4fa",
+        "attributes": "acb1abf87cc4c7e6594e119d6c4b5b90d53aef33e36f77871f1fcf5310bde308",
+        "relations": "f95ec72284778f5d008878475c3f9f52ebf41f6b7ffb205abb8b96da6168fbc7",
+        "representativeImage": "998cd09cee7b5ec7d31cde9d2aa5b83074a6ea44b32c9e293ff4f3a246a023f4"
+      }
+    },
+    {
+      "sourceChampionId": "JarvanIV",
+      "sourceNumericId": "59",
+      "name": "嘉文四世",
+      "characterKey": "champion_jarvaniv",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "jarvaniv_p",
+        "jarvaniv_q",
+        "jarvaniv_w",
+        "jarvaniv_e",
+        "jarvaniv_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_jarvaniv",
+      "hashes": {
+        "detail": "6c059b37936270e34c81982b43d2280c2b45ee2f0c3397c1b70989584dcab696",
+        "attributes": "d7ad4e17a3de77fcb82c63b4730b6bb47857c618afda9ea87f9efb5a944fe2eb",
+        "relations": "1b747ad984e458801a8d92f9d6e345bf805851ba0da2bfcc5b8f356071c28457",
+        "representativeImage": "edd44dd355c2fb5a43ead10f1c79a65a826bc5fc20f5a2a0bdd160403524d1f9"
+      }
+    },
+    {
+      "sourceChampionId": "Jax",
+      "sourceNumericId": "24",
+      "name": "贾克斯",
+      "characterKey": "champion_jax",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "jax_p",
+        "jax_q",
+        "jax_w",
+        "jax_e",
+        "jax_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_jax",
+      "hashes": {
+        "detail": "d4461bf3d2ff51b735592ec66b4e870778b554c33e97616abfbfe02584ae9918",
+        "attributes": "6a8fea2472a45400118afd9668ec32549de75cce41cda77ef3b63bb1be98f83b",
+        "relations": "f29bda4126a2a0776ab4810984f734524bf342d46e56803fae96740f758a0a6d",
+        "representativeImage": "4fc019b6e31fed728476b8228e57d2a933b27fca653f5ac124d70396e5ffe848"
+      }
+    },
+    {
+      "sourceChampionId": "Jayce",
+      "sourceNumericId": "126",
+      "name": "杰斯",
+      "characterKey": "champion_jayce",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "jayce_p",
+        "jayce_q",
+        "jayce_w",
+        "jayce_e",
+        "jayce_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_jayce",
+      "hashes": {
+        "detail": "a707bdc94397295ee49ea6c7d79d8497f9cbbb604d090d620620b6286003cd99",
+        "attributes": "b75ffa105410d7d46ca300679956f1c6473e3a0fb228dcfd5e5e29a75dcb92d6",
+        "relations": "9c0fec905b830b9ab0cf22fe69ae9eed92d11834f3b7327ae02526ae77abd83e",
+        "representativeImage": "3d2489d90b55482a3a3204df190dff6b5ed74d762eb92a9bca452490f5eebfdd"
+      }
+    },
+    {
+      "sourceChampionId": "Jhin",
+      "sourceNumericId": "202",
+      "name": "烬",
+      "characterKey": "champion_jhin",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "jhin_p",
+        "jhin_q",
+        "jhin_w",
+        "jhin_e",
+        "jhin_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_jhin",
+      "hashes": {
+        "detail": "40c3ccb1b9fa0c5a3954db9abfcef3cfd382b6efe3c6045c0c7a1a50eebc32fa",
+        "attributes": "89d8ae78b91fe93fcc40dc7f81faa6a4feb16230b19515bc4e8b0d0c699b5598",
+        "relations": "140dd681f70e26e788a2aecbd4b3ddd3bc5bdc2addf70f20d5ed6dcaf4cfc467",
+        "representativeImage": "124c8b8b4dbc1bd8605beb9f73766815223a40db3fe1f76fffce3b4783ec893f"
+      }
+    },
+    {
+      "sourceChampionId": "Jinx",
+      "sourceNumericId": "222",
+      "name": "金克丝",
+      "characterKey": "champion_jinx",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "jinx_p",
+        "jinx_q",
+        "jinx_w",
+        "jinx_e",
+        "jinx_r"
+      ],
+      "representativeImageKey": "image_49e9744a-e63e-4b29-a5a2-99dfe75c4453",
+      "hashes": {
+        "detail": "a4200f32500700c030f9d25a7ee796a81786b696caf57d680fd7335b4cfc3009",
+        "attributes": "7c538409cfcb11634272b6436dc221cc87e326ebddf1e6d4ce43da27caf18752",
+        "relations": "0cf521f783268fea6c78f907b5ffee8ddc42bd801c66fbace64ef2b9c00fac53",
+        "representativeImage": "f530ed709a87df7ff4ab81a0c63fd5cac6c9a7dd4decf91f961471a1e26c8212"
+      }
+    },
+    {
+      "sourceChampionId": "KSante",
+      "sourceNumericId": "897",
+      "name": "奎桑提",
+      "characterKey": "champion_ksante",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ksante_p",
+        "ksante_q",
+        "ksante_w",
+        "ksante_e",
+        "ksante_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_ksante",
+      "hashes": {
+        "detail": "4794ad765dfb0c169d85077cf0c4b45eacf93eb3526f6946575c9fbbf69dd93d",
+        "attributes": "4f0defe10d45b6b2d83ed8f54a85aafc63eba884a116b4fbdca03d647dc4bf06",
+        "relations": "58813c9f7f6aaa5bc02a0e11e357ff92e1a3693269d4cb1490170e44a9d640ce",
+        "representativeImage": "56228a81d67eeae588a570c39047dd9baeb60f9fcbb7388098e54473ab764705"
+      }
+    },
+    {
+      "sourceChampionId": "Kaisa",
+      "sourceNumericId": "145",
+      "name": "卡莎",
+      "characterKey": "champion_kaisa",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kaisa_p",
+        "kaisa_q",
+        "kaisa_w",
+        "kaisa_e",
+        "kaisa_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kaisa",
+      "hashes": {
+        "detail": "8c31a3485154322dba57ad684769941de7d104087b650c7a4d2d8f4bb7f8ee7b",
+        "attributes": "2ce0472e426a678b4864ce5f0cc17460bbdddbd50b3a829a297f9e29b0049290",
+        "relations": "48aff2b8c98773d7d208335508d95a02ae2cad8f297ad7ad0dd33209218b3bcf",
+        "representativeImage": "6d41ecee2f0280709b4ea85709c8379154dbdd95c4ef7b48f53602227b040dff"
+      }
+    },
+    {
+      "sourceChampionId": "Kalista",
+      "sourceNumericId": "429",
+      "name": "卡莉丝塔",
+      "characterKey": "champion_kalista",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kalista_p",
+        "kalista_q",
+        "kalista_w",
+        "kalista_e",
+        "kalista_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kalista",
+      "hashes": {
+        "detail": "42637e11ebbd36807cb092550610fc55ff804f4ca0022b83f095e0c4322bd726",
+        "attributes": "a8c87fdde2f388a99b6f507abe46173941ec9ed990266caa199db5426e274ed4",
+        "relations": "865846e0c7e9950e46ca05607b0270017a75e61dda1de1d8a449849700cdf8dc",
+        "representativeImage": "fb38791adb377aedb17f6e6603ed62a8f7afb6d7d9c2565e619cdd5c00cd5aae"
+      }
+    },
+    {
+      "sourceChampionId": "Karma",
+      "sourceNumericId": "43",
+      "name": "卡尔玛",
+      "characterKey": "champion_karma",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "karma_p",
+        "karma_q",
+        "karma_w",
+        "karma_e",
+        "karma_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_karma",
+      "hashes": {
+        "detail": "6682d81949bbd67665487083fcb6390006081c9d8e400468221be40fce883fee",
+        "attributes": "96139f7dce189209d14639b21daf67c030e5937925dc35728e7bd39dcfabb6e6",
+        "relations": "59203df7b195afc811608cd944c162d5717e9d78945288e3abd1d5c9c2624dd0",
+        "representativeImage": "3419f3a8e21088319ceaef2c4c2f639947cd30a49a3894c8adb58ffb3a6f6c10"
+      }
+    },
+    {
+      "sourceChampionId": "Karthus",
+      "sourceNumericId": "30",
+      "name": "卡尔萨斯",
+      "characterKey": "champion_karthus",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "karthus_p",
+        "karthus_q",
+        "karthus_w",
+        "karthus_e",
+        "karthus_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_karthus",
+      "hashes": {
+        "detail": "27ae99daa2088ba3b96a62b97af99f65c1dc646989971bb192e47f594b92de5d",
+        "attributes": "6ac11536c0f5d52e2b15c3e1efd583104a3a2b2cd55f326652ab097ccba2bc02",
+        "relations": "f81b78330d04fdb88a786a9c9f4ea3634f7442c69632bd9b76d78b6868a5b9cb",
+        "representativeImage": "f286a97682466894e64005c2de79f271ce88fed5c94c68919a99d0fe31439f92"
+      }
+    },
+    {
+      "sourceChampionId": "Kassadin",
+      "sourceNumericId": "38",
+      "name": "卡萨丁",
+      "characterKey": "champion_kassadin",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kassadin_p",
+        "kassadin_q",
+        "kassadin_w",
+        "kassadin_e",
+        "kassadin_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kassadin",
+      "hashes": {
+        "detail": "240d8eeb66e445580158e7c757bc72b059d2c29a8ee7c33b91aaf46ae80ae36f",
+        "attributes": "af0e18c6a786c5030fa9c5993a9c97cb469b3ceb70f6e9160f5a6510a4088905",
+        "relations": "60b8c9b618433d381f16e7aa4c799cb4268bf010466bc2162a0638e9a2edc6bb",
+        "representativeImage": "30da0e6e24b0876eb557bfda413cd68b231356cbc873e92b3e5aa1161b3db5a4"
+      }
+    },
+    {
+      "sourceChampionId": "Katarina",
+      "sourceNumericId": "55",
+      "name": "卡特琳娜",
+      "characterKey": "champion_katarina",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "katarina_p",
+        "katarina_q",
+        "katarina_w",
+        "katarina_e",
+        "katarina_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_katarina",
+      "hashes": {
+        "detail": "b459b28ca76f14d850819d12cc3713a2e44efd7edcf3db5347f3c074db8a9c42",
+        "attributes": "eee11e8f214ce1d0a3be7f452e23995d1ffd185ffc658b3a1a2548aceaf06ee0",
+        "relations": "0528e253f468fc933d7a9d39f50491a9be982a5cbaff6336022d6e7f2c1ed802",
+        "representativeImage": "c7a0c3bbe4f97824c05d26fa524adb63377251c7a1f7483c6f30019cb06c9f24"
+      }
+    },
+    {
+      "sourceChampionId": "Kayle",
+      "sourceNumericId": "10",
+      "name": "凯尔",
+      "characterKey": "champion_kayle",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kayle_p",
+        "kayle_q",
+        "kayle_w",
+        "kayle_e",
+        "kayle_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kayle",
+      "hashes": {
+        "detail": "66e0c35327c97ece3b328098ad0fdaeb67a8504737e271ab9c648f55b601d4f2",
+        "attributes": "0b30326a344b878861144219fe159c9f1be2c4cb5bbe8e21e18a93b61b12362d",
+        "relations": "511a42e66c5353cc7c5e3cdd77b320577e70a67d0e120b4648b8b4e5425d90da",
+        "representativeImage": "d41dcf2fd311af9ccbd3ea060e93460b1fc5fe05fa4d68e5af73a5a656c79e4e"
+      }
+    },
+    {
+      "sourceChampionId": "Kayn",
+      "sourceNumericId": "141",
+      "name": "凯隐",
+      "characterKey": "champion_kayn",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kayn_p",
+        "kayn_q",
+        "kayn_w",
+        "kayn_e",
+        "kayn_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kayn",
+      "hashes": {
+        "detail": "5f3f8fae5fb003c288f7af4d005f73be59f84f4ffa589af687d3a618964c555a",
+        "attributes": "e267cb9be904d8ef140de48723f828041afb092874afa9c3ce267a16d23d2cb8",
+        "relations": "32c2b0612ebd8890e5394360ebc5475317863a70ac8b19eb56407a582a272e28",
+        "representativeImage": "f9b5dcd9f6ef75d98ff19cee44f479438cddbacc5c3a3549ee0c3c241d34c876"
+      }
+    },
+    {
+      "sourceChampionId": "Kennen",
+      "sourceNumericId": "85",
+      "name": "凯南",
+      "characterKey": "champion_kennen",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kennen_p",
+        "kennen_q",
+        "kennen_w",
+        "kennen_e",
+        "kennen_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kennen",
+      "hashes": {
+        "detail": "1154b08aa9669a9bc98f76e76e2bcc9cc1d4be7b5236e68c7f27a37e43d68fbc",
+        "attributes": "bb10e086fb2e0a5c9d6c1d2f7b74d36f38dc5d6269ee74b08ab74e4a06eb5cc5",
+        "relations": "378a97526f6303d17635ded5a48ce8add3e5b2f254df62df4fed345c31b5948d",
+        "representativeImage": "d3cbc9268a617611ef0e406ae0cd17a160f4b9cb10c8813cf43eac53fd21452b"
+      }
+    },
+    {
+      "sourceChampionId": "Khazix",
+      "sourceNumericId": "121",
+      "name": "卡兹克",
+      "characterKey": "champion_khazix",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "khazix_p",
+        "khazix_q",
+        "khazix_w",
+        "khazix_e",
+        "khazix_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_khazix",
+      "hashes": {
+        "detail": "bf17dd7bbd6a461c38f45a6107dc9ae51511486a8bb1e04bcbf1422cea0f4c74",
+        "attributes": "b8c8474bda0d9c73a107745706e175922b19cfc3da8df5e66ed14e84f2d18e18",
+        "relations": "890ad8db821eb4aaa1ac44c5a49e066209ba32c03b37e0dc5368df65fff68a9b",
+        "representativeImage": "b2f7853228cdf9ea9242b83a07b93c481213fcc39f1371397762d9c3ffac1cbd"
+      }
+    },
+    {
+      "sourceChampionId": "Kindred",
+      "sourceNumericId": "203",
+      "name": "千珏",
+      "characterKey": "champion_kindred",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kindred_p",
+        "kindred_q",
+        "kindred_w",
+        "kindred_e",
+        "kindred_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kindred",
+      "hashes": {
+        "detail": "6f30c85b2866807800228cfb8a68b6ce00217e6ad0973f68b626130035f33cb7",
+        "attributes": "0789db72f6ce5d9cf53c6184b3d1495d7a36de0038a71d1710a07410f49f99f3",
+        "relations": "a44cdea85296ca5bff50abdc4726c8d12b34c78c5b538d5ecea3d108297a2d2a",
+        "representativeImage": "d3432c55f7b2026ea5df5f2dc1b74a594c851f5d8d72389f360652073642c227"
+      }
+    },
+    {
+      "sourceChampionId": "Kled",
+      "sourceNumericId": "240",
+      "name": "克烈",
+      "characterKey": "champion_kled",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kled_p",
+        "kled_q",
+        "kled_w",
+        "kled_e",
+        "kled_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kled",
+      "hashes": {
+        "detail": "2b2d2887076fb9bf2e2986863aa0a2327f8307f63d6455f2f7a8b29bbeea0e76",
+        "attributes": "765917bf9392fcc223cafbb3728df353e3b6ef5d3aaf98c2b95139a70604babf",
+        "relations": "1d803b682e7efde10427090f05829a4a804351860104bcbc44edc60dda02637c",
+        "representativeImage": "fc6777393a68245cf2283d3b4b3f7b5087755c3dd4604f779d88c98a128155f4"
+      }
+    },
+    {
+      "sourceChampionId": "KogMaw",
+      "sourceNumericId": "96",
+      "name": "克格莫",
+      "characterKey": "champion_kogmaw",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "kogmaw_p",
+        "kogmaw_q",
+        "kogmaw_w",
+        "kogmaw_e",
+        "kogmaw_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_kogmaw",
+      "hashes": {
+        "detail": "cd8d92e856511555652fff44aa52b397a9165acd6f4dafd868129c3ffa686541",
+        "attributes": "db259e4931686c0a3e862bbabf54c6b4b6c10e26e785c796cb00ca0ba77fb28c",
+        "relations": "825f0d09aa155e256f113e59fa40111db6ade503d34dd6c4fb36a71f7eb2e5dd",
+        "representativeImage": "3a2c89a548dee88727e01e1a215472101feb855a65c75b95bf1cdf6703d9aa88"
+      }
+    },
+    {
+      "sourceChampionId": "Leblanc",
+      "sourceNumericId": "7",
+      "name": "乐芙兰",
+      "characterKey": "champion_leblanc",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "leblanc_p",
+        "leblanc_q",
+        "leblanc_w",
+        "leblanc_e",
+        "leblanc_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_leblanc",
+      "hashes": {
+        "detail": "18ca7e789769fd80ff84d8e81e4ac56a0335329917186849cd111a0872821431",
+        "attributes": "ebd18c66ed0ce4a3a2246494d4329b04b7d8584653b1de81836b5f6ef57989b6",
+        "relations": "0d0e2a8b0347200608872af55ac7cdcfe31951f04bdd0525d57e2e9c394f8fc4",
+        "representativeImage": "0095c8400eea00cf664e68d6e93898f01800d4b7fc8b27a2b4cb0f62907e40ff"
+      }
+    },
+    {
+      "sourceChampionId": "LeeSin",
+      "sourceNumericId": "64",
+      "name": "李青",
+      "characterKey": "champion_leesin",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "leesin_p",
+        "leesin_q",
+        "leesin_w",
+        "leesin_e",
+        "leesin_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_leesin",
+      "hashes": {
+        "detail": "22dc5cc925c35f9743d1c20c557faa57f61829f4e77d9c8480e3ddb63ba6a4b3",
+        "attributes": "00be3d16ba7bdc237d16f319101fde6e21f68a59f9863508918acbd2f6f099e2",
+        "relations": "dfb197523d75d3a3ac842753c809a75368f422ea2be81897b1f20588d6191a47",
+        "representativeImage": "48497734bd8f219cb060c3485c0cccf8b3b8c4f290ae67d3da86c1fd5490fcca"
+      }
+    },
+    {
+      "sourceChampionId": "Leona",
+      "sourceNumericId": "89",
+      "name": "蕾欧娜",
+      "characterKey": "champion_leona",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "leona_p",
+        "leona_q",
+        "leona_w",
+        "leona_e",
+        "leona_r"
+      ],
+      "representativeImageKey": "image_ee8e7885-a649-4fe2-80ad-36fa28c802b3",
+      "hashes": {
+        "detail": "b97c6b86dbc398558f1db4c014ac317800da630d813ae6c04a6d35e719b51220",
+        "attributes": "64c3570d543389b01a4d9474e93eb124635678261cd1f6abb4c290804f72d78b",
+        "relations": "48ccafbea4e0af3dd686373a42a426654bb5fa2d2e45512643d12a4f9c8501eb",
+        "representativeImage": "bc6628ca21912d93126e8ea3ed5b92f666461e004137aa48f56555e2c313763b"
+      }
+    },
+    {
+      "sourceChampionId": "Lillia",
+      "sourceNumericId": "876",
+      "name": "莉莉娅",
+      "characterKey": "champion_lillia",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "lillia_p",
+        "lillia_q",
+        "lillia_w",
+        "lillia_e",
+        "lillia_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_lillia",
+      "hashes": {
+        "detail": "829fbd347d91df026443cc15c18b5529c5361f6c6776e7a8149318d8643d8b4f",
+        "attributes": "84d406a6925e72aec6e6a5b0d54016a8990ad7b40fc4efae3c7fb23d89480251",
+        "relations": "303eae5aaae68ffa17aabaf3160f9a10e2c2268d644376d74584bbd52a5674ed",
+        "representativeImage": "1fa09eaa6920a4e0d6d6ae7b924de66e17a0daeef394e2e6385f866cba322bf0"
+      }
+    },
+    {
+      "sourceChampionId": "Lissandra",
+      "sourceNumericId": "127",
+      "name": "丽桑卓",
+      "characterKey": "champion_lissandra",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "lissandra_p",
+        "lissandra_q",
+        "lissandra_w",
+        "lissandra_e",
+        "lissandra_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_lissandra",
+      "hashes": {
+        "detail": "19c3ffa04aa0849ddb8ddd09ddd6350dbdc5a9624252a4024a07dcecdab2e991",
+        "attributes": "3ecc71af1609abcb34ffe47ebc032f9a94d12de2f45ef26f36f037e1ff3522d2",
+        "relations": "6c562402be96c6cffba013bc8c8234d72317a0d6fac87a4f8250a86d52975315",
+        "representativeImage": "e6a0ad9d8eff4077f934cb3c4f30f0068003f484e3d1292c37b685619a74c5d3"
+      }
+    },
+    {
+      "sourceChampionId": "Locke",
+      "sourceNumericId": "805",
+      "name": "洛克",
+      "characterKey": "champion_locke",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "locke_p",
+        "locke_q",
+        "locke_w",
+        "locke_e",
+        "locke_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_locke",
+      "hashes": {
+        "detail": "18939ebafe3f66e4184f22883c27c82088c6ce6d321b6c4425b61adf5bbbab3b",
+        "attributes": "b493a2a70ac442c9e72ba042d768dcacf7bbb516d4641bed8b3f928142b1842e",
+        "relations": "18cdb2e24aa3d278269d0a63bb9009e14d7d56f6a49cf370d5bf067984f5cc15",
+        "representativeImage": "1e621354d12c08462bc340449a9c326a93e7b22ba66a61f2502cca7f52134b4e"
+      }
+    },
+    {
+      "sourceChampionId": "Lucian",
+      "sourceNumericId": "236",
+      "name": "卢锡安",
+      "characterKey": "champion_lucian",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "lucian_p",
+        "lucian_q",
+        "lucian_w",
+        "lucian_e",
+        "lucian_r"
+      ],
+      "representativeImageKey": "image_4cbf2fbf-03b3-4bc9-836f-b92581e4c5b4",
+      "hashes": {
+        "detail": "875e81f00c98adc05c57b0690f3a944e6fc07af3a53de2d6fb126082c778daf7",
+        "attributes": "910aef1bcb49a7e55ee7c7b1980be487cb7b89fb76dca9ff9ff519a46ece56c6",
+        "relations": "3a4c2fe9c778df2f4812e70ecfef3a2d4813477a226f44b7e0c4e483ddab286f",
+        "representativeImage": "fbe61f328eea1bd4e94e0f2a5e8171f47393e0cba4ce22897fcd191f5c0d2800"
+      }
+    },
+    {
+      "sourceChampionId": "Lulu",
+      "sourceNumericId": "117",
+      "name": "璐璐",
+      "characterKey": "champion_lulu",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "lulu_p",
+        "lulu_q",
+        "lulu_w",
+        "lulu_e",
+        "lulu_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_lulu",
+      "hashes": {
+        "detail": "407c32ce05ec8a5b90251b239a7cc4cd948afbd2babab6df69db2abfa63c79fa",
+        "attributes": "88d414a5326b206731cb11416c41f47027aadac63be9fa3d2a28e50cf9a96158",
+        "relations": "d546c6a1d34cd87fc9970b06340f1ee8b840deb95aa90cac3bdaebc45cac73f7",
+        "representativeImage": "083bde25f068f2924870129035eb20f5b067d197761419dd2787fe401dcdb17e"
+      }
+    },
+    {
+      "sourceChampionId": "Lux",
+      "sourceNumericId": "99",
+      "name": "拉克丝",
+      "characterKey": "champion_lux",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "lux_p",
+        "lux_q",
+        "lux_w",
+        "lux_e",
+        "lux_r"
+      ],
+      "representativeImageKey": "image_e1a212dd-8232-4b49-a2b6-0643ed26a7f3",
+      "hashes": {
+        "detail": "a8f289c9817c30c3fedc0c5ee23262dfc6fc7bf997ddbd77eb669b5b3651ec8d",
+        "attributes": "070dbee016788ea018d96482f1f4639b8cb3bfc43b90527f395bb08d7d4edfef",
+        "relations": "f1ef535d4d9e67876e8b075c1b2780d0cc81c0c76b341ff82024153be7b407c2",
+        "representativeImage": "2b0417f36b2900e774054307934162b9854bac716ad56f7d6d5bf137953e7cfd"
+      }
+    },
+    {
+      "sourceChampionId": "Malphite",
+      "sourceNumericId": "54",
+      "name": "墨菲特",
+      "characterKey": "champion_malphite",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "malphite_p",
+        "malphite_q",
+        "malphite_w",
+        "malphite_e",
+        "malphite_r"
+      ],
+      "representativeImageKey": "image_799b88cb-3cb8-4823-b445-66d37a204198",
+      "hashes": {
+        "detail": "3565645a646f5d1c33494b21a64ec54ddc67e82fc63028cfc39eba4d35a3616c",
+        "attributes": "a8df3d75425edf1900c2a4209e7c34bb660c23b3097215832d05c5f293204f90",
+        "relations": "850f11256a139c6e0b9bcd5aaba194d21e21b538dc537fa60dd060d3bdbae9cc",
+        "representativeImage": "6d9d49668f3c62ca06c7284dc87ecbae915519a2ea2c6b680a9c526f3df55f2a"
+      }
+    },
+    {
+      "sourceChampionId": "Malzahar",
+      "sourceNumericId": "90",
+      "name": "玛尔扎哈",
+      "characterKey": "champion_malzahar",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "malzahar_p",
+        "malzahar_q",
+        "malzahar_w",
+        "malzahar_e",
+        "malzahar_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_malzahar",
+      "hashes": {
+        "detail": "e88ee0abc70d0d3071bb57f46e2b631a4536b90c4fec4595e60a22cbdd081c2b",
+        "attributes": "834632e83f49b1837b6a3b1a5a2e57583f4f926b4b3293fa3205ae5450fc01c3",
+        "relations": "b86aa9837ca0a4f2103d9be59be9a728c3644d7224c5a16eebb869df95a1e434",
+        "representativeImage": "22fe05f276fad5ebcb08f621110ea3a4a38b90f3091dcd583427d2ffa59818e1"
+      }
+    },
+    {
+      "sourceChampionId": "Maokai",
+      "sourceNumericId": "57",
+      "name": "茂凯",
+      "characterKey": "champion_maokai",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "maokai_p",
+        "maokai_q",
+        "maokai_w",
+        "maokai_e",
+        "maokai_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_maokai",
+      "hashes": {
+        "detail": "8d824cb115e4bc7df54603300fe18b7701391ea1bb14a413c79f86c21555ad99",
+        "attributes": "8b8850c39d06e0baf379bfcbc47c4674a7b481e938df69c4654dde409aba8892",
+        "relations": "66fed00cdc9a571dbb8985da9b01c0cb7f6b0c4f160aff782c06c4c095a38e5c",
+        "representativeImage": "fd25e4c940df34b7f651f4e26f5fdbe433fd4211d53e9b5ffb53f7c4eeed00da"
+      }
+    },
+    {
+      "sourceChampionId": "MasterYi",
+      "sourceNumericId": "11",
+      "name": "易",
+      "characterKey": "champion_masteryi",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "masteryi_p",
+        "masteryi_q",
+        "masteryi_w",
+        "masteryi_e",
+        "masteryi_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_masteryi",
+      "hashes": {
+        "detail": "8106b35d76fd15b66abb6de23d53a7de95c77e6c97ad54eaedb204a67284523b",
+        "attributes": "9aa772b3eeed265e10b306c3d7e9a83ca0f986a44d3589be0fbdd667650da9d3",
+        "relations": "9e06f4b0cfd46a9d9465c5228904c383313bb29760be5b29e77b23f55a5dd87c",
+        "representativeImage": "f500f82b3d4314badbafa81a5dc905dbad0e95a154762633a70eb386ca0fa8cd"
+      }
+    },
+    {
+      "sourceChampionId": "Mel",
+      "sourceNumericId": "800",
+      "name": "梅尔",
+      "characterKey": "champion_mel",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "mel_p",
+        "mel_q",
+        "mel_w",
+        "mel_e",
+        "mel_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_mel",
+      "hashes": {
+        "detail": "44ce185d83d07cdd25e33986ca14cbfbdd90c4c9214f08cf4ee92c8656df4205",
+        "attributes": "17ca4f004d5138e500cb994c778ca6b672ab65a433085eec128d9b49a8903d83",
+        "relations": "ce70acff76dd29f08683cd8ff6410d872676f293f368e250e5af59e8132ca40c",
+        "representativeImage": "b7a6b9924ef49e6e40611e2be81ddfe869134c9bf1d2243813fca86e33494540"
+      }
+    },
+    {
+      "sourceChampionId": "Milio",
+      "sourceNumericId": "902",
+      "name": "米利欧",
+      "characterKey": "champion_milio",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "milio_p",
+        "milio_q",
+        "milio_w",
+        "milio_e",
+        "milio_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_milio",
+      "hashes": {
+        "detail": "8b0cc74a953f2bd6f8f973eda7c44830cae2c1728719278e3d8662ad2d9af9f0",
+        "attributes": "336ccb4be10cf7f8051d25587ba9f8c7097b0dc18bbce95e306739c99a9f7f9e",
+        "relations": "14b54a672dac71b5fa4942b8c6bb1ea3df7b26372bbe61ab3e0324808da2198c",
+        "representativeImage": "a93cbd3d53b19866a54bc33c1c9c0db02823485b4eced08ea4c55fcbee204aae"
+      }
+    },
+    {
+      "sourceChampionId": "MissFortune",
+      "sourceNumericId": "21",
+      "name": "厄运小姐",
+      "characterKey": "champion_missfortune",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "missfortune_p",
+        "missfortune_q",
+        "missfortune_w",
+        "missfortune_e",
+        "missfortune_r"
+      ],
+      "representativeImageKey": "image_72129467-db8b-4b3b-b539-4d5cc13f8340",
+      "hashes": {
+        "detail": "08dc9824dee2ee2bc5b7bba6275e5afd86f56d354fd5ec2c39decef1a1d04cf1",
+        "attributes": "0c99fc749d5706143fe485c8421ef28c0749d3bf2525157ffbe5bc71a75fb68c",
+        "relations": "9f3be7884bac75a752ae3123fe7efd89cbefb058b6bed2c81b1157b4a4aa33ed",
+        "representativeImage": "9996ab388ee240c268c7a34a9ab453a064ab217b430fc50bee151ee7e921bcc2"
+      }
+    },
+    {
+      "sourceChampionId": "MonkeyKing",
+      "sourceNumericId": "62",
+      "name": "孙悟空",
+      "characterKey": "champion_monkeyking",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "monkeyking_p",
+        "monkeyking_q",
+        "monkeyking_w",
+        "monkeyking_e",
+        "monkeyking_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_monkeyking",
+      "hashes": {
+        "detail": "7a9731ca908af09abfaf2ac610cd16962e878af69423260e652c4fecc716de10",
+        "attributes": "ae9ed906a41b079120e03265492bc24442097340bbb7da79656995ae857e892a",
+        "relations": "993c3721139cd6fcb0d23e6abda9a2b373dd84128256a8894d082720c805ddac",
+        "representativeImage": "28aa5b0c676cb27a338ea4a9c3a22979ec48dac55f198c8a7904f2f00bb93a28"
+      }
+    },
+    {
+      "sourceChampionId": "Mordekaiser",
+      "sourceNumericId": "82",
+      "name": "莫德凯撒",
+      "characterKey": "champion_mordekaiser",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "mordekaiser_p",
+        "mordekaiser_q",
+        "mordekaiser_w",
+        "mordekaiser_e",
+        "mordekaiser_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_mordekaiser",
+      "hashes": {
+        "detail": "b7dd636e2fb58fd6de543161d5b4399b3e01330b2755759bc7c42256ea56a2bf",
+        "attributes": "2cab91779f8fd3a9ed04b3f22071fef97338d28748afce65d57472b2332295ec",
+        "relations": "98b4e36953b9ab92f786245895fbe3e5bc217b3f2324b0150705c0767ec733ab",
+        "representativeImage": "b01733b1b6fcdd62f69568e70ccecbb332b4b34f7c83b06bed37650a9c29a41c"
+      }
+    },
+    {
+      "sourceChampionId": "Morgana",
+      "sourceNumericId": "25",
+      "name": "莫甘娜",
+      "characterKey": "champion_morgana",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "morgana_p",
+        "morgana_q",
+        "morgana_w",
+        "morgana_e",
+        "morgana_r"
+      ],
+      "representativeImageKey": "image_02c88ae8-b32b-4908-8471-c512265df278",
+      "hashes": {
+        "detail": "83ab321746f46497b2c944f4872a30ed0a9f0bd33f68ca2378af51c5d6605c98",
+        "attributes": "5fd1b47bcd912902b5afbba7ab997c3c3a294e6419ef06721f9d4b012de8b15e",
+        "relations": "76ca5d3a8c06e75a03f79bcd728371c805a0dadc7653b1bf6896b004432ac3b5",
+        "representativeImage": "84f536c01dccf50e7b299a31b46e6d08fcd08b99841be99fa2952dc8592259b4"
+      }
+    },
+    {
+      "sourceChampionId": "Naafiri",
+      "sourceNumericId": "950",
+      "name": "纳亚菲利",
+      "characterKey": "champion_naafiri",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "naafiri_p",
+        "naafiri_q",
+        "naafiri_w",
+        "naafiri_e",
+        "naafiri_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_naafiri",
+      "hashes": {
+        "detail": "631011a5630bad5ef1b48b1e47f09385e7a9d895fdc6b28119ecf20ca6de1045",
+        "attributes": "a8f3999c86ad6d1ab2c2304b08554b00212471ca38d4f53f5822914759461470",
+        "relations": "a8c3f613d022701f1ec2a2030af81ad85e820bb57ff508746a1432f43a869c87",
+        "representativeImage": "907646f625bf19d692951caf3eddba65c3e39763f4d399fc459e04ff28feaca5"
+      }
+    },
+    {
+      "sourceChampionId": "Nami",
+      "sourceNumericId": "267",
+      "name": "娜美",
+      "characterKey": "champion_nami",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "nami_p",
+        "nami_q",
+        "nami_w",
+        "nami_e",
+        "nami_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_nami",
+      "hashes": {
+        "detail": "249dba854fcc766674540e2026d5659a2bb29db047f9370a266f17ac809f396a",
+        "attributes": "50d12c6a09c2f21d77f539a3a384b72bb904878a586c5d0361bf2dc0b9f9306c",
+        "relations": "5c3b2fb3fd227bc27a9766c03988c14c2d231b4d6c2da42636f617213c8e147a",
+        "representativeImage": "068a756e5a2c5da7426fd611e8bd516a8e46dbebc6a672bb249093b4a2f0c766"
+      }
+    },
+    {
+      "sourceChampionId": "Nasus",
+      "sourceNumericId": "75",
+      "name": "内瑟斯",
+      "characterKey": "champion_nasus",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "nasus_p",
+        "nasus_q",
+        "nasus_w",
+        "nasus_e",
+        "nasus_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_nasus",
+      "hashes": {
+        "detail": "48dbab4e800f325f0f7c37128209e51887201924ab558f8308a32d757591107e",
+        "attributes": "83528f0853452b974bbb58aae63559bc651238a2aac962b73af219409450bc82",
+        "relations": "8d13da10639333e676fbb8fa102f6d6cb562d0c371a3fac0b0f40de51ba7d03a",
+        "representativeImage": "8823e5e144bf4e13392f84e3040b0c3a3a42d291beb2f04ec4517bc6fb80af2b"
+      }
+    },
+    {
+      "sourceChampionId": "Nautilus",
+      "sourceNumericId": "111",
+      "name": "诺提勒斯",
+      "characterKey": "champion_nautilus",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "nautilus_p",
+        "nautilus_q",
+        "nautilus_w",
+        "nautilus_e",
+        "nautilus_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_nautilus",
+      "hashes": {
+        "detail": "02276e19e54b37b177222031112cfd1d1a46999eb0e7ee2ffa9e0ce4d357928e",
+        "attributes": "507b8b4b969716db2fc939425da7a65dd369cf9e72dbd6c5191e75853adba975",
+        "relations": "84b04dd00675a9aaa789a32b9552c89415e49c3c81bffd19d1e3f937d5dd39d2",
+        "representativeImage": "35dc8df959903e830a3a2d26dfc882f46624c720857e1fefee20edbfab13affd"
+      }
+    },
+    {
+      "sourceChampionId": "Neeko",
+      "sourceNumericId": "518",
+      "name": "妮蔻",
+      "characterKey": "champion_neeko",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "neeko_p",
+        "neeko_q",
+        "neeko_w",
+        "neeko_e",
+        "neeko_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_neeko",
+      "hashes": {
+        "detail": "f66ebf645be0e116e763e41c8df5bf440993d247ddadb3f9fb73d823dcd30e1e",
+        "attributes": "bfb917b42ffe63334f2785591d7a19e57484a83961db166801e4e3bbdb217242",
+        "relations": "7ec11e81ad378362b80b2503c2dc097c5e54d13cd1e922d9ad85a5c967b0fa5d",
+        "representativeImage": "406ecf3b8f65456411f38c221af84eb44d0ad55b6f4a3962026470752a9704cf"
+      }
+    },
+    {
+      "sourceChampionId": "Nidalee",
+      "sourceNumericId": "76",
+      "name": "奈德丽",
+      "characterKey": "champion_nidalee",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "nidalee_p",
+        "nidalee_q",
+        "nidalee_w",
+        "nidalee_e",
+        "nidalee_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_nidalee",
+      "hashes": {
+        "detail": "c3e3a98e50d66e10ff05f17a5936e1a963566515cac469913165c3c0fcc572c0",
+        "attributes": "297087dcbf2223a339192aea6b3f35344e273d9f3831ee109e7150beaac76b8b",
+        "relations": "5db79f1a0329857a3cd63a582ba953034abe9584f43665c2dc7a66648b1154df",
+        "representativeImage": "215d29c75bf537dc0b5b0195cb585d50fae34a6562591372fdf57df6d3906b54"
+      }
+    },
+    {
+      "sourceChampionId": "Nilah",
+      "sourceNumericId": "895",
+      "name": "尼菈",
+      "characterKey": "champion_nilah",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "nilah_p",
+        "nilah_q",
+        "nilah_w",
+        "nilah_e",
+        "nilah_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_nilah",
+      "hashes": {
+        "detail": "4c932d91f5cbf21f8690ad8e396bc82fa01abbe1ae295c8bb976e71e226e9293",
+        "attributes": "4447b755b82e5c2bccacf85fcfa8bbf71ed9376a9374129c31300ffa6a3cd7de",
+        "relations": "94e6f6d2d74a70e9bbfdac8f5098bd7c736add4a72703b61015b200e1e9908f8",
+        "representativeImage": "a06d75da32b6ac6f1406e2121bf6bcdf83d854ebcd09819ce7f5aede1680349a"
+      }
+    },
+    {
+      "sourceChampionId": "Nocturne",
+      "sourceNumericId": "56",
+      "name": "魔腾",
+      "characterKey": "champion_nocturne",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "nocturne_p",
+        "nocturne_q",
+        "nocturne_w",
+        "nocturne_e",
+        "nocturne_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_nocturne",
+      "hashes": {
+        "detail": "9921a7ddc71ab9123b6a8839850896da1c0a52ec307a697cb2245cf005ebc704",
+        "attributes": "fd195d74eb8c91500bcfce27db2b532bf59223905dec845a24220e4082b962a0",
+        "relations": "9406f694a707c0d739e5bfa234309f0f96374936c6db1e6c42b050c979a8e9eb",
+        "representativeImage": "e80d3be9463349ee4b0091e04a12b77f52b016069b13312edde8084813dbd76d"
+      }
+    },
+    {
+      "sourceChampionId": "Nunu",
+      "sourceNumericId": "20",
+      "name": "努努和威朗普",
+      "characterKey": "champion_nunu",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "nunu_p",
+        "nunu_q",
+        "nunu_w",
+        "nunu_e",
+        "nunu_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_nunu",
+      "hashes": {
+        "detail": "dc3e154894b182208474f2f532aef2809c8d21395ed0a0c79f834e50797ed514",
+        "attributes": "64889df08b95fbcd0274fb1fe9434face276c97c094ac2b448c216264f7d91f2",
+        "relations": "8cf5bc7fbd06423b9c053804e483f869f249ebddf27cb2cccb10df5f0adb85c5",
+        "representativeImage": "1ef0d6090a5316f6b03c597116f576234eb692d0ba10209899d0fa12a0792258"
+      }
+    },
+    {
+      "sourceChampionId": "Olaf",
+      "sourceNumericId": "2",
+      "name": "奥拉夫",
+      "characterKey": "champion_olaf",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "olaf_p",
+        "olaf_q",
+        "olaf_w",
+        "olaf_e",
+        "olaf_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_olaf",
+      "hashes": {
+        "detail": "72bd12b3b1e440e5bd9d76a39971757bc450ada301c86ee72df1b4426a02759a",
+        "attributes": "51a57d1dd2eb655b9aed9a31f62bd7104851264625c2ddc9e3c1a27f93d0151e",
+        "relations": "da9df63273fdc7e523d7bf2cc7d0f3cf86d524f0014450e0e8e9a3ee72587c35",
+        "representativeImage": "22431372b32f7f6894d98c34b34237e798870ef41007e4a8c2170aabf2a5e363"
+      }
+    },
+    {
+      "sourceChampionId": "Orianna",
+      "sourceNumericId": "61",
+      "name": "奥莉安娜",
+      "characterKey": "champion_orianna",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "orianna_p",
+        "orianna_q",
+        "orianna_w",
+        "orianna_e",
+        "orianna_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_orianna",
+      "hashes": {
+        "detail": "c66a1304ae01fd38ae65fca12c2f19dffed3c40eebcf21bf7ba10ef7553b00bc",
+        "attributes": "092cecf197cfb50e4564836654d4aea9d4eeac8a2f584777ba042a19c6d075e0",
+        "relations": "c6d807a9115677adbed7180b889d2e52c414942a126d1797018205f464b84032",
+        "representativeImage": "e44fb204ece4df8be5937ca5f77e44dcc03c96bf529def0099a186e3ba463990"
+      }
+    },
+    {
+      "sourceChampionId": "Ornn",
+      "sourceNumericId": "516",
+      "name": "奥恩",
+      "characterKey": "champion_ornn",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ornn_p",
+        "ornn_q",
+        "ornn_w",
+        "ornn_e",
+        "ornn_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_ornn",
+      "hashes": {
+        "detail": "dc53b551c9dab71d723a32a8d4a0b352efd6cb1783462e4539d774a59d261143",
+        "attributes": "72d049e77bca400da21c7887ec2e5c26bec529027f11c4374d8d3061c2074c5d",
+        "relations": "565c1aef6c5b3c7cea02bbb925296d1583838850399f5acc07965e6c37b93135",
+        "representativeImage": "e0853ad4409b5ebaf4bcddd07aad611dbb0072ee55bbe79740a8bbfb6910bf28"
+      }
+    },
+    {
+      "sourceChampionId": "Pantheon",
+      "sourceNumericId": "80",
+      "name": "潘森",
+      "characterKey": "champion_pantheon",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "pantheon_p",
+        "pantheon_q",
+        "pantheon_w",
+        "pantheon_e",
+        "pantheon_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_pantheon",
+      "hashes": {
+        "detail": "86a8db298f70d7bb380dc4485f6b907545977c2dff5cad51f46f390de553fb25",
+        "attributes": "1e9362efc8addf82c6dfce43c34b32ea09cc338022ef3ac17836227243915516",
+        "relations": "6d8ebc21613b4b83b954875f555e13614e522f872144886bef6406e1ea0bf7c7",
+        "representativeImage": "fa86785e2d8adad7e7ecb91713bfe608233bf9b83a38271e316750d113aed780"
+      }
+    },
+    {
+      "sourceChampionId": "Poppy",
+      "sourceNumericId": "78",
+      "name": "波比",
+      "characterKey": "champion_poppy",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "poppy_p",
+        "poppy_q",
+        "poppy_w",
+        "poppy_e",
+        "poppy_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_poppy",
+      "hashes": {
+        "detail": "3acedc339499841da98f64ae14124439acf7756dae4f295b6ce2ac8cef5080e8",
+        "attributes": "d14c7c2b461bbd3639214ee88a388749e84e52c218641d645f4b75bbf6c42d3f",
+        "relations": "a002a667cda71df58272aa1547abefc1b68de65451e49eae259d383ce2caab6a",
+        "representativeImage": "5e2bad5311c8e437e361605c39cbda468ceaa949b4acb43b06ba5924d68b056b"
+      }
+    },
+    {
+      "sourceChampionId": "Pyke",
+      "sourceNumericId": "555",
+      "name": "派克",
+      "characterKey": "champion_pyke",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "pyke_p",
+        "pyke_q",
+        "pyke_w",
+        "pyke_e",
+        "pyke_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_pyke",
+      "hashes": {
+        "detail": "681218623530e8e513b36868a65478b9aeaa94f4eb84413ac35ebfd1a7b86234",
+        "attributes": "bb0471e02ec8ea0f839b398004542b110d4112f42c45070acc558926373e4573",
+        "relations": "084fd613466497602ac07b0adaa56ae4230841056e7800966b5f9084ad4df570",
+        "representativeImage": "905267892b17c6a6915fe245114b60ed94ab014258ca66ccdd36c8674e6f61f7"
+      }
+    },
+    {
+      "sourceChampionId": "Qiyana",
+      "sourceNumericId": "246",
+      "name": "奇亚娜",
+      "characterKey": "champion_qiyana",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "qiyana_p",
+        "qiyana_q",
+        "qiyana_w",
+        "qiyana_e",
+        "qiyana_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_qiyana",
+      "hashes": {
+        "detail": "458bb56ddbcb9c4588a3e37f2bbb2ae651d060c84550abd7b4beb8e72db052b0",
+        "attributes": "2ff8aced18b898a14d91dfff1e7c78fc402c1bc3f9979f167d0f6d17a2a0d376",
+        "relations": "cc4c60feb115cc149e3c9e60297f1a58bfc5543d9cf3df59c48263d5172b6e8f",
+        "representativeImage": "b94c927b25849a11d6948f55f024f739ab1591ca2598196c0525e27a29ad01ad"
+      }
+    },
+    {
+      "sourceChampionId": "Quinn",
+      "sourceNumericId": "133",
+      "name": "奎因",
+      "characterKey": "champion_quinn",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "quinn_p",
+        "quinn_q",
+        "quinn_w",
+        "quinn_e",
+        "quinn_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_quinn",
+      "hashes": {
+        "detail": "ef5ed56a3630e4497f8ffa344ac48ec5a7e788d6b97b27b34edac1f6bd2624b1",
+        "attributes": "866e66721dd289d7946b9012c65bbce80a8b627a37348d9b347949ea0fe74815",
+        "relations": "dc2180fe5ef356f4bcf851d7b287284ac9d3c3b78872044350c335998a842372",
+        "representativeImage": "a842cf3f3c21cef2a0708b258159cdfc7117604c3e15ef66611954397513feb1"
+      }
+    },
+    {
+      "sourceChampionId": "Rakan",
+      "sourceNumericId": "497",
+      "name": "洛",
+      "characterKey": "champion_rakan",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "rakan_p",
+        "rakan_q",
+        "rakan_w",
+        "rakan_e",
+        "rakan_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_rakan",
+      "hashes": {
+        "detail": "7e025aa617b42d47e000931991c028599ba2a72efcd0be6bd1316fe6bbabe7db",
+        "attributes": "0b93bec411ef2d086e36b302392f9fb1d9cd93f5f26457dea922dac8b4d37dc2",
+        "relations": "6f207505d5acb3f0d63a4b651461abd6d51eacdd069726d45c862358f9704b0d",
+        "representativeImage": "5cb2780e64def661ea3e75405fff9d9265fa7854fb406e2583fef3edefe4b877"
+      }
+    },
+    {
+      "sourceChampionId": "Rammus",
+      "sourceNumericId": "33",
+      "name": "拉莫斯",
+      "characterKey": "champion_rammus",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "rammus_p",
+        "rammus_q",
+        "rammus_w",
+        "rammus_e",
+        "rammus_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_rammus",
+      "hashes": {
+        "detail": "59aa47edf53ab0a20d121c6aa0f94cfd1b6fac86ea470b61248e3486bf006610",
+        "attributes": "2f8740308f512f769fc796f10fe70a4035af47bc9c237222fed24d3e30a734ba",
+        "relations": "3e7ad522d99a6ceef46baa89383ee730ca28cf6f132631781cf36ecd4db6f6cf",
+        "representativeImage": "28839998c86dd0138ceb6b50d899842931a78a5dd87d838034df6dc5bc63ea41"
+      }
+    },
+    {
+      "sourceChampionId": "RekSai",
+      "sourceNumericId": "421",
+      "name": "雷克塞",
+      "characterKey": "champion_reksai",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "reksai_p",
+        "reksai_q",
+        "reksai_w",
+        "reksai_e",
+        "reksai_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_reksai",
+      "hashes": {
+        "detail": "6177e1984f5d9ed7bc688995e150e6a8c01ba394f5d39329ee51df4f033c2716",
+        "attributes": "a368ce4d50e278fa4799677f064e7694c656e22bd14043579f0e023346a196c7",
+        "relations": "80db6895a3e8ec38022ea15768066f73941c67eee84356965ef671239d56d454",
+        "representativeImage": "b8554eb0d90677d33b9f1ddc22da74e67ee4437ed00b6edc727e952a6eddb92e"
+      }
+    },
+    {
+      "sourceChampionId": "Rell",
+      "sourceNumericId": "526",
+      "name": "芮尔",
+      "characterKey": "champion_rell",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "rell_p",
+        "rell_q",
+        "rell_w",
+        "rell_e",
+        "rell_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_rell",
+      "hashes": {
+        "detail": "1551c824f29a98e48f5481871d4d3e00183f2b549b6ec646893aa275b7fde400",
+        "attributes": "10680c087fcc1472aa63af19a7276a9974aa2e694f43fdb78cc7e891037cf8ea",
+        "relations": "d350956f1b55be9f43d8287db01235cfd167d2fc0472532742ee732157bb0ce8",
+        "representativeImage": "439a2089d42f08c6fd2178512e6942925c1312f0cdf90f00e1a5910ec16d320a"
+      }
+    },
+    {
+      "sourceChampionId": "Renata",
+      "sourceNumericId": "888",
+      "name": "烈娜塔 · 戈拉斯克",
+      "characterKey": "champion_renata",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "renata_p",
+        "renata_q",
+        "renata_w",
+        "renata_e",
+        "renata_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_renata",
+      "hashes": {
+        "detail": "5791457bb860a395224619f2db17b8517bc44fe426a945789b67787004c25183",
+        "attributes": "bd56a134f13b28e5dfabfc70127b4bca9e44774a9cfe53725521c0e0ffc510ae",
+        "relations": "e2c94d7f92c00ff285c0a7688d89bb9ef6396f57d33d3d3d1a86175341ba0ca3",
+        "representativeImage": "88910aa53694e235383119cc27735f18e0ada30426aea9c492d3bffd000834eb"
+      }
+    },
+    {
+      "sourceChampionId": "Renekton",
+      "sourceNumericId": "58",
+      "name": "雷克顿",
+      "characterKey": "champion_renekton",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "renekton_p",
+        "renekton_q",
+        "renekton_w",
+        "renekton_e",
+        "renekton_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_renekton",
+      "hashes": {
+        "detail": "b1aa21263981770ee2c4aa43ba69f2c46c0fd80632c295cb9025801739c9124b",
+        "attributes": "62ac2600b496a5c113e3c154560c6391a721a5d027f544a4385e629aa961de51",
+        "relations": "d7801fe887f5fad5c23c85ce42e599d8de747c731eac928eb12debbf501fe1f0",
+        "representativeImage": "97c2b668028ee7823085b9277a6b91a58b763542046f68f8e6b0b2e86df9eb3c"
+      }
+    },
+    {
+      "sourceChampionId": "Rengar",
+      "sourceNumericId": "107",
+      "name": "雷恩加尔",
+      "characterKey": "champion_rengar",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "rengar_p",
+        "rengar_q",
+        "rengar_w",
+        "rengar_e",
+        "rengar_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_rengar",
+      "hashes": {
+        "detail": "1b463effc3ebc12f5a01a8fda35cff1b0c52e755779df726128ea05a5af70918",
+        "attributes": "acf3ab4e6691d9e0584ec0f9510bd6ced73e85f6354cf24319f5ca4eee20413a",
+        "relations": "06d92310308db59d5ff8e23b41b7e077e1620829055a6787479183a3cb162934",
+        "representativeImage": "04ed8704b986dc5ea9d8f434abaf5d4476052425ba35390844b6f91a3f1e8cb5"
+      }
+    },
+    {
+      "sourceChampionId": "Riven",
+      "sourceNumericId": "92",
+      "name": "锐雯",
+      "characterKey": "champion_riven",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "riven_p",
+        "riven_q",
+        "riven_w",
+        "riven_e",
+        "riven_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_riven",
+      "hashes": {
+        "detail": "9ff91cdb1bf8b39065fc880535c2b07f1657190f6a7b42f3453bf4bca0b6f75e",
+        "attributes": "02ceb41d4024c3b6ac631fc07fbdc3ac4416846db2af56af3d3c80c73aad1404",
+        "relations": "eedbaf6c503dfec253132573fb60ebe7592057d074236aa9285529bd2d8fe30f",
+        "representativeImage": "13f2a49053d9668973d7e325a30c88588c5289527f43fbef9fc50de8e81c941f"
+      }
+    },
+    {
+      "sourceChampionId": "Rumble",
+      "sourceNumericId": "68",
+      "name": "兰博",
+      "characterKey": "champion_rumble",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "rumble_p",
+        "rumble_q",
+        "rumble_w",
+        "rumble_e",
+        "rumble_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_rumble",
+      "hashes": {
+        "detail": "807745a6749de1228304ab33fd799771463d469eff37ee88f8bb89d3a9e5168a",
+        "attributes": "9f7e8d86913f5fe4bf011289d72b3f3af48a37dd5df732584d1e8ab8214cebda",
+        "relations": "a4d0a1fc6ce2ff7900be847fd815f5f50b2c1f9ff4b228c166288930e020ee1b",
+        "representativeImage": "76956fbe130189ccbcc435fe93d0dde4008ce747db7dff4bea1c104e4c6faf7c"
+      }
+    },
+    {
+      "sourceChampionId": "Ryze",
+      "sourceNumericId": "13",
+      "name": "瑞兹",
+      "characterKey": "champion_ryze",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ryze_p",
+        "ryze_q",
+        "ryze_w",
+        "ryze_e",
+        "ryze_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_ryze",
+      "hashes": {
+        "detail": "d2c251cc23f716d477d6969c1f9c36ede65f15717bb4d42516d17dff08b98b66",
+        "attributes": "38b58530c6b7aff983b94ecea2b3603ba283927e86ec88c36aecf32741a33a82",
+        "relations": "880e2ea173d7d18682336889bb5b9bd3d371ef7aca3e16d083bb5fda3523cb68",
+        "representativeImage": "02fb0d4369880ab9a8e28fdfa354674c44b6518d459c92b9b82d36bf9bdb50a3"
+      }
+    },
+    {
+      "sourceChampionId": "Samira",
+      "sourceNumericId": "360",
+      "name": "莎弥拉",
+      "characterKey": "champion_samira",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "samira_p",
+        "samira_q",
+        "samira_w",
+        "samira_e",
+        "samira_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_samira",
+      "hashes": {
+        "detail": "dd3acd1c0ebb1fd31cfc07bf6451897cc95987cc6114727a16648c5d47628748",
+        "attributes": "61ef0e1c80961b698f406847b1715aaa4b9f619c1237419c744455f6b4cb642c",
+        "relations": "dbc0ce5e22f1b823374c9775b19800f5d3a08a248e5fdeea5e6420997a059f20",
+        "representativeImage": "4deb9fd745420cde32ef1fec99bd4b7c2776e86777b9a712fe6fcd1938619fc5"
+      }
+    },
+    {
+      "sourceChampionId": "Sejuani",
+      "sourceNumericId": "113",
+      "name": "瑟庄妮",
+      "characterKey": "champion_sejuani",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "sejuani_p",
+        "sejuani_q",
+        "sejuani_w",
+        "sejuani_e",
+        "sejuani_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_sejuani",
+      "hashes": {
+        "detail": "81c457ac82f283e37ba9636f3f19af8487e3f95bc404206356504bc41a24989d",
+        "attributes": "04036f21bc511d0b03d5a0575e3a4721054452eed99d1733361a9b873100f94e",
+        "relations": "3c77e1c8d92c1e068b9b8089319add43bbcc998e979d2d19891edc3e9b4210c0",
+        "representativeImage": "14a4d9e43148688f51367364827f57c44fafb63a13a43bd20837a2b924b6132d"
+      }
+    },
+    {
+      "sourceChampionId": "Senna",
+      "sourceNumericId": "235",
+      "name": "赛娜",
+      "characterKey": "champion_senna",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "senna_p",
+        "senna_q",
+        "senna_w",
+        "senna_e",
+        "senna_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_senna",
+      "hashes": {
+        "detail": "a73ea5060723056fa51a56fb23da3c99a78c23e6de721d428da28c7aa722425b",
+        "attributes": "7fbc4d40e8a492a2a61fca0c7b4ab60b4068647f2769745e3f601fdce14ad30c",
+        "relations": "83e37e62e81d2bf998ba0a5567d8579e66375a9fb76db613336ac92187962f31",
+        "representativeImage": "b1e4034aa51844564b98f05619d2464c36a26b752557ce2d65f5c69ca1da8b13"
+      }
+    },
+    {
+      "sourceChampionId": "Seraphine",
+      "sourceNumericId": "147",
+      "name": "萨勒芬妮",
+      "characterKey": "champion_seraphine",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "seraphine_p",
+        "seraphine_q",
+        "seraphine_w",
+        "seraphine_e",
+        "seraphine_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_seraphine",
+      "hashes": {
+        "detail": "934cae5c5f71234923e2a172d54b02385ef73cd09ad63660b1c1d4cffc9f2877",
+        "attributes": "46556b191332c0195d1f0a86df18c540d8671cfb5caf8be97c5c2f460e604d49",
+        "relations": "c84723169049510e41aff93f02e35e944969167dc59cd6a38ac4762257f21af6",
+        "representativeImage": "d8b3adfd30f47d276c60f1ad9403db0de20c5a919d5f4c403629972a95349986"
+      }
+    },
+    {
+      "sourceChampionId": "Sett",
+      "sourceNumericId": "875",
+      "name": "瑟提",
+      "characterKey": "champion_sett",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "sett_p",
+        "sett_q",
+        "sett_w",
+        "sett_e",
+        "sett_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_sett",
+      "hashes": {
+        "detail": "927dafb557467a8740b38620a27a948d62a3569790001fa957c2c3e25f54a4f4",
+        "attributes": "fd56d4f78c6cfabcf20df8670b4e8d4dc31a7c0334d47d05db5fd6f4c44af3f8",
+        "relations": "8cebd8cc9e0439a9c5c8a2b54082da22179ab224ad4db40a4d83df33fffd9c04",
+        "representativeImage": "79ec60579f118efd09b30e2e8330a042d1aff6fe9f36c43716d76e8794902da2"
+      }
+    },
+    {
+      "sourceChampionId": "Shaco",
+      "sourceNumericId": "35",
+      "name": "萨科",
+      "characterKey": "champion_shaco",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "shaco_p",
+        "shaco_q",
+        "shaco_w",
+        "shaco_e",
+        "shaco_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_shaco",
+      "hashes": {
+        "detail": "74191d250205724bd3a5172cfe022c33bff985fe961d673fec2f1f849cf28a2a",
+        "attributes": "8ef2cd224ad2b5fda4ace639d839b648cbb6ce69625a4f338c662d2ac3d22a6c",
+        "relations": "82b597dcd69d6f4c1ca8c95df0156e21312279ddeb69831abc75d4629214e62c",
+        "representativeImage": "8b5f347f349d0af59766d0e5926482314a3a25d9ec4eeba673f1394e12722872"
+      }
+    },
+    {
+      "sourceChampionId": "Shen",
+      "sourceNumericId": "98",
+      "name": "慎",
+      "characterKey": "champion_shen",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "shen_p",
+        "shen_q",
+        "shen_w",
+        "shen_e",
+        "shen_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_shen",
+      "hashes": {
+        "detail": "d2afbdd20b3dfda6695d85e9b703e24a13e2eb48aedab6d2ed358a4b14a56579",
+        "attributes": "5fc58761b8e8a0d870e2e3754dcf057f9b336ae3df35a721dba3d097a81c648f",
+        "relations": "d0a68206edb0c61d729226fb5422b7d5c670ca44cd614c5ba65ed78db296ceb0",
+        "representativeImage": "a41f08191d7e5567e4875ac91e3f2f185664003ba7997af57053b3cc27100dae"
+      }
+    },
+    {
+      "sourceChampionId": "Shyvana",
+      "sourceNumericId": "102",
+      "name": "希瓦娜",
+      "characterKey": "champion_shyvana",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "shyvana_p",
+        "shyvana_q",
+        "shyvana_w",
+        "shyvana_e",
+        "shyvana_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_shyvana",
+      "hashes": {
+        "detail": "0b6f41a15aca34dabd002d699bfbccee206d4e5dc016fe8eec580ddb7225fa4c",
+        "attributes": "ed6556f516cc1da306787dcc623fc744b0a6742151dcaa411e25b2acfee836e5",
+        "relations": "c019ec9f828af29c96ca570419788e999881c759b5a3f7b6088815c9a6cd5efa",
+        "representativeImage": "70c1e69a8b36df49f678850e8d17549aba9de328f1f3ef81e52331aedc7acf8a"
+      }
+    },
+    {
+      "sourceChampionId": "Singed",
+      "sourceNumericId": "27",
+      "name": "辛吉德",
+      "characterKey": "champion_singed",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "singed_p",
+        "singed_q",
+        "singed_w",
+        "singed_e",
+        "singed_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_singed",
+      "hashes": {
+        "detail": "bb35ec63cd6987ee6a4ef30fbe68ae048f7cc57174dac275ed78e11f1bb49d01",
+        "attributes": "f747ce9ef993232a88257be098ef82948e1e59e30221cdd905b3bb855bd1c1c6",
+        "relations": "bedd1b1c24726ec2343cb7feb6063ad5ee47fef03bf716f36677710660f273c8",
+        "representativeImage": "ca35cc413e7c44191aea33567ccf046385d744a041e9ca5fd0a7250bc4b257de"
+      }
+    },
+    {
+      "sourceChampionId": "Sion",
+      "sourceNumericId": "14",
+      "name": "赛恩",
+      "characterKey": "champion_sion",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "sion_p",
+        "sion_q",
+        "sion_w",
+        "sion_e",
+        "sion_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_sion",
+      "hashes": {
+        "detail": "f995b1b197d991991425f0c1b8a1f74ab3dfce805e9072249d6bb43bbf8d0f73",
+        "attributes": "acd106b967ddacb16f44ac6371ecb8e4e801ea720eee8332e9e49e58bed6fe63",
+        "relations": "4fee0c238706cc4a8d23f9f7a6de278e70511f629db55ddbf67ed2c6b97f02c8",
+        "representativeImage": "5fe7587c1d5774105394f168a83c545c877e43cc5164e46e5b49a25b34526b6f"
+      }
+    },
+    {
+      "sourceChampionId": "Sivir",
+      "sourceNumericId": "15",
+      "name": "希维尔",
+      "characterKey": "champion_sivir",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "sivir_p",
+        "sivir_q",
+        "sivir_w",
+        "sivir_e",
+        "sivir_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_sivir",
+      "hashes": {
+        "detail": "2c378c4867bb71e8461abb7e94736f806e59c73b7174e463e569ea74c0aec546",
+        "attributes": "efa478162f8eac4a8fbb045fb728fa606d56bdf23d35aabb5145c5011838323c",
+        "relations": "eb4bc01b5959d8480559989a3a01bf36f0990e46d0cd691fa0255cfe46d7636f",
+        "representativeImage": "36f84c65bc3edf7105d7b3039f266ff6b580789a1ad6e1849a577a9cdaced26b"
+      }
+    },
+    {
+      "sourceChampionId": "Skarner",
+      "sourceNumericId": "72",
+      "name": "斯卡纳",
+      "characterKey": "champion_skarner",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "skarner_p",
+        "skarner_q",
+        "skarner_w",
+        "skarner_e",
+        "skarner_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_skarner",
+      "hashes": {
+        "detail": "90490b3e9fa9ecee2bd7d0bbce494f6bc1e4cdab0e2704475d686fc09723afc1",
+        "attributes": "93fa05bcf45c66261d3b6cfb88af46160730cc9772f3610954dcacde3502c35d",
+        "relations": "0ad686d05f3fade6cbfdcc3390980b3aa6772909751b07632e2dc3b0bb797424",
+        "representativeImage": "b368fc3eb157c1d7c390c57a6e5e18aae8a3e8fe7d4b3e153bf62bcbfbc33e1a"
+      }
+    },
+    {
+      "sourceChampionId": "Smolder",
+      "sourceNumericId": "901",
+      "name": "斯莫德",
+      "characterKey": "champion_smolder",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "smolder_p",
+        "smolder_q",
+        "smolder_w",
+        "smolder_e",
+        "smolder_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_smolder",
+      "hashes": {
+        "detail": "153353083bce7fd5c7a04f6f0bff888112edb4881f25f80fac9d6bd60d6ae829",
+        "attributes": "98b03b398134e702ccd34919d7aeab6ea6557e303e73ef674b28fefc7b7ef488",
+        "relations": "ef75fa51e992de1fb916065f992056849ac5bae921d230bcec046167f98acaf9",
+        "representativeImage": "08b86b3f96d8f51126e60917bed46ade82cc7aae29354f312e18278068ae7394"
+      }
+    },
+    {
+      "sourceChampionId": "Sona",
+      "sourceNumericId": "37",
+      "name": "娑娜",
+      "characterKey": "champion_sona",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "sona_p",
+        "sona_q",
+        "sona_w",
+        "sona_e",
+        "sona_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_sona",
+      "hashes": {
+        "detail": "05e2c6b3be95e975685511686207eb4c6a996516a3cf392839352929629dd5da",
+        "attributes": "4f13845bb865f8ad64cecd43116111f1c253da316da09092f6c0c6ffd1b32d29",
+        "relations": "2b7e3e9e0c7bafe94f97afa6a47100950310063e63f8b8a9e89a0c6b872cf23d",
+        "representativeImage": "f93d70b043a33f607fc63e7fbc273667c9cad4d9c6344d806df9d098a6fea53a"
+      }
+    },
+    {
+      "sourceChampionId": "Soraka",
+      "sourceNumericId": "16",
+      "name": "索拉卡",
+      "characterKey": "champion_soraka",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "soraka_p",
+        "soraka_q",
+        "soraka_w",
+        "soraka_e",
+        "soraka_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_soraka",
+      "hashes": {
+        "detail": "54b1dc9ac4be6b213160b7e10856ff0919a8ed2e9b61a053652bf6e6daf6155d",
+        "attributes": "3c0aed2fa60dd9f848331b67415183604eae6ef82e501dd34908747511ad9496",
+        "relations": "1fd89f29ea382b660f3bbdb42232b595440a5a0baff17f903a2fdb9ca614138a",
+        "representativeImage": "56f11dc5b1ee977e3c2e38923b7b82d764f3f87514801f869d0f37ac71cbb356"
+      }
+    },
+    {
+      "sourceChampionId": "Swain",
+      "sourceNumericId": "50",
+      "name": "斯维因",
+      "characterKey": "champion_swain",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "swain_p",
+        "swain_q",
+        "swain_w",
+        "swain_e",
+        "swain_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_swain",
+      "hashes": {
+        "detail": "62bbe5a20dc2ef2cad3ebaef7d91dff397f277dfa3886c40454fcad6684da8f0",
+        "attributes": "c306b6ff1ecaed9f0f484526598a7ad6df48f56c36fc95413990e45775d89285",
+        "relations": "adece9068e58ada9a2cf084bf89f12c3dc78779bb1368bb4f31d18b28ef822de",
+        "representativeImage": "b42b8e66ce3bd3728dac495d54b3973364a6c8c07e5c607efc7d08b573a6ea08"
+      }
+    },
+    {
+      "sourceChampionId": "Syndra",
+      "sourceNumericId": "134",
+      "name": "辛德拉",
+      "characterKey": "champion_syndra",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "syndra_p",
+        "syndra_q",
+        "syndra_w",
+        "syndra_e",
+        "syndra_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_syndra",
+      "hashes": {
+        "detail": "bd0f1bc9591ec0afb95a5162efccaf693e61918afe99165e48d9a9f63dc0a6e9",
+        "attributes": "265a78b35959385f0404f40da3d630a894b879f1adfaae05d739cec2d82aeaee",
+        "relations": "796deae0bd8d0bc26e675a433f40b4ff204ed251f2c6c80b35be6fa0895a1175",
+        "representativeImage": "5834215765f5b5d0086cbf1eb3b136401f433da3670bda38e259260bcb526177"
+      }
+    },
+    {
+      "sourceChampionId": "TahmKench",
+      "sourceNumericId": "223",
+      "name": "塔姆",
+      "characterKey": "champion_tahmkench",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "tahmkench_p",
+        "tahmkench_q",
+        "tahmkench_w",
+        "tahmkench_e",
+        "tahmkench_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_tahmkench",
+      "hashes": {
+        "detail": "7efec09a643eebbf05976aff138cd58a7268807a13622d12b743b240e2deaa11",
+        "attributes": "4f0056eb92755ff735eaf95f2e1635b2c8216492e1dd2627cedf125e30bc4de8",
+        "relations": "5fb03008601b4c35408022b4e786cc38392d4bd7579f5d2fd386099bef03c776",
+        "representativeImage": "10375dfa7707e6e016256f2e010ada708e3a0b000d7d9a92ba171ebb58d0532d"
+      }
+    },
+    {
+      "sourceChampionId": "Taliyah",
+      "sourceNumericId": "163",
+      "name": "塔莉垭",
+      "characterKey": "champion_taliyah",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "taliyah_p",
+        "taliyah_q",
+        "taliyah_w",
+        "taliyah_e",
+        "taliyah_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_taliyah",
+      "hashes": {
+        "detail": "eb43659e8b0298bb495e3f2681aceb0f06e511f11be52e25d9c8c8dbb7b36ea6",
+        "attributes": "255df7984497b7b2d10ec2c287f4463313122a4d68c3e35bfd3b671a6386c2aa",
+        "relations": "8e22acae1883c8cc52c9601b82800e158c5a57f4f1261e876cee3b677a2618fe",
+        "representativeImage": "6a22b0ace7b229d62cca570f494926026b8137943ae66e02818d687bd6fa238f"
+      }
+    },
+    {
+      "sourceChampionId": "Talon",
+      "sourceNumericId": "91",
+      "name": "泰隆",
+      "characterKey": "champion_talon",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "talon_p",
+        "talon_q",
+        "talon_w",
+        "talon_e",
+        "talon_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_talon",
+      "hashes": {
+        "detail": "e0cfad7853eda0373fae8dde73acdac614eeed2a4ff03793e25a6bd107f23152",
+        "attributes": "eef61c0bb38733b4b1c66fd97a3fa5dfb59c8a3d7f591b268944145f059ca886",
+        "relations": "41e2f03a287ff209dbbda5401652a223e866179eace03c98813aa6e89d2e2cff",
+        "representativeImage": "aaf60d9995f622b1cef3545fda45f2c71ad2ab73869d5f5a20e443d1eb9cd1cc"
+      }
+    },
+    {
+      "sourceChampionId": "Taric",
+      "sourceNumericId": "44",
+      "name": "塔里克",
+      "characterKey": "champion_taric",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "taric_p",
+        "taric_q",
+        "taric_w",
+        "taric_e",
+        "taric_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_taric",
+      "hashes": {
+        "detail": "3e23f0f5a0cffff96203b01f2a6ae6bb169fe416a2fb2900e1ba769a2a4f3434",
+        "attributes": "dfd1e951b80463a984e1cf8a0ad66c1159f8a70cd2063330655732414eafe095",
+        "relations": "cb2456f95d2e2392ddac3d198af6b418a493a6dd466ba2b10c92bb82ad419ab3",
+        "representativeImage": "80f0f97d9190c4d28926876a17feebcfea3dd0c2414df426ff5e6c6c982d38b8"
+      }
+    },
+    {
+      "sourceChampionId": "Teemo",
+      "sourceNumericId": "17",
+      "name": "提莫",
+      "characterKey": "champion_teemo",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "teemo_p",
+        "teemo_q",
+        "teemo_w",
+        "teemo_e",
+        "teemo_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_teemo",
+      "hashes": {
+        "detail": "b97aeb5cf4420efb5b1107bdafd5a4a1373502597922fab51f6ea7c328ce2517",
+        "attributes": "d28d563ce6e5c7a8c27950c1bafaa9b54f1b4a60378c74855a903b041603e2a8",
+        "relations": "f0ec76db8a7a38ebd2eae95ed8f10d41e9e0a85037d3bf55e587a7f9ad6d1b50",
+        "representativeImage": "ff7890f860114885a165a2d910a1315ed664a2a2e6b9865a924cdcfa86b437bc"
+      }
+    },
+    {
+      "sourceChampionId": "Thresh",
+      "sourceNumericId": "412",
+      "name": "锤石",
+      "characterKey": "champion_thresh",
+      "levelCount": 18,
+      "attributeKeys": [
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "thresh_p",
+        "thresh_q",
+        "thresh_w",
+        "thresh_e",
+        "thresh_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_thresh",
+      "hashes": {
+        "detail": "67054884f5e6693a8781d8c195752ed97d19e26b2e9b4a51f1a0773bd24e87e8",
+        "attributes": "dc6d5a3c8f7f4f968f7d2a411c415efdcf5f71f24a477f8c0235753feb47f495",
+        "relations": "c5ae5ecf347d36e204adb13670f365a78fb711c737e17c73b0fd7d08c9435e3b",
+        "representativeImage": "872b94a11bfb2785841478bf22aa1426cebd921c49e39c0a6840871811f9d9d6"
+      }
+    },
+    {
+      "sourceChampionId": "Tristana",
+      "sourceNumericId": "18",
+      "name": "崔丝塔娜",
+      "characterKey": "champion_tristana",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "tristana_p",
+        "tristana_q",
+        "tristana_w",
+        "tristana_e",
+        "tristana_r"
+      ],
+      "representativeImageKey": "image_d43a045f-f78d-461c-8bce-4f34ff472c4a",
+      "hashes": {
+        "detail": "2db8aa7dce7f0e3f07e9a9835392e15cc61d110dfe5aff46b9abada4b2f66ed1",
+        "attributes": "39768f0e282ed8dafa507441aa3cbfc89443f66930cbc121ac5033fc10525048",
+        "relations": "3a81ed65e28db8af8f06d52d625ab3181e1817e81efd2cba7b949157e96316e0",
+        "representativeImage": "d833c3238bbf465b73ac5351d174b15565831477fb66e0413e44fb4433b26fcb"
+      }
+    },
+    {
+      "sourceChampionId": "Trundle",
+      "sourceNumericId": "48",
+      "name": "特朗德尔",
+      "characterKey": "champion_trundle",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "trundle_p",
+        "trundle_q",
+        "trundle_w",
+        "trundle_e",
+        "trundle_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_trundle",
+      "hashes": {
+        "detail": "c6a3a2db4e57314c560fb4f352fe663fcd4c102ce684c78e6dd06a629830515e",
+        "attributes": "4bc3247334f8a3fadc717fed1a8e9cdb0fdd06fda4e2ae37f169cc4553c7e43e",
+        "relations": "e5e2d93e7c4f6f02307dd42f5e211768a35719bd47888bd25d05966629f21fba",
+        "representativeImage": "1f385288a00ab110c45603f2c01f0038e305cd94d5e15ed69d4aba37bf34cfd8"
+      }
+    },
+    {
+      "sourceChampionId": "Tryndamere",
+      "sourceNumericId": "23",
+      "name": "泰达米尔",
+      "characterKey": "champion_tryndamere",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "tryndamere_p",
+        "tryndamere_q",
+        "tryndamere_w",
+        "tryndamere_e",
+        "tryndamere_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_tryndamere",
+      "hashes": {
+        "detail": "6e9e9ce1969efe609baf9548ca7123edd3e7489e54e49af1524ecddf27e27389",
+        "attributes": "0bee9eb4b3ce5e4d77a9d7075e9c4c1a43ca2e43cdf220b09e6847ac082ec4c4",
+        "relations": "919ded9e73b5e1a67942c42f61b23a87e91bab65e636871f0a21f019b389523e",
+        "representativeImage": "6d6648e6f7365c494fdce8aa846358469bc03a23f87b16a7093f21757621dae8"
+      }
+    },
+    {
+      "sourceChampionId": "TwistedFate",
+      "sourceNumericId": "4",
+      "name": "崔斯特",
+      "characterKey": "champion_twistedfate",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "twistedfate_p",
+        "twistedfate_q",
+        "twistedfate_w",
+        "twistedfate_e",
+        "twistedfate_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_twistedfate",
+      "hashes": {
+        "detail": "3ea14c008a9f61603327352ebeb728fb3628081af2df99bc64ec37bf53f0196c",
+        "attributes": "f0e0afcf0a62bddd1d637f9c2e190b1c0ee69184ba79f13eb99f9a636d0c513a",
+        "relations": "dcc3756fed2fa7389f687ddea67dd4ce91c5d82852a2c141ee71d9b96949a721",
+        "representativeImage": "7c4c976905c33c8e5b7327eec0a395d50d6bdab59d5c434884150b57c33a3cbe"
+      }
+    },
+    {
+      "sourceChampionId": "Twitch",
+      "sourceNumericId": "29",
+      "name": "图奇",
+      "characterKey": "champion_twitch",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "twitch_p",
+        "twitch_q",
+        "twitch_w",
+        "twitch_e",
+        "twitch_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_twitch",
+      "hashes": {
+        "detail": "7236dcda348fac2f8da31690016ff4e2aeaac3761ca4fa745006927265ed7f23",
+        "attributes": "c7f3275c28cd7867dd3bfe6790fe97fe7f335b301365b476046620a72b097ef8",
+        "relations": "58f6dbd68a834eb7c994dcf8353454f375cbdb0b1bfe73321a3735d9d625dae2",
+        "representativeImage": "7feae4b53d14cfc0a260187b95b93e41701351cb7668c32ba17dd449a9c5609b"
+      }
+    },
+    {
+      "sourceChampionId": "Udyr",
+      "sourceNumericId": "77",
+      "name": "乌迪尔",
+      "characterKey": "champion_udyr",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "udyr_p",
+        "udyr_q",
+        "udyr_w",
+        "udyr_e",
+        "udyr_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_udyr",
+      "hashes": {
+        "detail": "f8641c197302923f748aa7f0eee95f626fa42658217bacb95ded58e0b7ab3c4b",
+        "attributes": "eeeb75cc767eda731b5be98cae07cebd8e053148c87c230f6711362143b79e95",
+        "relations": "5f82f33f66dc28d3f4fec2366fc02bcbe4212b5341a5c5213771e1399f18f863",
+        "representativeImage": "8a55c5949ca25edc5bb2ded442e87f37770a34ab2c1e9f1ace0f0e93e7b7594e"
+      }
+    },
+    {
+      "sourceChampionId": "Urgot",
+      "sourceNumericId": "6",
+      "name": "厄加特",
+      "characterKey": "champion_urgot",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "urgot_p",
+        "urgot_q",
+        "urgot_w",
+        "urgot_e",
+        "urgot_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_urgot",
+      "hashes": {
+        "detail": "ba130f0dc26355ff4241eb047245f15d07803cbe86239f027d21a8b98d4e924f",
+        "attributes": "0fbb3263d57386112a2b415b68d46add0f1540acc1034ab30dce8dd744275d95",
+        "relations": "0863509e230ef3982ed79a35275188ce964735207ca01bbc961da5cd5c39bda9",
+        "representativeImage": "f3ec01f2755fc70dc61aeaad94283742de85fc93868d818cfa2066842e9ed2a8"
+      }
+    },
+    {
+      "sourceChampionId": "Varus",
+      "sourceNumericId": "110",
+      "name": "韦鲁斯",
+      "characterKey": "champion_varus",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "varus_p",
+        "varus_q",
+        "varus_w",
+        "varus_e",
+        "varus_r"
+      ],
+      "representativeImageKey": "image_14cf6233-099b-4661-8a19-2daf72d2c780",
+      "hashes": {
+        "detail": "b2aa44f2b723e0c43494b0702e70e48bd0e91af969307bb0be3b771b79bb6e71",
+        "attributes": "c7392ed6a6a7fcad4f8430fbe94ef57e5006c1c935c5c210e4871e7aecfd36ef",
+        "relations": "f96f7596ed49ecdee3d1ea7e12a03ea32f05de7f116fe401b9b657aae8c1bc9c",
+        "representativeImage": "7c1e62ce3343a016709b97bdc137d5fde835f37afe5ab4f11f3286b0c37b4da1"
+      }
+    },
+    {
+      "sourceChampionId": "Vayne",
+      "sourceNumericId": "67",
+      "name": "薇恩",
+      "characterKey": "champion_vayne",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "vayne_p",
+        "vayne_q",
+        "vayne_w",
+        "vayne_e",
+        "vayne_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_vayne",
+      "hashes": {
+        "detail": "3a838ba8f7690fd7c70bb7e623853565cb66cb25b0db211df83b40c6cd8293ca",
+        "attributes": "680c8ac8b8438433b00da363c88a8fecfbc2dee99c4813e07352c2b9bd43212f",
+        "relations": "dee7b20803d8fd5ccd51736a2e11e4cc98ad9a65100577420b42c962bf33b507",
+        "representativeImage": "27c8dcf1e88b2f2870a562e681dcabffede4a0519ccce0368c1d08a68dc6dcc3"
+      }
+    },
+    {
+      "sourceChampionId": "Veigar",
+      "sourceNumericId": "45",
+      "name": "维迦",
+      "characterKey": "champion_veigar",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "veigar_p",
+        "veigar_q",
+        "veigar_w",
+        "veigar_e",
+        "veigar_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_veigar",
+      "hashes": {
+        "detail": "77cef47a28ab5ddcb3f7360d7f15ee3b162f19c12bff107c366433909a632917",
+        "attributes": "39282da4a9eff0ab7479da5623306578a9c59a4e0c226f5dcc31dc10f19090eb",
+        "relations": "2d21d6288c25668610b5a3dcbbcd2588d4ef6612c51de3e30dc1e9abff5569d6",
+        "representativeImage": "e5dd0df04eb769518df1392dd9fa592bdf452c170024f5ca7f4b02be325be32e"
+      }
+    },
+    {
+      "sourceChampionId": "Velkoz",
+      "sourceNumericId": "161",
+      "name": "维克兹",
+      "characterKey": "champion_velkoz",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "velkoz_p",
+        "velkoz_q",
+        "velkoz_w",
+        "velkoz_e",
+        "velkoz_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_velkoz",
+      "hashes": {
+        "detail": "6e1cb85a9f47681022b84f5f3f740dec3deb5bc008b149995dceadc3ab0ec642",
+        "attributes": "13e0b0e986d9237201aed39f13add7310dd75393aa8fb40a284b95fa1b44049f",
+        "relations": "181c643cd8cc10680316b31a6899f8a404eaf3ccd86ba2912d8030c769804853",
+        "representativeImage": "acddc1a5da3ca3ae65fd5d5f115494f67dfa933bbbd145ee129f2fd4c8a629f2"
+      }
+    },
+    {
+      "sourceChampionId": "Vex",
+      "sourceNumericId": "711",
+      "name": "薇古丝",
+      "characterKey": "champion_vex",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "vex_p",
+        "vex_q",
+        "vex_w",
+        "vex_e",
+        "vex_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_vex",
+      "hashes": {
+        "detail": "5410ac3f21cd368a5acdddd28cc5c81a5d0a09362edb69d8f8f3d08ea3c0daa5",
+        "attributes": "29cbc5edbc6d6de9b782581bb227835a4248239bef5c26a9ec555c91dfa8b883",
+        "relations": "77196386034af10c372116ca3fc8675a685b9a87c0949d63da197730c2a34135",
+        "representativeImage": "380a7194019eeb754652745edbe429f6b77a272bf88d6c7d5d908e58711dc9fb"
+      }
+    },
+    {
+      "sourceChampionId": "Vi",
+      "sourceNumericId": "254",
+      "name": "蔚",
+      "characterKey": "champion_vi",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "vi_p",
+        "vi_q",
+        "vi_w",
+        "vi_e",
+        "vi_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_vi",
+      "hashes": {
+        "detail": "926dbbbd8e7eb6dbca705591843bccef9b0c4030ac09479aa399e5c125c30fd5",
+        "attributes": "5f0b4cba8866d6cc78a8b5638105d51f702070f55191a1c2cad4313495323e74",
+        "relations": "2924d9627ed316565705e83b34d15d14edee3c5475563fbf759c411dcf6ba946",
+        "representativeImage": "46e9e0f3b593ab238277443a2df83db2b7dcefb774d294fd481856f88a95244a"
+      }
+    },
+    {
+      "sourceChampionId": "Viego",
+      "sourceNumericId": "234",
+      "name": "佛耶戈",
+      "characterKey": "champion_viego",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "viego_p",
+        "viego_q",
+        "viego_w",
+        "viego_e",
+        "viego_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_viego",
+      "hashes": {
+        "detail": "6d28db8e4436f354aecb543c2f209ca18c1dee8ce04b46327755dc59df008a27",
+        "attributes": "881fc1b58660d0fc7dd746c604c6007e5dbfaf39becbfa2636d69f906a2f6629",
+        "relations": "bb2e9ac5cf65d164bfc846ff2d5736a65388ff52390c86823b69e47cdbd24527",
+        "representativeImage": "e020cf6076752ee1b7cb0c4559b0c755d2eae04225e5ce06100894b836742ffd"
+      }
+    },
+    {
+      "sourceChampionId": "Viktor",
+      "sourceNumericId": "112",
+      "name": "维克托",
+      "characterKey": "champion_viktor",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "viktor_p",
+        "viktor_q",
+        "viktor_w",
+        "viktor_e",
+        "viktor_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_viktor",
+      "hashes": {
+        "detail": "6dba1f42dbeb9f7d2667fcecfa00a88c75a55d1f1f9c415cddfa6302f52996db",
+        "attributes": "f59a65aab350b20803d025daee0524732f18b982eed909e84bda858eb48eeec3",
+        "relations": "1a27f349fb363bb1d93d852bc107e4789df4f57dee2dae4470a67140b233e96f",
+        "representativeImage": "6bee46893cc257298451b2a39020d7f2b162a9cd2dfda5a33ee83be258a2fed8"
+      }
+    },
+    {
+      "sourceChampionId": "Vladimir",
+      "sourceNumericId": "8",
+      "name": "弗拉基米尔",
+      "characterKey": "champion_vladimir",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "vladimir_p",
+        "vladimir_q",
+        "vladimir_w",
+        "vladimir_e",
+        "vladimir_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_vladimir",
+      "hashes": {
+        "detail": "96060ebdb6fc61ce1d5b056d6c8af0f664fb8d80c7170e3fcc6178d83646057f",
+        "attributes": "f23100b97e5b9228d14ccb084a27c54f66803eb8f8295f5038387f4cd8fb939b",
+        "relations": "7296209e2213c1acfac935ffef3ce57656829cc38bafce6e470961679e8fb476",
+        "representativeImage": "29869bac318edfe595314c3eb6c6580b34502f5f5f0ca16aa4e5ef8b7f7612a6"
+      }
+    },
+    {
+      "sourceChampionId": "Volibear",
+      "sourceNumericId": "106",
+      "name": "沃利贝尔",
+      "characterKey": "champion_volibear",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "volibear_p",
+        "volibear_q",
+        "volibear_w",
+        "volibear_e",
+        "volibear_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_volibear",
+      "hashes": {
+        "detail": "ca7b37714cb10609a8889b5d2c59f35da8f410849c77bc72f53d1fdee42353cc",
+        "attributes": "0fff4e5e4d0776b512725d85d909b27120e19dc0fbee99845d0206344c24faa5",
+        "relations": "823b66d0b6cadd6e143cdbdb9fc3d298aedc951a64dded1f592017b4e4b03df1",
+        "representativeImage": "8b2825e3c0b56c649febe3b247a28264c278bb7fd7613a4b2d8bd106d6c100be"
+      }
+    },
+    {
+      "sourceChampionId": "Warwick",
+      "sourceNumericId": "19",
+      "name": "沃里克",
+      "characterKey": "champion_warwick",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "warwick_p",
+        "warwick_q",
+        "warwick_w",
+        "warwick_e",
+        "warwick_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_warwick",
+      "hashes": {
+        "detail": "2c77c8d317522fca211962f1b20e67230129121cfdfd6291791b2e913df03f87",
+        "attributes": "021a865731224d97f1f6601b0accff48f0d6f0a05536d2a59c9472ec34dba5b1",
+        "relations": "153952b3cb954e82685813c67334cc545d29e83d467ceebb115db1c05a0abeea",
+        "representativeImage": "26b8a284f5bb8a9def84801664a33508b8c0384cfaf8ffbe74458c907e3da840"
+      }
+    },
+    {
+      "sourceChampionId": "Xayah",
+      "sourceNumericId": "498",
+      "name": "霞",
+      "characterKey": "champion_xayah",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "xayah_p",
+        "xayah_q",
+        "xayah_w",
+        "xayah_e",
+        "xayah_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_xayah",
+      "hashes": {
+        "detail": "0552b3113b749d47755fa0e344a54fae2882c594d4adef219901bf264d18397e",
+        "attributes": "2440fe87d252f71917f1df4236df00eb1705dfee072afd6711c8a64c8b588986",
+        "relations": "41ac09116a972a60207e9ab8c889684dd1d8743e139b59decdf91351a5bea6af",
+        "representativeImage": "e4aa80dbbf6f8b83240a4f94a9aabb783830270c1749051bfa14073c2ac6139c"
+      }
+    },
+    {
+      "sourceChampionId": "Xerath",
+      "sourceNumericId": "101",
+      "name": "泽拉斯",
+      "characterKey": "champion_xerath",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "xerath_p",
+        "xerath_q",
+        "xerath_w",
+        "xerath_e",
+        "xerath_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_xerath",
+      "hashes": {
+        "detail": "c179be7a6777d14a33f7d1953ffee237995f19551febc89c7eefd3952a45fc39",
+        "attributes": "07a2248083f258a2f450efa7152f4ea8a2a37e91294978fb0f8b53ac6917d8c7",
+        "relations": "c03ab0123fdf9e1851fb1d0a82c2c90f10f1904a6a8285301795bb2ae14132cd",
+        "representativeImage": "7c9873250cfa42bdb457b67ff7208d9cbbf95c6e647cb99e4afb22b860115bfe"
+      }
+    },
+    {
+      "sourceChampionId": "XinZhao",
+      "sourceNumericId": "5",
+      "name": "赵信",
+      "characterKey": "champion_xinzhao",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "xinzhao_p",
+        "xinzhao_q",
+        "xinzhao_w",
+        "xinzhao_e",
+        "xinzhao_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_xinzhao",
+      "hashes": {
+        "detail": "fba8917ecc7b71c12504ebee2f0bc6893907bee43f2426cde7862fb8c15983c4",
+        "attributes": "e566f59df279e2e3c659d0c49503298a868ab7243c209c26f60a0a048614de29",
+        "relations": "bc7df4126bd08ca52d1bd9d2835344afc2e59710534d65bd79cb987529ccbaef",
+        "representativeImage": "c5cc036e58b1002e433a6bb56ba7c34e1404d179ed3e3400ac661bfbc58d83ed"
+      }
+    },
+    {
+      "sourceChampionId": "Yasuo",
+      "sourceNumericId": "157",
+      "name": "亚索",
+      "characterKey": "champion_yasuo",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "yasuo_p",
+        "yasuo_q",
+        "yasuo_w",
+        "yasuo_e",
+        "yasuo_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_yasuo",
+      "hashes": {
+        "detail": "bbc15410d1a4f8e84e37c41ff2d3fcbaf82749fc7538cacc585263664f385b41",
+        "attributes": "3920634038183c5b10de8eb3a438f75174f8e20b822c7bfaedbf8e3a2a581299",
+        "relations": "df3d80c13ddfb924a836fd010c9c4f59c6ac0868c9bf59ac0c5b0be5ddac4c1a",
+        "representativeImage": "f36b8febbcd6db5ccb282c6470fb90087811cd5753d26c868775a06008ba63a2"
+      }
+    },
+    {
+      "sourceChampionId": "Yone",
+      "sourceNumericId": "777",
+      "name": "永恩",
+      "characterKey": "champion_yone",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "yone_p",
+        "yone_q",
+        "yone_w",
+        "yone_e",
+        "yone_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_yone",
+      "hashes": {
+        "detail": "d1cb075eff0165c4715cdac0e641694e68d3792d70c46dae44b0c66341820257",
+        "attributes": "41b7cc677b6695df250ded2c486afe3063b4b9c88ed2e386662b803270b38d4f",
+        "relations": "3750ef237fa4720afa5d6fb6c6559cc4147f32e9c6512e7293ea829540b705d1",
+        "representativeImage": "cd0cbb6ac0870d1b382b5e825b25a46c1eb25121868b64d058240b596a2c9f40"
+      }
+    },
+    {
+      "sourceChampionId": "Yorick",
+      "sourceNumericId": "83",
+      "name": "约里克",
+      "characterKey": "champion_yorick",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "yorick_p",
+        "yorick_q",
+        "yorick_w",
+        "yorick_e",
+        "yorick_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_yorick",
+      "hashes": {
+        "detail": "5b8223482507a63aa2939155e6c3fd30e03c655bfc0a50d5f4e4df0702e79497",
+        "attributes": "f14c043bf4c0c66fea5f7cd78c26daab1495b4ae55adde87374f5b56167df503",
+        "relations": "93c3d71f40c68b6e6ba280c7022db281c52902e0beec9860b29b9494bfeabd3e",
+        "representativeImage": "0b7897653a21cdea07f26644ba46ef7db2ca8b711006b4805e0d6467b933714f"
+      }
+    },
+    {
+      "sourceChampionId": "Yunara",
+      "sourceNumericId": "804",
+      "name": "芸阿娜",
+      "characterKey": "champion_yunara",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "yunara_p",
+        "yunara_q",
+        "yunara_w",
+        "yunara_e",
+        "yunara_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_yunara",
+      "hashes": {
+        "detail": "cda93f755276f9b05d2f21e15593e9cc64541229efb494d27edc26ecae0e070d",
+        "attributes": "6d2042353e4d18d23bc5eeee3bbd9039e975b2385e20a9568fd43bd8bcdf049f",
+        "relations": "1cc37199ba231b23955ea5bdca5526364643c87e615b0ef4d5a415cad6305650",
+        "representativeImage": "e80c4a7cf1e6951dd62127f63ed1ac3b4f4f1c8feac34900eaff3832641e57c5"
+      }
+    },
+    {
+      "sourceChampionId": "Yuumi",
+      "sourceNumericId": "350",
+      "name": "悠米",
+      "characterKey": "champion_yuumi",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "yuumi_p",
+        "yuumi_q",
+        "yuumi_w",
+        "yuumi_e",
+        "yuumi_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_yuumi",
+      "hashes": {
+        "detail": "74d0a22824732e007de81c8d0708faa2bec267b8933c5ae08b92952e212aaf60",
+        "attributes": "ba143db382357a6b79fcde59937ce1df6ed383e427e440aa66578b4df3a55da8",
+        "relations": "4d08cf5cb0dd4bf5fa06c11f5d7b7c8927e1abe016f2cc6a288fb8c9036effd7",
+        "representativeImage": "851bb289d694f6b185a79760e3c40c841f088f9ce4e82081ac8a2eb679bdb315"
+      }
+    },
+    {
+      "sourceChampionId": "Zaahen",
+      "sourceNumericId": "904",
+      "name": "亚恒",
+      "characterKey": "champion_zaahen",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "zaahen_p",
+        "zaahen_q",
+        "zaahen_w",
+        "zaahen_e",
+        "zaahen_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_zaahen",
+      "hashes": {
+        "detail": "56ca6bb1da0f82aec1920af1afd91fc30ffb8a519f25e28de002879dc9b5b92a",
+        "attributes": "526927adbbec5870c6e966ef2926598770b4b8097ccbfe086e7a86f0fa6c91e2",
+        "relations": "d19eb0469cee5491122472f8d0172085c4a4244c1bc09299bbb5365b0b1ddf00",
+        "representativeImage": "aaef03493fbeee1f3cbea518349aa4c1d3cc479d3ee8f69c89fce4f5b5483bd9"
+      }
+    },
+    {
+      "sourceChampionId": "Zac",
+      "sourceNumericId": "154",
+      "name": "扎克",
+      "characterKey": "champion_zac",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "zac_p",
+        "zac_q",
+        "zac_w",
+        "zac_e",
+        "zac_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_zac",
+      "hashes": {
+        "detail": "f440cd37274c833963f36cbf98b8974a6877da87e75defd927e07ec9ed887466",
+        "attributes": "519c6f32e65a477cbfcde48459b8032ac42c58ef0b397b87cbb99a4c1171b185",
+        "relations": "fbf026186c39b76dec5d89b7881f3260101b1541b052202fac3fe37c4c9ce58a",
+        "representativeImage": "853aba217738d7020767be3d491ced3c35deec338519a595713e4a7333c85262"
+      }
+    },
+    {
+      "sourceChampionId": "Zed",
+      "sourceNumericId": "238",
+      "name": "劫",
+      "characterKey": "champion_zed",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "zed_p",
+        "zed_q",
+        "zed_w",
+        "zed_e",
+        "zed_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_zed",
+      "hashes": {
+        "detail": "9a1b81a6a750e37fd17495b0008dbef7f376c22c44dcaa8de7081a6e68a214c6",
+        "attributes": "28b096a8c6ea8944055b8cd0f361c4f635cc53d19ac7edd894118d8cf590513c",
+        "relations": "aab75b2a006eb803cc1a8c1ec805449bea9e989a5484e8c0d8eb8316b6c1376a",
+        "representativeImage": "0910cf98f6c2404badafe58cfd902d50c82d062c4547308529be6e22bfb546ff"
+      }
+    },
+    {
+      "sourceChampionId": "Zeri",
+      "sourceNumericId": "221",
+      "name": "泽丽",
+      "characterKey": "champion_zeri",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "zeri_p",
+        "zeri_q",
+        "zeri_w",
+        "zeri_e",
+        "zeri_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_zeri",
+      "hashes": {
+        "detail": "0bf2374712f587665ab411439c0649b73955227c78ddfb8e74d919ffc46fbdee",
+        "attributes": "aa8ad90a73549acbfbc98ea0d0ae7cdf694c867a40a7c7ed2a8e12a4fa298028",
+        "relations": "dca6758aabf6ce54b0e77340f15f01e1e4f667047b5f825fe98645ca5af0500b",
+        "representativeImage": "5edc3f42ffa4728d8a9af4fd2708478ad22aeeecc28c728d0f853c3322b9fd20"
+      }
+    },
+    {
+      "sourceChampionId": "Ziggs",
+      "sourceNumericId": "115",
+      "name": "吉格斯",
+      "characterKey": "champion_ziggs",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "ziggs_p",
+        "ziggs_q",
+        "ziggs_w",
+        "ziggs_e",
+        "ziggs_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_ziggs",
+      "hashes": {
+        "detail": "8e8d4e2714bc5ac030ab95d75f4cfbc560d2021196a16cf9ecb5e3836822979a",
+        "attributes": "8c49ed0d3b4ea6e7dd7a227690d3f4101bd0c3765506d5ca503ef4fbce3cd895",
+        "relations": "ae2426986bed3eb0372b86428328072b1240701bf57803c472d3ad240e2c8d7e",
+        "representativeImage": "e94932ce10d14bfe6f45bde63d960d2ad7d026d4576f5f3ecbd46055de8d69ca"
+      }
+    },
+    {
+      "sourceChampionId": "Zilean",
+      "sourceNumericId": "26",
+      "name": "基兰",
+      "characterKey": "champion_zilean",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "zilean_p",
+        "zilean_q",
+        "zilean_w",
+        "zilean_e",
+        "zilean_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_zilean",
+      "hashes": {
+        "detail": "95b773689d76a855bc0f3f94a6f427c26987ea5c4b0489bdc4be7e4dc379bc69",
+        "attributes": "97adb1aee8a4588e709a7bd73f6718bf2fc96e94525fdcaaecfaaecce5358ea3",
+        "relations": "c6df8893e75bbd110371ac4cb3fc9920856ffdf8f181aff07f30070fe6f70e82",
+        "representativeImage": "918ace4533f33348956807c7b80ed3c9f7ef7b72a48499c6bd645405b5142522"
+      }
+    },
+    {
+      "sourceChampionId": "Zoe",
+      "sourceNumericId": "142",
+      "name": "佐伊",
+      "characterKey": "champion_zoe",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "zoe_p",
+        "zoe_q",
+        "zoe_w",
+        "zoe_e",
+        "zoe_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_zoe",
+      "hashes": {
+        "detail": "05190fb60da26fe66640a556220ae71e6484f607744eaa77b37bc24018fa159e",
+        "attributes": "6b91b9785f90608d355da6327631b44bcc9da67b48e47768ea597e41872449e0",
+        "relations": "fa19bc330698c9ac7c96f8c2963fb12fdcb0303205d790864f4afac89e9c9888",
+        "representativeImage": "08707b4f1bc0add0edfde7b23cb1b1c07471a9e13a77e47001cf9106a702f33b"
+      }
+    },
+    {
+      "sourceChampionId": "Zyra",
+      "sourceNumericId": "143",
+      "name": "婕拉",
+      "characterKey": "champion_zyra",
+      "levelCount": 18,
+      "attributeKeys": [
+        "armor",
+        "attack_damage",
+        "attack_range",
+        "attack_speed",
+        "hp",
+        "hp_regen",
+        "magic_resistance",
+        "mana",
+        "mana_regen",
+        "move_speed"
+      ],
+      "skillKeys": [
+        "zyra_p",
+        "zyra_q",
+        "zyra_w",
+        "zyra_e",
+        "zyra_r"
+      ],
+      "representativeImageKey": "entry_16171_champion_zyra",
+      "hashes": {
+        "detail": "148843e4b372d254f7aecd95fa881359e394c9483ee46d473bf6fccf0c0f06c8",
+        "attributes": "b4d6a06b2d180f7c2d447b0aabf80643535a7470fed4afba30ec8d1611b03e30",
+        "relations": "51f47c7b4c1420938375efb0d338ad16a2d80ed83077d5ed1dfc0ac09fadcf71",
+        "representativeImage": "faa34c0d651853a7cb2e7e0e954fd5fd9ad3024b238f6c641410715056581410"
+      }
+    }
+  ],
+  "differences": [],
+  "readbackAttemptHistory": [
+    {
+      "attempt": 1,
+      "status": "GET_ONLY_CHECK_FAILED_BEFORE_OUTPUT",
+      "reason": "初版错误要求所有角色关系排序必须为0至4；伊泽瑞尔当前合法排序为10、20、30、40、50。修订为五项有限整数、唯一且严格递增。",
+      "businessWrites": 0,
+      "exactGetCountPersisted": false
+    },
+    {
+      "attempt": 2,
+      "status": "PASS",
+      "getCount": 685,
+      "businessWrites": 0
+    }
+  ],
+  "boundary": "本证据证明角色主体、1至18级属性、五项技能关系和代表图当前可读；技能数据与机制完成度在技能逐项结论中另行收敛，未执行Wasm、宿主或战斗验证。"
+}

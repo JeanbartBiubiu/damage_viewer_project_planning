@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T08:50:25.568Z",
+  "generatedAt": "2026-09-13T09:17:04.289Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7846,5 +7846,2305 @@
       "runtimeValidation": "未执行"
     }
   },
-  "runtimeValidation": "未执行"
+  "runtimeValidation": "未执行",
+  "inventoryConclusions": {
+    "schemaVersion": 1,
+    "status": "进行中：角色主体层已逐项收敛；技能、装备与符文仍需按当前批次证据生成唯一结论。",
+    "allowedConclusions": [
+      "已录入",
+      "明确排除",
+      "资料待核",
+      "系统暂缓"
+    ],
+    "evidence": {
+      "heroSourceInventory": {
+        "relativePath": "数据参考/全量录入-2026-09/英雄/英雄资料清单.json",
+        "sha256": "416c70b18ca94b790d897307833390d459641a3c9fee2149ef3e8d69909be08c"
+      },
+      "characterCurrentReadback": {
+        "relativePath": "数据参考/全量录入-2026-09/全量清单收敛/角色清单当前回读证据.json",
+        "sha256": "111f55eb48f885b5165a4a561538a287f3ec161176e6ef18deee6672d0c6be6a",
+        "getCount": 685,
+        "businessWrites": 0
+      }
+    },
+    "coverage": {
+      "characters": {
+        "sourceItems": 173,
+        "concludedItems": 173,
+        "conclusions": {
+          "已录入": 171,
+          "明确排除": 2,
+          "资料待核": 0,
+          "系统暂缓": 0
+        },
+        "status": "COMPLETE_FOR_CHARACTER_SUBJECT_SCOPE"
+      },
+      "skills": {
+        "sourceItems": 865,
+        "concludedItems": 0,
+        "status": "NOT_RECONCILED"
+      },
+      "equipment": {
+        "sourceItems": 868,
+        "concludedItems": 0,
+        "status": "NOT_RECONCILED"
+      },
+      "runes": {
+        "sourceItems": 69,
+        "concludedItems": 0,
+        "status": "NOT_RECONCILED"
+      }
+    },
+    "characters": [
+      {
+        "sourceChampionId": "Aatrox",
+        "sourceNumericId": "266",
+        "name": "亚托克斯",
+        "characterKey": "champion_aatrox",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Ahri",
+        "sourceNumericId": "103",
+        "name": "阿狸",
+        "characterKey": "champion_ahri",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Akali",
+        "sourceNumericId": "84",
+        "name": "阿卡丽",
+        "characterKey": "champion_akali",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Akshan",
+        "sourceNumericId": "166",
+        "name": "阿克尚",
+        "characterKey": "champion_akshan",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Alistar",
+        "sourceNumericId": "12",
+        "name": "阿利斯塔",
+        "characterKey": "champion_alistar",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Ambessa",
+        "sourceNumericId": "799",
+        "name": "安蓓萨",
+        "characterKey": "champion_ambessa",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Amumu",
+        "sourceNumericId": "32",
+        "name": "阿木木",
+        "characterKey": "champion_amumu",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Anivia",
+        "sourceNumericId": "34",
+        "name": "艾尼维亚",
+        "characterKey": "champion_anivia",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Annie",
+        "sourceNumericId": "1",
+        "name": "安妮",
+        "characterKey": "champion_annie",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Aphelios",
+        "sourceNumericId": "523",
+        "name": "厄斐琉斯",
+        "characterKey": null,
+        "conclusion": "明确排除",
+        "conclusionScope": "角色主体与完整技能集合",
+        "reason": "用户明确后置：厄斐琉斯及完整武器技能集合。",
+        "evidenceRefs": [
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Ashe",
+        "sourceNumericId": "22",
+        "name": "艾希",
+        "characterKey": "champion_ashe",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "AurelionSol",
+        "sourceNumericId": "136",
+        "name": "奥瑞利安·索尔",
+        "characterKey": "champion_aurelionsol",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Aurora",
+        "sourceNumericId": "893",
+        "name": "阿萝拉",
+        "characterKey": "champion_aurora",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Azir",
+        "sourceNumericId": "268",
+        "name": "阿兹尔",
+        "characterKey": "champion_azir",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Bard",
+        "sourceNumericId": "432",
+        "name": "巴德",
+        "characterKey": "champion_bard",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Belveth",
+        "sourceNumericId": "200",
+        "name": "卑尔维斯",
+        "characterKey": "champion_belveth",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Blitzcrank",
+        "sourceNumericId": "53",
+        "name": "布里茨",
+        "characterKey": "champion_blitzcrank",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Brand",
+        "sourceNumericId": "63",
+        "name": "布兰德",
+        "characterKey": "champion_brand",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Braum",
+        "sourceNumericId": "201",
+        "name": "布隆",
+        "characterKey": "champion_braum",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Briar",
+        "sourceNumericId": "233",
+        "name": "贝蕾亚",
+        "characterKey": "champion_briar",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Caitlyn",
+        "sourceNumericId": "51",
+        "name": "凯特琳",
+        "characterKey": "champion_caitlyn",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Camille",
+        "sourceNumericId": "164",
+        "name": "卡蜜尔",
+        "characterKey": "champion_camille",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Cassiopeia",
+        "sourceNumericId": "69",
+        "name": "卡西奥佩娅",
+        "characterKey": "champion_cassiopeia",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Chogath",
+        "sourceNumericId": "31",
+        "name": "科加斯",
+        "characterKey": "champion_chogath",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Corki",
+        "sourceNumericId": "42",
+        "name": "库奇",
+        "characterKey": "champion_corki",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Darius",
+        "sourceNumericId": "122",
+        "name": "德莱厄斯",
+        "characterKey": "champion_darius",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Diana",
+        "sourceNumericId": "131",
+        "name": "黛安娜",
+        "characterKey": "champion_diana",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Draven",
+        "sourceNumericId": "119",
+        "name": "德莱文",
+        "characterKey": "champion_draven",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "DrMundo",
+        "sourceNumericId": "36",
+        "name": "蒙多医生",
+        "characterKey": "champion_drmundo",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Ekko",
+        "sourceNumericId": "245",
+        "name": "艾克",
+        "characterKey": "champion_ekko",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Elise",
+        "sourceNumericId": "60",
+        "name": "伊莉丝",
+        "characterKey": "champion_elise",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Evelynn",
+        "sourceNumericId": "28",
+        "name": "伊芙琳",
+        "characterKey": "champion_evelynn",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Ezreal",
+        "sourceNumericId": "81",
+        "name": "伊泽瑞尔",
+        "characterKey": "ez",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Fiddlesticks",
+        "sourceNumericId": "9",
+        "name": "费德提克",
+        "characterKey": "champion_fiddlesticks",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Fiora",
+        "sourceNumericId": "114",
+        "name": "菲奥娜",
+        "characterKey": "champion_fiora",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Fizz",
+        "sourceNumericId": "105",
+        "name": "菲兹",
+        "characterKey": "champion_fizz",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Galio",
+        "sourceNumericId": "3",
+        "name": "加里奥",
+        "characterKey": "champion_galio",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Gangplank",
+        "sourceNumericId": "41",
+        "name": "普朗克",
+        "characterKey": "champion_gangplank",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Garen",
+        "sourceNumericId": "86",
+        "name": "盖伦",
+        "characterKey": "champion_garen",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Gnar",
+        "sourceNumericId": "150",
+        "name": "纳尔",
+        "characterKey": "champion_gnar",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Gragas",
+        "sourceNumericId": "79",
+        "name": "古拉加斯",
+        "characterKey": "champion_gragas",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Graves",
+        "sourceNumericId": "104",
+        "name": "格雷福斯",
+        "characterKey": "champion_graves",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Gwen",
+        "sourceNumericId": "887",
+        "name": "格温",
+        "characterKey": "champion_gwen",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Hecarim",
+        "sourceNumericId": "120",
+        "name": "赫卡里姆",
+        "characterKey": "champion_hecarim",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Heimerdinger",
+        "sourceNumericId": "74",
+        "name": "黑默丁格",
+        "characterKey": "champion_heimerdinger",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Hwei",
+        "sourceNumericId": "910",
+        "name": "彗",
+        "characterKey": "champion_hwei",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Illaoi",
+        "sourceNumericId": "420",
+        "name": "俄洛伊",
+        "characterKey": "champion_illaoi",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Irelia",
+        "sourceNumericId": "39",
+        "name": "艾瑞莉娅",
+        "characterKey": "champion_irelia",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Ivern",
+        "sourceNumericId": "427",
+        "name": "艾翁",
+        "characterKey": "champion_ivern",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Janna",
+        "sourceNumericId": "40",
+        "name": "迦娜",
+        "characterKey": "champion_janna",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "JarvanIV",
+        "sourceNumericId": "59",
+        "name": "嘉文四世",
+        "characterKey": "champion_jarvaniv",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Jax",
+        "sourceNumericId": "24",
+        "name": "贾克斯",
+        "characterKey": "champion_jax",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Jayce",
+        "sourceNumericId": "126",
+        "name": "杰斯",
+        "characterKey": "champion_jayce",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Jhin",
+        "sourceNumericId": "202",
+        "name": "烬",
+        "characterKey": "champion_jhin",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Jinx",
+        "sourceNumericId": "222",
+        "name": "金克丝",
+        "characterKey": "champion_jinx",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Kaisa",
+        "sourceNumericId": "145",
+        "name": "卡莎",
+        "characterKey": "champion_kaisa",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Kalista",
+        "sourceNumericId": "429",
+        "name": "卡莉丝塔",
+        "characterKey": "champion_kalista",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Karma",
+        "sourceNumericId": "43",
+        "name": "卡尔玛",
+        "characterKey": "champion_karma",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Karthus",
+        "sourceNumericId": "30",
+        "name": "卡尔萨斯",
+        "characterKey": "champion_karthus",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Kassadin",
+        "sourceNumericId": "38",
+        "name": "卡萨丁",
+        "characterKey": "champion_kassadin",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Katarina",
+        "sourceNumericId": "55",
+        "name": "卡特琳娜",
+        "characterKey": "champion_katarina",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Kayle",
+        "sourceNumericId": "10",
+        "name": "凯尔",
+        "characterKey": "champion_kayle",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Kayn",
+        "sourceNumericId": "141",
+        "name": "凯隐",
+        "characterKey": "champion_kayn",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Kennen",
+        "sourceNumericId": "85",
+        "name": "凯南",
+        "characterKey": "champion_kennen",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Khazix",
+        "sourceNumericId": "121",
+        "name": "卡兹克",
+        "characterKey": "champion_khazix",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Kindred",
+        "sourceNumericId": "203",
+        "name": "千珏",
+        "characterKey": "champion_kindred",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Kled",
+        "sourceNumericId": "240",
+        "name": "克烈",
+        "characterKey": "champion_kled",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "KogMaw",
+        "sourceNumericId": "96",
+        "name": "克格莫",
+        "characterKey": "champion_kogmaw",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "KSante",
+        "sourceNumericId": "897",
+        "name": "奎桑提",
+        "characterKey": "champion_ksante",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Leblanc",
+        "sourceNumericId": "7",
+        "name": "乐芙兰",
+        "characterKey": "champion_leblanc",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "LeeSin",
+        "sourceNumericId": "64",
+        "name": "李青",
+        "characterKey": "champion_leesin",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Leona",
+        "sourceNumericId": "89",
+        "name": "蕾欧娜",
+        "characterKey": "champion_leona",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Lillia",
+        "sourceNumericId": "876",
+        "name": "莉莉娅",
+        "characterKey": "champion_lillia",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Lissandra",
+        "sourceNumericId": "127",
+        "name": "丽桑卓",
+        "characterKey": "champion_lissandra",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Locke",
+        "sourceNumericId": "805",
+        "name": "洛克",
+        "characterKey": "champion_locke",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Lucian",
+        "sourceNumericId": "236",
+        "name": "卢锡安",
+        "characterKey": "champion_lucian",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Lulu",
+        "sourceNumericId": "117",
+        "name": "璐璐",
+        "characterKey": "champion_lulu",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Lux",
+        "sourceNumericId": "99",
+        "name": "拉克丝",
+        "characterKey": "champion_lux",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Malphite",
+        "sourceNumericId": "54",
+        "name": "墨菲特",
+        "characterKey": "champion_malphite",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Malzahar",
+        "sourceNumericId": "90",
+        "name": "玛尔扎哈",
+        "characterKey": "champion_malzahar",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Maokai",
+        "sourceNumericId": "57",
+        "name": "茂凯",
+        "characterKey": "champion_maokai",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "MasterYi",
+        "sourceNumericId": "11",
+        "name": "易",
+        "characterKey": "champion_masteryi",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Mel",
+        "sourceNumericId": "800",
+        "name": "梅尔",
+        "characterKey": "champion_mel",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Milio",
+        "sourceNumericId": "902",
+        "name": "米利欧",
+        "characterKey": "champion_milio",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "MissFortune",
+        "sourceNumericId": "21",
+        "name": "厄运小姐",
+        "characterKey": "champion_missfortune",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "MonkeyKing",
+        "sourceNumericId": "62",
+        "name": "孙悟空",
+        "characterKey": "champion_monkeyking",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Mordekaiser",
+        "sourceNumericId": "82",
+        "name": "莫德凯撒",
+        "characterKey": "champion_mordekaiser",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Morgana",
+        "sourceNumericId": "25",
+        "name": "莫甘娜",
+        "characterKey": "champion_morgana",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Naafiri",
+        "sourceNumericId": "950",
+        "name": "纳亚菲利",
+        "characterKey": "champion_naafiri",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Nami",
+        "sourceNumericId": "267",
+        "name": "娜美",
+        "characterKey": "champion_nami",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Nasus",
+        "sourceNumericId": "75",
+        "name": "内瑟斯",
+        "characterKey": "champion_nasus",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Nautilus",
+        "sourceNumericId": "111",
+        "name": "诺提勒斯",
+        "characterKey": "champion_nautilus",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Neeko",
+        "sourceNumericId": "518",
+        "name": "妮蔻",
+        "characterKey": "champion_neeko",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Nidalee",
+        "sourceNumericId": "76",
+        "name": "奈德丽",
+        "characterKey": "champion_nidalee",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Nilah",
+        "sourceNumericId": "895",
+        "name": "尼菈",
+        "characterKey": "champion_nilah",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Nocturne",
+        "sourceNumericId": "56",
+        "name": "魔腾",
+        "characterKey": "champion_nocturne",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Nunu",
+        "sourceNumericId": "20",
+        "name": "努努和威朗普",
+        "characterKey": "champion_nunu",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Olaf",
+        "sourceNumericId": "2",
+        "name": "奥拉夫",
+        "characterKey": "champion_olaf",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Orianna",
+        "sourceNumericId": "61",
+        "name": "奥莉安娜",
+        "characterKey": "champion_orianna",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Ornn",
+        "sourceNumericId": "516",
+        "name": "奥恩",
+        "characterKey": "champion_ornn",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Pantheon",
+        "sourceNumericId": "80",
+        "name": "潘森",
+        "characterKey": "champion_pantheon",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Poppy",
+        "sourceNumericId": "78",
+        "name": "波比",
+        "characterKey": "champion_poppy",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Pyke",
+        "sourceNumericId": "555",
+        "name": "派克",
+        "characterKey": "champion_pyke",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Qiyana",
+        "sourceNumericId": "246",
+        "name": "奇亚娜",
+        "characterKey": "champion_qiyana",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Quinn",
+        "sourceNumericId": "133",
+        "name": "奎因",
+        "characterKey": "champion_quinn",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Rakan",
+        "sourceNumericId": "497",
+        "name": "洛",
+        "characterKey": "champion_rakan",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Rammus",
+        "sourceNumericId": "33",
+        "name": "拉莫斯",
+        "characterKey": "champion_rammus",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "RekSai",
+        "sourceNumericId": "421",
+        "name": "雷克塞",
+        "characterKey": "champion_reksai",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Rell",
+        "sourceNumericId": "526",
+        "name": "芮尔",
+        "characterKey": "champion_rell",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Renata",
+        "sourceNumericId": "888",
+        "name": "烈娜塔 · 戈拉斯克",
+        "characterKey": "champion_renata",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Renekton",
+        "sourceNumericId": "58",
+        "name": "雷克顿",
+        "characterKey": "champion_renekton",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Rengar",
+        "sourceNumericId": "107",
+        "name": "雷恩加尔",
+        "characterKey": "champion_rengar",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Riven",
+        "sourceNumericId": "92",
+        "name": "锐雯",
+        "characterKey": "champion_riven",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Rumble",
+        "sourceNumericId": "68",
+        "name": "兰博",
+        "characterKey": "champion_rumble",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Ryze",
+        "sourceNumericId": "13",
+        "name": "瑞兹",
+        "characterKey": "champion_ryze",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Samira",
+        "sourceNumericId": "360",
+        "name": "莎弥拉",
+        "characterKey": "champion_samira",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Sejuani",
+        "sourceNumericId": "113",
+        "name": "瑟庄妮",
+        "characterKey": "champion_sejuani",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Senna",
+        "sourceNumericId": "235",
+        "name": "赛娜",
+        "characterKey": "champion_senna",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Seraphine",
+        "sourceNumericId": "147",
+        "name": "萨勒芬妮",
+        "characterKey": "champion_seraphine",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Sett",
+        "sourceNumericId": "875",
+        "name": "瑟提",
+        "characterKey": "champion_sett",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Shaco",
+        "sourceNumericId": "35",
+        "name": "萨科",
+        "characterKey": "champion_shaco",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Shen",
+        "sourceNumericId": "98",
+        "name": "慎",
+        "characterKey": "champion_shen",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Shyvana",
+        "sourceNumericId": "102",
+        "name": "希瓦娜",
+        "characterKey": "champion_shyvana",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Singed",
+        "sourceNumericId": "27",
+        "name": "辛吉德",
+        "characterKey": "champion_singed",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Sion",
+        "sourceNumericId": "14",
+        "name": "赛恩",
+        "characterKey": "champion_sion",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Sivir",
+        "sourceNumericId": "15",
+        "name": "希维尔",
+        "characterKey": "champion_sivir",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Skarner",
+        "sourceNumericId": "72",
+        "name": "斯卡纳",
+        "characterKey": "champion_skarner",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Smolder",
+        "sourceNumericId": "901",
+        "name": "斯莫德",
+        "characterKey": "champion_smolder",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Sona",
+        "sourceNumericId": "37",
+        "name": "娑娜",
+        "characterKey": "champion_sona",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Soraka",
+        "sourceNumericId": "16",
+        "name": "索拉卡",
+        "characterKey": "champion_soraka",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Swain",
+        "sourceNumericId": "50",
+        "name": "斯维因",
+        "characterKey": "champion_swain",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Sylas",
+        "sourceNumericId": "517",
+        "name": "塞拉斯",
+        "characterKey": null,
+        "conclusion": "明确排除",
+        "conclusionScope": "角色主体与完整技能集合",
+        "reason": "用户明确后置：赛拉斯及技能偷取机制。",
+        "evidenceRefs": [
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Syndra",
+        "sourceNumericId": "134",
+        "name": "辛德拉",
+        "characterKey": "champion_syndra",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "TahmKench",
+        "sourceNumericId": "223",
+        "name": "塔姆",
+        "characterKey": "champion_tahmkench",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Taliyah",
+        "sourceNumericId": "163",
+        "name": "塔莉垭",
+        "characterKey": "champion_taliyah",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Talon",
+        "sourceNumericId": "91",
+        "name": "泰隆",
+        "characterKey": "champion_talon",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Taric",
+        "sourceNumericId": "44",
+        "name": "塔里克",
+        "characterKey": "champion_taric",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Teemo",
+        "sourceNumericId": "17",
+        "name": "提莫",
+        "characterKey": "champion_teemo",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Thresh",
+        "sourceNumericId": "412",
+        "name": "锤石",
+        "characterKey": "champion_thresh",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Tristana",
+        "sourceNumericId": "18",
+        "name": "崔丝塔娜",
+        "characterKey": "champion_tristana",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Trundle",
+        "sourceNumericId": "48",
+        "name": "特朗德尔",
+        "characterKey": "champion_trundle",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Tryndamere",
+        "sourceNumericId": "23",
+        "name": "泰达米尔",
+        "characterKey": "champion_tryndamere",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "TwistedFate",
+        "sourceNumericId": "4",
+        "name": "崔斯特",
+        "characterKey": "champion_twistedfate",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Twitch",
+        "sourceNumericId": "29",
+        "name": "图奇",
+        "characterKey": "champion_twitch",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Udyr",
+        "sourceNumericId": "77",
+        "name": "乌迪尔",
+        "characterKey": "champion_udyr",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Urgot",
+        "sourceNumericId": "6",
+        "name": "厄加特",
+        "characterKey": "champion_urgot",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Varus",
+        "sourceNumericId": "110",
+        "name": "韦鲁斯",
+        "characterKey": "champion_varus",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Vayne",
+        "sourceNumericId": "67",
+        "name": "薇恩",
+        "characterKey": "champion_vayne",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Veigar",
+        "sourceNumericId": "45",
+        "name": "维迦",
+        "characterKey": "champion_veigar",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Velkoz",
+        "sourceNumericId": "161",
+        "name": "维克兹",
+        "characterKey": "champion_velkoz",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Vex",
+        "sourceNumericId": "711",
+        "name": "薇古丝",
+        "characterKey": "champion_vex",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Vi",
+        "sourceNumericId": "254",
+        "name": "蔚",
+        "characterKey": "champion_vi",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Viego",
+        "sourceNumericId": "234",
+        "name": "佛耶戈",
+        "characterKey": "champion_viego",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Viktor",
+        "sourceNumericId": "112",
+        "name": "维克托",
+        "characterKey": "champion_viktor",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Vladimir",
+        "sourceNumericId": "8",
+        "name": "弗拉基米尔",
+        "characterKey": "champion_vladimir",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Volibear",
+        "sourceNumericId": "106",
+        "name": "沃利贝尔",
+        "characterKey": "champion_volibear",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Warwick",
+        "sourceNumericId": "19",
+        "name": "沃里克",
+        "characterKey": "champion_warwick",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Xayah",
+        "sourceNumericId": "498",
+        "name": "霞",
+        "characterKey": "champion_xayah",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Xerath",
+        "sourceNumericId": "101",
+        "name": "泽拉斯",
+        "characterKey": "champion_xerath",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "XinZhao",
+        "sourceNumericId": "5",
+        "name": "赵信",
+        "characterKey": "champion_xinzhao",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Yasuo",
+        "sourceNumericId": "157",
+        "name": "亚索",
+        "characterKey": "champion_yasuo",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Yone",
+        "sourceNumericId": "777",
+        "name": "永恩",
+        "characterKey": "champion_yone",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Yorick",
+        "sourceNumericId": "83",
+        "name": "约里克",
+        "characterKey": "champion_yorick",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Yunara",
+        "sourceNumericId": "804",
+        "name": "芸阿娜",
+        "characterKey": "champion_yunara",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Yuumi",
+        "sourceNumericId": "350",
+        "name": "悠米",
+        "characterKey": "champion_yuumi",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Zaahen",
+        "sourceNumericId": "904",
+        "name": "亚恒",
+        "characterKey": "champion_zaahen",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Zac",
+        "sourceNumericId": "154",
+        "name": "扎克",
+        "characterKey": "champion_zac",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Zed",
+        "sourceNumericId": "238",
+        "name": "劫",
+        "characterKey": "champion_zed",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Zeri",
+        "sourceNumericId": "221",
+        "name": "泽丽",
+        "characterKey": "champion_zeri",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Ziggs",
+        "sourceNumericId": "115",
+        "name": "吉格斯",
+        "characterKey": "champion_ziggs",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Zilean",
+        "sourceNumericId": "26",
+        "name": "基兰",
+        "characterKey": "champion_zilean",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Zoe",
+        "sourceNumericId": "142",
+        "name": "佐伊",
+        "characterKey": "champion_zoe",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      },
+      {
+        "sourceChampionId": "Zyra",
+        "sourceNumericId": "143",
+        "name": "婕拉",
+        "characterKey": "champion_zyra",
+        "conclusion": "已录入",
+        "conclusionScope": "角色主体与基础等级属性",
+        "reason": "当前主体、完整1至18级属性、五项直接技能关系和启用代表图回读一致；技能组成与机制按技能清单另行结论。",
+        "evidenceRefs": [
+          "heroSourceInventory",
+          "characterCurrentReadback"
+        ]
+      }
+    ],
+    "boundary": "逐项结论按对象层分开；角色主体已录入不等于其五项技能机制完成。只有四类清单全部收敛且未完成队列处理完毕，才能用于整体完成判定。"
+  }
 }
