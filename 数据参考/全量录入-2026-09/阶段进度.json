@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T08:10:57.985Z",
+  "generatedAt": "2026-09-13T08:13:30.774Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7632,6 +7632,63 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna第五轮英雄触发候选/候选汇总.json",
         "sha256": "21ae7fa1c15afed18de2341b5b3202ea3d091c62810c1fd768f9983bd864fe5c",
         "commit": "024d1cefd06a98471abc5a80eb7c8205afe2a094"
+      },
+      "browserValidation": "未执行；本轮没有业务写入",
+      "runtimeValidation": "未执行"
+    },
+    "runeTriggerCandidateReviewFirstRound": {
+      "at": "2026-09-13T08:13:30.774Z",
+      "status": "神奇之鞋、调节、水上行走和致命节奏完成固定16.17/16.17.1来源与真实接口定点复核；四项均有唯一暂缓结论",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "rune_8304_passive",
+        "rune_8429_passive",
+        "rune_8232_passive",
+        "rune_8008_passive"
+      ],
+      "decision": {
+        "ready": 0,
+        "deferred": 4,
+        "excluded": 0,
+        "businessWrites": 0
+      },
+      "deferred": [
+        {
+          "skillKey": "rune_8304_passive",
+          "reason": "旧额外移速效果已迁移到item_2422_passive，当前符文效果为空是正确现值；缺实际持有、取得时点、升级继承和去重约束，不能无条件初始化。"
+        },
+        {
+          "skillKey": "rune_8429_passive",
+          "reason": "已有固定双抗效果和3%公式，但缺12分钟绝对时间事件以及固定值与百分比部分的确定运算顺序。"
+        },
+        {
+          "skillKey": "rune_8232_passive",
+          "reason": "已有河道固定移速效果，但缺河道进入、离开和地形状态；13至30等级曲线及自适应属性选择也未确定。"
+        },
+        {
+          "skillKey": "rune_8008_passive",
+          "reason": "已有近战当前层数攻速效果，但缺近远程分支、攻击层数状态、持续刷新与过期、满层附伤及冲突来源裁定。"
+        }
+      ],
+      "getEvidence": {
+        "canonicalGETs": 96,
+        "repeatedExplorationGETs": 42,
+        "totalObservedGETs": 138,
+        "fullSkillBaselineGETs": 0,
+        "fullRuleBaselineGETs": 0,
+        "businessWrites": 0,
+        "nonGetRequests": 0
+      },
+      "findings": [
+        "四项过程、内部状态和触发规则列表均为空，没有可复用的完整事件状态链。",
+        "神奇之鞋历史符文效果被迁移删除后，不得根据旧第三批请求自动恢复；当前归属以item_2422_passive为准。",
+        "来源只给等级端点或存在客户端数值冲突时继续暂缓，不按端点线性展开，也不任选一套远程致命节奏数值。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna第一轮符文触发候选/候选汇总.json",
+        "sha256": "fb3360596a81fa1e66815bf046b2bed67c9887ee5650986c9ff3902092cf2302",
+        "commit": "463f8ea21de98a10c1e8ee38625e39cc66805cfa"
       },
       "browserValidation": "未执行；本轮没有业务写入",
       "runtimeValidation": "未执行"
