@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T11:43:06.704Z",
+  "status": "PASS",
+  "frozenBatchSha256": "d39d309db3771d2929177634e940bfb88b4aff835b8da977aecc4256820cc45d",
+  "preflightSha256": "c76ca46976baa68bb305723794b1d3d933bf856d53ee00f14e11ab8a69b3772e",
+  "reviewSha256": "837211119f51f3232cf1095d01b94fd64d88e4e446556aeaa36d9d27c42f54e9",
+  "approvalDecisionSha256": "e08f5deec2a48f91ab2dabced53d1477bac4bc5f620fb8238c867e96daa6cfe1",
+  "recoveryMode": false,
+  "businessWrites": 3,
+  "alreadyLanded": 0,
+  "allowedBusinessMethods": [
+    "POST"
+  ],
+  "before": [
+    {
+      "id": "kogmaw_q_passive_attack_speed",
+      "ruleSummaries": [],
+      "nonRuleSha256": "0923f74adc6a8a6a82ff73329ca978c097ecdce0779d11a70ca0ab27abfadbe4"
+    },
+    {
+      "id": "olaf_r_passive_resists",
+      "ruleSummaries": [],
+      "nonRuleSha256": "53519b45c72399840e6f5b3f077cd2aaa26e312e3abdc67462f4e59f1361fb43"
+    },
+    {
+      "id": "zaahen_r_armor_penetration",
+      "ruleSummaries": [],
+      "nonRuleSha256": "7f1986181766338ac28d097c2c6b8bbc170582fe210ce86d9490ea6be7de6b24"
+    }
+  ],
+  "operations": [
+    {
+      "at": "2026-09-13T11:43:03.244Z",
+      "id": "kogmaw_q_passive_attack_speed",
+      "skillKey": "kogmaw_q",
+      "ruleKey": "initialize_passive_attack_speed",
+      "state": "CREATED",
+      "detailSha256": "c2ff52f2d5e15a27de4f26dd38df7f78a4283856f25280cfc37543935f46f6c7"
+    },
+    {
+      "at": "2026-09-13T11:43:04.962Z",
+      "id": "olaf_r_passive_resists",
+      "skillKey": "olaf_r",
+      "ruleKey": "initialize_passive_resists",
+      "state": "CREATED",
+      "detailSha256": "3e8f8ec7545d45d63e2ea8afef948cff5f80c24af2ce40ae9e56a432bc597f82"
+    },
+    {
+      "at": "2026-09-13T11:43:06.700Z",
+      "id": "zaahen_r_armor_penetration",
+      "skillKey": "zaahen_r",
+      "ruleKey": "initialize_armor_penetration",
+      "state": "CREATED",
+      "detailSha256": "ea5efb247342998ca8899c4d2ce00be111cb04f58f15358d7795c0e169f01094"
+    }
+  ],
+  "requestAudit": {
+    "requestCount": 75,
+    "methods": {
+      "GET": 72,
+      "POST": 3
+    },
+    "statuses": {
+      "200": 69,
+      "201": 3,
+      "404": 3
+    },
+    "nonGetPaths": [
+      {
+        "method": "POST",
+        "path": "/skills/kogmaw_q/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/olaf_r/trigger-rules"
+      },
+      {
+        "method": "POST",
+        "path": "/skills/zaahen_r/trigger-rules"
+      }
+    ]
+  },
+  "boundary": "仅创建独立批准散列覆盖的三条来源初始化规则并即时回读；其余技能组成和运行边界不变。"
+}

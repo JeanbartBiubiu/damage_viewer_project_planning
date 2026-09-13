@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T11:42:43.997Z",
+  "status": "APPROVED",
+  "reviewer": "既有独立来源复核加新进程纯GET契约检查",
+  "approvedBatchSha256": "d39d309db3771d2929177634e940bfb88b4aff835b8da977aecc4256820cc45d",
+  "preflightSha256": "c76ca46976baa68bb305723794b1d3d933bf856d53ee00f14e11ab8a69b3772e",
+  "rulesSha256": "c3715fa2d4c4057463be66020812d9e01f5901df8719cec6b3795b19b56446f2",
+  "targetNonRuleSha256": [
+    {
+      "id": "kogmaw_q_passive_attack_speed",
+      "sha256": "0923f74adc6a8a6a82ff73329ca978c097ecdce0779d11a70ca0ab27abfadbe4"
+    },
+    {
+      "id": "olaf_r_passive_resists",
+      "sha256": "53519b45c72399840e6f5b3f077cd2aaa26e312e3abdc67462f4e59f1361fb43"
+    },
+    {
+      "id": "zaahen_r_armor_penetration",
+      "sha256": "7f1986181766338ac28d097c2c6b8bbc170582fe210ce86d9490ea6be7de6b24"
+    }
+  ],
+  "approvalDecisionSha256": "e08f5deec2a48f91ab2dabced53d1477bac4bc5f620fb8238c867e96daa6cfe1",
+  "getCount": 1271,
+  "statusCounts": {
+    "200": 1268,
+    "404": 3
+  },
+  "skillCount": 1062,
+  "ruleCount": 139,
+  "sourceInitializedCount": 26,
+  "businessWrites": 0,
+  "requestPathsSha256": "a58901f550754527965625796e4bb4ccf950c329b8c317631080725a8647ebbc",
+  "boundary": "批准只覆盖冻结的三条来源初始化规则；不批准其他主动、命中、升级或运行分支。"
+}

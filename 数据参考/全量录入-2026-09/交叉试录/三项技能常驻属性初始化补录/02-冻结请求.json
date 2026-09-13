@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "status": "FROZEN",
+  "frozenAt": "2026-09-13T11:41:57.702Z",
+  "methodPolicy": {
+    "allowedBusinessMethods": [
+      "POST"
+    ],
+    "allowedRequestCount": 3
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 139,
+    "sourceInitializedCount": 26,
+    "finalRuleCount": 142,
+    "finalSourceInitializedCount": 29
+  },
+  "sourceSnapshotSha256": "0e70d70b78773adb149aecd66c780c88c2e851b8fce5cc34cb8ccbb0ebacd21d",
+  "requests": [
+    {
+      "id": "kogmaw_q_passive_attack_speed",
+      "skillKey": "kogmaw_q",
+      "ownerKey": "champion_kogmaw",
+      "ruleKey": "initialize_passive_attack_speed",
+      "effectKeys": [
+        "passive_attack_speed"
+      ],
+      "method": "POST",
+      "route": "/skills/kogmaw_q/trigger-rules",
+      "detailRoute": "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十批/完整候选.json",
+      "sourceCandidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+      "bodySha256": "c2ff52f2d5e15a27de4f26dd38df7f78a4283856f25280cfc37543935f46f6c7",
+      "body": {
+        "ruleKey": "initialize_passive_attack_speed",
+        "name": "初始化腐蚀唾液被动攻速",
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 passive_attack_speed，建立按当前技能等级取值的单层常驻自身攻速；来源初始化不表示后续技能升级，主动伤害、双抗削减、法力消耗、命中与法术护盾分支继续暂缓。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_passive_attack_speed",
+            "name": "执行腐蚀唾液被动攻速",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "passive_attack_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "olaf_r_passive_resists",
+      "skillKey": "olaf_r",
+      "ownerKey": "champion_olaf",
+      "ruleKey": "initialize_passive_resists",
+      "effectKeys": [
+        "passive_armor",
+        "passive_magic_resistance"
+      ],
+      "method": "POST",
+      "route": "/skills/olaf_r/trigger-rules",
+      "detailRoute": "/skills/olaf_r/trigger-rules/initialize_passive_resists",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第七批/完整候选.json",
+      "sourceCandidateSha256": "b3908f6740ea02c32828e52044b78f4c6ed080fea7d7a3e6188641fcf3766b35",
+      "bodySha256": "3e8f8ec7545d45d63e2ea8afef948cff5f80c24af2ce40ae9e56a432bc597f82",
+      "body": {
+        "ruleKey": "initialize_passive_resists",
+        "name": "初始化诸神黄昏被动双抗",
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，按固定顺序执行已有 passive_armor 与 passive_magic_resistance，建立当前技能等级对应的单层常驻自身双抗；来源初始化不表示后续技能升级，主动攻击力、净化免控、持续延长、朝向加速和战斗命中继续暂缓。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_passive_armor",
+            "name": "执行诸神黄昏被动护甲",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "passive_armor"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          },
+          {
+            "actionKey": "execute_passive_magic_resistance",
+            "name": "执行诸神黄昏被动魔抗",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 20,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "passive_magic_resistance"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "id": "zaahen_r_armor_penetration",
+      "skillKey": "zaahen_r",
+      "ownerKey": "champion_zaahen",
+      "ruleKey": "initialize_armor_penetration",
+      "effectKeys": [
+        "armor_penetration"
+      ],
+      "method": "POST",
+      "route": "/skills/zaahen_r/trigger-rules",
+      "detailRoute": "/skills/zaahen_r/trigger-rules/initialize_armor_penetration",
+      "expectedStatus": 201,
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十六批/最终验收/候选过程/修订一/完整候选.json",
+      "sourceCandidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
+      "bodySha256": "ea5efb247342998ca8899c4d2ce00be111cb04f58f15358d7795c0e169f01094",
+      "body": {
+        "ruleKey": "initialize_armor_penetration",
+        "name": "初始化大赦常驻护甲穿透",
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 armor_penetration，建立当前技能等级对应的单层常驻自身护甲穿透；来源初始化不表示后续技能升级，主动伤害、实际伤害治疗、施放减伤、位移和生存链继续暂缓。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_armor_penetration",
+            "name": "执行大赦常驻护甲穿透",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "armor_penetration"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "runtimeBoundary": "三条管理规则可保存；来源初始化不表示复活、换装或后续技能升级，Wasm组装、宿主事件生产和真实战斗尚未验证。",
+  "batchSha256": "d39d309db3771d2929177634e940bfb88b4aff835b8da977aecc4256820cc45d"
+}
