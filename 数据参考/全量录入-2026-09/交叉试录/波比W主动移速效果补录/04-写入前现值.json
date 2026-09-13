@@ -1,0 +1,1220 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T08:34:58.921Z",
+  "methodPolicy": "GET_ONLY",
+  "authorizationValueRecorded": false,
+  "global": {
+    "skillCount": 1062,
+    "skillKeysSha256": "2c3c50058d4b13843abd7038bfc197bf7727148055fb168f4dbdfaa62e97d7dd",
+    "priorRuleCheckpoint": {
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/赫卡里姆W双抗触发补录/07-独立GET回读.json",
+      "ruleCount": 131,
+      "sourceInitializedCount": 24,
+      "ruleRefsSha256": "6a9c7ec9170ff89849b7de333fe20df6d46c58dac63351aff0c3031960c998ee",
+      "ruleDetailsSha256": "0977aaa127f34b1804ac54bbdebb60fea2a9c7009694d79e5bf2227863246264"
+    }
+  },
+  "target": {
+    "staticRoutes": {
+      "subject": "/skills/poppy_w",
+      "owner": "/characters/champion_poppy",
+      "ownerAttributes": "/characters/champion_poppy/attributes",
+      "ownerRepresentativeImage": "/characters/champion_poppy/representative-image",
+      "relationByOwner": "/character-skill-relations?characterKey=champion_poppy",
+      "relationBySkill": "/character-skill-relations?skillKey=poppy_w",
+      "skillRepresentativeImage": "/skills/poppy_w/representative-image",
+      "moveSpeedAttribute": "/attributes/move_speed_percent",
+      "flatAddZone": "/modifier-zones/attribute_flat_add",
+      "analogEffect": "/skills/rakan_r/effects/self_initial_move_speed"
+    },
+    "static": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:49.629177Z",
+        "description": "波比被动获得护甲和魔法抗性。这个加成会在她生命值较低时得到提升。波比可以主动施放此技能来获得移动速度加成并中断附近敌人的突进。如果中断了一次突进，那么该敌人还会被减速和缚地。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "波比·坚定风采",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "poppy_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:49.629177Z"
+      },
+      "owner": {
+        "characterKey": "champion_poppy",
+        "createdAt": "2026-09-06T16:30:37.426031Z",
+        "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+        "gameId": "lol",
+        "name": "波比",
+        "updatedAt": "2026-09-06T16:30:37.426031Z"
+      },
+      "ownerAttributes": {
+        "characterKey": "champion_poppy",
+        "levelValues": {
+          "1": {
+            "move_speed": 345,
+            "hp": 610,
+            "hp_regen": 9,
+            "mana": 300,
+            "mana_regen": 7,
+            "armor": 35,
+            "magic_resistance": 32,
+            "attack_damage": 56,
+            "attack_speed": 0.658,
+            "attack_range": 125
+          },
+          "2": {
+            "move_speed": 345,
+            "hp": 689.2,
+            "hp_regen": 9.576,
+            "mana": 332.4,
+            "mana_regen": 7.504,
+            "armor": 38.6,
+            "magic_resistance": 33.476,
+            "attack_damage": 58.88,
+            "attack_speed": 0.66925,
+            "attack_range": 125
+          },
+          "3": {
+            "move_speed": 345,
+            "hp": 772.25,
+            "hp_regen": 10.18,
+            "mana": 366.375,
+            "mana_regen": 8.0325,
+            "armor": 42.375,
+            "magic_resistance": 35.02375,
+            "attack_damage": 61.9,
+            "attack_speed": 0.681047,
+            "attack_range": 125
+          },
+          "4": {
+            "move_speed": 345,
+            "hp": 859.15,
+            "hp_regen": 10.812,
+            "mana": 401.925,
+            "mana_regen": 8.5855,
+            "armor": 46.325,
+            "magic_resistance": 36.64325,
+            "attack_damage": 65.06,
+            "attack_speed": 0.693391,
+            "attack_range": 125
+          },
+          "5": {
+            "move_speed": 345,
+            "hp": 949.9,
+            "hp_regen": 11.472,
+            "mana": 439.05,
+            "mana_regen": 9.163,
+            "armor": 50.45,
+            "magic_resistance": 38.3345,
+            "attack_damage": 68.36,
+            "attack_speed": 0.706281,
+            "attack_range": 125
+          },
+          "6": {
+            "move_speed": 345,
+            "hp": 1044.5,
+            "hp_regen": 12.16,
+            "mana": 477.75,
+            "mana_regen": 9.765,
+            "armor": 54.75,
+            "magic_resistance": 40.0975,
+            "attack_damage": 71.8,
+            "attack_speed": 0.719719,
+            "attack_range": 125
+          },
+          "7": {
+            "move_speed": 345,
+            "hp": 1142.95,
+            "hp_regen": 12.876,
+            "mana": 518.025,
+            "mana_regen": 10.3915,
+            "armor": 59.225,
+            "magic_resistance": 41.93225,
+            "attack_damage": 75.38,
+            "attack_speed": 0.733703,
+            "attack_range": 125
+          },
+          "8": {
+            "move_speed": 345,
+            "hp": 1245.25,
+            "hp_regen": 13.62,
+            "mana": 559.875,
+            "mana_regen": 11.0425,
+            "armor": 63.875,
+            "magic_resistance": 43.83875,
+            "attack_damage": 79.1,
+            "attack_speed": 0.748234,
+            "attack_range": 125
+          },
+          "9": {
+            "move_speed": 345,
+            "hp": 1351.4,
+            "hp_regen": 14.392,
+            "mana": 603.3,
+            "mana_regen": 11.718,
+            "armor": 68.7,
+            "magic_resistance": 45.817,
+            "attack_damage": 82.96,
+            "attack_speed": 0.763313,
+            "attack_range": 125
+          },
+          "10": {
+            "move_speed": 345,
+            "hp": 1461.4,
+            "hp_regen": 15.192,
+            "mana": 648.3,
+            "mana_regen": 12.418,
+            "armor": 73.7,
+            "magic_resistance": 47.867,
+            "attack_damage": 86.96,
+            "attack_speed": 0.778938,
+            "attack_range": 125
+          },
+          "11": {
+            "move_speed": 345,
+            "hp": 1575.25,
+            "hp_regen": 16.02,
+            "mana": 694.875,
+            "mana_regen": 13.1425,
+            "armor": 78.875,
+            "magic_resistance": 49.98875,
+            "attack_damage": 91.1,
+            "attack_speed": 0.795109,
+            "attack_range": 125
+          },
+          "12": {
+            "move_speed": 345,
+            "hp": 1692.95,
+            "hp_regen": 16.876,
+            "mana": 743.025,
+            "mana_regen": 13.8915,
+            "armor": 84.225,
+            "magic_resistance": 52.18225,
+            "attack_damage": 95.38,
+            "attack_speed": 0.811828,
+            "attack_range": 125
+          },
+          "13": {
+            "move_speed": 345,
+            "hp": 1814.5,
+            "hp_regen": 17.76,
+            "mana": 792.75,
+            "mana_regen": 14.665,
+            "armor": 89.75,
+            "magic_resistance": 54.4475,
+            "attack_damage": 99.8,
+            "attack_speed": 0.829094,
+            "attack_range": 125
+          },
+          "14": {
+            "move_speed": 345,
+            "hp": 1939.9,
+            "hp_regen": 18.672,
+            "mana": 844.05,
+            "mana_regen": 15.463,
+            "armor": 95.45,
+            "magic_resistance": 56.7845,
+            "attack_damage": 104.36,
+            "attack_speed": 0.846906,
+            "attack_range": 125
+          },
+          "15": {
+            "move_speed": 345,
+            "hp": 2069.15,
+            "hp_regen": 19.612,
+            "mana": 896.925,
+            "mana_regen": 16.2855,
+            "armor": 101.325,
+            "magic_resistance": 59.19325,
+            "attack_damage": 109.06,
+            "attack_speed": 0.865266,
+            "attack_range": 125
+          },
+          "16": {
+            "move_speed": 345,
+            "hp": 2202.25,
+            "hp_regen": 20.58,
+            "mana": 951.375,
+            "mana_regen": 17.1325,
+            "armor": 107.375,
+            "magic_resistance": 61.67375,
+            "attack_damage": 113.9,
+            "attack_speed": 0.884172,
+            "attack_range": 125
+          },
+          "17": {
+            "move_speed": 345,
+            "hp": 2339.2,
+            "hp_regen": 21.576,
+            "mana": 1007.4,
+            "mana_regen": 18.004,
+            "armor": 113.6,
+            "magic_resistance": 64.226,
+            "attack_damage": 118.88,
+            "attack_speed": 0.903625,
+            "attack_range": 125
+          },
+          "18": {
+            "move_speed": 345,
+            "hp": 2480,
+            "hp_regen": 22.6,
+            "mana": 1065,
+            "mana_regen": 18.9,
+            "armor": 120,
+            "magic_resistance": 66.85,
+            "attack_damage": 124,
+            "attack_speed": 0.923625,
+            "attack_range": 125
+          }
+        },
+        "maxLevel": 18,
+        "minLevel": 1
+      },
+      "ownerRepresentativeImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_champion_poppy",
+          "name": "champion_poppy"
+        }
+      },
+      "relationByOwner": {
+        "items": [
+          {
+            "characterKey": "champion_poppy",
+            "characterName": "波比",
+            "gameId": "lol",
+            "skillKey": "poppy_p",
+            "skillName": "波比·钢铁大使",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_poppy",
+            "characterName": "波比",
+            "gameId": "lol",
+            "skillKey": "poppy_q",
+            "skillName": "波比·圣锤猛击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_poppy",
+            "characterName": "波比",
+            "gameId": "lol",
+            "skillKey": "poppy_w",
+            "skillName": "波比·坚定风采",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_poppy",
+            "characterName": "波比",
+            "gameId": "lol",
+            "skillKey": "poppy_e",
+            "skillName": "波比·英勇冲锋",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_poppy",
+            "characterName": "波比",
+            "gameId": "lol",
+            "skillKey": "poppy_r",
+            "skillName": "波比·持卫的裁决",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "relationBySkill": {
+        "items": [
+          {
+            "characterKey": "champion_poppy",
+            "characterName": "波比",
+            "gameId": "lol",
+            "skillKey": "poppy_w",
+            "skillName": "波比·坚定风采",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          }
+        ],
+        "total": 1
+      },
+      "skillRepresentativeImage": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_poppy_w",
+          "name": "poppy_w"
+        }
+      },
+      "moveSpeedAttribute": {
+        "attributeKey": "move_speed_percent",
+        "createdAt": "2026-09-06T14:37:34.305529Z",
+        "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": null,
+        "name": "移动速度加成比例",
+        "sortOrder": 101,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T14:37:34.305529Z",
+        "valueType": "DECIMAL"
+      },
+      "flatAddZone": {
+        "applicationStage": "ATTRIBUTE_FLAT",
+        "calculationMode": "FLAT_ADD",
+        "createdAt": "2026-09-06T16:50:52.756989Z",
+        "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+        "domain": "ATTRIBUTE",
+        "gameId": "lol",
+        "modifierZoneKey": "attribute_flat_add",
+        "name": "属性固定加算",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T16:50:52.756989Z"
+      },
+      "analogEffect": {
+        "createdAt": "2026-09-09T21:24:08.334932Z",
+        "description": "正文明确自身4秒75%移速。",
+        "effectKey": "self_initial_move_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "self_speed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "惊鸿过隙自身初始移动速度",
+        "results": [
+          {
+            "description": "只定义自身属性变化，触发条件由事件层接线。",
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "惊鸿过隙自身初始移动速度",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 0.01,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "initial_move_speed_percent"
+              }
+            }
+          }
+        ],
+        "skillKey": "rakan_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:24:08.334932Z"
+      }
+    },
+    "components": {
+      "parameters": {
+        "list": [
+          {
+            "createdAt": "2026-09-09T15:58:06.765738Z",
+            "description": "当前根DataValues.PassiveResistPercent为0.16；BonusArmor和BonusMR分别使用mStat1与mStat6，不能凭字段名改成额外双抗。",
+            "fixedValue": 0.16,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动双抗比例",
+            "parameterKey": "passive_resist_ratio",
+            "skillKey": "poppy_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T15:58:06.765738Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:07.914694Z",
+            "description": "当前正文消费PassiveEmpoweredHealthPercent*100，根值0.4；条件判断事件未接线。",
+            "fixedValue": 0.4,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动翻倍生命阈值",
+            "parameterKey": "passive_low_health_threshold_ratio",
+            "skillKey": "poppy_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T15:58:07.914694Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:08.949283Z",
+            "description": "当前正文写明生命低于40%时双抗加成翻倍；保留端点倍率，不代表条件事件已接通。",
+            "fixedValue": 2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "低生命被动双抗倍率",
+            "parameterKey": "passive_low_health_multiplier",
+            "skillKey": "poppy_w",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T15:58:08.949283Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:10.058052Z",
+            "description": "mStat1的应用前正确护甲基准由实际输入提供；不以BonusArmor字段名猜额外护甲，实际输入无默认。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动应用前来源护甲",
+            "parameterKey": "actual_source_armor_before_passive",
+            "skillKey": "poppy_w",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T15:58:10.058052Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:11.129974Z",
+            "description": "mStat6的应用前正确魔抗基准由实际输入提供；不以BonusMagicResistance字段名猜额外魔抗，实际输入无默认。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动应用前来源魔抗",
+            "parameterKey": "actual_source_magic_resistance_before_passive",
+            "skillKey": "poppy_w",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T15:58:11.129974Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:12.231218Z",
+            "description": "当前根DataValues.Haste为40，正文以百分号显示；保留百分数点。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "主动移动速度百分数点",
+            "parameterKey": "active_haste_percent_points",
+            "skillKey": "poppy_w",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T15:58:12.231218Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:13.357967Z",
+            "description": "当前根DataValues.Duration为2秒，单位秒转毫秒。",
+            "fixedValue": 2000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "主动领域持续（毫秒）",
+            "parameterKey": "active_duration_ms",
+            "skillKey": "poppy_w",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-09T15:58:13.357967Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:14.469285Z",
+            "description": "当前根DataValues.GroundingDuration为2秒，单位秒转毫秒。",
+            "fixedValue": 2000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "缚地持续（毫秒）",
+            "parameterKey": "grounding_duration_ms",
+            "skillKey": "poppy_w",
+            "sortOrder": 80,
+            "updatedAt": "2026-09-09T15:58:14.469285Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:15.560873Z",
+            "description": "原始SlowAmount为-0.25，当前正文消费SlowAmount*-100；录入正25，避免对负原值再次取负。",
+            "fixedValue": 25,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "敌人减速百分数点",
+            "parameterKey": "slow_percent_points",
+            "skillKey": "poppy_w",
+            "sortOrder": 90,
+            "updatedAt": "2026-09-09T15:58:15.560873Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:33.38497Z",
+            "description": "DDragon16.17.1 Poppy.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 20000,
+              "2": 18000,
+              "3": 16000,
+              "4": 14000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "poppy_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:33.38497Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:16.669069Z",
+            "description": "当前根DataValues.DamageValue取技能等级1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 110,
+              "3": 150,
+              "4": 190,
+              "5": 230
+            },
+            "name": "打断突进基础魔法伤害",
+            "parameterKey": "base_interrupt_damage",
+            "skillKey": "poppy_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-09T15:58:16.669069Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:33.811471Z",
+            "description": "DDragon16.17.1 Poppy.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 50,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "poppy_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:33.811471Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:17.703899Z",
+            "description": "当前根InterruptDamage第二段StatByCoefficient为0.7。",
+            "fixedValue": 0.7,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "打断突进法强倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "poppy_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-09T15:58:17.703899Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "keys": [
+          "active_duration_ms",
+          "active_haste_percent_points",
+          "actual_source_armor_before_passive",
+          "actual_source_magic_resistance_before_passive",
+          "ap_ratio",
+          "base_interrupt_damage",
+          "cooldown_ms",
+          "grounding_duration_ms",
+          "mana_cost",
+          "passive_low_health_multiplier",
+          "passive_low_health_threshold_ratio",
+          "passive_resist_ratio",
+          "slow_percent_points"
+        ],
+        "details": [
+          {
+            "key": "active_duration_ms",
+            "data": {
+              "createdAt": "2026-09-09T15:58:13.357967Z",
+              "description": "当前根DataValues.Duration为2秒，单位秒转毫秒。",
+              "fixedValue": 2000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "主动领域持续（毫秒）",
+              "parameterKey": "active_duration_ms",
+              "skillKey": "poppy_w",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T15:58:13.357967Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "key": "active_haste_percent_points",
+            "data": {
+              "createdAt": "2026-09-09T15:58:12.231218Z",
+              "description": "当前根DataValues.Haste为40，正文以百分号显示；保留百分数点。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "主动移动速度百分数点",
+              "parameterKey": "active_haste_percent_points",
+              "skillKey": "poppy_w",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T15:58:12.231218Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "key": "actual_source_armor_before_passive",
+            "data": {
+              "createdAt": "2026-09-09T15:58:10.058052Z",
+              "description": "mStat1的应用前正确护甲基准由实际输入提供；不以BonusArmor字段名猜额外护甲，实际输入无默认。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "被动应用前来源护甲",
+              "parameterKey": "actual_source_armor_before_passive",
+              "skillKey": "poppy_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T15:58:10.058052Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "key": "actual_source_magic_resistance_before_passive",
+            "data": {
+              "createdAt": "2026-09-09T15:58:11.129974Z",
+              "description": "mStat6的应用前正确魔抗基准由实际输入提供；不以BonusMagicResistance字段名猜额外魔抗，实际输入无默认。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "被动应用前来源魔抗",
+              "parameterKey": "actual_source_magic_resistance_before_passive",
+              "skillKey": "poppy_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T15:58:11.129974Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "key": "ap_ratio",
+            "data": {
+              "createdAt": "2026-09-09T15:58:17.703899Z",
+              "description": "当前根InterruptDamage第二段StatByCoefficient为0.7。",
+              "fixedValue": 0.7,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "打断突进法强倍率",
+              "parameterKey": "ap_ratio",
+              "skillKey": "poppy_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-09T15:58:17.703899Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "key": "base_interrupt_damage",
+            "data": {
+              "createdAt": "2026-09-09T15:58:16.669069Z",
+              "description": "当前根DataValues.DamageValue取技能等级1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 70,
+                "2": 110,
+                "3": 150,
+                "4": 190,
+                "5": 230
+              },
+              "name": "打断突进基础魔法伤害",
+              "parameterKey": "base_interrupt_damage",
+              "skillKey": "poppy_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-09T15:58:16.669069Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "key": "cooldown_ms",
+            "data": {
+              "createdAt": "2026-09-07T18:00:33.38497Z",
+              "description": "DDragon16.17.1 Poppy.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 20000,
+                "2": 18000,
+                "3": 16000,
+                "4": 14000,
+                "5": 12000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "poppy_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:33.38497Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "key": "grounding_duration_ms",
+            "data": {
+              "createdAt": "2026-09-09T15:58:14.469285Z",
+              "description": "当前根DataValues.GroundingDuration为2秒，单位秒转毫秒。",
+              "fixedValue": 2000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "缚地持续（毫秒）",
+              "parameterKey": "grounding_duration_ms",
+              "skillKey": "poppy_w",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T15:58:14.469285Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "key": "mana_cost",
+            "data": {
+              "createdAt": "2026-09-07T18:00:33.811471Z",
+              "description": "DDragon16.17.1 Poppy.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 50,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "poppy_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:33.811471Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "key": "passive_low_health_multiplier",
+            "data": {
+              "createdAt": "2026-09-09T15:58:08.949283Z",
+              "description": "当前正文写明生命低于40%时双抗加成翻倍；保留端点倍率，不代表条件事件已接通。",
+              "fixedValue": 2,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "低生命被动双抗倍率",
+              "parameterKey": "passive_low_health_multiplier",
+              "skillKey": "poppy_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T15:58:08.949283Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "key": "passive_low_health_threshold_ratio",
+            "data": {
+              "createdAt": "2026-09-09T15:58:07.914694Z",
+              "description": "当前正文消费PassiveEmpoweredHealthPercent*100，根值0.4；条件判断事件未接线。",
+              "fixedValue": 0.4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "被动翻倍生命阈值",
+              "parameterKey": "passive_low_health_threshold_ratio",
+              "skillKey": "poppy_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T15:58:07.914694Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "key": "passive_resist_ratio",
+            "data": {
+              "createdAt": "2026-09-09T15:58:06.765738Z",
+              "description": "当前根DataValues.PassiveResistPercent为0.16；BonusArmor和BonusMR分别使用mStat1与mStat6，不能凭字段名改成额外双抗。",
+              "fixedValue": 0.16,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "被动双抗比例",
+              "parameterKey": "passive_resist_ratio",
+              "skillKey": "poppy_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T15:58:06.765738Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "key": "slow_percent_points",
+            "data": {
+              "createdAt": "2026-09-09T15:58:15.560873Z",
+              "description": "原始SlowAmount为-0.25，当前正文消费SlowAmount*-100；录入正25，避免对负原值再次取负。",
+              "fixedValue": 25,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "敌人减速百分数点",
+              "parameterKey": "slow_percent_points",
+              "skillKey": "poppy_w",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T15:58:15.560873Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "list": [
+          {
+            "createdAt": "2026-09-09T15:58:18.765178Z",
+            "description": "BonusArmor的mStat1窄口径表达为0.16×应用前来源护甲；基准实际输入无默认。",
+            "formulaKey": "passive_bonus_armor",
+            "gameId": "lol",
+            "name": "被动额外护甲",
+            "skillKey": "poppy_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T15:58:18.765178Z"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:19.861569Z",
+            "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源护甲；条件事件未接线。",
+            "formulaKey": "passive_bonus_armor_low_health",
+            "gameId": "lol",
+            "name": "低生命被动额外护甲",
+            "skillKey": "poppy_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T15:58:19.861569Z"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:20.846776Z",
+            "description": "BonusMR的mStat6窄口径表达为0.16×应用前来源魔抗；基准实际输入无默认。",
+            "formulaKey": "passive_bonus_magic_resistance",
+            "gameId": "lol",
+            "name": "被动额外魔抗",
+            "skillKey": "poppy_w",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T15:58:20.846776Z"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:22.258196Z",
+            "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源魔抗；条件事件未接线。",
+            "formulaKey": "passive_bonus_magic_resistance_low_health",
+            "gameId": "lol",
+            "name": "低生命被动额外魔抗",
+            "skillKey": "poppy_w",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T15:58:22.258196Z"
+          },
+          {
+            "createdAt": "2026-09-09T15:58:23.325768Z",
+            "description": "InterruptDamage=DamageValue+0.7×来源总法强；敌方突进资格和打断事件未接线。",
+            "formulaKey": "interrupt_magic_damage",
+            "gameId": "lol",
+            "name": "打断突进魔法伤害",
+            "skillKey": "poppy_w",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T15:58:23.325768Z"
+          }
+        ],
+        "keys": [
+          "interrupt_magic_damage",
+          "passive_bonus_armor",
+          "passive_bonus_armor_low_health",
+          "passive_bonus_magic_resistance",
+          "passive_bonus_magic_resistance_low_health"
+        ],
+        "details": [
+          {
+            "key": "interrupt_magic_damage",
+            "data": {
+              "createdAt": "2026-09-09T15:58:23.325768Z",
+              "description": "InterruptDamage=DamageValue+0.7×来源总法强；敌方突进资格和打断事件未接线。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_interrupt_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "interrupt_magic_damage",
+              "gameId": "lol",
+              "name": "打断突进魔法伤害",
+              "skillKey": "poppy_w",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T15:58:23.325768Z"
+            }
+          },
+          {
+            "key": "passive_bonus_armor",
+            "data": {
+              "createdAt": "2026-09-09T15:58:18.765178Z",
+              "description": "BonusArmor的mStat1窄口径表达为0.16×应用前来源护甲；基准实际输入无默认。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_resist_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_source_armor_before_passive"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "passive_bonus_armor",
+              "gameId": "lol",
+              "name": "被动额外护甲",
+              "skillKey": "poppy_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T15:58:18.765178Z"
+            }
+          },
+          {
+            "key": "passive_bonus_armor_low_health",
+            "data": {
+              "createdAt": "2026-09-09T15:58:19.861569Z",
+              "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源护甲；条件事件未接线。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "passive_resist_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "passive_low_health_multiplier"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_source_armor_before_passive"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "passive_bonus_armor_low_health",
+              "gameId": "lol",
+              "name": "低生命被动额外护甲",
+              "skillKey": "poppy_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T15:58:19.861569Z"
+            }
+          },
+          {
+            "key": "passive_bonus_magic_resistance",
+            "data": {
+              "createdAt": "2026-09-09T15:58:20.846776Z",
+              "description": "BonusMR的mStat6窄口径表达为0.16×应用前来源魔抗；基准实际输入无默认。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_resist_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_source_magic_resistance_before_passive"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "passive_bonus_magic_resistance",
+              "gameId": "lol",
+              "name": "被动额外魔抗",
+              "skillKey": "poppy_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T15:58:20.846776Z"
+            }
+          },
+          {
+            "key": "passive_bonus_magic_resistance_low_health",
+            "data": {
+              "createdAt": "2026-09-09T15:58:22.258196Z",
+              "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源魔抗；条件事件未接线。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "passive_resist_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "passive_low_health_multiplier"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_source_magic_resistance_before_passive"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              "formulaKey": "passive_bonus_magic_resistance_low_health",
+              "gameId": "lol",
+              "name": "低生命被动额外魔抗",
+              "skillKey": "poppy_w",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T15:58:22.258196Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "list": [
+          {
+            "createdAt": "2026-09-09T15:58:24.419827Z",
+            "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "poppy_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T15:58:24.419827Z"
+          }
+        ],
+        "keys": [
+          "mana_cost"
+        ],
+        "details": [
+          {
+            "key": "mana_cost",
+            "data": {
+              "createdAt": "2026-09-09T15:58:24.419827Z",
+              "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+              "effectKey": "mana_cost",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "施放法力消耗",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "mana",
+                    "operation": "CONSUME"
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "施放法力消耗",
+                  "resultKey": "mana_cost",
+                  "resultType": "RESOURCE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "mana_cost"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "poppy_w",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T15:58:24.419827Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "list": [],
+        "keys": [],
+        "details": []
+      },
+      "internal-states": {
+        "list": [],
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "list": [],
+        "keys": [],
+        "details": []
+      }
+    },
+    "candidate": {
+      "method": "GET",
+      "route": "/skills/poppy_w/effects/active_move_speed",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "active_move_speed"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    }
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 131,
+    "sourceInitializedCount": 24,
+    "effectCountBefore": 1,
+    "effectCountAfter": 2
+  }
+}
