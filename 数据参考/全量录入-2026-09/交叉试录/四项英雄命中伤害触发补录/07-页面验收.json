@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "revision": "rev1",
+  "capturedAt": "2026-09-13T06:34:42.249Z",
+  "status": "PASS",
+  "passed": true,
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 267
+  },
+  "businessWrites": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "azir_r",
+      "passed": true,
+      "representativeImage": {
+        "alt": "阿兹尔·禁军之墙代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "magic_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "charge_damage",
+        "resultKey": "damage",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "azir_e",
+      "passed": true,
+      "representativeImage": {
+        "alt": "阿兹尔·流沙移形代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "magic_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "dash_damage",
+        "resultKey": "damage",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "yorick_e",
+      "passed": true,
+      "representativeImage": {
+        "alt": "约里克·哀伤之雾代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "max_health_magic_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "max_health_damage",
+        "resultKey": "damage",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "viego_w",
+      "passed": true,
+      "representativeImage": {
+        "alt": "佛耶戈·千载幽咽代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "formula": {
+        "formulaKey": "magic_damage",
+        "expectedTextsVisible": true
+      },
+      "effect": {
+        "effectKey": "damage",
+        "resultKey": "damage",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "screenshots": [
+    "azir_e-actual_hit规则.png",
+    "azir_e-dash_damage结果.png",
+    "azir_e-magic_damage公式.png",
+    "azir_e-列表图片.png",
+    "azir_r-actual_hit规则.png",
+    "azir_r-charge_damage结果.png",
+    "azir_r-magic_damage公式.png",
+    "azir_r-列表图片.png",
+    "viego_w-actual_hit规则.png",
+    "viego_w-damage结果.png",
+    "viego_w-magic_damage公式.png",
+    "viego_w-列表图片.png",
+    "yorick_e-actual_hit规则.png",
+    "yorick_e-max_health_damage结果.png",
+    "yorick_e-max_health_magic_damage公式.png",
+    "yorick_e-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "3a2f5b7548d4efc04e9a59add87f437371a90622036e608b08a9e87a368e75fd"
+}
