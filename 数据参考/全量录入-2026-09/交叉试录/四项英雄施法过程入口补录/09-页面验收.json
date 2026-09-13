@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T20:26:17+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 4,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "只执行关键词查询、打开过程详情、打开规则列表与编辑查看；没有点击保存、删除、新增或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1067,
+      "skillCount": 1062,
+      "ruleCount": 146,
+      "sourceInitializedCount": 29,
+      "targetDetailCount": 4,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "id": "ahri_q_start_cast",
+      "skillKey": "ahri_q",
+      "matched": true,
+      "list": {
+        "name": "阿狸·欺诈宝珠",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "阿狸·欺诈宝珠代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放欺诈宝珠",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动欺诈宝珠施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "阿狸·欺诈宝珠（ahri_q）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动欺诈宝珠施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "brand_w_start_cast",
+      "skillKey": "brand_w",
+      "matched": true,
+      "list": {
+        "name": "布兰德·烈焰之柱",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "布兰德·烈焰之柱代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放烈焰之柱",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动烈焰之柱施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "布兰德·烈焰之柱（brand_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动烈焰之柱施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "darius_e_start_cast",
+      "skillKey": "darius_e",
+      "matched": true,
+      "list": {
+        "name": "德莱厄斯·无情铁手",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "德莱厄斯·无情铁手代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放无情铁手",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施法延迟 / cast_time / 延迟 / cast_time_ms",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动无情铁手施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "德莱厄斯·无情铁手（darius_e）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动无情铁手施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    },
+    {
+      "id": "xinzhao_w_start_cast",
+      "skillKey": "xinzhao_w",
+      "matched": true,
+      "list": {
+        "name": "赵信·风斩电刺",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "赵信·风斩电刺代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "process": {
+        "processKey": "cast",
+        "name": "施放风斩电刺",
+        "activation": "主动",
+        "stepCount": 1,
+        "effectBindingCount": 1,
+        "stateOperationCount": 0,
+        "step": "施放开始 / start / 立即",
+        "effectBinding": "mana_cost / 施放法力消耗 / 过程开始"
+      },
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动风斩电刺施法过程",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "赵信·风斩电刺（xinzhao_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "action": "启动风斩电刺施法过程",
+        "actionSummary": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0"
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "ahri_q",
+      "sha256": "a59819651e1e83baa26f860eb6089b6bd212c18587e3e31638048f4070141b08",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "brand_w",
+      "sha256": "7d2e60f5166977c88b94d783dbc6f8f9bcfd08bc37614ca93a243e48e49d29c9",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "darius_e",
+      "sha256": "ba55158d581a28f702b1f2aba29255bea8df3e0aaf658bf5494f27755d5912e6",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "xinzhao_w",
+      "sha256": "0ee495c616630dd5796d06722335ce947e6baeed07fc71ab3da8c7786551b3a9",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "readOnlyCorrections": [
+    "首次手工关闭规则编辑弹窗后立即等待父弹窗消失，父弹窗仍可见而超时；确认编辑已取消后再关闭父弹窗，没有保存或业务写入。",
+    "阿狸Q、布兰德W和德莱厄斯E的过程步骤为延迟，赵信W的过程步骤为立即；按各自实际详情核对，不统一假定施法时长。",
+    "浏览器只读执行环境没有提供性能请求条目，未把不可见的网络信息伪造成精确计数。"
+  ],
+  "boundary": "真实页面确认四个目标保存后可重新打开，列表图、cast过程、步骤、法力挂接、主动使用事件和启动过程动作一致；未点击任何页面写入按钮。实际命中、伤害、控制、Wasm、宿主事件和真实战斗未执行。"
+}
