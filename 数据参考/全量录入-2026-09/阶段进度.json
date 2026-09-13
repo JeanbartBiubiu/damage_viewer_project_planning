@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T06:36:56.602Z",
+  "generatedAt": "2026-09-13T06:46:57.773Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -7298,6 +7298,105 @@
         "sha256": "e4cee46d9e1e08874445cb18cf237efd91e5fbaad9982a6a86ba6fdf5c6097f8",
         "commit": "0d7378190183209b44d7cc2f441e8a6296335d33"
       },
+      "runtimeValidation": "未执行"
+    },
+    "equipmentTriggerCandidateReviewThirdRound": {
+      "at": "2026-09-13T06:46:57.773Z",
+      "status": "两组十二项装备触发候选完成固定来源与真实接口只读复核；可安全直接写入为零，全部按具体机制缺口暂缓",
+      "sourceVersion": "16.17/16.17.1",
+      "reviewedSkills": [
+        "item_3156_passive",
+        "item_6676_passive",
+        "item_3153_passive",
+        "item_3508_passive",
+        "item_6692_passive",
+        "item_3084_passive",
+        "item_3044_passive",
+        "item_3181_passive",
+        "item_3057_passive",
+        "item_6653_passive",
+        "item_3121_passive",
+        "item_3173_passive"
+      ],
+      "decision": {
+        "ready": 0,
+        "deferred": 12,
+        "excluded": 0,
+        "businessWrites": 0
+      },
+      "deferred": [
+        {
+          "skillKey": "item_3156_passive",
+          "reason": "缺近战与远程互斥条件，以及全能吸血进入、续期和退出时点。"
+        },
+        {
+          "skillKey": "item_6676_passive",
+          "reason": "伤害后事件没有目标生命变化后数据，现有斩杀比较为小于等于而来源要求严格小于。"
+        },
+        {
+          "skillKey": "item_3153_passive",
+          "reason": "缺近战与远程分支及按目标三次攻击计数窗口，不能同时执行两个伤害效果。"
+        },
+        {
+          "skillKey": "item_3508_passive",
+          "reason": "缺技能使用后的待命、下一次普通攻击消费和1.5秒冷却状态。"
+        },
+        {
+          "skillKey": "item_6692_passive",
+          "reason": "缺同一目标两次独立命中计数、两秒时间窗、去重、近战远程分支和触发冷却。"
+        },
+        {
+          "skillKey": "item_3084_passive",
+          "reason": "缺距离跟踪、充能完成、下一次普通攻击消费和每目标冷却。"
+        },
+        {
+          "skillKey": "item_3044_passive",
+          "reason": "近战20与远程10必须互斥，当前事件和条件没有攻击来源类型。"
+        },
+        {
+          "skillKey": "item_3181_passive",
+          "reason": "缺按目标第五击计数、十秒窗口、消费顺序、英雄筛选和近战远程分支。"
+        },
+        {
+          "skillKey": "item_3057_passive",
+          "reason": "缺技能使用到下一击的待命状态、失效、消费、刷新和命中后冷却。"
+        },
+        {
+          "skillKey": "item_6653_passive",
+          "reason": "缺伤害型技能筛选、六次节拍、重复命中刷新和受苦层数增伤。"
+        },
+        {
+          "skillKey": "item_3121_passive",
+          "reason": "缺定身或近战减速条件分流、持有者冷却和当前法力运行值。"
+        },
+        {
+          "skillKey": "item_3173_passive",
+          "reason": "官方零占位与现有100至200等级值来源尚未统一，同时缺英雄魔法伤害筛选、冷却和等级输入。"
+        }
+      ],
+      "getEvidence": {
+        "firstGroupTargetedGETs": 42,
+        "secondGroupTargetedEvidenceGETs": 78,
+        "secondGroupTotalGETs": 306,
+        "businessWrites": 0,
+        "nonGetRequests": 0
+      },
+      "commonGaps": [
+        "近战与远程来源类型及互斥条件",
+        "下一次普通攻击的待命和消费状态",
+        "按目标计数、时间窗和独立命中去重",
+        "伤害结算后的生命值上下文与严格阈值",
+        "区域、距离、控制类型和伤害来源资格",
+        "持有者或逐目标冷却及持续节拍"
+      ],
+      "systemConclusion": "现有持久化结构已经保存主要参数、公式和效果；共同阻塞位于事件上下文、条件、状态和时序，没有新增表依据。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/装备技能实录/Luna第三轮装备触发候选/候选汇总.json",
+        "sha256": "a4e55d87835ebac4c19b440d9b7499931d65219b2f94a9f45db053604fada1f2",
+        "commit": "0897216ef271dceeb51c0cf441375bef4c854a8a"
+      },
+      "browserValidation": "未执行；本轮没有业务写入",
       "runtimeValidation": "未执行"
     }
   },
