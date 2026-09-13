@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T19:16:58+08:00",
+  "status": "PASS",
+  "browser": "Codex内置Chromium",
+  "title": "Damage Viewer Web",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 4,
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": null,
+  "requestAudit": {
+    "exactBrowserGetCountAvailable": false,
+    "reason": "当前浏览器控制能力未暴露网络方法流水；不猜GET数量。",
+    "writeActionAudit": "只执行关键词查询、打开效果详情、打开规则列表与编辑查看；没有点击保存、删除、新增或停用。",
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 1067,
+      "skillCount": 1062,
+      "ruleCount": 139,
+      "sourceInitializedCount": 26,
+      "targetDetailCount": 4,
+      "businessWrites": 0
+    },
+    "priorReadOnlyAttempt": {
+      "status": "STOPPED",
+      "getCount": 1065,
+      "businessWrites": 0,
+      "reason": "检查器首次直接比较冻结请求与回读对象时，把缺省的useKind和回读中的null当成不同；在第二项断言处停止，修正为两端统一规范化后完整重跑。"
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "targets": [
+    {
+      "id": "twistedfate_e_permanent_attack_speed",
+      "skillKey": "twistedfate_e",
+      "matched": true,
+      "list": {
+        "name": "崔斯特·卡牌骗术",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "崔斯特·卡牌骗术代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effects": [
+        {
+          "effectKey": "permanent_attack_speed",
+          "name": "卡牌骗术自身永久攻击速度",
+          "resultCount": 1,
+          "hasLifecycle": true
+        }
+      ],
+      "rule": {
+        "ruleKey": "initialize_permanent_attack_speed",
+        "name": "初始化卡牌骗术永久攻击速度",
+        "event": "来源对象初始化完成",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "actions": [
+          {
+            "name": "执行卡牌骗术永久攻击速度",
+            "actionTarget": "事件来源对象",
+            "effectKey": "permanent_attack_speed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "skarner_r_champion_hit_move_speed",
+      "skillKey": "skarner_r",
+      "matched": true,
+      "list": {
+        "name": "斯卡纳·毒刺贯体",
+        "status": "启用",
+        "maxLevel": 3,
+        "imageAlt": "斯卡纳·毒刺贯体代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effects": [
+        {
+          "effectKey": "self_move_speed",
+          "name": "毒刺贯体命中英雄自身移动速度",
+          "resultCount": 1,
+          "hasLifecycle": true
+        }
+      ],
+      "rule": {
+        "ruleKey": "actual_champion_hit",
+        "name": "命中英雄触发毒刺贯体移速",
+        "event": "技能命中",
+        "conditionGroupCount": 1,
+        "actionCount": 1,
+        "actions": [
+          {
+            "name": "执行毒刺贯体命中英雄自身移速",
+            "actionTarget": "当前目标",
+            "effectKey": "self_move_speed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "seraphine_w_self_shield",
+      "skillKey": "seraphine_w",
+      "matched": true,
+      "list": {
+        "name": "萨勒芬妮·聚和心声",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "萨勒芬妮·聚和心声代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effects": [
+        {
+          "effectKey": "self_shield",
+          "name": "萨勒芬妮自身护盾",
+          "resultCount": 1,
+          "hasLifecycle": true
+        }
+      ],
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "聚和心声主动自身护盾",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "萨勒芬妮·聚和心声（seraphine_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 1,
+        "actions": [
+          {
+            "name": "执行聚和心声自身护盾",
+            "actionTarget": "当前目标",
+            "effectKey": "self_shield"
+          }
+        ]
+      }
+    },
+    {
+      "id": "naafiri_w_self_buffs",
+      "skillKey": "naafiri_w",
+      "matched": true,
+      "list": {
+        "name": "纳亚菲利·暴吼",
+        "status": "启用",
+        "maxLevel": 5,
+        "imageAlt": "纳亚菲利·暴吼代表图片",
+        "imageComplete": true,
+        "imageNaturalWidth": 64,
+        "imageNaturalHeight": 64
+      },
+      "effects": [
+        {
+          "effectKey": "self_attack_damage",
+          "name": "暴吼自身攻击力增益",
+          "resultCount": 1,
+          "hasLifecycle": true
+        },
+        {
+          "effectKey": "self_move_speed",
+          "name": "暴吼自身移动速度增益",
+          "resultCount": 1,
+          "hasLifecycle": true
+        }
+      ],
+      "rule": {
+        "ruleKey": "on_used",
+        "name": "暴吼主动自身攻击力与移速",
+        "event": "技能被主动或消耗使用",
+        "sourceSkill": "纳亚菲利·暴吼（naafiri_w）",
+        "useKind": "主动",
+        "conditionGroupCount": 0,
+        "actionCount": 2,
+        "actions": [
+          {
+            "name": "执行暴吼自身攻击力增益",
+            "actionTarget": "当前目标",
+            "effectKey": "self_attack_damage"
+          },
+          {
+            "name": "执行暴吼自身移动速度增益",
+            "actionTarget": "当前目标",
+            "effectKey": "self_move_speed"
+          }
+        ]
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "target": "twistedfate_e",
+      "sha256": "875e79292b0cd50ff42b539cb7ad510330e8cbe306f1f93f6c2dd4f436c5d77f",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "skarner_r",
+      "sha256": "c2424cd2a5349028e45bab09db50bd734d2f625e64a5976c3d087089ec6fe265",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "seraphine_w",
+      "sha256": "5b43fcc3045dc724f001281c68d1d4c9965c7ab021f47fef6a5c0230d9976104",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    },
+    {
+      "target": "naafiri_w",
+      "sha256": "e3687b84f31e827da61f70b6374014a3dfc3524081475803abec4e692e1260d2",
+      "storage": "当前Codex浏览器会话内展示，未写入仓库"
+    }
+  ],
+  "readOnlyCorrections": [
+    "来源初始化和技能命中规则页面没有显示主动使用类型，按各自实际事件界面核对，不补写不存在的页面字段。",
+    "纳亚菲利W两条动作按页面序号确认攻击力在前、移动速度在后。",
+    "浏览器只读执行环境没有提供性能请求条目，未把不可见的网络信息伪造成精确计数。",
+    "浏览器后首轮GET检查只因缺省字段与null的表示差异停止；修正检查器比较方式后完整重跑，未修业务数据。"
+  ],
+  "boundary": "真实页面确认四个目标保存后可重新打开，列表图、五个效果、规则事件和动作顺序一致；未点击任何页面写入按钮。Wasm、宿主事件生产和真实战斗未执行。"
+}

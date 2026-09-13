@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T11:18:18.048Z",
+  "status": "PASS",
+  "scope": "卡牌E、斯卡纳R、萨勒芬妮W、纳亚菲利W四项已有自身增益触发规则",
+  "frozenBatchSha256": "e968441b2fa3d01c68d6b0d89e44b9b6e08a1c514ffb4666de44b57478ab3d24",
+  "sourceSnapshotSha256": "213331313aaed84068cb7ac8ef06bb5070d193667d1e97f2dd80ea612aa787ef",
+  "prepare": {
+    "getCount": 1282,
+    "statusCounts": {
+      "200": 1278,
+      "404": 4
+    },
+    "businessWrites": 0
+  },
+  "write": {
+    "businessWrites": 4,
+    "alreadyLanded": 0,
+    "recoveryMode": false,
+    "requestAudit": {
+      "requestCount": 92,
+      "methods": {
+        "GET": 88,
+        "POST": 4
+      },
+      "statuses": {
+        "200": 84,
+        "201": 4,
+        "404": 4
+      },
+      "nonGetPaths": [
+        {
+          "method": "POST",
+          "path": "/skills/twistedfate_e/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/skarner_r/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/seraphine_w/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/naafiri_w/trigger-rules"
+        }
+      ]
+    }
+  },
+  "independent": {
+    "getCount": 1282,
+    "skillCount": 1062,
+    "ruleCount": 139,
+    "sourceInitializedCount": 26,
+    "oldRulesCount": 135,
+    "businessWrites": 0
+  },
+  "browser": {
+    "targetCount": 4,
+    "getRequests": null,
+    "nonGetRequests": 0,
+    "screenshots": 4,
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "failedRequests": 0,
+    "businessWrites": 0
+  },
+  "files": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "3edc77b519348f18bf471ef9da3966bf4f59a637226bc7dcae4b5902e0960714",
+      "byteSize": 851
+    },
+    {
+      "name": "README.md",
+      "sha256": "e26fb731a9b29065d5e985e07785695a40a16a0c5e09ee185b7946dc9ada557a",
+      "byteSize": 683
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "64765079a8f9786cc0b4f7958cfd2b7f727fd33c046dee20053600cb9e5951c9",
+      "byteSize": 5680
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "01a15cebde0449a87510a7c5cf498b18f676c50a32e9e45d592f94efd62db98d",
+      "byteSize": 18602
+    },
+    {
+      "name": "独立GET回读.mjs",
+      "sha256": "8991f59641943be316170908c9ced341ec08ffecccafac6c6b7afad062c1f94b",
+      "byteSize": 8588
+    },
+    {
+      "name": "生成页面目标.mjs",
+      "sha256": "be5cb06f1aace5a339514f91a00aff2a0f7ba4d4fedfcca12dafef54484689bd",
+      "byteSize": 2093
+    },
+    {
+      "name": "生成证据清单.mjs",
+      "sha256": "591de59a4532d4903a3b69e2a35a93c85c1362e1569628cf2ee892f4772a7291",
+      "byteSize": 4383
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "87afad90ec67a6c4ecc22f9c7cd1d0f40453e5eb79ca0e406eeb8dcc4cbf33e7",
+      "byteSize": 8998
+    },
+    {
+      "name": "03-来源散列快照.json",
+      "sha256": "213331313aaed84068cb7ac8ef06bb5070d193667d1e97f2dd80ea612aa787ef",
+      "byteSize": 2938
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "0f38e87468345555fede7447b678d5a56fedb5d09223af8582d9e45ae1733930",
+      "byteSize": 252885
+    },
+    {
+      "name": "05-只读准备报告.json",
+      "sha256": "265d05fdc1368b8bc2d4c8d776316473dad0a3b81641969f1040333cecdc4dca",
+      "byteSize": 566
+    },
+    {
+      "name": "06-写入流水.jsonl",
+      "sha256": "e7f25a3678121b313baa198a7e728f8055663e4b7b0e8ef1c2dba5b08ee674c3",
+      "byteSize": 896
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "e6eebeb96f775f78bae5096ad4d9b4195c00c12304c3c421b965b2c3dec6e5b1",
+      "byteSize": 2940
+    },
+    {
+      "name": "07-独立GET回读.json",
+      "sha256": "ea4ed389f1836ea92e8c10c69a9b26ea0b7053886b0b4793408f3d27c05726c5",
+      "byteSize": 2294
+    },
+    {
+      "name": "08-页面目标.json",
+      "sha256": "9c09fcc0defa7e0c55984aa3f85ba61e65bd234bc88d775359dda5b707acbea4",
+      "byteSize": 3177
+    },
+    {
+      "name": "09-页面验收.json",
+      "sha256": "ec7b690e7162d59c470feabf651206416d65e6509547bf074bd155a2c24afe1a",
+      "byteSize": 7536
+    },
+    {
+      "name": "录入体验报告.md",
+      "sha256": "38ca28ba7b12e9f9365e530c8b0c7f06c6b6543a1eacb57f328230802c1b5982",
+      "byteSize": 2567
+    }
+  ],
+  "boundary": "四条管理规则、两路GET回读和真实页面通过；Wasm组装、宿主事件生产及真实战斗未执行，其他分支仍在开放队列。"
+}
