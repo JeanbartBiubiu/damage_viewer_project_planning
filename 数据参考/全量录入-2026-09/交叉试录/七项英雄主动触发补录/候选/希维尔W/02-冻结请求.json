@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T04:02:13.510Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "4fcda93054507170935a74fdc40db443aa3d9f0755fd2f6bdfc32811692cc77d",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "sivir",
+      "method": "POST",
+      "route": "/skills/sivir_w/trigger-rules",
+      "detailRoute": "/skills/sivir_w/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "fa1abd42d9391cbf51d942d83493cf4e17e6ceee14061a97bc7beed01f35e18d",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "弹射主动使用",
+        "description": "接收 sivir_w 主动使用，在 CURRENT_TARGET 上启动已有 cast 过程；过程统一处理法力、冷却和 ricochet_attack_speed。后续攻击次数、弹射目标、伤害与同次暴击沿用留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "sivir_w"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动弹射施放过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "强化普攻次数及弹射目标",
+    "弹射伤害与同次暴击沿用"
+  ]
+}

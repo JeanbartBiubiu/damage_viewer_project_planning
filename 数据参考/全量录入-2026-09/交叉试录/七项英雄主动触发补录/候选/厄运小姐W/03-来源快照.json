@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:12.453Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "missfortune",
+    "name": "厄运小姐 W",
+    "skillKey": "missfortune_w",
+    "ownerKey": "champion_missfortune",
+    "acceptedEvent": {
+      "sourceSkillKey": "missfortune_w",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_attack_speed",
+        "name": "执行大步流星主动攻击速度",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "active_attack_speed"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "active_attack_speed",
+        "resultKey": "attribute",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "resultTarget": "SOURCE",
+        "valueKind": "PARAMETER",
+        "valueKey": "bonus_attack_speed_ratio",
+        "durationParameterKey": "active_duration_ms"
+      }
+    ],
+    "omitted": [
+      "被动与主动移速状态切换及受击清除",
+      "厄运的眷顾冷却返还",
+      "法力消耗与基础冷却"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+      "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+      "bytes": 238562
+    }
+  ]
+}

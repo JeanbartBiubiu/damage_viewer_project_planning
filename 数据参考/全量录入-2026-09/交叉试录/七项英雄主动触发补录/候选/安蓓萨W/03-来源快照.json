@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-12T18:30:26.111Z",
+  "methodPolicy": "LOCAL_FILES_AND_GET_ONLY",
+  "authorizationValueRecorded": false,
+  "candidate": {
+    "id": "ambessa",
+    "name": "安蓓萨 W",
+    "skillKey": "ambessa_w",
+    "ownerKey": "champion_ambessa",
+    "acceptedEvent": {
+      "sourceSkillKey": "ambessa_w",
+      "useKind": "ACTIVE"
+    },
+    "actions": [
+      {
+        "actionKey": "execute_self_shield",
+        "name": "执行铁令自身护盾",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "self_shield"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "processCheck": null,
+    "effectChecks": [
+      {
+        "effectKey": "self_shield",
+        "resultKey": "shield",
+        "resultType": "NORMAL_SHIELD",
+        "resultTarget": "SOURCE",
+        "valueKind": "FORMULA",
+        "valueKey": "shield_value",
+        "durationParameterKey": "shield_duration_ms"
+      }
+    ],
+    "omitted": [
+      "防守姿势及格挡资格",
+      "两档范围伤害",
+      "能量消耗、冷却与225毫秒延迟"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十七批/修订二/完整候选.json",
+      "sha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
+      "bytes": 523712
+    }
+  ]
+}

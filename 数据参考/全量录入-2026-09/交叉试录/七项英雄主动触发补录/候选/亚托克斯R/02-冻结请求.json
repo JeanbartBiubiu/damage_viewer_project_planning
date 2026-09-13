@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 2,
+  "planRevision": 1,
+  "revision": "rev1",
+  "status": "READY",
+  "generatedAt": "2026-09-13T04:02:12.802Z",
+  "plannedWrites": 1,
+  "sourceSnapshotSha256": "3524c054c7172411bb9f63f54f181bd30b4bb0c5b2d710db6ea48f6b63e8dfc5",
+  "writeBoundary": {
+    "businessWriteCount": 1,
+    "methods": [
+      "POST"
+    ],
+    "noPutPatchDelete": true,
+    "noOtherObjectWrites": true
+  },
+  "writes": [
+    {
+      "id": "aatrox",
+      "method": "POST",
+      "route": "/skills/aatrox_r/trigger-rules",
+      "detailRoute": "/skills/aatrox_r/trigger-rules/on_used",
+      "expectedStatus": 201,
+      "bodySha256": "9446f3aa0b12a88321dd7409f7beebc5bffb05128aa6051bd3b08d310bf72e2f",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "大灭主动使用",
+        "description": "接收 aatrox_r 主动使用；无条件执行已有 attack_damage_amp。移动速度衰减、自我治疗提升、参与击杀续时与刷新、小兵恐惧及施法时长冲突留待后续接线。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "useKind": "ACTIVE",
+            "sourceSkillKey": "aatrox_r"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_attack_damage_amp",
+            "name": "执行大灭自身攻击力提升",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_damage_amp"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "excluded": [
+    "移动速度衰减与自我治疗提升",
+    "参与击杀续时及刷新",
+    "小兵恐惧与施法时长冲突"
+  ]
+}

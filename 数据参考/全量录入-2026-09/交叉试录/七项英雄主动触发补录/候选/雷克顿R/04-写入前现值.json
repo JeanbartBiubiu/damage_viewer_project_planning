@@ -1,0 +1,950 @@
+{
+  "schemaVersion": 2,
+  "revision": "rev1",
+  "status": "CAPTURED",
+  "capturedAt": "2026-09-13T04:02:14.387Z",
+  "requestPolicy": {
+    "method": "GET",
+    "authorizationValueRecorded": false,
+    "businessWriteIssued": false
+  },
+  "expectedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24,
+    "finalRuleCount": 120
+  },
+  "observedCurrent": {
+    "skillCount": 1062,
+    "ruleCount": 114,
+    "sourceInitializedCount": 24
+  },
+  "sourceSnapshotSha256": "71407e6b0c03f92016b4ac3b9d612116c100e05c1a15eab3674b4be92d463ae8",
+  "frozenRequestSha256": "5c521777136195acedc3eecaa8a868a39bfb2c918c3cde79c05a336e88884102",
+  "businessWrites": 0,
+  "target": {
+    "fixed": {
+      "skill": {
+        "method": "GET",
+        "route": "/skills/renekton_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:03.105001Z",
+          "description": "雷克顿转换为暴君形态，获得额外生命值，并对周围敌人造成伤害。此形态的雷克顿定时获得怒气。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "雷克顿·终极统治",
+          "skillCategoryKeys": [],
+          "skillKey": "renekton_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:03.105001Z"
+        }
+      },
+      "owner": {
+        "method": "GET",
+        "route": "/characters/champion_renekton",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_renekton",
+          "createdAt": "2026-09-06T17:18:19.244134Z",
+          "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+          "gameId": "lol",
+          "name": "雷克顿",
+          "updatedAt": "2026-09-06T17:18:19.244134Z"
+        }
+      },
+      "ownerAttributes": {
+        "method": "GET",
+        "route": "/characters/champion_renekton/attributes",
+        "status": 200,
+        "data": {
+          "characterKey": "champion_renekton",
+          "levelValues": {
+            "1": {
+              "move_speed": 345,
+              "hp": 660,
+              "hp_regen": 8,
+              "armor": 35,
+              "magic_resistance": 28,
+              "attack_damage": 69,
+              "attack_speed": 0.665,
+              "attack_range": 125
+            },
+            "2": {
+              "move_speed": 345,
+              "hp": 739.92,
+              "hp_regen": 8.54,
+              "armor": 38.744,
+              "magic_resistance": 29.476,
+              "attack_damage": 71.988,
+              "attack_speed": 0.678167,
+              "attack_range": 125
+            },
+            "3": {
+              "move_speed": 345,
+              "hp": 823.725,
+              "hp_regen": 9.10625,
+              "armor": 42.67,
+              "magic_resistance": 31.02375,
+              "attack_damage": 75.12125,
+              "attack_speed": 0.691974,
+              "attack_range": 125
+            },
+            "4": {
+              "move_speed": 345,
+              "hp": 911.415,
+              "hp_regen": 9.69875,
+              "armor": 46.778,
+              "magic_resistance": 32.64325,
+              "attack_damage": 78.39975,
+              "attack_speed": 0.706421,
+              "attack_range": 125
+            },
+            "5": {
+              "move_speed": 345,
+              "hp": 1002.99,
+              "hp_regen": 10.3175,
+              "armor": 51.068,
+              "magic_resistance": 34.3345,
+              "attack_damage": 81.8235,
+              "attack_speed": 0.721508,
+              "attack_range": 125
+            },
+            "6": {
+              "move_speed": 345,
+              "hp": 1098.45,
+              "hp_regen": 10.9625,
+              "armor": 55.54,
+              "magic_resistance": 36.0975,
+              "attack_damage": 85.3925,
+              "attack_speed": 0.737236,
+              "attack_range": 125
+            },
+            "7": {
+              "move_speed": 345,
+              "hp": 1197.795,
+              "hp_regen": 11.63375,
+              "armor": 60.194,
+              "magic_resistance": 37.93225,
+              "attack_damage": 89.10675,
+              "attack_speed": 0.753603,
+              "attack_range": 125
+            },
+            "8": {
+              "move_speed": 345,
+              "hp": 1301.025,
+              "hp_regen": 12.33125,
+              "armor": 65.03,
+              "magic_resistance": 39.83875,
+              "attack_damage": 92.96625,
+              "attack_speed": 0.77061,
+              "attack_range": 125
+            },
+            "9": {
+              "move_speed": 345,
+              "hp": 1408.14,
+              "hp_regen": 13.055,
+              "armor": 70.048,
+              "magic_resistance": 41.817,
+              "attack_damage": 96.971,
+              "attack_speed": 0.788258,
+              "attack_range": 125
+            },
+            "10": {
+              "move_speed": 345,
+              "hp": 1519.14,
+              "hp_regen": 13.805,
+              "armor": 75.248,
+              "magic_resistance": 43.867,
+              "attack_damage": 101.121,
+              "attack_speed": 0.806545,
+              "attack_range": 125
+            },
+            "11": {
+              "move_speed": 345,
+              "hp": 1634.025,
+              "hp_regen": 14.58125,
+              "armor": 80.63,
+              "magic_resistance": 45.98875,
+              "attack_damage": 105.41625,
+              "attack_speed": 0.825473,
+              "attack_range": 125
+            },
+            "12": {
+              "move_speed": 345,
+              "hp": 1752.795,
+              "hp_regen": 15.38375,
+              "armor": 86.194,
+              "magic_resistance": 48.18225,
+              "attack_damage": 109.85675,
+              "attack_speed": 0.84504,
+              "attack_range": 125
+            },
+            "13": {
+              "move_speed": 345,
+              "hp": 1875.45,
+              "hp_regen": 16.2125,
+              "armor": 91.94,
+              "magic_resistance": 50.4475,
+              "attack_damage": 114.4425,
+              "attack_speed": 0.865248,
+              "attack_range": 125
+            },
+            "14": {
+              "move_speed": 345,
+              "hp": 2001.99,
+              "hp_regen": 17.0675,
+              "armor": 97.868,
+              "magic_resistance": 52.7845,
+              "attack_damage": 119.1735,
+              "attack_speed": 0.886096,
+              "attack_range": 125
+            },
+            "15": {
+              "move_speed": 345,
+              "hp": 2132.415,
+              "hp_regen": 17.94875,
+              "armor": 103.978,
+              "magic_resistance": 55.19325,
+              "attack_damage": 124.04975,
+              "attack_speed": 0.907584,
+              "attack_range": 125
+            },
+            "16": {
+              "move_speed": 345,
+              "hp": 2266.725,
+              "hp_regen": 18.85625,
+              "armor": 110.27,
+              "magic_resistance": 57.67375,
+              "attack_damage": 129.07125,
+              "attack_speed": 0.929712,
+              "attack_range": 125
+            },
+            "17": {
+              "move_speed": 345,
+              "hp": 2404.92,
+              "hp_regen": 19.79,
+              "armor": 116.744,
+              "magic_resistance": 60.226,
+              "attack_damage": 134.238,
+              "attack_speed": 0.95248,
+              "attack_range": 125
+            },
+            "18": {
+              "move_speed": 345,
+              "hp": 2547,
+              "hp_regen": 20.75,
+              "armor": 123.4,
+              "magic_resistance": 62.85,
+              "attack_damage": 139.55,
+              "attack_speed": 0.975888,
+              "attack_range": 125
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        }
+      },
+      "ownerRepresentativeImage": {
+        "method": "GET",
+        "route": "/characters/champion_renekton/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_renekton",
+            "name": "champion_renekton"
+          }
+        }
+      },
+      "ownerRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?characterKey=champion_renekton",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_renekton",
+              "characterName": "雷克顿",
+              "gameId": "lol",
+              "skillKey": "renekton_p",
+              "skillName": "雷克顿·怒之领域",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_renekton",
+              "characterName": "雷克顿",
+              "gameId": "lol",
+              "skillKey": "renekton_q",
+              "skillName": "雷克顿·巨鳄狂袭",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_renekton",
+              "characterName": "雷克顿",
+              "gameId": "lol",
+              "skillKey": "renekton_w",
+              "skillName": "雷克顿·冷酷捕猎",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_renekton",
+              "characterName": "雷克顿",
+              "gameId": "lol",
+              "skillKey": "renekton_e",
+              "skillName": "雷克顿·横冲直撞",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_renekton",
+              "characterName": "雷克顿",
+              "gameId": "lol",
+              "skillKey": "renekton_r",
+              "skillName": "雷克顿·终极统治",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "skillRelations": {
+        "method": "GET",
+        "route": "/character-skill-relations?skillKey=renekton_r",
+        "status": 200,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_renekton",
+              "characterName": "雷克顿",
+              "gameId": "lol",
+              "skillKey": "renekton_r",
+              "skillName": "雷克顿·终极统治",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 1
+        }
+      },
+      "skillRepresentativeImage": {
+        "method": "GET",
+        "route": "/skills/renekton_r/representative-image",
+        "status": 200,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_renekton_r",
+            "name": "renekton_r"
+          }
+        }
+      },
+      "candidateRule": {
+        "method": "GET",
+        "route": "/skills/renekton_r/trigger-rules/on_used",
+        "status": 404,
+        "data": {
+          "error": {
+            "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+            "details": {
+              "ruleKey": "on_used"
+            },
+            "message": "技能触发规则不存在"
+          }
+        }
+      }
+    },
+    "components": {
+      "parameters": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/renekton_r/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-08T16:08:48.051009Z",
+              "description": "客户端当前根绑定 DataValues.HealthGain 取索引1至3。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 300,
+                "2": 500,
+                "3": 700
+              },
+              "name": "终极统治最大生命提升",
+              "parameterKey": "maximum_health_gain",
+              "skillKey": "renekton_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-08T16:08:48.051009Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T16:08:48.810928Z",
+              "description": "客户端当前根绑定 DataValues.AuraDamagePerSecond 取索引1至3。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 60,
+                "2": 150,
+                "3": 240
+              },
+              "name": "光环每秒基础伤害",
+              "parameterKey": "base_damage_per_second",
+              "skillKey": "renekton_r",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-08T16:08:48.810928Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T16:08:49.515625Z",
+              "description": "当前完整TotalDamagePerSecond计算树的属性与总量/额外量已核对。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "光环每秒法强系数",
+              "parameterKey": "ap_ratio_per_second",
+              "skillKey": "renekton_r",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-08T16:08:49.515625Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-08T16:08:50.157632Z",
+              "description": "当前完整TotalDamagePerSecond计算树的属性与总量/额外量已核对。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "光环每秒额外攻击力系数",
+              "parameterKey": "bonus_ad_ratio_per_second",
+              "skillKey": "renekton_r",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-08T16:08:50.157632Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-08T16:08:50.880017Z",
+              "description": "客户端当前根绑定 DataValues.FuryPerSecond 取索引1至3。",
+              "fixedValue": 5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "激活期间每秒怒气",
+              "parameterKey": "fury_per_second",
+              "skillKey": "renekton_r",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-08T16:08:50.880017Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T16:08:51.538473Z",
+              "description": "客户端当前根绑定 DataValues.FuryOnCast 取索引1至3。",
+              "fixedValue": 20,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施放时怒气",
+              "parameterKey": "fury_on_cast",
+              "skillKey": "renekton_r",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-08T16:08:51.538473Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T16:08:52.167318Z",
+              "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至3。",
+              "fixedValue": 15000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "终极统治持续（毫秒）",
+              "parameterKey": "duration_ms",
+              "skillKey": "renekton_r",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-08T16:08:52.167318Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:59.855362Z",
+              "description": "DDragon16.17.1 Renekton.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 120000,
+                "2": 100000,
+                "3": 80000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "renekton_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:59.855362Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        "keys": [
+          "ap_ratio_per_second",
+          "base_damage_per_second",
+          "bonus_ad_ratio_per_second",
+          "cooldown_ms",
+          "duration_ms",
+          "fury_on_cast",
+          "fury_per_second",
+          "maximum_health_gain"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/parameters/ap_ratio_per_second",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:49.515625Z",
+              "description": "当前完整TotalDamagePerSecond计算树的属性与总量/额外量已核对。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "光环每秒法强系数",
+              "parameterKey": "ap_ratio_per_second",
+              "skillKey": "renekton_r",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-08T16:08:49.515625Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/parameters/base_damage_per_second",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:48.810928Z",
+              "description": "客户端当前根绑定 DataValues.AuraDamagePerSecond 取索引1至3。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 60,
+                "2": 150,
+                "3": 240
+              },
+              "name": "光环每秒基础伤害",
+              "parameterKey": "base_damage_per_second",
+              "skillKey": "renekton_r",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-08T16:08:48.810928Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/parameters/bonus_ad_ratio_per_second",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:50.157632Z",
+              "description": "当前完整TotalDamagePerSecond计算树的属性与总量/额外量已核对。",
+              "fixedValue": 0.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "光环每秒额外攻击力系数",
+              "parameterKey": "bonus_ad_ratio_per_second",
+              "skillKey": "renekton_r",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-08T16:08:50.157632Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/parameters/cooldown_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-07T17:38:59.855362Z",
+              "description": "DDragon16.17.1 Renekton.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 120000,
+                "2": 100000,
+                "3": 80000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "renekton_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:59.855362Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/parameters/duration_ms",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:52.167318Z",
+              "description": "客户端当前根绑定 DataValues.BuffDuration 取索引1至3。",
+              "fixedValue": 15000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "终极统治持续（毫秒）",
+              "parameterKey": "duration_ms",
+              "skillKey": "renekton_r",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-08T16:08:52.167318Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/parameters/fury_on_cast",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:51.538473Z",
+              "description": "客户端当前根绑定 DataValues.FuryOnCast 取索引1至3。",
+              "fixedValue": 20,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施放时怒气",
+              "parameterKey": "fury_on_cast",
+              "skillKey": "renekton_r",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-08T16:08:51.538473Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/parameters/fury_per_second",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:50.880017Z",
+              "description": "客户端当前根绑定 DataValues.FuryPerSecond 取索引1至3。",
+              "fixedValue": 5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "激活期间每秒怒气",
+              "parameterKey": "fury_per_second",
+              "skillKey": "renekton_r",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-08T16:08:50.880017Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          },
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/parameters/maximum_health_gain",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:48.051009Z",
+              "description": "客户端当前根绑定 DataValues.HealthGain 取索引1至3。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 300,
+                "2": 500,
+                "3": 700
+              },
+              "name": "终极统治最大生命提升",
+              "parameterKey": "maximum_health_gain",
+              "skillKey": "renekton_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-08T16:08:48.051009Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          }
+        ]
+      },
+      "formulas": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/renekton_r/formulas",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-08T16:08:52.872656Z",
+              "description": "60/150/240 + .1法强 + .1额外攻击力是每秒量；不把完整每秒量当每个0.5秒字段的跳伤害。",
+              "formulaKey": "aura_damage_per_second",
+              "gameId": "lol",
+              "name": "终极统治每秒魔法伤害",
+              "skillKey": "renekton_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-08T16:08:52.872656Z"
+            }
+          ]
+        },
+        "keys": [
+          "aura_damage_per_second"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/formulas/aura_damage_per_second",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:52.872656Z",
+              "description": "60/150/240 + .1法强 + .1额外攻击力是每秒量；不把完整每秒量当每个0.5秒字段的跳伤害。",
+              "expression": {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "base_damage_per_second"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_ratio_per_second"
+                          },
+                          {
+                            "attributeKey": "ability_power",
+                            "attributeOwner": "SOURCE",
+                            "attributeValueKind": "TOTAL",
+                            "nodeType": "ATTRIBUTE"
+                          }
+                        ],
+                        "operation": "MULTIPLY"
+                      }
+                    ],
+                    "operation": "ADD"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_ratio_per_second"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              "formulaKey": "aura_damage_per_second",
+              "gameId": "lol",
+              "name": "终极统治每秒魔法伤害",
+              "skillKey": "renekton_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-08T16:08:52.872656Z"
+            }
+          }
+        ]
+      },
+      "effects": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/renekton_r/effects",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-08T16:08:53.522937Z",
+              "description": "自身最大生命增加300/500/700，持续15秒；当前生命如何随最大生命变更由资源契约另核，不另送一份等额直接治疗。",
+              "effectKey": "dominance_health",
+              "gameId": "lol",
+              "lifecycleEnabled": true,
+              "name": "终极统治自身最大生命",
+              "resultCount": 1,
+              "skillKey": "renekton_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-08T16:08:53.522937Z"
+            }
+          ]
+        },
+        "keys": [
+          "dominance_health"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/effects/dominance_health",
+            "status": 200,
+            "data": {
+              "createdAt": "2026-09-08T16:08:53.522937Z",
+              "description": "自身最大生命增加300/500/700，持续15秒；当前生命如何随最大生命变更由资源契约另核，不另送一份等额直接治疗。",
+              "effectKey": "dominance_health",
+              "gameId": "lol",
+              "lifecycle": {
+                "applicationStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "duration_ms"
+                },
+                "expiryMode": "ALL_AT_ONCE",
+                "firstPeriodicExecution": null,
+                "instanceScope": "SOURCE",
+                "maxStacksValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "periodicIntervalValue": null,
+                "reapplicationDurationMode": "REFRESH_ALL",
+                "reapplicationStackMode": "KEEP"
+              },
+              "name": "终极统治自身最大生命",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "attributeKey": "hp",
+                    "modifierZoneKey": "attribute_flat_add",
+                    "operation": "INCREASE"
+                  },
+                  "lifecycleBehavior": {
+                    "moment": "PERSISTENT",
+                    "periodicExecutionMode": null,
+                    "reapplicationValueMode": "REPLACE",
+                    "stackValueMode": "SHARED",
+                    "valueReadMode": "APPLICATION_SNAPSHOT"
+                  },
+                  "name": "终极统治自身最大生命",
+                  "resultKey": "attribute",
+                  "resultType": "ATTRIBUTE_CHANGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": null,
+                  "target": "SOURCE",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "maximum_health_gain"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "renekton_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-08T16:08:53.522937Z"
+            }
+          }
+        ]
+      },
+      "processes": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/renekton_r/processes",
+          "status": 200,
+          "data": [
+            {
+              "activationType": "ACTIVE",
+              "createdAt": "2026-09-08T16:08:54.204958Z",
+              "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+              "effectBindingCount": 1,
+              "gameId": "lol",
+              "name": "施放终极统治",
+              "processKey": "cast",
+              "skillKey": "renekton_r",
+              "sortOrder": 10,
+              "stateOperationCount": 0,
+              "stepCount": 1,
+              "updatedAt": "2026-09-08T16:08:54.204958Z"
+            }
+          ]
+        },
+        "keys": [
+          "cast"
+        ],
+        "details": [
+          {
+            "method": "GET",
+            "route": "/skills/renekton_r/processes/cast",
+            "status": 200,
+            "data": {
+              "activationType": "ACTIVE",
+              "cooldown": {
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                "startMoment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              },
+              "createdAt": "2026-09-08T16:08:54.204958Z",
+              "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+              "effectBindings": [
+                {
+                  "bindingKey": "dominance_health",
+                  "effectKey": "dominance_health",
+                  "moment": {
+                    "momentType": "STEP_COMPLETE",
+                    "stepKey": "start"
+                  },
+                  "sortOrder": 20
+                }
+              ],
+              "gameId": "lol",
+              "name": "施放终极统治",
+              "processKey": "cast",
+              "skillKey": "renekton_r",
+              "sortOrder": 10,
+              "stateOperations": [],
+              "steps": [
+                {
+                  "description": null,
+                  "detail": {},
+                  "name": "施放开始",
+                  "sortOrder": 10,
+                  "stepKey": "start",
+                  "stepType": "IMMEDIATE"
+                }
+              ],
+              "updatedAt": "2026-09-08T16:08:54.204958Z"
+            }
+          }
+        ]
+      },
+      "internal-states": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/renekton_r/internal-states",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      },
+      "trigger-rules": {
+        "listResponse": {
+          "method": "GET",
+          "route": "/skills/renekton_r/trigger-rules",
+          "status": 200,
+          "data": []
+        },
+        "keys": [],
+        "details": []
+      }
+    }
+  }
+}
