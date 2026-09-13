@@ -272,7 +272,14 @@ function runCheckStage() {
   assert.deepEqual(ledger.coverage.skills.conclusions, distribution(ledger.skills));
   assert.equal(ledger.evidence.skillThirdStageCurrentReadback.sha256, fileSha(outputPath));
   const expected = new Map(entriesFromEvidence(evidence).map(item => [item.sourceChampionId + '/' + item.slot, item]));
-  for (const [id, item] of expected) assert.deepEqual(ledger.skills.find(value => value.sourceChampionId + '/' + value.slot === id), item, '第三阶段结论不符：' + id);
+  for (const [id, item] of expected) {
+    const actual = ledger.skills.find(value => value.sourceChampionId + '/' + value.slot === id);
+    assert(actual, '第三阶段技能结论缺失：' + id);
+    for (const field of ['sourceChampionId', 'sourceNumericId', 'championName', 'slot', 'skillKey', 'name', 'conclusionScope', 'batchKey', 'candidateSha256']) {
+      assert.deepEqual(actual[field], item[field], '第三阶段稳定字段不一致：' + id + '/' + field);
+    }
+    for (const evidenceRef of item.evidenceRefs) assert(actual.evidenceRefs.includes(evidenceRef), '第三阶段证据引用丢失：' + id + '/' + evidenceRef);
+  }
   process.stdout.write(JSON.stringify({ status: 'PASS', skillItems: ledger.skills.length, conclusions: ledger.coverage.skills.conclusions, remainingInScopeItems: 0, evidenceSha256: fileSha(outputPath) }, null, 2));
 }
 

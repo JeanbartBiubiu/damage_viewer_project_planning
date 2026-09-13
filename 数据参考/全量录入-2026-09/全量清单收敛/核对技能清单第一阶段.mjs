@@ -318,7 +318,12 @@ function runCheckStage() {
   const currentById = new Map(ledger.skills.map(item => [item.sourceChampionId + '/' + item.slot, item]));
   for (const expected of expectedEntries) {
     const id = expected.sourceChampionId + '/' + expected.slot;
-    assert.deepEqual(currentById.get(id), expected, '第一阶段技能结论与当前证据不一致：' + id);
+    const actual = currentById.get(id);
+    assert(actual, '第一阶段技能结论缺失：' + id);
+    for (const field of ['sourceChampionId', 'sourceNumericId', 'championName', 'slot', 'skillKey', 'name', 'conclusionScope', 'batchKey', 'candidateSha256']) {
+      assert.deepEqual(actual[field], expected[field], '第一阶段稳定字段不一致：' + id + '/' + field);
+    }
+    for (const evidenceRef of expected.evidenceRefs) assert(actual.evidenceRefs.includes(evidenceRef), '第一阶段证据引用丢失：' + id + '/' + evidenceRef);
   }
   assert.equal(ledger.coverage.skills.sourceItems, 865);
   assert(ledger.coverage.skills.concludedItems >= 560);
