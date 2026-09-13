@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "frozenAt": "2026-09-13T13:45:07.665Z",
+  "status": "FROZEN",
+  "sourceVersion": "客户端16.17/官方16.17.1",
+  "sourceFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/旧版规范化来源候选.json",
+      "sha256": "e186836aacf1d8f4f9d5d9398fd45fabf4314217c6a321c149de8e9bb218dbaa",
+      "byteSize": 6169
+    }
+  ],
+  "sourceEntries": [
+    {
+      "skillKey": "nasus_w",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/旧版规范化来源候选.json",
+      "sourceSha256": "e186836aacf1d8f4f9d5d9398fd45fabf4314217c6a321c149de8e9bb218dbaa",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "d9e3e055a3d3c5c76627badaa4f4bc57ec0bde0eb4eda1c2fad37e3c968dc5e7",
+      "officialSha256": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d"
+    },
+    {
+      "skillKey": "nasus_r",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/旧版规范化来源候选.json",
+      "sourceSha256": "e186836aacf1d8f4f9d5d9398fd45fabf4314217c6a321c149de8e9bb218dbaa",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": "d9e3e055a3d3c5c76627badaa4f4bc57ec0bde0eb4eda1c2fad37e3c968dc5e7",
+      "officialSha256": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d"
+    },
+    {
+      "skillKey": "lux_w",
+      "sourceFile": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/旧版规范化来源候选.json",
+      "sourceSha256": "e186836aacf1d8f4f9d5d9398fd45fabf4314217c6a321c149de8e9bb218dbaa",
+      "actionReferences": [
+        {
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ],
+      "clientSha256": null,
+      "officialSha256": null
+    }
+  ],
+  "scriptFiles": [
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/01-补录方案.md",
+      "sha256": "8432ef1d75fb4cf0c0d8e026b3f34ecc927a01254ffd064d9f9377ae2b43816e",
+      "byteSize": 1461
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/README.md",
+      "sha256": "421351f1601cdc45882249b0efd9ed43d61dd353cdccd9eca1f3b5943b1648d0",
+      "byteSize": 740
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/批次配置.mjs",
+      "sha256": "f1deff143d8820d01c10c8eb6a87142d605315538ae8cdc70235518993f0be7b",
+      "byteSize": 4203
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项英雄施法过程入口补录第五批/批次执行.mjs",
+      "sha256": "3efe09dde96c6892e699d5b1c81dc1bfbd5a2445257c468f0055d499129319e0",
+      "byteSize": 2176
+    },
+    {
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/共享受保护触发批次/受保护触发批次-v1.mjs",
+      "sha256": "b0ec9948c6111421dbe81c937efa9f3a32e9ad05d2c9319925537241f958fea9",
+      "byteSize": 40022
+    }
+  ],
+  "scope": [
+    {
+      "skillKey": "nasus_w",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "nasus_r",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    },
+    {
+      "skillKey": "lux_w",
+      "ruleKey": "on_used",
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "collection": "processes",
+          "keyField": "processKey",
+          "key": "cast"
+        }
+      ]
+    }
+  ]
+}

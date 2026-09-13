@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "normalization": "只把planning/master旧版技能数组中的nasus_w与nasus_r过程及缺少skillKey的lux_w过程按稳定标识建立索引；批次入口每次核对原文件散列与逐字段相等。",
+  "originalSources": {
+    "nasus": {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/内瑟斯技能实录第一批/录入候选.json",
+      "sha256": "7f1b5912aec4f745a6ade83e1cf51315a49f0959b743f39e94fb43774fb48272"
+    },
+    "lux": {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/拉克丝机制第一批/候选.json",
+      "sha256": "d12ce83ef0a000c8b854045d7065089cf43687818d617ddbb8968829f6baf9fd"
+    }
+  },
+  "skills": {
+    "nasus_w": {
+      "skillKey": "nasus_w",
+      "name": "枯萎",
+      "maxLevel": 5,
+      "source": {
+        "clientSha256": "d9e3e055a3d3c5c76627badaa4f4bc57ec0bde0eb4eda1c2fad37e3c968dc5e7",
+        "officialSha256": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d"
+      },
+      "write": {
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施法与法力消耗",
+            "activationType": "ACTIVE",
+            "sortOrder": 10,
+            "description": "仅普通施法延迟、开始冷却与法力消耗，不用施法结束替代实际命中。伤害或持续属性效果独立保留。",
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施法时间",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "sortOrder": 10,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              }
+            ],
+            "stateOperations": []
+          }
+        ]
+      }
+    },
+    "nasus_r": {
+      "skillKey": "nasus_r",
+      "name": "死神降临",
+      "maxLevel": 3,
+      "source": {
+        "clientSha256": "d9e3e055a3d3c5c76627badaa4f4bc57ec0bde0eb4eda1c2fad37e3c968dc5e7",
+        "officialSha256": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d"
+      },
+      "write": {
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施法与法力消耗",
+            "activationType": "ACTIVE",
+            "sortOrder": 10,
+            "description": "仅普通施法延迟、开始冷却与法力消耗，不用施法结束替代实际命中。伤害或持续属性效果独立保留。",
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施法时间",
+                "description": null,
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "sortOrder": 10,
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              }
+            ],
+            "stateOperations": []
+          }
+        ]
+      }
+    },
+    "lux_w": {
+      "skillKey": "lux_w",
+      "name": "曲光屏障",
+      "maxLevel": 5,
+      "source": {
+        "originalSha256": "d12ce83ef0a000c8b854045d7065089cf43687818d617ddbb8968829f6baf9fd"
+      },
+      "write": {
+        "processes": [
+          {
+            "processKey": "cast",
+            "name": "施放曲光屏障",
+            "activationType": "ACTIVE",
+            "description": "过程只负责法力、施法延迟和冷却。独立自护盾效果不在此过程自动施加；施加时点与回程叠加未证实。",
+            "sortOrder": 10,
+            "cooldown": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_ms"
+              },
+              "startMoment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              }
+            },
+            "steps": [
+              {
+                "stepKey": "cast_time",
+                "name": "施法时间",
+                "description": "主技能 spellCastTime，按毫秒录入。",
+                "sortOrder": 10,
+                "stepType": "DELAY",
+                "detail": {
+                  "delayValue": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "cast_time_ms"
+                  }
+                }
+              }
+            ],
+            "effectBindings": [
+              {
+                "bindingKey": "mana_cost",
+                "effectKey": "mana_cost",
+                "moment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                },
+                "sortOrder": 10
+              }
+            ],
+            "stateOperations": []
+          }
+        ]
+      }
+    }
+  }
+}

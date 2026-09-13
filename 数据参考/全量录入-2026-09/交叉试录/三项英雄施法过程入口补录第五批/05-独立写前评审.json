@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "runnerVersion": "protected-trigger-batch-v1",
+  "capturedAt": "2026-09-13T13:46:08.428Z",
+  "status": "APPROVED",
+  "reviewer": "既有独立来源复核加新进程完整事件明细GET契约检查",
+  "approvedBatchSha256": "233ca4ffd9a40e1a670a10d2cd31ad0f25f67d7a38827039e42c41e1ca09a3c6",
+  "preflightSha256": "c7a7893b9b8cbcb759acd118c79ebb00d9eaac51db128ff922c3d927a3c8812b",
+  "bodyRulesSha256": "b49435d596f66f37015dda860033c337599c7f0c31d1b968f1a5e3e1866622b7",
+  "metadataRulesSha256": "ef77cbde3f99ef91b70caac7661336e75c1be8efe7274726640e6057d0d22b0c",
+  "targetNonRuleSha256": [
+    {
+      "id": "nasus_w_start_cast",
+      "sha256": "a6483c3cb1de4b8652e9822f455a5c3ae50fed772a9bf8c3613783df5e5c7428"
+    },
+    {
+      "id": "nasus_r_start_cast",
+      "sha256": "e001b0593a01dc561d3e95dc41b15e1945d34c8afef3d30f5644674949143aac"
+    },
+    {
+      "id": "lux_w_start_cast",
+      "sha256": "7df03cd183e09175e36c6e75c9a4740a03520f6a0835ab454553c324d362a403"
+    }
+  ],
+  "approvalDecisionSha256": "c886894f28683ee27830f37a0fb57b02cb621818b7dcabf38c13d35bdafcc81b",
+  "getCount": 1292,
+  "statusCounts": {
+    "200": 1289,
+    "404": 3
+  },
+  "skillCount": 1062,
+  "ruleCount": 164,
+  "sourceInitializedCount": 29,
+  "businessWrites": 0,
+  "requestPathsSha256": "8ed8cbcd6f92eb76e0530dcd1fdd7fb28748f07d4475398d2bacd1d97ee6876a",
+  "boundary": "独立批准只覆盖冻结的三个主动使用入口；不批准各技能剩余命中、减速、属性、周期伤害、冷却修正、护盾或阶段分支。"
+}
