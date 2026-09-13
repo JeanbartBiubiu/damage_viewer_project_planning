@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T11:49:06.277Z",
+  "status": "PASS",
+  "scope": "克格莫Q、奥拉夫R和亚恒R三项常驻自身属性来源初始化规则",
+  "frozenBatchSha256": "d39d309db3771d2929177634e940bfb88b4aff835b8da977aecc4256820cc45d",
+  "sourceSnapshotSha256": "0e70d70b78773adb149aecd66c780c88c2e851b8fce5cc34cb8ccbb0ebacd21d",
+  "prepare": {
+    "getCount": 1271,
+    "statusCounts": {
+      "200": 1268,
+      "404": 3
+    },
+    "businessWrites": 0
+  },
+  "review": {
+    "status": "APPROVED",
+    "getCount": 1271,
+    "approvedBatchSha256": "d39d309db3771d2929177634e940bfb88b4aff835b8da977aecc4256820cc45d",
+    "approvalDecisionSha256": "e08f5deec2a48f91ab2dabced53d1477bac4bc5f620fb8238c867e96daa6cfe1",
+    "businessWrites": 0
+  },
+  "write": {
+    "businessWrites": 3,
+    "alreadyLanded": 0,
+    "recoveryMode": false,
+    "requestAudit": {
+      "requestCount": 75,
+      "methods": {
+        "GET": 72,
+        "POST": 3
+      },
+      "statuses": {
+        "200": 69,
+        "201": 3,
+        "404": 3
+      },
+      "nonGetPaths": [
+        {
+          "method": "POST",
+          "path": "/skills/kogmaw_q/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/olaf_r/trigger-rules"
+        },
+        {
+          "method": "POST",
+          "path": "/skills/zaahen_r/trigger-rules"
+        }
+      ]
+    }
+  },
+  "independent": {
+    "getCount": 1271,
+    "skillCount": 1062,
+    "ruleCount": 142,
+    "sourceInitializedCount": 29,
+    "oldRulesCount": 139,
+    "businessWrites": 0
+  },
+  "browser": {
+    "targetCount": 3,
+    "getRequests": null,
+    "nonGetRequests": 0,
+    "screenshots": 3,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "pageErrors": 0,
+    "failedRequests": 0,
+    "businessWrites": 0
+  },
+  "files": [
+    {
+      "name": "01-补录方案.md",
+      "sha256": "ba27c2171b871154bd2e3ad02f50877a3f799cda4978102f375815ed50ac1bf6",
+      "byteSize": 1388
+    },
+    {
+      "name": "README.md",
+      "sha256": "4f5f8fc1969cc11733336db6a32cf87d63fa1e7a2952c09c23d6cd000e36cfd2",
+      "byteSize": 832
+    },
+    {
+      "name": "批次配置.mjs",
+      "sha256": "11ce3829d0a5f2e1930126e6a074fca80a65b6a1b03db325b8f64986c1592bce",
+      "byteSize": 4414
+    },
+    {
+      "name": "批次执行.mjs",
+      "sha256": "1302ebd54811bebecf0f1d5a052b0c93d0a28e0c873c905be4be13622b2ea146",
+      "byteSize": 35695
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "6f15b0e6e9666d1b997ef585412b672fcfb9b56a688c72e86b73fe630894780f",
+      "byteSize": 6889
+    },
+    {
+      "name": "03-来源散列快照.json",
+      "sha256": "0e70d70b78773adb149aecd66c780c88c2e851b8fce5cc34cb8ccbb0ebacd21d",
+      "byteSize": 3594
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "c76ca46976baa68bb305723794b1d3d933bf856d53ee00f14e11ab8a69b3772e",
+      "byteSize": 237554
+    },
+    {
+      "name": "05-只读准备报告.json",
+      "sha256": "c438fb6751c3311a94e032d50d118fe35818afbcad436a8896077de2afd473e4",
+      "byteSize": 581
+    },
+    {
+      "name": "05-独立写前评审.json",
+      "sha256": "837211119f51f3232cf1095d01b94fd64d88e4e446556aeaa36d9d27c42f54e9",
+      "byteSize": 1365
+    },
+    {
+      "name": "06-写入流水.jsonl",
+      "sha256": "dcf2d6f52b3596cb8e82b447888df87de5500d4063ad6e8f52b984a9bd73ce0f",
+      "byteSize": 691
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "66953516930ce6061346734db99d9b78c86426f448b894b5ecf37e88f1063761",
+      "byteSize": 2607
+    },
+    {
+      "name": "07-独立GET回读.json",
+      "sha256": "923c191091cdadf834799c63590dbcb04ae99f95f103aa8baf9aa3e5caeabed5",
+      "byteSize": 1980
+    },
+    {
+      "name": "08-页面目标.json",
+      "sha256": "8962bd2ca81129256386c3ea1b9476e9b1834fbeb7d48a3b56b7dd74f49ddbef",
+      "byteSize": 2588
+    },
+    {
+      "name": "09-页面验收.json",
+      "sha256": "a1397cc8008ed84a042c8588345e2a8933fc9f7f21922d05f12ac30fbd23b554",
+      "byteSize": 5911
+    },
+    {
+      "name": "录入体验报告.md",
+      "sha256": "7c545b1fb106b790b1eb2454376ef1448f5933b7777a140610a870d54d69538a",
+      "byteSize": 2663
+    }
+  ],
+  "boundary": "三条管理规则、独立批准、两路完整GET回读和真实页面通过；来源初始化不表示后续技能升级，Wasm组装、宿主事件生产及真实战斗未执行。"
+}
