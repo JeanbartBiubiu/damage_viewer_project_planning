@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T11:16:58.000Z",
+  "generatedAt": "2026-09-13T11:47:39.000Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -8087,6 +8087,104 @@
         "commit": "7496009229c6e637c3345d62e129f5514ef13cd9"
       },
       "runtimeValidation": "未执行"
+    },
+    "threeSkillPersistentAttributeInitializationBackfill": {
+      "at": "2026-09-13T11:47:39.000Z",
+      "status": "克格莫Q、奥拉夫R和亚恒R三项常驻自身属性完成冻结、纯GET准备、独立批准、受保护写入、独立回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "kogmaw_q",
+        "olaf_r",
+        "zaahen_r"
+      ],
+      "created": {
+        "triggerRules": 3,
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0
+      },
+      "rules": [
+        "kogmaw_q/initialize_passive_attack_speed：来源初始化时执行passive_attack_speed",
+        "olaf_r/initialize_passive_resists：来源初始化时依次执行passive_armor与passive_magic_resistance",
+        "zaahen_r/initialize_armor_penetration：来源初始化时执行armor_penetration"
+      ],
+      "freeze": {
+        "revision": "rev1",
+        "batchSha256": "d39d309db3771d2929177634e940bfb88b4aff835b8da977aecc4256820cc45d",
+        "sourceSnapshotSha256": "0e70d70b78773adb149aecd66c780c88c2e851b8fce5cc34cb8ccbb0ebacd21d"
+      },
+      "preparation": {
+        "getCount": 1271,
+        "status200": 1268,
+        "expected404": 3,
+        "skillCount": 1062,
+        "ruleCount": 139,
+        "sourceInitializedCount": 26,
+        "businessWrites": 0
+      },
+      "independentApproval": {
+        "status": "APPROVED",
+        "getCount": 1271,
+        "approvedBatchSha256": "d39d309db3771d2929177634e940bfb88b4aff835b8da977aecc4256820cc45d",
+        "approvalDecisionSha256": "e08f5deec2a48f91ab2dabced53d1477bac4bc5f620fb8238c867e96daa6cfe1",
+        "businessWrites": 0
+      },
+      "writer": {
+        "getCount": 72,
+        "postCount": 3,
+        "created": 3,
+        "alreadyLanded": 0,
+        "recoveryMode": false,
+        "immediateReadback": "PASS"
+      },
+      "independentReadback": {
+        "getCount": 1271,
+        "skillCount": 1062,
+        "ruleCount": 142,
+        "sourceInitializedCount": 29,
+        "oldRulesCount": 139,
+        "oldRulesUnchanged": true,
+        "targetNonRuleCompositionUnchanged": true,
+        "businessWrites": 0
+      },
+      "browserValidation": {
+        "status": "PASS",
+        "targetCount": 3,
+        "images": "三项列表图均64×64且加载完成",
+        "effectsAndRules": "四个效果、三条来源初始化规则和奥拉夫双动作顺序与冻结请求一致",
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "businessWrites": 0,
+        "exactBrowserGetCount": null,
+        "postBrowserGetReadback": 1066
+      },
+      "exploration": {
+        "getCount": 3309,
+        "businessWrites": 0,
+        "result": "从121个有效果但无规则的当前技能中筛出三项；希瓦娜P、蒙多E及其他运行输入、区域、目标或阶段候选未进入写入批次。"
+      },
+      "corrections": [
+        "首次浏览器辅助函数仍绑定已关闭的上一标签页，在填写前停止且没有页面业务动作；按当前标签重建后通过。",
+        "来源初始化只表示基础属性、挂载和初始状态准备完成后触发一次，不表示复活、换装或后续技能升级。"
+      ],
+      "pending": [
+        "克格莫Q主动伤害、双抗削减、施法时间、法力消耗、命中与法术护盾口径仍未接。",
+        "奥拉夫R主动攻击力、净化免控、持续延长、朝向加速、资源与后续技能升级仍未接。",
+        "亚恒R主动伤害、实际伤害治疗、施放减伤、位移、生存链、资源与后续技能升级仍未接。",
+        "Wasm组装、宿主初始化事件生产和真实战斗均未执行。"
+      ],
+      "systemConclusion": "现有技能触发规则、来源初始化事件、顺序动作、效果、生命周期、参数和乘区足以保存三项当前初始属性，没有新增表、字段或兼容层依据。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项技能常驻属性初始化补录/10-证据清单.json",
+        "sha256": "cc1d02007861bb7b44e3eacfc151d3eb64187157e26ebe9c814946880ca4c3eb",
+        "commit": "8a97517a0f16f63b66ef1237b38d7bd188c7929b"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -8170,6 +8268,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项英雄自身增益触发补录第二批/10-证据清单.json",
         "sha256": "09236953de9282789f23a538cfc234b7d7a49bec9598471fb9697997c0f6c3c9",
         "commit": "7496009229c6e637c3345d62e129f5514ef13cd9"
+      },
+      "threeSkillPersistentAttributeInitializationBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项技能常驻属性初始化补录/10-证据清单.json",
+        "sha256": "cc1d02007861bb7b44e3eacfc151d3eb64187157e26ebe9c814946880ca4c3eb",
+        "commit": "8a97517a0f16f63b66ef1237b38d7bd188c7929b"
       }
     },
     "coverage": {
@@ -18215,7 +18319,7 @@
         "name": "克格莫·腐蚀唾液",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有3个待处理分支，其中来源或资料缺口2个、系统缺口1个、配置缺口0个。",
+        "reason": "已补录来源初始化时的passive_attack_speed；主动伤害、双抗削减、施法时间、命中资格、法力消耗与法术护盾口径仍有来源或系统缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 2,
           "system": 1,
@@ -18226,7 +18330,8 @@
         "candidateSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "threeSkillPersistentAttributeInitializationBackfill"
         ]
       },
       {
@@ -21735,7 +21840,7 @@
         "name": "奥拉夫·诸神黄昏",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口1个、系统缺口1个、配置缺口3个。",
+        "reason": "已补录来源初始化时的passive_armor与passive_magic_resistance；主动攻击力读取时点、净化免控、持续延长、朝向加速、资源与后续升级仍未接，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 1,
@@ -21746,7 +21851,8 @@
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "threeSkillPersistentAttributeInitializationBackfill"
         ]
       },
       {
@@ -29555,7 +29661,7 @@
         "name": "亚恒·大赦",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "已补录来源初始化时的armor_penetration；主动伤害、实际伤害治疗、施放减伤、位移、生存链、资源与后续升级仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -29566,7 +29672,8 @@
         "candidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "threeSkillPersistentAttributeInitializationBackfill"
         ]
       },
       {
