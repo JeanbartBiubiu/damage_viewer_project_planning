@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T16:10:18.694Z",
+  "generatedAt": "2026-09-16T17:25:34.345Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -9110,6 +9110,95 @@
         "commit": "fb92b0d2bad613c32b9b97bcc1430137a9cb8172"
       },
       "runtimeValidation": "未执行"
+    },
+    "spiritVisageReceivedHealingBackfill": {
+      "at": "2026-09-16T17:25:34.345Z",
+      "status": "振奋盔甲受到治疗提高25%分支完成冻结、受保护写入、独立定点回读和真实页面验收；收到护盾增幅继续系统暂缓",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "item_3065_passive"
+      ],
+      "created": {
+        "modifierZones": 1,
+        "effects": 1,
+        "triggerRules": 1
+      },
+      "updated": {
+        "parameterDescriptions": 1,
+        "skillDescriptions": 1
+      },
+      "preparation": {
+        "GETs": 16,
+        "businessWrites": 0,
+        "batchSha256": "9e145d51738441520c1537b87367b61bcbd9ebbcbafc1d2cc6ab6c2195e19274"
+      },
+      "review": {
+        "initialAttemptAdopted": false,
+        "initialAttemptReason": "运行期间范围外未跟踪文件被外部删除，运行增量审计不干净；该轮没有形成写入依据。",
+        "cursorStatus": "REVISE",
+        "cursorAuditClean": true,
+        "cursorFinding": "参数更新体不含不可变parameterKey，但详情回读包含该稳定标识，需按接口响应形状比较。",
+        "resolution": "主负责人以16次当前GET和5个模拟响应复算后批准修订版；按评审次数上限未再请求第三轮Cursor。"
+      },
+      "writer": {
+        "businessWrites": 5,
+        "POST": 3,
+        "PUT": 2,
+        "immediateReadbacks": 5,
+        "replayedWrites": 0,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 14,
+        "businessWrites": 0,
+        "modifierZonesMatched": 1,
+        "parametersMatched": 1,
+        "effectsMatched": 1,
+        "triggerRulesMatched": 1,
+        "skillsMatched": 1,
+        "protectedObjectsMatched": true,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 163,
+        "businessWrites": 0,
+        "nonGetRequests": 0,
+        "targetCount": 1,
+        "listImagesVisible": 1,
+        "imageNaturalSize": "64x64",
+        "modifierZoneDetailsVisible": 1,
+        "effectDetailsVisible": 1,
+        "triggerDetailsVisible": 1,
+        "screenshots": 4,
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "conclusion": {
+        "equipmentKey": "item_3065",
+        "conclusion": "系统暂缓",
+        "completedBranch": "来源初始化建立25%受到治疗增幅",
+        "remaining": "收到护盾增幅缺少结果结构；治疗乘区Wasm组装、宿主初始化事件和真实战斗结算仍未验证。"
+      },
+      "systemConclusion": "现有治疗修正结果、治疗域乘区、持续效果和来源初始化规则可以承载受到治疗增幅，不需新增表或字段；收到护盾增幅不能冒充治疗修正、普通护盾或属性变化。",
+      "experienceIssues": [
+        "单对象批次只读取16次写前目标现值、14次独立回读和一次代表页面验收，不需要重复扫描1062个技能。",
+        "参数PUT请求体与详情回读的稳定标识形状不同，写入器应为各接口定义预期回读形状后再做排序结构比较。",
+        "只读页面断言应读取控件值和当前中文选项，不能只依赖弹窗innerText或旧文案。",
+        "状态施加没有减速强度、伤害结果空法术护盾粒度具有明确语义、护盾收到增幅缺结果类型，三类边界均不能近似录入。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/振奋盔甲治疗增幅补录/10-证据清单.json",
+        "sha256": "91553316c40c08b7641aad5a90f8d0a505ff9a2c58dcbc39ef59e9d89e1e4591",
+        "commit": "5b1494ac3b29982aea85c9c98988bea4a107894f"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -9250,6 +9339,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项装备主动分支过程与触发补录/修订二/10-证据清单.json",
         "sha256": "af1020c181c55a9a0d7e63dc83b221b904750df91238d1444f34bcd05bd32ab7",
         "commit": "fb92b0d2bad613c32b9b97bcc1430137a9cb8172"
+      },
+      "spiritVisageReceivedHealingBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/振奋盔甲治疗增幅补录/10-证据清单.json",
+        "sha256": "91553316c40c08b7641aad5a90f8d0a505ff9a2c58dcbc39ef59e9d89e1e4591",
+        "commit": "5b1494ac3b29982aea85c9c98988bea4a107894f"
       }
     },
     "coverage": {
@@ -35459,13 +35554,14 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "系统暂缓",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "来源数值没有明确缺口；仍有1项事件、状态、时序或正确结算能力未完成。",
+        "reason": "受到治疗提高25%分支已保存并通过定点回读与真实页面验收；收到护盾增幅缺少结果结构，治疗乘区Wasm组装、宿主初始化事件和真实战斗结算仍未验证。",
         "sourcePendingCount": 0,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "spiritVisageReceivedHealingBackfill"
         ]
       },
       {
