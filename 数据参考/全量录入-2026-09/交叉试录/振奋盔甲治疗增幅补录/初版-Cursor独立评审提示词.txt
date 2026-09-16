@@ -1,0 +1,39 @@
+MODE: DESIGN_REVIEW_ONLY
+你是振奋盔甲受到治疗增幅补录方案的独立只读终审。禁止创建、修改、删除、重命名任何文件，禁止执行任何业务写入或 Git 写入操作。
+
+当前方案版本：1。
+冻结批次散列：c6e59644057ab43ea74693270bb93a7c510a37f21599010c36f1345ff6348c84。
+
+请完整读取并核对：
+1. 数据参考/全量录入-2026-09/交叉试录/振奋盔甲治疗增幅补录/01-补录方案.md
+2. 同目录 02-冻结请求.json、03-来源散列快照.json、04-写入前现值.json、批次配置.mjs、批次执行.mjs
+3. C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备技能实录/Luna第六批/录入候选.json 中 item_3065_passive
+4. web/src/types/modifierZone.ts、web/src/types/skillEffect.ts 以及相关表单映射
+5. C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/modifierzone/ModifierZoneService.java
+6. C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java
+7. 现有成熟来源初始化效果，例如实库或既有证据中的 item_3742_passive/unsinkable_slow_resist。
+
+只评审以下冻结范围：
+- 新增 item_3065_received_healing_increase 治疗域比例乘区；
+- 新增 received_healing_increase 常驻效果，唯一结果提高来源对象受到的全部治疗25%；
+- 新增 SOURCE_INITIALIZED 规则，在 EVENT_SOURCE 执行该效果；
+- 更新 item_3065_passive 说明；
+- 收到护盾增幅继续暂缓，不新增护盾结构；
+- 不声称 Wasm、宿主初始化事件或真实战斗运行通过。
+
+重点判断：
+1. HEALING/RATIO_ADD/HEALING_RESULT 与 RECEIVED/INCREASE/ANY 是否准确表达“自身受到治疗提高25%”；
+2. 振奋盔甲专用乘区是否能在跨来源组合规则未证实时避免错误直接加算，是否反而引入确定的错误；
+3. 无期限、单层、SOURCE范围、PERSISTENT/APPLICATION_SNAPSHOT/SHARED/REPLACE 是否与现有持续结果契约一致；
+4. SOURCE_INITIALIZED、EVENT_SOURCE 和效果结果 target=SOURCE 是否一致；
+5. 固定来源、写前现值、允许写入路由、失败停止和即时回读门禁是否足够；
+6. 方案是否把护盾分支、Wasm或战斗运行错误写成完成。
+
+只有影响正确性、数据安全或本批验收的问题才列为阻塞。偏好性建议单列，不扩张本批。
+
+最终回复必须包含：
+VERDICT: READY | REVISE | BLOCKED
+REVIEWED_PLAN_REV: 1
+REVIEWED_BATCH_SHA256: c6e59644057ab43ea74693270bb93a7c510a37f21599010c36f1345ff6348c84
+BLOCKERS: 无，或逐项列出带文件和字段证据的阻塞问题
+NON_BLOCKING: 无，或列出非阻塞建议

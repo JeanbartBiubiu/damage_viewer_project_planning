@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-09-16T17:07:20.186Z",
+  "status": "PASS",
+  "batchSha256": "9e145d51738441520c1537b87367b61bcbd9ebbcbafc1d2cc6ab6c2195e19274",
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/modifier-zones",
+      "detailPath": "/modifier-zones/item_3065_received_healing_increase",
+      "responseStatus": 201,
+      "readbackStatus": 200,
+      "bodySha256": "8954927727e8974c011a93a88ba31149ce7a5c7d2c95a0a7c67171b7720d4b9f",
+      "matched": true
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+      "detailPath": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+      "responseStatus": 200,
+      "readbackStatus": 200,
+      "bodySha256": "81845dbd351a47f07cde761cfc014ae714b29174e49e181d0854e0f67f85c169",
+      "matched": true
+    },
+    {
+      "method": "POST",
+      "path": "/skills/item_3065_passive/effects",
+      "detailPath": "/skills/item_3065_passive/effects/received_healing_increase",
+      "responseStatus": 201,
+      "readbackStatus": 200,
+      "bodySha256": "285c4e14e98e6ca9b8c91c903185afe4a6a4253acc1ac330625c394afdd29a50",
+      "matched": true
+    },
+    {
+      "method": "POST",
+      "path": "/skills/item_3065_passive/trigger-rules",
+      "detailPath": "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase",
+      "responseStatus": 201,
+      "readbackStatus": 200,
+      "bodySha256": "a6ed9424b21c3ded6274bea0ab0a4892cde05e93d70a428007461585e4f850b7",
+      "matched": true
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_3065_passive",
+      "detailPath": "/skills/item_3065_passive",
+      "responseStatus": 200,
+      "readbackStatus": 200,
+      "bodySha256": "f91d307b8a02677870f9c4e49055f85e09a2a2b27ffc2c279729440123ce454b",
+      "matched": true
+    }
+  ],
+  "businessWrites": 5,
+  "authorizationValueRecorded": false,
+  "error": null,
+  "completedAt": "2026-09-16T17:07:28.682Z",
+  "requestAudit": {
+    "total": 31,
+    "methodCounts": {
+      "GET": 26,
+      "POST": 3,
+      "PUT": 2
+    },
+    "statusCounts": {
+      "200": 22,
+      "201": 3,
+      "404": 6
+    },
+    "entries": [
+      {
+        "method": "GET",
+        "path": "/equipment/item_3065",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/equipment/item_3065/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/equipment-skill-relations?equipmentKey=item_3065",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/modifier-zones",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/modifier-zones/item_3065_received_healing_increase",
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/effects/received_healing_increase",
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase",
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/modifier-zones/item_3065_received_healing_increase",
+        "status": 404
+      },
+      {
+        "method": "POST",
+        "path": "/modifier-zones",
+        "status": 201
+      },
+      {
+        "method": "GET",
+        "path": "/modifier-zones/item_3065_received_healing_increase",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+        "status": 200
+      },
+      {
+        "method": "PUT",
+        "path": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/effects/received_healing_increase",
+        "status": 404
+      },
+      {
+        "method": "POST",
+        "path": "/skills/item_3065_passive/effects",
+        "status": 201
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/effects/received_healing_increase",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase",
+        "status": 404
+      },
+      {
+        "method": "POST",
+        "path": "/skills/item_3065_passive/trigger-rules",
+        "status": 201
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive",
+        "status": 200
+      },
+      {
+        "method": "PUT",
+        "path": "/skills/item_3065_passive",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive",
+        "status": 200
+      }
+    ]
+  }
+}

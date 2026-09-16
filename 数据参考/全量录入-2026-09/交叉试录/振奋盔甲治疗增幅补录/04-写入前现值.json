@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-16T16:56:26.976Z",
+  "status": "PASS",
+  "methodPolicy": "GET_ONLY",
+  "batchSha256": "9e145d51738441520c1537b87367b61bcbd9ebbcbafc1d2cc6ab6c2195e19274",
+  "businessWrites": 0,
+  "current": {
+    "values": {
+      "/equipment/item_3065": {
+        "createdAt": "2026-09-06T17:17:27.677427Z",
+        "description": "来源：官方16.17.1装备3065。 原始说明：400生命值 50魔法抗性 10技能急速 100%基础生命回复 无拘活力 你身上的治疗和护盾效果提升25%。 被动与主动效果尚待配置。",
+        "equipmentKey": "item_3065",
+        "gameId": "lol",
+        "name": "振奋盔甲",
+        "updatedAt": "2026-09-06T17:17:27.677427Z"
+      },
+      "/equipment/item_3065/attributes": {
+        "attributeValues": {
+          "hp": 400,
+          "base_hp_regen_percent": 1,
+          "magic_resistance": 50,
+          "ability_haste": 10
+        },
+        "equipmentKey": "item_3065"
+      },
+      "/equipment-skill-relations?equipmentKey=item_3065": {
+        "items": [
+          {
+            "equipmentKey": "item_3065",
+            "equipmentName": "振奋盔甲",
+            "gameId": "lol",
+            "skillKey": "item_3065_passive",
+            "skillName": "振奋盔甲·无拘活力",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      },
+      "/skills/item_3065_passive": {
+        "createdAt": "2026-09-07T17:56:47.902983Z",
+        "description": "保存16.17客户端与官方16.17.1说明共同确证的自身治疗和护盾效果提升25%；装备自身400生命值、50魔抗、10技能急速、100%基础生命回复不在技能中重复施加。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "振奋盔甲·无拘活力",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3065_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-07T17:56:47.902983Z"
+      },
+      "/skills/item_3065_passive/parameters": [
+        {
+          "createdAt": "2026-09-07T17:56:48.498679Z",
+          "description": "自身受到的治疗与护盾数量提升25%，小数0.25表示25%；这不是施放治疗护盾强度属性。治疗修正待配，收到护盾增幅待结构补齐。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "无拘活力受到治疗护盾增幅",
+          "parameterKey": "heal_shield_power_bonus",
+          "skillKey": "item_3065_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:19:54.311219Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "/skills/item_3065_passive/parameters/heal_shield_power_bonus": {
+        "createdAt": "2026-09-07T17:56:48.498679Z",
+        "description": "自身受到的治疗与护盾数量提升25%，小数0.25表示25%；这不是施放治疗护盾强度属性。治疗修正待配，收到护盾增幅待结构补齐。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "无拘活力受到治疗护盾增幅",
+        "parameterKey": "heal_shield_power_bonus",
+        "skillKey": "item_3065_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:19:54.311219Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      "/skills/item_3065_passive/formulas": [],
+      "/skills/item_3065_passive/effects": [],
+      "/skills/item_3065_passive/processes": [],
+      "/skills/item_3065_passive/internal-states": [],
+      "/skills/item_3065_passive/trigger-rules": [],
+      "/skills/item_3065_passive/representative-image": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3065",
+          "name": "item_3065"
+        }
+      },
+      "/modifier-zones": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          },
+          {
+            "applicationStage": "DAMAGE_PRE_DEFENSE",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-12T05:42:45.604997Z",
+            "description": "铁板靴镀板的10%基础攻击伤害减免独立乘区；与其他来源分乘区相乘，避免在叠加规则未确认时直接相加。",
+            "domain": "DAMAGE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3047_basic_damage_reduction",
+            "name": "铁板靴基础攻击伤害减免",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-12T05:42:45.604997Z"
+          },
+          {
+            "applicationStage": "DAMAGE_PRE_DEFENSE",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-12T05:42:47.402895Z",
+            "description": "兰顿之兆复原力的30%暴击伤害减免独立乘区；与其他来源分乘区相乘，避免在叠加规则未确认时直接相加。",
+            "domain": "DAMAGE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3143_critical_damage_reduction",
+            "name": "兰顿暴击伤害减免",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-12T05:42:47.402895Z"
+          }
+        ],
+        "total": 6
+      },
+      "/modifier-zones/item_3065_received_healing_increase": {
+        "error": {
+          "code": "404.MODIFIER_ZONE_NOT_FOUND",
+          "details": {
+            "modifierZoneKey": "item_3065_received_healing_increase"
+          },
+          "message": "乘区不存在"
+        }
+      },
+      "/skills/item_3065_passive/effects/received_healing_increase": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "received_healing_increase"
+          },
+          "message": "技能效果不存在"
+        }
+      },
+      "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase": {
+        "error": {
+          "code": "404.SKILL_TRIGGER_RULE_NOT_FOUND",
+          "details": {
+            "ruleKey": "initialize_received_healing_increase"
+          },
+          "message": "技能触发规则不存在"
+        }
+      }
+    },
+    "absent": [
+      "/modifier-zones/item_3065_received_healing_increase",
+      "/skills/item_3065_passive/effects/received_healing_increase",
+      "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase"
+    ]
+  },
+  "currentSha256": "32a43f4b543871518dc5d7decbd3cb7f85e925f529d45530a13e2de34d39f97b",
+  "requestAudit": {
+    "total": 16,
+    "methodCounts": {
+      "GET": 16
+    },
+    "statusCounts": {
+      "200": 13,
+      "404": 3
+    },
+    "entries": [
+      {
+        "method": "GET",
+        "path": "/equipment/item_3065",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/equipment/item_3065/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/equipment-skill-relations?equipmentKey=item_3065",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/parameters/heal_shield_power_bonus",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/modifier-zones",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/modifier-zones/item_3065_received_healing_increase",
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/effects/received_healing_increase",
+        "status": 404
+      },
+      {
+        "method": "GET",
+        "path": "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase",
+        "status": 404
+      }
+    ]
+  },
+  "boundary": "本批只证明管理数据可表达并持久化；治疗乘区的Wasm组装、宿主初始化事件和真实战斗结算未验证，收到护盾增幅仍系统暂缓。"
+}

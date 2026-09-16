@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-16T17:03:48.188Z",
+  "status": "REVISE",
+  "verdict": "REVISE",
+  "reviewedPlanRevision": 2,
+  "reviewedBatchSha256": "9e145d51738441520c1537b87367b61bcbd9ebbcbafc1d2cc6ab6c2195e19274",
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "runtime": "sdk",
+  "runId": "run-8bf3d589-046e-40f5-bc3f-155a640eb67b",
+  "requestId": "51947710-3528-4fdb-b4ab-6129032e089d",
+  "summarySha256": "11d1be3c8f3c389ff415a69160e99f8858ca5fa20270604442be354aa59a38ca",
+  "summaryArtifact": ".agents/artifacts/cursor-task-2026-09-16T16-57-14-591Z/summary.json",
+  "audit": {
+    "auditAvailable": true,
+    "runDeltaCount": 0,
+    "runDeltaOutsideScopeCount": 0,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "terminalToolCallCount": 109
+  },
+  "blockers": [
+    {
+      "code": "PARAMETER_STABLE_KEY_READBACK_SHAPE",
+      "message": "参数PUT详情回读包含稳定标识parameterKey，而更新体不能包含该不可变字段；写入器必须按响应形状补回稳定标识后再做规范化结构比较。"
+    }
+  ],
+  "nonBlocking": [
+    "固定来源候选旧文字使用TAKEN，冻结请求已经使用当前合法枚举RECEIVED。",
+    "专用治疗乘区的跨来源组合尚未运行验证，当前只有该单一治疗乘区。"
+  ],
+  "semanticConclusion": "治疗乘区、受到治疗修正、常驻生命周期和来源初始化语义成立；收到护盾增幅、Wasm、宿主事件和真实战斗未纳入完成。",
+  "businessWrites": 0
+}

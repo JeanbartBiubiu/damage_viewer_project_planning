@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-16T17:07:44.730Z",
+  "status": "PASS",
+  "batchSha256": "9e145d51738441520c1537b87367b61bcbd9ebbcbafc1d2cc6ab6c2195e19274",
+  "targetCount": 1,
+  "targets": [
+    {
+      "skillKey": "item_3065_passive",
+      "skillName": "振奋盔甲·无拘活力",
+      "ownerKey": "item_3065",
+      "expectedImageEnabled": true,
+      "modifierZone": {
+        "modifierZoneKey": "item_3065_received_healing_increase",
+        "name": "振奋盔甲受到治疗增幅",
+        "domain": "HEALING",
+        "calculationMode": "RATIO_ADD",
+        "applicationStage": "HEALING_RESULT",
+        "description": "振奋盔甲对来源对象受到治疗的25%提高使用独立治疗结果比例乘区；跨来源组合和战斗结算仍需运行验证。",
+        "status": "ENABLED",
+        "sortOrder": 240
+      },
+      "effect": {
+        "effectKey": "received_healing_increase",
+        "name": "无拘活力受到治疗增幅",
+        "description": "来源对象初始化时建立单层常驻25%受到治疗增幅；收到护盾增幅继续暂缓。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "healing_received",
+            "name": "受到治疗增幅",
+            "target": "SOURCE",
+            "description": "来源对象受到的全部治疗提高25%；本结果不表示护盾增幅已经表达。",
+            "sortOrder": 10,
+            "resultType": "HEALING_MODIFIER",
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "heal_shield_power_bonus"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "modifierZoneKey": "item_3065_received_healing_increase",
+              "direction": "RECEIVED",
+              "operation": "INCREASE",
+              "healingKind": "ANY"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "rule": {
+        "ruleKey": "initialize_received_healing_increase",
+        "name": "初始化无拘活力受到治疗增幅",
+        "description": "来源对象初始化完成后建立25%受到治疗增幅；护盾增幅和战斗运行仍未验证。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SOURCE_INITIALIZED",
+          "detail": {}
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "execute_received_healing_increase",
+            "name": "执行无拘活力受到治疗增幅",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "received_healing_increase"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "skill": {
+        "name": "振奋盔甲·无拘活力",
+        "description": "保存16.17客户端与官方说明共同确证的自身治疗和护盾效果提升25%。受到治疗分支现由来源初始化规则建立常驻25%增幅；收到护盾增幅仍缺对应结果结构。装备自身400生命值、50魔抗、10技能急速、100%基础生命回复不在技能中重复施加。管理保存不证明战斗运行已执行。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "readbackHashes": {
+        "zone": "8954927727e8974c011a93a88ba31149ce7a5c7d2c95a0a7c67171b7720d4b9f",
+        "parameter": "c7cc30cb90447805ec1bcb37ab7bfba3ec97c1fe5f3ee6aa364d2a4bf319f3ea",
+        "effect": "285c4e14e98e6ca9b8c91c903185afe4a6a4253acc1ac330625c394afdd29a50",
+        "rule": "a6ed9424b21c3ded6274bea0ab0a4892cde05e93d70a428007461585e4f850b7",
+        "skill": "f91d307b8a02677870f9c4e49055f85e09a2a2b27ffc2c279729440123ce454b"
+      }
+    }
+  ],
+  "boundary": "本批只证明管理数据可表达并持久化；治疗乘区的Wasm组装、宿主初始化事件和真实战斗结算未验证，收到护盾增幅仍系统暂缓。"
+}
