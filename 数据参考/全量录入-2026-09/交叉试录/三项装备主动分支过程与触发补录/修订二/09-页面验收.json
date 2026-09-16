@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 3,
+  "capturedAt": "2026-09-16T16:03:50.914Z",
+  "status": "PASS",
+  "passed": true,
+  "batchSha256": "a40d08a81a01d2eafe6037a4c8f735b81912afb5087b1210d461a3ca12770ab4",
+  "url": "http://127.0.0.1:5173",
+  "browser": "Playwright Chromium 真实页面",
+  "methodPolicy": "BROWSER_READ_ONLY",
+  "targetSource": "08-页面目标.json",
+  "targetCount": 3,
+  "authorizationValueRecorded": false,
+  "cacheSyncIsLocalOnly": true,
+  "methods": {
+    "GET": 198
+  },
+  "businessWrites": 0,
+  "nonGetRequests": 0,
+  "getRequests": 198,
+  "requestAudit": {
+    "postBrowserGetReadback": {
+      "status": "PASS",
+      "getCount": 2125,
+      "skillCount": 1062,
+      "ruleCount": 171,
+      "processCount": 73,
+      "sourceInitializedCount": 29,
+      "targetDetailCount": 3,
+      "businessWrites": 0
+    }
+  },
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "pageErrors": 0,
+  "failedRequests": 0,
+  "errorResponses": 0,
+  "checks": [
+    {
+      "area": "本地图片缓存",
+      "observed": "全量同步完成，本次接收 3279 条变化。",
+      "passed": true
+    },
+    {
+      "area": "item_3107_active",
+      "passed": true,
+      "representativeImage": {
+        "alt": "救赎·干涉敌方伤害代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": {
+        "formulaKey": "enemy_true_damage",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "useKind": null,
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "item_3139_active",
+      "passed": true,
+      "representativeImage": {
+        "alt": "水银弯刀·水银代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "activate",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    },
+    {
+      "area": "item_3157_active",
+      "passed": true,
+      "representativeImage": {
+        "alt": "中娅沙漏·时间停止代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "activate",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      }
+    }
+  ],
+  "targets": [
+    {
+      "area": "item_3107_active",
+      "passed": true,
+      "representativeImage": {
+        "alt": "救赎·干涉敌方伤害代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": null,
+      "formula": {
+        "formulaKey": "enemy_true_damage",
+        "expectedTextsVisible": true
+      },
+      "trigger": {
+        "ruleKey": "actual_hit",
+        "useKind": null,
+        "expectedTextsVisible": true
+      },
+      "skillKey": "item_3107_active",
+      "matched": true
+    },
+    {
+      "area": "item_3139_active",
+      "passed": true,
+      "representativeImage": {
+        "alt": "水银弯刀·水银代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "activate",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      },
+      "skillKey": "item_3139_active",
+      "matched": true
+    },
+    {
+      "area": "item_3157_active",
+      "passed": true,
+      "representativeImage": {
+        "alt": "中娅沙漏·时间停止代表图片",
+        "complete": true,
+        "naturalWidth": 64,
+        "naturalHeight": 64
+      },
+      "process": {
+        "processKey": "activate",
+        "activationType": "主动",
+        "cooldownVisible": true,
+        "bindingsVisible": true
+      },
+      "formula": null,
+      "trigger": {
+        "ruleKey": "on_used",
+        "useKind": "主动",
+        "expectedTextsVisible": true
+      },
+      "skillKey": "item_3157_active",
+      "matched": true
+    }
+  ],
+  "screenshots": [
+    "item_3107_active-actual_hit规则.png",
+    "item_3107_active-enemy_true_damage公式.png",
+    "item_3107_active-列表图片.png",
+    "item_3139_active-activate过程.png",
+    "item_3139_active-on_used规则.png",
+    "item_3139_active-列表图片.png",
+    "item_3157_active-activate过程.png",
+    "item_3157_active-on_used规则.png",
+    "item_3157_active-列表图片.png"
+  ],
+  "diagnostics": {
+    "consoleErrors": [],
+    "consoleWarnings": [],
+    "pageErrors": [],
+    "requestFailures": [],
+    "errorResponses": [],
+    "expectedCancelledImageReads": []
+  },
+  "runtimeValidation": "未执行战斗运行；本报告证明管理页面展示、图片加载和只读交互。",
+  "scriptSha256": "aeb92962280d29313007f35ad1df70ad3a053d7e6d54248657c041ac242cc218"
+}

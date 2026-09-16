@@ -1,0 +1,153 @@
+const immediateProcess = ({ name, description, cooldownParameterKey, effectKey, effectName }) => ({
+  processKey: 'activate',
+  name,
+  activationType: 'ACTIVE',
+  description,
+  sortOrder: 10,
+  cooldown: {
+    durationValue: { kind: 'PARAMETER', parameterKey: cooldownParameterKey },
+    startMoment: { momentType: 'PROCESS_START', stepKey: null }
+  },
+  steps: [{
+    stepKey: 'apply',
+    name: effectName,
+    description: null,
+    sortOrder: 10,
+    stepType: 'IMMEDIATE',
+    detail: {}
+  }],
+  effectBindings: [{
+    bindingKey: effectKey,
+    effectKey,
+    moment: { momentType: 'STEP_EXECUTION', stepKey: 'apply' },
+    sortOrder: 10
+  }],
+  stateOperations: []
+});
+
+const startProcessRule = (skillKey, name, description) => ({
+  ruleKey: 'on_used',
+  name,
+  description,
+  sortOrder: 10,
+  eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: skillKey, useKind: 'ACTIVE' } },
+  conditionGroups: [],
+  actions: [{
+    actionKey: 'start_activate',
+    name: '启动主动分支过程',
+    actionType: 'START_PROCESS',
+    sortOrder: 10,
+    targetContext: 'CURRENT_TARGET',
+    detail: { processKey: 'activate' },
+    runtimeInputBindings: [],
+    resultModifiers: []
+  }],
+  perTargetCooldown: null,
+  maxTriggersPerProcess: null
+});
+
+const actualHitRule = {
+  ruleKey: 'actual_hit',
+  name: '干涉实际命中英雄',
+  description: '仅接收宿主确认的 item_3107_active 实际英雄命中，在当前目标上执行现有 enemy_true_damage。规则不生成区域命中，不承担二点五秒延迟、九十秒冷却、死亡期间使用、友方治疗或相同目标重复衰减；管理保存不证明宿主已经生产该事件。',
+  sortOrder: 10,
+  eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'item_3107_active', useKind: null } },
+  conditionGroups: [{
+    groupKey: 'champion_target',
+    name: '命中对象为英雄',
+    sortOrder: 10,
+    conditions: [{
+      conditionKey: 'champion_target',
+      conditionType: 'TARGET_CATEGORY_CHECK',
+      sortOrder: 10,
+      detail: { categories: ['CHAMPION'] }
+    }]
+  }],
+  actions: [{
+    actionKey: 'execute_enemy_true_damage',
+    name: '执行干涉敌方真实伤害',
+    actionType: 'EXECUTE_EFFECT',
+    sortOrder: 10,
+    targetContext: 'CURRENT_TARGET',
+    detail: { effectKey: 'enemy_true_damage' },
+    runtimeInputBindings: [],
+    resultModifiers: []
+  }],
+  perTargetCooldown: null,
+  maxTriggersPerProcess: null
+};
+
+const qssDescription = '当前绑定主动移除全部控制类减益但浮空除外，并给自身50%移动速度持续2秒，冷却90秒。移速分支现由主动使用规则启动activate过程并承担90秒冷却；通用解控、浮空例外和幽灵状态仍未表达，当前录入不表示完整水银。';
+const zhonyasDescription = '保存16.17客户端确证的主动冷却和凝滞中的无敌组成：持续2.5秒、冷却120秒、来源承受全类型伤害免疫。伤害免疫分支现由主动使用规则启动activate过程，过程承担120秒冷却并立即应用2.5秒免疫；不可选取和行动限制仍待补，装备直接属性不在技能中重复施加。当前录入不表示完整凝滞。';
+
+export const batchConfig = {
+  schemaVersion: 1,
+  sourceVersion: '客户端16.17/官方16.17.1',
+  scope: '救赎实际命中、水银弯刀移速与中娅沙漏伤害免疫三个主动装备分支',
+  expectedCurrent: { skillCount: 1062, ruleCount: 168, sourceInitializedCount: 29, finalRuleCount: 171, addedProcessCount: 2 },
+  sourceFiles: [
+    { id: 'zhonyasReview', root: 'web', relativePath: '数据参考/全量录入-2026-09/装备技能实录/Luna下一批装备触发候选/候选汇总.json', sha256: '04b06e69d7de5890f556f9cda8d5e2e462a39caa6e9b28a2d7314b960d70eb62' },
+    { id: 'qssReview', root: 'web', relativePath: '数据参考/全量录入-2026-09/装备技能实录/Luna第二轮装备触发候选/候选汇总.json', sha256: '2997714badb1efbe4270f370789e6f2343ec46f30969887d42faa3751a151dcb' },
+    { id: 'redemptionSource', root: 'planning', relativePath: '数据参考/全量录入-2026-09/装备技能实录/第十九批自身与范围主动/冻结来源.json', sha256: '1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79' }
+  ],
+  targets: [
+    {
+      skillKey: 'item_3107_active',
+      skillName: '救赎·干涉敌方伤害',
+      ownerKey: 'item_3107',
+      expectedEffects: ['enemy_true_damage'],
+      expectedParameters: ['actual_qualified_ally_base_heal', 'actual_target_max_health', 'active_cooldown_ms', 'ally_heal_max', 'ally_heal_min', 'area_radius', 'cast_range', 'enemy_true_damage_ratio', 'impact_delay_ms', 'repeated_effect_ratio'],
+      expectedParameterValues: { enemy_true_damage_ratio: 0.1, impact_delay_ms: 2500, active_cooldown_ms: 90000, repeated_effect_ratio: 0.5 },
+      rule: actualHitRule,
+      process: null,
+      updatedSkill: null,
+      conclusion: '资料待核',
+      completedBranch: '宿主确认的实际英雄命中执行10%目标最大生命真实伤害',
+      remaining: '区域命中生产、2.5秒延迟、90秒主动冷却、死亡期间使用、友方治疗及8秒内重复衰减仍待来源或系统接线。'
+    },
+    {
+      skillKey: 'item_3139_active',
+      skillName: '水银弯刀·水银',
+      ownerKey: 'item_3139',
+      expectedEffects: ['quicksilver_move_speed'],
+      expectedParameters: ['active_cooldown_ms', 'move_speed_duration_ms', 'move_speed_ratio'],
+      expectedParameterValues: { active_cooldown_ms: 90000, move_speed_duration_ms: 2000, move_speed_ratio: 0.5 },
+      process: immediateProcess({
+        name: '使用水银移速分支',
+        description: '主动使用时立即施加现有自身移速效果并开始九十秒冷却；本过程不表示解控、浮空例外或幽灵状态。',
+        cooldownParameterKey: 'active_cooldown_ms',
+        effectKey: 'quicksilver_move_speed',
+        effectName: '应用水银自身移动速度'
+      }),
+      rule: startProcessRule('item_3139_active', '主动使用启动水银移速分支', '接收 item_3139_active 主动使用并启动现有移速分支过程；过程承担九十秒冷却和两秒自身移速，解控、浮空例外与幽灵状态继续暂缓。管理保存不证明宿主已生产该事件或战斗运行已执行冷却。'),
+      updatedSkill: { name: '水银弯刀·水银', description: qssDescription, maxLevel: 1, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: [] },
+      expectedCurrentDescription: '当前绑定主动移除全部控制类减益但浮空除外，并给自身50%移动速度持续2秒，冷却90秒。独立移速组成保留；通用解控与浮空例外未完整表达，当前不接部分解控冒充水银。',
+      conclusion: '资料待核',
+      completedBranch: '主动使用启动移速过程，过程承担90秒冷却并施加50%自身移速2秒',
+      remaining: '移除控制类减益、浮空例外、幽灵状态及宿主与运行时执行仍待系统接线。'
+    },
+    {
+      skillKey: 'item_3157_active',
+      skillName: '中娅沙漏·时间停止',
+      ownerKey: 'item_3157',
+      expectedEffects: ['stasis_damage_immunity'],
+      expectedParameters: ['active_cooldown_ms', 'stasis_duration_ms'],
+      expectedParameterValues: { active_cooldown_ms: 120000, stasis_duration_ms: 2500 },
+      process: immediateProcess({
+        name: '使用时间停止伤害免疫分支',
+        description: '主动使用时立即施加现有二点五秒全类型伤害免疫并开始一百二十秒冷却；本过程不表示不可选取或行动限制。',
+        cooldownParameterKey: 'active_cooldown_ms',
+        effectKey: 'stasis_damage_immunity',
+        effectName: '应用凝滞伤害免疫'
+      }),
+      rule: startProcessRule('item_3157_active', '主动使用启动时间停止伤害免疫分支', '接收 item_3157_active 主动使用并启动现有伤害免疫分支过程；过程承担一百二十秒冷却和二点五秒全类型伤害免疫，不可选取与行动限制继续暂缓。管理保存不证明宿主已生产该事件或战斗运行已执行冷却。'),
+      updatedSkill: { name: '中娅沙漏·时间停止', description: zhonyasDescription, maxLevel: 1, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: [] },
+      expectedCurrentDescription: '保存16.17客户端确证的主动冷却和凝滞中的无敌组成：持续2.5秒、冷却120秒、来源承受全类型伤害免疫。不可选取、行动限制和主动施放接线分别待补；装备已有105法术强度和50护甲，不在技能中重复施加。',
+      conclusion: '资料待核',
+      completedBranch: '主动使用启动伤害免疫过程，过程承担120秒冷却并施加全类型伤害免疫2.5秒',
+      remaining: '不可选取、无法移动、禁止施法及宿主与运行时执行仍待系统接线。'
+    }
+  ],
+  writeBoundary: '唯一写入窗口仅创建两个activate过程、三条冻结规则并更新两项说明；不改参数、公式、效果、关系、图片或其他技能。',
+  runtimeBoundary: '本批只证明管理配置可表达且实库已保存；宿主事件生产、过程冷却执行、Wasm组装和真实战斗均未验证。'
+};

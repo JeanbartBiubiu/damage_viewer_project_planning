@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-09-13T14:55:28.000Z",
+  "status": "NO_BUSINESS_CHANGE",
+  "failedRequest": {
+    "method": "POST",
+    "path": "/skills/item_3107_active/trigger-rules",
+    "responseStatus": 400,
+    "stableKey": "actual_hit"
+  },
+  "readback": [
+    {
+      "path": "/skills/item_3107_active/trigger-rules",
+      "status": 200,
+      "count": 0
+    },
+    {
+      "path": "/skills/item_3107_active/trigger-rules/actual_hit",
+      "status": 404
+    },
+    {
+      "path": "/skills/item_3139_active/processes",
+      "status": 200,
+      "count": 0
+    },
+    {
+      "path": "/skills/item_3139_active/trigger-rules",
+      "status": 200,
+      "count": 0
+    },
+    {
+      "path": "/skills/item_3157_active/processes",
+      "status": 200,
+      "count": 0
+    },
+    {
+      "path": "/skills/item_3157_active/trigger-rules",
+      "status": 200,
+      "count": 0
+    }
+  ],
+  "businessWritesLanded": 0,
+  "retryPerformed": false,
+  "diagnosis": "救赎的enemy_true_damage可达actual_target_max_health计算时传入参数，但冻结规则没有合法供值绑定；后端拒绝缺失绑定。当前技能命中事件不提供目标最大生命事件值。",
+  "disposition": "保留失败流水，不重放原请求；修订批次改用已经在同库验证的TARGET hp TOTAL公式节点，并删除失去引用的运行时参数。"
+}
