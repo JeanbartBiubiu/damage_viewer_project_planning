@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-13T14:21:39.000Z",
+  "generatedAt": "2026-09-16T16:10:18.694Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -8989,6 +8989,127 @@
         "commit": "3e44cefa06d76377876054961e874fb66cdfcb7f"
       },
       "runtimeValidation": "未执行"
+    },
+    "threeEquipmentActiveBranchBackfill": {
+      "at": "2026-09-16T16:10:18.694Z",
+      "status": "救赎实际英雄命中、水银弯刀移速与中娅沙漏伤害免疫三个主动装备分支完成修订二冻结、受保护写入、独立全量回读和真实页面验收",
+      "sourceVersion": "16.17/16.17.1",
+      "skills": [
+        "item_3107_active",
+        "item_3139_active",
+        "item_3157_active"
+      ],
+      "created": {
+        "triggerRules": 3,
+        "processes": 2
+      },
+      "updated": {
+        "formulas": 1,
+        "skillDescriptions": 2
+      },
+      "deleted": {
+        "unreferencedRuntimeParameters": 1
+      },
+      "stoppedAttempts": [
+        {
+          "version": "原始",
+          "landedWrites": 0,
+          "reason": "救赎公式要求技能命中事件没有提供的目标最大生命运行值，后端在首个规则请求拒绝。"
+        },
+        {
+          "version": "修订一",
+          "landedWrites": 0,
+          "reason": "公式更新体误带不可变稳定标识，后端在首个公式请求拒绝。"
+        }
+      ],
+      "correction": "救赎伤害公式改为直接读取目标生命值总值，修订二只修正公式更新体；两次停止均完成定点回查且没有重放业务请求。",
+      "preparation": {
+        "GETs": 2171,
+        "businessWrites": 0,
+        "priorRuleCount": 168,
+        "priorProcessCount": 71,
+        "skillCount": 1062,
+        "sourceInitializedCount": 29,
+        "batchSha256": "a40d08a81a01d2eafe6037a4c8f735b81912afb5087b1210d461a3ca12770ab4"
+      },
+      "review": {
+        "GETs": 2171,
+        "businessWrites": 0,
+        "status": "APPROVED"
+      },
+      "writer": {
+        "businessWrites": 9,
+        "POST": 5,
+        "PUT": 3,
+        "DELETE": 1,
+        "immediateReadbacks": 9,
+        "replayedWrites": 0,
+        "recoveredSummaryByGET": true,
+        "passed": true
+      },
+      "independentReadback": {
+        "GETs": 2175,
+        "businessWrites": 0,
+        "skillCount": 1062,
+        "finalRuleCount": 171,
+        "finalProcessCount": 73,
+        "sourceInitializedCount": 29,
+        "targetsMatched": 3,
+        "passed": true
+      },
+      "browser": {
+        "GETs": 198,
+        "postBrowserGETs": 2125,
+        "businessWrites": 0,
+        "targetCount": 3,
+        "listImagesVisible": 3,
+        "imageNaturalSize": "64x64",
+        "formulaDetailsVisible": 1,
+        "processDetailsVisible": 2,
+        "triggerDetailsVisible": 3,
+        "screenshots": 9,
+        "consoleErrors": 0,
+        "consoleWarnings": 0,
+        "pageErrors": 0,
+        "failedRequests": 0,
+        "errorResponses": 0,
+        "liveFrontend": "127.0.0.1:5173",
+        "liveBackend": "127.0.0.1:8080",
+        "passed": true
+      },
+      "conclusions": [
+        {
+          "skillKey": "item_3107_active",
+          "conclusion": "资料待核",
+          "completedBranch": "宿主确认的实际英雄命中执行10%目标最大生命真实伤害",
+          "remaining": "区域命中生产、2.5秒延迟、90秒主动冷却、死亡期间使用、友方治疗及8秒内重复衰减仍待来源或系统接线。"
+        },
+        {
+          "skillKey": "item_3139_active",
+          "conclusion": "资料待核",
+          "completedBranch": "主动使用启动移速过程，过程承担90秒冷却并施加50%自身移速2秒",
+          "remaining": "移除控制类减益、浮空例外、幽灵状态及宿主与运行时执行仍待系统接线。"
+        },
+        {
+          "skillKey": "item_3157_active",
+          "conclusion": "资料待核",
+          "completedBranch": "主动使用启动伤害免疫过程，过程承担120秒冷却并施加全类型伤害免疫2.5秒",
+          "remaining": "不可选取、无法移动、禁止施法及宿主与运行时执行仍待系统接线。"
+        }
+      ],
+      "systemConclusion": "三个分支继续复用现有公式、参数、效果、过程、规则与生命周期。救赎缺口通过正确公式取值解决，不扩张命中事件或新增表；解控、不可选取和行动限制仍是通用运行语义开放项。",
+      "experienceIssues": [
+        "准备、独立评审、独立回读和浏览器后回读重复全量遍历，后续小批应共享一次写前基线并只保留一次独立全量回读。",
+        "执行器业务写入全部成功后，汇总局部变量遮蔽同名函数；恢复器只做GET重建证据，没有重放业务请求。",
+        "页面以最终值和冷却时长取值展示模型字段，验收应按当前中文界面核对，不复制旧文案。"
+      ],
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项装备主动分支过程与触发补录/修订二/10-证据清单.json",
+        "sha256": "af1020c181c55a9a0d7e63dc83b221b904750df91238d1444f34bcd05bd32ab7",
+        "commit": "fb92b0d2bad613c32b9b97bcc1430137a9cb8172"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行",
@@ -9123,6 +9244,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/四项复杂施法过程入口暂缓核对/04-证据清单.json",
         "sha256": "27e0d299f0cf665fc05c4fa92196ef02464f131eeeabff6da55d4a43836155ba",
         "commit": "3e44cefa06d76377876054961e874fb66cdfcb7f"
+      },
+      "threeEquipmentActiveBranchBackfill": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/三项装备主动分支过程与触发补录/修订二/10-证据清单.json",
+        "sha256": "af1020c181c55a9a0d7e63dc83b221b904750df91238d1444f34bcd05bd32ab7",
+        "commit": "fb92b0d2bad613c32b9b97bcc1430137a9cb8172"
       }
     },
     "coverage": {
@@ -35774,13 +35901,14 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+        "reason": "实际英雄命中执行10%目标最大生命真实伤害分支已保存并验收；区域命中、延迟、主动冷却、死亡期间使用、友方治疗及重复衰减仍待核。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "threeEquipmentActiveBranchBackfill"
         ]
       },
       {
@@ -36148,13 +36276,14 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+        "reason": "主动使用启动90秒冷却和2秒自身移速分支已保存并验收；解控、浮空例外、幽灵状态及战斗运行仍待核。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "threeEquipmentActiveBranchBackfill"
         ]
       },
       {
@@ -36352,13 +36481,14 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+        "reason": "主动使用启动120秒冷却和2.5秒伤害免疫分支已保存并验收；不可选取、行动限制及战斗运行仍待核。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "threeEquipmentActiveBranchBackfill"
         ]
       },
       {
