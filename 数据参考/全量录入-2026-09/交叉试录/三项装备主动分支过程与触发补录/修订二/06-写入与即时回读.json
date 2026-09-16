@@ -1,0 +1,450 @@
+{
+  "schemaVersion": 3,
+  "recoveredAt": "2026-09-13T15:13:22.209Z",
+  "status": "PASS",
+  "batchSha256": "a40d08a81a01d2eafe6037a4c8f735b81912afb5087b1210d461a3ca12770ab4",
+  "recoveredFromPostWriteSummaryError": true,
+  "summaryError": "全部业务请求和即时回读完成后，统计局部变量遮蔽同名函数；没有重放任何业务请求。",
+  "executedRunnerSha256": "4e7d27e1349ab16b483c58a6d5222f6e2bec551b218f11711e1788e9e2b05ddb",
+  "currentRunnerSha256": "4e7d27e1349ab16b483c58a6d5222f6e2bec551b218f11711e1788e9e2b05ddb",
+  "configSha256": "d2f6d09f88166d747485d4578bd076c2cdf445f77deaa5eedd304390b004762c",
+  "authorizationValueRecorded": false,
+  "operations": [
+    {
+      "label": "item_3107_active/公式纠错",
+      "method": "PUT",
+      "path": "/skills/item_3107_active/formulas/enemy_true_damage",
+      "responseStatus": 200,
+      "responseError": null,
+      "readbackStatus": 200,
+      "matched": true
+    },
+    {
+      "label": "item_3107_active/删除失去引用参数",
+      "method": "DELETE",
+      "path": "/skills/item_3107_active/parameters/actual_target_max_health",
+      "responseStatus": 204,
+      "responseError": null,
+      "readbackStatus": 404,
+      "matched": true
+    },
+    {
+      "label": "item_3107_active/规则",
+      "method": "POST",
+      "path": "/skills/item_3107_active/trigger-rules",
+      "responseStatus": 201,
+      "responseError": null,
+      "readbackStatus": 200,
+      "matched": true
+    },
+    {
+      "label": "item_3139_active/过程",
+      "method": "POST",
+      "path": "/skills/item_3139_active/processes",
+      "responseStatus": 201,
+      "responseError": null,
+      "readbackStatus": 200,
+      "matched": true
+    },
+    {
+      "label": "item_3139_active/规则",
+      "method": "POST",
+      "path": "/skills/item_3139_active/trigger-rules",
+      "responseStatus": 201,
+      "responseError": null,
+      "readbackStatus": 200,
+      "matched": true
+    },
+    {
+      "label": "item_3139_active/说明",
+      "method": "PUT",
+      "path": "/skills/item_3139_active",
+      "responseStatus": 200,
+      "responseError": null,
+      "readbackStatus": 200,
+      "matched": true
+    },
+    {
+      "label": "item_3157_active/过程",
+      "method": "POST",
+      "path": "/skills/item_3157_active/processes",
+      "responseStatus": 201,
+      "responseError": null,
+      "readbackStatus": 200,
+      "matched": true
+    },
+    {
+      "label": "item_3157_active/规则",
+      "method": "POST",
+      "path": "/skills/item_3157_active/trigger-rules",
+      "responseStatus": 201,
+      "responseError": null,
+      "readbackStatus": 200,
+      "matched": true
+    },
+    {
+      "label": "item_3157_active/说明",
+      "method": "PUT",
+      "path": "/skills/item_3157_active",
+      "responseStatus": 200,
+      "responseError": null,
+      "readbackStatus": 200,
+      "matched": true
+    }
+  ],
+  "immediateTargets": [
+    {
+      "skillKey": "item_3107_active",
+      "current": {
+        "skill": {
+          "createdAt": "2026-09-09T09:30:39.522128Z",
+          "description": "保留干涉在2.5秒后对当前敌方英雄造成其最大生命值10%真实伤害的分支，同时保留友方治疗150/350端点和当前合资格友方英雄基础治疗运行时输入。友方治疗目标归属（含施法者自身）待补证；不创建治疗效果或中转公式。 当前绑定扩展说明：死亡期间也可主动使用；对相同目标的后续干涉效果降低50%。本次保存比例，重复时间窗和实际触发待核。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "救赎·干涉敌方伤害",
+          "skillCategoryKeys": [],
+          "skillKey": "item_3107_active",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-09T09:44:04.609627Z"
+        },
+        "formula": {
+          "createdAt": "2026-09-09T09:30:49.301456Z",
+          "description": "0.1乘目标生命值属性的总值，得到当前敌方英雄最大生命值真实伤害；不再依赖技能命中事件无法提供的目标生命运行时参数。区域命中、2.5秒延迟、重复衰减和主动冷却仍未接线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "enemy_true_damage_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "TARGET",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "enemy_true_damage",
+          "gameId": "lol",
+          "name": "干涉敌方真实伤害值",
+          "skillKey": "item_3107_active",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-13T15:11:36.162353Z"
+        },
+        "deletedParameterStatus": 404,
+        "rule": {
+          "actions": [
+            {
+              "actionKey": "execute_enemy_true_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "enemy_true_damage"
+              },
+              "name": "执行干涉敌方真实伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "命中对象为英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "仅接收宿主确认的 item_3107_active 实际英雄命中，在当前目标上执行现有 enemy_true_damage。规则不生成区域命中，不承担二点五秒延迟、九十秒冷却、死亡期间使用、友方治疗或相同目标重复衰减；管理保存不证明宿主已经生产该事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "item_3107_active",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "干涉实际命中英雄",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      "currentSha256": "580941baeb6ae136f161bace275533e63a801322f1a3bb2a9e78fa8280b97e36"
+    },
+    {
+      "skillKey": "item_3139_active",
+      "current": {
+        "skill": {
+          "createdAt": "2026-09-08T15:19:52.192179Z",
+          "description": "当前绑定主动移除全部控制类减益但浮空除外，并给自身50%移动速度持续2秒，冷却90秒。移速分支现由主动使用规则启动activate过程并承担90秒冷却；通用解控、浮空例外和幽灵状态仍未表达，当前录入不表示完整水银。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "水银弯刀·水银",
+          "skillCategoryKeys": [],
+          "skillKey": "item_3139_active",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-13T15:11:45.439736Z"
+        },
+        "process": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "active_cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-13T15:11:42.104022Z",
+          "description": "主动使用时立即施加现有自身移速效果并开始九十秒冷却；本过程不表示解控、浮空例外或幽灵状态。",
+          "effectBindings": [
+            {
+              "bindingKey": "quicksilver_move_speed",
+              "effectKey": "quicksilver_move_speed",
+              "moment": {
+                "momentType": "STEP_EXECUTION",
+                "stepKey": "apply"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用水银移速分支",
+          "processKey": "activate",
+          "skillKey": "item_3139_active",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": null,
+              "detail": {},
+              "name": "应用水银自身移动速度",
+              "sortOrder": 10,
+              "stepKey": "apply",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-13T15:11:42.104022Z"
+        },
+        "rule": {
+          "actions": [
+            {
+              "actionKey": "start_activate",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "activate"
+              },
+              "name": "启动主动分支过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 item_3139_active 主动使用并启动现有移速分支过程；过程承担九十秒冷却和两秒自身移速，解控、浮空例外与幽灵状态继续暂缓。管理保存不证明宿主已生产该事件或战斗运行已执行冷却。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "item_3139_active",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动水银移速分支",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      },
+      "currentSha256": "26b12f8c49cf0212ebb981cc260545b68608e2e26025e149e061ec7bd197f53e"
+    },
+    {
+      "skillKey": "item_3157_active",
+      "current": {
+        "skill": {
+          "createdAt": "2026-09-07T17:16:00.783169Z",
+          "description": "保存16.17客户端确证的主动冷却和凝滞中的无敌组成：持续2.5秒、冷却120秒、来源承受全类型伤害免疫。伤害免疫分支现由主动使用规则启动activate过程，过程承担120秒冷却并立即应用2.5秒免疫；不可选取和行动限制仍待补，装备直接属性不在技能中重复施加。当前录入不表示完整凝滞。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "中娅沙漏·时间停止",
+          "skillCategoryKeys": [],
+          "skillKey": "item_3157_active",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-13T15:11:50.111321Z"
+        },
+        "process": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "active_cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-13T15:11:46.882481Z",
+          "description": "主动使用时立即施加现有二点五秒全类型伤害免疫并开始一百二十秒冷却；本过程不表示不可选取或行动限制。",
+          "effectBindings": [
+            {
+              "bindingKey": "stasis_damage_immunity",
+              "effectKey": "stasis_damage_immunity",
+              "moment": {
+                "momentType": "STEP_EXECUTION",
+                "stepKey": "apply"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用时间停止伤害免疫分支",
+          "processKey": "activate",
+          "skillKey": "item_3157_active",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": null,
+              "detail": {},
+              "name": "应用凝滞伤害免疫",
+              "sortOrder": 10,
+              "stepKey": "apply",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-13T15:11:46.882481Z"
+        },
+        "rule": {
+          "actions": [
+            {
+              "actionKey": "start_activate",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "activate"
+              },
+              "name": "启动主动分支过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收 item_3157_active 主动使用并启动现有伤害免疫分支过程；过程承担一百二十秒冷却和二点五秒全类型伤害免疫，不可选取与行动限制继续暂缓。管理保存不证明宿主已生产该事件或战斗运行已执行冷却。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "item_3157_active",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动时间停止伤害免疫分支",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      },
+      "currentSha256": "d702daba5a5b3702581c4f3127c6920f0d969a104b49c8b96016411962bfaedb"
+    }
+  ],
+  "requestAudit": {
+    "originalBusinessMethodCounts": {
+      "PUT": 3,
+      "DELETE": 1,
+      "POST": 5
+    },
+    "originalImmediateReadbacks": 9,
+    "recovery": {
+      "total": 11,
+      "methodCounts": {
+        "GET": 11
+      },
+      "statusCounts": {
+        "200": 10,
+        "404": 1
+      },
+      "entries": [
+        {
+          "method": "GET",
+          "path": "/skills",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3107_active",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3107_active/formulas/enemy_true_damage",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3107_active/parameters/actual_target_max_health",
+          "status": 404
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3107_active/trigger-rules/actual_hit",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3139_active",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3139_active/processes/activate",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3139_active/trigger-rules/on_used",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3157_active",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3157_active/processes/activate",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/item_3157_active/trigger-rules/on_used",
+          "status": 200
+        }
+      ]
+    }
+  },
+  "businessWrites": 9,
+  "businessRequestsReplayed": 0,
+  "boundary": "唯一写入窗口仅更新救赎一条公式、删除其失去引用的一项运行时参数、创建两个activate过程、三条冻结规则并更新两项说明；不改其他参数、效果、关系、图片或技能。"
+}
