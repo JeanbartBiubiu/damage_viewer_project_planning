@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import type { SkillEffect, SkillEffectResult } from '../../../../types/skillEffect';
 import type { SkillFormula } from '../../../../types/skillFormula';
@@ -75,12 +76,12 @@ function damageResult(
     description: null,
     sortOrder: 10,
     lifecycleBehavior,
-    valueRule: { formulaKey, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+    valueRule: { value: formulaValue(formulaKey), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
     detail: {
       damageTypeKey: 'physical',
       deliveryKind: 'SKILL',
       originKind: 'DIRECT',
-      critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+      critical: { mode: 'DISALLOWED', multiplierValue: null },
       vampRules: []
     }
   };
@@ -184,14 +185,14 @@ const MARK_EFFECT = effect('focus_mark', [
     periodicExecutionMode: null
   })
 ], {
-  durationFormulaKey: 'mark_duration_ms',
-  maxStacksFormulaKey: 'five',
-  applicationStacksFormulaKey: 'one',
+  durationValue: formulaValue("mark_duration_ms"),
+  maxStacksValue: formulaValue("five"),
+  applicationStacksValue: formulaValue("one"),
   instanceScope: 'SOURCE_TARGET',
   reapplicationStackMode: 'INCREASE',
   reapplicationDurationMode: 'REFRESH_ALL',
   expiryMode: 'ALL_AT_ONCE',
-  periodicIntervalFormulaKey: null,
+  periodicIntervalValue: null,
   firstPeriodicExecution: null
 });
 
@@ -203,7 +204,7 @@ const COOLDOWN_STATE: SkillInternalState = {
   scope: 'SKILL',
   description: null,
   sortOrder: 10,
-  detail: { durationFormulaKey: 'internal_cd_ms' }
+  detail: { durationValue: formulaValue("internal_cd_ms") }
 };
 
 const CHARGE_PROCESS: SkillProcess = {
@@ -214,7 +215,7 @@ const CHARGE_PROCESS: SkillProcess = {
   description: null,
   sortOrder: 10,
   cooldown: {
-    durationFormulaKey: 'process_cooldown_ms',
+    durationValue: formulaValue("process_cooldown_ms"),
     startMoment: { momentType: 'PROCESS_START', stepKey: null }
   },
   steps: [
@@ -225,8 +226,8 @@ const CHARGE_PROCESS: SkillProcess = {
       sortOrder: 10,
       stepType: 'CHARGE',
       detail: {
-        minimumChargeFormulaKey: 'min_charge_ms',
-        maximumChargeFormulaKey: 'max_charge_ms',
+        minimumChargeValue: formulaValue("min_charge_ms"),
+        maximumChargeValue: formulaValue("max_charge_ms"),
         releaseAtMaximum: true
       }
     }
@@ -245,7 +246,7 @@ const CHARGE_PROCESS: SkillProcess = {
       name: '开始冷却',
       stateKey: 'internal_cd',
       operation: 'START',
-      valueFormulaKey: null,
+      value: null,
       optionKey: null,
       moment: { momentType: 'PROCESS_START', stepKey: null },
       sortOrder: 10
@@ -279,26 +280,26 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
     if (specialDamage.resultType === 'DAMAGE') {
       specialDamage.detail.critical = {
         mode: 'SOURCE_CRIT_CHANCE',
-        multiplierFormulaKey: 'critical_multiplier'
+        multiplierValue: formulaValue("critical_multiplier")
       };
       specialDamage.detail.vampRules = [{
         vampType: 'OMNIVAMP',
         basisOutputKind: 'ACTUAL_HP_LOSS',
-        efficiencyFormulaKey: 'omnivamp_efficiency'
+        efficiencyValue: formulaValue("omnivamp_efficiency")
       }];
     }
     const duplicateResults = effect('scaled_hit', [
       damageResult('main', 'follow_up'),
       specialDamage
     ], {
-      durationFormulaKey: 'mark_duration_ms',
-      maxStacksFormulaKey: 'five',
-      applicationStacksFormulaKey: 'five',
+      durationValue: formulaValue("mark_duration_ms"),
+      maxStacksValue: formulaValue("five"),
+      applicationStacksValue: formulaValue("five"),
       instanceScope: 'SKILL',
       reapplicationStackMode: 'KEEP',
       reapplicationDurationMode: 'KEEP_REMAINING',
       expiryMode: 'ALL_AT_ONCE',
-      periodicIntervalFormulaKey: 'tick_ms',
+      periodicIntervalValue: formulaValue("tick_ms"),
       firstPeriodicExecution: 'AFTER_INTERVAL'
     });
     expect(collectExecuteEffectFormulaKeys(duplicateResults)).toEqual([
@@ -335,7 +336,7 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
         sortOrder: 10,
         spellShieldBlockScope: null,
         lifecycleBehavior: null,
-        valueRule: { formulaKey: 'execute_threshold', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        valueRule: { value: formulaValue("execute_threshold"), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
         detail: { attributeKey: 'hp' }
       },
       {
@@ -347,7 +348,7 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
         sortOrder: 20,
         spellShieldBlockScope: null,
         lifecycleBehavior: null,
-        valueRule: { formulaKey: 'hit_link_count', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        valueRule: { value: formulaValue("hit_link_count"), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
         detail: {}
       },
       {
@@ -359,7 +360,7 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
         sortOrder: 30,
         spellShieldBlockScope: null,
         lifecycleBehavior: null,
-        valueRule: { formulaKey: 'attack_link_count', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+        valueRule: { value: formulaValue("attack_link_count"), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
         detail: {}
       }
     ]);
@@ -396,14 +397,14 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
       ['current_hp', ATTRIBUTE_ONLY]
     ]);
     const parameters = [RUNTIME_HIT, RUNTIME_STACKS, FIXED_RATIO];
-    expect(reachableRuntimeInputParameters(['follow_up', 'follow_up'], formulas, parameters)).toEqual([
+    expect(reachableRuntimeInputParameters([formulaValue('follow_up'), formulaValue('follow_up')], formulas, parameters)).toEqual([
       RUNTIME_HIT
     ]);
-    expect(reachableRuntimeInputParameters(['nested_scale', 'current_hp'], formulas, parameters)).toEqual([
+    expect(reachableRuntimeInputParameters([formulaValue('nested_scale'), formulaValue('current_hp')], formulas, parameters)).toEqual([
       RUNTIME_HIT,
       RUNTIME_STACKS
     ]);
-    expect(reachableRuntimeInputParameters(['missing'], formulas, parameters)).toEqual([]);
+    expect(reachableRuntimeInputParameters([formulaValue('missing')], formulas, parameters)).toEqual([]);
   });
 });
 
@@ -736,18 +737,19 @@ describe('fixed result modifier validation and numeric-result eligibility', () =
         detail: {
           subject: 'SOURCE',
           attributeKey: 'hp',
-          thresholdFormulaKey: 'hp_threshold',
+          thresholdValue: formulaValue("hp_threshold"),
           direction: 'DOWNWARD'
         }
       },
       perTargetCooldownEnabled: true,
-      perTargetCooldownDurationFormulaKey: 'per_target_cooldown_ms',
+      perTargetCooldownDurationValue: formulaValue("per_target_cooldown_ms"),
       maxTriggersPerProcessEnabled: true,
-      maxTriggersLimitFormulaKey: 'max_triggers',
+      maxTriggersLimitValue: formulaValue("max_triggers"),
       conditionGroups: [
         {
           groupKey: 'group_1',
           name: '条件',
+          draftId: 'binding-draft',
           sortOrder: '10',
           conditions: [
             {
@@ -759,7 +761,7 @@ describe('fixed result modifier validation and numeric-result eligibility', () =
                 attributeKey: 'hp',
                 attributeValueKind: 'CURRENT_RATIO',
                 comparator: 'LTE',
-                comparisonFormulaKey: 'low_health_ratio_formula'
+                comparisonValue: formulaValue("low_health_ratio_formula")
               }
             }
           ]

@@ -1,3 +1,7 @@
+import type { SkillParameter } from '../../../../types/skillParameter';
+import { numericIssuePath, numericValueError } from '../numericValueForm';
+import { numericFormulaKey } from '../../../../types/numericValue';
+import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
@@ -57,13 +61,13 @@ export type SkillInternalStateDraft = {
   scope: SkillInternalStateScope;
   description: string;
   sortOrder: string;
-  initialValueFormulaKey: string;
-  maxValueFormulaKey: string;
-  recoveryIntervalFormulaKey: string;
+  initialValue: NumericValue | null;
+  maxValue: NumericValue | null;
+  recoveryIntervalValue: NumericValue | null;
   recoveryMode: SkillInternalStateAmmoRecoveryMode | '';
   options: SkillInternalStateModeOptionDraft[];
   initialEnabled: boolean;
-  durationFormulaKey: string;
+  durationValue: NumericValue | null;
   originalStateType: SkillInternalStateType | null;
   originalScope: SkillInternalStateScope | null;
 };
@@ -75,13 +79,13 @@ export type SkillInternalStateDraftField =
   | 'scope'
   | 'description'
   | 'sortOrder'
-  | 'initialValueFormulaKey'
-  | 'maxValueFormulaKey'
-  | 'recoveryIntervalFormulaKey'
+  | 'initialValue'
+  | 'maxValue'
+  | 'recoveryIntervalValue'
   | 'recoveryMode'
   | 'options'
   | 'initialEnabled'
-  | 'durationFormulaKey'
+  | 'durationValue'
   | 'detail';
 
 export type SkillInternalStateDraftErrors = {
@@ -122,6 +126,8 @@ export type InternalStateFormCatalog = {
 };
 
 export type SkillInternalStateFormValidationOptions = {
+  parameters?: readonly SkillParameter[];
+  parametersLoadState?: 'ready' | 'failed';
   includeStateKey: boolean;
   catalog?: InternalStateFormCatalog | null;
   catalogLoadState?: InternalStateCatalogLoadState | null;
@@ -145,23 +151,23 @@ const STATE_DRAFT_FIELDS = new Set<SkillInternalStateDraftField>([
   'scope',
   'description',
   'sortOrder',
-  'initialValueFormulaKey',
-  'maxValueFormulaKey',
-  'recoveryIntervalFormulaKey',
+  'initialValue',
+  'maxValue',
+  'recoveryIntervalValue',
   'recoveryMode',
   'options',
   'initialEnabled',
-  'durationFormulaKey',
+  'durationValue',
   'detail'
 ]);
 
 const DETAIL_FIELD_BY_PATH: { [path: string]: SkillInternalStateDraftField } = {
-  'detail.initialValueFormulaKey': 'initialValueFormulaKey',
-  'detail.maxValueFormulaKey': 'maxValueFormulaKey',
-  'detail.recoveryIntervalFormulaKey': 'recoveryIntervalFormulaKey',
+  'detail.initialValue': 'initialValue',
+  'detail.maxValue': 'maxValue',
+  'detail.recoveryIntervalValue': 'recoveryIntervalValue',
   'detail.recoveryMode': 'recoveryMode',
   'detail.initialEnabled': 'initialEnabled',
-  'detail.durationFormulaKey': 'durationFormulaKey',
+  'detail.durationValue': 'durationValue',
   'detail.options': 'options'
 };
 
@@ -194,13 +200,13 @@ export function createEmptyInternalStateDraft(
     scope: 'SKILL',
     description: '',
     sortOrder: '0',
-    initialValueFormulaKey: '',
-    maxValueFormulaKey: '',
-    recoveryIntervalFormulaKey: '',
+    initialValue: null,
+    maxValue: null,
+    recoveryIntervalValue: null,
     recoveryMode: stateType === 'AMMO' ? 'ONE_BY_ONE' : '',
     options: stateType === 'MODE' ? [createEmptyModeOptionDraft(), createEmptyModeOptionDraft()] : [],
     initialEnabled: false,
-    durationFormulaKey: '',
+    durationValue: null,
     originalStateType: null,
     originalScope: null
   });
@@ -218,13 +224,13 @@ export function skillInternalStateToDraft(state: SkillInternalState): SkillInter
   draft.originalScope = state.scope;
   switch (state.stateType) {
     case 'COUNTER':
-      draft.initialValueFormulaKey = state.detail.initialValueFormulaKey;
-      draft.maxValueFormulaKey = state.detail.maxValueFormulaKey;
+      draft.initialValue = state.detail.initialValue;
+      draft.maxValue = state.detail.maxValue;
       break;
     case 'AMMO':
-      draft.initialValueFormulaKey = state.detail.initialValueFormulaKey;
-      draft.maxValueFormulaKey = state.detail.maxValueFormulaKey;
-      draft.recoveryIntervalFormulaKey = state.detail.recoveryIntervalFormulaKey;
+      draft.initialValue = state.detail.initialValue;
+      draft.maxValue = state.detail.maxValue;
+      draft.recoveryIntervalValue = state.detail.recoveryIntervalValue;
       draft.recoveryMode = state.detail.recoveryMode;
       break;
     case 'MODE':
@@ -234,7 +240,7 @@ export function skillInternalStateToDraft(state: SkillInternalState): SkillInter
       draft.initialEnabled = state.detail.initialEnabled;
       break;
     case 'INTERNAL_COOLDOWN':
-      draft.durationFormulaKey = state.detail.durationFormulaKey;
+      draft.durationValue = state.detail.durationValue;
       break;
     default: {
       const unexpected: never = state;
@@ -270,13 +276,13 @@ export function applyStateTypeChange(
     ...draft,
     stateType: nextType,
     scope: allowsTargetScope(nextType) ? draft.scope : 'SKILL',
-    initialValueFormulaKey: '',
-    maxValueFormulaKey: '',
-    recoveryIntervalFormulaKey: '',
+    initialValue: null,
+    maxValue: null,
+    recoveryIntervalValue: null,
     recoveryMode: nextType === 'AMMO' ? 'ONE_BY_ONE' : '',
     options: nextType === 'MODE' ? [createEmptyModeOptionDraft(), createEmptyModeOptionDraft()] : [],
     initialEnabled: false,
-    durationFormulaKey: ''
+    durationValue: null
   });
 }
 
@@ -289,13 +295,13 @@ export function clearHiddenInternalStateFields(draft: SkillInternalStateDraft): 
   return {
     ...draft,
     scope: allowsTargetScope(draft.stateType) ? draft.scope : 'SKILL',
-    initialValueFormulaKey: isCounter || isAmmo ? draft.initialValueFormulaKey : '',
-    maxValueFormulaKey: isCounter || isAmmo ? draft.maxValueFormulaKey : '',
-    recoveryIntervalFormulaKey: isAmmo ? draft.recoveryIntervalFormulaKey : '',
+    initialValue: isCounter || isAmmo ? draft.initialValue : null,
+    maxValue: isCounter || isAmmo ? draft.maxValue : null,
+    recoveryIntervalValue: isAmmo ? draft.recoveryIntervalValue : null,
     recoveryMode: isAmmo ? draft.recoveryMode || 'ONE_BY_ONE' : '',
     options: isMode ? draft.options : [],
     initialEnabled: isFlag ? draft.initialEnabled : false,
-    durationFormulaKey: isCooldown ? draft.durationFormulaKey : ''
+    durationValue: isCooldown ? draft.durationValue : null
   };
 }
 
@@ -318,6 +324,7 @@ export function listFormulaOptions(
   catalog: InternalStateFormCatalog,
   currentKey = ''
 ): CatalogRefOption[] {
+  currentKey = typeof currentKey === 'string' ? currentKey : numericFormulaKey(currentKey);
   const options: CatalogRefOption[] = catalog.formulas.map((item) => ({
     key: item.formulaKey,
     source: 'catalog'
@@ -416,7 +423,7 @@ export function mapSkillInternalStateFieldIssues(source: unknown): MappedSkillIn
 
   for (const rawIssue of details.fieldIssues) {
     if (!isRecord(rawIssue)) continue;
-    const field = typeof rawIssue.field === 'string' ? rawIssue.field : '';
+    const field = typeof rawIssue.field === 'string' ? numericIssuePath(rawIssue.field) : '';
     const message = typeof rawIssue.message === 'string' && rawIssue.message.trim()
       ? rawIssue.message.trim()
       : '字段值不合法。';
@@ -456,21 +463,21 @@ function validateTypeSpecificFields(
 ): void {
   switch (draft.stateType) {
     case 'COUNTER':
-      requireNonEmpty(draft.initialValueFormulaKey, fieldErrors, 'initialValueFormulaKey', '请选择初始值公式。');
-      requireNonEmpty(draft.maxValueFormulaKey, fieldErrors, 'maxValueFormulaKey', '请选择上限公式。');
-      validateFormulaRef(options, draft.initialValueFormulaKey, fieldErrors, 'initialValueFormulaKey');
-      validateFormulaRef(options, draft.maxValueFormulaKey, fieldErrors, 'maxValueFormulaKey');
+      requireNonEmpty(draft.initialValue, fieldErrors, 'initialValue', '请选择初始值取值。');
+      requireNonEmpty(draft.maxValue, fieldErrors, 'maxValue', '请选择上限取值。');
+      validateFormulaRef(options, draft.initialValue, fieldErrors, 'initialValue');
+      validateFormulaRef(options, draft.maxValue, fieldErrors, 'maxValue');
       break;
     case 'AMMO':
-      requireNonEmpty(draft.initialValueFormulaKey, fieldErrors, 'initialValueFormulaKey', '请选择初始值公式。');
-      requireNonEmpty(draft.maxValueFormulaKey, fieldErrors, 'maxValueFormulaKey', '请选择上限公式。');
-      requireNonEmpty(draft.recoveryIntervalFormulaKey, fieldErrors, 'recoveryIntervalFormulaKey', '请选择恢复间隔公式。');
+      requireNonEmpty(draft.initialValue, fieldErrors, 'initialValue', '请选择初始值取值。');
+      requireNonEmpty(draft.maxValue, fieldErrors, 'maxValue', '请选择上限取值。');
+      requireNonEmpty(draft.recoveryIntervalValue, fieldErrors, 'recoveryIntervalValue', '请选择恢复间隔取值。');
       if (draft.recoveryMode !== 'ONE_BY_ONE' && draft.recoveryMode !== 'ALL_AT_ONCE') {
         fieldErrors.recoveryMode = '请选择恢复方式。';
       }
-      validateFormulaRef(options, draft.initialValueFormulaKey, fieldErrors, 'initialValueFormulaKey');
-      validateFormulaRef(options, draft.maxValueFormulaKey, fieldErrors, 'maxValueFormulaKey');
-      validateFormulaRef(options, draft.recoveryIntervalFormulaKey, fieldErrors, 'recoveryIntervalFormulaKey');
+      validateFormulaRef(options, draft.initialValue, fieldErrors, 'initialValue');
+      validateFormulaRef(options, draft.maxValue, fieldErrors, 'maxValue', true);
+      validateFormulaRef(options, draft.recoveryIntervalValue, fieldErrors, 'recoveryIntervalValue');
       break;
     case 'MODE':
       validateModeOptions(draft.options, fieldErrors, optionErrors);
@@ -478,8 +485,8 @@ function validateTypeSpecificFields(
     case 'FLAG':
       break;
     case 'INTERNAL_COOLDOWN':
-      requireNonEmpty(draft.durationFormulaKey, fieldErrors, 'durationFormulaKey', '请选择时长公式。');
-      validateFormulaRef(options, draft.durationFormulaKey, fieldErrors, 'durationFormulaKey');
+      requireNonEmpty(draft.durationValue, fieldErrors, 'durationValue', '请选择时长取值。');
+      validateFormulaRef(options, draft.durationValue, fieldErrors, 'durationValue');
       break;
     default: {
       const unexpected: never = draft.stateType;
@@ -541,24 +548,14 @@ function validateModeOptions(
   }
 }
 
-function validateFormulaRef(
-  options: SkillInternalStateFormValidationOptions,
-  currentKey: string,
-  fieldErrors: SkillInternalStateDraftErrors,
-  field: SkillInternalStateDraftField
-): void {
+function validateFormulaRef(options: SkillInternalStateFormValidationOptions, value: NumericValue | null, fieldErrors: SkillInternalStateDraftErrors, field: SkillInternalStateDraftField, ammo = false): void {
   if (fieldErrors[field]) return;
-  const trimmed = currentKey.trim();
-  if (!trimmed) return;
-  if (options.catalogLoadState?.formulas === 'failed') {
-    fieldErrors[field] = INCOMPLETE_CATALOG_MESSAGE;
-    return;
-  }
-  const catalog = options.catalog;
-  if (!catalog) return;
-  if (!catalog.formulas.some((item) => item.formulaKey === trimmed)) {
-    fieldErrors[field] = INCOMPLETE_CATALOG_MESSAGE;
-  }
+  const quantity = field === 'initialValue' || field === 'maxValue';
+  const error = numericValueError(value, { ...options.catalog, parameters: options.parameters }, {
+    integer: quantity, min: ammo && field === 'maxValue' ? 1 : 0, exclusiveMin: field === 'recoveryIntervalValue',
+    formulasState: options.catalogLoadState?.formulas, parametersState: options.parametersLoadState
+  });
+  if (error) fieldErrors[field] = error;
 }
 
 function buildNormalizedRequest(
@@ -581,8 +578,8 @@ function buildNormalizedRequest(
         ...base,
         stateType: 'COUNTER',
         detail: {
-          initialValueFormulaKey: draft.initialValueFormulaKey.trim(),
-          maxValueFormulaKey: draft.maxValueFormulaKey.trim()
+          initialValue: draft.initialValue!,
+          maxValue: draft.maxValue!
         }
       };
     case 'AMMO':
@@ -590,9 +587,9 @@ function buildNormalizedRequest(
         ...base,
         stateType: 'AMMO',
         detail: {
-          initialValueFormulaKey: draft.initialValueFormulaKey.trim(),
-          maxValueFormulaKey: draft.maxValueFormulaKey.trim(),
-          recoveryIntervalFormulaKey: draft.recoveryIntervalFormulaKey.trim(),
+          initialValue: draft.initialValue!,
+          maxValue: draft.maxValue!,
+          recoveryIntervalValue: draft.recoveryIntervalValue!,
           recoveryMode: draft.recoveryMode as SkillInternalStateAmmoRecoveryMode
         }
       };
@@ -619,7 +616,7 @@ function buildNormalizedRequest(
       return {
         ...base,
         stateType: 'INTERNAL_COOLDOWN',
-        detail: { durationFormulaKey: draft.durationFormulaKey.trim() }
+        detail: { durationValue: draft.durationValue! }
       };
     default: {
       const unexpected: never = draft.stateType;
@@ -656,12 +653,12 @@ function mapStateIssueField(field: string): SkillInternalStateDraftField | null 
 }
 
 function requireNonEmpty(
-  value: string,
+  value: string | NumericValue | null,
   fieldErrors: SkillInternalStateDraftErrors,
   field: SkillInternalStateDraftField,
   message: string
 ): void {
-  if (!value.trim()) {
+  if (typeof value === 'string' ? !value.trim() : !value) {
     fieldErrors[field] = message;
   }
 }

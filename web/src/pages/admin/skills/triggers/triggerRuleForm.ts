@@ -1,3 +1,11 @@
+import { lifecycleConditionError, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
+import { allowsExplicitTargetIsSource, explicitTargetIsSourceError } from './explicitTargetCondition';
+import { allowsSourceCastResourceCost, sourceCastResourceCostError } from './sourceCastResourceCost';
+import { allowsTargetCategoryCheck, targetCategoryConditionError, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
+import type { Attribute } from '../../../../types/attribute';
+import { fixedValue, numericFormulaKey, numericParameterKey } from '../../../../types/numericValue';
+import { numericValueError, numericValueSummary, numericValuesIn } from '../numericValueForm';
+import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { DamageType } from '../../../../types/damageType';
 import type { FormulaAttributeValueKind, FormulaExpressionNode, SkillFormula } from '../../../../types/skillFormula';
@@ -12,7 +20,6 @@ import type {
   SkillProcess,
   SkillProcessMoment,
   SkillProcessMomentType,
-  SkillProcessStep,
   SkillProcessStepType
 } from '../../../../types/skillProcess';
 import type {
@@ -29,10 +36,12 @@ import type {
   SkillTriggerCondition,
   SkillTriggerConditionGroup,
   SkillTriggerConditionType,
+  SkillTriggerLifecycleCheckDetail,
   SkillTriggerDamageDeliveryKind,
   SkillTriggerDamageOriginKind,
   SkillTriggerEventSource,
   SkillTriggerEventType,
+  SkillTriggerEmptyDetail,
   SkillTriggerEventUseKind,
   SkillTriggerEventValueBinding,
   SkillTriggerEventValueBindingDetail,
@@ -57,6 +66,7 @@ import type {
   SkillTriggerRuleDetail,
   SkillTriggerRuntimeInputBinding,
   SkillTriggerRuntimeInputSourceType,
+  SkillTriggerSourceCastResourceCostBinding,
   SkillTriggerStatusChangeKind,
   SkillTriggerStatusCheckDetail,
   SkillTriggerStatusCheckKind,
@@ -64,6 +74,7 @@ import type {
   SkillTriggerStatusPresenceDetail,
   SkillTriggerSubject,
   SkillTriggerTargetContext,
+  SkillTriggerTargetCategoryCheckDetail,
   SkillTriggerValueDomain,
   UpdateSkillTriggerRuleRequest
 } from '../../../../types/skillTriggerRule';
@@ -87,6 +98,8 @@ export const SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT =
   '斩杀结果可产生击杀/死亡事件；命中联动应用产生应用命中联动事件；攻击联动应用产生触发攻击联动事件。来源技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT =
   '空值表示任意技能；选择具体技能只缩小事件匹配范围。';
+export const SKILL_TRIGGER_SOURCE_INITIALIZED_HINT =
+  '来源对象的基础属性、挂载技能与装备、初始内部状态准备完毕后触发一次；复活、装备变化或等级变化不会再次触发。该事件不提供事件数值。';
 export const SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT = '否 = 0，是 = 1';
 export const SKILL_TRIGGER_PRIOR_BOOLEAN_OUTPUT_HINT = '以 0/1 供值';
 export const SKILL_TRIGGER_SHAPE_IN_USE_MESSAGE = '该结构仍被条件与触发规则使用';
@@ -108,7 +121,7 @@ export const DISABLED_CATALOG_LABEL = '已停用';
 export const MISSING_CATALOG_LABEL = '目录缺失';
 export const INCOMPLETE_CATALOG_MESSAGE = '缺少当前表单必需目录，无法保存。';
 export const RESULT_MODIFIER_ORDER_HINT = '应用在效果基础修正之后';
-export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数公式，不执行计数。';
+export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数取值，不执行计数。';
 
 export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS = [
   'CONFIGURED_VALUE',
@@ -188,6 +201,7 @@ export const SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS = {
 } as const satisfies { [K in SkillTriggerDamageOriginKind]: string };
 
 export const SKILL_TRIGGER_EVENT_TYPES = [
+  'SOURCE_INITIALIZED',
   'SKILL_USED',
   'BASIC_ATTACK_START',
   'BASIC_ATTACK_HIT',
@@ -214,6 +228,9 @@ export const SKILL_TRIGGER_EVENT_TYPES = [
 export const SKILL_TRIGGER_CONDITION_TYPES = [
   'ATTRIBUTE_COMPARE',
   'STATUS_CHECK',
+  'LIFECYCLE_CHECK',
+  'TARGET_CATEGORY_CHECK',
+  'EXPLICIT_TARGET_IS_SOURCE',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ] as const satisfies readonly SkillTriggerConditionType[];
@@ -228,6 +245,7 @@ export const SKILL_TRIGGER_SOURCE_TYPES = [
   'INTERNAL_STATE',
   'COMBAT_STATUS',
   'EVENT_VALUE',
+  'SOURCE_CAST_RESOURCE_COST',
   'PRIOR_ACTION_RESULT'
 ] as const satisfies readonly SkillTriggerRuntimeInputSourceType[];
 
@@ -244,6 +262,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_KEYS = [
   'CHARGE_DURATION_MS',
   'RECAST_COUNT',
   'HIT_INDEX',
+  'SKILL_HIT_SPELL_SHIELD_BLOCKED',
   'LIFECYCLE_STACKS',
   'PERIOD_INDEX',
   'REMAINING_MS',
@@ -302,6 +321,7 @@ export type SkillTriggerEventCapability = {
 };
 
 export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
+  SOURCE_INITIALIZED: '来源对象初始化完成',
   SKILL_USED: '技能被主动或消耗使用',
   BASIC_ATTACK_START: '普通攻击发起',
   BASIC_ATTACK_HIT: '普通攻击命中',
@@ -328,6 +348,14 @@ export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
 export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
   [K in SkillTriggerEventType]: SkillTriggerEventCapability
 } = {
+  SOURCE_INITIALIZED: {
+    eventType: 'SOURCE_INITIALIZED',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.SOURCE_INITIALIZED,
+    currentTargetBinding: '当前目标与事件来源对象均为完成初始化的来源对象自身，不指向战斗对手。',
+    hasEventSource: true,
+    requiredCatalogs: [],
+    detailFields: []
+  },
   SKILL_USED: {
     eventType: 'SKILL_USED',
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.SKILL_USED,
@@ -422,7 +450,7 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     currentTargetBinding: 'subject 指定的生命属性变化对象。',
     hasEventSource: false,
     requiredCatalogs: ['attributes', 'formulas'],
-    detailFields: ['subject', 'attributeKey', 'thresholdFormulaKey', 'direction']
+    detailFields: ['subject', 'attributeKey', 'thresholdValue', 'direction']
   },
   INTERNAL_STATE_CHANGED: {
     eventType: 'INTERNAL_STATE_CHANGED',
@@ -503,6 +531,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
   CHARGE_DURATION_MS: '实际蓄力毫秒数',
   RECAST_COUNT: '当前过程已重施次数',
   HIT_INDEX: '当前命中序号',
+  SKILL_HIT_SPELL_SHIELD_BLOCKED: '技能命中被法术护盾阻挡',
   LIFECYCLE_STACKS: '当前生命周期层数',
   PERIOD_INDEX: '当前周期序号',
   REMAINING_MS: '当前生命周期剩余毫秒数',
@@ -510,7 +539,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
   STATE_AFTER: '数值内部状态变化后值',
   ATTRIBUTE_BEFORE: '生命属性越阈值前值',
   ATTRIBUTE_AFTER: '生命属性越阈值后值',
-  THRESHOLD_VALUE: '本次阈值公式值',
+  THRESHOLD_VALUE: '本次阈值取值值',
   RAW_DAMAGE: '原始伤害',
   POST_DEFENSE_DAMAGE: '防御后伤害',
   HEALTH_BEFORE: '受伤前生命',
@@ -529,6 +558,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
   CHARGE_DURATION_MS: 'DECIMAL',
   RECAST_COUNT: 'INTEGER',
   HIT_INDEX: 'INTEGER',
+  SKILL_HIT_SPELL_SHIELD_BLOCKED: 'INTEGER',
   LIFECYCLE_STACKS: 'INTEGER',
   PERIOD_INDEX: 'INTEGER',
   REMAINING_MS: 'DECIMAL',
@@ -553,6 +583,9 @@ export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
 export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
   ATTRIBUTE_COMPARE: '属性比较',
   STATUS_CHECK: '战斗状态检查',
+  LIFECYCLE_CHECK: '生命周期检查',
+  TARGET_CATEGORY_CHECK: '事件对方类别',
+  EXPLICIT_TARGET_IS_SOURCE: '显式目标为来源对象',
   INTERNAL_STATE_CHECK: '技能内部状态检查',
   EVENT_VALUE_COMPARE: '事件值比较'
 } as const satisfies { [K in SkillTriggerConditionType]: string };
@@ -567,6 +600,7 @@ export const SKILL_TRIGGER_SOURCE_TYPE_LABELS = {
   INTERNAL_STATE: '技能内部状态',
   COMBAT_STATUS: '战斗状态',
   EVENT_VALUE: '当前事件值',
+  SOURCE_CAST_RESOURCE_COST: '来源施放资源消耗',
   PRIOR_ACTION_RESULT: '更早动作结果'
 } as const satisfies { [K in SkillTriggerRuntimeInputSourceType]: string };
 
@@ -669,6 +703,21 @@ export type SkillTriggerStatusCheckConditionDraft = ConditionDraftBase & {
   detail: SkillTriggerStatusCheckDetail;
 };
 
+export type SkillTriggerLifecycleCheckConditionDraft = ConditionDraftBase & {
+  conditionType: 'LIFECYCLE_CHECK';
+  detail: SkillTriggerLifecycleCheckDetail;
+};
+
+export type SkillTriggerTargetCategoryCheckConditionDraft = ConditionDraftBase & {
+  conditionType: 'TARGET_CATEGORY_CHECK';
+  detail: SkillTriggerTargetCategoryCheckDetail;
+};
+
+export type SkillTriggerExplicitTargetIsSourceConditionDraft = ConditionDraftBase & {
+  conditionType: 'EXPLICIT_TARGET_IS_SOURCE';
+  detail: SkillTriggerEmptyDetail;
+};
+
 export type SkillTriggerInternalStateCheckConditionDraft = ConditionDraftBase & {
   conditionType: 'INTERNAL_STATE_CHECK';
   detail: SkillTriggerInternalStateCheckDetail;
@@ -682,10 +731,14 @@ export type SkillTriggerEventValueCompareConditionDraft = ConditionDraftBase & {
 export type SkillTriggerConditionDraft =
   | SkillTriggerAttributeCompareConditionDraft
   | SkillTriggerStatusCheckConditionDraft
+  | SkillTriggerLifecycleCheckConditionDraft
+  | SkillTriggerTargetCategoryCheckConditionDraft
+  | SkillTriggerExplicitTargetIsSourceConditionDraft
   | SkillTriggerInternalStateCheckConditionDraft
   | SkillTriggerEventValueCompareConditionDraft;
 
 export type SkillTriggerConditionGroupDraft = {
+  draftId: string;
   groupKey: string;
   name: string;
   sortOrder: string;
@@ -735,10 +788,10 @@ export type SkillTriggerRuleDraft = {
   conditionGroups: SkillTriggerConditionGroupDraft[];
   actions: SkillTriggerActionDraft[];
   perTargetCooldownEnabled: boolean;
-  perTargetCooldownDurationFormulaKey: string;
+  perTargetCooldownDurationValue: NumericValue | null;
   perTargetCooldownTargetContext: SkillTriggerTargetContext;
   maxTriggersPerProcessEnabled: boolean;
-  maxTriggersLimitFormulaKey: string;
+  maxTriggersLimitValue: NumericValue | null;
 };
 
 export type SkillTriggerDraftField =
@@ -859,6 +912,8 @@ export function emptyEventDetail(): Record<never, never> {
 
 export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillTriggerEventSource {
   switch (eventType) {
+    case 'SOURCE_INITIALIZED':
+      return { eventType, detail: emptyEventDetail() };
     case 'SKILL_USED':
       return { eventType, detail: { sourceSkillKey: null, useKind: 'ANY' } };
     case 'SKILL_HIT':
@@ -884,7 +939,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
         detail: {
           subject: 'SOURCE',
           attributeKey: '',
-          thresholdFormulaKey: '',
+          thresholdValue: fixedValue(Number.NaN),
           direction: 'DOWNWARD'
         }
       };
@@ -917,6 +972,15 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
 }
 
 export function createEmptyConditionDetail(
+  conditionType: 'LIFECYCLE_CHECK'
+): SkillTriggerLifecycleCheckDetail;
+export function createEmptyConditionDetail(
+  conditionType: 'TARGET_CATEGORY_CHECK'
+): SkillTriggerTargetCategoryCheckDetail;
+export function createEmptyConditionDetail(
+  conditionType: 'EXPLICIT_TARGET_IS_SOURCE'
+): SkillTriggerEmptyDetail;
+export function createEmptyConditionDetail(
   conditionType: 'ATTRIBUTE_COMPARE'
 ): SkillTriggerAttributeCompareDetail;
 export function createEmptyConditionDetail(
@@ -935,13 +999,19 @@ export function createEmptyConditionDetail(
   conditionType: SkillTriggerConditionType
 ): SkillTriggerCondition['detail'] {
   switch (conditionType) {
+    case 'EXPLICIT_TARGET_IS_SOURCE':
+      return {};
+    case 'TARGET_CATEGORY_CHECK':
+      return { categories: [] };
+    case 'LIFECYCLE_CHECK':
+      return { effectKey: '', subject: null, checkKind: 'PRESENT', comparator: null, comparisonValue: null };
     case 'ATTRIBUTE_COMPARE':
       return {
         subject: 'CURRENT_TARGET',
         attributeKey: '',
         attributeValueKind: 'CURRENT',
         comparator: 'LTE',
-        comparisonFormulaKey: ''
+        comparisonValue: fixedValue(Number.NaN)
       };
     case 'STATUS_CHECK':
       return {
@@ -951,7 +1021,7 @@ export function createEmptyConditionDetail(
         sourceEffectKey: null,
         sourceResultKey: null,
         comparator: null,
-        comparisonFormulaKey: null
+        comparisonValue: null
       };
     case 'INTERNAL_STATE_CHECK':
       return {
@@ -960,13 +1030,13 @@ export function createEmptyConditionDetail(
         optionKey: null,
         expectedBoolean: null,
         comparator: 'GTE',
-        comparisonFormulaKey: ''
+        comparisonValue: fixedValue(Number.NaN)
       };
     case 'EVENT_VALUE_COMPARE':
       return {
         eventValueKey: 'HIT_INDEX',
         comparator: 'EQ',
-        comparisonFormulaKey: ''
+        comparisonValue: fixedValue(Number.NaN)
       };
   }
 }
@@ -980,6 +1050,9 @@ export function createEmptyBindingDetail(
 export function createEmptyBindingDetail(
   sourceType: 'EVENT_VALUE'
 ): SkillTriggerEventValueBindingDetail;
+export function createEmptyBindingDetail(
+  sourceType: 'SOURCE_CAST_RESOURCE_COST'
+): SkillTriggerSourceCastResourceCostBinding['detail'];
 export function createEmptyBindingDetail(
   sourceType: 'PRIOR_ACTION_RESULT'
 ): SkillTriggerPriorResultBindingDetail;
@@ -1002,6 +1075,8 @@ export function createEmptyBindingDetail(
       };
     case 'EVENT_VALUE':
       return { eventValueKey: 'HIT_INDEX' };
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return { attributeKey: '' };
     case 'PRIOR_ACTION_RESULT':
       return {
         sourceActionKey: '',
@@ -1044,6 +1119,18 @@ export function nextDraftKey(existing: readonly string[], prefix: string): strin
 
 export function createEmptyConditionDraft(
   existingKeys: readonly string[],
+  conditionType: 'TARGET_CATEGORY_CHECK'
+): SkillTriggerTargetCategoryCheckConditionDraft;
+export function createEmptyConditionDraft(
+  existingKeys: readonly string[],
+  conditionType: 'EXPLICIT_TARGET_IS_SOURCE'
+): SkillTriggerExplicitTargetIsSourceConditionDraft;
+export function createEmptyConditionDraft(
+  existingKeys: readonly string[],
+  conditionType: 'LIFECYCLE_CHECK'
+): SkillTriggerLifecycleCheckConditionDraft;
+export function createEmptyConditionDraft(
+  existingKeys: readonly string[],
   conditionType: 'ATTRIBUTE_COMPARE'
 ): SkillTriggerAttributeCompareConditionDraft;
 export function createEmptyConditionDraft(
@@ -1071,6 +1158,12 @@ export function createEmptyConditionDraft(
     sortOrder: '10'
   };
   switch (conditionType) {
+    case 'EXPLICIT_TARGET_IS_SOURCE':
+      return { ...base, conditionType, detail: createEmptyConditionDetail('EXPLICIT_TARGET_IS_SOURCE') };
+    case 'TARGET_CATEGORY_CHECK':
+      return { ...base, conditionType, detail: createEmptyConditionDetail('TARGET_CATEGORY_CHECK') };
+    case 'LIFECYCLE_CHECK':
+      return { ...base, conditionType, detail: createEmptyConditionDetail('LIFECYCLE_CHECK') };
     case 'ATTRIBUTE_COMPARE':
       return { ...base, conditionType, detail: createEmptyConditionDetail('ATTRIBUTE_COMPARE') };
     case 'STATUS_CHECK':
@@ -1084,6 +1177,7 @@ export function createEmptyConditionDraft(
 
 export function createEmptyGroupDraft(existingKeys: readonly string[]): SkillTriggerConditionGroupDraft {
   return {
+    draftId: crypto.randomUUID(),
     groupKey: nextDraftKey(existingKeys, 'group'),
     name: '',
     sortOrder: '10',
@@ -1156,6 +1250,10 @@ export function createEmptyBinding(
 ): SkillTriggerEventValueBinding;
 export function createEmptyBinding(
   existingKeys: readonly string[],
+  sourceType: 'SOURCE_CAST_RESOURCE_COST'
+): SkillTriggerSourceCastResourceCostBinding;
+export function createEmptyBinding(
+  existingKeys: readonly string[],
   sourceType: 'PRIOR_ACTION_RESULT'
 ): SkillTriggerPriorResultBinding;
 export function createEmptyBinding(
@@ -1177,6 +1275,8 @@ export function createEmptyBinding(
       return { ...base, sourceType, detail: createEmptyBindingDetail('COMBAT_STATUS') };
     case 'EVENT_VALUE':
       return { ...base, sourceType, detail: createEmptyBindingDetail('EVENT_VALUE') };
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return { ...base, sourceType, detail: createEmptyBindingDetail('SOURCE_CAST_RESOURCE_COST') };
     case 'PRIOR_ACTION_RESULT':
       return { ...base, sourceType, detail: createEmptyBindingDetail('PRIOR_ACTION_RESULT') };
   }
@@ -1192,10 +1292,10 @@ export function createEmptyRuleDraft(): SkillTriggerRuleDraft {
     conditionGroups: [],
     actions: [createEmptyActionDraft([])],
     perTargetCooldownEnabled: false,
-    perTargetCooldownDurationFormulaKey: '',
+    perTargetCooldownDurationValue: null,
     perTargetCooldownTargetContext: 'CURRENT_TARGET',
     maxTriggersPerProcessEnabled: false,
-    maxTriggersLimitFormulaKey: ''
+    maxTriggersLimitValue: null
   };
 }
 
@@ -1216,10 +1316,11 @@ export function eventStepType(
 export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   readonly [K in SkillTriggerEventType]: readonly SkillTriggerEventValueKey[];
 } = {
+  SOURCE_INITIALIZED: [],
   SKILL_USED: [],
   BASIC_ATTACK_START: [],
   BASIC_ATTACK_HIT: ['HIT_INDEX'],
-  SKILL_HIT: ['HIT_INDEX'],
+  SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
   PROCESS_MOMENT: [],
   RESULT_AVAILABLE: [],
   LIFECYCLE_MOMENT: ['LIFECYCLE_STACKS', 'REMAINING_MS'],
@@ -1295,7 +1396,7 @@ export function eventValueDomain(key: SkillTriggerEventValueKey): SkillTriggerVa
 
 export function eventValueOptionLabel(key: SkillTriggerEventValueKey): string {
   const label = SKILL_TRIGGER_EVENT_VALUE_LABELS[key];
-  if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED') {
+  if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED' || key === 'SKILL_HIT_SPELL_SHIELD_BLOCKED') {
     return `${label}（${SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT}）`;
   }
   return label;
@@ -1382,7 +1483,7 @@ export function rebuildStatusCheckDetail(
       sourceEffectKey: null,
       sourceResultKey: null,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     };
   }
   return {
@@ -1398,9 +1499,9 @@ export function rebuildStatusCheckDetail(
     comparator: current.checkKind === 'STACKS_COMPARE' || current.checkKind === 'REMAINING_MS_COMPARE'
       ? current.comparator
       : 'GTE',
-    comparisonFormulaKey: current.checkKind === 'STACKS_COMPARE' || current.checkKind === 'REMAINING_MS_COMPARE'
-      ? current.comparisonFormulaKey
-      : ''
+    comparisonValue: current.checkKind === 'STACKS_COMPARE' || current.checkKind === 'REMAINING_MS_COMPARE'
+      ? current.comparisonValue
+      : fixedValue(Number.NaN)
   };
 }
 
@@ -1437,9 +1538,9 @@ export function rebuildInternalStateCheckDetail(
       comparator: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonFormulaKey: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
-        ? current.comparisonFormulaKey
-        : ''
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+        ? current.comparisonValue
+        : fixedValue(Number.NaN)
     };
   }
   if (valueKind === 'REMAINING_MS') {
@@ -1451,9 +1552,9 @@ export function rebuildInternalStateCheckDetail(
       comparator: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonFormulaKey: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
-        ? current.comparisonFormulaKey
-        : ''
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+        ? current.comparisonValue
+        : fixedValue(Number.NaN)
     };
   }
   if (valueKind === 'OPTION_SELECTED') {
@@ -1463,7 +1564,7 @@ export function rebuildInternalStateCheckDetail(
       optionKey: current.valueKind === 'OPTION_SELECTED' ? current.optionKey : '',
       expectedBoolean: null,
       comparator: null,
-      comparisonFormulaKey: null
+      comparisonValue: null
     };
   }
   return {
@@ -1472,7 +1573,7 @@ export function rebuildInternalStateCheckDetail(
     optionKey: null,
     expectedBoolean: current.valueKind === 'ENABLED' ? current.expectedBoolean : true,
     comparator: null,
-    comparisonFormulaKey: null
+    comparisonValue: null
   };
 }
 
@@ -1546,7 +1647,7 @@ export function patchStatusCompareFields(
   current: SkillTriggerStatusCheckConditionDraft,
   patch: Partial<Pick<
     SkillTriggerStatusCompareDetail,
-    'sourceEffectKey' | 'sourceResultKey' | 'comparator' | 'comparisonFormulaKey'
+    'sourceEffectKey' | 'sourceResultKey' | 'comparator' | 'comparisonValue'
   >>
 ): SkillTriggerStatusCheckConditionDraft {
   if (current.detail.checkKind !== 'STACKS_COMPARE' && current.detail.checkKind !== 'REMAINING_MS_COMPARE') {
@@ -1593,7 +1694,7 @@ export function patchInternalStateCompareFields(
   current: SkillTriggerInternalStateCheckConditionDraft,
   patch: Partial<Pick<
     SkillTriggerInternalStateValueDetail,
-    'comparator' | 'comparisonFormulaKey'
+    'comparator' | 'comparisonValue'
   >>
 ): SkillTriggerInternalStateCheckConditionDraft {
   if (current.detail.valueKind !== 'VALUE' && current.detail.valueKind !== 'REMAINING_MS') {
@@ -1711,6 +1812,25 @@ export function isFailProcessLast(actions: readonly SkillTriggerActionDraft[]): 
   return index === sorted.length - 1 && sorted.filter((item) => item.actionType === 'FAIL_PROCESS').length === 1;
 }
 
+function swappedActionDrafts(
+  sorted: readonly SkillTriggerActionDraft[],
+  index: number,
+  target: number
+): SkillTriggerActionDraft[] {
+  const reordered = [...sorted];
+  [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+  const hasTiedOrder = sorted.some((item, position) => position > 0
+    && parseSortOrder(item.sortOrder) === parseSortOrder(sorted[position - 1].sortOrder));
+  if (hasTiedOrder) {
+    // 并列排序仅交换数值不会改变执行顺序；按实际移动后的顺序重编号。
+    return reordered.map((item, position) => ({ ...item, sortOrder: String((position + 1) * 10) }));
+  }
+  return reordered.map((item, position) => {
+    if (position === index || position === target) return { ...item, sortOrder: sorted[position].sortOrder };
+    return item;
+  });
+}
+
 export function canMoveAction(
   actions: readonly SkillTriggerActionDraft[],
   index: number,
@@ -1721,13 +1841,7 @@ export function canMoveAction(
   if (index < 0 || index >= sorted.length || target < 0 || target >= sorted.length) {
     return { ok: false, message: '无法移动该动作。' };
   }
-  const left = sorted[index];
-  const right = sorted[target];
-  const simulated = sorted.map((item, current) => {
-    if (current === index) return { ...item, sortOrder: right.sortOrder };
-    if (current === target) return { ...item, sortOrder: left.sortOrder };
-    return item;
-  });
+  const simulated = swappedActionDrafts(sorted, index, target);
   if (!isFailProcessLast(simulated)) {
     return { ok: false, message: SKILL_TRIGGER_FAIL_PROCESS_LAST_MESSAGE };
   }
@@ -1743,14 +1857,7 @@ export function moveActionDrafts(
   if (!permission.ok) return [...actions];
   const sorted = sortActionDrafts(actions);
   const target = index + direction;
-  const left = sorted[index];
-  const right = sorted[target];
-  const leftSort = left.sortOrder;
-  return sorted.map((item, current) => {
-    if (current === index) return { ...item, sortOrder: right.sortOrder };
-    if (current === target) return { ...item, sortOrder: leftSort };
-    return item;
-  });
+  return swappedActionDrafts(sorted, index, target);
 }
 
 export function ensureFailProcessLast(actions: readonly SkillTriggerActionDraft[]): SkillTriggerActionDraft[] {
@@ -1766,6 +1873,12 @@ export function ensureFailProcessLast(actions: readonly SkillTriggerActionDraft[
 
 function conditionFromDetail(condition: SkillTriggerCondition): SkillTriggerConditionDraft {
   switch (condition.conditionType) {
+    case 'EXPLICIT_TARGET_IS_SOURCE':
+      return { conditionKey: condition.conditionKey, conditionType: 'EXPLICIT_TARGET_IS_SOURCE', sortOrder: String(condition.sortOrder), detail: {} };
+    case 'TARGET_CATEGORY_CHECK':
+      return { conditionKey: condition.conditionKey, conditionType: 'TARGET_CATEGORY_CHECK', sortOrder: String(condition.sortOrder), detail: { categories: [...condition.detail.categories] } };
+    case 'LIFECYCLE_CHECK':
+      return { conditionKey: condition.conditionKey, conditionType: 'LIFECYCLE_CHECK', sortOrder: String(condition.sortOrder), detail: condition.detail };
     case 'ATTRIBUTE_COMPARE':
       return {
         conditionKey: condition.conditionKey,
@@ -1843,6 +1956,7 @@ export function fromDetail(detail: SkillTriggerRuleDetail): SkillTriggerRuleDraf
     sortOrder: String(detail.sortOrder),
     eventSource: detail.eventSource,
     conditionGroups: detail.conditionGroups.map((group) => ({
+      draftId: crypto.randomUUID(),
       groupKey: group.groupKey,
       name: group.name,
       sortOrder: String(group.sortOrder),
@@ -1850,10 +1964,10 @@ export function fromDetail(detail: SkillTriggerRuleDetail): SkillTriggerRuleDraf
     })),
     actions: detail.actions.map(actionFromDetail),
     perTargetCooldownEnabled: detail.perTargetCooldown !== null,
-    perTargetCooldownDurationFormulaKey: detail.perTargetCooldown?.durationFormulaKey ?? '',
+    perTargetCooldownDurationValue: detail.perTargetCooldown?.durationValue ?? null,
     perTargetCooldownTargetContext: detail.perTargetCooldown?.targetContext ?? 'CURRENT_TARGET',
     maxTriggersPerProcessEnabled: detail.maxTriggersPerProcess !== null,
-    maxTriggersLimitFormulaKey: detail.maxTriggersPerProcess?.limitFormulaKey ?? ''
+    maxTriggersLimitValue: detail.maxTriggersPerProcess?.limitValue ?? null
   };
 }
 
@@ -1862,8 +1976,22 @@ function normalizeDescription(raw: string): string | null {
   return trimmed === '' ? null : trimmed;
 }
 
+export function isTriggerRuleDraftDirty(draft: SkillTriggerRuleDraft, baseline: SkillTriggerRuleDraft): boolean {
+  const businessFields = (value: SkillTriggerRuleDraft) => ({
+    ...value,
+    conditionGroups: value.conditionGroups.map(({ draftId: _draftId, ...group }) => group)
+  });
+  return JSON.stringify(businessFields(draft)) !== JSON.stringify(businessFields(baseline));
+}
+
 function toCondition(condition: SkillTriggerConditionDraft, sortOrder: number): SkillTriggerCondition {
   switch (condition.conditionType) {
+    case 'EXPLICIT_TARGET_IS_SOURCE':
+      return { conditionKey: condition.conditionKey.trim(), conditionType: 'EXPLICIT_TARGET_IS_SOURCE', sortOrder, detail: {} };
+    case 'TARGET_CATEGORY_CHECK':
+      return { conditionKey: condition.conditionKey.trim(), conditionType: 'TARGET_CATEGORY_CHECK', sortOrder, detail: { categories: [...condition.detail.categories] } };
+    case 'LIFECYCLE_CHECK':
+      return { conditionKey: condition.conditionKey.trim(), conditionType: 'LIFECYCLE_CHECK', sortOrder: sortOrder, detail: condition.detail };
     case 'ATTRIBUTE_COMPARE':
       return {
         conditionKey: condition.conditionKey.trim(),
@@ -1976,14 +2104,14 @@ function protectionsFromDraft(draft: SkillTriggerRuleDraft): Pick<
   return {
     perTargetCooldown: draft.perTargetCooldownEnabled
       ? {
-          durationFormulaKey: draft.perTargetCooldownDurationFormulaKey.trim(),
+          durationValue: draft.perTargetCooldownDurationValue!,
           targetContext: draft.perTargetCooldownTargetContext
         }
       : null,
     maxTriggersPerProcess: draft.maxTriggersPerProcessEnabled && draft.eventSource.eventType === 'PROCESS_MOMENT'
       ? {
           processKey,
-          limitFormulaKey: draft.maxTriggersLimitFormulaKey.trim()
+          limitValue: draft.maxTriggersLimitValue!
         }
       : null
   };
@@ -2022,7 +2150,7 @@ function usesEventValueKey(draft: SkillTriggerRuleDraft, key: SkillTriggerEventV
 
 function usesEventSourceSubject(draft: SkillTriggerRuleDraft): boolean {
   const inConditions = draft.conditionGroups.some((group) => group.conditions.some((condition) => {
-    if (condition.conditionType === 'ATTRIBUTE_COMPARE' || condition.conditionType === 'STATUS_CHECK') {
+    if (condition.conditionType === 'ATTRIBUTE_COMPARE' || condition.conditionType === 'STATUS_CHECK' || condition.conditionType === 'LIFECYCLE_CHECK') {
       return condition.detail.subject === 'EVENT_SOURCE';
     }
     return false;
@@ -2048,6 +2176,15 @@ export function analyzeEventSwitchImpact(
   const clearsEventSourceRefs = usesEventSourceSubject(draft) && !eventHasEventSource(nextSource.eventType);
   const clearsProcessLimit = draft.maxTriggersPerProcessEnabled && nextSource.eventType !== 'PROCESS_MOMENT';
   const parts: string[] = [];
+  if (!allowsTargetCategoryCheck(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'TARGET_CATEGORY_CHECK'))) {
+    parts.push('当前事件不提供事件对方类别，将清除事件对方类别条件。');
+  }
+  if (!allowsExplicitTargetIsSource(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE'))) {
+    parts.push('当前事件不提供技能使用的显式目标身份，将清除显式自施条件；空条件组也会一并清除。');
+  }
+  if (!allowsSourceCastResourceCost(nextSource) && draft.actions.some((action) => action.runtimeInputBindings.some((binding) => binding.sourceType === 'SOURCE_CAST_RESOURCE_COST'))) {
+    parts.push('当前事件未明确技能命中来源，将清除来源施放资源消耗绑定。');
+  }
   if (staleValues.length > 0) {
     parts.push(`将清除不再可用的事件值：${staleValues.map((key) => SKILL_TRIGGER_EVENT_VALUE_LABELS[key]).join('、')}`);
   }
@@ -2081,9 +2218,14 @@ function fallbackTargetContext(
 function cleanupConditionForEventSwitch(
   condition: SkillTriggerConditionDraft,
   hasEventSource: boolean,
-  allowed: readonly SkillTriggerEventValueKey[]
+  allowed: readonly SkillTriggerEventValueKey[],
+  nextSource: SkillTriggerEventSource
 ): SkillTriggerConditionDraft | null {
   switch (condition.conditionType) {
+    case 'EXPLICIT_TARGET_IS_SOURCE':
+      return allowsExplicitTargetIsSource(nextSource.eventType) ? condition : null;
+    case 'TARGET_CATEGORY_CHECK':
+      return allowsTargetCategoryCheck(nextSource.eventType) ? condition : null;
     case 'EVENT_VALUE_COMPARE': {
       if (!allowed.includes(condition.detail.eventValueKey)) return null;
       return condition;
@@ -2092,6 +2234,8 @@ function cleanupConditionForEventSwitch(
       return patchAttributeCompareDetail(condition, {
         subject: fallbackSubject(condition.detail.subject, hasEventSource)
       });
+    case 'LIFECYCLE_CHECK':
+      return { ...condition, detail: { ...condition.detail, subject: condition.detail.subject === null ? null : fallbackSubject(condition.detail.subject, hasEventSource) } };
     case 'STATUS_CHECK':
       return patchStatusCheckSubject(
         condition,
@@ -2105,9 +2249,12 @@ function cleanupConditionForEventSwitch(
 function cleanupBindingForEventSwitch(
   binding: SkillTriggerRuntimeInputBinding,
   hasEventSource: boolean,
-  allowed: readonly SkillTriggerEventValueKey[]
+  allowed: readonly SkillTriggerEventValueKey[],
+  nextSource: SkillTriggerEventSource
 ): SkillTriggerRuntimeInputBinding | null {
   switch (binding.sourceType) {
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return allowsSourceCastResourceCost(nextSource) ? binding : null;
     case 'EVENT_VALUE': {
       if (!allowed.includes(binding.detail.eventValueKey)) return null;
       return binding;
@@ -2125,11 +2272,12 @@ function cleanupBindingForEventSwitch(
 function cleanupActionForEventSwitch(
   action: SkillTriggerActionDraft,
   hasEventSource: boolean,
-  allowed: readonly SkillTriggerEventValueKey[]
+  allowed: readonly SkillTriggerEventValueKey[],
+  nextSource: SkillTriggerEventSource
 ): SkillTriggerActionDraft {
   const runtimeInputBindings: SkillTriggerRuntimeInputBinding[] = [];
   for (const binding of action.runtimeInputBindings) {
-    const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed);
+    const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed, nextSource);
     if (next) runtimeInputBindings.push(next);
   }
   if (action.actionType === 'FAIL_PROCESS') {
@@ -2152,13 +2300,13 @@ export function applyEventSwitchCleanup(
   const nextGroups = draft.conditionGroups.map((group) => {
     const conditions: SkillTriggerConditionDraft[] = [];
     for (const condition of group.conditions) {
-      const next = cleanupConditionForEventSwitch(condition, hasEventSource, allowed);
+      const next = cleanupConditionForEventSwitch(condition, hasEventSource, allowed, nextSource);
       if (next) conditions.push(next);
     }
     return { ...group, conditions };
-  });
+  }).filter((group) => group.conditions.length > 0);
   const nextActions = draft.actions.map((action) => (
-    cleanupActionForEventSwitch(action, hasEventSource, allowed)
+    cleanupActionForEventSwitch(action, hasEventSource, allowed, nextSource)
   ));
   return {
     ...draft,
@@ -2172,9 +2320,9 @@ export function applyEventSwitchCleanup(
     maxTriggersPerProcessEnabled: nextSource.eventType === 'PROCESS_MOMENT'
       ? draft.maxTriggersPerProcessEnabled
       : false,
-    maxTriggersLimitFormulaKey: nextSource.eventType === 'PROCESS_MOMENT'
-      ? draft.maxTriggersLimitFormulaKey
-      : ''
+    maxTriggersLimitValue: nextSource.eventType === 'PROCESS_MOMENT'
+      ? draft.maxTriggersLimitValue
+      : null
   };
 }
 
@@ -2263,6 +2411,10 @@ export function removeBindingsByKeys(
 
 export function conditionSummary(condition: SkillTriggerConditionDraft): string {
   switch (condition.conditionType) {
+    case 'EXPLICIT_TARGET_IS_SOURCE':
+      return SKILL_TRIGGER_CONDITION_TYPE_LABELS.EXPLICIT_TARGET_IS_SOURCE;
+    case 'TARGET_CATEGORY_CHECK':
+      return `${SKILL_TRIGGER_CONDITION_TYPE_LABELS.TARGET_CATEGORY_CHECK} / ${condition.detail.categories.map((category) => TARGET_CATEGORY_LABELS[category]).join('、')}`;
     case 'ATTRIBUTE_COMPARE':
       return [
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.ATTRIBUTE_COMPARE,
@@ -2270,26 +2422,36 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
         condition.detail.attributeKey,
         attributeValueKindLabel(condition.detail.attributeValueKind),
         SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator],
-        condition.detail.comparisonFormulaKey
+        numericValueSummary(condition.detail.comparisonValue)
       ].filter(Boolean).join(' / ');
+    case 'LIFECYCLE_CHECK':
+      return ['生命周期检查', condition.detail.effectKey, condition.detail.subject ? SKILL_TRIGGER_SUBJECT_LABELS[condition.detail.subject] : null,
+        LIFECYCLE_CHECK_LABELS[condition.detail.checkKind], condition.detail.checkKind === 'STACKS_COMPARE' ? SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator] + ' ' + numericValueSummary(condition.detail.comparisonValue) : null].filter(Boolean).join(' / ');
     case 'STATUS_CHECK':
       return [
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.STATUS_CHECK,
         SKILL_TRIGGER_SUBJECT_LABELS[condition.detail.subject],
         condition.detail.statusKey,
-        SKILL_TRIGGER_STATUS_CHECK_LABELS[condition.detail.checkKind]
+        SKILL_TRIGGER_STATUS_CHECK_LABELS[condition.detail.checkKind],
+        ...(condition.detail.checkKind === 'STACKS_COMPARE' || condition.detail.checkKind === 'REMAINING_MS_COMPARE'
+          ? [SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator], numericValueSummary(condition.detail.comparisonValue)]
+          : [])
       ].join(' / ');
     case 'INTERNAL_STATE_CHECK':
       return [
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.INTERNAL_STATE_CHECK,
         condition.detail.stateKey,
-        SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[condition.detail.valueKind]
+        SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[condition.detail.valueKind],
+        ...(condition.detail.valueKind === 'VALUE' || condition.detail.valueKind === 'REMAINING_MS'
+          ? [SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator], numericValueSummary(condition.detail.comparisonValue)]
+          : [])
       ].join(' / ');
     case 'EVENT_VALUE_COMPARE':
       return [
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.EVENT_VALUE_COMPARE,
         SKILL_TRIGGER_EVENT_VALUE_LABELS[condition.detail.eventValueKey],
-        SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator]
+        SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator],
+        numericValueSummary(condition.detail.comparisonValue)
       ].join(' / ');
   }
 }
@@ -2318,6 +2480,8 @@ export function actionSummary(action: SkillTriggerActionDraft): string {
 
 export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string {
   switch (binding.sourceType) {
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.SOURCE_CAST_RESOURCE_COST} / ${binding.detail.attributeKey}`;
     case 'INTERNAL_STATE':
       return [
         SKILL_TRIGGER_SOURCE_TYPE_LABELS.INTERNAL_STATE,
@@ -2369,51 +2533,33 @@ export function formulaHasRuntimeInput(
   return parameters.some((item) => item.valueMode === 'RUNTIME_INPUT' && keys.has(item.parameterKey));
 }
 
-function collectStepFormulaKeys(step: SkillProcessStep): string[] {
-  switch (step.stepType) {
-    case 'DELAY':
-      return [step.detail.delayFormulaKey];
-    case 'MULTI_HIT':
-      return [step.detail.repeatCountFormulaKey, step.detail.intervalFormulaKey].filter(
-        (item): item is string => Boolean(item)
-      );
-    case 'PERIODIC':
-      return [step.detail.repeatCountFormulaKey, step.detail.intervalFormulaKey];
-    case 'CHANNEL':
-      return [step.detail.durationFormulaKey, step.detail.executionCountFormulaKey];
-    case 'CHARGE':
-      return [step.detail.minimumChargeFormulaKey, step.detail.maximumChargeFormulaKey];
-    case 'RECAST':
-      return [step.detail.windowFormulaKey, step.detail.maximumRecastCountFormulaKey];
-    case 'EMPOWERED_BASIC_ATTACK':
-      return [step.detail.windowFormulaKey];
-    default:
-      return [];
-  }
+export function collectExecuteEffectValues(effect: SkillEffect): NumericValue[] {
+  return [...numericValuesIn(effect.results), ...numericValuesIn(effect.lifecycle)];
 }
 
 export function collectExecuteEffectFormulaKeys(effect: SkillEffect): string[] {
-  const keys: string[] = [];
-  for (const result of effect.results) {
-    if (result.valueRule?.formulaKey) keys.push(result.valueRule.formulaKey);
-    if (result.resultType === 'DAMAGE') {
-      if (result.detail.critical.multiplierFormulaKey) {
-        keys.push(result.detail.critical.multiplierFormulaKey);
-      }
-      for (const rule of result.detail.vampRules) {
-        keys.push(rule.efficiencyFormulaKey);
-      }
+  return [...new Set(collectExecuteEffectValues(effect).map(numericFormulaKey).filter(Boolean))];
+}
+
+export function collectStartProcessValues(
+  process: SkillProcess,
+  effectsByKey: ReadonlyMap<string, SkillEffect>,
+  statesByKey: ReadonlyMap<string, SkillInternalState>
+): NumericValue[] {
+  const values = numericValuesIn(process);
+  for (const operation of process.stateOperations) {
+    const state = statesByKey.get(operation.stateKey);
+    if (!state) continue;
+    if (state.stateType === 'COUNTER' || state.stateType === 'AMMO'
+      || (state.stateType === 'INTERNAL_COOLDOWN' && (operation.operation === 'START' || operation.operation === 'RESET'))) {
+      values.push(...numericValuesIn(state.detail));
     }
   }
-  if (effect.lifecycle) {
-    if (effect.lifecycle.durationFormulaKey) keys.push(effect.lifecycle.durationFormulaKey);
-    keys.push(effect.lifecycle.maxStacksFormulaKey);
-    keys.push(effect.lifecycle.applicationStacksFormulaKey);
-    if (effect.lifecycle.periodicIntervalFormulaKey) {
-      keys.push(effect.lifecycle.periodicIntervalFormulaKey);
-    }
+  for (const binding of process.effectBindings) {
+    const effect = effectsByKey.get(binding.effectKey);
+    if (effect) values.push(...collectExecuteEffectValues(effect));
   }
-  return [...new Set(keys.filter(Boolean))];
+  return values;
 }
 
 export function collectStartProcessFormulaKeys(
@@ -2421,23 +2567,7 @@ export function collectStartProcessFormulaKeys(
   effectsByKey: ReadonlyMap<string, SkillEffect>,
   statesByKey: ReadonlyMap<string, SkillInternalState>
 ): string[] {
-  const keys: string[] = [];
-  if (process.cooldown?.durationFormulaKey) keys.push(process.cooldown.durationFormulaKey);
-  for (const step of process.steps) keys.push(...collectStepFormulaKeys(step));
-  for (const operation of process.stateOperations) {
-    if (operation.valueFormulaKey) keys.push(operation.valueFormulaKey);
-    if (operation.operation === 'START' || operation.operation === 'RESET') {
-      const state = statesByKey.get(operation.stateKey);
-      if (state?.stateType === 'INTERNAL_COOLDOWN') {
-        keys.push(state.detail.durationFormulaKey);
-      }
-    }
-  }
-  for (const binding of process.effectBindings) {
-    const effect = effectsByKey.get(binding.effectKey);
-    if (effect) keys.push(...collectExecuteEffectFormulaKeys(effect));
-  }
-  return [...new Set(keys.filter(Boolean))];
+  return [...new Set(collectStartProcessValues(process, effectsByKey, statesByKey).map(numericFormulaKey).filter(Boolean))];
 }
 
 export function effectHasReflectedDamage(effect: SkillEffect | undefined): boolean {
@@ -2457,11 +2587,12 @@ export function processHasReflectedDamage(
 }
 
 export function reachableRuntimeInputParameters(
-  formulaKeys: readonly string[],
+  values: readonly NumericValue[],
   formulasByKey: ReadonlyMap<string, SkillFormula>,
   parameters: ReadonlyArray<SkillParameter>
 ): SkillParameter[] {
-  const referenced = new Set<string>();
+  const referenced = new Set(values.map(numericParameterKey).filter(Boolean));
+  const formulaKeys = values.map(numericFormulaKey).filter(Boolean);
   for (const formulaKey of formulaKeys) {
     const formula = formulasByKey.get(formulaKey);
     if (!formula) continue;
@@ -2478,6 +2609,8 @@ export function sourceValueDomain(
   binding: SkillTriggerRuntimeInputBinding
 ): SkillTriggerValueDomain | null {
   switch (binding.sourceType) {
+    case 'SOURCE_CAST_RESOURCE_COST':
+      return 'DECIMAL';
     case 'INTERNAL_STATE':
       return binding.detail.valueKind === 'REMAINING_MS' ? 'DECIMAL' : 'INTEGER';
     case 'COMBAT_STATUS':
@@ -2734,25 +2867,39 @@ function validateKey(value: string, label: string): string | undefined {
   return undefined;
 }
 
-export function collectDirectFormulaKeys(draft: SkillTriggerRuleDraft): string[] {
-  const keys: string[] = [];
-  if (draft.eventSource.eventType === 'HEALTH_THRESHOLD_CROSSED') {
-    keys.push(draft.eventSource.detail.thresholdFormulaKey);
-  }
-  for (const group of draft.conditionGroups) {
-    for (const condition of group.conditions) {
-      if ('comparisonFormulaKey' in condition.detail && condition.detail.comparisonFormulaKey) {
-        keys.push(condition.detail.comparisonFormulaKey);
-      }
-    }
-  }
-  if (draft.perTargetCooldownEnabled) keys.push(draft.perTargetCooldownDurationFormulaKey);
-  if (draft.maxTriggersPerProcessEnabled) keys.push(draft.maxTriggersLimitFormulaKey);
-  return [...new Set(keys.filter((item) => item.trim()))];
+export function collectDirectValues(draft: SkillTriggerRuleDraft): NumericValue[] {
+  return numericValuesIn({ eventSource: draft.eventSource, conditionGroups: draft.conditionGroups,
+    cooldown: draft.perTargetCooldownEnabled ? draft.perTargetCooldownDurationValue : null,
+    limit: draft.maxTriggersPerProcessEnabled ? draft.maxTriggersLimitValue : null });
 }
 
-export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft): SkillTriggerCatalogKind[] {
-  const required = new Set<SkillTriggerCatalogKind>(['formulas', 'parameters', 'effects', 'processes']);
+export function collectDirectFormulaKeys(draft: SkillTriggerRuleDraft): string[] {
+  return [...new Set(collectDirectValues(draft).map(numericFormulaKey).filter(Boolean))];
+}
+
+type ReferencedCatalogs = {
+  effectsByKey?: ReadonlyMap<string, SkillEffect>;
+  processesByKey?: ReadonlyMap<string, SkillProcess>;
+  statesByKey?: ReadonlyMap<string, SkillInternalState>;
+};
+
+export function collectActionValues(action: SkillTriggerActionDraft, catalogs: ReferencedCatalogs): NumericValue[] {
+  if (action.actionType === 'EXECUTE_EFFECT') {
+    const effect = catalogs.effectsByKey?.get(action.detail.effectKey);
+    return effect ? collectExecuteEffectValues(effect) : [];
+  }
+  if (action.actionType === 'START_PROCESS') {
+    const process = catalogs.processesByKey?.get(action.detail.processKey);
+    return process ? collectStartProcessValues(process, catalogs.effectsByKey ?? new Map(), catalogs.statesByKey ?? new Map()) : [];
+  }
+  return [];
+}
+
+export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft, catalogs: ReferencedCatalogs = {}): SkillTriggerCatalogKind[] {
+  const required = new Set<SkillTriggerCatalogKind>(['effects', 'processes']);
+  const values = [...collectDirectValues(draft), ...draft.actions.flatMap((action) => collectActionValues(action, catalogs))];
+  if (values.some((value) => value.kind === 'FORMULA')) { required.add('formulas'); required.add('parameters'); }
+  if (values.some((value) => value.kind === 'PARAMETER') || draft.actions.some((action) => action.runtimeInputBindings.length > 0)) required.add('parameters');
   for (const need of SKILL_TRIGGER_EVENT_CAPABILITIES[draft.eventSource.eventType].requiredCatalogs) {
     if (
       need === 'skills'
@@ -2761,7 +2908,6 @@ export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft): SkillTri
       || need === 'internalStates'
       || need === 'effects'
       || need === 'processes'
-      || need === 'formulas'
     ) {
       required.add(need);
     }
@@ -2774,6 +2920,7 @@ export function requiredCatalogsForDraft(draft: SkillTriggerRuleDraft): SkillTri
     }
   }
   for (const action of draft.actions) {
+    if (action.runtimeInputBindings.some((item) => item.sourceType === 'SOURCE_CAST_RESOURCE_COST')) required.add('attributes');
     if (action.runtimeInputBindings.some((item) => item.sourceType === 'INTERNAL_STATE')) {
       required.add('internalStates');
     }
@@ -2895,9 +3042,11 @@ export function validateSkillTriggerDraft(
   draft: SkillTriggerRuleDraft,
   options: {
     includeRuleKey: boolean;
+    skillKey?: string;
     catalogStates?: Partial<Record<SkillTriggerCatalogKind, CatalogLoadState>>;
     formulasByKey?: ReadonlyMap<string, SkillFormula>;
     parameters?: readonly SkillParameter[];
+    attributes?: readonly Pick<Attribute, 'attributeKey'>[];
     effectsByKey?: ReadonlyMap<string, SkillEffect>;
     damageTypesByKey?: ReadonlyMap<string, DamageType>;
     processesByKey?: ReadonlyMap<string, SkillProcess>;
@@ -2916,7 +3065,7 @@ export function validateSkillTriggerDraft(
   if (draft.description.trim().length > 1000) fieldErrors.description = '说明不能超过1000个字符。';
   if (parseSortOrder(draft.sortOrder) === null) fieldErrors.sortOrder = '排序必须是 0～999999 的整数。';
 
-  const required = requiredCatalogsForDraft(draft);
+  const required = requiredCatalogsForDraft(draft, options);
   const blocking = options.catalogStates ? catalogsBlockingSave(required, options.catalogStates) : [];
   if (blocking.length > 0) {
     fieldErrors.eventSource = INCOMPLETE_CATALOG_MESSAGE;
@@ -2924,12 +3073,18 @@ export function validateSkillTriggerDraft(
 
   const allowedValues = allowedEventValuesFor(draft.eventSource, options.stepType ?? null);
   const hasEventSource = eventHasEventSource(draft.eventSource.eventType);
+  if (draft.eventSource.eventType === 'SOURCE_INITIALIZED') {
+    const detail = draft.eventSource.detail;
+    if (typeof detail !== 'object' || detail === null || Array.isArray(detail) || Object.keys(detail).length !== 0) {
+      pushError(nestedErrors, 'eventSource.detail', '来源对象初始化完成事件的详情必须为空对象。');
+    }
+  }
   if (draft.eventSource.eventType === 'PROCESS_MOMENT' && !draft.eventSource.detail.processKey.trim()) {
     pushError(nestedErrors, 'eventSource.detail.processKey', '过程不能为空。');
   }
   if (draft.eventSource.eventType === 'LIFECYCLE_MOMENT' && draft.eventSource.detail.moment === 'PERIODIC') {
     const effect = options.effectsByKey?.get(draft.eventSource.detail.effectKey);
-    if (effect && !effect.lifecycle?.periodicIntervalFormulaKey) {
+    if (effect && !effect.lifecycle?.periodicIntervalValue) {
       pushError(nestedErrors, 'eventSource.detail.moment', '周期时点要求已配置周期间隔。');
     }
   }
@@ -3008,6 +3163,19 @@ export function validateSkillTriggerDraft(
         pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].conditionKey`, '条件标识不能重复。');
       }
       conditionKeys.add(condition.conditionKey.trim());
+      if (condition.conditionType === 'LIFECYCLE_CHECK') {
+        const issue = lifecycleConditionError(condition.detail, options.effectsByKey?.get(condition.detail.effectKey), subjectOptionsForEvent(draft.eventSource.eventType),
+          { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, {}, options.skillKey);
+        if (issue) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.${issue.field}`, issue.message);
+      }
+      if (condition.conditionType === 'TARGET_CATEGORY_CHECK') {
+        const error = targetCategoryConditionError(condition.detail, draft.eventSource.eventType);
+        if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.categories`, error);
+      }
+      if (condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE') {
+        const error = explicitTargetIsSourceError(draft.eventSource.eventType);
+        if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`, error);
+      }
       if (condition.conditionType === 'EVENT_VALUE_COMPARE') {
         if (!allowedValues.includes(condition.detail.eventValueKey)) {
           pushError(
@@ -3080,6 +3248,11 @@ export function validateSkillTriggerDraft(
         pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}].parameterKey`, '同一参数不能重复绑定。');
       }
       parameterKeys.add(binding.parameterKey);
+      if (binding.sourceType === 'SOURCE_CAST_RESOURCE_COST') {
+        const reachable = reachableRuntimeInputParameters(collectActionValues(action, options), options.formulasByKey ?? new Map(), options.parameters ?? []);
+        const error = sourceCastResourceCostError(binding, draft.eventSource, reachable, options.attributes ?? [], options.catalogStates?.attributes);
+        if (error) pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, error);
+      }
       if (binding.sourceType === 'EVENT_VALUE' && !allowedValues.includes(binding.detail.eventValueKey)) {
         pushError(
           nestedErrors,
@@ -3167,26 +3340,9 @@ export function validateSkillTriggerDraft(
         );
       }
     }
-    if (action.actionType !== 'FAIL_PROCESS' && options.formulasByKey && options.parameters && options.effectsByKey) {
-      const formulaKeys = action.actionType === 'EXECUTE_EFFECT'
-        ? (() => {
-            const effect = options.effectsByKey.get(actionEffectKey(action.detail));
-            return effect ? collectExecuteEffectFormulaKeys(effect) : [];
-          })()
-        : (() => {
-            const process = options.processesByKey?.get(actionProcessKey(action.detail));
-            return process
-              ? collectStartProcessFormulaKeys(
-                  process,
-                  options.effectsByKey,
-                  options.statesByKey ?? new Map()
-                )
-              : [];
-          })();
+    if (action.actionType !== 'FAIL_PROCESS' && options.parameters && options.effectsByKey) {
       const reachable = reachableRuntimeInputParameters(
-        formulaKeys,
-        options.formulasByKey,
-        options.parameters
+        collectActionValues(action, options), options.formulasByKey ?? new Map(), options.parameters
       );
       const completeness = evaluateBindingCompleteness(reachable, action.runtimeInputBindings);
       if (completeness.some((item) => item.missing || item.extra || item.duplicate || item.typeCompatible === false)) {
@@ -3196,8 +3352,8 @@ export function validateSkillTriggerDraft(
   }
 
   if (draft.perTargetCooldownEnabled) {
-    if (!draft.perTargetCooldownDurationFormulaKey.trim()) {
-      fieldErrors.perTargetCooldown = '每目标冷却公式不能为空。';
+    if (!draft.perTargetCooldownDurationValue) {
+      fieldErrors.perTargetCooldown = '每目标冷却取值不能为空。';
     }
     if (draft.perTargetCooldownTargetContext === 'EVENT_SOURCE' && !hasEventSource) {
       fieldErrors.perTargetCooldown = '当前事件不提供事件来源对象。';
@@ -3206,10 +3362,25 @@ export function validateSkillTriggerDraft(
   if (draft.maxTriggersPerProcessEnabled) {
     if (draft.eventSource.eventType !== 'PROCESS_MOMENT') {
       fieldErrors.maxTriggersPerProcess = '单次过程最大触发次数仅用于过程时点事件。';
-    } else if (!draft.maxTriggersLimitFormulaKey.trim()) {
-      fieldErrors.maxTriggersPerProcess = '次数公式不能为空。';
+    } else if (!draft.maxTriggersLimitValue) {
+      fieldErrors.maxTriggersPerProcess = '次数取值不能为空。';
     }
   }
+
+  const checkValue = (value: NumericValue | null, path: string, limits: { min?: number; integer?: boolean; exclusiveMin?: boolean } = {}) => {
+    const error = numericValueError(value, { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, { ...limits, allowRuntimeInput: false,
+      parametersState: options.catalogStates?.parameters === 'error' ? 'failed' : undefined,
+      formulasState: options.catalogStates?.formulas === 'error' ? 'failed' : undefined });
+    if (error) pushError(nestedErrors, path, error);
+  };
+  if (draft.eventSource.eventType === 'HEALTH_THRESHOLD_CROSSED') checkValue(draft.eventSource.detail.thresholdValue, 'eventSource.detail.thresholdValue');
+  for (const [gi, group] of sortedGroups.entries()) for (const [ci, condition] of sortConditionDrafts(group.conditions).entries()) {
+    if (condition.conditionType === 'TARGET_CATEGORY_CHECK' || condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE') continue;
+    const detail = condition.detail;
+    if (detail.comparator !== null) checkValue(detail.comparisonValue, `conditionGroups[${gi}].conditions[${ci}].detail.comparisonValue`, condition.conditionType === 'LIFECYCLE_CHECK' ? { min: 0, integer: true } : {});
+  }
+  if (draft.perTargetCooldownEnabled) checkValue(draft.perTargetCooldownDurationValue, 'perTargetCooldown.durationValue', { min: 0, exclusiveMin: true });
+  if (draft.maxTriggersPerProcessEnabled) checkValue(draft.maxTriggersLimitValue, 'maxTriggersPerProcess.limitValue', { min: 1, integer: true });
 
   if (options.formulasByKey && options.parameters) {
     for (const formulaKey of collectDirectFormulaKeys(draft)) {

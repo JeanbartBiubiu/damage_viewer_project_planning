@@ -1,3 +1,5 @@
+import { ObjectRelationActions } from '../../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../../relations/useRepresentativeImageColumn';
 import {
   Alert,
   Button,
@@ -166,7 +168,12 @@ export function SkillEffectManagementModal({
     }
   };
 
+  const { imageColumn, onImageSaved } = useRepresentativeImageColumn<SkillEffectSummary>({
+    apiBaseUrl, selectedGameId, adminToken,
+    getTarget: record => ({ kind: 'skillEffect', key: record.effectKey, name: record.name, skillKey: record.skillKey })
+  });
   const columns: TableColumnProps[] = [
+    imageColumn,
     { title: '效果名称', dataIndex: 'name' },
     { title: '稳定标识', dataIndex: 'effectKey' },
     { title: '结果数量', dataIndex: 'resultCount', width: 100 },
@@ -187,14 +194,24 @@ export function SkillEffectManagementModal({
     },
     {
       title: '操作',
-      width: 220,
+      width: 440,
       render: (_value, record: SkillEffectSummary) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ObjectRelationActions
+            key={`${apiBaseUrl}:${selectedGameId}:${record.effectKey}`}
+            target={{ kind: 'skillEffect', key: record.effectKey, name: record.name, skillKey: skill?.skillKey }}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            onDirtyChange={onDirtyChange}
+            onImageSaved={() => onImageSaved(record)}
+          />
           <Button size="mini" onClick={() => setEditor({ mode: 'view', effect: record })}>
             查看
           </Button>
           <Button size="mini" onClick={() => setEditor({ mode: 'edit', effect: record })}>
             编辑
+          </Button>
+          <Button size="mini" onClick={() => setEditor({ mode: 'copy', effect: record })}>
+            复制为新效果
           </Button>
           <Button
             size="mini"
@@ -259,6 +276,7 @@ export function SkillEffectManagementModal({
           data={items}
           pagination={false}
           rowKey={(record: SkillEffectSummary) => record.effectKey}
+          scroll={{ x: 1214 }}
           noDataElement={<Empty description="暂无效果" />}
         />
       </Modal>

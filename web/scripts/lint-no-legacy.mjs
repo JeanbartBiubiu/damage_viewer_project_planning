@@ -10,12 +10,24 @@ const ROOT = join(process.cwd(), 'src');
 /** Exact approved independent skill-management lines; `/skills` stays forbidden elsewhere. */
 const APPROVED_INDEPENDENT_SKILL_LINES = [
   {
+    file: 'src/pages/admin/characters/CharacterManagementPage.tsx',
+    text: "import { SkillManagementPage } from '../skills/SkillManagementPage';"
+  },
+  {
     file: 'src/services/skillClient.ts',
     text: 'const base = `/api/admin/games/${encodePathSegment(gameId)}/skills`;'
   },
   {
     file: 'src/App.tsx',
     text: "import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';"
+  },
+  {
+    file: 'src/services/imageRelationClient.ts',
+    text: "case 'skill': return `${base}/skills/${key}/representative-image`;"
+  },
+  {
+    file: 'src/services/imageRelationClient.ts',
+    text: 'return `${base}/skills/${encodePathSegment(target.skillKey)}/effects/${key}/representative-image`;'
   }
 ];
 

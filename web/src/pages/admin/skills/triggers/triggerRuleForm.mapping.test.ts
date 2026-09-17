@@ -1,3 +1,4 @@
+import { fixedValue, formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillEffect, SkillEffectResult } from '../../../../types/skillEffect';
@@ -73,12 +74,12 @@ function damageResult(resultKey: string, formulaKey: string): SkillEffectResult 
     description: null,
     sortOrder: 10,
     lifecycleBehavior: null,
-    valueRule: { formulaKey, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+    valueRule: { value: formulaValue(formulaKey), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
     detail: {
       damageTypeKey: 'physical',
       deliveryKind: 'SKILL',
       originKind: 'DIRECT',
-      critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+      critical: { mode: 'DISALLOWED', multiplierValue: null },
       vampRules: []
     }
   };
@@ -147,7 +148,7 @@ const SHIELD_EFFECT = effect('emergency_shield', [
     description: null,
     sortOrder: 10,
     lifecycleBehavior: null,
-    valueRule: { formulaKey: 'shield_value', fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
+    valueRule: { value: formulaValue("shield_value"), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
     detail: {}
   }
 ]);
@@ -180,7 +181,7 @@ const CONSUME_PROCESS: SkillProcess = {
       description: null,
       sortOrder: 10,
       stepType: 'EMPOWERED_BASIC_ATTACK',
-      detail: { windowFormulaKey: 'empower_window_ms', consumeMoment: 'ATTACK_HIT' }
+      detail: { windowValue: formulaValue("empower_window_ms"), consumeMoment: 'ATTACK_HIT' }
     }
   ],
   effectBindings: [],
@@ -190,7 +191,7 @@ const CONSUME_PROCESS: SkillProcess = {
       name: '关闭准备',
       stateKey: 'focus_ready',
       operation: 'DISABLE',
-      valueFormulaKey: null,
+      value: null,
       optionKey: null,
       moment: { momentType: 'PROCESS_START', stepKey: null },
       sortOrder: 10
@@ -208,6 +209,123 @@ function expectValid(draft: SkillTriggerRuleDraft, includeRuleKey = true) {
 }
 
 describe('event-switch cleanup of event values, target contexts and process limit', () => {
+  it('clears hit-only configuration on initialization while retaining legal self references', () => {
+    const sourceCondition = {
+      ...createEmptyConditionDraft([], 'ATTRIBUTE_COMPARE'),
+      conditionKey: 'source_hp',
+      detail: {
+        subject: 'EVENT_SOURCE' as const,
+        attributeKey: 'hp',
+        attributeValueKind: 'CURRENT' as const,
+        comparator: 'GT' as const,
+        comparisonValue: fixedValue(0)
+      }
+    };
+    const draft = namedDraft('initialize', '初始化', {
+      eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'nasus_q' } },
+      conditionGroups: [{
+        ...createEmptyGroupDraft([]),
+        name: '条件',
+        conditions: [
+          sourceCondition,
+          ...(['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'] as const).map((eventValueKey, index) => ({
+            ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),
+            conditionKey: `hit_value_${index}`,
+            detail: { eventValueKey, comparator: 'EQ' as const, comparisonValue: fixedValue(0) }
+          })),
+          { ...createEmptyConditionDraft([], 'TARGET_CATEGORY_CHECK'), detail: { categories: ['CHAMPION'] } }
+        ]
+      }],
+      actions: [{
+        ...executeAction('apply_passive', 'lifesteal', '10', [
+          { bindingKey: 'hit_index', parameterKey: 'hit_index', sourceType: 'EVENT_VALUE', detail: { eventValueKey: 'HIT_INDEX' } },
+          { bindingKey: 'shield', parameterKey: 'blocked', sourceType: 'EVENT_VALUE', detail: { eventValueKey: 'SKILL_HIT_SPELL_SHIELD_BLOCKED' } },
+          { bindingKey: 'cost', parameterKey: 'cost', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: { attributeKey: 'mana' } },
+          { bindingKey: 'status', parameterKey: 'status', sourceType: 'COMBAT_STATUS', detail: {
+            subject: 'EVENT_SOURCE', statusKey: 'focus_mark', valueKind: 'PRESENT', sourceEffectKey: null, sourceResultKey: null
+          } }
+        ]),
+        targetContext: 'EVENT_SOURCE'
+      }],
+      perTargetCooldownEnabled: true,
+      perTargetCooldownTargetContext: 'EVENT_SOURCE',
+      perTargetCooldownDurationValue: fixedValue(1),
+      maxTriggersPerProcessEnabled: true,
+      maxTriggersLimitValue: fixedValue(1)
+    });
+    const next = createEmptyEventSource('SOURCE_INITIALIZED');
+    const impact = analyzeEventSwitchImpact(draft, next);
+    expect(impact.clearsEventValues).toBe(true);
+    expect(impact.clearsEventSourceRefs).toBe(false);
+    expect(impact.clearsProcessLimit).toBe(true);
+    expect(impact.summary).toContain('事件对方类别');
+    expect(impact.summary).toContain('来源施放资源消耗');
+    expect(draft.eventSource).toEqual({ eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'nasus_q' } });
+    expect(draft.conditionGroups[0].conditions).toHaveLength(4);
+
+    const cleaned = applyEventSwitchCleanup(draft, next);
+    expect(cleaned.eventSource).toEqual({ eventType: 'SOURCE_INITIALIZED', detail: {} });
+    expect(cleaned.conditionGroups[0].conditions).toEqual([sourceCondition]);
+    expect(cleaned.actions[0].targetContext).toBe('EVENT_SOURCE');
+    expect(cleaned.actions[0].runtimeInputBindings).toEqual([draft.actions[0].runtimeInputBindings[3]]);
+    expect(cleaned.perTargetCooldownTargetContext).toBe('EVENT_SOURCE');
+    expect(cleaned.maxTriggersPerProcessEnabled).toBe(false);
+    expect(cleaned.maxTriggersLimitValue).toBeNull();
+  });
+
+  it('validates and round-trips initialization with an event-source effect and condition', () => {
+    const draft = namedDraft('initialize_passive', '初始化被动', {
+      eventSource: createEmptyEventSource('SOURCE_INITIALIZED'),
+      conditionGroups: [{
+        ...createEmptyGroupDraft([]),
+        name: '自身属性',
+        conditions: [{
+          ...createEmptyConditionDraft([], 'ATTRIBUTE_COMPARE'),
+          detail: { subject: 'EVENT_SOURCE', attributeKey: 'hp', attributeValueKind: 'CURRENT', comparator: 'GT', comparisonValue: fixedValue(0) }
+        }]
+      }],
+      actions: [{ ...executeAction('apply_passive', 'lifesteal', '10'), targetContext: 'EVENT_SOURCE' }]
+    });
+    const created = expectValid(draft);
+    expect(created.eventSource).toEqual({ eventType: 'SOURCE_INITIALIZED', detail: {} });
+    expect(created.actions[0].targetContext).toBe('EVENT_SOURCE');
+    expect(toCreateRequest(fromDetail(created))).toEqual(created);
+    expect(toUpdateRequest(fromDetail(created)).eventSource).toEqual(created.eventSource);
+  });
+
+  it.each([undefined, null, [], '', 0, { sourceSkillKey: null }])('rejects malformed initialization form detail %j', (detail) => {
+    const draft = namedDraft('initialize_passive', '初始化被动', {
+      eventSource: { eventType: 'SOURCE_INITIALIZED', detail } as SkillTriggerRuleDetail['eventSource'],
+      actions: [{ ...executeAction('apply_passive', 'lifesteal', '10'), targetContext: 'EVENT_SOURCE' }]
+    });
+    const result = validateSkillTriggerDraft(draft, { includeRuleKey: true });
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.nestedErrors).toContainEqual({ path: 'eventSource.detail', message: '来源对象初始化完成事件的详情必须为空对象。' });
+  });
+
+  it('rejects event values and hit-only data retained in an initialization draft', () => {
+    const draft = namedDraft('initialize_passive', '初始化被动', {
+      eventSource: createEmptyEventSource('SOURCE_INITIALIZED'),
+      conditionGroups: [{
+        ...createEmptyGroupDraft([]),
+        name: '旧条件',
+        conditions: [{
+          ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),
+          detail: { eventValueKey: 'HIT_INDEX', comparator: 'EQ', comparisonValue: fixedValue(1) }
+        }]
+      }],
+      actions: [executeAction('apply_passive', 'lifesteal', '10', [{
+        bindingKey: 'hit', parameterKey: 'hit', sourceType: 'EVENT_VALUE', detail: { eventValueKey: 'SKILL_HIT_SPELL_SHIELD_BLOCKED' }
+      }])]
+    });
+    const result = validateSkillTriggerDraft(draft, { includeRuleKey: true });
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.nestedErrors.some((error) => error.path.includes('conditions[0]'))).toBe(true);
+      expect(result.nestedErrors.some((error) => error.path.includes('runtimeInputBindings[0]'))).toBe(true);
+    }
+  });
+
   it('analyzes and clears stale event-value conditions, bindings, EVENT_SOURCE refs and process limit', () => {
     const eventValueCondition = {
       ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),
@@ -215,7 +333,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       detail: {
         eventValueKey: 'HIT_INDEX' as const,
         comparator: 'EQ' as const,
-        comparisonFormulaKey: 'one'
+        comparisonValue: formulaValue("one")
       }
     };
     const periodCondition = {
@@ -224,7 +342,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       detail: {
         eventValueKey: 'PERIOD_INDEX' as const,
         comparator: 'GTE' as const,
-        comparisonFormulaKey: 'one'
+        comparisonValue: formulaValue("one")
       }
     };
     const eventSourceCondition = {
@@ -235,7 +353,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
         attributeKey: 'hp',
         attributeValueKind: 'CURRENT' as const,
         comparator: 'LTE' as const,
-        comparisonFormulaKey: 'threshold'
+        comparisonValue: formulaValue("threshold")
       }
     };
     const group = {
@@ -248,7 +366,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       eventSource: createEmptyEventSource('SKILL_HIT'),
       conditionGroups: [group],
       maxTriggersPerProcessEnabled: true,
-      maxTriggersLimitFormulaKey: 'max_triggers',
+      maxTriggersLimitValue: formulaValue("max_triggers"),
       perTargetCooldownEnabled: true,
       perTargetCooldownTargetContext: 'EVENT_SOURCE',
       actions: [
@@ -303,7 +421,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
     ]);
     expect(cleaned.perTargetCooldownTargetContext).toBe('CURRENT_TARGET');
     expect(cleaned.maxTriggersPerProcessEnabled).toBe(false);
-    expect(cleaned.maxTriggersLimitFormulaKey).toBe('');
+    expect(cleaned.maxTriggersLimitValue).toEqual(null);
   });
 
   it('drops stale event-value conditions and bindings instead of remapping them', () => {
@@ -315,6 +433,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       conditionGroups: [{
         groupKey: 'group_1',
         name: '周期',
+        draftId: 'periodic-draft',
         sortOrder: '10',
         conditions: [{
           ...createEmptyConditionDraft([], 'EVENT_VALUE_COMPARE'),
@@ -322,7 +441,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
           detail: {
             eventValueKey: 'PERIOD_INDEX',
             comparator: 'EQ',
-            comparisonFormulaKey: 'one'
+            comparisonValue: formulaValue("one")
           }
         }]
       }],
@@ -340,7 +459,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       detail: { effectKey: 'focus_mark', moment: 'FULL_STACKS' as const }
     };
     const cleaned = applyEventSwitchCleanup(draft, next);
-    expect(cleaned.conditionGroups[0].conditions).toEqual([]);
+    expect(cleaned.conditionGroups).toEqual([]);
     expect(cleaned.actions[0].runtimeInputBindings).toEqual([]);
     expect(cleaned.maxTriggersPerProcessEnabled).toBe(false);
   });
@@ -352,7 +471,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
         detail: { processKey: 'charge_cast', moment: { momentType: 'PROCESS_START', stepKey: null } }
       },
       maxTriggersPerProcessEnabled: true,
-      maxTriggersLimitFormulaKey: 'max_triggers',
+      maxTriggersLimitValue: formulaValue("max_triggers"),
       actions: [executeAction('proc', 'on_hit_damage', '10')]
     });
     const next = {
@@ -364,7 +483,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
     };
     const cleaned = applyEventSwitchCleanup(draft, next, 'CHARGE');
     expect(cleaned.maxTriggersPerProcessEnabled).toBe(true);
-    expect(cleaned.maxTriggersLimitFormulaKey).toBe('max_triggers');
+    expect(cleaned.maxTriggersLimitValue).toEqual(formulaValue('max_triggers'));
     expect(analyzeEventSwitchImpact(draft, next, 'CHARGE').clearsProcessLimit).toBe(false);
   });
 });
@@ -379,8 +498,8 @@ describe('nested backend fieldIssue mapping, cycle path and unknown detail reten
         { field: 'actions[0].detail.effectKey', message: '效果不能为空。' },
         { field: 'actions[0].runtimeInputBindings[1].parameterKey', message: '参数不能为空。' },
         { field: 'actions[0].resultModifiers[0].fixedMultiplier', message: '倍率不能为负。' },
-        { field: 'perTargetCooldown.durationFormulaKey', message: '冷却公式不能为空。' },
-        { field: 'maxTriggersPerProcess.limitFormulaKey', message: '次数公式不能为空。' },
+        { field: 'perTargetCooldown.durationValue', message: '冷却公式不能为空。' },
+        { field: 'maxTriggersPerProcess.limitValue', message: '次数取值不能为空。' },
         { field: 'unknownZone.foo', message: '无法识别的新字段。' },
         { field: '', message: '缺少字段名。' }
       ],
@@ -395,7 +514,7 @@ describe('nested backend fieldIssue mapping, cycle path and unknown detail reten
     expect(mapped.fieldErrors.name).toBe('规则名称不能为空。');
     expect(mapped.fieldErrors.eventSource).toBe('效果不能为空。');
     expect(mapped.fieldErrors.perTargetCooldown).toBe('冷却公式不能为空。');
-    expect(mapped.fieldErrors.maxTriggersPerProcess).toBe('次数公式不能为空。');
+    expect(mapped.fieldErrors.maxTriggersPerProcess).toBe('次数取值不能为空。');
     expect(mapped.nestedErrors).toEqual([
       { path: 'conditionGroups[0].conditions[1].detail.comparator', message: '比较符不合法。' },
       { path: 'actions[0].detail.effectKey', message: '效果不能为空。' },
@@ -586,7 +705,7 @@ describe('representative draft transformations', () => {
         detail: {
           subject: 'SOURCE',
           attributeKey: 'hp',
-          thresholdFormulaKey: 'hp_threshold',
+          thresholdValue: formulaValue("hp_threshold"),
           direction: 'DOWNWARD'
         }
       },
@@ -603,7 +722,7 @@ describe('representative draft transformations', () => {
             attributeKey: 'hp',
             attributeValueKind: 'CURRENT_RATIO',
             comparator: 'LTE',
-            comparisonFormulaKey: 'low_health_ratio'
+            comparisonValue: formulaValue("low_health_ratio")
           }
         }]
       }],
@@ -618,7 +737,7 @@ describe('representative draft transformations', () => {
         resultModifiers: []
       }],
       perTargetCooldown: {
-        durationFormulaKey: 'shield_cooldown_ms',
+        durationValue: formulaValue("shield_cooldown_ms"),
         targetContext: 'CURRENT_TARGET'
       },
       maxTriggersPerProcess: null
@@ -657,7 +776,7 @@ describe('representative draft transformations', () => {
             sourceEffectKey: null,
             sourceResultKey: null,
             comparator: null,
-            comparisonFormulaKey: null
+            comparisonValue: null
           }
         }]
       }],
@@ -799,7 +918,7 @@ describe('representative draft transformations', () => {
             optionKey: null,
             expectedBoolean: true,
             comparator: null,
-            comparisonFormulaKey: null
+            comparisonValue: null
           }
         }]
       }],

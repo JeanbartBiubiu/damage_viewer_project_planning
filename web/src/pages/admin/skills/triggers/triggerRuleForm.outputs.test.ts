@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import type { SkillEffect, SkillEffectResult } from '../../../../types/skillEffect';
 import type { SkillTriggerPriorResultOutputKind } from '../../../../types/skillTriggerRule';
@@ -31,7 +32,7 @@ const STAMP = {
   updatedAt: '2026-08-30T00:00:00Z'
 } as const;
 
-const VALUE_RULE = { formulaKey: 'base', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null };
+const VALUE_RULE = { value: formulaValue('base'), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null };
 
 function effect(
   effectKey: string,
@@ -134,7 +135,7 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
         damageTypeKey: 'physical',
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
-        critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+        critical: { mode: 'DISALLOWED', multiplierValue: null },
         vampRules: []
       }
     });
@@ -153,7 +154,7 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
       vamped.detail.vampRules = [{
         vampType: 'OMNIVAMP',
         basisOutputKind: 'ACTUAL_HP_LOSS',
-        efficiencyFormulaKey: 'vamp'
+        efficiencyValue: formulaValue("vamp")
       }];
     }
     expect(listAvailablePriorResultOutputs(vamped)).toContain('ACTUAL_HEALING');
@@ -229,7 +230,7 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
     expect(collectExecuteEffectFormulaKeys(effect('zones', [
       modifier,
       baseResult('heal_mod', 'HEALING_MODIFIER', {
-        valueRule: { ...VALUE_RULE, formulaKey: 'heal_mod_formula' },
+        valueRule: { ...VALUE_RULE, value: formulaValue("heal_mod_formula") },
         detail: {
           modifierZoneKey: 'post_defense',
           direction: 'RECEIVED',
@@ -238,7 +239,7 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
         }
       }),
       baseResult('floor', 'HEALTH_FLOOR', {
-        valueRule: { ...VALUE_RULE, formulaKey: 'floor_formula' },
+        valueRule: { ...VALUE_RULE, value: formulaValue("floor_formula") },
         detail: { attributeKey: 'hp' }
       })
     ]))).toEqual(['base', 'heal_mod_formula', 'floor_formula']);
@@ -251,7 +252,7 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
         damageTypeKey: 'physical',
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
-        critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+        critical: { mode: 'DISALLOWED', multiplierValue: null },
         vampRules: []
       }
     });
@@ -281,14 +282,14 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
 
   it('excludes non-application lifecycle and MOMENT_EVALUATION persistent modifiers', () => {
     const lifecycle = {
-      durationFormulaKey: 'ms',
-      maxStacksFormulaKey: 'one',
-      applicationStacksFormulaKey: 'one',
+      durationValue: formulaValue("ms"),
+      maxStacksValue: formulaValue("one"),
+      applicationStacksValue: formulaValue("one"),
       instanceScope: 'TARGET' as const,
       reapplicationStackMode: 'KEEP' as const,
       reapplicationDurationMode: 'REFRESH_ALL' as const,
       expiryMode: 'ALL_AT_ONCE' as const,
-      periodicIntervalFormulaKey: null,
+      periodicIntervalValue: null,
       firstPeriodicExecution: null
     };
     const persistentModifier = baseResult('taken', 'DAMAGE_MODIFIER', {
@@ -346,7 +347,7 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
         damageTypeKey: 'physical',
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
-        critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+        critical: { mode: 'DISALLOWED', multiplierValue: null },
         vampRules: []
       }
     })]);
@@ -397,14 +398,14 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
     });
     expect(isImmediateResult(haste, true)).toBe(false);
     expect(listImmediateSourceResults(effect('haste_effect', [haste], {
-      durationFormulaKey: 'ms',
-      maxStacksFormulaKey: 'one',
-      applicationStacksFormulaKey: 'one',
+      durationValue: formulaValue("ms"),
+      maxStacksValue: formulaValue("one"),
+      applicationStacksValue: formulaValue("one"),
       instanceScope: 'SOURCE',
       reapplicationStackMode: 'KEEP',
       reapplicationDurationMode: 'REFRESH_ALL',
       expiryMode: 'ALL_AT_ONCE',
-      periodicIntervalFormulaKey: null,
+      periodicIntervalValue: null,
       firstPeriodicExecution: null
     }))).toEqual([]);
     expect(listAvailablePriorResultOutputs(haste)).toEqual(['CONFIGURED_VALUE']);

@@ -1,3 +1,5 @@
+import { ObjectRelationActions } from '../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
 import {
   Alert,
   Button,
@@ -29,12 +31,20 @@ import { SkillParameterFormulaModal } from './SkillParameterFormulaModal';
 import { SkillProcessInternalStateModal } from './processes/SkillProcessInternalStateModal';
 import { SkillTriggerRuleManagementModal } from './triggers/SkillTriggerRuleManagementModal';
 import { SKILL_TRIGGER_ENTRY_LABEL } from './triggers/triggerRuleForm';
+import { loadFocusedSkill } from './focusedSkill';
 
 export type SkillManagementPageProps = {
   apiBaseUrl: string;
   selectedGameId: string | null;
   adminToken: string;
   onDirtyChange: (dirty: boolean) => void;
+  focus?: {
+    skillKey: string;
+    characterKey: string;
+    characterName: string;
+    onReturn: () => void;
+    returnLabel?: string;
+  };
 };
 
 type StatusFilter = SkillStatus | '';
@@ -73,13 +83,17 @@ export function SkillManagementPage({
   apiBaseUrl,
   selectedGameId,
   adminToken,
-  onDirtyChange
+  onDirtyChange,
+  focus
 }: SkillManagementPageProps) {
+  const focusedSkillKey = focus?.skillKey;
   const [keywordDraft, setKeywordDraft] = useState('');
   const [statusDraft, setStatusDraft] = useState<StatusFilter>('');
   const [appliedQuery, setAppliedQuery] = useState<SkillListQuery>(EMPTY_QUERY);
   const [items, setItems] = useState<Skill[]>([]);
   const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [categories, setCategories] = useState<SkillCategory[]>([]);
@@ -145,7 +159,9 @@ export function SkillManagementPage({
     setLoading(true);
     setLoadError(null);
     try {
-      const result = await listSkills(apiBaseUrl, selectedGameId, token, query);
+      const result = focusedSkillKey
+        ? { data: { items: [await loadFocusedSkill(apiBaseUrl, selectedGameId, focusedSkillKey, token)], total: 1 } }
+        : await listSkills(apiBaseUrl, selectedGameId, token, query);
       if (skillRequestSerial.current !== serial) return;
       setItems(result.data.items);
       setTotal(result.data.total);
@@ -157,7 +173,7 @@ export function SkillManagementPage({
     } finally {
       if (skillRequestSerial.current === serial) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId]);
+  }, [adminToken, apiBaseUrl, selectedGameId, focusedSkillKey]);
 
   const loadCategories = useCallback(async () => {
     const serial = categoryRequestSerial.current + 1;
@@ -208,9 +224,17 @@ export function SkillManagementPage({
 
   useEffect(() => { void loadSkills(appliedQuery); }, [appliedQuery, loadSkills]);
   useEffect(() => { void loadCategories(); }, [loadCategories]);
+  useEffect(() => { setCurrentPage(1); }, [apiBaseUrl, selectedGameId, adminToken, focusedSkillKey]);
+
+  const lastPage = Math.max(1, Math.ceil(items.length / pageSize));
+  const visiblePage = Math.min(currentPage, lastPage);
+  useEffect(() => {
+    setCurrentPage((page) => Math.min(page, lastPage));
+  }, [lastPage]);
 
   const applyQuery = () => {
     setNotice(null);
+    setCurrentPage(1);
     setAppliedQuery({
       keyword: keywordDraft.trim() || undefined,
       status: statusDraft || undefined
@@ -221,6 +245,7 @@ export function SkillManagementPage({
     setKeywordDraft('');
     setStatusDraft('');
     setNotice(null);
+    setCurrentPage(1);
     setAppliedQuery(EMPTY_QUERY);
   };
 
@@ -307,7 +332,12 @@ export function SkillManagementPage({
     }
   };
 
+  const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Skill>({
+    apiBaseUrl, selectedGameId, adminToken,
+    getTarget: record => ({ kind: 'skill', key: record.skillKey, name: record.name })
+  });
   const columns: TableColumnProps[] = [
+    imageColumn,
     { title: '技能名称', dataIndex: 'name', width: 180 },
     { title: '技能标识', dataIndex: 'skillKey', width: 190 },
     { title: '最高等级', dataIndex: 'maxLevel', width: 100 },
@@ -348,10 +378,17 @@ export function SkillManagementPage({
     },
     {
       title: '操作',
-      width: 680,
+      width: 520,
       fixed: 'right',
       render: (_value, record: Skill) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ObjectRelationActions
+            key={`${apiBaseUrl}:${selectedGameId}:${record.skillKey}`}
+            target={{ kind: 'skill', key: record.skillKey, name: record.name }}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            onDirtyChange={onDirtyChange}
+            onImageSaved={() => onImageSaved(record)}
+          />
           <Button size="mini" onClick={() => setEditor({ mode: 'view', skill: record })}>查看</Button>
           <Button
             size="mini"
@@ -387,9 +424,10 @@ export function SkillManagementPage({
   return (
     <div className="page-stack">
       <Panel
-        title="技能管理"
+        title={focus ? `技能录入${items[0] ? ` · ${items[0].name}` : ''}` : '技能管理'}
         actions={
           <Space>
+            {focus ? <Button type="primary" onClick={focus.onReturn}>{focus.returnLabel ?? '返回角色技能'}</Button> : null}
             <Button
               loading={loading}
               disabled={!selectedGameId || !adminToken.trim()}
@@ -398,11 +436,11 @@ export function SkillManagementPage({
                 void loadCategories();
               }}
             >刷新</Button>
-            <Button
+            {!focus ? <Button
               type="primary"
               disabled={!selectedGameId || !adminToken.trim() || !categoryDirectoryReady}
               onClick={() => setEditor({ mode: 'create', skill: null })}
-            >新增技能</Button>
+            >新增技能</Button> : null}
           </Space>
         }
       >
@@ -423,7 +461,9 @@ export function SkillManagementPage({
         ) : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
+        {focus ? <Alert type="info" content={`来自角色：${focus.characterName}（${focus.characterKey}）。正在录入下方这一项技能；完成后${focus.returnLabel ?? '返回角色技能'}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
+
+        {!focus ? <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             <span>关键词</span>
             <Input
@@ -457,35 +497,49 @@ export function SkillManagementPage({
             <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={applyQuery}>查询</Button>
             <Button onClick={resetQuery}>重置</Button>
           </Space>
-        </div>
+        </div> : null}
 
         <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8 }}>
-          共 {total} 条技能
+          {focus ? `当前技能标识：${focus.skillKey}` : `共 ${total} 条技能`}
         </Typography.Text>
         <Table
           className="data-table-shell"
           loading={loading}
           columns={columns}
           data={items}
-          pagination={false}
+          pagination={focus ? false : {
+            current: visiblePage,
+            pageSize,
+            total: items.length,
+            showTotal: true,
+            sizeCanChange: true,
+            sizeOptions: [25, 50, 100],
+            onChange: (page, nextPageSize) => {
+              setCurrentPage(nextPageSize === pageSize ? page : 1);
+              setPageSize(nextPageSize);
+            }
+          }}
           rowKey={(record: Skill) => record.skillKey}
-          scroll={{ x: 1680 }}
+          scroll={{ x: 1654 }}
           noDataElement={<Empty description="暂无技能" />}
         />
       </Panel>
 
-      <SkillEditorModal
-        visible={editor !== null}
-        mode={editor?.mode ?? 'view'}
-        skill={editor?.skill ?? null}
-        skillCategories={categories}
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        onClose={() => setEditor(null)}
-        onSaved={handleSaved}
-        onDirtyChange={onDirtyChange}
-      />
+      {editor ? (
+        <SkillEditorModal
+          key={`${apiBaseUrl}:${selectedGameId}:${editor.mode}:${editor.skill?.skillKey ?? 'new'}`}
+          visible
+          mode={editor.mode}
+          skill={editor.skill}
+          skillCategories={categories}
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          adminToken={adminToken}
+          onClose={() => setEditor(null)}
+          onSaved={handleSaved}
+          onDirtyChange={onDirtyChange}
+        />
+      ) : null}
 
       <SkillParameterFormulaModal
         visible={parameterFormulaTarget !== null}

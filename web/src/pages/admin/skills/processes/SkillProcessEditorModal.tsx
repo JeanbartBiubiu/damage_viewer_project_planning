@@ -1,3 +1,5 @@
+import { useNumericParameters } from '../useNumericParameters';
+import { NumericValueField } from '../NumericValueField';
 import {
   Alert,
   Button,
@@ -52,9 +54,7 @@ import {
   createEmptyStateOperationDraft,
   createEmptyStepDraft,
   findStepDeleteBlockers,
-  isCatalogOptionSelectable,
   isProcessLevelMoment,
-  listFormulaOptions,
   mapSkillProcessFieldIssues,
   operationValueSummary,
   skillProcessToDraft,
@@ -186,6 +186,7 @@ export function SkillProcessEditorModal({
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detailReady, setDetailReady] = useState(mode === 'create');
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
+  const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible, catalogRevision);
   const [effects, setEffects] = useState<SkillEffectSummary[]>([]);
   const [internalStates, setInternalStates] = useState<SkillInternalStateSummary[]>([]);
   const [modeOptionsByStateKey, setModeOptionsByStateKey] = useState<{ [stateKey: string]: Array<{ optionKey: string; name: string }> }>({});
@@ -474,6 +475,7 @@ export function SkillProcessEditorModal({
       stateOperations: sortOperationDrafts(draft.stateOperations)
     };
     const validation = validateSkillProcessDraft(sorted, {
+      parameters, parametersLoadState,
       includeProcessKey: mode === 'create',
       catalog: {
         formulas,
@@ -563,12 +565,6 @@ export function SkillProcessEditorModal({
     for (const item of operationErrors) map.set(item.index, item.fieldErrors);
     return map;
   }, [operationErrors]);
-
-  const formulaNames = useMemo(() => {
-    const names = new Map<string, string>();
-    for (const item of formulas) names.set(item.formulaKey, item.name);
-    return names;
-  }, [formulas]);
   const effectNames = useMemo(() => {
     const names = new Map<string, string>();
     for (const item of effects) names.set(item.effectKey, item.name);
@@ -779,7 +775,7 @@ export function SkillProcessEditorModal({
       )
     },
     {
-      title: '数值公式或模式选项摘要',
+      title: '数值或模式选项摘要',
       render: (_value, row: { item: SkillProcessStateOperationDraft }) => operationValueSummary(row.item)
     },
     {
@@ -994,7 +990,7 @@ export function SkillProcessEditorModal({
                 onChange={(value) => patchDraft({
                   ...draft,
                   cooldownEnabled: value === 'configured',
-                  cooldownDurationFormulaKey: value === 'configured' ? draft.cooldownDurationFormulaKey : '',
+                  cooldownDurationValue: value === 'configured' ? draft.cooldownDurationValue : null,
                   cooldownMomentType: value === 'configured' ? draft.cooldownMomentType : 'PROCESS_START',
                   cooldownStepKey: value === 'configured' ? draft.cooldownStepKey : ''
                 })}
@@ -1006,31 +1002,19 @@ export function SkillProcessEditorModal({
             {draft.cooldownEnabled ? (
               <>
                 <Form.Item
-                  label="冷却时长公式"
+                  label="冷却时长取值"
                   required
                   extra={MILLISECOND_FORMULA_HINT}
-                  validateStatus={errors.cooldownDurationFormulaKey ? 'error' : undefined}
-                  help={errors.cooldownDurationFormulaKey}
+                  validateStatus={errors.cooldownDurationValue ? 'error' : undefined}
+                  help={errors.cooldownDurationValue}
                 >
-                  <Select
-                    aria-label="冷却时长公式"
-                    value={draft.cooldownDurationFormulaKey || undefined}
-                    disabled={readOnly || saving}
-                    options={listFormulaOptions({
-                      formulas,
-                      effects: [],
-                      internalStates: [],
-                      modeOptionsByStateKey: {}
-                    }, draft.cooldownDurationFormulaKey).map((option) => ({
-                      value: option.key,
-                      label: option.source === 'unknown'
-                        ? `${option.key}（${MISSING_CATALOG_LABEL}）`
-                        : (formulaNames.get(option.key) ?? option.key),
-                      disabled: !isCatalogOptionSelectable(option)
-                    }))}
-                    placeholder="请选择冷却时长公式"
-                    onChange={(value) => patchDraft({ ...draft, cooldownDurationFormulaKey: String(value ?? '') })}
-                  />
+                  <NumericValueField aria-label="冷却时长取值"
+                  value={draft.cooldownDurationValue}
+                  onChange={(value) => patchDraft({ ...draft, cooldownDurationValue: value! })}
+                  parameters={parameters}
+                  parametersLoadState={parametersLoadState}
+                  formulas={formulas}
+                  disabled={readOnly || saving} />
                 </Form.Item>
                 <SkillProcessMomentFields
                   momentType={draft.cooldownMomentType}
@@ -1155,6 +1139,8 @@ export function SkillProcessEditorModal({
         siblingSteps={draft.steps}
         stepIndex={stepEditor?.index ?? null}
         fieldErrors={stepEditor?.fieldErrors ?? {}}
+        parameters={parameters}
+        parametersLoadState={parametersLoadState}
         formulas={formulas}
         formulasLoadState={formulasLoadState}
         onOpenParameterFormula={onOpenParameterFormula}
@@ -1222,6 +1208,8 @@ export function SkillProcessEditorModal({
         operationIndex={operationEditor?.index ?? null}
         steps={draft.steps}
         fieldErrors={operationEditor?.fieldErrors ?? {}}
+        parameters={parameters}
+        parametersLoadState={parametersLoadState}
         formulas={formulas}
         formulasLoadState={formulasLoadState}
         internalStates={internalStates}

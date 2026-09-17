@@ -1,3 +1,5 @@
+import { ObjectRelationActions } from '../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
 import {
   Alert,
   Button,
@@ -198,7 +200,12 @@ export function StatusManagementPage({
     }
   };
 
+  const { imageColumn, onImageSaved } = useRepresentativeImageColumn<GameStatus>({
+    apiBaseUrl, selectedGameId, adminToken,
+    getTarget: record => ({ kind: 'status', key: record.statusKey, name: record.name })
+  });
   const columns: TableColumnProps[] = [
+    imageColumn,
     { title: '状态名称', dataIndex: 'name', width: 180 },
     { title: '状态标识', dataIndex: 'statusKey', width: 190 },
     {
@@ -224,10 +231,17 @@ export function StatusManagementPage({
     },
     {
       title: '操作',
-      width: 280,
+      width: 450,
       fixed: 'right',
       render: (_value, record: GameStatus) => (
-        <Space size="mini">
+        <Space size="mini" wrap>
+          <ObjectRelationActions
+            key={`${apiBaseUrl}:${selectedGameId}:${record.statusKey}`}
+            target={{ kind: 'status', key: record.statusKey, name: record.name }}
+            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+            onDirtyChange={onDirtyChange}
+            onImageSaved={() => onImageSaved(record)}
+          />
           <Button size="mini" onClick={() => setEditor({ mode: 'view', statusRecord: record })}>查看</Button>
           <Button size="mini" onClick={() => setEditor({ mode: 'edit', statusRecord: record })}>编辑</Button>
           <Button
@@ -322,7 +336,7 @@ export function StatusManagementPage({
           data={items}
           pagination={false}
           rowKey={(record: GameStatus) => record.statusKey}
-          scroll={{ x: 1120 }}
+          scroll={{ x: 1484 }}
           noDataElement={<Empty description="暂无状态" />}
         />
       </Panel>

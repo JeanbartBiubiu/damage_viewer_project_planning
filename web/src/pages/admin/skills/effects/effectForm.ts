@@ -1,3 +1,7 @@
+import type { SkillParameter } from '../../../../types/skillParameter';
+import { numericIssuePath, numericValueError } from '../numericValueForm';
+import { numericFormulaKey } from '../../../../types/numericValue';
+import { type NumericValue } from '../../../../types/numericValue';
 import { ApiRequestError } from '../../../../services/apiClient';
 import {
   formatTriggerInboundDependency,
@@ -105,15 +109,15 @@ export function valueFormulaLabelFor(resultType: SkillEffectResultType): string 
     return '修正比例公式';
   }
   if (resultType === 'HEALTH_FLOOR') return '生命下限公式';
-  if (resultType === 'EXECUTE') return '斩杀阈值公式';
-  if (resultType === 'HIT_LINK_APPLICATION') return '命中联动次数公式';
-  if (resultType === 'ATTACK_LINK_APPLICATION') return '攻击联动次数公式';
-  return '数值公式';
+  if (resultType === 'EXECUTE') return '斩杀阈值取值';
+  if (resultType === 'HIT_LINK_APPLICATION') return '命中联动次数取值';
+  if (resultType === 'ATTACK_LINK_APPLICATION') return '攻击联动次数取值';
+  return '数值';
 }
 
 export const EXECUTE_RESULT_HINT = '目标当前生命属性小于等于阈值时形成斩杀结果；它不是额外伤害。';
 export const LINK_APPLICATION_RESULT_HINT =
-  '次数公式未来按非负整数解释。需要延迟时，请在技能过程的延迟步骤挂接该效果。';
+  '次数取值未来按非负整数解释。需要延迟时，请在技能过程的延迟步骤挂接该效果。';
 
 export const SKILL_EFFECT_SPELL_SHIELD_BLOCK_SCOPE_LABELS = {
   SKILL: '整个技能',
@@ -335,14 +339,14 @@ export const SKILL_EFFECT_LIFECYCLE_OPERATIONS = [
 ] as const satisfies readonly SkillEffectLifecycleOperation[];
 
 export type SkillEffectLifecycleDraft = {
-  durationFormulaKey: string;
-  maxStacksFormulaKey: string;
-  applicationStacksFormulaKey: string;
+  durationValue: NumericValue | null;
+  maxStacksValue: NumericValue | null;
+  applicationStacksValue: NumericValue | null;
   instanceScope: SkillEffectLifecycleInstanceScope | '';
   reapplicationStackMode: SkillEffectReapplicationStackMode | '';
   reapplicationDurationMode: SkillEffectReapplicationDurationMode | '';
   expiryMode: SkillEffectExpiryMode | '';
-  periodicIntervalFormulaKey: string;
+  periodicIntervalValue: NumericValue | null;
   firstPeriodicExecution: SkillEffectFirstPeriodicExecution | '';
 };
 
@@ -357,7 +361,7 @@ export type SkillEffectResultLifecycleBehaviorDraft = {
 export type SkillEffectVampRuleDraft = {
   vampType: SkillEffectVampType | '';
   basisOutputKind: SkillEffectVampBasisOutputKind | '';
-  efficiencyFormulaKey: string;
+  efficiencyValue: NumericValue | null;
 };
 
 export type AffectedSkillScopeDraft = {
@@ -373,7 +377,7 @@ export type SkillEffectResultDraft = {
   target: SkillEffectTarget;
   description: string;
   sortOrder: string;
-  formulaKey: string;
+  value: NumericValue | null;
   fixedMultiplier: string;
   fixedMinValue: string;
   fixedMaxValue: string;
@@ -381,7 +385,7 @@ export type SkillEffectResultDraft = {
   damageDeliveryKind: SkillEffectDamageDeliveryKind | '';
   damageOriginKind: SkillEffectDamageOriginKind | '';
   criticalMode: SkillEffectCriticalMode | '';
-  criticalMultiplierFormulaKey: string;
+  criticalMultiplierValue: NumericValue | null;
   vampRules: SkillEffectVampRuleDraft[];
   absorbedDamageTypeKey: string;
   shieldDecayMode: SkillEffectNormalShieldDecayMode | '';
@@ -435,14 +439,14 @@ export type SkillEffectDraftField =
   | 'sortOrder'
   | 'results'
   | 'lifecycle'
-  | 'durationFormulaKey'
-  | 'maxStacksFormulaKey'
-  | 'applicationStacksFormulaKey'
+  | 'durationValue'
+  | 'maxStacksValue'
+  | 'applicationStacksValue'
   | 'instanceScope'
   | 'reapplicationStackMode'
   | 'reapplicationDurationMode'
   | 'expiryMode'
-  | 'periodicIntervalFormulaKey'
+  | 'periodicIntervalValue'
   | 'firstPeriodicExecution';
 
 export type SkillEffectResultDraftField =
@@ -452,7 +456,7 @@ export type SkillEffectResultDraftField =
   | 'target'
   | 'description'
   | 'sortOrder'
-  | 'formulaKey'
+  | 'value'
   | 'fixedMultiplier'
   | 'fixedMinValue'
   | 'fixedMaxValue'
@@ -461,7 +465,7 @@ export type SkillEffectResultDraftField =
   | 'damageDeliveryKind'
   | 'damageOriginKind'
   | 'criticalMode'
-  | 'criticalMultiplierFormulaKey'
+  | 'criticalMultiplierValue'
   | 'vampRules'
   | 'absorbedDamageTypeKey'
   | 'shieldDecayMode'
@@ -550,10 +554,13 @@ export type EffectFormCatalog = {
 };
 
 export type SkillEffectFormValidationOptions = {
+  parameters?: readonly SkillParameter[];
+  parametersLoadState?: 'ready' | 'failed';
   includeEffectKey: boolean;
   catalog?: EffectFormCatalog | null;
   catalogLoadState?: EffectCatalogLoadState | null;
   skipLifecycleShapeValidation?: boolean;
+  skipEffectMetadataValidation?: boolean;
 };
 
 export type CatalogRefOption = {
@@ -589,27 +596,27 @@ const EFFECT_DRAFT_FIELDS = new Set<SkillEffectDraftField>([
   'sortOrder',
   'results',
   'lifecycle',
-  'durationFormulaKey',
-  'maxStacksFormulaKey',
-  'applicationStacksFormulaKey',
+  'durationValue',
+  'maxStacksValue',
+  'applicationStacksValue',
   'instanceScope',
   'reapplicationStackMode',
   'reapplicationDurationMode',
   'expiryMode',
-  'periodicIntervalFormulaKey',
+  'periodicIntervalValue',
   'firstPeriodicExecution'
 ]);
 
 const LIFECYCLE_FIELD_BY_PATH: { [path: string]: SkillEffectDraftField } = {
   lifecycle: 'lifecycle',
-  'lifecycle.durationFormulaKey': 'durationFormulaKey',
-  'lifecycle.maxStacksFormulaKey': 'maxStacksFormulaKey',
-  'lifecycle.applicationStacksFormulaKey': 'applicationStacksFormulaKey',
+  'lifecycle.durationValue': 'durationValue',
+  'lifecycle.maxStacksValue': 'maxStacksValue',
+  'lifecycle.applicationStacksValue': 'applicationStacksValue',
   'lifecycle.instanceScope': 'instanceScope',
   'lifecycle.reapplicationStackMode': 'reapplicationStackMode',
   'lifecycle.reapplicationDurationMode': 'reapplicationDurationMode',
   'lifecycle.expiryMode': 'expiryMode',
-  'lifecycle.periodicIntervalFormulaKey': 'periodicIntervalFormulaKey',
+  'lifecycle.periodicIntervalValue': 'periodicIntervalValue',
   'lifecycle.firstPeriodicExecution': 'firstPeriodicExecution'
 };
 
@@ -621,7 +628,7 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   description: 'description',
   sortOrder: 'sortOrder',
   valueRule: 'valueRule',
-  'valueRule.formulaKey': 'formulaKey',
+  'valueRule.value': 'value',
   'valueRule.fixedMultiplier': 'fixedMultiplier',
   'valueRule.fixedMinValue': 'fixedMinValue',
   'valueRule.fixedMaxValue': 'fixedMaxValue',
@@ -631,7 +638,7 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.originKind': 'damageOriginKind',
   'detail.critical': 'criticalMode',
   'detail.critical.mode': 'criticalMode',
-  'detail.critical.multiplierFormulaKey': 'criticalMultiplierFormulaKey',
+  'detail.critical.multiplierValue': 'criticalMultiplierValue',
   'detail.vampRules': 'vampRules',
   'detail.absorbedDamageTypeKey': 'absorbedDamageTypeKey',
   'detail.decayMode': 'shieldDecayMode',
@@ -666,14 +673,14 @@ export function createEmptyAffectedSkillScopeDraft(): AffectedSkillScopeDraft {
 
 export function createEmptyLifecycleDraft(): SkillEffectLifecycleDraft {
   return {
-    durationFormulaKey: '',
-    maxStacksFormulaKey: '',
-    applicationStacksFormulaKey: '',
+    durationValue: null,
+    maxStacksValue: null,
+    applicationStacksValue: null,
     instanceScope: '',
     reapplicationStackMode: '',
     reapplicationDurationMode: '',
     expiryMode: '',
-    periodicIntervalFormulaKey: '',
+    periodicIntervalValue: null,
     firstPeriodicExecution: ''
   };
 }
@@ -712,7 +719,7 @@ export function createEmptyResultDraft(
     target: 'TARGET',
     description: '',
     sortOrder: '0',
-    formulaKey: '',
+    value: null,
     fixedMultiplier: requiresValueRule(resultType, defaultCooldownOperation(resultType)) ? '1' : '',
     fixedMinValue: '',
     fixedMaxValue: '',
@@ -720,7 +727,7 @@ export function createEmptyResultDraft(
     damageDeliveryKind: resultType === 'DAMAGE' ? 'SKILL' : '',
     damageOriginKind: resultType === 'DAMAGE' ? 'DIRECT' : '',
     criticalMode: resultType === 'DAMAGE' ? 'DISALLOWED' : '',
-    criticalMultiplierFormulaKey: '',
+    criticalMultiplierValue: null,
     vampRules: [],
     absorbedDamageTypeKey: '',
     shieldDecayMode: resultType === 'NORMAL_SHIELD' ? 'NONE' : '',
@@ -776,6 +783,26 @@ export function skillEffectToDraft(effect: SkillEffect): SkillEffectDraft {
   };
 }
 
+export function skillEffectToCopyDraft(effect: SkillEffect): SkillEffectDraft {
+  const draft = skillEffectToDraft(structuredClone(effect));
+  draft.effectKey = '';
+  draft.originalLifecycleEnabled = false;
+  draft.originalInstanceScope = '';
+  draft.results = draft.results.map((result) => ({
+    ...result,
+    originalResultType: null,
+    originalDamageTypeKey: null,
+    originalModifierZoneKey: null,
+    originalAbsorbedDamageTypeKey: null,
+    originalAttributeKey: null,
+    originalAffectedSkillKeys: [],
+    originalSkillCategoryKeys: [],
+    originalStatusKey: null,
+    originalTargetEffectKey: null
+  }));
+  return draft;
+}
+
 export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffectResultDraft {
   const valueRule = result.valueRule;
   const draft = createEmptyResultDraft(result.resultType);
@@ -789,7 +816,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
   draft.lifecycleBehavior = lifecycleBehaviorToDraft(result.lifecycleBehavior);
   draft.spellShieldBlockScope = result.spellShieldBlockScope ?? '';
   if (valueRule) {
-    draft.formulaKey = valueRule.formulaKey;
+    draft.value = valueRule.value;
     draft.fixedMultiplier = String(valueRule.fixedMultiplier);
     draft.fixedMinValue = valueRule.fixedMinValue === null ? '' : String(valueRule.fixedMinValue);
     draft.fixedMaxValue = valueRule.fixedMaxValue === null ? '' : String(valueRule.fixedMaxValue);
@@ -800,7 +827,7 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.damageDeliveryKind = result.detail.deliveryKind;
       draft.damageOriginKind = result.detail.originKind;
       draft.criticalMode = result.detail.critical.mode;
-      draft.criticalMultiplierFormulaKey = result.detail.critical.multiplierFormulaKey ?? '';
+      draft.criticalMultiplierValue = result.detail.critical.multiplierValue ?? null;
       draft.vampRules = sortVampRuleDrafts(result.detail.vampRules.map((rule) => ({ ...rule })));
       draft.originalDamageTypeKey = result.detail.damageTypeKey;
       break;
@@ -963,7 +990,7 @@ export function applyResultTypeChange(
   return clearHiddenResultFields({
     ...draft,
     resultType: nextType,
-    formulaKey: nextNeeds && prevNeeds ? draft.formulaKey : '',
+    value: nextNeeds && prevNeeds ? draft.value : null,
     fixedMultiplier: nextNeeds ? (prevNeeds && draft.fixedMultiplier.trim() ? draft.fixedMultiplier : '1') : '',
     fixedMinValue: nextNeeds && prevNeeds ? draft.fixedMinValue : '',
     fixedMaxValue: nextNeeds && prevNeeds ? draft.fixedMaxValue : '',
@@ -971,7 +998,7 @@ export function applyResultTypeChange(
     damageDeliveryKind: nextType === 'DAMAGE' ? 'SKILL' : '',
     damageOriginKind: nextType === 'DAMAGE' ? 'DIRECT' : '',
     criticalMode: nextType === 'DAMAGE' ? 'DISALLOWED' : '',
-    criticalMultiplierFormulaKey: '',
+    criticalMultiplierValue: null,
     vampRules: [],
     absorbedDamageTypeKey: '',
     shieldDecayMode: nextType === 'NORMAL_SHIELD' ? 'NONE' : '',
@@ -1009,8 +1036,8 @@ export function applyCriticalModeChange(
   return clearHiddenResultFields({
     ...draft,
     criticalMode: nextMode,
-    criticalMultiplierFormulaKey:
-      nextMode === 'DISALLOWED' ? '' : draft.criticalMultiplierFormulaKey
+    criticalMultiplierValue:
+      nextMode === 'DISALLOWED' ? null : draft.criticalMultiplierValue
   });
 }
 
@@ -1036,7 +1063,7 @@ export function applyCooldownOperationChange(
     ...draft,
     resultType: 'COOLDOWN_CHANGE',
     cooldownOperation: nextOperation,
-    formulaKey: nextNeeds && prevNeeds ? draft.formulaKey : '',
+    value: nextNeeds && prevNeeds ? draft.value : null,
     fixedMultiplier: nextNeeds ? (prevNeeds && draft.fixedMultiplier.trim() ? draft.fixedMultiplier : '1') : '',
     fixedMinValue: nextNeeds && prevNeeds ? draft.fixedMinValue : '',
     fixedMaxValue: nextNeeds && prevNeeds ? draft.fixedMaxValue : ''
@@ -1053,7 +1080,7 @@ export function applyLifecycleOperationChange(
     ...draft,
     resultType: 'LIFECYCLE_OPERATION',
     lifecycleOperation: nextOperation,
-    formulaKey: nextNeeds && prevNeeds ? draft.formulaKey : '',
+    value: nextNeeds && prevNeeds ? draft.value : null,
     fixedMultiplier: nextNeeds ? (prevNeeds && draft.fixedMultiplier.trim() ? draft.fixedMultiplier : '1') : '',
     fixedMinValue: nextNeeds && prevNeeds ? draft.fixedMinValue : '',
     fixedMaxValue: nextNeeds && prevNeeds ? draft.fixedMaxValue : ''
@@ -1090,7 +1117,7 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
   const needsValue = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
   return clearHiddenLifecycleBehaviorFields({
     ...draft,
-    formulaKey: needsValue ? draft.formulaKey : '',
+    value: needsValue ? draft.value : null,
     fixedMultiplier: needsValue ? (draft.fixedMultiplier === '' ? '1' : draft.fixedMultiplier) : '',
     fixedMinValue: needsValue ? draft.fixedMinValue : '',
     fixedMaxValue: needsValue ? draft.fixedMaxValue : '',
@@ -1106,10 +1133,10 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
       draft.resultType === 'DAMAGE' ? draft.damageOriginKind || 'DIRECT' : '',
     criticalMode:
       draft.resultType === 'DAMAGE' ? draft.criticalMode || 'DISALLOWED' : '',
-    criticalMultiplierFormulaKey:
+    criticalMultiplierValue:
       draft.resultType === 'DAMAGE' && draft.criticalMode !== 'DISALLOWED'
-        ? draft.criticalMultiplierFormulaKey
-        : '',
+        ? draft.criticalMultiplierValue
+        : null,
     vampRules: draft.resultType === 'DAMAGE'
       ? sortVampRuleDrafts(draft.vampRules.map((rule) => ({ ...rule })))
       : [],
@@ -1216,11 +1243,9 @@ export function clearHiddenLifecycleBehaviorFields(
     modifierZoneKey: keepModifierZone && draft.resultType !== 'SKILL_HASTE_MODIFIER'
       ? draft.modifierZoneKey
       : '',
-    spellShieldBlockScope: (
-      draft.target === 'TARGET'
-      && moment !== 'PERSISTENT'
-      && isSpellShieldBlockScopeEligibleResultType(draft.resultType)
-    ) ? draft.spellShieldBlockScope : '',
+    spellShieldBlockScope: isSpellShieldBlockScopeVisible({ ...draft, lifecycleBehavior })
+      && (moment !== 'PERSISTENT' || draft.spellShieldBlockScope === 'RESULT')
+      ? draft.spellShieldBlockScope : '',
     lifecycleBehavior
   };
 }
@@ -1236,7 +1261,7 @@ export function clearHiddenLifecycleFields(draft: SkillEffectDraft): SkillEffect
       }))
     };
   }
-  const hasDuration = Boolean(draft.lifecycle.durationFormulaKey.trim());
+  const hasDuration = Boolean(draft.lifecycle.durationValue);
   const hasPeriodic = draft.results.some((item) => item.lifecycleBehavior.moment === 'PERIODIC');
   let expiryMode = draft.lifecycle.expiryMode;
   let reapplicationDurationMode = draft.lifecycle.reapplicationDurationMode;
@@ -1252,7 +1277,7 @@ export function clearHiddenLifecycleFields(draft: SkillEffectDraft): SkillEffect
       ...draft.lifecycle,
       expiryMode,
       reapplicationDurationMode: hasDuration ? reapplicationDurationMode : '',
-      periodicIntervalFormulaKey: hasPeriodic ? draft.lifecycle.periodicIntervalFormulaKey : '',
+      periodicIntervalValue: hasPeriodic ? draft.lifecycle.periodicIntervalValue : null,
       firstPeriodicExecution: hasPeriodic ? draft.lifecycle.firstPeriodicExecution : ''
     },
     results: draft.results.map((item) => clearHiddenLifecycleBehaviorFields(item))
@@ -1284,14 +1309,14 @@ export function hasLifecycleDraftContent(draft: SkillEffectDraft): boolean {
   if (draft.lifecycleEnabled) {
     const lifecycle = draft.lifecycle;
     if (
-      lifecycle.durationFormulaKey.trim()
-      || lifecycle.maxStacksFormulaKey.trim()
-      || lifecycle.applicationStacksFormulaKey.trim()
+      lifecycle.durationValue
+      || lifecycle.maxStacksValue
+      || lifecycle.applicationStacksValue
       || lifecycle.instanceScope
       || lifecycle.reapplicationStackMode
       || lifecycle.reapplicationDurationMode
       || (lifecycle.expiryMode && lifecycle.expiryMode !== 'EXPLICIT_ONLY')
-      || lifecycle.periodicIntervalFormulaKey.trim()
+      || lifecycle.periodicIntervalValue
       || lifecycle.firstPeriodicExecution
     ) {
       return true;
@@ -1308,13 +1333,13 @@ export function hasLifecycleDraftContent(draft: SkillEffectDraft): boolean {
 
 export function applyDurationFormulaChange(
   draft: SkillEffectDraft,
-  nextFormulaKey: string
+  nextValue: NumericValue | null
 ): SkillEffectDraft {
   return clearHiddenLifecycleFields({
     ...draft,
     lifecycle: {
       ...draft.lifecycle,
-      durationFormulaKey: nextFormulaKey
+      durationValue: nextValue
     }
   });
 }
@@ -1444,8 +1469,11 @@ export function isSpellShieldBlockScopeEligibleResultType(
 }
 
 export function isSpellShieldBlockScopeVisible(draft: SkillEffectResultDraft): boolean {
-  if (draft.target !== 'TARGET' || draft.lifecycleBehavior.moment === 'PERSISTENT') {
+  if (draft.target !== 'TARGET') {
     return false;
+  }
+  if (draft.lifecycleBehavior.moment === 'PERSISTENT') {
+    return draft.resultType === 'STATUS_OPERATION' && draft.statusOperation === 'APPLY';
   }
   return isSpellShieldBlockScopeEligibleResultType(draft.resultType);
 }
@@ -1455,6 +1483,9 @@ export function listSpellShieldBlockScopeOptions(
 ): SkillEffectSpellShieldBlockScope[] {
   if (!isSpellShieldBlockScopeVisible(draft)) {
     return [];
+  }
+  if (draft.lifecycleBehavior.moment === 'PERSISTENT') {
+    return ['RESULT'];
   }
   return draft.resultType === 'DAMAGE'
     ? ['SKILL', 'EFFECT', 'DAMAGE_INSTANCE', 'RESULT']
@@ -1581,8 +1612,9 @@ export function isCatalogOptionSelectable(option: CatalogRefOption): boolean {
 
 export function listFormulaOptions(
   catalog: EffectFormCatalog,
-  currentKey = ''
+  currentKey: string | NumericValue | null = ''
 ): CatalogRefOption[] {
+  currentKey = typeof currentKey === 'string' ? currentKey : numericFormulaKey(currentKey);
   const options: CatalogRefOption[] = catalog.formulas.map((item) => ({
     key: item.formulaKey,
     status: 'ENABLED',
@@ -1757,17 +1789,20 @@ export function validateSkillEffectDraft(
     }
   }
 
-  if (!name) {
-    fieldErrors.name = '效果名称不能为空。';
-  } else if (name.length > 100) {
-    fieldErrors.name = '效果名称不能超过 100 个字符。';
+  if (!options.skipEffectMetadataValidation) {
+    if (!name) {
+      fieldErrors.name = '效果名称不能为空。';
+    } else if (name.length > 100) {
+      fieldErrors.name = '效果名称不能超过 100 个字符。';
+    }
+    if (description.length > 2000) {
+      fieldErrors.description = '说明不能超过 2000 个字符。';
+    }
   }
 
-  if (description.length > 2000) {
-    fieldErrors.description = '说明不能超过 2000 个字符。';
-  }
-
-  const sortOrder = parseNonNegativeInteger(prepared.sortOrder, fieldErrors, 'sortOrder');
+  const sortOrder = options.skipEffectMetadataValidation
+    ? null
+    : parseNonNegativeInteger(prepared.sortOrder, fieldErrors, 'sortOrder');
   if (prepared.results.length === 0) {
     fieldErrors.results = '至少需要一个结果。';
   }
@@ -1786,7 +1821,7 @@ export function validateSkillEffectDraft(
   const builtResults: SkillEffectResultRequest[] = [];
   let allResultsValid = prepared.results.length > 0;
   const parentEffectKey = options.catalog?.parentEffectKey?.trim() || effectKey;
-  const hasDuration = Boolean(prepared.lifecycle.durationFormulaKey.trim());
+  const hasDuration = Boolean(prepared.lifecycle.durationValue);
 
   for (let index = 0; index < prepared.results.length; index += 1) {
     const resultFieldErrors: SkillEffectResultDraftErrors = {};
@@ -1904,7 +1939,7 @@ export function mapSkillEffectFieldIssues(
       continue;
     }
     const code = typeof rawIssue.code === 'string' ? rawIssue.code : '';
-    const field = typeof rawIssue.field === 'string' ? rawIssue.field : '';
+    const field = typeof rawIssue.field === 'string' ? numericIssuePath(rawIssue.field) : '';
     const backendMessage = typeof rawIssue.message === 'string' && rawIssue.message.trim()
       ? rawIssue.message.trim()
       : '';
@@ -2018,14 +2053,14 @@ function lifecycleToDraft(lifecycle: SkillEffectLifecycle | null): SkillEffectLi
     return createEmptyLifecycleDraft();
   }
   return {
-    durationFormulaKey: lifecycle.durationFormulaKey ?? '',
-    maxStacksFormulaKey: lifecycle.maxStacksFormulaKey,
-    applicationStacksFormulaKey: lifecycle.applicationStacksFormulaKey,
+    durationValue: lifecycle.durationValue ?? null,
+    maxStacksValue: lifecycle.maxStacksValue,
+    applicationStacksValue: lifecycle.applicationStacksValue,
     instanceScope: lifecycle.instanceScope,
     reapplicationStackMode: lifecycle.reapplicationStackMode,
     reapplicationDurationMode: lifecycle.reapplicationDurationMode ?? '',
     expiryMode: lifecycle.expiryMode,
-    periodicIntervalFormulaKey: lifecycle.periodicIntervalFormulaKey ?? '',
+    periodicIntervalValue: lifecycle.periodicIntervalValue ?? null,
     firstPeriodicExecution: lifecycle.firstPeriodicExecution ?? ''
   };
 }
@@ -2138,6 +2173,14 @@ function validateAndBuildResult(
   validateTypeSpecificFields(draft, options, fieldErrors, context);
   const needsValueRule = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
   const lifecycleBehavior = validateAndBuildLifecycleBehavior(draft, fieldErrors, context, needsValueRule);
+  if (needsValueRule && !fieldErrors.value) {
+    const valueError = numericValueError(draft.value, { ...options.catalog, parameters: options.parameters }, {
+      integer: draft.resultType === 'LIFECYCLE_OPERATION',
+      allowRuntimeInput: draft.lifecycleBehavior.valueReadMode !== 'MOMENT_EVALUATION',
+      parametersState: options.parametersLoadState, formulasState: options.catalogLoadState?.formulas
+    });
+    if (valueError) fieldErrors.value = valueError;
+  }
 
   if (
     Object.keys(fieldErrors).length > 0
@@ -2171,14 +2214,14 @@ function validateAndBuildResult(
           originKind: draft.damageOriginKind as SkillEffectDamageOriginKind,
           critical: {
             mode: draft.criticalMode as SkillEffectCriticalMode,
-            multiplierFormulaKey: draft.criticalMode === 'DISALLOWED'
+            multiplierValue: draft.criticalMode === 'DISALLOWED'
               ? null
-              : draft.criticalMultiplierFormulaKey.trim() || null
+              : draft.criticalMultiplierValue || null
           },
           vampRules: sortVampRuleDrafts(draft.vampRules).map((rule) => ({
             vampType: rule.vampType as SkillEffectVampType,
             basisOutputKind: rule.basisOutputKind as SkillEffectVampBasisOutputKind,
-            efficiencyFormulaKey: rule.efficiencyFormulaKey.trim()
+            efficiencyValue: rule.efficiencyValue!
           }))
         }
       };
@@ -2374,13 +2417,13 @@ function validateValueRule(
   fieldErrors: SkillEffectResultDraftErrors
 ): SkillEffectValueRule | null {
   const needed = requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation);
-  const formulaKey = draft.formulaKey.trim();
+  const value = draft.value;
   const multiplierRaw = draft.fixedMultiplier.trim();
   const minRaw = draft.fixedMinValue.trim();
   const maxRaw = draft.fixedMaxValue.trim();
 
   if (!needed) {
-    if (formulaKey || multiplierRaw || minRaw || maxRaw) {
+    if (value || multiplierRaw || minRaw || maxRaw) {
       if (draft.resultType === 'STATUS_OPERATION') {
         fieldErrors.valueRule = '状态操作不能携带数值规则。';
       } else if (draft.resultType === 'DAMAGE_IMMUNITY') {
@@ -2396,9 +2439,8 @@ function validateValueRule(
     return null;
   }
 
-  if (!formulaKey) {
-    fieldErrors.formulaKey = '请选择数值公式。';
-  }
+  const valueError = numericValueError(value, {}, { integer: draft.resultType === 'LIFECYCLE_OPERATION' });
+  if (valueError) fieldErrors.value = valueError;
 
   let fixedMultiplier: number | null = null;
   if (!multiplierRaw) {
@@ -2424,12 +2466,12 @@ function validateValueRule(
     fieldErrors.fixedMinValue = '固定最小值不能大于固定最大值。';
   }
 
-  if (fieldErrors.formulaKey || fieldErrors.fixedMultiplier || fieldErrors.fixedMinValue || fieldErrors.fixedMaxValue) {
+  if (fieldErrors.value || fieldErrors.fixedMultiplier || fieldErrors.fixedMinValue || fieldErrors.fixedMaxValue) {
     return null;
   }
 
   return {
-    formulaKey,
+    value: value!,
     fixedMultiplier: fixedMultiplier ?? 0,
     fixedMinValue,
     fixedMaxValue
@@ -2446,7 +2488,7 @@ function validateTypeSpecificFields(
     case 'DAMAGE':
       requireNonEmpty(draft.damageTypeKey, fieldErrors, 'damageTypeKey', '请选择伤害类型。');
       validateCatalogRef(options, 'damageTypes', draft.damageTypeKey, draft.originalDamageTypeKey, fieldErrors, 'damageTypeKey');
-      validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       if (draft.damageDeliveryKind !== 'SKILL' && draft.damageDeliveryKind !== 'BASIC_ATTACK') {
         fieldErrors.damageDeliveryKind = '请选择伤害产生方式。';
       }
@@ -2460,17 +2502,17 @@ function validateTypeSpecificFields(
       ) {
         fieldErrors.criticalMode = '请选择暴击方式。';
       } else if (draft.criticalMode === 'DISALLOWED') {
-        if (draft.criticalMultiplierFormulaKey.trim()) {
-          fieldErrors.criticalMultiplierFormulaKey = '不允许暴击时不能配置暴击倍率公式。';
+        if (draft.criticalMultiplierValue) {
+          fieldErrors.criticalMultiplierValue = '不允许暴击时不能配置暴击倍率取值。';
         }
-      } else if (draft.criticalMultiplierFormulaKey.trim()) {
+      } else if (draft.criticalMultiplierValue) {
         validateCatalogRef(
           options,
           'formulas',
-          draft.criticalMultiplierFormulaKey,
-          draft.criticalMultiplierFormulaKey,
+          draft.criticalMultiplierValue,
+          draft.criticalMultiplierValue,
           fieldErrors,
-          'criticalMultiplierFormulaKey',
+          'criticalMultiplierValue',
           { allowDisabled: true }
         );
       }
@@ -2496,15 +2538,15 @@ function validateTypeSpecificFields(
             fieldErrors.vampRules = '请选择吸血计算基准。';
             break;
           }
-          if (!rule.efficiencyFormulaKey.trim()) {
-            fieldErrors.vampRules = '请选择吸血效率公式。';
+          if (!rule.efficiencyValue) {
+            fieldErrors.vampRules = '请选择吸血效率取值。';
             break;
           }
           validateCatalogRef(
             options,
             'formulas',
-            rule.efficiencyFormulaKey,
-            rule.efficiencyFormulaKey,
+            rule.efficiencyValue,
+            rule.efficiencyValue,
             fieldErrors,
             'vampRules',
             { allowDisabled: true }
@@ -2514,10 +2556,10 @@ function validateTypeSpecificFields(
       }
       break;
     case 'DIRECT_HEAL':
-      validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       break;
     case 'NORMAL_SHIELD':
-      validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       if (draft.absorbedDamageTypeKey.trim()) {
         validateCatalogRef(
           options,
@@ -2534,7 +2576,7 @@ function validateTypeSpecificFields(
         if (!context.lifecycleEnabled) {
           fieldErrors.shieldDecayMode = '线性衰减需要先启用父效果生命周期。';
         } else if (!context.hasDuration) {
-          fieldErrors.shieldDecayMode = '线性衰减需要配置父效果持续时间公式。';
+          fieldErrors.shieldDecayMode = '线性衰减需要配置父效果持续时间取值。';
         } else if (context.expiryMode !== 'ALL_AT_ONCE') {
           fieldErrors.shieldDecayMode = '线性衰减要求父效果一次全部到期。';
         }
@@ -2561,7 +2603,7 @@ function validateTypeSpecificFields(
       } else if (draft.modifierZoneKey.trim()) {
         fieldErrors.modifierZoneKey = '该属性变化不能选择乘区。';
       }
-      validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       break;
     case 'RESOURCE_CHANGE':
       requireNonEmpty(draft.attributeKey, fieldErrors, 'attributeKey', '请选择属性。');
@@ -2573,7 +2615,7 @@ function validateTypeSpecificFields(
         fieldErrors.resourceOperation = '请选择操作。';
       }
       validateCatalogRef(options, 'attributes', draft.attributeKey, draft.originalAttributeKey, fieldErrors, 'attributeKey');
-      validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       break;
     case 'COOLDOWN_CHANGE':
       validateAffectedSkillScope(draft, options, fieldErrors);
@@ -2585,7 +2627,7 @@ function validateTypeSpecificFields(
         fieldErrors.cooldownOperation = '请选择操作。';
       }
       if (requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation)) {
-        validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+        validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       }
       break;
     case 'SKILL_HASTE_MODIFIER':
@@ -2593,7 +2635,7 @@ function validateTypeSpecificFields(
         fieldErrors.skillHasteOperation = '请选择操作。';
       }
       validateAffectedSkillScope(draft, options, fieldErrors);
-      validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+      validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       if (draft.modifierZoneKey.trim()) {
         fieldErrors.modifierZoneKey = '该结果不能选择乘区。';
       }
@@ -2612,7 +2654,7 @@ function validateTypeSpecificFields(
       }
       validateLifecycleTarget(draft, options, fieldErrors, context.parentEffectKey);
       if (requiresValueRule(draft.resultType, draft.cooldownOperation, draft.lifecycleOperation)) {
-        validateCatalogRef(options, 'formulas', draft.formulaKey, draft.formulaKey, fieldErrors, 'formulaKey', { allowDisabled: true });
+        validateCatalogRef(options, 'formulas', draft.value, draft.value, fieldErrors, 'value', { allowDisabled: true });
       }
       break;
     case 'DAMAGE_MODIFIER':
@@ -2637,10 +2679,10 @@ function validateTypeSpecificFields(
       validateCatalogRef(
         options,
         'formulas',
-        draft.formulaKey,
-        draft.formulaKey,
+        draft.value,
+        draft.value,
         fieldErrors,
-        'formulaKey',
+        'value',
         { allowDisabled: true }
       );
       break;
@@ -2661,10 +2703,10 @@ function validateTypeSpecificFields(
       validateCatalogRef(
         options,
         'formulas',
-        draft.formulaKey,
-        draft.formulaKey,
+        draft.value,
+        draft.value,
         fieldErrors,
-        'formulaKey',
+        'value',
         { allowDisabled: true }
       );
       break;
@@ -2694,10 +2736,10 @@ function validateTypeSpecificFields(
       validateCatalogRef(
         options,
         'formulas',
-        draft.formulaKey,
-        draft.formulaKey,
+        draft.value,
+        draft.value,
         fieldErrors,
-        'formulaKey',
+        'value',
         { allowDisabled: true }
       );
       break;
@@ -2716,10 +2758,10 @@ function validateTypeSpecificFields(
       validateCatalogRef(
         options,
         'formulas',
-        draft.formulaKey,
-        draft.formulaKey,
+        draft.value,
+        draft.value,
         fieldErrors,
-        'formulaKey',
+        'value',
         { allowDisabled: true }
       );
       if (draft.modifierZoneKey.trim()) {
@@ -2731,10 +2773,10 @@ function validateTypeSpecificFields(
       validateCatalogRef(
         options,
         'formulas',
-        draft.formulaKey,
-        draft.formulaKey,
+        draft.value,
+        draft.value,
         fieldErrors,
-        'formulaKey',
+        'value',
         { allowDisabled: true }
       );
       if (draft.modifierZoneKey.trim()) {
@@ -2818,14 +2860,14 @@ function validateDisabledLifecycle(
 ): void {
   const lifecycle = draft.lifecycle;
   if (
-    lifecycle.durationFormulaKey.trim()
-    || lifecycle.maxStacksFormulaKey.trim()
-    || lifecycle.applicationStacksFormulaKey.trim()
+    lifecycle.durationValue
+    || lifecycle.maxStacksValue
+    || lifecycle.applicationStacksValue
     || lifecycle.instanceScope
     || lifecycle.reapplicationStackMode
     || lifecycle.reapplicationDurationMode
     || lifecycle.expiryMode
-    || lifecycle.periodicIntervalFormulaKey.trim()
+    || lifecycle.periodicIntervalValue
     || lifecycle.firstPeriodicExecution
   ) {
     fieldErrors.lifecycle = '无生命周期效果不能携带生命周期配置。';
@@ -2839,23 +2881,23 @@ function validateAndBuildLifecycle(
   hasPeriodic: boolean
 ): SkillEffectLifecycle | null {
   const lifecycle = draft.lifecycle;
-  const durationFormulaKey = lifecycle.durationFormulaKey.trim() || null;
-  const maxStacksFormulaKey = lifecycle.maxStacksFormulaKey.trim();
-  const applicationStacksFormulaKey = lifecycle.applicationStacksFormulaKey.trim();
-  const periodicIntervalFormulaKey = lifecycle.periodicIntervalFormulaKey.trim() || null;
+  const durationValue = lifecycle.durationValue || null;
+  const maxStacksValue = lifecycle.maxStacksValue;
+  const applicationStacksValue = lifecycle.applicationStacksValue;
+  const periodicIntervalValue = lifecycle.periodicIntervalValue || null;
 
-  if (!maxStacksFormulaKey) {
-    fieldErrors.maxStacksFormulaKey = '请选择最大层数公式。';
+  if (!maxStacksValue) {
+    fieldErrors.maxStacksValue = '请选择最大层数取值。';
   } else {
-    validateLifecycleFormula(options, maxStacksFormulaKey, fieldErrors, 'maxStacksFormulaKey');
+    validateLifecycleFormula(options, maxStacksValue, fieldErrors, 'maxStacksValue');
   }
-  if (!applicationStacksFormulaKey) {
-    fieldErrors.applicationStacksFormulaKey = '请选择每次施加层数公式。';
+  if (!applicationStacksValue) {
+    fieldErrors.applicationStacksValue = '请选择每次施加层数取值。';
   } else {
-    validateLifecycleFormula(options, applicationStacksFormulaKey, fieldErrors, 'applicationStacksFormulaKey');
+    validateLifecycleFormula(options, applicationStacksValue, fieldErrors, 'applicationStacksValue');
   }
-  if (durationFormulaKey) {
-    validateLifecycleFormula(options, durationFormulaKey, fieldErrors, 'durationFormulaKey');
+  if (durationValue) {
+    validateLifecycleFormula(options, durationValue, fieldErrors, 'durationValue');
   }
   if (!isInstanceScope(lifecycle.instanceScope)) {
     fieldErrors.instanceScope = '请选择实例范围。';
@@ -2866,7 +2908,7 @@ function validateAndBuildLifecycle(
     fieldErrors.reapplicationStackMode = '请选择重复层数方式。';
   }
 
-  if (!durationFormulaKey) {
+  if (!durationValue) {
     if (lifecycle.expiryMode !== 'EXPLICIT_ONLY') {
       fieldErrors.expiryMode = '没有持续时间时到期方式必须为仅显式移除。';
     }
@@ -2903,17 +2945,17 @@ function validateAndBuildLifecycle(
   }
 
   if (hasPeriodic) {
-    if (!periodicIntervalFormulaKey) {
-      fieldErrors.periodicIntervalFormulaKey = '请选择周期间隔公式。';
+    if (!periodicIntervalValue) {
+      fieldErrors.periodicIntervalValue = '请选择周期间隔取值。';
     } else {
-      validateLifecycleFormula(options, periodicIntervalFormulaKey, fieldErrors, 'periodicIntervalFormulaKey');
+      validateLifecycleFormula(options, periodicIntervalValue, fieldErrors, 'periodicIntervalValue');
     }
     if (!isFirstPeriodicExecution(lifecycle.firstPeriodicExecution)) {
       fieldErrors.firstPeriodicExecution = '请选择首次周期。';
     }
   } else {
-    if (periodicIntervalFormulaKey) {
-      fieldErrors.periodicIntervalFormulaKey = '没有周期结果时不能填写周期间隔。';
+    if (periodicIntervalValue) {
+      fieldErrors.periodicIntervalValue = '没有周期结果时不能填写周期间隔。';
     }
     if (lifecycle.firstPeriodicExecution) {
       fieldErrors.firstPeriodicExecution = '没有周期结果时不能选择首次周期。';
@@ -2921,14 +2963,14 @@ function validateAndBuildLifecycle(
   }
 
   if (
-    fieldErrors.durationFormulaKey
-    || fieldErrors.maxStacksFormulaKey
-    || fieldErrors.applicationStacksFormulaKey
+    fieldErrors.durationValue
+    || fieldErrors.maxStacksValue
+    || fieldErrors.applicationStacksValue
     || fieldErrors.instanceScope
     || fieldErrors.reapplicationStackMode
     || fieldErrors.reapplicationDurationMode
     || fieldErrors.expiryMode
-    || fieldErrors.periodicIntervalFormulaKey
+    || fieldErrors.periodicIntervalValue
     || fieldErrors.firstPeriodicExecution
     || fieldErrors.lifecycle
   ) {
@@ -2936,16 +2978,16 @@ function validateAndBuildLifecycle(
   }
 
   return {
-    durationFormulaKey,
-    maxStacksFormulaKey,
-    applicationStacksFormulaKey,
+    durationValue,
+    maxStacksValue: maxStacksValue!,
+    applicationStacksValue: applicationStacksValue!,
     instanceScope: lifecycle.instanceScope as SkillEffectLifecycleInstanceScope,
     reapplicationStackMode: lifecycle.reapplicationStackMode as SkillEffectReapplicationStackMode,
-    reapplicationDurationMode: durationFormulaKey
+    reapplicationDurationMode: durationValue
       ? lifecycle.reapplicationDurationMode as SkillEffectReapplicationDurationMode
       : null,
     expiryMode: lifecycle.expiryMode as SkillEffectExpiryMode,
-    periodicIntervalFormulaKey: hasPeriodic ? periodicIntervalFormulaKey : null,
+    periodicIntervalValue: hasPeriodic ? periodicIntervalValue : null,
     firstPeriodicExecution: hasPeriodic
       ? lifecycle.firstPeriodicExecution as SkillEffectFirstPeriodicExecution
       : null
@@ -3077,33 +3119,14 @@ function validateAndBuildLifecycleBehavior(
   };
 }
 
-function validateLifecycleFormula(
-  options: SkillEffectFormValidationOptions,
-  formulaKey: string,
-  fieldErrors: SkillEffectDraftErrors,
-  field: SkillEffectDraftField
-): void {
-  if (fieldErrors[field]) {
-    return;
-  }
-  if (options.catalogLoadState?.formulas === 'failed') {
-    fieldErrors[field] = INCOMPLETE_CATALOG_MESSAGE;
-    return;
-  }
-  const catalog = options.catalog;
-  if (!catalog) {
-    return;
-  }
-  if (
-    options.catalogLoadState?.formulas !== 'ready'
-    && options.catalogLoadState?.formulas !== 'failed'
-    && catalog.formulas.length === 0
-  ) {
-    return;
-  }
-  if (!catalog.formulas.some((item) => item.formulaKey === formulaKey)) {
-    fieldErrors[field] = INCOMPLETE_CATALOG_MESSAGE;
-  }
+function validateLifecycleFormula(options: SkillEffectFormValidationOptions, value: NumericValue | null, fieldErrors: SkillEffectDraftErrors, field: SkillEffectDraftField): void {
+  if (fieldErrors[field]) return;
+  const layers = field === 'maxStacksValue' || field === 'applicationStacksValue';
+  const error = numericValueError(value, { ...options.catalog, parameters: options.parameters }, {
+    integer: layers, min: layers ? 1 : 0, exclusiveMin: field === 'periodicIntervalValue',
+    formulasState: options.catalogLoadState?.formulas, parametersState: options.parametersLoadState
+  });
+  if (error) fieldErrors[field] = error;
 }
 
 function validateAffectedSkillScope(
@@ -3201,8 +3224,8 @@ function validateScopeKeys(
 function validateCatalogRef(
   options: SkillEffectFormValidationOptions,
   kind: keyof EffectCatalogLoadState,
-  currentKey: string,
-  originalKey: string | null,
+  currentKey: string | NumericValue | null,
+  originalKey: string | NumericValue | null,
   fieldErrors: SkillEffectResultDraftErrors,
   field: SkillEffectResultDraftField,
   extra: { allowDisabled?: boolean; parentSkillKey?: string } = {}
@@ -3210,7 +3233,15 @@ function validateCatalogRef(
   if (fieldErrors[field]) {
     return;
   }
-  const trimmed = currentKey.trim();
+  if (kind === 'formulas') {
+    const error = numericValueError(typeof currentKey === 'string' ? null : currentKey,
+      { ...options.catalog, parameters: options.parameters }, {
+        formulasState: options.catalogLoadState?.formulas, parametersState: options.parametersLoadState
+      });
+    if (error) fieldErrors[field] = error;
+    return;
+  }
+  const trimmed = typeof currentKey === 'string' ? currentKey.trim() : '';
   if (!trimmed) {
     return;
   }
@@ -3223,19 +3254,6 @@ function validateCatalogRef(
     return;
   }
 
-  if (kind === 'formulas') {
-    if (
-      options.catalogLoadState?.formulas !== 'ready'
-      && options.catalogLoadState?.formulas !== 'failed'
-      && catalog.formulas.length === 0
-    ) {
-      return;
-    }
-    if (!catalog.formulas.some((item) => item.formulaKey === trimmed)) {
-      fieldErrors[field] = INCOMPLETE_CATALOG_MESSAGE;
-    }
-    return;
-  }
   if (kind === 'effects') {
     return;
   }
@@ -3318,12 +3336,12 @@ function catalogEntries(
 }
 
 function requireNonEmpty(
-  value: string,
+  value: string | NumericValue | null,
   fieldErrors: SkillEffectResultDraftErrors,
   field: SkillEffectResultDraftField,
   message: string
 ): void {
-  if (!value.trim()) {
+  if (typeof value === 'string' ? !value.trim() : !value) {
     fieldErrors[field] = message;
   }
 }
@@ -3535,7 +3553,7 @@ function mapResultIssueField(
   if (/^detail\.affectedSkillKeys\[\d+\]$/.test(nested)) {
     return null;
   }
-  if (/^detail\.vampRules\[\d+\](?:\.(?:vampType|basisOutputKind|efficiencyFormulaKey))?$/.test(nested)) {
+  if (/^detail\.vampRules\[\d+\](?:\.(?:vampType|basisOutputKind|efficiencyValue))?$/.test(nested)) {
     return 'vampRules';
   }
   if (nested === 'detail.operation') {

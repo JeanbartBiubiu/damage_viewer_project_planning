@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import type { SkillEffect, SkillEffectResult } from '../../../../types/skillEffect';
 import type { SkillTriggerPriorResultBinding } from '../../../../types/skillTriggerRule';
@@ -24,7 +25,7 @@ const STAMP = {
   updatedAt: '2026-08-30T00:00:00Z'
 } as const;
 
-const VALUE_RULE = { formulaKey: 'base', fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null };
+const VALUE_RULE = { value: formulaValue('base'), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null };
 
 function damageResult(resultKey: string, vamp = false): SkillEffectResult {
   return {
@@ -41,12 +42,12 @@ function damageResult(resultKey: string, vamp = false): SkillEffectResult {
       damageTypeKey: 'physical',
       deliveryKind: 'SKILL',
       originKind: 'DIRECT',
-      critical: { mode: 'DISALLOWED', multiplierFormulaKey: null },
+      critical: { mode: 'DISALLOWED', multiplierValue: null },
       vampRules: vamp
         ? [{
           vampType: 'OMNIVAMP',
           basisOutputKind: 'ACTUAL_HP_LOSS',
-          efficiencyFormulaKey: 'vamp'
+          efficiencyValue: formulaValue("vamp")
         }]
         : []
     }

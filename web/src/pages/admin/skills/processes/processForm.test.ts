@@ -1,3 +1,4 @@
+import { formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillProcess } from '../../../../types/skillProcess';
@@ -86,7 +87,7 @@ function consumeOp(overrides: Partial<SkillProcessStateOperationDraft> = {}): Sk
     name: '消耗专注层数',
     stateKey: 'focus_stacks',
     operation: 'CONSUME',
-    valueFormulaKey: 'focus_cost',
+    value: formulaValue("focus_cost"),
     momentType: 'PROCESS_START',
     stepKey: '',
     sortOrder: '10',
@@ -125,7 +126,7 @@ const SAVED_PROCESS: SkillProcess = {
   description: null,
   sortOrder: 10,
   cooldown: {
-    durationFormulaKey: 'cooldown_ms',
+    durationValue: formulaValue("cooldown_ms"),
     startMoment: { momentType: 'PROCESS_START', stepKey: null }
   },
   steps: [{
@@ -169,13 +170,13 @@ describe('skill process steps, moments and behaviors', () => {
         stepKey: 'delay',
         name: '延迟',
         sortOrder: '10',
-        delayFormulaKey: 'impact_delay_ms'
+        delayValue: formulaValue("impact_delay_ms")
       }],
       effectBindings: [binding({ stepKey: 'delay' })]
     }));
     expect(delay.steps[0]).toMatchObject({
       stepType: 'DELAY',
-      detail: { delayFormulaKey: 'impact_delay_ms' }
+      detail: { delayValue: formulaValue("impact_delay_ms") }
     });
 
     const multiHit = expectValid(validProcessDraft({
@@ -184,14 +185,14 @@ describe('skill process steps, moments and behaviors', () => {
         stepKey: 'hits',
         name: '多段',
         sortOrder: '10',
-        repeatCountFormulaKey: 'hit_count',
-        intervalFormulaKey: ''
+        repeatCountValue: formulaValue("hit_count"),
+        intervalValue: null
       }],
       effectBindings: [binding({ stepKey: 'hits' })]
     }));
     expect(multiHit.steps[0]?.stepType).toBe('MULTI_HIT');
     if (multiHit.steps[0]?.stepType !== 'MULTI_HIT') throw new Error('expected multi hit');
-    expect(multiHit.steps[0].detail.intervalFormulaKey).toBeNull();
+    expect(multiHit.steps[0].detail.intervalValue).toBeNull();
 
     const periodic = expectValid(validProcessDraft({
       steps: [{
@@ -199,8 +200,8 @@ describe('skill process steps, moments and behaviors', () => {
         stepKey: 'ticks',
         name: '周期',
         sortOrder: '10',
-        repeatCountFormulaKey: 'tick_count',
-        intervalFormulaKey: 'tick_interval_ms',
+        repeatCountValue: formulaValue("tick_count"),
+        intervalValue: formulaValue("tick_interval_ms"),
         firstExecution: 'AFTER_INTERVAL'
       }],
       effectBindings: [binding({ stepKey: 'ticks' })]
@@ -213,8 +214,8 @@ describe('skill process steps, moments and behaviors', () => {
         stepKey: 'channel',
         name: '引导',
         sortOrder: '10',
-        durationFormulaKey: 'channel_duration_ms',
-        executionCountFormulaKey: 'channel_hit_count',
+        durationValue: formulaValue("channel_duration_ms"),
+        executionCountValue: formulaValue("channel_hit_count"),
         firstExecution: 'IMMEDIATE'
       }],
       effectBindings: [binding({ stepKey: 'channel' })]
@@ -227,8 +228,8 @@ describe('skill process steps, moments and behaviors', () => {
         stepKey: 'charge',
         name: '蓄力',
         sortOrder: '10',
-        minimumChargeFormulaKey: 'minimum_charge_ms',
-        maximumChargeFormulaKey: 'maximum_charge_ms',
+        minimumChargeValue: formulaValue("minimum_charge_ms"),
+        maximumChargeValue: formulaValue("maximum_charge_ms"),
         releaseAtMaximum: true
       }],
       effectBindings: [binding({ stepKey: 'charge' })]
@@ -241,8 +242,8 @@ describe('skill process steps, moments and behaviors', () => {
         stepKey: 'recast',
         name: '重施',
         sortOrder: '10',
-        windowFormulaKey: 'recast_window_ms',
-        maximumRecastCountFormulaKey: 'maximum_recasts'
+        windowValue: formulaValue("recast_window_ms"),
+        maximumRecastCountValue: formulaValue("maximum_recasts")
       }],
       effectBindings: [binding({ stepKey: 'recast' })]
     }));
@@ -254,7 +255,7 @@ describe('skill process steps, moments and behaviors', () => {
         stepKey: 'empowered',
         name: '强化普攻',
         sortOrder: '10',
-        windowFormulaKey: 'empowered_attack_window_ms',
+        windowValue: formulaValue("empowered_attack_window_ms"),
         consumeMoment: 'ATTACK_HIT'
       }],
       effectBindings: [binding({ stepKey: 'empowered' })]
@@ -263,9 +264,9 @@ describe('skill process steps, moments and behaviors', () => {
 
     const switched = applyStepTypeChange({
       ...createEmptyStepDraft('DELAY'),
-      delayFormulaKey: 'impact_delay_ms'
+      delayValue: formulaValue("impact_delay_ms")
     }, 'IMMEDIATE');
-    expect(clearHiddenStepFields(switched).delayFormulaKey).toBe('');
+    expect(clearHiddenStepFields(switched).delayValue).toEqual(null);
     expect(switched.stepType).toBe('IMMEDIATE');
   });
 
@@ -329,8 +330,8 @@ describe('skill process steps, moments and behaviors', () => {
         stepKey: 'charge',
         name: '蓄力',
         sortOrder: '10',
-        minimumChargeFormulaKey: 'minimum_charge_ms',
-        maximumChargeFormulaKey: 'maximum_charge_ms',
+        minimumChargeValue: formulaValue("minimum_charge_ms"),
+        maximumChargeValue: formulaValue("maximum_charge_ms"),
         releaseAtMaximum: false
       }],
       effectBindings: [binding({ momentType: 'STEP_TIMEOUT', stepKey: 'charge' })]
@@ -344,7 +345,7 @@ describe('skill process steps, moments and behaviors', () => {
   it('builds cooldown, effect bindings and state operations into a complete request', () => {
     const normalized = expectValid(validProcessDraft({
       cooldownEnabled: true,
-      cooldownDurationFormulaKey: 'cooldown_ms',
+      cooldownDurationValue: formulaValue("cooldown_ms"),
       cooldownMomentType: 'PROCESS_START',
       cooldownStepKey: '',
       effectBindings: [
@@ -400,7 +401,7 @@ describe('skill process steps, moments and behaviors', () => {
       ]
     }));
     expect(normalized.cooldown).toEqual({
-      durationFormulaKey: 'cooldown_ms',
+      durationValue: formulaValue("cooldown_ms"),
       startMoment: { momentType: 'PROCESS_START', stepKey: null }
     });
     expect(normalized.effectBindings.map((item) => item.bindingKey)).toEqual(['mana_cost', 'hit_results']);
@@ -413,10 +414,10 @@ describe('skill process steps, moments and behaviors', () => {
     ]);
     expect(normalized.stateOperations.find((item) => item.operation === 'SELECT')).toMatchObject({
       optionKey: 'rocket',
-      valueFormulaKey: null
+      value: null
     });
     expect(normalized.stateOperations.find((item) => item.operation === 'RESET')).toMatchObject({
-      valueFormulaKey: null,
+      value: null,
       optionKey: null
     });
     const created = buildCreateSkillProcessRequest(normalized);
@@ -452,7 +453,7 @@ describe('skill process steps, moments and behaviors', () => {
 
   it('blocks immutable step and operation kinds, referenced step deletion and unknown catalog refs', () => {
     const typeChanged = validateSkillProcessDraft(validProcessDraft({
-      steps: [immediateStep({ originalStepType: 'IMMEDIATE', stepType: 'DELAY', delayFormulaKey: 'impact_delay_ms' })]
+      steps: [immediateStep({ originalStepType: 'IMMEDIATE', stepType: 'DELAY', delayValue: formulaValue("impact_delay_ms") })]
     }), { includeProcessKey: true, catalog: CATALOG });
     expect(typeChanged.ok).toBe(false);
     if (typeChanged.ok) throw new Error('expected invalid');
@@ -483,25 +484,25 @@ describe('skill process steps, moments and behaviors', () => {
 
     const unknownFormula = validateSkillProcessDraft(validProcessDraft({
       cooldownEnabled: true,
-      cooldownDurationFormulaKey: 'missing_cd',
+      cooldownDurationValue: formulaValue("missing_cd"),
       cooldownMomentType: 'PROCESS_START'
     }), { includeProcessKey: true, catalog: CATALOG });
     expect(unknownFormula.ok).toBe(false);
     if (unknownFormula.ok) throw new Error('expected invalid');
-    expect(unknownFormula.fieldErrors.cooldownDurationFormulaKey).toBe(INCOMPLETE_CATALOG_MESSAGE);
+    expect(unknownFormula.fieldErrors.cooldownDurationValue).toBe(INCOMPLETE_CATALOG_MESSAGE);
   });
 
   it('maps server field issues onto the submitted array indexes', () => {
     const mapped = mapSkillProcessFieldIssues(new ApiRequestError('invalid', 400, '400.VALIDATION_FAILED', {
       fieldIssues: [
-        { field: 'steps[1].detail.intervalFormulaKey', message: '间隔公式不存在。' },
+        { field: 'steps[1].detail.intervalValue', message: '间隔取值不存在。' },
         { field: 'effectBindings[0].moment.stepKey', message: '未知步骤。' },
         { field: 'stateOperations[2].optionKey', message: '未知模式选项。' },
-        { field: 'cooldown.durationFormulaKey', message: '冷却公式不存在。' }
+        { field: 'cooldown.durationValue', message: '冷却公式不存在。' }
       ]
     }));
     expect(mapped.stepErrors).toEqual([
-      { index: 1, fieldErrors: { intervalFormulaKey: '间隔公式不存在。' } }
+      { index: 1, fieldErrors: { intervalValue: "间隔取值不存在。" } }
     ]);
     expect(mapped.bindingErrors).toEqual([
       { index: 0, fieldErrors: { stepKey: '未知步骤。' } }
@@ -509,6 +510,6 @@ describe('skill process steps, moments and behaviors', () => {
     expect(mapped.operationErrors).toEqual([
       { index: 2, fieldErrors: { optionKey: '未知模式选项。' } }
     ]);
-    expect(mapped.fieldErrors.cooldownDurationFormulaKey).toBe('冷却公式不存在。');
+    expect(mapped.fieldErrors.cooldownDurationValue).toBe('冷却公式不存在。');
   });
 });

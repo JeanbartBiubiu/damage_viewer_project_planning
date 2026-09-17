@@ -1,3 +1,6 @@
+import { assertNumericUses } from './numericValue';
+import { isNumericValue } from '../types/numericValue';
+import { SKILL_TRIGGER_TARGET_CATEGORIES } from '../types/skillTriggerRule';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
@@ -15,6 +18,7 @@ import type {
 } from '../types/skillTriggerRule';
 
 const EVENT_TYPES = new Set<SkillTriggerEventType>([
+  'SOURCE_INITIALIZED',
   'SKILL_USED',
   'BASIC_ATTACK_START',
   'BASIC_ATTACK_HIT',
@@ -41,6 +45,9 @@ const EVENT_TYPES = new Set<SkillTriggerEventType>([
 const CONDITION_TYPES = new Set([
   'ATTRIBUTE_COMPARE',
   'STATUS_CHECK',
+  'LIFECYCLE_CHECK',
+  'TARGET_CATEGORY_CHECK',
+  'EXPLICIT_TARGET_IS_SOURCE',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ]);
@@ -51,6 +58,7 @@ const SOURCE_TYPES = new Set([
   'INTERNAL_STATE',
   'COMBAT_STATUS',
   'EVENT_VALUE',
+  'SOURCE_CAST_RESOURCE_COST',
   'PRIOR_ACTION_RESULT'
 ]);
 
@@ -59,6 +67,7 @@ const EVENT_VALUE_KEYS = new Set([
   'CHARGE_DURATION_MS',
   'RECAST_COUNT',
   'HIT_INDEX',
+  'SKILL_HIT_SPELL_SHIELD_BLOCKED',
   'LIFECYCLE_STACKS',
   'PERIOD_INDEX',
   'REMAINING_MS',
@@ -151,6 +160,9 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
   switch (eventType) {
+    case 'SOURCE_INITIALIZED':
+      if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
+      break;
     case 'SKILL_USED':
       if (typeof detail.useKind !== 'string') protocolError(`${path}.detail.useKind`);
       if (detail.sourceSkillKey !== null && typeof detail.sourceSkillKey !== 'string') {
@@ -218,7 +230,7 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
       if (
         typeof detail.subject !== 'string'
         || typeof detail.attributeKey !== 'string'
-        || typeof detail.thresholdFormulaKey !== 'string'
+        || !isNumericValue(detail.thresholdValue)
         || typeof detail.direction !== 'string'
       ) {
         protocolError(`${path}.detail`);
@@ -256,17 +268,38 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
   switch (conditionType) {
+    case 'EXPLICIT_TARGET_IS_SOURCE':
+      if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
+      break;
+    case 'TARGET_CATEGORY_CHECK':
+      if (Object.keys(detail).length !== 1 || !Array.isArray(detail.categories) || detail.categories.length === 0
+        || new Set(detail.categories).size !== detail.categories.length
+        || detail.categories.some((category) => typeof category !== 'string' || !(SKILL_TRIGGER_TARGET_CATEGORIES as readonly string[]).includes(category))) {
+        protocolError(`${path}.detail`);
+      }
+      break;
     case 'ATTRIBUTE_COMPARE':
       if (
         typeof detail.subject !== 'string'
         || typeof detail.attributeKey !== 'string'
         || typeof detail.attributeValueKind !== 'string'
         || typeof detail.comparator !== 'string'
-        || typeof detail.comparisonFormulaKey !== 'string'
+        || !isNumericValue(detail.comparisonValue)
       ) {
         protocolError(`${path}.detail`);
       }
       break;
+    case 'LIFECYCLE_CHECK': {
+      const allowed = ['effectKey', 'subject', 'checkKind', 'comparator', 'comparisonValue'];
+      if (Object.keys(detail).length !== allowed.length || Object.keys(detail).some((key) => !allowed.includes(key))) protocolError(`${path}.detail`);
+      if (typeof detail.effectKey !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.effectKey)) protocolError(`${path}.detail.effectKey`);
+      if (detail.subject !== null && (typeof detail.subject !== 'string' || !['SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE'].includes(detail.subject))) protocolError(`${path}.detail.subject`);
+      if (detail.checkKind === 'STACKS_COMPARE') {
+        if (typeof detail.comparator !== 'string' || !['EQ', 'NE', 'GT', 'GTE', 'LT', 'LTE'].includes(detail.comparator) || !isNumericValue(detail.comparisonValue)) protocolError(`${path}.detail`);
+        if (detail.comparisonValue.kind === 'FIXED' && (!Number.isInteger(detail.comparisonValue.value) || detail.comparisonValue.value < 0)) protocolError(`${path}.detail.comparisonValue`);
+      } else if ((detail.checkKind !== 'PRESENT' && detail.checkKind !== 'ABSENT') || detail.comparator !== null || detail.comparisonValue !== null) protocolError(`${path}.detail`);
+      break;
+    }
     case 'STATUS_CHECK':
       if (typeof detail.checkKind !== 'string' || typeof detail.statusKey !== 'string') {
         protocolError(`${path}.detail`);
@@ -279,10 +312,12 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
       break;
     case 'EVENT_VALUE_COMPARE':
       if (
-        typeof detail.eventValueKey !== 'string'
+        Object.keys(detail).length !== 3
+        || typeof detail.eventValueKey !== 'string'
         || !EVENT_VALUE_KEYS.has(detail.eventValueKey)
         || typeof detail.comparator !== 'string'
-        || typeof detail.comparisonFormulaKey !== 'string'
+        || !['EQ', 'NE', 'GT', 'GTE', 'LT', 'LTE'].includes(detail.comparator)
+        || !isNumericValue(detail.comparisonValue)
       ) {
         protocolError(`${path}.detail`);
       }
@@ -302,8 +337,14 @@ function assertBinding(value: unknown, path: string): SkillTriggerRuntimeInputBi
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
   if (sourceType === 'EVENT_VALUE') {
-    if (typeof detail.eventValueKey !== 'string' || !EVENT_VALUE_KEYS.has(detail.eventValueKey)) {
+    if (Object.keys(detail).length !== 1 || typeof detail.eventValueKey !== 'string' || !EVENT_VALUE_KEYS.has(detail.eventValueKey)) {
       protocolError(`${path}.detail.eventValueKey`);
+    }
+  }
+  if (sourceType === 'SOURCE_CAST_RESOURCE_COST') {
+    if (Object.keys(detail).length !== 1 || typeof detail.attributeKey !== 'string'
+      || !/^[a-z][a-z0-9_]{0,63}$/.test(detail.attributeKey)) {
+      protocolError(`${path}.detail`);
     }
   }
   if (sourceType === 'PRIOR_ACTION_RESULT') {
@@ -386,6 +427,7 @@ export function parseSkillTriggerRuleSummary(value: unknown): SkillTriggerRuleSu
 }
 
 export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDetail {
+  assertNumericUses(value, 'trigger', protocolError);
   if (!isRecord(value)) protocolError('detail');
   if (!Array.isArray(value.conditionGroups) || !Array.isArray(value.actions)) {
     protocolError('detail');
@@ -413,9 +455,6 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
 }
 
 function maybeParseDetail(data: unknown): SkillTriggerRuleDetail {
-  if (!shouldValidateShape()) {
-    return data as SkillTriggerRuleDetail;
-  }
   return parseSkillTriggerRuleDetail(data);
 }
 

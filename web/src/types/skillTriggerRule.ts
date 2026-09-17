@@ -1,7 +1,9 @@
+import { type NumericValue } from './numericValue';
 import type { FormulaAttributeValueKind } from './skillFormula';
 import type { SkillProcessMoment } from './skillProcess';
 
 export type SkillTriggerEventType =
+  | 'SOURCE_INITIALIZED'
   | 'SKILL_USED'
   | 'BASIC_ATTACK_START'
   | 'BASIC_ATTACK_HIT'
@@ -27,6 +29,9 @@ export type SkillTriggerEventType =
 export type SkillTriggerConditionType =
   | 'ATTRIBUTE_COMPARE'
   | 'STATUS_CHECK'
+  | 'LIFECYCLE_CHECK'
+  | 'TARGET_CATEGORY_CHECK'
+  | 'EXPLICIT_TARGET_IS_SOURCE'
   | 'INTERNAL_STATE_CHECK'
   | 'EVENT_VALUE_COMPARE';
 
@@ -39,6 +44,7 @@ export type SkillTriggerRuntimeInputSourceType =
   | 'INTERNAL_STATE'
   | 'COMBAT_STATUS'
   | 'EVENT_VALUE'
+  | 'SOURCE_CAST_RESOURCE_COST'
   | 'PRIOR_ACTION_RESULT';
 
 export type SkillTriggerEventUseKind = 'ACTIVE' | 'CONSUMABLE' | 'ANY';
@@ -70,6 +76,7 @@ export type SkillTriggerEventValueKey =
   | 'CHARGE_DURATION_MS'
   | 'RECAST_COUNT'
   | 'HIT_INDEX'
+  | 'SKILL_HIT_SPELL_SHIELD_BLOCKED'
   | 'LIFECYCLE_STACKS'
   | 'PERIOD_INDEX'
   | 'REMAINING_MS'
@@ -172,7 +179,7 @@ export type SkillTriggerStatusChangedEventDetail = {
 export type SkillTriggerHealthThresholdEventDetail = {
   subject: 'SOURCE' | 'CURRENT_TARGET';
   attributeKey: string;
-  thresholdFormulaKey: string;
+  thresholdValue: NumericValue;
   direction: SkillTriggerHealthDirection;
 };
 
@@ -196,6 +203,11 @@ export type SkillTriggerSpellShieldBlockedEventDetail = {
 export type SkillTriggerSkillUsedEventSource = {
   eventType: 'SKILL_USED';
   detail: SkillTriggerSkillUsedEventDetail;
+};
+
+export type SkillTriggerSourceInitializedEventSource = {
+  eventType: 'SOURCE_INITIALIZED';
+  detail: SkillTriggerEmptyDetail;
 };
 
 export type SkillTriggerBasicAttackStartEventSource = {
@@ -299,6 +311,7 @@ export type SkillTriggerAttackLinkAppliedEventSource = {
 };
 
 export type SkillTriggerEventSource =
+  | SkillTriggerSourceInitializedEventSource
   | SkillTriggerSkillUsedEventSource
   | SkillTriggerBasicAttackStartEventSource
   | SkillTriggerBasicAttackHitEventSource
@@ -326,7 +339,7 @@ export type SkillTriggerAttributeCompareDetail = {
   attributeKey: string;
   attributeValueKind: FormulaAttributeValueKind;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerStatusPresenceDetail = {
@@ -336,7 +349,7 @@ export type SkillTriggerStatusPresenceDetail = {
   sourceEffectKey: null;
   sourceResultKey: null;
   comparator: null;
-  comparisonFormulaKey: null;
+  comparisonValue: null;
 };
 
 export type SkillTriggerStatusCompareDetail = {
@@ -346,12 +359,26 @@ export type SkillTriggerStatusCompareDetail = {
   sourceEffectKey: string;
   sourceResultKey: string;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerStatusCheckDetail =
   | SkillTriggerStatusPresenceDetail
   | SkillTriggerStatusCompareDetail;
+
+export type SkillTriggerLifecycleCheckKind = 'PRESENT' | 'ABSENT' | 'STACKS_COMPARE';
+export type SkillTriggerLifecycleCheckDetail = {
+  effectKey: string;
+  subject: SkillTriggerSubject | null;
+} & ({
+  checkKind: 'PRESENT' | 'ABSENT';
+  comparator: null;
+  comparisonValue: null;
+} | {
+  checkKind: 'STACKS_COMPARE';
+  comparator: SkillTriggerComparator;
+  comparisonValue: NumericValue;
+});
 
 export type SkillTriggerInternalStateValueDetail = {
   stateKey: string;
@@ -359,7 +386,7 @@ export type SkillTriggerInternalStateValueDetail = {
   optionKey: null;
   expectedBoolean: null;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerInternalStateOptionDetail = {
@@ -368,7 +395,7 @@ export type SkillTriggerInternalStateOptionDetail = {
   optionKey: string;
   expectedBoolean: null;
   comparator: null;
-  comparisonFormulaKey: null;
+  comparisonValue: null;
 };
 
 export type SkillTriggerInternalStateEnabledDetail = {
@@ -377,7 +404,7 @@ export type SkillTriggerInternalStateEnabledDetail = {
   optionKey: null;
   expectedBoolean: boolean;
   comparator: null;
-  comparisonFormulaKey: null;
+  comparisonValue: null;
 };
 
 export type SkillTriggerInternalStateRemainingDetail = {
@@ -386,7 +413,7 @@ export type SkillTriggerInternalStateRemainingDetail = {
   optionKey: null;
   expectedBoolean: null;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerInternalStateCheckDetail =
@@ -398,7 +425,7 @@ export type SkillTriggerInternalStateCheckDetail =
 export type SkillTriggerEventValueCompareDetail = {
   eventValueKey: SkillTriggerEventValueKey;
   comparator: SkillTriggerComparator;
-  comparisonFormulaKey: string;
+  comparisonValue: NumericValue;
 };
 
 export type SkillTriggerAttributeCompareCondition = {
@@ -432,8 +459,30 @@ export type SkillTriggerEventValueCompareCondition = {
 export type SkillTriggerCondition =
   | SkillTriggerAttributeCompareCondition
   | SkillTriggerStatusCheckCondition
+  | {
+      conditionKey: string;
+      conditionType: 'LIFECYCLE_CHECK';
+      sortOrder: number;
+      detail: SkillTriggerLifecycleCheckDetail;
+    }
+  | {
+      conditionKey: string;
+      conditionType: 'TARGET_CATEGORY_CHECK';
+      sortOrder: number;
+      detail: SkillTriggerTargetCategoryCheckDetail;
+    }
+  | {
+      conditionKey: string;
+      conditionType: 'EXPLICIT_TARGET_IS_SOURCE';
+      sortOrder: number;
+      detail: SkillTriggerEmptyDetail;
+    }
   | SkillTriggerInternalStateCheckCondition
   | SkillTriggerEventValueCompareCondition;
+
+export const SKILL_TRIGGER_TARGET_CATEGORIES = ['CHAMPION', 'EPIC_MONSTER', 'MINION', 'NON_EPIC_MONSTER', 'STRUCTURE'] as const;
+export type SkillTriggerTargetCategory = (typeof SKILL_TRIGGER_TARGET_CATEGORIES)[number];
+export type SkillTriggerTargetCategoryCheckDetail = { categories: SkillTriggerTargetCategory[] };
 
 export type SkillTriggerConditionGroup = {
   groupKey: string;
@@ -470,6 +519,13 @@ export type SkillTriggerCombatStatusBindingDetail =
 
 export type SkillTriggerEventValueBindingDetail = {
   eventValueKey: SkillTriggerEventValueKey;
+};
+
+export type SkillTriggerSourceCastResourceCostBinding = {
+  bindingKey: string;
+  parameterKey: string;
+  sourceType: 'SOURCE_CAST_RESOURCE_COST';
+  detail: { attributeKey: string };
 };
 
 export type SkillTriggerPriorResultBindingDetail = {
@@ -510,6 +566,7 @@ export type SkillTriggerRuntimeInputBinding =
   | SkillTriggerInternalStateBinding
   | SkillTriggerCombatStatusBinding
   | SkillTriggerEventValueBinding
+  | SkillTriggerSourceCastResourceCostBinding
   | SkillTriggerPriorResultBinding;
 
 export type SkillTriggerResultModifier = {
@@ -561,13 +618,13 @@ export type SkillTriggerAction =
   | SkillTriggerFailProcessAction;
 
 export type SkillTriggerPerTargetCooldown = {
-  durationFormulaKey: string;
+  durationValue: NumericValue;
   targetContext: SkillTriggerTargetContext;
 };
 
 export type SkillTriggerProcessLimit = {
   processKey: string;
-  limitFormulaKey: string;
+  limitValue: NumericValue;
 };
 
 export type SkillTriggerRuleSummary = {
